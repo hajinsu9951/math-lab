@@ -14,22 +14,100 @@ const num = (id, label, val, step) =>
 const MINI = {
 
 /* ---------- GPS 수행평가 ---------- */
+/* STEP 0 — 지도에서 직접 찍는 방식.
+   구글 지도를 iframe·API 로 끼워 넣으면 외부 접속이 필요해져 단일 파일·오프라인 원칙이 깨진다.
+   그래서 지도 자체는 페이지 안에서 그리고, 실제 지도 앱은 새 탭으로 여는 버튼으로 잇는다. */
 geo(root){
-  miniBox(root, '위도·경도 → 거리 변환기',
-    num('g_la1','A 위도',36.3209,0.0001)+num('g_lo1','A 경도',127.3822,0.0001)+
-    num('g_la2','B 위도',36.3263,0.0001)+num('g_lo2','B 경도',127.3889,0.0001), 'g_out');
-  const calc=()=>{
-    const la1=+$('#g_la1').value, lo1=+$('#g_lo1').value, la2=+$('#g_la2').value, lo2=+$('#g_lo2').value;
-    const dla=la2-la1, dlo=lo2-lo1, phi=(la1+la2)/2;
-    const ns=dla*111000, ew=dlo*111000*Math.cos(phi*Math.PI/180), d=Math.hypot(ns,ew);
+  const W=384, H=288, MPP=800/W;           // 가로 384px = 800 m
+  const G = { base:[36.3209,127.3822], A:[0,0], B:[600,600], drag:null };
+  root.innerHTML = `<div class="mnb"><div class="mnt">STEP 0 · 지도에서 두 지점 찍기 → 거리 재기</div>
+    <div class="mnc">
+      <label class="mnl">기준점(원점) 위도<input type="number" id="g_bla" value="36.3209" step="0.0001"></label>
+      <label class="mnl">기준점 경도<input type="number" id="g_blo" value="127.3822" step="0.0001"></label>
+      <span class="mnhint">지도 위를 <b>끌어서</b> A·B를 옮기세요. 눈금 한 칸 = 100 m</span>
+    </div>
+    <div class="mnmap"><canvas id="g_cv" width="${W}" height="${H}"></canvas></div>
+    <div class="mnc" id="g_ll"></div>
+    <div class="mno" id="g_out"></div>
+    <div class="mnc mnbtns">
+      <button class="b g sm" id="g_open">구글 지도에서 두 지점 보기 ↗</button>
+      <button class="b g sm" id="g_kakao">카카오맵에서 A 지점 열기 ↗</button>
+      <button class="b g sm" id="g_reset">예시 값으로</button>
+    </div></div>`;
+  const cv=$('#g_cv'), cx=cv.getContext('2d');
+  const toLL = p => {                       // [동쪽 m, 북쪽 m] → [위도, 경도]
+    const la = G.base[0] + p[1]/111000;
+    const lo = G.base[1] + p[0]/(111000*Math.cos(G.base[0]*Math.PI/180));
+    return [la, lo];
+  };
+  const X = m => 24 + m/MPP, Y = m => H-30 - m/MPP;
+  function draw(){
+    cx.clearRect(0,0,W,H);
+    cx.fillStyle='#F4F6F4'; cx.fillRect(0,0,W,H);
+    // 간이 거리 격자 + 도로
+    cx.strokeStyle='#E2E6E2';
+    for(let m=0;m<=800;m+=100){ cx.beginPath();cx.moveTo(X(m),0);cx.lineTo(X(m),H);cx.stroke();
+      cx.beginPath();cx.moveTo(0,Y(m));cx.lineTo(W,Y(m));cx.stroke(); }
+    cx.strokeStyle='#D8DCD8'; cx.lineWidth=9;
+    [200,500].forEach(m=>{cx.beginPath();cx.moveTo(0,Y(m));cx.lineTo(W,Y(m));cx.stroke();});
+    [250,600].forEach(m=>{cx.beginPath();cx.moveTo(X(m),0);cx.lineTo(X(m),H);cx.stroke();});
+    cx.lineWidth=1;
+    // 두 점과 잇는 선 + 직각삼각형
+    const a=G.A, b=G.B;
+    cx.strokeStyle='#B45309'; cx.setLineDash([4,3]);
+    cx.beginPath();cx.moveTo(X(a[0]),Y(a[1]));cx.lineTo(X(b[0]),Y(a[1]));cx.lineTo(X(b[0]),Y(b[1]));cx.stroke();
+    cx.setLineDash([]);
+    cx.strokeStyle='#2563EB'; cx.lineWidth=2.4;
+    cx.beginPath();cx.moveTo(X(a[0]),Y(a[1]));cx.lineTo(X(b[0]),Y(b[1]));cx.stroke();
+    [[a,'A','#BE123C'],[b,'B','#0E9384']].forEach(([p,t,c])=>{
+      cx.fillStyle=c;cx.beginPath();cx.arc(X(p[0]),Y(p[1]),7,0,7);cx.fill();
+      cx.fillStyle='#fff';cx.font='bold 10px sans-serif';cx.textAlign='center';cx.textBaseline='middle';
+      cx.fillText(t,X(p[0]),Y(p[1]));cx.textAlign='left';cx.textBaseline='alphabetic';});
+    // 축척 막대
+    cx.fillStyle='#374151';cx.font='10px sans-serif';
+    cx.fillRect(24,H-16,100/MPP,3); cx.fillText('100 m',26+100/MPP,H-11);
+    calc();
+  }
+  function calc(){
+    const [la1,lo1]=toLL(G.A), [la2,lo2]=toLL(G.B);
+    const dla=la2-la1, dlo=lo2-lo1, phi=(la1+la2)/2, cosp=Math.cos(phi*Math.PI/180);
+    const ns=dla*111000, ew=dlo*111000*cosp, d=Math.hypot(ns,ew);
+    $('#g_ll').innerHTML =
+      `<span class="mnpt a">A · 위도 ${mfmt(la1,6)} · 경도 ${mfmt(lo1,6)}</span>
+       <span class="mnpt b">B · 위도 ${mfmt(la2,6)} · 경도 ${mfmt(lo2,6)}</span>`;
     $('#g_out').innerHTML=
       `<div class="mnr">Δ위도 = ${mfmt(dla,6)}° &nbsp;·&nbsp; Δ경도 = ${mfmt(dlo,6)}°</div>
-       <div class="mnr">cos(${mfmt(phi,4)}°) = <b>${mfmt(Math.cos(phi*Math.PI/180),4)}</b> ← 경도에 곱하는 값</div>
+       <div class="mnr">cos(${mfmt(phi,4)}°) = <b>${mfmt(cosp,4)}</b> ← 경도에만 곱하는 값</div>
        <div class="mnr">세로 거리 = ${mfmt(dla,6)} × 111,000 = <b>${mfmt(ns,1)} m</b></div>
-       <div class="mnr">가로 거리 = ${mfmt(dlo,6)} × 111,000 × ${mfmt(Math.cos(phi*Math.PI/180),4)} = <b>${mfmt(ew,1)} m</b></div>
-       <div class="mnr big">두 지점 거리 = √(${mfmt(ew,1)}² + ${mfmt(ns,1)}²) = <b>${mfmt(d,1)} m</b></div>`;
+       <div class="mnr">가로 거리 = ${mfmt(dlo,6)} × 111,000 × ${mfmt(cosp,4)} = <b>${mfmt(ew,1)} m</b></div>
+       <div class="mnr big">두 지점 거리 = √(${mfmt(ew,1)}² + ${mfmt(ns,1)}²) = <b>${mfmt(d,1)} m</b></div>
+       <div class="mnr">좌표평면으로 옮기면 (1칸 = 100 m) A(0, 0) · B(${mfmt(ew/100,2)}, ${mfmt(ns/100,2)}) →
+         √(${mfmt(ew/100,2)}² + ${mfmt(ns/100,2)}²) × 100 = <b>${mfmt(d,1)} m</b> · 두 값이 같은지 확인</div>`;
+  }
+  const pick = e => {
+    const r=cv.getBoundingClientRect();
+    // 탭이 숨겨져 있으면 rect 가 0 이 되어 0 으로 나누게 된다. 그때는 캔버스 원래 크기를 쓴다.
+    const sw = r.width  || W, sh = r.height || H;
+    const mx=((e.clientX-r.left)*W/sw-24)*MPP, my=((H-30)-(e.clientY-r.top)*H/sh)*MPP;
+    const fix = v => Number.isFinite(v) ? Math.max(0,Math.min(800,v)) : 0;
+    return [fix(mx), fix(my)];
   };
-  ['g_la1','g_lo1','g_la2','g_lo2'].forEach(i=>$('#'+i).oninput=calc); calc();
+  const near = (p,q) => Math.hypot(X(p[0])-X(q[0]), Y(p[1])-Y(q[1])) < 16;
+  cv.style.cursor='grab';
+  cv.onpointerdown = e => { const m=pick(e);
+    G.drag = near(m,G.A) ? 'A' : near(m,G.B) ? 'B' : null;
+    if(!G.drag){ G.drag = Math.hypot(m[0]-G.A[0],m[1]-G.A[1]) < Math.hypot(m[0]-G.B[0],m[1]-G.B[1]) ? 'A':'B'; }
+    G[G.drag]=m; cv.setPointerCapture(e.pointerId); cv.style.cursor='grabbing'; draw(); };
+  cv.onpointermove = e => { if(G.drag){ G[G.drag]=pick(e); draw(); } };
+  cv.onpointerup = () => { G.drag=null; cv.style.cursor='grab'; };
+  ['g_bla','g_blo'].forEach(i=>$('#'+i).oninput=()=>{
+    G.base=[+$('#g_bla').value, +$('#g_blo').value]; draw(); });
+  $('#g_reset').onclick = ()=>{ G.A=[0,0]; G.B=[600,600]; draw(); };
+  $('#g_open').onclick = ()=>{ const [a,b]=[toLL(G.A),toLL(G.B)];
+    window.open(`https://www.google.com/maps/dir/${a[0]},${a[1]}/${b[0]},${b[1]}`,'_blank','noopener'); };
+  $('#g_kakao').onclick = ()=>{ const a=toLL(G.A);
+    window.open(`https://map.kakao.com/link/map/A지점,${a[0]},${a[1]}`,'_blank','noopener'); };
+  draw();
 },
 
 divpt(root){

@@ -218,6 +218,16 @@ p.sub{margin:0 0 22px;color:var(--ink3);font-size:14.5px}
 .mntb span{background:var(--bg);border:1px solid var(--line);border-radius:6px;
   padding:2px 7px;font-size:11.3px;font-variant-numeric:tabular-nums}
 .mncv{display:block;margin-top:9px;border:1px solid var(--line);border-radius:8px;background:#fff;max-width:100%}
+.mnmap{padding:10px 12px;background:#FBFCFB;border-bottom:1px dashed var(--line)}
+.mnmap canvas{display:block;width:100%;max-width:384px;height:auto;
+  border:1px solid var(--line);border-radius:9px;touch-action:none;user-select:none}
+.mnhint{align-self:center;font-size:11.5px;color:var(--ink3);line-height:1.5}
+.mnhint b{color:var(--blue)}
+.mnpt{font-size:11.8px;font-weight:700;padding:4px 10px;border-radius:999px;
+  font-family:'JetBrains Mono',Consolas,monospace}
+.mnpt.a{background:var(--rose-s,#FFF1F4);color:var(--rose,#BE123C);border:1px solid #FBD0D9}
+.mnpt.b{background:var(--teal-s);color:var(--teal);border:1px solid #BFE9E3}
+.mnbtns{border-top:1px dashed var(--line);border-bottom:none}
 
 .rec{margin:0;padding-left:17px;font-size:12.7px;color:var(--ink2);line-height:1.85}
 .rec li::marker{color:var(--ink3)}
