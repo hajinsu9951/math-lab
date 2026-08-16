@@ -11,6 +11,79 @@ function miniBox(root, title, ctlHTML, outId){
 const num = (id, label, val, step) =>
   `<label class="mnl">${label}<input type="number" id="${id}" value="${val}" step="${step||'any'}"></label>`;
 
+/* ---------- 손글씨 답안판 ----------
+   태블릿 펜·손가락·마우스 모두 pointer 이벤트 하나로 받는다. 필압이 있으면 굵기에 반영한다.
+   학생이 식을 손으로 쓰는 것이 이 과제의 본체이므로, 칸을 넉넉히 두고 지우개와 내려받기를 붙였다. */
+function writePad(root, label){
+  let H = 240;
+  root.innerHTML = `<div class="wpb">
+    <div class="wph"><span class="wpt">✎ 풀이와 답안 — 손·펜·마우스로 직접 쓰세요</span>
+      <span class="wpc">
+        <button class="b g sm" data-t="big">칸 넓히기</button>
+        <button class="wpk on" data-c="#111827" title="검정"></button>
+        <button class="wpk" data-c="#2563EB" title="파랑"></button>
+        <button class="wpk" data-c="#BE123C" title="빨강"></button>
+        <button class="b g sm" data-t="er">지우개</button>
+        <button class="b g sm" data-t="cl">전체 지우기</button>
+        <button class="b g sm" data-t="dl">이미지로 저장</button>
+      </span></div>
+    <canvas class="wpcv"></canvas></div>`;
+  const cv = root.querySelector('canvas'), cx = cv.getContext('2d');
+  const S = { col:'#111827', er:false, drawing:false, last:null, dpr:Math.min(2, window.devicePixelRatio||1) };
+  let strokes = [];                                   // 크기가 바뀌어도 다시 그리기 위해 보관
+  function fit(){
+    const w = Math.max(240, root.clientWidth || 320);
+    cv.width = w*S.dpr; cv.height = H*S.dpr;
+    cv.style.width='100%'; cv.style.height=H+'px';
+    cx.setTransform(S.dpr,0,0,S.dpr,0,0);
+    redraw(w);
+  }
+  function redraw(w){
+    cx.clearRect(0,0,cv.width,cv.height);
+    cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height);
+    cx.strokeStyle='#EEF1F5'; cx.lineWidth=1;                 // 공책 줄
+    for(let y=32;y<H;y+=32){ cx.beginPath();cx.moveTo(8,y);cx.lineTo((w||cv.width/S.dpr)-8,y);cx.stroke(); }
+    strokes.forEach(st=>{
+      cx.strokeStyle=st.c; cx.lineCap='round'; cx.lineJoin='round';
+      for(let i=1;i<st.p.length;i++){
+        cx.lineWidth=st.w*(st.p[i][2]||1);
+        cx.beginPath();cx.moveTo(st.p[i-1][0],st.p[i-1][1]);cx.lineTo(st.p[i][0],st.p[i][1]);cx.stroke();
+      }
+    });
+  }
+  const pos = e => { const r=cv.getBoundingClientRect();
+    return [ (e.clientX-r.left)*(cv.width/S.dpr)/(r.width||1), (e.clientY-r.top)*H/(r.height||H),
+             e.pressure && e.pressure>0 ? 0.5+e.pressure : 1 ]; };
+  cv.addEventListener('pointerdown', e=>{
+    e.preventDefault(); cv.setPointerCapture(e.pointerId);
+    S.drawing=true;
+    strokes.push({ c:S.er?'#ffffff':S.col, w:S.er?18:2.2, p:[pos(e)] });
+    redraw();
+  });
+  cv.addEventListener('pointermove', e=>{
+    if(!S.drawing) return;
+    strokes[strokes.length-1].p.push(pos(e)); redraw();
+  });
+  ['pointerup','pointercancel','pointerleave'].forEach(t=>cv.addEventListener(t,()=>{S.drawing=false;}));
+  root.querySelectorAll('.wpk').forEach(b=>b.onclick=()=>{
+    root.querySelectorAll('.wpk').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); S.col=b.dataset.c; S.er=false;
+    root.querySelector('[data-t=er]').classList.remove('on');
+  });
+  root.querySelector('[data-t=er]').onclick = e =>{ S.er=!S.er; e.target.classList.toggle('on',S.er); };
+  root.querySelector('[data-t=cl]').onclick = ()=>{ if(strokes.length && confirm('쓴 내용을 모두 지웁니다.')){ strokes=[]; redraw(); } };
+  root.querySelector('[data-t=dl]').onclick = ()=>{
+    const a=document.createElement('a');
+    a.href=cv.toDataURL('image/png');
+    a.download=(label||'풀이와 답안').replace(/[\\/:*?"<>|]/g,'')+'.png'; a.click();
+  };
+  root.querySelector('[data-t=big]').onclick = e =>{
+    H = H>=560 ? 240 : H+160; e.target.textContent = H>=560 ? '칸 줄이기' : '칸 넓히기'; fit();
+  };
+  if(window.ResizeObserver) new ResizeObserver(()=>fit()).observe(root);
+  fit();
+}
+
 const MINI = {
 
 /* ---------- GPS 수행평가 ---------- */

@@ -38,6 +38,7 @@ $('#dsel').querySelectorAll('.pcard').forEach(c=>c.onclick=()=>{
 /* 총점은 채점 요소의 합이다. 기본 점수는 더하는 값이 아니라 최저 보장선이며 총점을 넘지 않는다.
    루브릭은 두 가지 모양을 받는다 — 수준별(lv 있음)과 단일 기준(p 만 있음). */
 const leveled = S => !!(S.rub[0] && S.rub[0].lv);
+const list = v => Array.isArray(v) ? '<ul class="dul">'+v.map(x=>`<li>${x}</li>`).join('')+'</ul>' : v;
 function totals(S){
   const sum = leveled(S) ? S.rub.reduce((a,r)=>a+r.max,0) : S.rub.reduce((a,r)=>a+r.p,0);
   return { sum, all: sum };
@@ -62,12 +63,22 @@ function drawDesign(){
 
     <div class="dsec"><div class="dnum">1</div><h4>교육과정 살펴보기</h4></div>
     <table class="dtb">
-      <tr><th>성취기준</th><td>${S.cur.기준.map(x=>`<div class="std">${x}</div>`).join('')}</td></tr>
-      <tr><th>핵심 아이디어</th><td>${S.cur.핵심}</td></tr>
-      <tr><th>지식·이해</th><td>${S.cur.지식}</td></tr>
-      <tr><th>과정·기능</th><td>${S.cur.기능}</td></tr>
-      <tr><th>가치·태도</th><td>${S.cur.태도}</td></tr>
-      <tr><th>수업 흐름</th><td>${S.cur.흐름.map(x=>`<div>${x}</div>`).join('')}</td></tr>
+      <tr><th>성취기준</th><td>${S.cur.기준.map(x=> typeof x==='string'
+          ? `<div class="std">${x}</div>`
+          : `<div class="std">${x.c}</div><div class="stdd">└ ${x.d}</div>`).join('')}
+        ${S.cur.중점?`<div class="stdk">◇ 본 수행평가 중점 성취기준 — ${S.cur.중점}</div>`:''}</td></tr>
+      <tr><th>핵심 아이디어</th><td>${S.cur.핵심}
+        ${(S.cur.핵심부연||[]).map(x=>`<div class="kidea">─ ${x}</div>`).join('')}
+        ${S.cur.연결?`<div class="klink"><b>개념의 연결</b>
+           <span class="kl s">선수</span>${S.cur.연결.선수}
+           <span class="kl m">본시</span>${S.cur.연결.본시}
+           <span class="kl e">후속</span>${S.cur.연결.후속}</div>`:''}</td></tr>
+      <tr><th>지식·이해</th><td>${list(S.cur.지식)}</td></tr>
+      <tr><th>과정·기능</th><td>${list(S.cur.기능)}</td></tr>
+      <tr><th>가치·태도</th><td>${list(S.cur.태도)}</td></tr>
+      <tr><th>수업 흐름</th><td>${S.cur.흐름.map(x=> typeof x==='string' ? `<div>${x}</div>`
+        : `<div class="flowi ${x.hl?'hl':''}"><span class="fn">${x.n}</span><b>${x.t}</b>
+             <p>${x.d}</p>${x.f?`<span class="fform">형성평가 · ${x.f}</span>`:''}</div>`).join('')}</td></tr>
     </table>
 
     <div class="dsec"><div class="dnum">2</div><h4>평가 설계하기 — 학습자 루브릭</h4></div>
@@ -100,8 +111,11 @@ function drawDesign(){
           <p class="ask">${s.ask}</p>
           <p class="guide">${s.guide}</p>
           ${s.labtip?`<p class="labtip">${s.labtip}</p>`:''}
+          ${s.fig?`<figure class="dfig"><img src="${FIGS[s.fig]||''}" alt="${s.figalt||''}">
+            ${s.figcap?`<figcaption>${s.figcap}</figcaption>`:''}</figure>`:''}
           ${s.mini?`<div class="mini" data-mini="${s.mini}"></div>`:''}
           <ul class="rec">${s.rec.map(x=>`<li>${x}</li>`).join('')}</ul>
+          <div class="pad" data-pad="${esc(S.t)} ${s.n}"></div>
         </div>
       </div>`).join('')}</div>
 
@@ -112,9 +126,29 @@ function drawDesign(){
       구글 드라이브에 올린 뒤 “연결 프로그램 → Google 문서”를 고르면 그대로 편집·배부할 수 있습니다.</span>
     </div>
 
+    ${S.mission?`
+    <div class="dsec"><div class="dnum">＋</div><h4>모둠 미션 5단계</h4></div>
+    <ol class="miss">${S.mission.map(x=>`<li>${x}</li>`).join('')}</ol>`:''}
+
+    ${S.answer?`
+    <div class="dsec"><div class="dnum">답</div><h4>교사용 모범답안 — 단계별 완전 풀이</h4></div>
+    <details class="ansbox"><summary>펼쳐 보기 · 학생에게는 활동이 끝난 뒤 공개하세요</summary>
+      ${S.answer.map(a=>`<div class="ans"><b>${a.t}</b>
+        ${a.l.map(x=>`<div class="ansl">· ${x}</div>`).join('')}</div>`).join('')}
+    </details>`:''}
+
+    ${S.deep?`
+    <div class="dsec"><div class="dnum">논</div><h4>심화 논술 근거 — 왜 그 식이 나오는가</h4></div>
+    <div class="deep">${S.deep.map(x=>`<div class="dpi"><b>${x.t}</b><p>${x.d}</p></div>`).join('')}</div>`:''}
+
     <div class="dsec"><div class="dnum">4</div><h4>세특 기재 예시</h4></div>
     <div class="sets">${S.sets.map((x,i)=>`<div class="set"><div class="setn">${'ㄱㄴㄷ'[i]}</div><p>${x}</p></div>`).join('')}</div>
   </div>`;
+
+  // 손글씨 답안판 — 태블릿 펜·손가락·마우스로 직접 쓸 수 있게
+  $('#dbody').querySelectorAll('.pad').forEach(box=>{
+    try{ writePad(box, box.dataset.pad); }catch(e){ box.innerHTML=''; }
+  });
 
   // STEP 에 딸린 미니 실험 도구를 그린다 (탭①의 실험실과 별개로, 이 수업 전용)
   $('#dbody').querySelectorAll('.mini').forEach(box=>{

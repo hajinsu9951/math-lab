@@ -19,6 +19,7 @@ const out = [
   src('34-pane5-gallery.html'),
   src('30-pane3-flow.html'),
   '<script>',
+  src('33-figs.js'),
   src('35-tex.js'),
   src('40-demos.js'),
   src('50-labs-spec.js'),

@@ -173,6 +173,66 @@ p.sub{margin:0 0 22px;color:var(--ink3);font-size:14.5px}
 .lvt.top{color:var(--teal)}
 .rmax{text-align:center;font-weight:800;color:var(--blue);vertical-align:middle;
   background:var(--blue-s);font-variant-numeric:tabular-nums}
+/* 교육과정 상세 */
+.stdd{font-size:12.2px;color:var(--ink3);margin:1px 0 7px 12px;line-height:1.6}
+.stdk{margin-top:7px;padding:7px 10px;background:var(--blue-s);border:1px solid #C7D9FF;
+  border-radius:8px;font-size:12.5px;color:var(--blue);font-weight:600}
+.kidea{margin-top:5px;font-size:12.7px;color:var(--ink2);line-height:1.7}
+.klink{margin-top:9px;padding:8px 11px;background:var(--bg);border-radius:8px;font-size:12.4px;line-height:1.9}
+.klink>b{display:block;font-size:11.5px;color:var(--ink3);margin-bottom:3px}
+.kl{display:inline-block;font-size:10.5px;font-weight:800;padding:1px 7px;border-radius:999px;margin:0 5px 0 0}
+.kl.s{background:#EEF1F5;color:var(--ink3)}
+.kl.m{background:var(--blue-s);color:var(--blue)}
+.kl.e{background:var(--teal-s);color:var(--teal)}
+.dul{margin:0;padding-left:16px;line-height:1.75}
+.dul li{margin-bottom:3px}
+.flowi{padding:7px 0;border-bottom:1px dotted var(--line)}
+.flowi:last-child{border-bottom:none}
+.flowi.hl{background:var(--rose-s,#FFF1F4);border-radius:8px;padding:8px 10px;border-bottom:none;margin:4px 0}
+.flowi.hl b{color:var(--rose,#BE123C)}
+.fn{display:inline-block;font-size:10.5px;font-weight:800;background:var(--ink);color:#fff;
+  padding:1px 8px;border-radius:999px;margin-right:7px}
+.flowi p{margin:3px 0 0;font-size:12.5px;color:var(--ink2);line-height:1.65}
+.fform{display:inline-block;margin-top:4px;font-size:11.5px;color:var(--teal);
+  background:var(--teal-s);border-radius:6px;padding:2px 8px}
+
+/* 미션 · 모범답안 · 심화 논술 */
+.miss{margin:0;padding-left:20px;font-size:13.2px;line-height:1.85;color:var(--ink2)}
+.miss li{margin-bottom:5px}
+.ansbox{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:11px 14px}
+.ansbox summary{cursor:pointer;font-size:12.8px;font-weight:700;color:var(--amber)}
+.ans{margin-top:11px;padding-top:9px;border-top:1px dashed var(--line)}
+.ans:first-of-type{border-top:none;padding-top:0}
+.ans b{font-size:13.3px;color:var(--ink)}
+.ansl{font-size:12.6px;color:var(--ink2);line-height:1.8;margin-top:2px;
+  font-family:'JetBrains Mono',Consolas,'D2Coding',monospace}
+.deep{display:flex;flex-direction:column;gap:8px}
+.dpi{background:var(--violet-s);border:1px solid #E2D6FB;border-radius:11px;padding:11px 14px}
+.dpi b{font-size:13.3px;color:var(--violet)}
+.dpi p{margin:4px 0 0;font-size:12.8px;color:var(--ink2);line-height:1.78}
+
+/* 문서 그림 */
+.dfig{margin:9px 0;padding:0}
+.dfig img{display:block;width:100%;max-width:620px;height:auto;
+  border:1px solid var(--line);border-radius:9px;background:#fff}
+.dfig figcaption{margin-top:5px;font-size:11.8px;color:var(--ink3);line-height:1.6}
+
+/* 손글씨 답안판 */
+.pad{margin:10px 0 4px}
+.wpb{border:1px solid #C7D9FF;border-radius:11px;overflow:hidden;background:#fff}
+.wph{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;
+  padding:7px 11px;background:var(--blue-s);border-bottom:1px solid #D8E4FB}
+.wpt{font-size:12.2px;font-weight:800;color:var(--blue)}
+.wpc{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.wpk{width:18px;height:18px;border-radius:50%;border:2px solid #fff;cursor:pointer;
+  box-shadow:0 0 0 1px var(--line);padding:0}
+.wpk[data-c="#111827"]{background:#111827}
+.wpk[data-c="#2563EB"]{background:#2563EB}
+.wpk[data-c="#BE123C"]{background:#BE123C}
+.wpk.on{box-shadow:0 0 0 2px var(--blue)}
+.wpc .b.sm.on{background:var(--amber);color:#fff;border-color:var(--amber)}
+.wpcv{display:block;width:100%;touch-action:none;cursor:crosshair;background:#fff}
+
 .dworth{margin:0 0 9px;font-size:13.4px;line-height:1.75;color:var(--ink2);
   background:var(--amber-s);border:1px solid #F6E2BE;border-radius:9px;padding:10px 13px}
 .dworth b{display:block;font-size:12px;color:var(--amber);margin-bottom:3px}
