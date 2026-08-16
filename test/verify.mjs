@@ -40,7 +40,13 @@ for (let i = 0; i < labs; i++) {
   for (let r = 1; r <= 7; r++) {
     await page.locator('#reveal').click();
     await page.locator('#send').click();
-    await page.waitForTimeout(900);
+    // 고정 대기는 타이핑 연출(650ms) + iframe 재로딩과 겹쳐 드물게 헛failure를 냈다.
+    // 미리보기가 이번 라운드로 실제로 갱신되고 버튼이 풀릴 때까지 기다린다.
+    await page.waitForFunction(
+      n => document.querySelector('#pvStep').textContent.includes('ROUND ' + n)
+           && !document.querySelector('#send').disabled,
+      r, { timeout: 10000 });
+    await page.waitForTimeout(120);   // srcdoc 안의 스크립트가 돌 틈
 
     const frame = page.frames().find(f => f !== page.mainFrame());
     const res = await frame.evaluate(() => {

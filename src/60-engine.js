@@ -121,8 +121,59 @@ ${S.act}
   }));
 }
 
+/* ---------- 선생님이 덧붙인 말을 화면에 실제로 반영 ----------
+   생성형 AI를 쓰지 않습니다. 정해진 낱말을 찾아 생성된 코드를 고치는 규칙 기반입니다.
+   반영된 것과 반영되지 않은 것을 둘 다 알려 주는 것이 이 기능의 교육적 목적입니다.
+   "구체적으로 말해야 반영된다"를 선생님이 직접 겪게 하는 장치입니다. */
+const COLORS=[
+  [/빨(간|강)|붉/,      '#BE123C', '빨간색'],
+  [/파(란|랑)|푸른/,    '#2563EB', '파란색'],
+  [/초록|녹색/,         '#0E9384', '초록색'],
+  [/주황/,              '#B45309', '주황색'],
+  [/보라|자주/,         '#7C3AED', '보라색'],
+  [/검(정|은)|까만/,    '#111827', '검은색'],
+  [/회색/,              '#6B7280', '회색']
+];
+/* 낱말이 그냥 들어 있는지가 아니라 서로 "붙어 있는지"를 본다.
+   “제곱합을 가장 작게 만드는 직선”의 ‘작게’가 그래프 축소로 읽히면 안 된다. */
+function near(txt, ctx, act){
+  return new RegExp('(?:'+ctx+')[^.\\n]{0,12}(?:'+act+')|(?:'+act+')[^.\\n]{0,12}(?:'+ctx+')').test(txt);
+}
+function readEdits(txt, E){
+  const hit=[], BIG='크게|키워|커지|늘려', SMALL='작게|줄여|축소';
+  if(/색/.test(txt)){
+    for(const [re,hex,nm] of COLORS){
+      if(re.test(txt)){ E.color=hex; hit.push('그래프 선 색 → <b>'+nm+'</b>'); break; }
+    }
+  }
+  const FONT='글씨|글자|폰트', VIEW='그래프|그림|화면|캔버스';
+  if(near(txt,FONT,BIG))  { E.font=Math.min(24,(E.font||15)+3); hit.push('글자 크기 → <b>'+E.font+'px</b>'); }
+  if(near(txt,FONT,SMALL)){ E.font=Math.max(11,(E.font||15)-3); hit.push('글자 크기 → <b>'+E.font+'px</b>'); }
+  if(near(txt,VIEW,BIG))  { E.zoom=Math.min(1.6,(E.zoom||1)+0.2); hit.push('그래프 크기 → <b>'+Math.round(E.zoom*100)+'%</b>'); }
+  if(near(txt,VIEW,SMALL)){ E.zoom=Math.max(0.6,(E.zoom||1)-0.2); hit.push('그래프 크기 → <b>'+Math.round(E.zoom*100)+'%</b>'); }
+  if(/배경/.test(txt)){
+    if(/어둡|검|까맣|다크/.test(txt)){ E.dark=true;  hit.push('배경 → <b>어두운 화면</b>'); }
+    if(/밝게|하얗|흰/.test(txt))     { E.dark=false; hit.push('배경 → <b>밝은 화면</b>'); }
+  }
+  const m = txt.match(/제목[을를]?\s*['"“”「『]([^'"“”」』\n]{1,40})['"“”」』]/);
+  if(m){ E.title=m[1].trim(); hit.push('제목 → <b>“'+esc(E.title)+'”</b>'); }
+  return hit;
+}
+function applyEdits(code, E){
+  if(E.color) code = code
+    .replace(/strokeStyle\s*=\s*"#(2563EB|111)"/g, 'strokeStyle = "'+E.color+'"')
+    .replace(/fillStyle\s*=\s*"#2563EB"/g,         'fillStyle = "'+E.color+'"');
+  if(E.title) code = code.replace(/<h1>[\s\S]*?<\/h1>/, '<h1>'+esc(E.title)+'</h1>');
+  const css=[];
+  if(E.font) css.push('  body{font-size:'+E.font+'px}');
+  if(E.zoom) css.push('  canvas{width:'+Math.round(E.zoom*100)+'%;height:auto}');
+  if(E.dark) css.push('  body{background:#111827;color:#E5E7EB}');
+  if(css.length) code = code.replace('</style>', css.join('\n')+'\n</style>');
+  return code;
+}
+
 /* ---------- 상태 ---------- */
-const V={key:'gps', r:0, sent:[], prev:''};
+const V={key:'gps', r:0, sent:[], prev:'', edits:{}};
 
 /* ---------- 실험실 선택 ---------- */
 function labPicker(){
@@ -150,7 +201,7 @@ document.querySelectorAll('#modeSeg button').forEach(b=>b.onclick=()=>{
 
 /* ---------- AI 대화 모드 ---------- */
 function startLab(){
-  V.r=0; V.sent=[]; V.prev='';
+  V.r=0; V.sent=[]; V.prev=''; V.edits={};
   $('#chat').innerHTML=''; $('#finish').style.display='none'; $('#composer').style.display='block';
   $('#coach').innerHTML='';
   const S=VLAB[V.key];
@@ -185,14 +236,26 @@ function loadRound(){
   $('#prompt').placeholder='AI에게 할 말을 직접 써 보세요. 막히면 아래 “모범 프롬프트 넣기”를 누르세요.';
 }
 $('#reveal').onclick=()=>{ $('#prompt').value=rounds(V.key)[V.r].p; };
+document.querySelectorAll('.tweaktip .tw').forEach(s=>s.onclick=()=>{
+  const t=$('#prompt');
+  t.value=(t.value.trim()? t.value.replace(/\s+$/,'')+'\n' : '')+s.textContent;
+  t.focus(); t.scrollTop=t.scrollHeight;});
 $('#send').onclick=async()=>{
   const R=rounds(V.key), r=R[V.r];
   let txt=$('#prompt').value.trim(); if(!txt) txt=r.p;
   V.sent.push({round:V.r+1,title:r.tt,prompt:txt});
   $('#send').disabled=true; $('#reveal').disabled=true;
+  const extra = txt.replace(r.p,'').trim();          // 모범 프롬프트 말고 선생님이 덧붙인 말
+  const hits = readEdits(extra, V.edits);            // 덧붙인 말만 읽는다 (모범 프롬프트는 건드리지 않음)
   await say('me', esc(txt).replace(/\n/g,'<br>'), true);
   await say('ai', r.ai);
   const n=applyLevel(r.lv);
+  if(hits.length)
+    await say('ai', `<span class="meta">덧붙이신 말을 화면에 반영했습니다 — ${hits.join(' · ')}</span>`, true);
+  else if(extra.length>4)
+    await say('ai', `<span class="meta miss">덧붙이신 말에서 화면에 바로 반영할 지시를 찾지 못했습니다.
+      <b>무엇을 어떻게</b>까지 짚어 주세요 — “선을 초록색으로”, “글씨를 크게”처럼요.
+      실제 AI도 똑같습니다. 막연한 말은 막연한 결과로 돌아옵니다.</span>`, true);
   await say('ai', `<span class="meta">코드 <b>${n}줄</b>이 추가·수정되었습니다. 오른쪽 화면에서 직접 확인해 보세요.</span>`, true);
   V.r++; $('#send').disabled=false; $('#reveal').disabled=false;
   loadRound();
@@ -200,7 +263,7 @@ $('#send').onclick=async()=>{
 };
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function applyLevel(lv){
-  const code=genLab(V.key,lv);
+  const code=applyEdits(genLab(V.key,lv), V.edits);
   const prev=new Set(V.prev.split('\n'));
   const lines=code.split('\n');
   const n=lines.filter(l=>l.trim()&&!prev.has(l)).length;

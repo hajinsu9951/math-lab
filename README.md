@@ -13,21 +13,31 @@
 
 ## 개발하기
 
+빌드(소스 → 단일 파일)는 셋 중 편한 것으로:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File build.ps1   # 추가 설치 불필요
+```
 ```bash
-npm install     # 최초 1회 (검증용 playwright)
-npm run build   # src/* → dist/index.html
-npm test        # 10종 × 7라운드 = 70개 상태 자동 검증
+python build.py      # Python 있으면
+node build.mjs       # Node.js 있으면
+```
+
+자동 검증(선택, Node.js + Playwright 필요):
+
+```bash
+npm install && npm test   # 10종 × 7라운드 = 70개 상태 검사
 ```
 
 ## Claude Code로 이어서 작업하기
 
-이 폴더에서 터미널을 열고
+Claude Code는 **Node.js 없이** 설치됩니다. Windows PowerShell에서
 
-```bash
-claude
+```powershell
+irm https://claude.ai/install.ps1 | iex
 ```
 
-를 실행하면 됩니다. `CLAUDE.md` 에 프로젝트 구조·규칙·실험실 추가 방법이
+설치 후 이 폴더에서 터미널을 열고 `claude` 를 실행하면 됩니다. `CLAUDE.md` 에 프로젝트 구조·규칙·실험실 추가 방법이
 정리되어 있어 바로 이어서 작업할 수 있습니다.
 
 예를 들어 이렇게 요청하세요.

@@ -46,6 +46,9 @@ p.sub{margin:0 0 22px;color:var(--ink3);font-size:14.5px}
   transition:.16s;display:flex;flex-direction:column;gap:8px;position:relative}
 .card:hover{border-color:#B9CBF5;box-shadow:0 6px 20px rgba(17,24,39,.07);transform:translateY(-2px)}
 .card .no{font-size:12px;font-weight:800;color:var(--ink3);letter-spacing:.6px}
+.card .thumb{display:block;width:100%;height:auto;background:var(--bg);border:1px solid var(--line);
+  border-radius:9px;transition:background .16s,border-color .16s}
+.card:hover .thumb{background:#fff;border-color:#C7D9FF}
 .card h3{margin:0;font-size:16.5px;font-weight:800;letter-spacing:-.3px;line-height:1.35}
 .card .q{font-size:13.5px;color:var(--ink2);min-height:38px}
 .card .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
@@ -53,6 +56,235 @@ p.sub{margin:0 0 22px;color:var(--ink3);font-size:14.5px}
 .tag.m{background:var(--violet-s);color:var(--violet);border-color:#E2D6FB}
 .tag.a{background:var(--amber-s);color:var(--amber);border-color:#F6E2BE}
 .card .go{font-size:12.5px;font-weight:700;color:var(--blue);margin-top:4px}
+/* ===== 탭③ 타임라인 보강 ===== */
+.tab-chip{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.3px;
+  background:var(--blue-s);color:var(--blue);border:1px solid #C7D9FF;
+  padding:2px 9px;border-radius:999px;margin-bottom:5px}
+.take{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:11px}
+.tk{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 15px;
+  display:flex;flex-direction:column;gap:4px}
+.tkn{width:21px;height:21px;border-radius:6px;background:var(--teal);color:#fff;
+  font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.tk b{font-size:14px;line-height:1.4}
+.tk p{margin:0;font-size:12.6px;color:var(--ink2);line-height:1.65}
+.tk code{font-family:'JetBrains Mono',Consolas,monospace;font-size:11.5px;
+  background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:1px 5px}
+
+/* ===== 실험실 모달의 수학 원리 ===== */
+.prin{margin:0 0 16px;background:var(--card);border:1px solid var(--line);border-radius:13px;overflow:hidden}
+.prinhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:11px 15px;background:var(--bg);border-bottom:1px solid var(--line)}
+.prinbadge{background:var(--ink);color:#fff;font-size:11px;font-weight:800;
+  padding:3px 10px;border-radius:999px;letter-spacing:.4px;flex:none}
+.prineq{font-size:15px;color:var(--blue)}
+.prineq math{color:var(--blue)}
+
+/* 유도 단계 */
+.txwrap{padding:13px 15px;border-bottom:1px solid var(--line);background:#FCFDFF}
+.txlead{font-size:12.4px;color:var(--ink3);margin-bottom:10px}
+.txlead b{color:var(--blue)}
+.tx{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px}
+.tx:last-child{margin-bottom:0}
+.txhead{display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.txn{flex:none;font-size:10.5px;font-weight:800;color:#fff;background:var(--blue);
+  padding:2px 8px;border-radius:999px;letter-spacing:.3px}
+.txf{flex:1;min-width:0;overflow-x:auto;overflow-y:hidden;padding:2px 0}
+.txf math{font-size:17px}
+.txwhy,.txsrc{margin-top:8px}
+.txwhy summary{cursor:pointer;font-size:12.5px;font-weight:700;color:var(--teal);
+  list-style:none;display:inline-flex;align-items:center;gap:5px;
+  background:var(--teal-s);border:1px solid #BFE9E3;border-radius:999px;padding:3px 11px}
+.txwhy summary::-webkit-details-marker{display:none}
+.txwhy summary::before{content:'▸';font-size:10px}
+.txwhy[open] summary::before{content:'▾'}
+.txwhy summary:hover{background:var(--teal);color:#fff;border-color:var(--teal)}
+.txwhy p{margin:8px 0 0;font-size:12.9px;line-height:1.78;color:var(--ink2)}
+.txsrc summary{cursor:pointer;font-size:11.5px;color:var(--ink3);list-style:none}
+.txsrc summary::-webkit-details-marker{display:none}
+.txsrc summary::before{content:'{ } ';font-family:Consolas,monospace}
+.txsrc summary:hover{color:var(--blue)}
+.txsrc code{display:block;margin-top:6px;padding:8px 10px;background:var(--bg);
+  border:1px solid var(--line);border-radius:7px;
+  font-family:'JetBrains Mono',Consolas,'D2Coding',monospace;font-size:11.8px;
+  color:var(--ink2);white-space:pre-wrap;word-break:break-all;user-select:all}
+.pring{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr))}
+.prc{padding:13px 15px;border-right:1px solid var(--line)}
+.prc:last-child{border-right:none}
+.prct{font-size:11.5px;font-weight:800;color:var(--blue);margin-bottom:5px;letter-spacing:-.1px}
+.prc.probe .prct{color:var(--teal)}
+.prc.link .prct{color:var(--amber)}
+.prc p{margin:0;font-size:12.9px;line-height:1.75;color:var(--ink2)}
+.prc.probe{background:var(--teal-s)}
+.prc.link{background:var(--amber-s)}
+@media(max-width:700px){.prc{border-right:none;border-bottom:1px solid var(--line)}}
+
+/* 확장 탐구 */
+.nxt{border-top:1px solid var(--line);padding:14px 15px;background:#FBFCFE}
+.nxth{font-size:12.5px;font-weight:800;color:var(--ink);margin-bottom:9px;
+  padding-bottom:6px;border-bottom:1px dashed var(--line)}
+.nxi{display:flex;gap:10px;align-items:flex-start;padding:8px 0}
+.nxi+.nxi{border-top:1px dotted var(--line)}
+.nxl{flex:none;font-size:10.5px;font-weight:800;padding:2px 9px;border-radius:999px;
+  border:1px solid;margin-top:2px;white-space:nowrap}
+.nxi.l1 .nxl{background:var(--teal-s);color:var(--teal);border-color:#BFE9E3}
+.nxi.l2 .nxl{background:var(--blue-s);color:var(--blue);border-color:#C7D9FF}
+.nxi.l3 .nxl{background:var(--violet-s);color:var(--violet);border-color:#E2D6FB}
+.nxi b{font-size:13.5px;display:block;margin-bottom:2px}
+.nxi p{margin:0;font-size:12.7px;line-height:1.75;color:var(--ink2)}
+
+/* ===== 탭④ 수업·평가 설계 ===== */
+.sub2{margin:34px 0 12px;font-size:17px;font-weight:800;letter-spacing:-.3px;
+  padding-bottom:7px;border-bottom:2px solid var(--ink)}
+.dsteps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:11px}
+.dstep{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 14px;
+  display:flex;flex-direction:column;gap:5px}
+.dsn{font-size:11.5px;font-weight:800;color:var(--blue);letter-spacing:.5px}
+.dstep h4{margin:0;font-size:14.5px;font-weight:800;line-height:1.35}
+.dstep p{margin:0;font-size:12.8px;color:var(--ink2);line-height:1.6}
+.dsmap{margin-top:auto;padding-top:8px;border-top:1px dashed var(--line);font-size:12px;color:var(--ink2)}
+.dsl{display:inline-block;background:var(--blue-s);color:var(--blue);font-size:10.5px;font-weight:800;
+  padding:1px 7px;border-radius:999px;margin-right:6px}
+.dsr{display:block;margin-top:4px;font-size:11px;font-weight:800;color:var(--amber)}
+.dsel{margin-bottom:16px}
+
+.dcard{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:20px 22px}
+.dhead{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:flex-start;
+  padding-bottom:15px;border-bottom:1px solid var(--line)}
+.dpill{display:inline-block;background:var(--amber-s);color:var(--amber);border:1px solid #F6E2BE;
+  font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px;margin-bottom:6px}
+.dhead h3{margin:0;font-size:20px;font-weight:800;letter-spacing:-.4px}
+.dmeta{display:flex;flex-direction:column;gap:2px;font-size:12.3px;color:var(--ink2);text-align:right}
+.dmeta b{color:var(--ink3);font-weight:700;margin-right:5px}
+.dsec{display:flex;align-items:center;gap:9px;margin:24px 0 10px}
+.dnum{width:23px;height:23px;border-radius:7px;background:var(--ink);color:#fff;
+  font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none}
+.dsec h4{margin:0;font-size:16px;font-weight:800;letter-spacing:-.3px}
+.dtb{width:100%;border-collapse:collapse;font-size:13.2px}
+.dtb th,.dtb td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top;line-height:1.65}
+.dtb th{background:var(--bg);width:104px;font-weight:700;color:var(--ink2);font-size:12.5px}
+.std{font-family:'JetBrains Mono',Consolas,monospace;font-size:12.2px;color:var(--violet);margin-bottom:2px}
+.dintent,.dlabuse{margin:0 0 9px;font-size:13.4px;line-height:1.75;color:var(--ink2);
+  background:var(--bg);border-left:3px solid var(--blue);border-radius:0 9px 9px 0;padding:10px 13px}
+.dlabuse{border-left-color:var(--teal)}
+.dintent b,.dlabuse b{display:block;font-size:12px;color:var(--blue);margin-bottom:3px}
+.dlabuse b{color:var(--teal)}
+.tablewrap{overflow-x:auto}
+.dtb.rub{min-width:560px}
+.dtb.rub thead th{background:var(--bg);width:auto;text-align:left}
+.rn{text-align:center;font-weight:800;color:var(--ink3)}
+.re{font-weight:700}
+.rp{text-align:center;font-weight:800;font-variant-numeric:tabular-nums}
+.rsum td{background:#FAFBFC;color:var(--ink2)}
+.rtot td{background:var(--blue-s);font-weight:800;color:var(--blue)}
+.re.lvl{background:var(--bg);font-weight:800;vertical-align:middle}
+.lvt{text-align:center;font-weight:800;color:var(--ink3);font-size:12px;width:34px}
+.lvt.top{color:var(--teal)}
+.rmax{text-align:center;font-weight:800;color:var(--blue);vertical-align:middle;
+  background:var(--blue-s);font-variant-numeric:tabular-nums}
+.dworth{margin:0 0 9px;font-size:13.4px;line-height:1.75;color:var(--ink2);
+  background:var(--amber-s);border:1px solid #F6E2BE;border-radius:9px;padding:10px 13px}
+.dworth b{display:block;font-size:12px;color:var(--amber);margin-bottom:3px}
+.delem{margin:0 0 9px;font-size:12.9px;color:var(--ink2);line-height:1.7}
+.delem b{color:var(--ink3);font-size:12px;margin-right:5px}
+.dtb b.hl{color:var(--rose,#BE123C)}
+.dcau{margin-top:12px;background:var(--amber-s);border:1px solid #F6E2BE;border-radius:11px;padding:12px 15px}
+.dcau b{font-size:12.5px;color:var(--amber)}
+.dcau ol{margin:6px 0 0;padding-left:18px;font-size:13px;color:var(--ink2);line-height:1.7}
+.dcau-f{margin:8px 0 0;font-size:12.3px;color:var(--ink3)}
+.dnote{margin:0 0 12px;font-size:13.2px;color:var(--ink2)}
+.steps{display:flex;flex-direction:column;gap:9px}
+.dstp{display:flex;gap:11px;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:12px 14px}
+.dstpn{flex:none;font-size:11.5px;font-weight:800;color:#fff;background:var(--blue);
+  height:22px;padding:0 9px;border-radius:999px;display:flex;align-items:center;letter-spacing:.4px}
+.dstpb{flex:1;min-width:0}
+.dstpb h5{margin:0 0 4px;font-size:14.5px;font-weight:800}
+.ask{margin:0 0 5px;font-size:13.3px;font-weight:700;color:var(--blue)}
+.guide{margin:0 0 7px;font-size:12.9px;color:var(--ink2);line-height:1.7}
+.labtip{margin:0 0 7px;font-size:12.6px;color:var(--teal);background:var(--teal-s);
+  border-radius:7px;padding:6px 9px;line-height:1.6}
+/* STEP 미니 실험 도구 */
+.mini{margin:9px 0 10px}
+.mnb{background:#fff;border:1px solid #C7D9FF;border-radius:11px;overflow:hidden}
+.mnt{background:var(--blue-s);color:var(--blue);font-size:12.3px;font-weight:800;
+  padding:7px 12px;border-bottom:1px solid #D8E4FB}
+.mnc{display:flex;flex-wrap:wrap;gap:7px;padding:10px 12px;border-bottom:1px dashed var(--line)}
+.mnl{display:flex;flex-direction:column;gap:3px;font-size:11.3px;font-weight:700;color:var(--ink3)}
+.mnl input{width:96px;border:1px solid var(--line);border-radius:7px;padding:5px 7px;
+  font-size:12.5px;font-family:'JetBrains Mono',Consolas,monospace;background:#fff;color:var(--ink)}
+.mnl input[type=text]{width:210px}
+.mnl input:focus{outline:2px solid var(--blue);outline-offset:1px;border-color:var(--blue)}
+.mno{padding:10px 12px;font-size:12.6px;line-height:1.7}
+.mnr{color:var(--ink2);margin-bottom:3px;font-family:'JetBrains Mono',Consolas,'D2Coding',monospace;font-size:12px}
+.mnr.big{margin-top:6px;font-size:13.5px;color:var(--ink);
+  background:var(--bg);border-radius:7px;padding:6px 9px}
+.mnr.big.ok{background:var(--teal-s);color:var(--teal)}
+.mnr.big.mid{background:var(--amber-s);color:var(--amber)}
+.mnr.big.no,.mnr.no{background:var(--rose-s,#FFF1F4);color:var(--rose,#BE123C)}
+.mnr.hit{color:var(--teal);font-weight:700}
+.mnt2{margin-top:8px;font-size:11.5px;font-weight:800;color:var(--ink3)}
+.mntb{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.mntb span{background:var(--bg);border:1px solid var(--line);border-radius:6px;
+  padding:2px 7px;font-size:11.3px;font-variant-numeric:tabular-nums}
+.mncv{display:block;margin-top:9px;border:1px solid var(--line);border-radius:8px;background:#fff;max-width:100%}
+
+.rec{margin:0;padding-left:17px;font-size:12.7px;color:var(--ink2);line-height:1.85}
+.rec li::marker{color:var(--ink3)}
+.dlbar{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-top:16px;
+  background:var(--teal-s);border:1px solid #BFE9E3;border-radius:12px;padding:13px 15px}
+.dlhint{font-size:12.3px;color:var(--ink2);flex:1;min-width:220px;line-height:1.6}
+.sets{display:flex;flex-direction:column;gap:8px}
+.set{display:flex;gap:10px;background:var(--violet-s);border:1px solid #E2D6FB;border-radius:11px;padding:11px 13px}
+.setn{flex:none;width:21px;height:21px;border-radius:6px;background:var(--violet);color:#fff;
+  font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.set p{margin:0;font-size:12.9px;color:var(--ink2);line-height:1.75}
+
+.gw{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:18px 20px}
+.gwwhy{margin:0 0 14px;font-size:13.6px;color:var(--ink2);line-height:1.75}
+.gwrun{display:flex;flex-direction:column;gap:8px}
+.gwi{display:flex;gap:11px;align-items:flex-start}
+.gwn{flex:none;width:22px;height:22px;border-radius:50%;background:var(--teal);color:#fff;
+  font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.gwi b{font-size:14px}
+.gwi p{margin:2px 0 0;font-size:12.9px;color:var(--ink2);line-height:1.7}
+.gwrule{margin-top:15px;background:var(--bg);border-radius:11px;padding:12px 15px}
+.gwrule b{font-size:12.5px;color:var(--blue)}
+.gwrule ul{margin:6px 0 0;padding-left:18px;font-size:12.9px;color:var(--ink2);line-height:1.8}
+
+/* ===== 탭⑤ 모음집 ===== */
+.upwrap{display:grid;grid-template-columns:1.25fr 1fr;gap:14px;align-items:stretch}
+.drop{border:2px dashed #C7D8F7;border-radius:14px;background:var(--blue-s);
+  display:flex;align-items:center;justify-content:center;padding:26px;transition:.16s}
+.drop.over{border-color:var(--blue);background:#E3ECFF;transform:scale(1.01)}
+.dropin{text-align:center;display:flex;flex-direction:column;gap:7px;align-items:center}
+.dropin b{font-size:15px;color:var(--blue)}
+.dropin span{font-size:12.7px;color:var(--ink2)}
+.upmeta{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 16px;
+  display:flex;flex-direction:column;gap:9px}
+.upmeta .ctl{display:flex;flex-direction:column;gap:4px;font-size:12.5px;font-weight:700;color:var(--ink2)}
+.upmeta input{border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:13px;
+  font-family:inherit;background:#fff;color:var(--ink)}
+.upmeta input:focus{outline:2px solid var(--blue);outline-offset:1px;border-color:var(--blue)}
+.upnote{margin:auto 0 0;font-size:12.2px;color:var(--ink3);line-height:1.65}
+.gbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:16px;
+  padding:11px 15px;background:var(--card);border:1px solid var(--line);border-radius:12px}
+.gcount{font-size:13.5px;color:var(--ink2)}
+.gbar .btns{margin-top:0}
+.glist{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:12px;margin-top:14px}
+.gcard{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:14px 15px;
+  display:flex;flex-direction:column;gap:5px}
+.gcard .gn{font-size:11.5px;font-weight:800;color:var(--ink3);letter-spacing:.6px}
+.gcard h4{margin:0;font-size:15px;font-weight:800;line-height:1.35}
+.gwho{font-size:12.5px;font-weight:700;color:var(--teal)}
+.gmemo{margin:0;font-size:12.7px;color:var(--ink2);line-height:1.6}
+.gfoot{margin-top:auto;padding-top:9px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.gfile{font-size:11.3px;color:var(--ink3)}
+.gbtns{display:flex;gap:5px}
+.gpv{margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.gpv .pvhead{padding:10px 14px}
+.gpv iframe{width:100%;height:70vh;border:0;display:block;background:#fff}
+button.b:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:820px){.upwrap{grid-template-columns:1fr}.dmeta{text-align:left}}
+
 /* modal */
 .mask{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;z-index:60;padding:24px;overflow:auto}
 .mask.on{display:block}
@@ -147,6 +379,14 @@ button.b.sm{padding:6px 11px;font-size:12.5px}
 .bub.me .who{text-align:right;color:var(--blue)}
 .bub.me .tx{background:var(--blue);color:#fff;border-top-right-radius:3px;font-family:'JetBrains Mono',Consolas,monospace;font-size:12.5px}
 .bub .meta{font-size:12.5px;color:var(--teal);font-weight:600}
+.bub .meta.miss{color:var(--amber);font-weight:500;line-height:1.7}
+.tweaktip{margin-top:12px;padding:11px 13px;background:#F5F8FF;border:1px solid #D8E4FB;
+  border-radius:11px;font-size:12.5px;line-height:1.65;color:var(--ink2)}
+.tweaktip b{color:var(--blue)}
+.tws{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.tw{background:#fff;border:1px solid #C7D8F7;color:var(--blue);border-radius:999px;
+  padding:5px 11px;font-size:12px;font-weight:600;cursor:pointer;user-select:none}
+.tw:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
 .dots i{display:inline-block;width:6px;height:6px;margin-right:3px;border-radius:50%;background:#9AA6B8;
   animation:bl 1s infinite}
 .dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
@@ -229,6 +469,8 @@ footer{padding:26px 0 40px;color:var(--ink3);font-size:12.5px;text-align:center}
   <button class="on" data-p="p1">① 수학 실험실 10종</button>
   <button data-p="p2">② 바이브 코딩 실습</button>
   <button data-p="p3">③ 3시간 운영 흐름</button>
+  <button data-p="p4">④ 수업·평가 설계</button>
+  <button data-p="p5">⑤ 우리 연수 모음집</button>
 </div></nav>
 
 <!-- ================= PANE 1 ================= -->
@@ -276,6 +518,17 @@ footer{padding:26px 0 40px;color:var(--ink3);font-size:12.5px;text-align:center}
             <button class="b" id="send">▶ AI에게 보내기</button>
             <button class="b g" id="reveal">모범 프롬프트 넣기</button>
           </div>
+          <div class="tweaktip">
+            <b>선생님이 덧붙인 말이 실제로 화면에 반영됩니다.</b>
+            아래를 눌러 프롬프트 끝에 붙여 보세요 — 눌러 본 사람과 안 눌러 본 사람의 결과가 달라집니다.
+            <div class="tws">
+              <span class="tw">그래프를 초록색으로 그려 줘.</span>
+              <span class="tw">글씨를 더 크게 해 줘.</span>
+              <span class="tw">그래프를 더 크게 키워 줘.</span>
+              <span class="tw">배경을 어둡게 해 줘.</span>
+              <span class="tw">제목을 "우리 반 실험"으로 바꿔 줘.</span>
+            </div>
+          </div>
         </div>
         <div class="coach" id="coach"></div>
         <div class="finish" id="finish" style="display:none">
@@ -321,6 +574,63 @@ footer{padding:26px 0 40px;color:var(--ink3);font-size:12.5px;text-align:center}
   </div>
 </div></section>
 
+<!-- ================= PANE 4 ================= -->
+<section class="pane" id="p4"><div class="wrap">
+  <h2 class="sec">수업·평가 설계 — 실험실을 수행평가로 잇기</h2>
+  <p class="sub">실험실은 <b>수업의 도구</b>이지 수업 자체가 아닙니다. 여기서는 성취기준에서 출발해
+  실험실을 구성하고, 그것을 학생 활동지·채점기준표·갤러리 워크까지 잇는 절차를 다룹니다.
+  대전광역시교육청 수행평가 작성양식의 4단계 구조를 그대로 따릅니다.</p>
+
+  <h3 class="sub2">설계 5단계 — 수업 설계가 곧 실험실 구성입니다</h3>
+  <div class="dsteps" id="dsteps"></div>
+
+  <h3 class="sub2">실험실별 수행평가 설계</h3>
+  <div class="picker dsel" id="dsel"></div>
+  <div id="dbody"></div>
+
+  <h3 class="sub2">갤러리 워크 운영</h3>
+  <div id="gwalk"></div>
+</div></section>
+
+<!-- ================= PANE 5 ================= -->
+<section class="pane" id="p5"><div class="wrap">
+  <h2 class="sec">우리 연수 모음집 — 선생님들이 만든 자료 모으기</h2>
+  <p class="sub">각자 만든 HTML 자료를 여기에 올리면 한자리에 모입니다. 갤러리 워크에서 서로 조작해 보고,
+  마지막에 <b>모음집 파일 하나로 묶어</b> 전원에게 배포합니다.</p>
+
+  <div class="upwrap">
+    <div class="drop" id="drop">
+      <div class="dropin">
+        <b>여기에 HTML 파일을 끌어다 놓으세요</b>
+        <span>또는 아래 버튼으로 고르세요 · 여러 개 한꺼번에 됩니다</span>
+        <input type="file" id="file" accept=".html,.htm" multiple hidden>
+        <button class="b" id="pick">파일 고르기</button>
+      </div>
+    </div>
+    <div class="upmeta">
+      <label class="ctl">올리는 사람 <input type="text" id="who" placeholder="예) 대전대신고 하진수" maxlength="30"></label>
+      <label class="ctl">한 줄 소개 <input type="text" id="memo" placeholder="예) 삼각비로 학교 건물 높이 재기" maxlength="60"></label>
+      <p class="upnote"><b>서버에 올라가지 않습니다.</b> 파일은 이 브라우저 안에서만 열립니다.
+      새로고침하면 사라지니, 연수 마무리에 반드시 <b>모음집 내려받기</b>를 하세요.</p>
+    </div>
+  </div>
+
+  <div class="gbar">
+    <div class="gcount" id="gcount">아직 올라온 자료가 없습니다.</div>
+    <div class="btns">
+      <button class="b t" id="gExport">모음집 내려받기 (HTML 하나)</button>
+      <button class="b g" id="gClear">전체 비우기</button>
+    </div>
+  </div>
+
+  <div class="glist" id="glist"></div>
+
+  <div class="gpv" id="gpv" style="display:none">
+    <div class="pvhead"><h4 id="gpvT"></h4><button class="b g sm" id="gpvX">닫기</button></div>
+    <iframe class="pv" id="gpvF"></iframe>
+  </div>
+</div></section>
+
 <!-- ================= PANE 3 ================= -->
 <section class="pane" id="p3"><div class="wrap">
   <h2 class="sec">3시간(180분) 운영 흐름</h2>
@@ -330,15 +640,53 @@ footer{padding:26px 0 40px;color:var(--ink3);font-size:12.5px;text-align:center}
     <div class="rung"><div class="n">02</div><h4>개조 — 바꿔 보기</h4><p>코드의 <b>한 줄만</b> 고쳐 저장·새로고침. 결과가 바뀌는 순간 심리적 장벽이 무너집니다. AI 접속이 안 돼도 진행됩니다.</p></div>
     <div class="rung"><div class="n">03</div><h4>생성 — 만들어 보기</h4><p>AI와 7라운드 대화로 내 단원 자료를 완성합니다. 프롬프트 기록이 그대로 다음 자료의 재료가 됩니다.</p></div>
   </div>
+  <h3 class="sub2">180분 타임라인 — 어느 탭을 언제 쓰는가</h3>
   <div class="tl">
-    <div class="it"><div class="tm">15:00 – 15:15</div><h4>도입 · 스마트폰 위치 정확도 실측</h4><p>“±8 m … 이 숫자는 어떻게 나올까?” 일상 질문에서 오늘의 수학을 꺼냅니다.</p></div>
-    <div class="it"><div class="tm">15:15 – 15:50</div><h4>①체험 · GPS 삼변측량 + 구조 해체</h4><p>완성 자료를 조작한 뒤 입력–계산–시각화–피드백 4블록으로 분해합니다. 모든 자료가 같은 뼈대임을 확인합니다.</p></div>
-    <div class="it"><div class="tm">16:00 – 16:20</div><h4>②개조 · 스팸 분류기 한 줄 수정</h4><p>단어 목록과 가중치를 바꿔 결과 변화를 확인합니다. 첫 성공 경험.</p></div>
-    <div class="it"><div class="tm">16:20 – 16:55</div><h4>③생성 · 바이브 코딩 7라운드</h4><p>본 페이지 실습실에서 AI와 7번 주고받으며 내 단원 자료를 완성합니다. ROUND 5(잘못된 곳 고치기)가 핵심입니다.</p></div>
-    <div class="it"><div class="tm">17:05 – 17:35</div><h4>완성 · 학습지·루브릭 결합</h4><p>확산 시뮬레이터 예시로 고도화 기법을 적용하고 수업 적용안을 마무리합니다.</p></div>
-    <div class="it"><div class="tm">17:35 – 18:00</div><h4>갤러리 워크 · 공유 · 윤리 성찰</h4><p>교차 시연 후 공유 링크 발급, 데이터 출처·프라이버시 체크리스트 작성.</p></div>
+    <div class="it"><div class="tm">15:00 – 15:15</div><span class="tab-chip">탭 ①</span>
+      <h4>도입 · 스마트폰 위치 정확도 실측</h4>
+      <p>“±8 m … 이 숫자는 어떻게 나올까?” 일상 질문에서 오늘의 수학을 꺼냅니다.
+      LAB 01을 열어 <b>수학 원리</b> 칸의 1단계 식만 함께 봅니다.</p></div>
+
+    <div class="it"><div class="tm">15:15 – 15:50</div><span class="tab-chip">탭 ①</span>
+      <h4>①체험 · GPS 삼변측량 + 구조 해체</h4>
+      <p>완성 자료를 학생 입장에서 조작한 뒤 입력–계산–시각화–피드백 4블록으로 분해합니다.
+      <b>“왜 이렇게 되나?” 토글</b>을 눌러 유도 과정을 확인하고, 모든 자료가 같은 뼈대임을 봅니다.</p></div>
+
+    <div class="it"><div class="tm">16:00 – 16:20</div><span class="tab-chip">탭 ①</span>
+      <h4>②개조 · 스팸 분류기 한 줄 수정</h4>
+      <p>단어 목록과 가중치를 바꿔 결과 변화를 확인합니다. 첫 성공 경험이자 심리적 장벽이 무너지는 지점입니다.</p></div>
+
+    <div class="it"><div class="tm">16:20 – 16:55</div><span class="tab-chip">탭 ②</span>
+      <h4>③생성 · 바이브 코딩 7라운드</h4>
+      <p>AI와 7번 주고받으며 내 단원 자료를 완성합니다. <b>ROUND 5(잘못된 곳 고치기)가 핵심</b>입니다.
+      모범 프롬프트 뒤에 자기 말을 덧붙이면 화면이 실제로 그만큼 달라집니다.</p></div>
+
+    <div class="it"><div class="tm">17:05 – 17:35</div><span class="tab-chip">탭 ④</span>
+      <h4>완성 · 학습지·루브릭 결합</h4>
+      <p>만든 자료를 <b>수행평가로 잇습니다.</b> 설계 5단계를 따라 성취기준을 고르고,
+      채점기준표와 학생 활동지를 내려받아 자기 단원에 맞게 고칩니다.</p></div>
+
+    <div class="it"><div class="tm">17:35 – 17:55</div><span class="tab-chip">탭 ⑤</span>
+      <h4>갤러리 워크 · 모음집 배포</h4>
+      <p>각자 만든 HTML을 모음집에 올리고 <b>순회하며 서로 조작</b>합니다.
+      호스트 4분 교대, 포스트잇 2장(잘된 점 · 묻고 싶은 것). 끝나면 모음집을 하나로 묶어 전원에게 배포합니다.</p></div>
+
+    <div class="it"><div class="tm">17:55 – 18:00</div><span class="tab-chip">마무리</span>
+      <h4>윤리 성찰 · 다음 걸음</h4>
+      <p>데이터 출처·프라이버시 체크리스트를 작성하고, <b>확장 탐구</b> 세 단계 중
+      2학기에 실제로 해 볼 하나를 각자 고릅니다.</p></div>
   </div>
-  <div class="note"><b>운영 안전장치</b> — ① 단일 HTML 파일 원칙(설치·서버·로그인 없음) ② 완성본·프롬프트 카드 USB/인쇄 병행 배포(무연결 대비) ③ 필수과제(개조)와 도전과제(생성) 분리, 빠른 참가자는 모둠 튜터 ④ 공용 폴더 1개로 결과물 회수 후 전원 공유.</div>
+
+  <h3 class="sub2">오늘 가지고 나가는 것</h3>
+  <div class="take">
+    <div class="tk"><span class="tkn">1</span><b>작동하는 학습자료 HTML 1개</b><p>설치·서버·로그인 없이 학생에게 그대로 배포되는 단일 파일.</p></div>
+    <div class="tk"><span class="tkn">2</span><b>프롬프트 기록</b><p>7라운드에서 쓴 말 그대로. 다음 자료를 만들 때 재활용하는 재료가 됩니다.</p></div>
+    <div class="tk"><span class="tkn">3</span><b>학생 활동지 · 교사 안내 자료</b><p>탭④에서 내려받은 <code>.doc</code>. 구글 문서·한글·워드에서 바로 열립니다.</p></div>
+    <div class="tk"><span class="tkn">4</span><b>채점기준표(루브릭)</b><p>활동의 판정 기준이 그대로 “상” 기준이 되므로 따로 만들 필요가 없습니다.</p></div>
+    <div class="tk"><span class="tkn">5</span><b>연수 모음집 HTML</b><p>참가자 전원의 산출물이 담긴 파일 하나. 학교로 돌아가 동교과에 그대로 공유합니다.</p></div>
+  </div>
+
+  <div class="note"><b>운영 안전장치</b> — ① 단일 HTML 파일 원칙(설치·서버·로그인 없음) ② 완성본·프롬프트 카드 USB/인쇄 병행 배포(무연결 대비) ③ 필수과제(개조)와 도전과제(생성) 분리, 빠른 참가자는 모둠 튜터 ④ 모음집은 <b>새로고침하면 사라지므로</b> 반드시 마무리 전에 내려받아 배포 ⑤ AI 접속이 끊겨도 탭①·④·⑤는 그대로 동작합니다.</div>
 </div></section>
 
 <div class="mask" id="mask"><div class="modal">
@@ -349,6 +697,160 @@ footer{padding:26px 0 40px;color:var(--ink3);font-size:12.5px;text-align:center}
 <footer class="wrap">일상 속 수학 실험실 · 모든 자료는 단일 HTML 파일로 동작합니다 (설치·서버·로그인 불필요)</footer>
 
 <script>
+/* ================= LaTeX → MathML ==================
+   단일 파일 원칙 때문에 MathJax·KaTeX 같은 CDN 라이브러리를 쓸 수 없다.
+   MathML 은 브라우저가 기본으로 그리므로 외부 스크립트도 글꼴 파일도 필요 없다.
+   지원 범위는 이 자료에서 실제로 쓰는 부분집합뿐이다. 아래 목록 밖의 명령을 쓰면
+   글자 그대로 나오므로, 새 수식을 넣을 때는 반드시 화면에서 확인할 것.
+
+   지원: \frac \sqrt(\sqrt[n]) ^ _ \sum(\munderover) \left \right \text
+         \bar \overline \vec \hat \pmod
+         그리스문자 · 연산기호 · sin cos tan log ln 등 함수명 */
+
+const TEX_GREEK = {alpha:'α',beta:'β',gamma:'γ',delta:'δ',epsilon:'ε',varepsilon:'ε',
+  theta:'θ',lambda:'λ',mu:'μ',pi:'π',rho:'ρ',sigma:'σ',tau:'τ',phi:'φ',omega:'ω',
+  Delta:'Δ',Sigma:'Σ',Omega:'Ω',Phi:'Φ'};
+const TEX_OPS = {cdot:'·',times:'×',div:'÷',pm:'±',mp:'∓',le:'≤',leq:'≤',ge:'≥',geq:'≥',
+  ne:'≠',neq:'≠',approx:'≈',equiv:'≡',to:'→',rightarrow:'→',Rightarrow:'⇒',
+  in:'∈',notin:'∉',mid:'∣',cap:'∩',cup:'∪',ldots:'…',cdots:'⋯',infty:'∞',
+  partial:'∂',propto:'∝',because:'∵',therefore:'∴'};
+const TEX_FUNCS = ['sin','cos','tan','sec','csc','cot','log','ln','exp','max','min','arg','det'];
+
+function xe(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function texTokens(s){
+  const T=[]; let i=0;
+  while(i<s.length){
+    const c=s[i];
+    if(/\s/.test(c)){i++;continue;}
+    if(c==='\\'){ const m=/^\\([a-zA-Z]+|.)/.exec(s.slice(i)); T.push({t:'cmd',v:m[1]}); i+=m[0].length; continue; }
+    if(c==='{'){T.push({t:'{'});i++;continue;}
+    if(c==='}'){T.push({t:'}'});i++;continue;}
+    if(c==='^'||c==='_'){T.push({t:'sc',v:c});i++;continue;}
+    if(/[0-9]/.test(c)){const m=/^[0-9]+(?:\.[0-9]+)?/.exec(s.slice(i));T.push({t:'num',v:m[0]});i+=m[0].length;continue;}
+    if(/[a-zA-Z]/.test(c)){T.push({t:'id',v:c});i++;continue;}
+    T.push({t:'op',v:c}); i++;
+  }
+  return T;
+}
+
+function texToMathML(src, block){
+  const T = texTokens(src);
+  let p = 0;
+
+  function atom(){
+    const t = T[p];
+    if(!t) return '';
+    if(t.t==='{'){
+      p++; const inner = seq('}'); if(T[p] && T[p].t==='}') p++;
+      return '<mrow>'+inner.join('')+'</mrow>';
+    }
+    if(t.t==='num'){ p++; return '<mn>'+t.v+'</mn>'; }
+    if(t.t==='id'){ p++; return '<mi>'+t.v+'</mi>'; }
+    if(t.t==='op'){ p++; return '<mo>'+xe(t.v)+'</mo>'; }
+    if(t.t==='}'){ p++; return ''; }
+    if(t.t==='sc'){ p++; return ''; }              // 홀로 온 첨자 기호는 버린다
+    /* cmd */
+    const v = t.v; p++;
+    if(v==='frac'){ const a=atom(), b=atom(); return '<mfrac>'+a+b+'</mfrac>'; }
+    if(v==='sqrt'){
+      if(T[p] && T[p].t==='op' && T[p].v==='['){
+        p++; const idx=[];
+        while(p<T.length && !(T[p].t==='op' && T[p].v===']')) idx.push(atom());
+        if(T[p]) p++;
+        return '<mroot>'+atom()+'<mrow>'+idx.join('')+'</mrow></mroot>';
+      }
+      return '<msqrt>'+atom()+'</msqrt>';
+    }
+    if(v==='text'||v==='mathrm'||v==='operatorname'){
+      if(T[p] && T[p].t==='{'){
+        p++; let s=''; let d=1;
+        while(p<T.length){
+          const q=T[p];
+          if(q.t==='{'){ d++; s+='{'; }
+          else if(q.t==='}'){ d--; if(!d){ p++; break; } s+='}'; }
+          else if(q.t==='cmd'){ s+=(TEX_GREEK[q.v]||TEX_OPS[q.v]||q.v); }
+          else s += q.v;
+          p++;
+        }
+        return '<mtext>'+xe(s)+'</mtext>';
+      }
+      return '';
+    }
+    if(v==='bar'||v==='overline') return '<mover accent="true">'+atom()+'<mo>&#x203E;</mo></mover>';
+    if(v==='vec')  return '<mover accent="true">'+atom()+'<mo>&#x2192;</mo></mover>';
+    if(v==='hat')  return '<mover accent="true">'+atom()+'<mo>&#x5E;</mo></mover>';
+    if(v==='left'||v==='right'){
+      const d=T[p]; p++;
+      let ch = d ? (d.t==='cmd' ? (TEX_OPS[d.v]||d.v) : d.v) : '';
+      if(ch==='.') return '';
+      return '<mo stretchy="true">'+xe(ch)+'</mo>';
+    }
+    if(v==='pmod'){ return '<mo>(</mo><mi>mod</mi><mspace width="0.25em"/>'+atom()+'<mo>)</mo>'; }
+    if(v==='sum')  return '<mo movablelimits="false">&#x2211;</mo>';
+    if(v==='prod') return '<mo movablelimits="false">&#x220F;</mo>';
+    if(v===','||v===':'||v===';') return '<mspace width="0.25em"/>';
+    if(v==='quad')  return '<mspace width="1em"/>';
+    if(v==='qquad') return '<mspace width="2em"/>';
+    if(v==='!')     return '<mspace width="-0.15em"/>';
+    if(v===' ')     return '<mspace width="0.3em"/>';
+    if(TEX_GREEK[v]) return '<mi>'+TEX_GREEK[v]+'</mi>';
+    if(TEX_OPS[v])   return '<mo>'+TEX_OPS[v]+'</mo>';
+    if(TEX_FUNCS.indexOf(v)>=0) return '<mi mathvariant="normal">'+v+'</mi>';
+    return '<mi>'+xe(v)+'</mi>';
+  }
+
+  function seq(stop){
+    const out=[];
+    while(p<T.length){
+      const t=T[p];
+      if(stop==='}' && t.t==='}') break;
+      if(t.t==='sc'){
+        const kind=t.v; p++; const s=atom();
+        const base = out.pop() || '<mrow></mrow>';
+        const big = /&#x2211;|&#x220F;/.test(base);      // ∑ ∏ 는 위아래로 붙인다
+        let second=null, kind2=null;
+        if(T[p] && T[p].t==='sc' && T[p].v!==kind){ kind2=T[p].v; p++; second=atom(); }
+        if(second!==null){
+          const sub = kind==='_' ? s : second, sup = kind==='_' ? second : s;
+          out.push((big?'<munderover>':'<msubsup>')+base+sub+sup+(big?'</munderover>':'</msubsup>'));
+        } else if(big){
+          out.push((kind==='_'?'<munder>':'<mover>')+base+s+(kind==='_'?'</munder>':'</mover>'));
+        } else {
+          out.push((kind==='_'?'<msub>':'<msup>')+base+s+(kind==='_'?'</msub>':'</msup>'));
+        }
+        continue;
+      }
+      out.push(atom());
+    }
+    return out;
+  }
+
+  const body = seq(null).join('');
+  return '<math xmlns="http://www.w3.org/1998/Math/MathML" display="'+(block?'block':'inline')+'">'
+       + '<mrow>'+body+'</mrow></math>';
+}
+
+/* 유도 한 단계 = 번호 + 수식(항상 보임) + 접어 둔 설명 + 접어 둔 LaTeX 원본.
+   설명을 접어 두는 것이 핵심이다. 학생이 “왜 이렇게 되지?”를 먼저 스스로 생각한 뒤
+   눌러서 확인하게 한다. 바로 보이면 읽고 넘어가 버린다.
+   LaTeX 원본은 교사가 HWP 수식 편집기나 다른 자료로 그대로 옮기기 위한 것이다. */
+function texBlock(latex, say, n){
+  return '<div class="tx">'
+    + '<div class="txhead"><span class="txn">'+n+'단계</span>'
+    + '<div class="txf">'+texToMathML(latex, true)+'</div></div>'
+    + (say ? '<details class="txwhy"><summary>왜 이렇게 되나?</summary><p>'+say+'</p></details>' : '')
+    + '<details class="txsrc"><summary>LaTeX 원본</summary><code>'+xe(latex)+'</code></details>'
+    + '</div>';
+}
+function texSteps(list){
+  if(!list || !list.length) return '';
+  return '<div class="txwrap">'
+    + '<div class="txlead">수식을 <b>먼저 눈으로 따라가 본 뒤</b>, “왜 이렇게 되나?”를 눌러 확인하세요.</div>'
+    + list.map((x,i)=>texBlock(x.t, x.s, i+1)).join('')
+    + '</div>';
+}
+
 /* ============ 탭 ============ */
 document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('nav.tabs button').forEach(x=>x.classList.remove('on'));
@@ -369,6 +871,196 @@ function axes(ctx,W,H,pad){ctx.clearRect(0,0,W,H);ctx.strokeStyle='#E5E7EB';ctx.
 function slider(id,label,min,max,step,val,unit){
   return `<label class="ctl">${label} <span id="${id}v">${val}${unit||''}</span>
   <input type="range" id="${id}" min="${min}" max="${max}" step="${step}" value="${val}"></label>`;}
+
+/* ============ 실험실별 수학 원리 ============
+   LABS 와 같은 순서. 실험을 조작하는 것만으로 끝나지 않도록,
+   ① 어떤 원리인가 ② 실험의 어느 조작이 그 원리를 드러내는가 ③ 수업의 어느 장면으로 잇는가
+   세 칸을 반드시 채운다. ②가 비면 그 실험실은 탐구가 아니라 시청이다. */
+const PRINS = [
+{tex:[
+  {t:'\\sqrt{(x-a)^2+(y-b)^2}=r', s:'기준점 <b>(a, b)</b> 에서 잰 거리가 r 이라는 말을 두 점 사이의 거리 공식으로 그대로 옮긴 것입니다.'},
+  {t:'(x-a)^2+(y-b)^2=r^2', s:'양변을 제곱하면 근호가 사라지고 <b>원의 방정식</b>이 됩니다. “거리를 안다”가 “원 위에 있다”와 같은 말이 되는 지점입니다.'},
+  {t:'(x-a_1)^2+(y-b_1)^2-\\left[(x-a_2)^2+(y-b_2)^2\\right]=r_1^2-r_2^2',
+   s:'기준점이 둘일 때 두 원의 식을 빼면 제곱항 x², y² 이 <b>소거되어 일차식</b> 하나만 남습니다. 두 원의 교점을 지나는 직선이고, 기준점이 셋이면 이런 직선 둘의 교점으로 위치가 한 점으로 정해집니다.'}
+ ],
+ next:[
+  {lv:'바로',   t:'우리 동네 좌표로 바꿔 보기', d:'지도 앱에서 학교·집·자주 가는 가게의 위도·경도를 읽어 기준점 세 곳에 넣습니다. 오차를 5 m·20 m·50 m로 바꾸며 <b>교점이 번지는 범위</b>가 실제로 몇 미터인지 재어 보세요.'},
+  {lv:'심화',   t:'기준점 2개로는 왜 안 되는가', d:'기준점을 둘만 두면 후보가 두 곳 남습니다. 세 번째 원이 그중 <b>어느 쪽을 지우는지</b>를 식으로 확인하고, 세 원의 중심이 한 직선 위에 있으면 왜 위치가 정해지지 않는지 설명해 보세요.'},
+  {lv:'프로젝트', t:'교실 안 실내 측위 만들기', d:'교실 세 모서리를 기준점으로 두고 와이파이 신호 세기(또는 걸음 수)로 거리를 추정해 자리를 맞혀 보는 장치를 설계합니다. GPS가 안 통하는 실내를 어떻게 해결할지가 과제입니다.'}
+ ],
+ eq:'(x − a)² + (y − b)² = r²',
+ what:'기준점에서 잰 거리가 <b>r</b> 이라는 사실 하나는 “나는 그 점을 중심으로 반지름 r인 원 위에 있다”는 뜻입니다. 기준점이 둘이면 두 원의 교점 두 곳으로, 셋이면 한 점으로 좁혀집니다. 위치를 찾는 일이 <b>원의 방정식 연립</b>으로 바뀌는 순간입니다.',
+ probe:'기준점을 1개 → 2개 → 3개로 늘려 보세요. 후보가 원 전체 → 두 점 → 한 점으로 줄어듭니다. 오차를 키우면 교점이 한 점이 아니라 <b>“오차 삼각형”</b>으로 번지는데, 그 안에서 “가장 그럴듯한 한 점”을 고르는 것이 최소제곱의 직관입니다.',
+ link:'원의 방정식 단원의 도입으로 씁니다. 공식을 먼저 주지 말고 “거리를 안다 = 원 위에 있다”를 화면으로 먼저 겪게 한 뒤 식을 세우면, 원과 직선의 위치 관계(d와 r의 대소)까지 한 흐름으로 이어집니다.'},
+
+{tex:[
+  {t:'P(A \\mid B)=\\frac{P(A \\cap B)}{P(B)}', s:'분모가 <b>전체가 아니라 이미 알고 있는 사건 B</b> 입니다. 이 한 줄이 조건부확률의 전부입니다.'},
+  {t:'P(S \\mid w)=\\frac{P(w \\mid S)\\,P(S)}{P(w \\mid S)\\,P(S)+P(w \\mid N)\\,P(N)}',
+   s:'스팸 S 와 정상 N 으로 나누어 분모를 전개한 <b>베이즈 정리</b>입니다. 분모는 “그 단어가 나올 모든 경우”이고, 분자는 그중 스팸인 경우입니다.'},
+  {t:'P(S \\mid w_1,w_2)=\\frac{P(w_1 \\mid S)\\,P(w_2 \\mid S)\\,P(S)}{P(w_1,w_2)}',
+   s:'단어가 둘 이상이면 <b>서로 독립이라 가정</b>하고 곱합니다. 나이브 베이즈의 “나이브(순진한)”가 바로 이 가정을 가리킵니다 — 실제로는 함께 등장하는 단어가 많습니다.'}
+ ],
+ next:[
+  {lv:'바로',   t:'내 문자함으로 단어표 만들기', d:'실제 받은 광고 문자 5개와 정상 문자 5개를 골라 자주 나오는 단어를 세어 표를 만듭니다. 그 표를 실험실에 넣고 <b>새 문자 한 통</b>을 판정시켜 보세요.'},
+  {lv:'심화',   t:'처음 보는 단어 문제 해결하기', d:'사전에 없는 단어가 들어오면 확률이 0이 되어 전체 곱이 0이 됩니다. 모든 단어의 빈도에 1을 더하는 <b>라플라스 보정</b>을 직접 적용하고, 왜 그것이 타당한지 설명해 보세요.'},
+  {lv:'프로젝트', t:'가짜 뉴스 판별기와 오류 비용', d:'기사 제목으로 분류기를 만든 뒤, 정상을 가짜로 판정한 오류와 가짜를 정상으로 판정한 오류 중 <b>어느 쪽이 더 위험한지</b> 정하고 그에 맞게 판정 기준값을 조정합니다.'}
+ ],
+ eq:'P(A|B) = P(A ∩ B) / P(B)',
+ what:'분모가 <b>전체가 아니라 “이미 알고 있는 것”</b>이라는 점이 이 단원의 전부입니다. 단어 하나를 본 뒤의 스팸 확률은 전체 문자 중 비율이 아니라, <b>그 단어가 들어 있는 문자들 중</b>의 비율입니다. 정보가 하나 들어올 때마다 분모가 바뀌고 판단이 갱신됩니다.',
+ probe:'단어를 하나씩 넣고 빼며 확률이 어떻게 뛰는지 보세요. 앞 단계의 사후확률이 다음 단계의 사전확률이 되는 <b>연쇄</b>가 눈에 보입니다. 정상 문자를 일부러 스팸으로 만들어 보면 “정확도가 높아도 오분류는 남는다”가 몸으로 이해됩니다.',
+ link:'조건부확률의 정의를 세운 직후에 씁니다. 특히 <b>“양성 판정 ≠ 질병”</b>이라는 반전을 다루는 자리로 좋습니다 — 희귀한 사건일수록 거짓양성이 참양성을 압도한다는 것을 숫자로 확인시킬 수 있습니다.'},
+
+{tex:[
+  {t:'y=a\\,r^{x}', s:'a 는 처음 값, r 은 한 단계마다 곱해지는 배율입니다. 더하기가 아니라 <b>곱하기</b>가 반복되는 것이 지수적 증가입니다.'},
+  {t:'2=r^{t} \\;\\Rightarrow\\; \\log 2=t\\log r \\;\\Rightarrow\\; t=\\frac{\\log 2}{\\log r}',
+   s:'“두 배가 되는 데 걸리는 시간”을 구하려면 <b>지수 t 를 끌어내려야</b> 합니다. 로그를 취하는 순간 지수가 계수로 내려옵니다 — 로그가 필요한 이유가 여기 있습니다.'},
+  {t:'\\log y=\\log a+x\\log r',
+   s:'양변에 로그를 취하면 x 에 대한 <b>일차식</b>이 됩니다. 세로축을 로그로 바꾸면 곡선이 직선으로 펴지고, 그 직선의 기울기가 log r 입니다.'}
+ ],
+ next:[
+  {lv:'바로',   t:'진짜 조회수로 확인하기', d:'좋아하는 영상의 조회수를 며칠간 기록해 실험실에 넣습니다. 지수 모델이 <b>며칠째까지 맞고 어디서부터 어긋나는지</b> 표시해 보세요.'},
+  {lv:'심화',   t:'포화가 있는 모델로 바꾸기', d:'지수 모델은 무한히 커집니다. 상한 K 를 두는 로지스틱 모델로 바꾸고, 우리 학교 전교생 수를 K 로 놓았을 때 언제 <b>증가 속도가 최대</b>가 되는지 찾아보세요.'},
+  {lv:'프로젝트', t:'우리 학교 소식 확산 실측', d:'학급에 소식 하나를 흘린 뒤 며칠간 몇 명이 알게 되는지 매일 세어 기록합니다. 실제 곡선과 모델을 겹쳐 그리고 <b>어긋난 이유</b>를 찾아 발표합니다.'}
+ ],
+ eq:'y = a·rˣ  ·  배가시간 t = log 2 / log r',
+ what:'같은 비율을 <b>거듭 곱하는</b> 변화입니다. 더하기(일차)와 곱하기(지수)의 차이가 며칠만 지나도 감당 못 할 만큼 벌어집니다. 지수는 커진 값을 다루기 어렵게 만들고, <b>로그</b>는 그 지수를 끌어내려 다시 다룰 수 있게 만드는 도구입니다.',
+ probe:'전파율을 조금만 올려 보세요. 예측을 먼저 적고 나서 실제 값을 보면 직관이 얼마나 빗나가는지 드러납니다. 세로 축 배율을 바꾸면 같은 데이터가 전혀 다른 인상을 준다는 것도 함께 확인하십시오 — <b>로그 축</b>이 필요한 이유가 여기서 나옵니다.',
+ link:'지수함수 도입과 로그 도입을 하나로 잇습니다. “두 배가 되는 데 며칠?”을 물으면 학생이 스스로 2 = rᵗ 를 세우고, 그 지수를 꺼내려다 로그를 요구하게 됩니다. 마지막에는 <b>모델이 깨지는 지점(포화)</b>을 찾게 해 모델을 의심하는 법까지 다룹니다.'},
+
+{tex:[
+  {t:'S=\\sum_{i=1}^{n} d_i \\equiv 0 \\pmod{10}',
+   s:'끝에서 한 자리 걸러 두 배 한 값들(두 자리가 되면 9를 뺌)을 모두 더한 합 S 가 <b>10으로 나누어떨어져야</b> 올바른 번호입니다.'},
+  {t:'2d-9 \\equiv 2d \\pmod{9}',
+   s:'두 배 해서 두 자리가 되면 자릿수를 더하는데, 그것은 <b>9를 빼는 것</b>과 같습니다. 예를 들어 8 → 16 → 1+6 = 7 이고 16 − 9 = 7 입니다.'},
+  {t:'S_{\\text{오타}}-S=\\Delta \\;\\text{또는}\\; 2\\Delta \\;\\Rightarrow\\; S_{\\text{오타}} \\ne 0 \\pmod{10}',
+   s:'한 자리를 Δ 만큼 잘못 적으면 합이 Δ 또는 2Δ 만큼 어긋납니다. Δ 가 0이 아닌 한 나머지가 0이 될 수 없으므로 <b>오타가 반드시 걸립니다.</b>'}
+ ],
+ next:[
+  {lv:'바로',   t:'무엇을 못 잡는지 찾기', d:'한 자리 오타는 반드시 잡힙니다. 그런데 <b>이웃한 두 자리를 맞바꾸면</b> 어떨까요? 여러 경우를 넣어 보고 잡히지 않는 조합을 찾아 그 이유를 나머지로 설명해 보세요.'},
+  {lv:'심화',   t:'다른 검증식과 비교하기', d:'ISBN(13자리)은 1과 3을 번갈아 곱하고 10으로 나눕니다. 룬과 <b>가중치·나눗수가 왜 다른지</b> 비교하고, 각각 어떤 오류에 강한지 정리해 보세요.'},
+  {lv:'프로젝트', t:'우리 학교 학번 검증코드 설계', d:'학번 뒤에 검증 숫자 한 자리를 붙이는 규칙을 직접 만듭니다. 조건은 <b>한 자리 오타와 두 자리 뒤바뀜을 모두 잡을 것</b>. 만든 규칙이 정말 그런지 시험해 보세요.'}
+ ],
+ eq:'검증 합 ≡ 0 (mod 10)',
+ what:'끝에서 한 자리 걸러 두 배 하고(두 자리가 되면 자릿수를 더해) 전부 합한 값이 <b>10으로 나누어떨어지는지</b>만 봅니다. 나머지가 0이 아니면 잘못된 번호입니다. 중학교 “나머지” 개념 하나가 오타를 걸러내는 장치가 됩니다.',
+ probe:'한 자리만 바꿔 보세요. 검증이 <b>반드시</b> 실패합니다. 어떤 자리를 바꿔도 실패하는지, 두 자리를 맞바꾸면 어떻게 되는지까지 시험해 보면 이 검사가 무엇을 잡고 무엇을 놓치는지가 드러납니다.',
+ link:'합동식·나머지 단원의 마무리 활동으로 씁니다. 순수해 보이던 나머지 연산이 실제 결제 시스템을 떠받친다는 사실이 강한 동기가 되고, “왜 하필 10인가”를 물으면 진법 이야기로 확장됩니다.'},
+
+{tex:[
+  {t:'S(a,b)=\\sum_{i=1}^{n}\\left(y_i-(ax_i+b)\\right)^2',
+   s:'“가장 알맞은 직선”을 <b>잔차의 제곱합이 최소</b>인 직선으로 정의합니다. 제곱을 쓰는 이유는 부호를 없애면서 큰 오차에 더 큰 벌점을 주기 위해서입니다.'},
+  {t:'a=\\frac{\\sum (x_i-\\bar{x})(y_i-\\bar{y})}{\\sum (x_i-\\bar{x})^2}, \\quad b=\\bar{y}-a\\bar{x}',
+   s:'S 를 a 와 b 로 각각 미분해 0으로 두고 풀면 이 두 식이 나옵니다. 분자는 <b>공분산</b>, 분모는 <b>x의 분산</b>에 해당합니다.'},
+  {t:'R^2=1-\\frac{\\sum (y_i-\\hat{y}_i)^2}{\\sum (y_i-\\bar{y})^2}',
+   s:'분모는 <b>평균 수평선</b>의 잔차제곱합, 분자는 우리 직선의 잔차제곱합입니다. 즉 R² 는 “평균만 쓰는 것보다 얼마나 나아졌는가”를 재는 값입니다.'}
+ ],
+ next:[
+  {lv:'바로',   t:'우리 반 데이터로 직선 긋기', d:'학급의 키와 몸무게(또는 통학 거리와 등교 시간)를 모아 점으로 찍습니다. 손으로 그은 직선과 <b>최소제곱 직선</b>이 얼마나 다른지 잔차제곱합으로 비교해 보세요.'},
+  {lv:'심화',   t:'이상치 한 점의 위력', d:'구석에 점 하나를 찍고 a·b·R² 가 얼마나 흔들리는지 기록합니다. 제곱 대신 <b>절댓값의 합</b>을 최소로 하면 왜 덜 흔들릴지 예상하고 확인해 보세요.'},
+  {lv:'프로젝트', t:'상관은 인과가 아니다', d:'“공부 시간과 성적”처럼 상관이 높은 두 변수를 조사한 뒤, <b>숨은 제3의 변수</b>로 설명 가능한지 따져 봅니다. 상관계수만으로 인과를 주장할 수 없는 이유를 사례로 발표합니다.'}
+ ],
+ eq:'a = Σ(xᵢ − x̄)(yᵢ − ȳ) / Σ(xᵢ − x̄)² ,  b = ȳ − a·x̄',
+ what:'점들을 지나는 직선은 무수히 많습니다. 그중 <b>잔차(점과 직선의 세로 거리)의 제곱합을 가장 작게</b> 만드는 직선 하나를 고르는 것이 최소제곱법입니다. “가장 알맞다”는 말이 여기서 비로소 계산 가능한 기준이 됩니다.',
+ probe:'그래프를 클릭해 점을 더 찍어 보세요. 직선이 즉시 다시 계산됩니다. 한쪽 구석에 <b>이상치</b>를 하나 찍으면 직선이 그쪽으로 끌려가는데, 제곱합을 쓰기 때문에 멀리 있는 점 하나가 크게 작용한다는 것이 그대로 보입니다.',
+ link:'일차함수와 통계를 잇는 자리입니다. 평균 높이의 수평선보다 기울어진 직선이 얼마나 더 나은가 — 그 비율이 바로 <b>결정계수 R²</b> 이므로, 이 실험 하나로 회귀와 R²를 한 흐름에 담을 수 있습니다.'},
+
+{tex:[
+  {t:'f(x)=(x-3)^2+1 \\;\\Rightarrow\\; f\'(x)=2(x-3)',
+   s:'지금 서 있는 자리의 <b>접선의 기울기</b>입니다. 부호가 곧 “어느 쪽이 내리막인가”를 알려 줍니다 — 기울기가 양수면 왼쪽이, 음수면 오른쪽이 낮습니다.'},
+  {t:'x_{n+1}=x_n-\\alpha f\'(x_n)',
+   s:'기울기의 <b>반대 방향</b>으로 α 만큼 옮깁니다. 최솟값의 위치를 몰라도 한 걸음씩 내려갈 수 있다는 것이 이 식의 힘입니다.'},
+  {t:'x_{n+1}-3=(1-2\\alpha)(x_n-3)',
+   s:'식을 정리하면 목표 3 과의 거리가 매 걸음 <b>(1−2α)배</b>가 됩니다. 그래서 0 &lt; α &lt; 1 이면 수렴하고, α 가 1보다 크면 배율의 절댓값이 1을 넘어 <b>발산</b>합니다. 학습률을 왜 조심해야 하는지가 여기서 나옵니다.'}
+ ],
+ next:[
+  {lv:'바로',   t:'발산하는 임계값 찾기', d:'학습률 α 를 조금씩 올리며 <b>어느 값부터 튕겨 나가는지</b> 찾습니다. 앞에서 유도한 배율 (1−2α) 로 그 임계값을 미리 계산해 두고 화면과 맞춰 보세요.'},
+  {lv:'심화',   t:'봉우리가 여럿이면', d:'함수를 삼차식으로 바꾸면 극소가 둘 생깁니다. <b>시작점에 따라 다른 곳에 갇히는</b> 현상을 확인하고, 그것이 AI 학습에서 무슨 문제가 되는지 설명해 보세요.'},
+  {lv:'프로젝트', t:'변수 두 개로 넓히기', d:'f(x, y) 로 확장해 등고선 위에서 내려가게 만듭니다. 각 방향의 기울기(편미분)를 어떻게 합쳐 <b>가장 가파른 방향</b>을 정하는지가 과제입니다.'}
+ ],
+ eq:'xₙ₊₁ = xₙ − α·f′(xₙ)',
+ what:'최솟값의 위치를 몰라도, 지금 서 있는 자리의 <b>기울기</b>만 알면 어느 쪽으로 가야 낮아지는지 알 수 있습니다. 기울기의 반대 방향으로 조금씩 옮겨 가는 것이 전부입니다. 미분계수가 “접선의 기울기”를 넘어 <b>움직일 방향</b>이 되는 순간입니다.',
+ probe:'학습률 α를 키워 보세요. 너무 크면 최솟값을 건너뛰어 <b>튕겨 나가고</b>, 너무 작으면 제자리걸음입니다. 시작점을 바꾸면 같은 곳으로 모이는지도 확인하십시오 — 이차함수에서는 모이지만 봉우리가 여럿이면 달라집니다.',
+ link:'미분계수의 활용 단원에서 씁니다. “도함수가 0인 점”을 공식으로 외우는 대신, 기울기를 따라 내려가다 <b>기울기가 0이 되어 멈추는</b> 장면을 보여 주면 극값의 의미가 저절로 설명됩니다.'},
+
+{tex:[
+  {t:'P(\\text{점이 사분원 안})=\\frac{\\text{사분원 넓이}}{\\text{정사각형 넓이}}=\\frac{\\frac{1}{4}\\pi r^2}{r^2}=\\frac{\\pi}{4}',
+   s:'점을 <b>고르게 무작위로</b> 뿌리면 어떤 영역에 들어갈 확률은 그 영역의 넓이에 비례합니다. 그래서 확률이 곧 넓이의 비가 되고, r² 이 약분되어 <b>반지름과 무관한 값 π/4</b> 만 남습니다.'},
+  {t:'\\frac{k}{n} \\;\\to\\; \\frac{\\pi}{4} \\quad (n \\to \\infty)',
+   s:'상대도수는 시행을 늘릴수록 확률에 가까워집니다(<b>큰 수의 법칙</b>). 여기서 k 는 사분원 안에 들어간 점의 개수입니다.'},
+  {t:'\\pi \\approx 4\\cdot\\frac{k}{n}',
+   s:'앞의 두 줄을 이으면 π 를 <b>세는 것만으로</b> 구할 수 있습니다. 넓이를 적분으로 구하지 않고 확률로 대신한 것입니다.'},
+  {t:'\\text{표준편차} \\propto \\frac{1}{\\sqrt{n}}',
+   s:'오차는 n 에 반비례하는 게 아니라 <b>√n 에 반비례</b>합니다. 정확도를 10배 올리려면 점을 100배 뿌려야 한다는 뜻이고, 실험에서 값이 좀처럼 안정되지 않는 이유가 이것입니다.'}
+ ],
+ next:[
+  {lv:'바로',   t:'오차가 √n 에 반비례하는지 확인', d:'점 100개·1,000개·10,000개로 각각 다섯 번씩 돌려 <b>값이 흩어진 정도</b>를 재 봅니다. 10배 늘릴 때 오차가 정말 약 3배 줄어드는지 확인하세요.'},
+  {lv:'심화',   t:'다른 도형의 넓이 재기', d:'원 대신 타원이나 함수 아래 영역으로 바꿔 같은 방법으로 넓이를 구합니다. <b>적분으로 구하기 어려운 도형일수록</b> 이 방법이 강해지는 이유를 설명해 보세요.'},
+  {lv:'프로젝트', t:'뷔퐁의 바늘', d:'평행선 위에 바늘을 떨어뜨려 π 를 구하는 고전 실험을 재현합니다. 왜 여기서도 π 가 나오는지 <b>각도와 위치의 확률</b>로 설명하는 것이 핵심입니다.'}
+ ],
+ eq:'π ≈ 4 × (원 안의 점 수) / (전체 점 수)',
+ what:'정사각형 안에 점을 무작위로 뿌리면, 사분원 안에 들어갈 확률이 <b>넓이의 비</b>와 같아집니다. 그 비가 π/4 이므로 4를 곱하면 π가 나옵니다. <b>확률로 넓이를 재는</b> 발상입니다.',
+ probe:'점의 개수를 늘려 보세요. 처음에는 값이 크게 흔들리다가 점점 3.14 근처로 <b>수렴</b>합니다. 몇 번을 다시 돌려도 매번 조금씩 다른 값이 나오는 것도 보십시오 — 시행 횟수와 오차의 관계가 그대로 드러납니다.',
+ link:'확률과 넓이를 잇는 활동이자 <b>큰 수의 법칙</b>의 시각적 증거입니다. “왜 많이 해야 믿을 수 있나”라는 질문에 대한 답을 학생이 직접 만들어 냅니다.'},
+
+{tex:[
+  {t:'\\vec{a}\\cdot\\vec{b}=\\left|\\vec{a}\\right|\\left|\\vec{b}\\right|\\cos \\theta',
+   s:'내적의 정의입니다. 여기에 이미 <b>사잇각이 들어 있다</b>는 점이 출발점입니다.'},
+  {t:'\\cos \\theta=\\frac{\\vec{a}\\cdot\\vec{b}}{\\left|\\vec{a}\\right|\\left|\\vec{b}\\right|}=\\frac{a_1b_1+a_2b_2}{\\sqrt{a_1^2+a_2^2}\\,\\sqrt{b_1^2+b_2^2}}',
+   s:'정의를 cos θ 에 대해 풀고 성분으로 바꾼 것입니다. 분모의 두 근호가 각각 <b>벡터의 길이</b>입니다.'},
+  {t:'\\cos(k\\vec{a},\\vec{b})=\\frac{k(\\vec{a}\\cdot\\vec{b})}{k\\left|\\vec{a}\\right|\\left|\\vec{b}\\right|}=\\cos(\\vec{a},\\vec{b}) \\quad (k>0)',
+   s:'<b>왜 크기로 나누는가에 대한 답입니다.</b> 벡터를 k배 늘려도 값이 변하지 않습니다. 즉 길이를 지우고 <b>방향만</b> 남기는 것이 이 나눗셈의 목적입니다. 내적만 쓰면 많이 본 사람이 무조건 1등이 되는 이유가 여기 있습니다.'},
+  {t:'-1 \\le \\cos \\theta \\le 1',
+   s:'그래서 유사도는 반드시 −1과 1 사이입니다. 이 범위를 벗어난 값이 나오면 <b>크기로 나누는 단계를 빠뜨린 것</b>입니다.'}
+ ],
+ next:[
+  {lv:'바로',   t:'차원을 하나 늘리기', d:'액션·로맨스에 코미디를 더해 <b>3차원 벡터</b>로 만듭니다. 성분이 하나 늘어도 공식이 그대로인지 확인하고, 화면에 그리기 어려워지는 대신 무엇이 좋아지는지 말해 보세요.'},
+  {lv:'심화',   t:'거리로 재면 답이 달라지는가', d:'같은 데이터를 <b>유클리드 거리</b>로 정렬해 코사인 유사도 순위와 비교합니다. 순위가 뒤바뀌는 사람을 찾아 그 이유를 벡터의 길이로 설명해 보세요.'},
+  {lv:'프로젝트', t:'우리 반 추천 시스템', d:'학급 설문으로 각자의 취향 벡터를 모아 “나와 가장 비슷한 세 사람”을 찾아 줍니다. 추천이 <b>편향되거나 좁아지는 문제</b>가 생기는지도 함께 점검합니다.'}
+ ],
+ eq:'cos θ = (a · b) / (|a||b|)',
+ what:'취향을 벡터로 보면 “비슷하다”는 말은 <b>사잇각이 작다</b>는 뜻이 됩니다. 내적만 쓰면 벡터가 긴 사람이 무조건 이기므로, 각자의 <b>크기로 나누어</b> 방향만 남깁니다. 정규화가 왜 필요한지가 이 한 줄에 들어 있습니다.',
+ probe:'내 취향 슬라이더를 돌려 보세요. 추천 대상이 언제 바뀌는지 관찰하십시오. 크기는 크지만 방향이 다른 벡터와, 작지만 방향이 같은 벡터 중 <b>무엇이 더 비슷한지</b>가 이 실험의 핵심 질문입니다.',
+ link:'벡터의 내적 단원에서 씁니다. 내적을 계산 규칙으로만 배우면 남지 않지만, “사잇각을 재는 도구”로 쓰면 의미가 남습니다. 손으로 사잇각을 구해 화면 값과 대조하게 하십시오.'},
+
+{tex:[
+  {t:'g(i,j)=\\sum_{u=-1}^{1}\\sum_{v=-1}^{1} f(i+u,\\,j+v)\\,k(u,v)',
+   s:'픽셀 하나의 새 밝기는 <b>주변 3×3 아홉 개</b>에 커널의 아홉 성분을 각각 곱해 모두 더한 값입니다. 두 겹의 시그마가 “가로 3칸 × 세로 3칸”을 뜻합니다.'},
+  {t:'f \\equiv c \\;\\Rightarrow\\; g=c\\sum_{u}\\sum_{v} k(u,v)',
+   s:'밝기가 어디나 같은 c 인 평평한 그림을 넣어 보면 답이 나옵니다. c 를 밖으로 빼면 남는 것은 <b>커널 성분의 총합</b>뿐입니다.'},
+  {t:'\\sum k=1 \\;\\Rightarrow\\; g=c \\qquad \\sum k=0 \\;\\Rightarrow\\; g=0',
+   s:'<b>이것이 커널 성분의 합이 왜 중요한지에 대한 답입니다.</b> 평균(흐리게) 커널은 합이 1이라 평평한 곳의 밝기를 그대로 두고, 경계 검출 커널은 합이 0이라 평평한 곳을 <b>모두 0(검정)</b>으로 만듭니다. 그래서 밝기가 변하는 자리만 살아남아 윤곽선이 보입니다.'},
+  {t:'k=\\frac{1}{9}\\left[1\\;1\\;1\\;;\\;1\\;1\\;1\\;;\\;1\\;1\\;1\\right] \\;\\Rightarrow\\; g=\\text{주변 9칸의 평균}',
+   s:'평균 커널이 왜 흐리게 만드는지도 같은 식에서 나옵니다. 아홉 값을 더해 9로 나눈 것이 <b>산술평균</b>이고, 평균을 내면 튀는 값이 눌려 경계가 부드러워집니다.'}
+ ],
+ next:[
+  {lv:'바로',   t:'세로선만 찾는 커널 만들기', d:'가로선 강조 커널의 <b>행과 열을 바꿔</b> 넣으면 무엇이 강조될까요? 예상을 먼저 적고 확인한 뒤, 왜 그렇게 되는지 3×3 계산으로 설명해 보세요.'},
+  {lv:'심화',   t:'두 번 걸면 어떻게 되는가', d:'흐리게를 두 번 적용한 것과 한 번에 5×5 커널로 적용한 것을 비교합니다. 순서를 바꿔도 결과가 같은지(<b>교환법칙</b>) 확인해 보세요.'},
+  {lv:'프로젝트', t:'경계 검출로 사진 윤곽 따기', d:'실제 사진을 흑백 격자로 바꿔 넣고 윤곽선을 뽑습니다. 잡음이 많은 사진에서는 <b>먼저 흐리게 한 뒤</b> 경계를 찾는 것이 왜 더 좋은지 실험으로 보이세요.'}
+ ],
+ eq:'출력(i, j) = Σ Σ 입력(i+u, j+v) × 커널(u, v)',
+ what:'픽셀 하나를 바꿀 때 <b>그 주변 3×3</b>을 함께 봅니다. 아홉 개 값에 커널의 아홉 성분을 각각 곱해 모두 더한 값이 새 밝기가 됩니다. 행렬의 성분별 곱과 합이 “특징을 뽑아낸다”는 말의 실체입니다.',
+ probe:'커널을 바꿔 가며 결과를 비교하세요. 경계 검출은 밝기가 <b>급변하는 곳</b>만 밝아지고, 평균 커널은 흐려집니다. 평균 커널의 성분을 모두 더하면 1이 되는데, 왜 그래야 하는지 물어보십시오.',
+ link:'행렬 단원의 실생활 연결점입니다. 픽셀 하나를 골라 3×3 계산을 손으로 해 보게 하면, 행렬 연산이 추상적 규칙이 아니라 <b>화면에서 벌어지는 일</b>이 됩니다.'},
+
+{tex:[
+  {t:'y=a_1\\sin x+a_2\\sin 2x+a_3\\sin 3x',
+   s:'기본음과 그 <b>정수배 진동수</b>(배음)를 겹친 것입니다. 배음은 위상을 밀어 만드는 것이 아니라 진동수를 정수배로 바꿔 만듭니다.'},
+  {t:'\\sin(nx) \\;\\text{의 주기}=\\frac{2\\pi}{n}',
+   s:'n 배음의 주기는 기본음 주기의 <b>1/n</b> 입니다. 즉 기본음이 한 번 도는 동안 n 배음은 정확히 n 번 돕니다.'},
+  {t:'y(x+2\\pi)=\\sum a_n \\sin\\left(n x+2\\pi n\\right)=\\sum a_n \\sin (nx)=y(x)',
+   s:'<b>합성 파형의 주기가 왜 기본음과 같은지에 대한 증명입니다.</b> x 를 2π 만큼 밀면 각 항의 각도가 2πn 만큼 늘어나는데, n 이 정수이므로 sin 값이 전혀 변하지 않습니다. 그래서 모양은 울퉁불퉁해져도 <b>주기는 그대로</b>이고, 그 결과 음높이는 같은데 음색만 달라집니다.'},
+  {t:'\\left|y\\right| \\le a_1+a_2+a_3',
+   s:'삼각부등식으로 진폭의 상한이 나옵니다. 그래서 화면에 그릴 때 <b>진폭의 합으로 나누어</b> 주면 어떤 값을 넣어도 그래프가 화면 밖으로 잘리지 않습니다.'}
+ ],
+ next:[
+  {lv:'바로',   t:'홀수배음만 vs 짝수배음만', d:'2·4배음만 켠 소리와 3·5배음만 켠 소리를 번갈아 들어 봅니다. <b>파형의 대칭성</b>이 어떻게 달라지는지 눈으로도 확인하세요.'},
+  {lv:'심화',   t:'사각파를 만들어 보기', d:'홀수배음의 진폭을 1, 1/3, 1/5, 1/7 … 로 주면 파형이 점점 <b>사각파에 가까워집니다.</b> 항을 늘릴수록 어떤 모양으로 수렴하는지 관찰하고 설명해 보세요 — 푸리에 급수의 직관입니다.'},
+  {lv:'프로젝트', t:'진짜 악기 소리 분석', d:'피아노와 기타로 같은 음을 녹음해 파형을 비교합니다. 어느 배음이 강한지 찾아 실험실에서 <b>그 소리를 재현</b>해 보고, 얼마나 비슷한지 평가합니다.'}
+ ],
+ eq:'y = a₁sin x + a₂sin 2x + a₃sin 3x',
+ what:'음의 높낮이는 기본음이 정하고, <b>음색</b>은 배음이 얼마나 섞였는지가 정합니다. 배음은 진동수가 <b>정수배</b>인 파동이며, 여러 사인함수를 더하면 주기는 그대로인 채 모양만 달라집니다.',
+ probe:'2배음·3배음 진폭을 올려 보세요. 파형이 매끈한 사인파에서 울퉁불퉁한 모양으로 바뀌고, <b>소리도 함께 달라집니다.</b> 그런데 합성 파형의 주기는 기본음과 같습니다 — 왜 그런지 설명하게 하십시오.',
+ link:'삼각함수의 합을 다루는 자리이자 주기·진폭·위상을 구분시키는 활동입니다. 귀로 듣고 눈으로 보는 확인이 동시에 되므로, 삼각함수 단원의 도입으로 특히 강합니다.'}
+];
 
 /* ============ 10종 실험실 정의 ============ */
 const LABS=[
@@ -414,20 +1106,120 @@ const LABS=[
  build:waveDemo}
 ];
 
+/* ============ 카드 썸네일 ============
+   외부 이미지 금지(단일 파일 원칙) → 인라인 SVG로 그린다.
+   장식이 아니라 그 실험실에서 학생이 실제로 보게 될 수학적 대상을 그린다. */
+const svg = (inner, label) =>
+  `<svg class="thumb" viewBox="0 0 120 64" role="img" aria-label="${label}">${inner}</svg>`;
+
+// 10번 파형은 실제 식 y = sin x + 0.4sin 2x + 0.25sin 3x 을 그대로 그린다
+const waveD = (() => {
+  let d = '';
+  for (let i = 0; i <= 72; i++) {
+    const x = 10 + i * 100 / 72, t = i / 72 * 4 * Math.PI;
+    const y = 32 - (Math.sin(t) + 0.4*Math.sin(2*t) + 0.25*Math.sin(3*t)) / 1.65 * 19;
+    d += (i ? 'L' : 'M') + x.toFixed(1) + ' ' + y.toFixed(1);
+  }
+  return d;
+})();
+
+const THUMBS = [
+ svg(`<circle cx="38" cy="26" r="22.4" fill="none" stroke="#2563EB" stroke-width="1.5" opacity=".8"/>
+   <circle cx="78" cy="20" r="20.6" fill="none" stroke="#0E9384" stroke-width="1.5" opacity=".8"/>
+   <circle cx="58" cy="54" r="24.1" fill="none" stroke="#B45309" stroke-width="1.5" opacity=".8"/>
+   <circle cx="60" cy="30" r="3.6" fill="#BE123C"/>`, '세 원이 한 점에서 만나 위치가 정해지는 그림'),
+
+ svg(`<text x="13" y="14" font-size="7.5" fill="#6B7280">사전확률</text>
+   <rect x="13" y="18" width="94" height="11" rx="3" fill="#E5E7EB"/>
+   <rect x="13" y="18" width="28" height="11" rx="3" fill="#2563EB"/>
+   <text x="13" y="43" font-size="7.5" fill="#6B7280">사후확률</text>
+   <rect x="13" y="47" width="94" height="11" rx="3" fill="#E5E7EB"/>
+   <rect x="13" y="47" width="76" height="11" rx="3" fill="#BE123C"/>`, '사전확률이 사후확률로 갱신되는 막대'),
+
+ svg(`<path d="M12 56 L108 56 M12 56 L12 8" stroke="#E5E7EB" stroke-width="1.4" fill="none"/>
+   <path d="M14 54 C40 54 46 14 72 11 S98 9 106 9" fill="none" stroke="#0E9384" stroke-width="2.4"/>
+   <circle cx="52" cy="31" r="3" fill="#0E9384"/>`, '느리게 시작해 급격히 치솟는 확산 곡선'),
+
+ svg(`<rect x="11" y="15" width="98" height="34" rx="5" fill="none" stroke="#111827" stroke-width="1.5"/>
+   ${[0,1,2,3,4,5,6,7].map(i => {
+     const x = 19 + i*11, dbl = i % 2 === 0;
+     return `<rect x="${x}" y="27" width="7" height="12" rx="1.6" fill="${dbl ? '#B45309' : '#CBD5E1'}"/>`;
+   }).join('')}
+   <text x="19" y="24" font-size="6.5" fill="#B45309">×2</text>`, '카드번호에서 한 칸 걸러 두 배 하는 자리'),
+
+ svg(`${[[24,49,46.3],[40,38,40.4],[56,36,34.5],[72,25,28.6],[88,21,22.6]]
+     .map(([x,y,ly]) => `<line x1="${x}" y1="${y}" x2="${x}" y2="${ly}" stroke="#BE123C" stroke-width="1.4"/>`).join('')}
+   <line x1="14" y1="50" x2="106" y2="16" stroke="#2563EB" stroke-width="2.2"/>
+   ${[[24,49],[40,38],[56,36],[72,25],[88,21]]
+     .map(([x,y]) => `<circle cx="${x}" cy="${y}" r="3" fill="#111827"/>`).join('')}`,
+   '점들 사이를 지나는 직선과 빨간 잔차'),
+
+ svg(`<path d="M16 12 Q60 68 104 12" fill="none" stroke="#2563EB" stroke-width="2.2"/>
+   ${[[27,24],[38,33],[49,38.4]].map(([x,y]) => `<circle cx="${x}" cy="${y}" r="2.8" fill="#B45309" opacity=".55"/>`).join('')}
+   <circle cx="60" cy="40" r="4" fill="#BE123C"/>`, '포물선을 따라 최솟값으로 내려가는 점'),
+
+ svg(`<rect x="36" y="8" width="48" height="48" fill="none" stroke="#E5E7EB" stroke-width="1.4"/>
+   <path d="M36 8 A48 48 0 0 1 84 56" fill="none" stroke="#111827" stroke-width="1.6"/>
+   ${[[44,20],[56,26],[48,42],[68,30],[41,49],[60,14]].map(([x,y]) => `<circle cx="${x}" cy="${y}" r="2.4" fill="#0E9384"/>`).join('')}
+   ${[[76,16],[80,30],[70,13]].map(([x,y]) => `<circle cx="${x}" cy="${y}" r="2.4" fill="#CBD5E1"/>`).join('')}`,
+   '사분원 안팎에 흩뿌려진 점들'),
+
+ svg(`<path d="M22 52 L96 16" stroke="#2563EB" stroke-width="2.2"/>
+   <path d="M22 52 L88 40" stroke="#0E9384" stroke-width="2.2"/>
+   <path d="M46 45 A26 26 0 0 0 42 36" fill="none" stroke="#B45309" stroke-width="1.5"/>
+   <text x="49" y="38" font-size="8" fill="#B45309">θ</text>
+   <circle cx="22" cy="52" r="2.6" fill="#111827"/>`, '원점에서 뻗은 두 벡터와 사잇각'),
+
+ svg(`${[0,1,2].map(r => [0,1,2].map(c =>
+     `<rect x="${12+c*11}" y="${17+r*11}" width="9.5" height="9.5" rx="1.4"
+       fill="${r===1&&c===1 ? '#2563EB' : '#DCE7FB'}"/>`).join('')).join('')}
+   <path d="M50 32 L64 32 M60 28 L64 32 L60 36" fill="none" stroke="#6B7280" stroke-width="1.5"/>
+   ${[0,1,2,3].map(r => [0,1,2,3].map(c => {
+     const edge = (r===0||r===3||c===0||c===3);
+     return `<rect x="${70+c*10}" y="${14+r*10}" width="8.6" height="8.6" rx="1.2"
+       fill="${edge ? '#111827' : '#F1F5F9'}"/>`;}).join('')).join('')}`,
+   '3×3 커널이 이미지에 적용되어 윤곽이 드러나는 그림'),
+
+ svg(`<line x1="10" y1="32" x2="110" y2="32" stroke="#E5E7EB" stroke-width="1.2"/>
+   <path d="${waveD}" fill="none" stroke="#111827" stroke-width="2.2" stroke-linejoin="round"/>`,
+   '기본음과 배음이 합쳐진 울퉁불퉁한 파형')
+];
+
 const cw=$('#cards');
-LABS.forEach(L=>{
+LABS.forEach((L,i)=>{
   const c=el(`<div class="card">
-    <div class="no">LAB ${String(L.n).padStart(2,'0')} <span class="badge ${L.core?'b-core':'b-ext'}">${L.core?'연수 편성':'확장 후보'}</span></div>
+    <div class="no">LAB ${String(i+1).padStart(2,'0')} <span class="badge ${L.core?'b-core':'b-ext'}">${L.core?'연수 편성':'확장 후보'}</span></div>
+    ${THUMBS[i]||''}
     <h3>${L.t}</h3>
     <div class="q">${L.q}</div>
     <div class="tags">${L.m.slice(0,2).map(x=>`<span class="tag m">${x}</span>`).join('')}${L.a.slice(0,1).map(x=>`<span class="tag a">${x}</span>`).join('')}</div>
     <div class="go">▶ 직접 조작해 보기</div></div>`);
-  c.onclick=()=>open(L); cw.appendChild(c);
+  c.onclick=()=>open(L,i); cw.appendChild(c);
 });
-function open(L){
-  $('#mTitle').textContent=`LAB ${String(L.n).padStart(2,'0')} · ${L.t}`;
+function open(L,i){
+  $('#mTitle').textContent=`LAB ${String(i+1).padStart(2,'0')} · ${L.t}`;
   $('#mQ').textContent=L.q;
-  $('#mNote').innerHTML=`<b>수업 포인트</b> — ${L.note}<br><br><b>수학</b> ${L.m.join(' · ')} &nbsp;|&nbsp; <b>AI 연계</b> ${L.a.join(' · ')}`;
+  const P=PRINS[i];
+  $('#mNote').innerHTML = (P ? `
+    <div class="prin">
+      <div class="prinhead"><span class="prinbadge">수학 원리</span><span class="prineq">${texToMathML(P.tex&&P.tex.length?P.tex[P.tex.length-1].t:'',false)}</span></div>
+      ${texSteps(P.tex)}
+      <div class="pring">
+        <div class="prc"><div class="prct">이 실험의 수학은 무엇인가</div><p>${P.what}</p></div>
+        <div class="prc probe"><div class="prct">무엇을 만지면 원리가 드러나는가</div><p>${P.probe}</p></div>
+        <div class="prc link"><div class="prct">수업의 어느 장면으로 잇는가</div><p>${P.link}</p></div>
+      </div>
+      ${P.next && P.next.length ? `
+      <div class="nxt">
+        <div class="nxth">이 활동 다음에 — 학생이 이어서 할 탐구</div>
+        ${P.next.map(x=>`
+          <div class="nxi ${x.lv==='바로'?'l1':x.lv==='심화'?'l2':'l3'}">
+            <span class="nxl">${x.lv}</span>
+            <div><b>${x.t}</b><p>${x.d}</p></div>
+          </div>`).join('')}
+      </div>` : ''}
+    </div>` : '')
+    + `<b>수업 포인트</b> — ${L.note}<br><br><b>수학</b> ${L.m.join(' · ')} &nbsp;|&nbsp; <b>AI 연계</b> ${L.a.join(' · ')}`;
   $('#mBody').innerHTML=''; L.build($('#mBody')); $('#mask').classList.add('on');
 }
 $('#mX').onclick=()=>{$('#mask').classList.remove('on');audioStop();};
@@ -1099,8 +1891,8 @@ reg:{
  params:'데이터 점들의 좌표',
  controls:'좌표평면을 클릭해 데이터 점을 추가하는 기능',
  viz:'산점도',
- bug:'점만 찍힐 뿐 직선이 없습니다. 아직 “가장 알맞은 직선”을 계산하지 않았습니다.',
- fixask:'점만 보이고 직선이 없어.\n최소제곱법으로 직선을 구해서 그려 주고, 각 점에서 직선까지의 잔차도 빨간 선분으로 표시해 줘.',
+ bug:'직선이 그려지긴 하는데 완전히 수평입니다. 점들은 오른쪽 위로 올라가는데 직선만 평균 높이에 가로로 누워 있습니다.',
+ fixask:'직선이 수평으로만 그려져. 점들은 오른쪽 위로 올라가는데 직선은 평균 높이에 가만히 있어.\n최소제곱법으로 기울기 a와 y절편 b를 구해서 기울어진 직선으로 다시 그려 줘. 각 점에서 직선까지의 잔차도 빨간 세로 선분으로 표시해 줘.',
  act:'잔차제곱합 SSE와 결정계수 R²를 함께 보여 주는 활동',
  guide:['그래프를 클릭해 점을 더 찍어 보세요. 직선이 즉시 다시 계산됩니다.',
         '한쪽 구석에 이상치를 하나 찍으면 직선이 얼마나 끌려가는지 보세요.',
@@ -1138,6 +1930,12 @@ reg:{
       'function draw(){',
       '  const c = document.getElementById("cv").getContext("2d");',
       '  grid(c);',
+      '  const n = P.pts.length;',
+      '  if(n){',
+      '    const my = P.pts.reduce((s,p)=>s+p[1],0)/n;   // y의 평균 높이를 그대로 직선으로',
+      '    c.strokeStyle = "#2563EB"; c.lineWidth = 2.6;',
+      '    c.beginPath(); c.moveTo(PX(0),PY(my)); c.lineTo(PX(10),PY(my)); c.stroke();',
+      '  }',
       '  c.fillStyle = "#111";',
       '  P.pts.forEach(p => { c.beginPath(); c.arc(PX(p[0]),PY(p[1]),4.5,0,7); c.fill(); });',
       '}'],
@@ -1339,8 +2137,8 @@ cos:{
  params:'액션 선호도, 로맨스 선호도 (2차원 벡터)',
  controls:'내 취향 두 값을 조절하는 슬라이더',
  viz:'좌표평면 위에 나와 다른 사람들의 취향 벡터',
- bug:'벡터는 그려지지만 누가 나와 비슷한지 알려 주지 않습니다. 유사도를 아직 계산하지 않았습니다.',
- fixask:'벡터만 보이고 누가 나랑 비슷한지 안 나와.\n나와 각 사람의 코사인 유사도와 사잇각(도)을 계산해서 표로 보여 주고, 유사도가 높은 순으로 정렬해 줘.',
+ bug:'유사도가 1을 넘는 큰 수(107 같은 값)로 나옵니다. 게다가 내 취향을 로맨스 쪽으로 끝까지 올려도 항상 벡터가 가장 긴 “도윤”이 1등으로 나옵니다.',
+ fixask:'유사도가 1보다 큰 값으로 나오고, 내 취향을 어느 쪽으로 바꿔도 계속 도윤이 1등이야. 벡터가 길기만 하면 이기는 것 같아.\n내적만 쓰지 말고 두 벡터의 크기로 각각 나눈 코사인 유사도로 고쳐서 −1~1 사이 값이 되게 해 줘. 사잇각(도)도 함께 표에 넣고 유사도가 높은 순으로 정렬해 줘.',
  act:'가장 비슷한 사람을 찾아 추천 결과로 보여 주는 활동',
  guide:['내 취향 벡터를 돌려 가며 추천 대상이 언제 바뀌는지 보세요.',
         '크기는 크지만 방향이 다른 벡터와, 작지만 방향이 같은 벡터 중 무엇이 더 비슷할까요?',
@@ -1348,7 +2146,8 @@ cos:{
  obj:'내적을 이용해 두 벡터가 이루는 각을 구하고 그 의미를 해석할 수 있다.',
  js2:['const USERS = [{n:"민준", v:[9,2], c:"#2563EB"},',
       '               {n:"서연", v:[3,8], c:"#0E9384"},',
-      '               {n:"지훈", v:[7,6], c:"#B45309"}];',
+      '               {n:"지훈", v:[7,6], c:"#B45309"},',
+      '               {n:"도윤", v:[10,9], c:"#7C3AED"}];   // 모든 장르를 많이 본 사람 — 벡터가 길다',
       'const P = {me:[8,3]};',
       'function cosSim(a, b){',
       '  const dot = a[0]*b[0] + a[1]*b[1];',
@@ -1380,6 +2179,15 @@ cos:{
       '  }',
       '  USERS.forEach(u => arrow(c, u.v, u.c, u.n, 2));',
       '  arrow(c, P.me, "#BE123C", "나", 3.2);',
+      '  const rows = USERS.map(u => {',
+      '    const dot = P.me[0]*u.v[0] + P.me[1]*u.v[1];   // 내적만 쓰고 크기로 나누지 않음',
+      '    return {n:u.n, c:u.c, s:dot};',
+      '  }).sort((a,b) => b.s - a.s);',
+      '  document.getElementById("out").innerHTML =',
+      '    "<table><tr><th>상대</th><th>유사도</th></tr>" +',
+      '    rows.map(r => "<tr><td style=\'color:"+r.c+"\'><b>"+r.n+"</b></td><td>" +',
+      '      r.s.toFixed(1) + "</td></tr>").join("") + "</table>";',
+      '  window.__top = rows[0];',
       '}'],
  js5:['const PX = x => 35 + 30*x, PY = y => 325 - 30*y;',
       'function arrow(c, v, col, lab, w){',
@@ -1427,8 +2235,8 @@ conv:{
  params:'16×16 밝기 값 배열과 3×3 커널',
  controls:'커널 종류를 고르는 선택 상자',
  viz:'원본 이미지를 흑백 격자로 표시',
- bug:'원본만 보이고 필터를 적용한 결과가 없습니다. 아직 합성곱 계산을 하지 않았습니다.',
- fixask:'원본만 보이고 필터 결과가 없어.\n각 픽셀마다 주변 3×3 값에 커널을 곱해 더한 값을 새 밝기로 하는 합성곱을 계산해서, 결과 이미지를 옆에 나란히 그려 줘.',
+ bug:'결과 그림이 원본과 모양이 똑같고 밝기만 달라집니다. 경계 검출을 골랐는데 윤곽선은 나타나지 않고 온통 하얗게 타 버립니다.',
+ fixask:'결과가 원본과 모양이 똑같고 밝기만 달라져. 경계 검출을 골라도 윤곽선이 안 보이고 하얗게 타 버려.\n커널 가운데 성분 하나만 곱하지 말고, 각 픽셀마다 주변 3×3 아홉 개 값에 커널의 아홉 성분을 각각 곱해서 모두 더한 값을 새 밝기로 써 줘.',
  act:'커널 4종을 바꿔 가며 결과가 어떻게 달라지는지 비교하고 적용 중인 행렬을 표로 보여 주는 활동',
  guide:['경계 검출 커널을 고르면 어디가 밝아지는지 보세요. 밝기가 급변하는 곳입니다.',
         '평균 커널의 성분을 모두 더하면 1입니다. 왜 그럴까요?',
@@ -1470,7 +2278,16 @@ conv:{
       '    c.fillRect(x*s, y*s, s, s);',
       '  }',
       '}',
-      'function draw(){ paint("c1", IMG); }        // 결과 이미지는 아직 없음'],
+      'function convolve(k){',
+      '  const o = [];',
+      '  for(let y=0;y<N;y++){ o[y] = [];',
+      '    for(let x=0;x<N;x++){',
+      '      o[y][x] = IMG[y][x] * k[1][1];   // 커널 가운데 성분만 곱함 — 주변 8칸을 안 봄',
+      '    }',
+      '  }',
+      '  return o;',
+      '}',
+      'function draw(){ paint("c1", IMG); paint("c2", convolve(K[P.kernel])); }'],
  js5:['function paint(id, d){',
       '  const c = document.getElementById(id).getContext("2d"), s = 192/N;',
       '  for(let y=0;y<N;y++) for(let x=0;x<N;x++){',
@@ -1515,8 +2332,8 @@ wave:{
  params:'기본음·2배음·3배음의 진폭',
  controls:'진폭 3개를 조절하는 슬라이더',
  viz:'합성된 파형 그래프',
- bug:'슬라이더를 움직여도 기본음 하나만 그려집니다. 아직 배음을 더하지 않았습니다.',
- fixask:'2배음·3배음 슬라이더를 움직여도 그래프가 안 변해.\n세 성분을 모두 더한 합성 파형을 굵게 그리고, 각 성분도 연한 색으로 함께 보여 줘.',
+ bug:'2배음·3배음 슬라이더를 올려도 파형이 여전히 매끈한 사인파 하나입니다. 진폭과 좌우 위치만 조금 변할 뿐, 여러 음이 겹친 울퉁불퉁한 모양이 나오지 않습니다.',
+ fixask:'2배음·3배음 슬라이더를 올려도 파형이 계속 매끈한 사인파야. 진폭과 좌우 위치만 변해.\n배음은 위상을 더하는 게 아니라 주파수가 정수배여야 해. sin(2x), sin(3x)로 고쳐 줘. 세 성분을 모두 더한 합성 파형을 굵게 그리고 각 성분도 연한 색으로 함께 보여 줘. 진폭의 합으로 나눠서 화면 밖으로 잘리지 않게 해 줘.',
  act:'실제로 소리를 들려 주는 재생 버튼',
  guide:['2배음만 올렸을 때와 3배음만 올렸을 때 파형이 어떻게 달라지는지 보세요.',
         '소리를 들으며 파형의 모양과 음색을 연결해 보세요.',
@@ -1541,7 +2358,9 @@ wave:{
       '  c.strokeStyle="#111"; c.lineWidth=2.4; c.beginPath();',
       '  for(let p=0;p<=620;p++){',
       '    const x = p/620*4*Math.PI;',
-      '    c.lineTo(20+p, 130 - P.a1*Math.sin(x)*95);      // 기본음만',
+      '    // 배음을 주파수의 정수배가 아니라 위상 이동으로 잘못 만듦',
+      '    const y = P.a1*Math.sin(x) + P.a2*Math.sin(x+2) + P.a3*Math.sin(x+3);',
+      '    c.lineTo(20+p, 130 - y*95);',
       '  }',
       '  c.stroke();',
       '}'],
@@ -1710,8 +2529,59 @@ ${S.act}
   }));
 }
 
+/* ---------- 선생님이 덧붙인 말을 화면에 실제로 반영 ----------
+   생성형 AI를 쓰지 않습니다. 정해진 낱말을 찾아 생성된 코드를 고치는 규칙 기반입니다.
+   반영된 것과 반영되지 않은 것을 둘 다 알려 주는 것이 이 기능의 교육적 목적입니다.
+   "구체적으로 말해야 반영된다"를 선생님이 직접 겪게 하는 장치입니다. */
+const COLORS=[
+  [/빨(간|강)|붉/,      '#BE123C', '빨간색'],
+  [/파(란|랑)|푸른/,    '#2563EB', '파란색'],
+  [/초록|녹색/,         '#0E9384', '초록색'],
+  [/주황/,              '#B45309', '주황색'],
+  [/보라|자주/,         '#7C3AED', '보라색'],
+  [/검(정|은)|까만/,    '#111827', '검은색'],
+  [/회색/,              '#6B7280', '회색']
+];
+/* 낱말이 그냥 들어 있는지가 아니라 서로 "붙어 있는지"를 본다.
+   “제곱합을 가장 작게 만드는 직선”의 ‘작게’가 그래프 축소로 읽히면 안 된다. */
+function near(txt, ctx, act){
+  return new RegExp('(?:'+ctx+')[^.\\n]{0,12}(?:'+act+')|(?:'+act+')[^.\\n]{0,12}(?:'+ctx+')').test(txt);
+}
+function readEdits(txt, E){
+  const hit=[], BIG='크게|키워|커지|늘려', SMALL='작게|줄여|축소';
+  if(/색/.test(txt)){
+    for(const [re,hex,nm] of COLORS){
+      if(re.test(txt)){ E.color=hex; hit.push('그래프 선 색 → <b>'+nm+'</b>'); break; }
+    }
+  }
+  const FONT='글씨|글자|폰트', VIEW='그래프|그림|화면|캔버스';
+  if(near(txt,FONT,BIG))  { E.font=Math.min(24,(E.font||15)+3); hit.push('글자 크기 → <b>'+E.font+'px</b>'); }
+  if(near(txt,FONT,SMALL)){ E.font=Math.max(11,(E.font||15)-3); hit.push('글자 크기 → <b>'+E.font+'px</b>'); }
+  if(near(txt,VIEW,BIG))  { E.zoom=Math.min(1.6,(E.zoom||1)+0.2); hit.push('그래프 크기 → <b>'+Math.round(E.zoom*100)+'%</b>'); }
+  if(near(txt,VIEW,SMALL)){ E.zoom=Math.max(0.6,(E.zoom||1)-0.2); hit.push('그래프 크기 → <b>'+Math.round(E.zoom*100)+'%</b>'); }
+  if(/배경/.test(txt)){
+    if(/어둡|검|까맣|다크/.test(txt)){ E.dark=true;  hit.push('배경 → <b>어두운 화면</b>'); }
+    if(/밝게|하얗|흰/.test(txt))     { E.dark=false; hit.push('배경 → <b>밝은 화면</b>'); }
+  }
+  const m = txt.match(/제목[을를]?\s*['"“”「『]([^'"“”」』\n]{1,40})['"“”」』]/);
+  if(m){ E.title=m[1].trim(); hit.push('제목 → <b>“'+esc(E.title)+'”</b>'); }
+  return hit;
+}
+function applyEdits(code, E){
+  if(E.color) code = code
+    .replace(/strokeStyle\s*=\s*"#(2563EB|111)"/g, 'strokeStyle = "'+E.color+'"')
+    .replace(/fillStyle\s*=\s*"#2563EB"/g,         'fillStyle = "'+E.color+'"');
+  if(E.title) code = code.replace(/<h1>[\s\S]*?<\/h1>/, '<h1>'+esc(E.title)+'</h1>');
+  const css=[];
+  if(E.font) css.push('  body{font-size:'+E.font+'px}');
+  if(E.zoom) css.push('  canvas{width:'+Math.round(E.zoom*100)+'%;height:auto}');
+  if(E.dark) css.push('  body{background:#111827;color:#E5E7EB}');
+  if(css.length) code = code.replace('</style>', css.join('\n')+'\n</style>');
+  return code;
+}
+
 /* ---------- 상태 ---------- */
-const V={key:'gps', r:0, sent:[], prev:''};
+const V={key:'gps', r:0, sent:[], prev:'', edits:{}};
 
 /* ---------- 실험실 선택 ---------- */
 function labPicker(){
@@ -1739,7 +2609,7 @@ document.querySelectorAll('#modeSeg button').forEach(b=>b.onclick=()=>{
 
 /* ---------- AI 대화 모드 ---------- */
 function startLab(){
-  V.r=0; V.sent=[]; V.prev='';
+  V.r=0; V.sent=[]; V.prev=''; V.edits={};
   $('#chat').innerHTML=''; $('#finish').style.display='none'; $('#composer').style.display='block';
   $('#coach').innerHTML='';
   const S=VLAB[V.key];
@@ -1774,14 +2644,26 @@ function loadRound(){
   $('#prompt').placeholder='AI에게 할 말을 직접 써 보세요. 막히면 아래 “모범 프롬프트 넣기”를 누르세요.';
 }
 $('#reveal').onclick=()=>{ $('#prompt').value=rounds(V.key)[V.r].p; };
+document.querySelectorAll('.tweaktip .tw').forEach(s=>s.onclick=()=>{
+  const t=$('#prompt');
+  t.value=(t.value.trim()? t.value.replace(/\s+$/,'')+'\n' : '')+s.textContent;
+  t.focus(); t.scrollTop=t.scrollHeight;});
 $('#send').onclick=async()=>{
   const R=rounds(V.key), r=R[V.r];
   let txt=$('#prompt').value.trim(); if(!txt) txt=r.p;
   V.sent.push({round:V.r+1,title:r.tt,prompt:txt});
   $('#send').disabled=true; $('#reveal').disabled=true;
+  const extra = txt.replace(r.p,'').trim();          // 모범 프롬프트 말고 선생님이 덧붙인 말
+  const hits = readEdits(extra, V.edits);            // 덧붙인 말만 읽는다 (모범 프롬프트는 건드리지 않음)
   await say('me', esc(txt).replace(/\n/g,'<br>'), true);
   await say('ai', r.ai);
   const n=applyLevel(r.lv);
+  if(hits.length)
+    await say('ai', `<span class="meta">덧붙이신 말을 화면에 반영했습니다 — ${hits.join(' · ')}</span>`, true);
+  else if(extra.length>4)
+    await say('ai', `<span class="meta miss">덧붙이신 말에서 화면에 바로 반영할 지시를 찾지 못했습니다.
+      <b>무엇을 어떻게</b>까지 짚어 주세요 — “선을 초록색으로”, “글씨를 크게”처럼요.
+      실제 AI도 똑같습니다. 막연한 말은 막연한 결과로 돌아옵니다.</span>`, true);
   await say('ai', `<span class="meta">코드 <b>${n}줄</b>이 추가·수정되었습니다. 오른쪽 화면에서 직접 확인해 보세요.</span>`, true);
   V.r++; $('#send').disabled=false; $('#reveal').disabled=false;
   loadRound();
@@ -1789,7 +2671,7 @@ $('#send').onclick=async()=>{
 };
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function applyLevel(lv){
-  const code=genLab(V.key,lv);
+  const code=applyEdits(genLab(V.key,lv), V.edits);
   const prev=new Set(V.prev.split('\n'));
   const lines=code.split('\n');
   const n=lines.filter(l=>l.trim()&&!prev.has(l)).length;
@@ -1849,6 +2731,1195 @@ $('#cbReset').onclick=()=>{CB.lv=0;cbRender();};
 $('#cbDl').onclick=()=>dl(genLab(CB.key,7), VLAB[CB.key].t+'.html','text/html');
 
 labPicker(); startLab();
+
+/* ================= 탭④ 수업·평가 설계 =================
+   HWPX 「2026 2학기 공통수학2 수행평가 작성양식」의 4단계 구조를 그대로 따른다.
+     1 교육과정 살펴보기 → 2 평가 설계하기(루브릭) → 3 학생 활동지 → 4 세특 기재 예시
+   여기에 이 연수의 두 축을 얹는다: 웹 실험실 연동(STEP별 기록)과 갤러리 워크.
+   LAB 1 은 HWPX 수행평가 ①「우리 동네 최적 입지」를 그대로 옮긴 것이다. */
+
+/* ---------- 수업 설계 5단계 ↔ 실험실 구성 요소 ---------- */
+const DSTEP = [
+ {n:'1단계', t:'성취기준에서 출발한다', d:'단원의 성취기준을 먼저 펼친다. 실험실은 성취기준을 “보여 주는” 도구이지, 성취기준이 실험실에 맞춰지면 안 된다.',
+  lab:'실험실의 <b>수학 모델(eq)</b> 이 여기서 정해진다.', r:'ROUND 2'},
+ {n:'2단계', t:'실생활 질문 하나로 좁힌다', d:'성취기준을 학생이 궁금해할 한 문장으로 바꾼다. 이 문장이 학습지 맨 위와 실험실 제목에 동시에 올라간다.',
+  lab:'실험실의 <b>도입 질문(q)</b>.', r:'ROUND 1'},
+ {n:'3단계', t:'무엇을 만지면 무엇이 바뀌는지 정한다', d:'학생이 조작할 값과, 그때 눈으로 확인할 변화를 짝지어 적는다. 짝이 안 지어지면 그 활동은 탐구가 아니라 시청이다.',
+  lab:'실험실의 <b>조작 요소(controls)</b> 와 <b>시각화(viz)</b>.', r:'ROUND 3 · 4'},
+ {n:'4단계', t:'틀리기 쉬운 지점을 일부러 드러낸다', d:'그 단원에서 학생이 가장 자주 빠지는 오개념을 화면에 “보이는 오류”로 만든다. 고치는 과정이 곧 개념 학습이 된다.',
+  lab:'실험실의 <b>결함(bug)</b> 과 수정 요청.', r:'ROUND 5'},
+ {n:'5단계', t:'판정 기준을 숫자로 적는다', d:'활동의 성공 기준을 숫자로 정하면 그 문장이 그대로 루브릭의 “상” 기준이 된다. 채점기준표를 따로 만들지 않아도 된다.',
+  lab:'실험실의 <b>활동·피드백(act)</b> 이 곧 <b>루브릭</b>.', r:'ROUND 6'}
+];
+
+/* ---------- 갤러리 워크 운영 ---------- */
+const GWALK = {
+ why:'만든 것을 서로 보게 하지 않으면 “내 자료”로 끝납니다. 갤러리 워크는 산출물을 <b>동료평가와 피드백의 재료</b>로 바꾸는 절차이며, 학업성적관리 시행지침이 요구하는 <b>자기평가·동료평가 피드백 계획</b>을 그대로 충족합니다.',
+ run:[
+  {t:'배치 (3분)', d:'모둠별로 노트북 한 대를 펼쳐 둔 채 자리를 뜹니다. 화면에는 완성한 실험실과 활동지를 함께 띄웁니다.'},
+  {t:'순회 (12분)', d:'모둠원 중 <b>한 명은 남아 설명(호스트)</b>, 나머지는 다른 모둠을 돕니다. 4분마다 신호를 주어 호스트를 교대합니다 — 전원이 설명자와 관람자를 모두 경험합니다.'},
+  {t:'기록 (관람 중)', d:'관람자는 방문한 모둠마다 포스트잇 두 장을 남깁니다. <b>① 잘된 점 하나 ② 수학적으로 묻고 싶은 것 하나.</b> 감상(“멋지다”)은 금지하고 반드시 <b>화면에서 본 것</b>을 근거로 씁니다.'},
+  {t:'회수 (5분)', d:'자기 자리로 돌아와 받은 포스트잇을 읽고, 활동지 마지막 칸에 <b>“고칠 것 한 가지”</b>를 적습니다. 이 칸이 세특의 성장 근거가 됩니다.'},
+  {t:'정리 (5분)', d:'교사가 공통으로 나온 질문 두세 개만 전체 공유합니다. 개별 피드백은 활동지에 남은 기록으로 대신합니다.'}
+ ],
+ rule:['설명은 30초를 넘기지 않습니다 — 길어지면 관람이 아니라 발표가 됩니다.',
+       '관람자는 반드시 <b>조작해 봅니다.</b> 눈으로만 보면 결함을 못 찾습니다.',
+       '“왜 그렇게 정했나요?”를 최소 한 번은 묻게 합니다 — 근거를 말하게 하는 것이 목적입니다.',
+       '점수를 매기게 하지 않습니다. 동료가 매긴 점수는 성적에 반영하지 않고 <b>피드백으로만</b> 씁니다.'],
+ caution:'모둠 활동이라도 <b>개별 산출물과 개별 역할</b>이 남아야 채점할 수 있습니다(시행지침 ⑦). 호스트 교대와 개인별 포스트잇 기록이 그 장치입니다.'
+};
+
+/* ---------- 실험실별 수업·평가 설계 ---------- */
+const DESIGN = {
+
+/* ===== LAB 1 — HWPX 수행평가 ① 을 그대로 ===== */
+gps:{
+ lab:1, t:'우리 동네 최적 입지 — 도형의 방정식', pill:'수행평가 ① 최종본',
+ head:{과목:'공통수학2 (10공수2) · 고1', 단원:'Ⅰ. 도형의 방정식', 형태:'프로젝트 · 모둠 2인',
+       시기:'2학기 10월 · 2차시', 배점:'20점 만점 (기본 점수 8점 = 총점의 40%)',
+       도구:'카카오맵·네이버지도(거리 재기) · GeoGebra 또는 Desmos'},
+ worth:'지필평가로는 드러나지 않는 역량 — 실생활 데이터를 수학으로 모델링하고, <b>정답이 하나가 아닌 결정</b>을 내분점·거리·원과 직선의 위치 관계라는 개념을 근거로 정당화하는 논증 능력 — 을 평가합니다.',
+ cur:{
+  기준:['[10공수2-01-01] 선분의 내분점',
+        '[10공수2-01-02] 직선의 방정식 (평행·수직 조건)',
+        '[10공수2-01-03] 점과 직선 사이의 거리',
+        '[10공수2-01-04] 원의 방정식',
+        '[10공수2-01-05] 원과 직선의 위치 관계'],
+  핵심:'좌표평면은 도형과 위치를 수로 나타내는 언어이며, 점·직선·원의 방정식과 거리·내분 개념을 이용하면 실생활의 위치·거리 문제를 수학적으로 모델링하여 최적의 선택을 논리적으로 정당화할 수 있다.',
+  지식:'평면좌표와 두 점 사이의 거리, 선분의 내분점, 직선의 방정식(평행·수직 조건), 점과 직선 사이의 거리, 원의 방정식, 원과 직선의 위치 관계',
+  기능:'지도 앱의 위도·경도를 좌표로 변환하고, 거리·내분점·직선·원의 방정식을 구해 최적 입지를 결정하며, 그 근거(수직·평행 조건, d와 r의 대소)를 수학적으로 논술한다.',
+  태도:'실생활 문제를 수학으로 모델링하는 유용성을 인식하고, 근거를 들어 결론을 정당화하며, 모둠 협력·발표에 책임 있게 참여하는 태도.',
+  흐름:['1~2차시 — 평면좌표 · 두 점 사이 거리 · 내분점 개념',
+        '3차시 — 직선의 방정식 (평행·수직 조건, 점과 직선 사이의 거리)',
+        '4차시 — 원의 방정식과 원·직선의 위치 관계',
+        '<b class="hl">5~6차시 — 「우리 동네 최적 입지」 모둠 프로젝트 ← 수행평가(본 차시)</b>',
+        '7차시 — 정리 및 상호 피드백']
+ },
+ intent:'지도 앱의 위도·경도라는 실제 데이터에서 출발해, 도형의 방정식(거리·내분·직선·원)을 “최적 입지 결정”이라는 실생활 문제의 도구로 사용하게 한다. 학생은 계산 결과뿐 아니라 반경·진입로·산책로의 방정식이 왜 그렇게 나오는지(수직 = 기울기 곱 −1, 평행 = 같은 기울기, d와 r의 대소)를 논술함으로써 공식 암기를 넘어 개념의 의미와 실용성을 체득한다.',
+ labuse:'LAB 01 GPS 위치 추정 실험실에서 기준점을 옮기고 반지름을 키워 보며 <b>원과 직선의 위치 관계</b>가 실제로 어떻게 갈리는지 먼저 눈으로 확인한 뒤 계산에 들어갑니다. 오차를 키우면 교점이 “오차 삼각형”으로 번지는데, 이 장면이 곧 반경 r을 정하는 근거가 됩니다.',
+ elems:'① 위경도→거리 변환 ② 내분점 후보 선정 ③ 평행·수직 직선(진입로·산책로) ④ 점과 직선 거리 비교 ⑤ 원의 방정식·위치 관계 ⑥ 반경·직선 방정식의 이유 논술',
+ rub:[
+  {e:'좌표 · 거리 산출 정확성', max:8, lv:[
+    {p:8, c:'위경도→거리 변환, 내분점 후보 3곳(중점·1:2·2:1), 점과 직선 거리(M, P₁, P₂)를 오류 없이 산출하고 근거를 서술함.'},
+    {p:6, c:'공식 선택은 맞으나 계산 오류가 1개이거나 근거 서술이 부분적임.'},
+    {p:4, c:'근거 없이 결과만 제시하거나 오류가 2개 이상임.'}]},
+  {e:'원과 직선의 위치 판단 · 논증', max:7, lv:[
+    {p:7, c:'원 (x − 5)² + (y − 4)² = 16 을 세우고 d = 3.8 < r = 4 로 위치를 판단하며, 진입로 = 수직(기울기 곱 −1) · 산책로 = 평행(같은 기울기)의 이유를 논증함.'},
+    {p:5, c:'위치는 판단했으나 d, r 비교 근거가 부족하거나 논술이 부분적임.'},
+    {p:3, c:'원의 방정식만 제시하고 위치 판단 · 논증이 없음.'}]},
+  {e:'협업 · 발표 · 성찰', max:5, lv:[
+    {p:5, c:'역할 수행 · 발표 · 성찰(3가지)을 모두 충족함.'},
+    {p:3, c:'3가지 중 2가지 이상 충족.'},
+    {p:1, c:'3가지 중 1가지 충족 (0개 시 0점).'}]}
+ ],
+ base:8,
+ caution:['지도 앱 거리 재기·위경도 판독은 사전 시범으로 익히게 한다.',
+          '조가 정한 좌표가 예시와 달라도 자기 값에 대해 논리가 옳으면 정답으로 인정한다.',
+          '논술은 근거의 타당성으로 채점한다.',
+          '협업·발표 태도는 관찰로 ±1 가감하되 최고점을 넘지 않는다.'],
+ steps:[
+  {n:'STEP 0', t:'지도 앱에서 위도·경도 읽고 거리로 바꾸기', mini:'geo',
+   ask:'위도 1°는 어디서나 약 111 km인데, 경도 1°에는 왜 cos(위도)를 곱할까?',
+   guide:'위도선 사이 간격은 어디서나 거의 일정하다. 그러나 경도선(자오선)은 적도에서 가장 벌어졌다가 극으로 갈수록 한 점으로 모인다. 위도 φ에 있는 위도 원의 반지름이 R·cos φ 이므로 동서 거리의 축척이 정확히 cos(위도) 배로 줄어든다. 우리 동네(위도 약 36.32°)에서는 cos 36.32° ≈ 0.806 이므로 경도 1° ≈ 111 × 0.806 ≈ 89.4 km 이다.',
+   rec:['A 한빛아파트 위도 36.3209 · 경도 127.3822 → 좌표 (      ,      )',
+        'B 새봄아파트 위도 36.3263 · 경도 127.3889 → 좌표 (      ,      )',
+        '세로 거리 = Δ위도 × 111,000 = ____________ m',
+        '가로 거리 = Δ경도 × 111,000 × cos(위도) = ____________ m',
+        '두 지점 거리 = √(가로² + 세로²) = ____________ m',
+        '좌표 거리 √((8−2)² + (7−1)²) × 100 = ____________ m   ← 두 값이 일치하는가?']},
+  {n:'STEP 1', t:'후보 입지 3곳 — 내분점', mini:'divpt',
+   ask:'두 아파트 사이 어디에 두어야 “공평”할까? 공평의 기준은 하나뿐일까?',
+   guide:'중점은 거리로 공평하지만, 이용자 수가 다르면 내분비를 바꿔야 한다. 어떤 비를 택했는지와 그 이유를 함께 적는다.',
+   rec:['중점 M = (      ,      )', '1 : 2 내분점 P₁ = (      ,      )', '2 : 1 내분점 P₂ = (      ,      )',
+        '우리 모둠이 내분비를 그렇게 정한 이유: ______________________________________']},
+  {n:'STEP 2', t:'진입로와 산책로 — 평행·수직', mini:'perp',
+   ask:'진입로는 왜 도로에 수직이어야 하고, 산책로는 왜 평행이어야 할까?',
+   guide:'수직이면 두 직선의 기울기 곱이 −1, 평행이면 기울기가 같다. 식을 쓰기 전에 “왜 그 조건인가”를 먼저 말로 정한다.',
+   rec:['도로의 방정식: ______________________', '수직 진입로: ______________________', '평행 산책로: ______________________']},
+  {n:'STEP 3', t:'접근성 비교 — 점과 직선 사이의 거리', mini:'pdist',
+   ask:'세 후보 중 도로에서 가장 가까운 곳은 어디인가?',
+   guide:'d = |ax₀ + by₀ + c| / √(a² + b²). 절댓값을 왜 쓰는지, 분모가 왜 √(a²+b²)인지 한 번은 짚는다.',
+   rec:['d(M) = ________   d(P₁) = ________   d(P₂) = ________', '가장 가까운 후보: ________ · 그 값이 최소인 이유: ____________________']},
+  {n:'STEP 4', t:'서비스 범위 — 원의 방정식과 위치 관계', mini:'circline',
+   ask:'반경을 400 m로 두면 이 택배함은 도로에서 닿을 수 있는가?',
+   guide:'중심 - 도로 거리 d 와 반지름 r 을 비교한다. d < r 이면 두 점에서 만나고(할선), d = r 이면 접하며, d > r 이면 만나지 않는다.',
+   labtip:'LAB 01 실험실에서 반지름 슬라이더를 움직이며 d 와 r 의 대소가 뒤집히는 순간을 직접 보라.',
+   rec:['서비스 원: (x − ____)² + (y − ____)² = ________', 'd = ________ , r = ________ → 위치 관계: ______________________']},
+  {n:'STEP 5', t:'논술 — 왜 그런가',
+   ask:'계산 결과가 아니라 “근거”를 문장으로 쓴다.',
+   guide:'채점은 정오가 아니라 근거의 타당성으로 한다. 수학 용어를 반드시 쓴다.',
+   rec:['(가) 반경 r을 400 m로 정하고 이 자리를 고른 이유 — 원과 도로의 위치 관계로 설명:',
+        '(나) 진입로가 “수직”, 산책로가 “평행”이어야 하는 이유와 그것이 기울기 조건으로 어떻게 나타나는지:',
+        '(다) 우리 조의 최종 입지와 종합 제안 (3문장 이상):']},
+  {n:'STEP 6', t:'갤러리 워크 — 받은 피드백과 고칠 것',
+   ask:'다른 모둠의 입지는 왜 우리와 다른가?',
+   guide:'좌표가 달라도 절차와 논리가 옳으면 옳다. 다른 답이 나온 “이유”를 찾는 것이 이 단계의 목적이다.',
+   rec:['우리 모둠이 받은 질문 중 가장 날카로웠던 것:', '그 질문에 대한 우리 답:', '다시 한다면 고칠 것 한 가지:']}
+ ],
+ sets:['‘우리 동네 최적 입지’ 프로젝트에서 두 아파트의 위도·경도를 좌표평면으로 옮겨 두 점 사이 거리를 정확히 산출함. 특히 위도에 따라 경도 1°의 실제 거리가 달라지는 이유를 cos(위도)로 유도하는 과정이 인상적임. 후보 입지 3곳을 내분점으로 선정하고, 점과 직선 사이 거리로 도로 접근성을 비교한 뒤 서비스 범위를 원의 방정식으로 세워 중심-도로 거리와 반지름을 비교해 원과 직선의 위치 관계를 논리적으로 판단하는 등 대수와 기하를 연결하는 사고가 돋보임.',
+       '좌표기하 프로젝트에서 실제 지도 데이터를 활용해 최적 입지 문제를 해결함. 진입로를 도로에 수직인 직선으로 설계하며 두 직선의 기울기 곱이 −1임을 근거로 제시하고, 산책로를 평행 조건으로 구함. 서비스 원이 도로를 관통함(d < r)을 밝혀 접근성이 우수한 입지임을 논술로 정당화하고, 모둠 내 개별 역할을 성실히 수행하며 발표에서 근거를 명료하게 전달함.',
+       '실생활 지도 데이터를 수학적으로 해석하는 과정에서 위도 1°와 경도 1°의 실제 거리가 다른 이유를 스스로 탐구하여 설명하고, 계산 결과를 좌표평면의 두 점 사이 거리 공식과 대조해 검증함. 갤러리 워크에서 다른 모둠의 내분비 선택에 “이용자 수가 다르면 중점이 공평한가”라고 질문하여 논의를 심화시킴. 정보처리·연결 역량이 특히 우수함.']
+},
+
+/* ===== 수행평가 ② — y = x 대칭의 발견 ===== */
+sym:{
+ lab:4, t:'y = x 대칭의 발견 — 함수와 그래프', pill:'수행평가 ② 최종본',
+ head:{과목:'공통수학2 (10공수2) · 고1', 단원:'Ⅲ. 함수와 그래프', 형태:'개별 · 탐구 / 서·논술',
+       시기:'2학기 12월 · 2차시', 배점:'20점 만점 (기본 점수 8점 = 총점의 40%)',
+       도구:'GeoGebra 또는 Desmos (그래프와 y = x 대칭 관찰)'},
+ worth:'결과로서의 공식이 아니라 <b>관찰 → 추측 → 정당화</b>의 발견 과정을 평가합니다. 무리함수의 정의역 제한을 엄밀히 다루는 사고와, 도형의 대칭이동과 역함수의 대칭을 하나의 원리로 연결하는 통합적 사고를 확인합니다.',
+ cur:{
+  기준:['[10공수2-03-03] 역함수의 개념을 설명하고, 역함수를 구할 수 있다.',
+        '[10공수2-03-05] 무리함수 y = √(ax+b) + c 의 그래프를 그리고, 그 성질을 탐구할 수 있다.',
+        '(연계) [03-01] 함수 · [03-02] 합성함수 · [03-04] 유리함수 · [01-07] y = x 대칭이동'],
+  핵심:'두 집합 사이의 대응으로 일반화된 함수는 대상 간의 관계를 논리적으로 해석하는 데 활용된다. 역함수는 대응을 거꾸로 보는 관점이며, 그 그래프는 원함수와 직선 y = x 에 대칭이다.',
+  지식:'함수·역함수의 개념, 합성함수, 유리함수·무리함수의 그래프와 성질',
+  기능:'역함수 구하기 · 그래프에서 규칙을 관찰·추측·정당화하기 · 합성으로 검증하기 · 공학 도구로 탐구하기',
+  태도:'스스로 규칙을 발견하는 탐구 태도 · 수학적 근거로 비판적으로 사고하는 태도',
+  흐름:['1차시 — 함수·합성함수 복습, 역함수의 개념',
+        '2차시 — 유리함수·무리함수의 그래프',
+        '<b class="hl">3~4차시 — 「y = x 대칭의 발견」 개별 탐구 ← 수행평가(본 차시)</b>',
+        '5차시 — 일반화 공유 및 정리']
+ },
+ intent:'함수와 그래프는 <b>역함수 공식을 암기·적용</b>하는 문제로 흐르기 쉬운 단원입니다. 본 평가는 여러 함수의 역함수를 직접 구하고 그래프를 관찰해 <b>“함수와 역함수는 y = x 에 대칭”이라는 성질을 학생이 스스로 발견</b>하도록, 무리함수가 정의역을 제한한 이차함수의 역함수임을 발견·정당화하고 도형의 y = x 대칭이동까지 하나의 원리로 연결하는 개별 탐구·논술로 설계하였습니다.',
+ labuse:'아래 STEP마다 붙은 <b>역함수 계산기 · 대칭 작도기 · 합성 검증기</b>로 먼저 눈으로 확인한 뒤 손으로 도출합니다. 특히 대칭 작도기는 <b>y = x 대칭과 점대칭을 나란히</b> 보여 주어 두 대칭이 어떻게 다른지 스스로 구분하게 합니다.',
+ elems:'① 역함수 도출(일차·유리·무리) ② 대응점 좌표의 뒤바뀜과 y = x 대칭 ③ 무리 ↔ 정의역 제한 이차함수 관계 발견 ④ 일반화 서술 ⑤ 공학 도구·합성 검증 ⑥ 도형의 y = x 대칭이동 작도',
+ rub:[
+  {e:'역함수 도출 정확성', max:8, lv:[
+    {p:8, c:'일차 f⁻¹(x) = (x+3)/2, 유리 f⁻¹(x) = (x+1)/(x−2), 무리 f⁻¹(x) = (x−1)² + 2 를 절차에 따라 오류 없이 도출함.'},
+    {p:6, c:'일부 유형에서 x, y 바꾸기가 누락되거나 대수 조작 오류가 1개임.'},
+    {p:4, c:'도출 절차가 전반적으로 미흡함.'}]},
+  {e:'무리 ↔ 이차 발견 · 정당화', max:7, lv:[
+    {p:7, c:'y = √(x−2) + 1 의 역함수가 (x−1)² + 2 임을 정의역 x ≥ 1 제한까지 포함해 도출하고, 대응점 좌표의 뒤바뀜과 y = x 대칭을 그래프로 설명함.'},
+    {p:5, c:'식은 맞으나 정의역 제한(x ≥ 1)을 누락하거나 근거 설명이 부분적임.'},
+    {p:3, c:'무리함수와 이차함수의 역함수 관계를 발견하지 못함.'}]},
+  {e:'일반화 · 검증 · 작도', max:5, lv:[
+    {p:5, c:'규칙을 일반화하고 합성 f(f⁻¹(x)) = x 로 검증하며 오목 사각형의 y = x 대칭이동을 정확히 작도함(3가지).'},
+    {p:3, c:'3가지 중 2가지 이상 충족.'},
+    {p:1, c:'3가지 중 1가지 충족 (0개 시 0점).'}]}
+ ],
+ base:8,
+ caution:['정의역 제한(x ≥ 1)은 핵심 성취기준이므로 식이 맞아도 누락 시 감점한다.',
+          '합성 검증에서 √((x−1)²) = |x−1| = x−1 (x ≥ 1) 처리까지 하면 상(上)으로 본다.',
+          '예시 함수가 달라도 절차가 옳으면 정답으로 인정한다.',
+          '개별 탐구이므로 자기평가로 성찰을 기록하게 한다.'],
+ steps:[
+  {n:'탐구 A', t:'역함수를 구하고 대응점을 관찰한다', mini:'invfn',
+   ask:'x 와 y 를 바꾸면 그래프에는 무슨 일이 일어날까?',
+   guide:'y = f(x) 에서 x 와 y 를 맞바꾼 뒤 y 에 대해 풀면 역함수입니다. 대응점의 좌표가 어떻게 바뀌는지 표로 적어 두세요.',
+   rec:['① f(x) = 2x − 3 → f⁻¹(x) = ______________ ,  두 그래프의 교점 (      ,      )',
+        '② f(x) = (2x+1)/(x−1) → f⁻¹(x) = ______________',
+        '대응점 표 — 원함수 위의 점 (a, b) ↔ 역함수 위의 점 (      ,      )',
+        '관찰한 규칙: ______________________________________________']},
+  {n:'탐구 B', t:'무리함수의 역함수를 도출한다', mini:'invroot',
+   ask:'y = √(x−2) + 1 은 어떤 함수의 역함수일까?',
+   guide:'양변에서 1을 빼고 제곱합니다. 제곱하는 순간 정의역이 넓어지므로, 원함수의 치역을 확인해 <b>범위를 제한</b>해야 합니다.',
+   rec:['양변에서 1을 빼면 → ______________  ,  제곱하면 → ______________',
+        '역함수 y = ______________  ,  정의역 x ≥ ______',
+        '원함수 정의역 x ≥ ______ · 치역 y ≥ ______ ⇒ 역함수의 정의역이 되는 것은 ______',
+        '합성 검증: f(f⁻¹(x)) = ______________ = x']},
+  {n:'탐구 C', t:'도형을 y = x 에 대칭이동한다 — 점대칭과 비교', mini:'symmove',
+   ask:'(x, y) → (y, x) 는 도형을 어떻게 바꾸는가? 점대칭과는 무엇이 다른가?',
+   guide:'y = x 대칭은 <b>선대칭</b>이고 (x, y) → (y, x) 입니다. 원점에 대한 <b>점대칭</b>은 (x, y) → (−x, −y) 이고, 점 (p, q) 에 대한 점대칭은 (x, y) → (2p − x, 2q − y) 입니다. 두 대칭이 도형을 어떻게 다르게 바꾸는지 직접 보세요.',
+   rec:['A(1, 3) → A′(      ,      )   B(3, 7) → B′(      ,      )',
+        'C(2, 4) → C′(      ,      )   D(5, 6) → D′(      ,      )',
+        '원점에 대한 점대칭 A″(      ,      )  B″(      ,      )  C″(      ,      )  D″(      ,      )',
+        'y = x 대칭과 점대칭의 차이 — 무엇이 보존되고 무엇이 달라지는가:',
+        '오목한 꼭짓점 C 는 대칭이동 뒤에도 오목한가? 그 이유는:']},
+  {n:'탐구 D', t:'일반화하여 서술한다',
+   ask:'무리함수는 일반적으로 어떤 함수의 역함수인가?',
+   guide:'특수한 예에서 찾은 규칙을 문자로 바꿔 씁니다. 정의역 제한을 반드시 함께 적어야 합니다.',
+   rec:['무리함수 y = √(ax + b) + c 는 ______________________________ 의 역함수이며,',
+        '두 그래프는 직선 __________ 에 대칭이다.',
+        '그렇게 말할 수 있는 이유: ____________________________________________']},
+  {n:'탐구 E', t:'성찰 — 두 대칭을 하나의 원리로 잇는다',
+   ask:'역함수의 대칭과 도형의 y = x 대칭이동은 왜 같은 이야기인가?',
+   guide:'좌표를 맞바꾼다는 하나의 조작이 함수에서는 “역함수”로, 도형에서는 “대칭이동”으로 불릴 뿐입니다. 자기 말로 쓰세요.',
+   rec:['두 가지가 하나의 원리로 연결되는 이유 (3문장 이상):',
+        '이 탐구에서 내가 가장 헷갈렸던 지점과 해결한 방법:']}
+ ],
+ sets:['일차·유리·무리함수의 역함수를 정확히 구하고, 함수와 역함수의 그래프가 y = x 에 대칭이며 대응점 좌표가 뒤바뀜을 설명함. 특히 무리함수 y = √(x−2) + 1 이 정의역을 x ≥ 1 로 제한한 이차함수 y = (x−1)² + 2 의 역함수임을 스스로 발견하고 합성 f(f⁻¹(x)) = x 로 검증함.',
+       '역함수의 정의역이 원함수의 치역과 같음을 근거로 무리함수의 정의역 제한을 정확히 설명함. 오목 사각형을 y = x 에 대칭이동하여 (x, y) → (y, x) 로 좌표가 바뀜을 직접 작도하고, 대칭이동이 오목·볼록을 보존함을 관찰로 확인하는 등 추론·의사소통 역량이 우수함.',
+       '공학 도구로 대칭을 관찰하고 관찰 → 추측 → 정당화를 거쳐 “무리함수는 정의역을 제한한 이차함수의 역함수”라는 규칙을 도출함. 나아가 원점에 대한 점대칭과 y = x 선대칭을 비교하여 도형의 대칭이동과 역함수의 대칭을 하나의 원리로 연결하는 통합적 사고를 보임.']
+},
+
+/* ===== LAB 2 — 베이즈 ===== */
+bayes:{
+ lab:2, t:'이 문자, 스팸일까 — 조건부확률로 판단하기', pill:'같은 4단계 구조로 신규 설계',
+ head:{과목:'확률과 통계 · 고2', 단원:'Ⅱ. 확률 (조건부확률·독립)', 형태:'실험·실습 · 개별', 시기:'2학기', 배점:'20점 만점 (기본 점수 8점)'},
+ cur:{
+  기준:['[12확통-02-03] 조건부확률의 뜻을 알고 구할 수 있다.',
+        '[12확통-02-04] 사건의 독립과 종속을 이해하고 판단할 수 있다.',
+        '[12확통-02-05] 확률의 곱셈정리를 이해하고 활용할 수 있다.'],
+  핵심:'새로운 정보가 들어오면 확률은 갱신된다. 조건부확률은 “이미 안 것”을 분모로 삼아 판단을 고쳐 나가는 도구이며, 스팸 분류·질병 검사 같은 실제 판단이 모두 이 구조를 따른다.',
+  지식:'조건부확률의 뜻과 계산, 확률의 곱셈정리, 사건의 독립과 종속, 사전확률과 사후확률',
+  기능:'단어별 조건부확률을 표에서 읽어 문자 한 통의 스팸 확률을 계산하고, 단어를 바꿔 가며 사후확률이 어떻게 갱신되는지 관찰하여 판단 근거를 서술한다.',
+  태도:'확률값 하나로 단정하지 않고 근거와 한계를 함께 말하려는 태도, 자동 판정 결과를 비판적으로 검토하려는 태도.',
+  흐름:['1차시 — 실험실에서 단어를 넣고 빼며 사후확률의 변화 관찰 → 조건부확률의 정의로 직접 계산해 화면 값과 대조',
+        '2차시 — 위양성(스팸이 아닌데 스팸함으로) 사례를 만들어 보고, 자동 분류의 한계를 근거를 들어 논술 → 갤러리 워크',
+        '※ 수행평가는 2차시 전체(50분×2)에 실시']
+ },
+ intent:'“정확도 99%”라는 말이 왜 안심의 근거가 되지 못하는지를 학생이 직접 수로 확인하게 한다. 실험실에서 단어를 하나 넣고 빼는 조작만으로 사후확률이 크게 흔들리는 것을 본 뒤, 같은 값을 조건부확률의 정의로 손으로 계산해 대조한다. 계산 능력이 아니라 <b>판단의 근거를 말하는 능력</b>을 평가하도록 설계하였다.',
+ labuse:'LAB 02 스팸 분류기에서 단어 목록과 가중치를 바꿔 가며 사후확률이 갱신되는 장면을 먼저 봅니다. 특히 사전에 없는 단어를 넣었을 때 값이 무너지는 지점이 “왜 보정이 필요한가”를 스스로 묻게 만드는 자리입니다.',
+ rub:[
+  {n:'①', e:'조건부확률 계산', c:'P(스팸|단어) = P(단어∩스팸) / P(단어) 를 정의대로 세우고 분모를 전체가 아닌 조건 사건으로 정확히 잡음', p:4},
+  {n:'②', e:'사전 → 사후 갱신', c:'단어를 하나씩 추가할 때마다 확률이 갱신되는 과정을 표로 기록하고, 실험실 화면 값과 일치함을 확인', p:4},
+  {n:'③', e:'독립 가정의 검토', c:'“단어들이 서로 독립”이라는 가정을 명시하고, 그 가정이 깨지는 예를 한 가지 이상 제시', p:4},
+  {n:'④', e:'위양성 사례 구성', c:'정상 문자인데 스팸으로 분류되는 예를 직접 만들고 왜 그렇게 되는지 확률로 설명', p:4},
+  {n:'⑤', e:'논술 — 자동 판정의 한계', c:'정확도만으로 신뢰를 판단할 수 없는 이유를 조건부확률의 구조로 서술', p:4}
+ ],
+ base:8,
+ caution:['분모를 전체 표본공간으로 잡는 오류는 이 단원의 핵심 오개념이므로 크게 감점한다.',
+          '학생이 만든 단어 목록이 예시와 달라도 계산 절차가 옳으면 인정한다.',
+          '“AI가 그렇게 판단했다”는 서술은 근거로 인정하지 않는다. 반드시 확률식으로 설명하게 한다.',
+          'AI 도구를 활용하는 경우 사전에 유의사항을 안내한다(시행지침 ⑨).'],
+ steps:[
+  {n:'STEP 0', t:'먼저 조작해 본다',
+   ask:'어떤 단어를 넣으면 스팸 확률이 가장 크게 뛰는가?',
+   guide:'계산하기 전에 감을 잡는 단계다. 값을 적어 두고 나중에 손계산과 비교한다.',
+   rec:['가장 크게 올린 단어: ____________  그때 확률: ________',
+        '거의 변화가 없던 단어: ____________  그때 확률: ________']},
+  {n:'STEP 1', t:'정의대로 계산한다', mini:'cond',
+   ask:'화면의 값이 정말 맞는가?',
+   guide:'P(A|B) = P(A∩B) / P(B). 분모가 “전체”가 아니라 “이미 안 것”임을 반드시 확인한다.',
+   rec:['P(스팸) = ________  P(단어|스팸) = ________  P(단어|정상) = ________',
+        '내 손계산 P(스팸|단어) = ________', '화면 값 = ________ → 일치하는가?']},
+  {n:'STEP 2', t:'정보를 하나씩 더한다', mini:'bayeschain',
+   ask:'단어를 하나 더 넣으면 확률은 어떻게 갱신되는가?',
+   guide:'이전 사후확률이 다음 계산의 사전확률이 된다. 이 연쇄가 “학습”의 원형이다.',
+   rec:['단어 1개 후: ________ → 2개 후: ________ → 3개 후: ________', '갱신되며 알게 된 규칙:']},
+  {n:'STEP 3', t:'가정을 의심한다',
+   ask:'“단어들이 서로 독립”이라는 가정은 늘 옳은가?',
+   guide:'실제로는 함께 등장하는 단어가 많다. 반례를 찾는 것이 이 단계의 목적이다.',
+   rec:['독립 가정이 깨지는 예:', '그때 계산은 어떻게 어긋나는가:']},
+  {n:'STEP 4', t:'위양성을 만들어 본다',
+   ask:'정상 문자를 스팸으로 만들 수 있는가?',
+   guide:'분류기를 속이는 경험이 분류기의 한계를 가장 잘 가르친다.',
+   rec:['내가 만든 정상 문자:', '판정 결과와 확률: ________', '왜 그렇게 판정됐는가:']},
+  {n:'STEP 5', t:'논술 — 정확도 99%는 왜 안심의 근거가 아닌가',
+   ask:'검사 정확도가 높아도 양성 판정을 믿기 어려운 이유는?',
+   guide:'희귀한 사건일수록 위양성이 진양성을 압도한다. 숫자를 들어 설명한다.',
+   rec:['(가) 확률식으로 설명:', '(나) 이 구조가 실제로 문제되는 사례:']},
+  {n:'STEP 6', t:'갤러리 워크 — 받은 피드백과 고칠 것',
+   ask:'다른 사람의 분류기는 내 문자를 어떻게 판정했는가?',
+   guide:'서로의 분류기에 자기 문자를 넣어 보게 한다. 같은 문자가 다르게 판정되는 경험이 핵심이다.',
+   rec:['다른 모둠 분류기에서 내 문자의 판정:', '가장 날카로웠던 질문:', '다시 한다면 고칠 것 한 가지:']}
+ ],
+ sets:['스팸 분류 실습에서 조건부확률의 분모를 전체가 아닌 조건 사건으로 정확히 잡아 계산하고, 실험실 화면 값과 대조해 검증함. 단어를 순차적으로 추가하며 사후확률이 갱신되는 과정을 표로 정리하여 “정보가 들어올 때마다 판단이 고쳐진다”는 베이즈적 사고를 자기 언어로 설명함.',
+       '나이브 베이즈의 독립 가정에 주목하여, 함께 등장하기 쉬운 단어쌍을 반례로 제시하고 그 경우 계산이 어긋나는 방향까지 설명함. 정상 문자를 스팸으로 오분류시키는 사례를 스스로 구성해 위양성의 발생 구조를 확률로 규명하는 등 비판적 검토 능력이 뛰어남.',
+       '“정확도 99%”가 신뢰의 근거가 되지 못하는 이유를 희귀 사건에서의 위양성 비율로 설명하고, 자동 판정 결과를 그대로 받아들이지 않고 근거를 요구하는 태도를 보임. 갤러리 워크에서 동료의 분류기에 자신의 문자를 입력해 판정이 갈리는 원인을 가중치 차이로 분석함.']
+},
+
+/* ===== LAB 3 — 확산 ===== */
+spread:{
+ lab:3, t:'왜 순식간에 퍼질까 — 지수적 증가와 그 한계', pill:'같은 4단계 구조로 신규 설계',
+ head:{과목:'대수 · 고1~2', 단원:'Ⅰ. 지수함수와 로그함수', 형태:'프로젝트 · 모둠 3인', 시기:'2학기', 배점:'20점 만점 (기본 점수 8점)'},
+ cur:{
+  기준:['[12대수-01-05] 지수함수의 그래프를 그리고 그 성질을 이해한다.',
+        '[12대수-01-07] 로그함수의 그래프를 그리고 그 성질을 이해한다.',
+        '[12대수-01-08] 지수함수와 로그함수를 활용하여 실생활 문제를 해결한다.'],
+  핵심:'같은 비율로 거듭 곱해지는 변화는 사람의 직관보다 훨씬 빠르게 커지며, 로그는 그 폭발적인 크기를 다룰 수 있는 자로 바꿔 준다. 다만 현실의 확산은 무한히 커지지 않고 한계에 부딪힌다.',
+  지식:'지수함수의 그래프와 성질, 로그의 뜻과 성질, 로그함수의 그래프, 반감기·배가시간',
+  기능:'전파율과 초기값을 바꿔 가며 확산 곡선의 변화를 관찰하고, 배가시간을 로그로 구하며, 지수 모델과 실제 데이터가 어긋나는 지점을 찾아 그 이유를 서술한다.',
+  태도:'직관과 계산 결과가 어긋날 때 계산을 신뢰하되 모델의 가정을 함께 의심하는 태도, 그래프의 축 설정이 해석을 바꿀 수 있음을 인식하는 태도.',
+  흐름:['1차시 — 실험실에서 전파율을 바꿔 곡선의 변화를 관찰, 배가시간을 로그로 계산해 화면 값과 대조',
+        '2차시 — 로그 축으로 바꿔 다시 보기, 지수 모델이 실제와 어긋나는 지점(포화)을 찾아 논술 → 갤러리 워크',
+        '※ 수행평가는 2차시 전체(50분×2)에 실시']
+ },
+ intent:'“하루 만에 천만 뷰”라는 현상을 지수함수로 설명하되, <b>거기서 멈추지 않는 것</b>이 이 설계의 요점이다. 학생은 지수 모델로 예측한 값이 실제로는 반드시 어긋난다는 것을 확인하고, 그 이유(포화·한계)를 스스로 찾는다. 모델을 배우는 동시에 <b>모델을 의심하는 법</b>을 배우게 한다.',
+ labuse:'LAB 03 확산 시뮬레이터에서 전파율과 초기값 슬라이더를 움직여 곡선이 언제 “꺾이는지” 봅니다. 세로 축 배율을 바꾸면 같은 데이터가 전혀 다른 인상을 준다는 것도 함께 확인합니다 — 로그 축 도입의 자연스러운 동기가 됩니다.',
+ rub:[
+  {n:'①', e:'지수 모델 수립', c:'초기값과 전파율로 y = a·rˣ 형태의 식을 정확히 세우고 각 문자의 의미를 설명', p:4},
+  {n:'②', e:'배가시간 계산', c:'2 = rᵗ 에서 t = log 2 / log r 로 배가시간을 구하고 실험실 값과 대조', p:4},
+  {n:'③', e:'로그 축 해석', c:'같은 데이터를 로그 축으로 바꿔 그렸을 때 직선이 되는 이유를 로그의 성질로 설명', p:4},
+  {n:'④', e:'모델의 한계 발견', c:'지수 모델의 예측이 실제와 어긋나는 지점을 찾고 포화의 원인을 근거를 들어 제시', p:4},
+  {n:'⑤', e:'논술 — 예측의 책임', c:'모델로 예측한 수치를 공유할 때 함께 밝혀야 할 가정과 한계를 서술', p:4}
+ ],
+ base:8,
+ caution:['그래프의 축 배율을 바꿔 인상을 조작하는 것과 로그 축을 쓰는 것은 다르다. 이 차이를 서술하면 상(上)으로 본다.',
+          '모둠이 고른 사례가 달라도 모델 수립과 해석 절차가 옳으면 인정한다.',
+          '예측값의 자릿수만 크게 적고 가정을 밝히지 않은 경우 감점한다.',
+          '모둠 활동이므로 개별 역할과 개별 기록을 반드시 남긴다(시행지침 ⑦).'],
+ steps:[
+  {n:'STEP 0', t:'먼저 조작해 본다',
+   ask:'전파율을 조금만 올려도 결과가 얼마나 달라지는가?',
+   guide:'값을 바꾸기 전에 예측을 먼저 적는다. 직관이 얼마나 빗나가는지 확인하는 것이 목적이다.',
+   rec:['내 예측: 전파율 1.2 → 1.5 로 올리면 10일 뒤 ________ 배', '실제 결과: ________ 배', '예측과 얼마나 달랐는가:']},
+  {n:'STEP 1', t:'식으로 옮긴다', mini:'expmodel',
+   ask:'화면의 곡선을 식 하나로 쓸 수 있는가?',
+   guide:'y = a·rˣ 에서 a와 r이 각각 무엇을 뜻하는지 반드시 말로 적는다.',
+   rec:['우리 모둠의 식: y = ________ × ________ˣ', 'a의 의미: ____________  r의 의미: ____________']},
+  {n:'STEP 2', t:'배가시간을 로그로 구한다', mini:'doubling',
+   ask:'두 배가 되는 데 며칠 걸리는가?',
+   guide:'2 = rᵗ 의 양변에 로그를 취한다. 로그가 “지수를 끌어내리는 도구”임을 확인하는 자리다.',
+   rec:['t = log 2 / log ________ = ________ 일', '실험실 화면 값 = ________ → 일치하는가?']},
+  {n:'STEP 3', t:'로그 축으로 바꿔 본다', mini:'logaxis',
+   ask:'세로 축을 로그로 바꾸면 곡선이 왜 직선이 되는가?',
+   guide:'log(a·rˣ) = log a + x·log r. 직선의 기울기가 log r 이다.',
+   rec:['직선이 되는 이유:', '그 직선의 기울기가 뜻하는 것:']},
+  {n:'STEP 4', t:'모델이 깨지는 곳을 찾는다',
+   ask:'이 모델대로면 한 달 뒤 인구보다 많아진다. 실제로는 왜 그렇지 않은가?',
+   guide:'모든 모델에는 적용 범위가 있다. 어디까지 믿을 수 있는지를 정하는 것이 모델링의 마지막 단계다.',
+   rec:['모델이 어긋나기 시작하는 지점: ________', '포화가 생기는 이유:', '어디까지 믿을 수 있는가:']},
+  {n:'STEP 5', t:'논술 — 예측을 공유할 때의 책임',
+   ask:'이 예측치를 누군가에게 전할 때 무엇을 함께 말해야 하는가?',
+   guide:'숫자만 전하면 오해가 생긴다. 가정·범위·한계를 함께 밝히는 연습이다.',
+   rec:['(가) 우리 예측과 그 가정:', '(나) 반드시 함께 밝혀야 할 한계:']},
+  {n:'STEP 6', t:'갤러리 워크 — 받은 피드백과 고칠 것',
+   ask:'다른 모둠은 어떤 사례에서 모델이 깨진다고 보았는가?',
+   guide:'사례가 다르면 포화의 원인도 다르다. 원인의 종류를 모아 보는 것이 이 단계의 수확이다.',
+   rec:['다른 모둠이 찾은 포화의 원인:', '가장 날카로웠던 질문:', '다시 한다면 고칠 것 한 가지:']}
+ ],
+ sets:['확산 시뮬레이터를 활용해 전파율 변화가 결과에 미치는 영향을 예측한 뒤 실제 값과 대조하여 지수적 증가가 직관을 크게 벗어남을 확인함. 배가시간을 2 = rᵗ 에서 로그를 취해 유도하고 화면 값과 일치함을 검증하는 등 로그를 “지수를 끌어내리는 도구”로 이해하고 활용함.',
+       '같은 데이터를 로그 축으로 바꿔 그리면 직선이 되는 이유를 log(a·rˣ) = log a + x·log r 로 설명하고, 기울기가 log r 임을 정확히 해석함. 나아가 축 배율 조작으로 인상을 바꾸는 것과 로그 축을 쓰는 것의 차이를 구분해 서술하여 자료 해석의 비판적 시각을 보임.',
+       '지수 모델의 예측이 현실과 어긋나는 지점을 스스로 찾아 포화의 원인을 제시하고, 예측치를 공유할 때 가정과 적용 범위를 함께 밝혀야 한다는 점을 논술함. 모델을 배우는 데 그치지 않고 모델의 한계를 검토하는 태도가 특히 우수함.']
+}
+};
+
+/* ================= 탭④ STEP별 미니 실험 도구 =================
+   탭①의 실험실은 “개념을 보여 주는” 자료이고, 여기 도구는 그 수업의 STEP에서
+   학생이 자기 값을 넣어 계산하고 손계산과 대조하는 것이 목적이다.
+   그래서 답만 뱉지 않고 반드시 중간 과정을 함께 보여 준다. */
+
+const mfmt = (v, d) => (Math.round(v * Math.pow(10, d||2)) / Math.pow(10, d||2)).toLocaleString('ko-KR');
+function miniBox(root, title, ctlHTML, outId){
+  root.innerHTML = `<div class="mnb"><div class="mnt">${title}</div>
+    <div class="mnc">${ctlHTML}</div><div class="mno" id="${outId}"></div></div>`;
+}
+const num = (id, label, val, step) =>
+  `<label class="mnl">${label}<input type="number" id="${id}" value="${val}" step="${step||'any'}"></label>`;
+
+const MINI = {
+
+/* ---------- GPS 수행평가 ---------- */
+geo(root){
+  miniBox(root, '위도·경도 → 거리 변환기',
+    num('g_la1','A 위도',36.3209,0.0001)+num('g_lo1','A 경도',127.3822,0.0001)+
+    num('g_la2','B 위도',36.3263,0.0001)+num('g_lo2','B 경도',127.3889,0.0001), 'g_out');
+  const calc=()=>{
+    const la1=+$('#g_la1').value, lo1=+$('#g_lo1').value, la2=+$('#g_la2').value, lo2=+$('#g_lo2').value;
+    const dla=la2-la1, dlo=lo2-lo1, phi=(la1+la2)/2;
+    const ns=dla*111000, ew=dlo*111000*Math.cos(phi*Math.PI/180), d=Math.hypot(ns,ew);
+    $('#g_out').innerHTML=
+      `<div class="mnr">Δ위도 = ${mfmt(dla,6)}° &nbsp;·&nbsp; Δ경도 = ${mfmt(dlo,6)}°</div>
+       <div class="mnr">cos(${mfmt(phi,4)}°) = <b>${mfmt(Math.cos(phi*Math.PI/180),4)}</b> ← 경도에 곱하는 값</div>
+       <div class="mnr">세로 거리 = ${mfmt(dla,6)} × 111,000 = <b>${mfmt(ns,1)} m</b></div>
+       <div class="mnr">가로 거리 = ${mfmt(dlo,6)} × 111,000 × ${mfmt(Math.cos(phi*Math.PI/180),4)} = <b>${mfmt(ew,1)} m</b></div>
+       <div class="mnr big">두 지점 거리 = √(${mfmt(ew,1)}² + ${mfmt(ns,1)}²) = <b>${mfmt(d,1)} m</b></div>`;
+  };
+  ['g_la1','g_lo1','g_la2','g_lo2'].forEach(i=>$('#'+i).oninput=calc); calc();
+},
+
+divpt(root){
+  miniBox(root, '내분점 계산기 — 비를 바꿔 가며',
+    num('d_x1','A의 x',2,0.5)+num('d_y1','A의 y',1,0.5)+num('d_x2','B의 x',8,0.5)+num('d_y2','B의 y',7,0.5)+
+    num('d_m','비 m',1,1)+num('d_n','비 n',2,1), 'd_out');
+  const cv=el('<canvas width="300" height="220" class="mncv"></canvas>');
+  const calc=()=>{
+    const x1=+$('#d_x1').value,y1=+$('#d_y1').value,x2=+$('#d_x2').value,y2=+$('#d_y2').value;
+    const m=+$('#d_m').value,n=+$('#d_n').value, s=m+n;
+    if(!s) return;
+    const px=(m*x2+n*x1)/s, py=(m*y2+n*y1)/s, mx=(x1+x2)/2, my=(y1+y2)/2;
+    $('#d_out').innerHTML=
+      `<div class="mnr">P = ( (m·x₂ + n·x₁)/(m+n) , (m·y₂ + n·y₁)/(m+n) )</div>
+       <div class="mnr">= ( (${m}·${x2} + ${n}·${x1})/${s} , (${m}·${y2} + ${n}·${y1})/${s} )</div>
+       <div class="mnr big"><b>${m} : ${n} 내분점 = (${mfmt(px)}, ${mfmt(py)})</b></div>
+       <div class="mnr">참고 · 중점 M = (${mfmt(mx)}, ${mfmt(my)})</div>`;
+    $('#d_out').appendChild(cv);
+    const c=cv.getContext('2d'), X=v=>20+v*26, Y=v=>200-v*26;
+    c.clearRect(0,0,300,220); c.strokeStyle='#EEE';
+    for(let i=0;i<=10;i++){c.beginPath();c.moveTo(X(i),Y(0));c.lineTo(X(i),Y(7.5));c.stroke();
+      c.beginPath();c.moveTo(X(0),Y(i*0.75));c.lineTo(X(10),Y(i*0.75));c.stroke();}
+    c.strokeStyle='#9CA3AF';c.lineWidth=1.6;c.beginPath();c.moveTo(X(x1),Y(y1));c.lineTo(X(x2),Y(y2));c.stroke();
+    c.fillStyle='#111827';[[x1,y1,'A'],[x2,y2,'B']].forEach(p=>{
+      c.beginPath();c.arc(X(p[0]),Y(p[1]),4,0,7);c.fill();
+      c.font='bold 11px sans-serif';c.fillText(p[2],X(p[0])+6,Y(p[1])-6);});
+    c.fillStyle='#0E9384';c.beginPath();c.arc(X(mx),Y(my),3.5,0,7);c.fill();
+    c.fillStyle='#BE123C';c.beginPath();c.arc(X(px),Y(py),5,0,7);c.fill();
+    c.font='bold 11px sans-serif';c.fillText('P',X(px)+7,Y(py)-6);
+  };
+  ['d_x1','d_y1','d_x2','d_y2','d_m','d_n'].forEach(i=>$('#'+i).oninput=calc); calc();
+},
+
+perp(root){
+  miniBox(root, '수직·평행 직선 구하기 — 도로 ax + by + c = 0',
+    num('p_a','a',3,1)+num('p_b','b',4,1)+num('p_c','c',-12,1)+
+    num('p_px','점 P의 x',5,0.5)+num('p_py','점 P의 y',4,0.5), 'p_out');
+  const calc=()=>{
+    const a=+$('#p_a').value,b=+$('#p_b').value,c=+$('#p_c').value,x=+$('#p_px').value,y=+$('#p_py').value;
+    const sl = b!==0 ? -a/b : null;
+    // 평행: a x + b y = a x0 + b y0   /   수직: b x - a y = b x0 - a y0
+    const par=a*x+b*y, per=b*x-a*y;
+    $('#p_out').innerHTML=
+      `<div class="mnr">도로의 기울기 = −a/b = ${sl===null?'정의되지 않음(세로선)':mfmt(sl,3)}</div>
+       <div class="mnr"><b>평행</b> — 기울기가 같아야 하므로 a, b 를 그대로 두고 상수만 바꿉니다.</div>
+       <div class="mnr big">${a}x + ${b}y − ${mfmt(par,2)} = 0</div>
+       <div class="mnr"><b>수직</b> — 기울기 곱이 −1 이 되려면 a 와 b 를 맞바꾸고 부호를 하나 뒤집습니다.</div>
+       <div class="mnr big">${b}x − ${a}y − ${mfmt(per,2)} = 0</div>
+       <div class="mnr">검산 · 두 기울기의 곱 = ${sl===null||a===0?'—':mfmt(sl*(b/a),3)} (−1 이어야 함)</div>`;
+  };
+  ['p_a','p_b','p_c','p_px','p_py'].forEach(i=>$('#'+i).oninput=calc); calc();
+},
+
+pdist(root){
+  miniBox(root, '점과 직선 사이 거리 — 세 후보 비교',
+    num('q_a','a',3,1)+num('q_b','b',4,1)+num('q_c','c',-12,1)+
+    num('q_x1','M의 x',5,0.5)+num('q_y1','M의 y',4,0.5)+
+    num('q_x2','P₁의 x',4,0.5)+num('q_y2','P₁의 y',3,0.5)+
+    num('q_x3','P₂의 x',6,0.5)+num('q_y3','P₂의 y',5,0.5), 'q_out');
+  const calc=()=>{
+    const a=+$('#q_a').value,b=+$('#q_b').value,c=+$('#q_c').value, den=Math.hypot(a,b);
+    const pts=[['M',+$('#q_x1').value,+$('#q_y1').value],['P₁',+$('#q_x2').value,+$('#q_y2').value],
+               ['P₂',+$('#q_x3').value,+$('#q_y3').value]];
+    const ds=pts.map(p=>({n:p[0],x:p[1],y:p[2],d:Math.abs(a*p[1]+b*p[2]+c)/den}));
+    const min=Math.min(...ds.map(o=>o.d));
+    $('#q_out').innerHTML=
+      `<div class="mnr">d = |ax₀ + by₀ + c| / √(a² + b²) &nbsp;·&nbsp; 분모 √(${a}² + ${b}²) = <b>${mfmt(den,3)}</b></div>`
+      + ds.map(o=>`<div class="mnr ${o.d===min?'hit':''}">${o.n}(${o.x}, ${o.y}) →
+          |${a}·${o.x} + ${b}·${o.y} + ${c}| / ${mfmt(den,3)} = <b>${mfmt(o.d,2)}</b>${o.d===min?' ← 가장 가까움':''}</div>`).join('');
+  };
+  ['q_a','q_b','q_c','q_x1','q_y1','q_x2','q_y2','q_x3','q_y3'].forEach(i=>$('#'+i).oninput=calc); calc();
+},
+
+circline(root){
+  miniBox(root, '원과 직선의 위치 관계 판정기',
+    num('c_h','중심 x',5,0.5)+num('c_k','중심 y',4,0.5)+num('c_r','반지름 r',4,0.1)+
+    num('c_a','a',3,1)+num('c_b','b',4,1)+num('c_c','c',-12,1), 'c_out');
+  const cv=el('<canvas width="300" height="230" class="mncv"></canvas>');
+  const calc=()=>{
+    const h=+$('#c_h').value,k=+$('#c_k').value,r=+$('#c_r').value,
+          a=+$('#c_a').value,b=+$('#c_b').value,c0=+$('#c_c').value;
+    const den=Math.hypot(a,b)||1, d=Math.abs(a*h+b*k+c0)/den;
+    const rel = d<r ? '두 점에서 만난다 (할선)' : Math.abs(d-r)<1e-9 ? '한 점에서 만난다 (접선)' : '만나지 않는다';
+    const cls = d<r ? 'ok' : Math.abs(d-r)<1e-9 ? 'mid' : 'no';
+    $('#c_out').innerHTML=
+      `<div class="mnr">원 : (x − ${h})² + (y − ${k})² = ${mfmt(r*r,2)}</div>
+       <div class="mnr">중심에서 직선까지 d = |${a}·${h} + ${b}·${k} + ${c0}| / ${mfmt(den,3)} = <b>${mfmt(d,3)}</b></div>
+       <div class="mnr big ${cls}">d = ${mfmt(d,2)} ${d<r?'<':Math.abs(d-r)<1e-9?'=':'>'} r = ${mfmt(r,2)} → <b>${rel}</b></div>`;
+    $('#c_out').appendChild(cv);
+    const cx=cv.getContext('2d'), X=v=>20+v*26, Y=v=>210-v*26;
+    cx.clearRect(0,0,300,230); cx.strokeStyle='#EEE';
+    for(let i=0;i<=10;i++){cx.beginPath();cx.moveTo(X(i),Y(0));cx.lineTo(X(i),Y(8));cx.stroke();
+      cx.beginPath();cx.moveTo(X(0),Y(i*0.8));cx.lineTo(X(10),Y(i*0.8));cx.stroke();}
+    cx.strokeStyle='#111827';cx.lineWidth=1.8;cx.beginPath();
+    if(b!==0){cx.moveTo(X(0),Y(-c0/b));cx.lineTo(X(10),Y((-c0-a*10)/b));}
+    else {cx.moveTo(X(-c0/a),Y(0));cx.lineTo(X(-c0/a),Y(8));}
+    cx.stroke();
+    cx.strokeStyle=d<r?'#0E9384':d>r?'#BE123C':'#B45309';cx.lineWidth=2.2;
+    cx.beginPath();cx.arc(X(h),Y(k),r*26,0,7);cx.stroke();
+    cx.fillStyle='#2563EB';cx.beginPath();cx.arc(X(h),Y(k),3.5,0,7);cx.fill();
+  };
+  ['c_h','c_k','c_r','c_a','c_b','c_c'].forEach(i=>$('#'+i).oninput=calc); calc();
+},
+
+/* ---------- y = x 대칭의 발견 수행평가 ---------- */
+invfn(root){
+  miniBox(root, '역함수 계산기 — x 와 y 를 맞바꾸면',
+    `<label class="mnl">함수 종류<select id="v_k">
+       <option value="lin">일차 f(x) = ax + b</option>
+       <option value="rat">유리 f(x) = (ax + b)/(cx + d)</option></select></label>`
+    +num('v_a','a',2,1)+num('v_b','b',-3,1)+num('v_c','c',0,1)+num('v_d','d',1,1)
+    +num('v_t','확인할 x 값',3,0.5), 'v_out');
+  const cv=el('<canvas width="300" height="300" class="mncv"></canvas>');
+  const calc=()=>{
+    const k=$('#v_k').value, a=+$('#v_a').value, b=+$('#v_b').value,
+          c=+$('#v_c').value, d=+$('#v_d').value, t=+$('#v_t').value;
+    $('#v_c').parentNode.style.display = k==='rat' ? '' : 'none';
+    $('#v_d').parentNode.style.display = k==='rat' ? '' : 'none';
+    let f, g, fs, gs, steps;
+    if(k==='lin'){
+      f=x=>a*x+b; g=y=>(y-b)/a;
+      fs=`f(x) = ${a}x ${b<0?'−':'+'} ${Math.abs(b)}`;
+      gs=`f⁻¹(x) = (x ${b<0?'+':'−'} ${Math.abs(b)}) / ${a}`;
+      steps=[`y = ${a}x ${b<0?'−':'+'} ${Math.abs(b)} 에서 x 와 y 를 맞바꾼다`,
+             `x = ${a}y ${b<0?'−':'+'} ${Math.abs(b)}`,
+             `y 에 대해 풀면 → ${gs}`];
+    } else {
+      f=x=>(a*x+b)/(c*x+d); g=y=>(d*y-b)/(-c*y+a);
+      // 역함수의 계수 (d, −b) / (−c, a) 를 약분하고 부호를 정리해 교과서 형태로 만든다.
+      // 그러지 않으면 (−1x − 1)/(−1x + 2) 처럼 나와 채점기준의 (x+1)/(x−2) 와 모양이 달라진다.
+      const gcd=(m,n)=>{m=Math.abs(m);n=Math.abs(n);while(n){[m,n]=[n,m%n];}return m||1;};
+      let A=d, B=-b, C=-c, D=a;
+      const k=gcd(gcd(A,B),gcd(C,D));
+      if(k>1){A/=k;B/=k;C/=k;D/=k;}
+      if(C<0 || (C===0 && D<0)){A=-A;B=-B;C=-C;D=-D;}   // 분모의 x 계수를 양수로
+      const lin=(m,n)=>{
+        const mx = m===0 ? '' : (m===1?'x':m===-1?'−x':`${m}x`);
+        if(n===0) return mx || '0';
+        return (mx? mx+' ' : '') + (n<0?'− ':'+ ') + Math.abs(n);
+      };
+      fs=`f(x) = (${lin(a,b)}) / (${lin(c,d)})`;
+      gs=`f⁻¹(x) = (${lin(A,B)}) / (${lin(C,D)})`;
+      steps=[`y = (${lin(a,b)}) / (${lin(c,d)}) 에서 x 와 y 를 맞바꾼다`,
+             `x(${lin(c,d).replace(/x/,'y')}) = ${lin(a,b).replace(/x/,'y')} 로 분모를 넘긴다`,
+             `y 에 대해 정리하면 → ${gs}`];
+    }
+    const ft=f(t), gt=g(ft);
+    $('#v_out').innerHTML =
+      `<div class="mnr">${fs}</div>`
+      + steps.map((s,i)=>`<div class="mnr">${i+1}. ${s}</div>`).join('')
+      + `<div class="mnr big">${gs}</div>
+         <div class="mnr">대응점 확인 · f(${t}) = <b>${mfmt(ft,3)}</b> 이므로 원함수 위의 점은 (${t}, ${mfmt(ft,3)})</div>
+         <div class="mnr">역함수 위의 점은 좌표가 뒤바뀐 (${mfmt(ft,3)}, ${mfmt(gt,3)}) → f⁻¹(f(${t})) = <b>${mfmt(gt,3)}</b></div>`;
+    $('#v_out').appendChild(cv);
+    const cx=cv.getContext('2d'), S=28, O=150, X=v=>O+v*S, Y=v=>O-v*S;
+    cx.clearRect(0,0,300,300);
+    cx.strokeStyle='#EEE'; for(let i=-5;i<=5;i++){
+      cx.beginPath();cx.moveTo(X(i),0);cx.lineTo(X(i),300);cx.stroke();
+      cx.beginPath();cx.moveTo(0,Y(i));cx.lineTo(300,Y(i));cx.stroke();}
+    cx.strokeStyle='#9CA3AF';cx.beginPath();cx.moveTo(0,O);cx.lineTo(300,O);
+    cx.moveTo(O,0);cx.lineTo(O,300);cx.stroke();
+    cx.strokeStyle='#B45309';cx.setLineDash([4,3]);cx.beginPath();
+    cx.moveTo(X(-5),Y(-5));cx.lineTo(X(5),Y(5));cx.stroke();cx.setLineDash([]);
+    const plot=(fn,col)=>{ cx.strokeStyle=col;cx.lineWidth=2.2;cx.beginPath();let up=true;
+      for(let px=0;px<=300;px++){ const x=(px-O)/S, y=fn(x);
+        if(!isFinite(y)||Math.abs(y)>8){up=true;continue;}
+        if(up){cx.moveTo(px,Y(y));up=false;} else cx.lineTo(px,Y(y)); }
+      cx.stroke(); };
+    plot(f,'#2563EB'); plot(g,'#0E9384');
+    cx.fillStyle='#6B7280';cx.font='10px sans-serif';
+    cx.fillText('f(x)',8,14); cx.fillText('f⁻¹(x)',8,26); cx.fillText('y = x',8,38);
+    cx.fillStyle='#2563EB';cx.fillRect(36,7,10,3);
+    cx.fillStyle='#0E9384';cx.fillRect(36,19,10,3);
+    cx.fillStyle='#B45309';cx.fillRect(36,31,10,3);
+  };
+  ['v_k','v_a','v_b','v_c','v_d','v_t'].forEach(i=>{const e=$('#'+i); e.oninput=calc; e.onchange=calc;}); calc();
+},
+
+invroot(root){
+  miniBox(root, '무리함수의 역함수 — 정의역 제한이 왜 생기는가',
+    num('r_p','y = √(x − p) + q 의 p',2,0.5)+num('r_q','q',1,0.5), 'r_out');
+  const cv=el('<canvas width="300" height="300" class="mncv"></canvas>');
+  const calc=()=>{
+    const p=+$('#r_p').value, q=+$('#r_q').value;
+    const f=x=>x>=p?Math.sqrt(x-p)+q:NaN, g=x=>x>=q?Math.pow(x-q,2)+p:NaN;
+    $('#r_out').innerHTML=
+      `<div class="mnr">1. y = √(x − ${p}) + ${q} 에서 양변에서 ${q} 를 뺀다 → y − ${q} = √(x − ${p})</div>
+       <div class="mnr">2. 제곱한다 → (y − ${q})² = x − ${p}</div>
+       <div class="mnr">3. x 와 y 를 맞바꾸면 → y = (x − ${q})² + ${p}</div>
+       <div class="mnr big">f⁻¹(x) = (x − ${q})² + ${p} ,&nbsp; 단 <b>x ≥ ${q}</b></div>
+       <div class="mnr">원함수 · 정의역 x ≥ <b>${p}</b> , 치역 y ≥ <b>${q}</b></div>
+       <div class="mnr">역함수 · 정의역 x ≥ <b>${q}</b> ← 원함수의 <b>치역</b>이 그대로 옵니다</div>
+       <div class="mnr">← 제곱하는 순간 아래쪽 가지까지 생기므로, 제한하지 않으면 함수가 아니게 됩니다.</div>
+       <div class="mnr">합성 검증 · f(f⁻¹(x)) = √((x − ${q})² + ${p} − ${p}) + ${q} = |x − ${q}| + ${q} = x (x ≥ ${q} 이므로)</div>`;
+    $('#r_out').appendChild(cv);
+    const cx=cv.getContext('2d'), S=26, O=90, X=v=>O+v*S, Y=v=>300-O-v*S;
+    cx.clearRect(0,0,300,300);
+    cx.strokeStyle='#EEE'; for(let i=-3;i<=8;i++){
+      cx.beginPath();cx.moveTo(X(i),0);cx.lineTo(X(i),300);cx.stroke();
+      cx.beginPath();cx.moveTo(0,Y(i));cx.lineTo(300,Y(i));cx.stroke();}
+    cx.strokeStyle='#9CA3AF';cx.beginPath();cx.moveTo(0,Y(0));cx.lineTo(300,Y(0));
+    cx.moveTo(X(0),0);cx.lineTo(X(0),300);cx.stroke();
+    cx.strokeStyle='#B45309';cx.setLineDash([4,3]);cx.beginPath();
+    cx.moveTo(X(-3),Y(-3));cx.lineTo(X(8),Y(8));cx.stroke();cx.setLineDash([]);
+    // 버려지는 아래쪽 가지 — 왜 제한이 필요한지 보이기 위해 흐리게 그린다
+    cx.strokeStyle='#E5E7EB';cx.lineWidth=2;cx.beginPath();
+    for(let px=0;px<=300;px++){const x=(px-O)/S; if(x<q)continue; cx.lineTo(px,Y(-Math.pow(x-q,2)-p+2*p));}
+    cx.stroke();
+    const plot=(fn,col)=>{cx.strokeStyle=col;cx.lineWidth=2.4;cx.beginPath();let up=true;
+      for(let px=0;px<=300;px++){const x=(px-O)/S,y=fn(x);
+        if(!isNaN(y)&&isFinite(y)&&Math.abs(y)<12){ if(up){cx.moveTo(px,Y(y));up=false;} else cx.lineTo(px,Y(y)); } else up=true;}
+      cx.stroke();};
+    plot(f,'#2563EB'); plot(g,'#0E9384');
+    cx.fillStyle='#6B7280';cx.font='10px sans-serif';
+    cx.fillText('√ 원함수',8,14); cx.fillText('제한된 이차 = 역함수',8,26); cx.fillText('버려지는 가지',8,38);
+    cx.fillStyle='#2563EB';cx.fillRect(108,7,10,3);
+    cx.fillStyle='#0E9384';cx.fillRect(108,19,10,3);
+    cx.fillStyle='#D1D5DB';cx.fillRect(108,31,10,3);
+  };
+  ['r_p','r_q'].forEach(i=>$('#'+i).oninput=calc); calc();
+},
+
+symmove(root){
+  miniBox(root, '대칭 작도기 — y = x 선대칭과 점대칭을 나란히',
+    `<label class="mnl">대칭 종류<select id="s_k">
+       <option value="yx">y = x 대칭 (x, y) → (y, x)</option>
+       <option value="o">원점 점대칭 (x, y) → (−x, −y)</option>
+       <option value="pq">점 (p, q) 대칭 (x, y) → (2p−x, 2q−y)</option>
+       <option value="both">셋 다 겹쳐 보기</option></select></label>`
+    +num('s_p','p',3,0.5)+num('s_q','q',3,0.5)
+    +`<label class="mnl">꼭짓점 (x,y 쌍)<input type="text" id="s_pts" value="1,3 3,7 2,4 5,6"></label>`, 's_out');
+  const cv=el('<canvas width="320" height="320" class="mncv"></canvas>');
+  const calc=()=>{
+    const k=$('#s_k').value, p=+$('#s_p').value, q=+$('#s_q').value;
+    const pts=($('#s_pts').value||'').trim().split(/\s+/).map(s=>s.split(',').map(Number))
+              .filter(a=>a.length===2 && a.every(v=>!isNaN(v)));
+    const show = k==='pq' || k==='both';
+    $('#s_p').parentNode.style.display = show?'':'none';
+    $('#s_q').parentNode.style.display = show?'':'none';
+    const yx = pts.map(a=>[a[1],a[0]]), o = pts.map(a=>[-a[0],-a[1]]),
+          pq = pts.map(a=>[2*p-a[0], 2*q-a[1]]);
+    const nm='ABCDEFGH';
+    const row=(t,arr,c,mk)=>`<div class="mnr" style="color:${c}">${t} : `
+      + arr.map((a,i)=>`${nm[i]}${mk}(${mfmt(a[0],1)}, ${mfmt(a[1],1)})`).join('  ') + '</div>';
+    let html = `<div class="mnr">원래 : ` + pts.map((a,i)=>`${nm[i]}(${a[0]}, ${a[1]})`).join('  ') + '</div>';
+    if(k==='yx'||k==='both') html += row('y = x 대칭  (x, y) → (y, x)', yx, '#2563EB', '′');
+    if(k==='o' ||k==='both') html += row('원점 점대칭  (x, y) → (−x, −y)', o, '#BE123C', '″');
+    if(k==='pq'||k==='both') html += row(`점 (${p}, ${q}) 대칭  (x, y) → (${2*p}−x, ${2*q}−y)`, pq, '#7C3AED', '‴');
+    html += `<div class="mnr big">y = x 대칭은 <b>좌표를 맞바꾸고</b>, 점대칭은 <b>부호를 뒤집습니다.</b>
+             둘 다 길이와 각을 보존하므로 오목·볼록은 바뀌지 않습니다.</div>`;
+    $('#s_out').innerHTML = html;
+    $('#s_out').appendChild(cv);
+    const cx=cv.getContext('2d'), S=20, O=160, X=v=>O+v*S, Y=v=>O-v*S;
+    cx.clearRect(0,0,320,320);
+    cx.strokeStyle='#F1F3F6'; for(let i=-8;i<=8;i++){
+      cx.beginPath();cx.moveTo(X(i),0);cx.lineTo(X(i),320);cx.stroke();
+      cx.beginPath();cx.moveTo(0,Y(i));cx.lineTo(320,Y(i));cx.stroke();}
+    cx.strokeStyle='#9CA3AF';cx.beginPath();cx.moveTo(0,Y(0));cx.lineTo(320,Y(0));
+    cx.moveTo(X(0),0);cx.lineTo(X(0),320);cx.stroke();
+    cx.strokeStyle='#B45309';cx.setLineDash([4,3]);cx.beginPath();
+    cx.moveTo(X(-8),Y(-8));cx.lineTo(X(8),Y(8));cx.stroke();cx.setLineDash([]);
+    const poly=(arr,col,lab)=>{
+      if(!arr.length) return;
+      cx.strokeStyle=col;cx.lineWidth=2;cx.beginPath();
+      arr.forEach((a,i)=>i?cx.lineTo(X(a[0]),Y(a[1])):cx.moveTo(X(a[0]),Y(a[1])));
+      cx.closePath();cx.stroke();
+      cx.fillStyle=col;arr.forEach((a,i)=>{cx.beginPath();cx.arc(X(a[0]),Y(a[1]),3,0,7);cx.fill();
+        cx.font='bold 10px sans-serif';cx.fillText(nm[i]+lab,X(a[0])+5,Y(a[1])-5);});
+    };
+    poly(pts,'#111827','');
+    if(k==='yx'||k==='both') poly(yx,'#2563EB','′');
+    if(k==='o' ||k==='both') poly(o,'#BE123C','″');
+    if(k==='pq'||k==='both'){ poly(pq,'#7C3AED','‴');
+      cx.fillStyle='#7C3AED';cx.beginPath();cx.arc(X(p),Y(q),4,0,7);cx.fill(); }
+  };
+  ['s_k','s_p','s_q','s_pts'].forEach(i=>{const e=$('#'+i);e.oninput=calc;e.onchange=calc;}); calc();
+},
+
+/* ---------- 베이즈 수행평가 ---------- */
+cond(root){
+  miniBox(root, '조건부확률 계산기 — 분모가 무엇인지 보기',
+    num('b_ps','P(스팸)',0.3,0.01)+num('b_ws','P(단어|스팸)',0.6,0.01)+num('b_wn','P(단어|정상)',0.05,0.01), 'b_out');
+  const calc=()=>{
+    const ps=+$('#b_ps').value, ws=+$('#b_ws').value, wn=+$('#b_wn').value, pn=1-ps;
+    const num1=ws*ps, den=ws*ps+wn*pn, post=den?num1/den:0;
+    $('#b_out').innerHTML=
+      `<div class="mnr">분자 = P(단어|스팸)·P(스팸) = ${ws} × ${mfmt(ps,3)} = <b>${mfmt(num1,4)}</b></div>
+       <div class="mnr">분모 = 위 + P(단어|정상)·P(정상) = ${mfmt(num1,4)} + ${wn} × ${mfmt(pn,3)} = <b>${mfmt(den,4)}</b></div>
+       <div class="mnr">← 분모는 “전체”가 아니라 <b>그 단어가 나올 모든 경우</b>입니다.</div>
+       <div class="mnr big">P(스팸|단어) = ${mfmt(num1,4)} / ${mfmt(den,4)} = <b>${mfmt(post*100,1)}%</b></div>
+       <div class="mnr">사전 ${mfmt(ps*100,1)}% → 사후 <b>${mfmt(post*100,1)}%</b> (${post>ps?'올라감':'내려감'})</div>`;
+  };
+  ['b_ps','b_ws','b_wn'].forEach(i=>$('#'+i).oninput=calc); calc();
+},
+
+bayeschain(root){
+  miniBox(root, '단어를 하나씩 더할 때의 갱신 — 사후가 다음의 사전이 된다',
+    num('n_p0','처음 P(스팸)',0.3,0.01)+
+    `<label class="mnl">단어별 P(w|S) : P(w|N) — 쉼표로<input type="text" id="n_list" value="0.6:0.05, 0.4:0.1, 0.5:0.2"></label>`, 'n_out');
+  const calc=()=>{
+    let p=+$('#n_p0').value;
+    const rows=[`<div class="mnr">시작 · P(스팸) = <b>${mfmt(p*100,1)}%</b></div>`];
+    ($('#n_list').value||'').split(',').forEach((s,i)=>{
+      const m=s.split(':').map(x=>parseFloat(x.trim()));
+      if(m.length<2 || isNaN(m[0]) || isNaN(m[1])) return;
+      const num1=m[0]*p, den=num1+m[1]*(1-p);
+      const np=den?num1/den:p;
+      rows.push(`<div class="mnr">단어 ${i+1} (${m[0]} : ${m[1]}) → ${mfmt(p*100,1)}% 에서
+        <b>${mfmt(np*100,1)}%</b> 로 갱신</div>`);
+      p=np;
+    });
+    rows.push(`<div class="mnr big">최종 P(스팸 | 모든 단어) = <b>${mfmt(p*100,1)}%</b></div>`);
+    $('#n_out').innerHTML=rows.join('');
+  };
+  ['n_p0','n_list'].forEach(i=>$('#'+i).oninput=calc); calc();
+},
+
+/* ---------- 확산 수행평가 ---------- */
+expmodel(root){
+  miniBox(root, '지수 모델 계산기 — 직관과 얼마나 다른가',
+    num('e_a','처음 값 a',10,1)+num('e_r','전파율 r',1.5,0.05)+num('e_x','며칠 뒤 x',10,1), 'e_out');
+  const calc=()=>{
+    const a=+$('#e_a').value, r=+$('#e_r').value, x=+$('#e_x').value;
+    const y=a*Math.pow(r,x);
+    let tb='<div class="mnt2">날짜별 값</div><div class="mntb">';
+    for(let i=0;i<=Math.min(x,10);i++) tb+=`<span>${i}일 · ${mfmt(a*Math.pow(r,i),0)}</span>`;
+    tb+='</div>';
+    $('#e_out').innerHTML=
+      `<div class="mnr">y = a·rˣ = ${a} × ${r}^${x}</div>
+       <div class="mnr big">${x}일 뒤 = <b>${mfmt(y,0)}</b> (처음의 ${mfmt(y/a,1)}배)</div>`+tb;
+  };
+  ['e_a','e_r','e_x'].forEach(i=>$('#'+i).oninput=calc); calc();
+},
+
+doubling(root){
+  miniBox(root, '배가시간 — 로그가 지수를 끌어내리는 자리',
+    num('t_r','전파율 r',1.5,0.01), 't_out');
+  const calc=()=>{
+    const r=+$('#t_r').value;
+    if(r<=1){ $('#t_out').innerHTML='<div class="mnr big no">r 이 1보다 커야 두 배가 됩니다.</div>'; return; }
+    const t=Math.log(2)/Math.log(r);
+    $('#t_out').innerHTML=
+      `<div class="mnr">2 = r<sup>t</sup> 의 양변에 로그를 취하면</div>
+       <div class="mnr">log 2 = t · log r &nbsp;⇒&nbsp; t = log 2 / log r</div>
+       <div class="mnr">log 2 = ${mfmt(Math.log10(2),4)} &nbsp;·&nbsp; log ${r} = ${mfmt(Math.log10(r),4)}</div>
+       <div class="mnr big">배가시간 t = <b>${mfmt(t,2)} 일</b></div>
+       <div class="mnr">참고 · 72의 법칙 : 72 / ${mfmt((r-1)*100,1)} = ${mfmt(72/((r-1)*100),2)} 일 (근사)</div>`;
+  };
+  $('#t_r').oninput=calc; calc();
+},
+
+logaxis(root){
+  miniBox(root, '로그 축으로 바꾸면 왜 직선이 되는가',
+    num('l_a','처음 값 a',10,1)+num('l_r','전파율 r',1.5,0.05), 'l_out');
+  const cv=el('<canvas width="320" height="200" class="mncv"></canvas>');
+  const calc=()=>{
+    const a=+$('#l_a').value, r=+$('#l_r').value;
+    $('#l_out').innerHTML=
+      `<div class="mnr">log y = log a + x·log r = ${mfmt(Math.log10(a),3)} + x × ${mfmt(Math.log10(r),3)}</div>
+       <div class="mnr big">x 에 대한 <b>일차식</b>이므로 로그 축에서는 직선이고, 기울기는 log r = ${mfmt(Math.log10(r),3)}</div>
+       <div class="mnr">아래 · 왼쪽은 보통 축, 오른쪽은 세로를 로그로 바꾼 축</div>`;
+    $('#l_out').appendChild(cv);
+    const c=cv.getContext('2d'); c.clearRect(0,0,320,200);
+    const N=14, ys=[]; for(let i=0;i<=N;i++) ys.push(a*Math.pow(r,i));
+    const mx=Math.max(...ys);
+    [0,1].forEach(k=>{
+      const ox=k*165+10;
+      c.strokeStyle='#E5E7EB';c.strokeRect(ox,10,140,175);
+      c.strokeStyle=k?'#0E9384':'#2563EB';c.lineWidth=2.2;c.beginPath();
+      ys.forEach((v,i)=>{
+        const px=ox+i/N*140;
+        const py=k ? 185-(Math.log10(v)-Math.log10(a))/(Math.log10(mx)-Math.log10(a)||1)*170
+                   : 185-v/mx*170;
+        c.lineTo(px,py);
+      });
+      c.stroke();
+      c.fillStyle='#6B7280';c.font='10px sans-serif';
+      c.fillText(k?'세로축 = log y':'보통 축', ox+4, 197);
+    });
+  };
+  ['l_a','l_r'].forEach(i=>$('#'+i).oninput=calc); calc();
+}
+};
+
+/* ================= 탭④ 렌더 + 학습지·교사자료 내려받기 ================= */
+
+/* ---------- 설계 5단계 ---------- */
+$('#dsteps').innerHTML = DSTEP.map(s=>`
+  <div class="dstep">
+    <div class="dsn">${s.n}</div>
+    <h4>${s.t}</h4>
+    <p>${s.d}</p>
+    <div class="dsmap"><span class="dsl">실험실</span>${s.lab}<span class="dsr">${s.r}</span></div>
+  </div>`).join('');
+
+/* ---------- 갤러리 워크 ---------- */
+$('#gwalk').innerHTML = `
+  <div class="gw">
+    <p class="gwwhy">${GWALK.why}</p>
+    <div class="gwrun">${GWALK.run.map((r,i)=>`
+      <div class="gwi"><div class="gwn">${i+1}</div><div><b>${r.t}</b><p>${r.d}</p></div></div>`).join('')}</div>
+    <div class="gwrule"><b>진행 규칙 4가지</b><ul>${GWALK.rule.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+    <div class="note">${GWALK.caution}</div>
+  </div>`;
+
+/* ---------- 실험실 선택 ---------- */
+const D = { key:'gps' };
+$('#dsel').innerHTML = Object.keys(DESIGN).map(k=>{
+  const S = DESIGN[k];
+  return `<div class="pcard ${k===D.key?'on':''}" data-k="${k}">
+    <div class="pn">LAB ${String(S.lab).padStart(2,'0')}</div>
+    <div class="pt">${S.t}</div>
+    <div class="pg">${S.head.과목} · ${S.head.형태}</div></div>`;}).join('');
+$('#dsel').querySelectorAll('.pcard').forEach(c=>c.onclick=()=>{
+  D.key = c.dataset.k;
+  $('#dsel').querySelectorAll('.pcard').forEach(x=>x.classList.remove('on'));
+  c.classList.add('on'); drawDesign();});
+
+/* ---------- 4단계 본문 ---------- */
+/* 총점은 채점 요소의 합이다. 기본 점수는 더하는 값이 아니라 최저 보장선이며
+   (수업에 성실히 참여하면 최소 그만큼), 총점을 넘지 않는다. HWPX 원안과 같은 구조. */
+/* 총점은 채점 요소의 합이다. 기본 점수는 더하는 값이 아니라 최저 보장선이며 총점을 넘지 않는다.
+   루브릭은 두 가지 모양을 받는다 — 수준별(lv 있음)과 단일 기준(p 만 있음). */
+const leveled = S => !!(S.rub[0] && S.rub[0].lv);
+function totals(S){
+  const sum = leveled(S) ? S.rub.reduce((a,r)=>a+r.max,0) : S.rub.reduce((a,r)=>a+r.p,0);
+  return { sum, all: sum };
+}
+function rubRows(S){
+  if(!leveled(S))
+    return S.rub.map(r=>`<tr><td class="rn">${r.n}</td><td class="re">${r.e}</td><td>${r.c}</td><td class="rp">${r.p}</td></tr>`).join('');
+  return S.rub.map(r=>r.lv.map((L,i)=>
+    `<tr>${i===0?`<td class="re lvl" rowspan="${r.lv.length}">${r.e}</td>`:''}
+      <td class="lvt ${i===0?'top':''}">${['상','중','하'][i]||''}</td>
+      <td>${L.c}</td><td class="rp">${L.p}</td>
+      ${i===0?`<td class="rmax" rowspan="${r.lv.length}">${r.max}</td>`:''}</tr>`).join('')).join('');
+}
+function drawDesign(){
+  const S = DESIGN[D.key], T = totals(S);
+  $('#dbody').innerHTML = `
+  <div class="dcard">
+    <div class="dhead">
+      <div><span class="dpill">${S.pill}</span><h3>${S.t}</h3></div>
+      <div class="dmeta">${Object.keys(S.head).map(k=>`<span><b>${k}</b> ${S.head[k]}</span>`).join('')}</div>
+    </div>
+
+    <div class="dsec"><div class="dnum">1</div><h4>교육과정 살펴보기</h4></div>
+    <table class="dtb">
+      <tr><th>성취기준</th><td>${S.cur.기준.map(x=>`<div class="std">${x}</div>`).join('')}</td></tr>
+      <tr><th>핵심 아이디어</th><td>${S.cur.핵심}</td></tr>
+      <tr><th>지식·이해</th><td>${S.cur.지식}</td></tr>
+      <tr><th>과정·기능</th><td>${S.cur.기능}</td></tr>
+      <tr><th>가치·태도</th><td>${S.cur.태도}</td></tr>
+      <tr><th>수업 흐름</th><td>${S.cur.흐름.map(x=>`<div>${x}</div>`).join('')}</td></tr>
+    </table>
+
+    <div class="dsec"><div class="dnum">2</div><h4>평가 설계하기 — 학습자 루브릭</h4></div>
+    <p class="dintent"><b>평가 의도</b> ${S.intent}</p>
+    ${S.worth?`<p class="dworth"><b>이 수행평가의 유의미성</b> ${S.worth}</p>`:''}
+    <p class="dlabuse"><b>실험실을 어떻게 쓰나</b> ${S.labuse}</p>
+    ${S.elems?`<p class="delem"><b>평가 요소</b> ${S.elems}</p>`:''}
+    <div class="tablewrap"><table class="dtb rub">
+      <thead><tr>${leveled(S)
+        ? '<th style="width:120px">평가 요소</th><th style="width:34px">수준</th><th>수준별 채점 기준</th><th style="width:46px">배점</th><th style="width:44px">만점</th>'
+        : '<th style="width:34px"></th><th style="width:130px">평가 요소</th><th>채점 기준</th><th style="width:52px">배점</th>'}</tr></thead>
+      <tbody>
+        ${rubRows(S)}
+        <tr class="rtot"><td${leveled(S)?'':''}>총점</td><td colspan="${leveled(S)?2:2}">채점 요소의 합</td><td class="rp">${T.sum}</td>${leveled(S)?`<td class="rp">${T.sum}</td>`:''}</tr>
+        <tr class="rsum"><td>기본 점수</td><td colspan="2">총점의 40% · 수업에 성실히 참여한 경우 보장되는 <b>최저 점수</b>이며 총점에 더하지 않습니다.
+          미인정결석·장기결석·불성실 참여 시 0점.</td><td class="rp">${S.base}</td>${leveled(S)?'<td></td>':''}</tr>
+      </tbody>
+    </table></div>
+    <div class="dcau"><b>평가 기준 및 유의사항</b><ol>${S.caution.map(x=>`<li>${x}</li>`).join('')}</ol>
+      <p class="dcau-f">※ 수업 시간 내 실시하며, 학교교육과정의 범위·수준을 벗어나지 않도록 합니다.</p></div>
+
+    <div class="dsec"><div class="dnum">3</div><h4>학생 활동지 — 실험실로 탐구하고 단계별로 기록하기</h4></div>
+    <p class="dnote">각 STEP은 <b>웹 실험실에서 무엇을 조작하고 무엇을 기록할지</b>가 짝지어져 있습니다.
+    조작만 하고 끝나지 않도록, 화면에서 본 값을 반드시 손계산과 대조하게 했습니다.</p>
+    <div class="steps">${S.steps.map(s=>`
+      <div class="dstp">
+        <div class="dstpn">${s.n}</div>
+        <div class="dstpb">
+          <h5>${s.t}</h5>
+          <p class="ask">${s.ask}</p>
+          <p class="guide">${s.guide}</p>
+          ${s.labtip?`<p class="labtip">${s.labtip}</p>`:''}
+          ${s.mini?`<div class="mini" data-mini="${s.mini}"></div>`:''}
+          <ul class="rec">${s.rec.map(x=>`<li>${x}</li>`).join('')}</ul>
+        </div>
+      </div>`).join('')}</div>
+
+    <div class="dlbar">
+      <button class="b t" id="dlSheet">학생 활동지 내려받기</button>
+      <button class="b" id="dlTeach">교사 안내 자료 내려받기</button>
+      <span class="dlhint">.doc 파일로 저장됩니다 — <b>구글 문서·한글·워드</b>에서 바로 열립니다.
+      구글 드라이브에 올린 뒤 “연결 프로그램 → Google 문서”를 고르면 그대로 편집·배부할 수 있습니다.</span>
+    </div>
+
+    <div class="dsec"><div class="dnum">4</div><h4>세특 기재 예시</h4></div>
+    <div class="sets">${S.sets.map((x,i)=>`<div class="set"><div class="setn">${'ㄱㄴㄷ'[i]}</div><p>${x}</p></div>`).join('')}</div>
+  </div>`;
+
+  // STEP 에 딸린 미니 실험 도구를 그린다 (탭①의 실험실과 별개로, 이 수업 전용)
+  $('#dbody').querySelectorAll('.mini').forEach(box=>{
+    const fn = MINI[box.dataset.mini];
+    if(typeof fn === 'function'){ try{ fn(box); }catch(e){ box.innerHTML =
+      '<div class="mnb"><div class="mno"><div class="mnr no">도구를 그리지 못했습니다 — '+esc(e.message)+'</div></div></div>'; } }
+  });
+
+  $('#dlSheet').onclick = ()=>dlDoc(sheetDoc(S), S.t+'_학생활동지');
+  $('#dlTeach').onclick = ()=>dlDoc(teachDoc(S), S.t+'_교사안내자료');
+}
+
+/* ---------- .doc 만들기 ----------
+   외부 라이브러리 없이 워드·구글 문서가 여는 형식은 HTML 기반 .doc 이다.
+   진짜 .docx 는 ZIP 컨테이너라 라이브러리 없이 만들 수 없다. */
+const DOCCSS = `
+body{font-family:'맑은 고딕','Malgun Gothic',sans-serif;font-size:10.5pt;line-height:1.7;color:#111}
+h1{font-size:16pt;margin:0 0 4pt} h2{font-size:12pt;margin:18pt 0 6pt;border-bottom:1.5pt solid #111;padding-bottom:3pt}
+h3{font-size:11pt;margin:12pt 0 4pt;color:#2563EB}
+table{border-collapse:collapse;width:100%;margin:6pt 0} th,td{border:0.75pt solid #999;padding:5pt 7pt;vertical-align:top}
+th{background:#F0F3F8;text-align:left;width:110pt}
+.q{color:#444;margin:2pt 0 6pt} .g{color:#555;font-size:9.5pt;margin:0 0 6pt}
+.line{border-bottom:0.75pt dotted #888;height:20pt;margin:5pt 0}
+.box{border:0.75pt solid #999;padding:7pt;margin:5pt 0}
+.ln{display:inline-block;font-weight:bold;color:#2563EB;margin-right:6pt}
+ol,ul{margin:4pt 0 4pt 16pt;padding:0} li{margin-bottom:3pt}
+.hd{font-size:9pt;color:#666;text-align:right}`;
+
+function docWrap(title, inner){
+  return '﻿<html xmlns:o="urn:schemas-microsoft-com:office:office" '
+    + 'xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">'
+    + '<head><meta charset="utf-8"><title>'+title+'</title><style>'+DOCCSS+'</style></head><body>'
+    + inner + '</body></html>';
+}
+function dlDoc(html, name){
+  const b = new Blob([html], {type:'application/msword'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(b);
+  a.download = name.replace(/[\\/:*?"<>|]/g,'') + '.doc';
+  a.click(); URL.revokeObjectURL(a.href);
+}
+
+/* 학생 활동지 — 인쇄해서 바로 나눠 줄 수 있는 형태 */
+function sheetDoc(S){
+  const T = totals(S);
+  return docWrap(S.t + ' 학생 활동지', `
+  <p class="hd">${S.head.과목} · ${S.head.단원}</p>
+  <h1>${S.t}</h1>
+  <p class="q">${S.head.형태} · ${S.head.배점}</p>
+  <table>
+    <tr><th>학번</th><td style="width:120pt"></td><th>이름</th><td></td></tr>
+    <tr><th>모둠</th><td></td><th>날짜</th><td></td></tr>
+  </table>
+
+  <h2>이 활동에서 하는 일</h2>
+  <p>${S.cur.핵심}</p>
+  <p class="g"><b>웹 실험실 사용</b> — ${S.labuse.replace(/<\/?b>/g,'')}</p>
+
+  <h2>단계별 탐구와 기록</h2>
+  ${S.steps.map(s=>`
+    <h3>${s.n}. ${s.t}</h3>
+    <p class="q"><b>물음</b> ${s.ask}</p>
+    <p class="g">${s.guide}</p>
+    ${s.labtip?`<p class="g"><b>실험실</b> ${s.labtip}</p>`:''}
+    ${s.rec.map(r=> r.length > 40 && !r.includes('=')
+        ? `<p style="margin:6pt 0 2pt">${r}</p><div class="line"></div><div class="line"></div><div class="line"></div>`
+        : `<p style="margin:4pt 0">${r}</p>`).join('')}
+  `).join('')}
+
+  <h2>채점 기준 — 무엇을 보고 채점하는지 미리 알려 줍니다</h2>
+  <table>
+    <tr><th style="width:30pt">　</th><th style="width:90pt">평가 요소</th><th>채점 기준</th><th style="width:40pt">배점</th></tr>
+    ${S.rub.map(r=>`<tr><td>${r.n}</td><td>${r.e}</td><td>${r.c}</td><td>${r.p}</td></tr>`).join('')}
+    <tr><td></td><td><b>총점</b></td><td>채점 요소의 합</td><td><b>${T.sum}</b></td></tr>
+    <tr><td></td><td>기본 점수</td><td>성실히 참여하면 보장되는 최저 점수 (총점에 더하지 않습니다)</td><td>${S.base}</td></tr>
+  </table>
+
+  <h2>갤러리 워크 기록</h2>
+  <div class="box">
+    <p><b>내가 방문한 모둠</b></p>
+    ${[1,2,3].map(i=>`<p style="margin:4pt 0">${i}. 모둠 ________ · 잘된 점 ______________________ · 묻고 싶은 것 ______________________</p>`).join('')}
+    <p style="margin-top:8pt"><b>내가 받은 질문 중 가장 날카로웠던 것</b></p><div class="line"></div>
+    <p style="margin-top:6pt"><b>다시 한다면 고칠 것 한 가지</b></p><div class="line"></div>
+  </div>`);
+}
+
+/* 교사 안내 자료 — 수업 운영과 채점을 위한 것 */
+function teachDoc(S){
+  const T = totals(S);
+  return docWrap(S.t + ' 교사 안내 자료', `
+  <p class="hd">교사용 · 2026 대전광역시교육청 인공지능 활용 선도교사 연수</p>
+  <h1>${S.t}</h1>
+  <p class="q">${S.head.과목} · ${S.head.단원} · ${S.head.형태} · ${S.head.배점}</p>
+
+  <h2>1. 교육과정 살펴보기</h2>
+  <table>
+    <tr><th>성취기준</th><td>${S.cur.기준.join('<br>')}</td></tr>
+    <tr><th>핵심 아이디어</th><td>${S.cur.핵심}</td></tr>
+    <tr><th>지식·이해</th><td>${S.cur.지식}</td></tr>
+    <tr><th>과정·기능</th><td>${S.cur.기능}</td></tr>
+    <tr><th>가치·태도</th><td>${S.cur.태도}</td></tr>
+    <tr><th>수업 흐름</th><td>${S.cur.흐름.join('<br>')}</td></tr>
+  </table>
+
+  <h2>2. 평가 설계하기</h2>
+  <p><b>평가 의도</b><br>${S.intent.replace(/<\/?b>/g,'')}</p>
+  <p><b>웹 실험실 활용</b><br>${S.labuse.replace(/<\/?b>/g,'')}</p>
+  <table>
+    <tr><th style="width:30pt">　</th><th style="width:90pt">평가 요소</th><th>채점 기준</th><th style="width:40pt">배점</th></tr>
+    ${S.rub.map(r=>`<tr><td>${r.n}</td><td>${r.e}</td><td>${r.c}</td><td>${r.p}</td></tr>`).join('')}
+    <tr><td></td><td><b>총점</b></td><td>채점 요소의 합</td><td><b>${T.sum}</b></td></tr>
+    <tr><td></td><td>기본 점수</td><td>성실히 참여하면 보장되는 최저 점수 (총점에 더하지 않음). 미인정결석·장기결석·불성실 참여 시 0점</td><td>${S.base}</td></tr>
+  </table>
+  <p><b>평가 기준 및 유의사항</b></p>
+  <ol>${S.caution.map(x=>`<li>${x.replace(/<\/?b>/g,'')}</li>`).join('')}</ol>
+  <p class="g">※ 수업 시간 내 실시하며, 학교교육과정의 범위·수준을 벗어나지 않도록 합니다.</p>
+
+  <h2>3. 단계별 진행 — 무엇을 조작하고 무엇을 기록하게 하나</h2>
+  ${S.steps.map(s=>`
+    <h3>${s.n}. ${s.t}</h3>
+    <p><b>학생에게 던질 물음</b> ${s.ask}</p>
+    <p class="g"><b>지도 요점</b> ${s.guide}</p>
+    ${s.labtip?`<p class="g"><b>실험실 조작</b> ${s.labtip}</p>`:''}
+    <p class="g"><b>기록하게 할 것</b> ${s.rec.join(' / ').replace(/_/g,'')}</p>
+  `).join('')}
+
+  <h2>4. 갤러리 워크 운영</h2>
+  <p>${GWALK.why.replace(/<\/?b>/g,'')}</p>
+  <table>
+    <tr><th style="width:70pt">단계</th><th>운영 방법</th></tr>
+    ${GWALK.run.map(r=>`<tr><td>${r.t}</td><td>${r.d.replace(/<\/?b>/g,'')}</td></tr>`).join('')}
+  </table>
+  <p><b>진행 규칙</b></p>
+  <ul>${GWALK.rule.map(x=>`<li>${x.replace(/<\/?b>/g,'')}</li>`).join('')}</ul>
+  <p class="g">${GWALK.caution.replace(/<\/?b>/g,'')}</p>
+
+  <h2>5. 세특 기재 예시</h2>
+  ${S.sets.map((x,i)=>`<p><b>${'ㄱㄴㄷ'[i]}.</b> ${x}</p>`).join('')}`);
+}
+
+drawDesign();
+
+/* ================= 탭⑤ 우리 연수 모음집 =================
+   서버도 브라우저 저장소도 쓰지 않는다(단일 파일 원칙 · localStorage 금지).
+   올린 파일은 메모리에만 있다가, 「모음집 내려받기」로 단일 HTML 하나에 묶여 나간다.
+   그 파일을 강사가 배포하면 연수 뒤에도 전원이 서로의 자료를 열어 볼 수 있다. */
+
+const GAL = [];
+const MAXB = 2 * 1024 * 1024;   // 한 파일 2MB 제한 — 모음집이 감당 못 할 만큼 커지는 것을 막는다
+
+function galCount(){
+  const n = GAL.length;
+  $('#gcount').innerHTML = n
+    ? `<b>${n}편</b>이 모였습니다 · 합계 ${(GAL.reduce((s,g)=>s+g.src.length,0)/1024).toFixed(0)} KB`
+    : '아직 올라온 자료가 없습니다.';
+  $('#gExport').disabled = !n;
+  $('#gClear').disabled = !n;
+}
+function galRender(){
+  $('#glist').innerHTML = GAL.map((g,i)=>`
+    <div class="gcard">
+      <div class="gn">${String(i+1).padStart(2,'0')}</div>
+      <h4>${esc(g.title)}</h4>
+      <div class="gwho">${esc(g.who||'이름 없음')}</div>
+      <p class="gmemo">${esc(g.memo||'소개가 없습니다.')}</p>
+      <div class="gfoot"><span class="gfile">${esc(g.name)} · ${(g.src.length/1024).toFixed(0)} KB</span>
+        <span class="gbtns"><button class="b sm" data-o="${i}">열어 보기</button>
+        <button class="b g sm" data-x="${i}">빼기</button></span></div>
+    </div>`).join('');
+  $('#glist').querySelectorAll('[data-o]').forEach(b=>b.onclick=()=>galOpen(+b.dataset.o));
+  $('#glist').querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>{
+    GAL.splice(+b.dataset.x,1); galRender(); galCount(); $('#gpv').style.display='none';});
+  galCount();
+}
+function galOpen(i){
+  const g = GAL[i];
+  $('#gpvT').textContent = g.title + ' — ' + (g.who||'이름 없음');
+  $('#gpvF').srcdoc = g.src;
+  $('#gpv').style.display = 'block';
+  $('#gpv').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+$('#gpvX').onclick = ()=>{ $('#gpv').style.display='none'; $('#gpvF').srcdoc=''; };
+
+/* ---------- 파일 받기 ---------- */
+function galAdd(files){
+  const list = [...files].filter(f=>/\.html?$/i.test(f.name));
+  if(!list.length){ alert('HTML 파일만 올릴 수 있습니다.'); return; }
+  let done = 0;
+  list.forEach(f=>{
+    if(f.size > MAXB){ alert(`${f.name} 은 2MB를 넘어 올릴 수 없습니다.`); return; }
+    const rd = new FileReader();
+    rd.onload = ()=>{
+      const src = rd.result;
+      const m = src.match(/<title>([\s\S]*?)<\/title>/i);
+      GAL.push({
+        name: f.name,
+        title: (m && m[1].trim()) || f.name.replace(/\.html?$/i,''),
+        who: $('#who').value.trim(),
+        memo: $('#memo').value.trim(),
+        src
+      });
+      if(++done === list.length){ $('#memo').value=''; galRender(); }
+      else galRender();
+    };
+    rd.readAsText(f, 'utf-8');
+  });
+}
+$('#pick').onclick = ()=>$('#file').click();
+$('#file').onchange = e=>{ galAdd(e.target.files); e.target.value=''; };
+const drop = $('#drop');
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{
+  e.preventDefault(); drop.classList.add('over');}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{
+  e.preventDefault(); drop.classList.remove('over');}));
+drop.addEventListener('drop', e=>{ if(e.dataTransfer && e.dataTransfer.files) galAdd(e.dataTransfer.files); });
+
+$('#gClear').onclick = ()=>{
+  if(!GAL.length) return;
+  if(confirm(`${GAL.length}편을 모두 지웁니다. 모음집을 내려받지 않았다면 되살릴 수 없습니다.`)){
+    GAL.length = 0; galRender(); $('#gpv').style.display='none';}
+};
+
+/* ---------- 모음집 내보내기 ----------
+   각 자료의 원본을 그대로 품은 단일 HTML. 자료는 iframe srcdoc 으로 격리해 서로 간섭하지 않는다.
+   <\/script> 로 빠져나가지 못하도록 < 를 이스케이프한다. */
+$('#gExport').onclick = ()=>{
+  if(!GAL.length) return;
+  const data = JSON.stringify(GAL.map(g=>({t:g.title, w:g.who, m:g.memo, n:g.name, s:g.src})))
+    .replace(/</g,'\\u003c').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
+  const html = `<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>우리 연수 모음집 — 일상 속 수학 실험실</title>
+<style>
+:root{--ink:#111827;--ink2:#374151;--ink3:#6B7280;--line:#E5E7EB;--bg:#F7F8FA;--blue:#2563EB;--teal:#0E9384}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:'Freesentation','Pretendard','맑은 고딕','Malgun Gothic',system-ui,sans-serif;line-height:1.7}
+.wrap{max-width:1180px;margin:0 auto;padding:26px 20px 60px}
+header{background:#fff;border-bottom:1px solid var(--line)}
+header .wrap{padding:22px 20px 18px}
+.kick{font-size:12px;font-weight:800;letter-spacing:1px;color:var(--blue)}
+h1{margin:6px 0 4px;font-size:26px;font-weight:800;letter-spacing:-.5px}
+header p{margin:0;color:var(--ink2);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:13px;margin-top:20px}
+.c{background:#fff;border:1px solid var(--line);border-radius:13px;padding:15px;cursor:pointer;transition:.16s;
+  display:flex;flex-direction:column;gap:6px}
+.c:hover{border-color:#B9CBF5;box-shadow:0 6px 20px rgba(17,24,39,.07);transform:translateY(-2px)}
+.c.on{border-color:var(--blue);box-shadow:0 0 0 2px #DBE6FF}
+.n{font-size:11.5px;font-weight:800;color:var(--ink3);letter-spacing:.6px}
+.c h3{margin:0;font-size:15.5px;font-weight:800;line-height:1.35}
+.w{font-size:12.5px;color:var(--teal);font-weight:700}
+.m{margin:0;font-size:13px;color:var(--ink2)}
+.f{margin-top:auto;font-size:11.5px;color:var(--ink3)}
+.stage{margin-top:22px;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:none}
+.sh{display:flex;justify-content:space-between;align-items:center;gap:10px;
+  padding:11px 15px;border-bottom:1px solid var(--line);background:#FAFBFC}
+.sh b{font-size:14.5px}
+.sh span{font-size:12.5px;color:var(--ink3)}
+iframe{width:100%;height:74vh;border:0;display:block;background:#fff}
+footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink3)}
+@media(max-width:640px){iframe{height:66vh}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="kick">2026 대전광역시교육청 · 인공지능 활용 선도교사 연수 (중등 수학)</div>
+  <h1>우리 연수 모음집</h1>
+  <p>선생님들이 직접 만든 학습자료 ${GAL.length}편입니다. 카드를 누르면 바로 열립니다 — 설치·서버·로그인이 필요 없습니다.</p>
+</div></header>
+<div class="wrap">
+  <div class="grid" id="g"></div>
+  <div class="stage" id="st">
+    <div class="sh"><b id="sT"></b><span id="sN"></span></div>
+    <iframe id="sF"></iframe>
+  </div>
+  <footer>이 파일 하나에 모든 자료가 들어 있습니다. USB로 옮겨도, 메일로 보내도 그대로 열립니다.</footer>
+</div>
+<script>
+var D = ${data};
+var g = document.getElementById('g');
+g.innerHTML = D.map(function(d,i){
+  return '<div class="c" data-i="'+i+'">'
+    + '<div class="n">' + String(i+1).padStart(2,'0') + '</div>'
+    + '<h3>' + esc(d.t) + '</h3>'
+    + '<div class="w">' + esc(d.w || '이름 없음') + '</div>'
+    + '<p class="m">' + esc(d.m || '') + '</p>'
+    + '<div class="f">' + esc(d.n) + '</div></div>';
+}).join('');
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+g.querySelectorAll('.c').forEach(function(c){
+  c.onclick = function(){
+    var d = D[+c.dataset.i];
+    g.querySelectorAll('.c').forEach(function(x){x.classList.remove('on');});
+    c.classList.add('on');
+    document.getElementById('sT').textContent = d.t;
+    document.getElementById('sN').textContent = d.w || '';
+    document.getElementById('sF').srcdoc = d.s;
+    document.getElementById('st').style.display = 'block';
+    document.getElementById('st').scrollIntoView({behavior:'smooth', block:'nearest'});
+  };
+});
+<\/script>
+</body>
+</html>`;
+  dl(html, '우리_연수_모음집.html', 'text/html');
+};
+
+galRender();
 
 </script>
 </body>
