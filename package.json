@@ -1,0 +1,15 @@
+{
+  "name": "math-lab",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "일상 속 수학 실험실 — 2026 대전교육청 인공지능 활용 선도교사 연수(중·고등 수학) 실습 웹자료",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node build.mjs && node test/verify.mjs",
+    "open": "node build.mjs && node -e \"console.log('dist/index.html 을 브라우저로 여세요')\""
+  },
+  "devDependencies": {
+    "playwright": "^1.62.1"
+  }
+}

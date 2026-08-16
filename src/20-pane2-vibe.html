@@ -1,0 +1,78 @@
+<!-- ================= PANE 2 ================= -->
+<section class="pane" id="p2"><div class="wrap">
+  <h2 class="sec">바이브 코딩 실습실 — AI와 대화하며 수업 자료를 만듭니다</h2>
+  <p class="sub">코드를 쓰지 않습니다. <b>말로 요청 → 결과 확인 → 다시 요청</b>을 7번 반복하면 작동하는 학습자료 하나가 남습니다.
+  실험실 10종 모두 같은 방식으로 만들 수 있습니다.</p>
+
+  <div class="modebar">
+    <div class="seg" id="modeSeg">
+      <button class="on" data-m="ai">AI와 대화하며 만들기 <b>(본 실습)</b></button>
+      <button data-m="click">클릭 조립 (참고용)</button>
+    </div>
+  </div>
+
+  <!-- ===== AI 대화 모드 ===== -->
+  <div id="aiMode">
+    <div class="pickwrap">
+      <div class="pickhead"><span class="stepnum">선택</span> 오늘 만들 실험실을 고르세요 <span class="muted">— 선택하면 대화가 처음부터 다시 시작됩니다</span></div>
+      <div class="picker" id="picker"></div>
+    </div>
+
+    <div class="studio">
+      <div class="chatcol">
+        <div class="roundbar">
+          <div class="rdots" id="rdots"></div>
+          <button class="b g sm" id="restart">처음부터</button>
+        </div>
+        <div class="chat" id="chat"></div>
+        <div class="composer" id="composer">
+          <div class="goal" id="goal"></div>
+          <textarea id="prompt" rows="7"></textarea>
+          <div class="btns">
+            <button class="b" id="send">▶ AI에게 보내기</button>
+            <button class="b g" id="reveal">모범 프롬프트 넣기</button>
+          </div>
+        </div>
+        <div class="coach" id="coach"></div>
+        <div class="finish" id="finish" style="display:none">
+          <h4>✔ 완성했습니다</h4>
+          <p>방금 7번의 대화로 만든 것이 <b>수업에 바로 쓸 수 있는 HTML 파일 하나</b>입니다.
+          프롬프트 기록은 다음 자료를 만들 때 그대로 재활용하세요.</p>
+          <div class="btns">
+            <button class="b t" id="dlHtml">학습자료 HTML 내려받기</button>
+            <button class="b g" id="dlLog">프롬프트 기록 내려받기</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pvcol">
+        <div class="pvhead">
+          <h4>학생이 보는 화면 <span id="pvStep"></span></h4>
+          <div class="seg" id="viewSeg"><button class="on" data-v="pv">미리보기</button><button data-v="cd">코드</button></div>
+        </div>
+        <div id="pvWrap"><iframe class="pv" id="pv"></iframe></div>
+        <div class="codebox" id="codebox" style="display:none"><pre id="code"></pre></div>
+        <div class="difftip" id="difftip"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 클릭 조립 모드 ===== -->
+  <div id="clickMode" style="display:none">
+    <div class="studio">
+      <div>
+        <label class="ctl">실험실 선택</label>
+        <select id="cbSel"></select>
+        <label class="ctl" style="margin-top:16px">구성 블록을 순서대로 누르세요</label>
+        <div class="blocks" id="cbBlocks"></div>
+        <div class="btns"><button class="b g" id="cbReset">처음부터</button>
+          <button class="b t" id="cbDl" style="display:none">HTML 내려받기</button></div>
+        <div class="cbnote" id="cbNote"></div>
+      </div>
+      <div class="pvcol">
+        <div class="pvhead"><h4>실시간 미리보기</h4></div>
+        <iframe class="pv" id="cbPv"></iframe>
+      </div>
+    </div>
+  </div>
+</div></section>
