@@ -47,7 +47,8 @@ function rubRows(S){
   if(!leveled(S))
     return S.rub.map(r=>`<tr><td class="rn">${r.n}</td><td class="re">${r.e}</td><td>${r.c}</td><td class="rp">${r.p}</td></tr>`).join('');
   return S.rub.map(r=>r.lv.map((L,i)=>
-    `<tr>${i===0?`<td class="re lvl" rowspan="${r.lv.length}">${r.e}</td>`:''}
+    `<tr>${i===0?`<td class="re lvl" rowspan="${r.lv.length}">${r.e}
+        ${r.note?`<div class="rnote">${r.note}</div>`:''}</td>`:''}
       <td class="lvt ${i===0?'top':''}">${['상','중','하'][i]||''}</td>
       <td>${L.c}</td><td class="rp">${L.p}</td>
       ${i===0?`<td class="rmax" rowspan="${r.lv.length}">${r.max}</td>`:''}</tr>`).join('')).join('');
@@ -84,6 +85,9 @@ function drawDesign(){
     <div class="dsec"><div class="dnum">2</div><h4>평가 설계하기 — 학습자 루브릭</h4></div>
     <p class="dintent"><b>평가 의도</b> ${S.intent}</p>
     ${S.worth?`<p class="dworth"><b>이 수행평가의 유의미성</b> ${S.worth}</p>`:''}
+    ${S.diff?`<p class="ddiff"><b>설계의 차별화 지점</b> ${S.diff}</p>`:''}
+    ${S.comp?`<div class="dcomp"><b>역량별 연결</b><ul>${S.comp.map(x=>`<li>${x}</li>`).join('')}</ul></div>`:''}
+    ${S.phil?`<p class="dphil"><b>채점 철학</b> ${S.phil}</p>`:''}
     <p class="dlabuse"><b>실험실을 어떻게 쓰나</b> ${S.labuse}</p>
     ${S.elems?`<p class="delem"><b>평가 요소</b> ${S.elems}</p>`:''}
     <div class="tablewrap"><table class="dtb rub">
