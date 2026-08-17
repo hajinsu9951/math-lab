@@ -413,6 +413,14 @@ p.sub{margin:0 0 22px;color:var(--ink3);font-size:14.5px}
 .gcard .gn{font-size:11.5px;font-weight:800;color:var(--ink3);letter-spacing:.6px}
 .gcard h4{margin:0;font-size:15px;font-weight:800;line-height:1.35}
 .gwho{font-size:12.5px;font-weight:700;color:var(--teal)}
+.gtag{display:inline-block;font-size:11.3px;font-weight:700;color:var(--blue);
+  background:var(--blue-s);border:1px solid #C7D9FF;border-radius:6px;padding:2px 8px;align-self:flex-start}
+.gcard.moved{border-color:#BFE9E3;background:var(--teal-s)}
+.movedtag{font-size:11.5px;font-weight:800;color:var(--teal);align-self:center}
+.upgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.upmeta select{border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:13px;
+  font-family:inherit;background:#fff;color:var(--ink);width:100%}
+@media(max-width:520px){.upgrid{grid-template-columns:1fr}}
 .gmemo{margin:0;font-size:12.7px;color:var(--ink2);line-height:1.6}
 .gfoot{margin-top:auto;padding-top:9px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
 .gfile{font-size:11.3px;color:var(--ink3)}

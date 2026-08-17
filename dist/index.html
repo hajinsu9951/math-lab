@@ -421,6 +421,14 @@ p.sub{margin:0 0 22px;color:var(--ink3);font-size:14.5px}
 .gcard .gn{font-size:11.5px;font-weight:800;color:var(--ink3);letter-spacing:.6px}
 .gcard h4{margin:0;font-size:15px;font-weight:800;line-height:1.35}
 .gwho{font-size:12.5px;font-weight:700;color:var(--teal)}
+.gtag{display:inline-block;font-size:11.3px;font-weight:700;color:var(--blue);
+  background:var(--blue-s);border:1px solid #C7D9FF;border-radius:6px;padding:2px 8px;align-self:flex-start}
+.gcard.moved{border-color:#BFE9E3;background:var(--teal-s)}
+.movedtag{font-size:11.5px;font-weight:800;color:var(--teal);align-self:center}
+.upgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.upmeta select{border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:13px;
+  font-family:inherit;background:#fff;color:var(--ink);width:100%}
+@media(max-width:520px){.upgrid{grid-template-columns:1fr}}
 .gmemo{margin:0;font-size:12.7px;color:var(--ink2);line-height:1.6}
 .gfoot{margin-top:auto;padding-top:9px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
 .gfile{font-size:11.3px;color:var(--ink3)}
@@ -612,7 +620,7 @@ footer{padding:26px 0 40px;color:var(--ink3);font-size:12.5px;text-align:center}
 </header>
 
 <nav class="tabs"><div class="wrap">
-  <button class="on" data-p="p1">① 수학 실험실 21종 <span class="tsub">+ 확장 카탈로그 274종</span></button>
+  <button class="on" data-p="p1">① 수학 실험실 21종 <span class="tsub">+ 확장 카탈로그 279종</span></button>
   <button data-p="p2">② 바이브 코딩 실습</button>
   <button data-p="p3">③ 3시간 운영 흐름</button>
   <button data-p="p4">④ 수업·평가 설계</button>
@@ -624,8 +632,8 @@ footer{padding:26px 0 40px;color:var(--ink3);font-size:12.5px;text-align:center}
   <h2 class="sec">실생활 질문 하나가 수학 수업 하나가 됩니다</h2>
   <p class="sub">카드를 누르면 실제로 작동하는 자료가 열립니다. 학생 입장에서 먼저 조작해 보세요.</p>
   <div class="legend">
-    <span><span class="badge b-core">연수 편성 3차시</span> &nbsp;9/28 · 10/12 본 연수에서 함께 제작</span>
-    <span><span class="badge b-ext">확장 후보 7종</span> &nbsp;같은 설계 절차로 담당 단원에 이식 가능</span>
+    <span><span class="badge b-core">연수 편성 4종</span> &nbsp;9/28 · 10/12 본 연수에서 함께 제작 · 탭④에 수업·평가 설계까지 있음</span>
+    <span><span class="badge b-ext">확장 후보 17종</span> &nbsp;같은 설계 절차로 담당 단원에 이식 가능</span>
   </div>
   <div class="grid" id="cards"></div>
 
@@ -764,7 +772,12 @@ footer{padding:26px 0 40px;color:var(--ink3);font-size:12.5px;text-align:center}
     </div>
     <div class="upmeta">
       <label class="ctl">올리는 사람 <input type="text" id="who" placeholder="예) 대전대신고 하진수" maxlength="30"></label>
-      <label class="ctl">한 줄 소개 <input type="text" id="memo" placeholder="예) 삼각비로 학교 건물 높이 재기" maxlength="60"></label>
+      <div class="upgrid">
+        <label class="ctl">과목 · 학년<select id="gsub"></select></label>
+        <label class="ctl">단원 <input type="text" id="gunit" placeholder="예) 삼각비" maxlength="30"></label>
+      </div>
+      <label class="ctl">주제 <input type="text" id="gtopic" placeholder="예) 드론으로 건물 높이 재기" maxlength="40"></label>
+      <label class="ctl">한 줄 소개 <input type="text" id="memo" placeholder="예) 각도와 거리로 높이를 구하는 자료" maxlength="60"></label>
       <p class="upnote"><b>서버에 올라가지 않습니다.</b> 파일은 이 브라우저 안에서만 열립니다.
       새로고침하면 사라지니, 연수 마무리에 반드시 <b>모음집 내려받기</b>를 하세요.</p>
     </div>
@@ -1974,43 +1987,43 @@ const LABS=[
  m:['지수함수와 로그','증가율(미분의 직관)','로지스틱 S곡선'],a:['예측 모델링','추천 알고리즘의 증폭'],
  note:'선형 → 지수 → 로지스틱으로 <b>모델이 진화</b>하는 과정을 한 화면에서 비교합니다. 배가시간은 log2/ln(1+r)로 계산되어, 로그가 “왜 필요한가”에 답이 됩니다.',
  build:spreadDemo},
-{n:4,core:1,t:'“어느 요금제가 이득일까?” 손익분기',q:'두 요금제, 몇 분부터 갈아타야 이득일까?',
+{n:4,core:0,t:'“어느 요금제가 이득일까?” 손익분기',q:'두 요금제, 몇 분부터 갈아타야 이득일까?',
  m:['일차함수','기울기와 y절편','연립방정식(교점)'],a:['선형 비용 모델','손익분기 분석'],
  note:'네 슬라이더를 움직여 보세요. 분당 요금을 같게 맞추면 두 직선이 <b>평행</b>해져 교점이 사라집니다. “해가 없다”가 그래프에서 무엇인지 눈으로 보는 순간입니다. 기본료는 y절편, 분당 요금은 기울기라는 대응도 그대로 드러납니다.',
  build:planDemo},
-{n:5,core:1,t:'“저 건물 몇 층일까?” 드론으로 높이 재기',q:'올라가지 않고 건물 높이를 어떻게 잴까?',
+{n:5,core:0,t:'“저 건물 몇 층일까?” 드론으로 높이 재기',q:'올라가지 않고 건물 높이를 어떻게 잴까?',
  m:['삼각비 tan','직각삼각형','각도와 라디안'],a:['드론 측량','레이저 거리계·LiDAR'],
  note:'각을 재고 거리를 알면 <b>tan 하나</b>로 높이가 나옵니다. 눈높이를 더하는 것을 빠뜨리면 실제보다 낮게 나오는데, 이 “한 항의 누락”이 측량에서 가장 흔한 실수입니다.',
  build:trigDemo},
-{n:6,core:1,t:'“정말 관계가 있을까?” 산점도와 상관계수',q:'공부 시간과 성적, 정말 관계가 있을까?',
+{n:6,core:0,t:'“정말 관계가 있을까?” 산점도와 상관계수',q:'공부 시간과 성적, 정말 관계가 있을까?',
  m:['산점도','상관계수 r','평균·표준편차'],a:['특성 선택','상관 ≠ 인과'],
  note:'관계의 세기를 −100%에서 +100%까지 바꿔 보고, 구석에 <b>이상치</b>를 하나 찍어 보세요. r 이 얼마나 흔들리는지 바로 보입니다. r 은 반드시 −1과 1 사이라는 것도 화면에서 확인됩니다.',
  build:corrDemo},
-{n:7,core:1,t:'“평균 연봉”의 함정 — 대푯값과 이상치',q:'평균 연봉 8천만 원, 이 회사 정말 좋은 회사일까?',
+{n:7,core:0,t:'“평균 연봉”의 함정 — 대푯값과 이상치',q:'평균 연봉 8천만 원, 이 회사 정말 좋은 회사일까?',
  m:['평균·중앙값·최빈값','이상치','자료의 분포'],a:['데이터 전처리','robust 통계'],
  note:'사장님 연봉 하나만 올려 보세요. <b>평균은 끌려가는데 중앙값은 버팁니다.</b> “평균보다 적게 받는 사람이 몇 명인지”가 함께 나오므로, 대푯값을 왜 골라 써야 하는지가 숫자로 드러납니다.',
  build:repDemo},
-{n:8,core:1,t:'“내 비밀번호 안전할까?” 경우의 수',q:'내 비밀번호, 몇 초 만에 뚫릴까?',
+{n:8,core:0,t:'“내 비밀번호 안전할까?” 경우의 수',q:'내 비밀번호, 몇 초 만에 뚫릴까?',
  m:['경우의 수','중복순열 kⁿ','지수의 위력'],a:['탐색 공간','무차별 대입 공격'],
  note:'자리 수를 하나 늘리는 것과 문자 종류를 늘리는 것 중 <b>무엇이 더 강력한지</b> 비교해 보세요. 밑이 커지는 것과 지수가 커지는 것의 차이를 눈으로 보는 자리입니다. 로그 눈금 막대라 12자리까지 한 화면에 들어옵니다.',
  build:pwDemo},
-{n:9,core:1,t:'“0.5% 뽑기, 200번이면 나올까?”',q:'확률 0.5%짜리를 200번 뽑으면 나올까?',
+{n:9,core:0,t:'“0.5% 뽑기, 200번이면 나올까?”',q:'확률 0.5%짜리를 200번 뽑으면 나올까?',
  m:['확률의 뜻','여사건','큰 수의 법칙'],a:['표본과 추정','시뮬레이션'],
  note:'뽑는 횟수를 늘리면 파란 실험 곡선이 주황 이론선으로 <b>수렴</b>합니다. 동시에 “적어도 한 번 당첨될 확률 1 − (1−p)ⁿ”이 함께 나와서, 감으로 찍은 답이 왜 틀리는지 숫자로 드러납니다.',
  build:lawDemo},
-{n:10,core:1,t:'“내 점수는 몇 등급?” 정규분포와 표준점수',q:'같은 78점인데 왜 등급이 다를까?',
+{n:10,core:0,t:'“내 점수는 몇 등급?” 정규분포와 표준점수',q:'같은 78점인데 왜 등급이 다를까?',
  m:['정규분포','표준편차','표준점수 z'],a:['특성 표준화','정규화(normalization)'],
  note:'점수를 그대로 둔 채 <b>표준편차만</b> 바꿔 보세요. z 와 백분위가 크게 달라집니다. 원점수로는 비교할 수 없고 z 로 바꿔야 한다는 것이 곡선 위에서 그대로 보입니다.',
  build:zDemo},
-{n:11,core:1,t:'“복리가 왜 무서울까?” 72의 법칙',q:'적금과 대출, 두 배가 되는 데 몇 년 걸릴까?',
+{n:11,core:0,t:'“복리가 왜 무서울까?” 72의 법칙',q:'적금과 대출, 두 배가 되는 데 몇 년 걸릴까?',
  m:['지수함수','로그','등비수열'],a:['누적 비용 모델','학습률 감쇠'],
  note:'단리(회색 직선)와 복리(파란 곡선)를 겹쳐 놓았습니다. 기간을 늘릴수록 차이가 벌어지는 것이 그대로 보이고, <b>두 배 되는 햇수</b>를 로그로 구한 값과 72의 법칙 어림값이 얼마나 가까운지도 나란히 확인됩니다.',
  build:cmpDemo},
-{n:12,core:1,t:'“왜 로그로 그릴까?” 로그 스케일',q:'지진 규모 7과 8은 몇 배 차이일까?',
+{n:12,core:0,t:'“왜 로그로 그릴까?” 로그 스케일',q:'지진 규모 7과 8은 몇 배 차이일까?',
  m:['로그의 뜻','자릿수','로그 그래프'],a:['로그 손실','데이터 시각화'],
  note:'같은 자료를 <b>보통 눈금과 로그 눈금</b>으로 번갈아 보세요. 보통 눈금에서는 작은 값들이 바닥에 붙어 아무것도 안 보이다가, 로그로 바꾸는 순간 전부 비교 가능해집니다. 축을 바꾸는 것이 왜 “해석”인지 알게 됩니다.',
  build:logDemo},
-{n:13,core:1,t:'“단속 카메라는 어떻게 알까?” 순간속도',q:'한 순간의 속도를 어떻게 잴 수 있을까?',
+{n:13,core:0,t:'“단속 카메라는 어떻게 알까?” 순간속도',q:'한 순간의 속도를 어떻게 잴 수 있을까?',
  m:['평균변화율','미분계수','극한'],a:['기울기 = 학습 신호','속도 추정'],
  note:'구간 폭 h 를 2초에서 0.02초까지 줄여 보세요. <b>주황 할선이 빨간 접선으로 겹쳐 갑니다.</b> 평균속도와 순간속도의 차이가 숫자로 함께 나오므로, 극한이 “무한히 가까이”라는 말의 뜻이 눈에 보입니다.',
  build:velDemo},
@@ -4577,6 +4590,11 @@ const CATALOG = [
 {k:'m3',t:'원에 내접하는 사각형의 대각의 합',g:'중3 · 원의 성질',q:'',b:'',a:''},
 {k:'m3',t:'상자그림',g:'중3 · 산점도와 상관관계',q:'이상치를 눈으로 찾으려면?',b:'사분위수를 정렬 없이 구해 상자가 뒤집힘',a:'분포 시각화'},
 {k:'m3',t:'이상치를 빼면 상관이 달라진다',g:'중3 · 산점도와 상관관계',q:'',b:'',a:''},
+{k:'cal1',t:'속도와 가속도 — 위치 그래프에서 읽기',g:'미적분Ⅰ · 도함수의 활용',q:'엘리베이터가 언제 가장 빨랐을까?',b:'속도의 부호를 무시하고 크기만 그려 되돌아온 구간이 사라짐',a:'운동 해석'},
+{k:'cal1',t:'닫힌구간에서만 최대·최소가 보장된다',g:'미적분Ⅰ · 함수의 연속',q:'구간을 열어 두면 왜 최댓값이 없을까?',b:'열린구간인데 끝점 값을 최댓값이라고 표시함',a:'최적화의 전제'},
+{k:'prob',t:'독립과 배반은 다르다',g:'확률과 통계 · 확률의 뜻과 활용',q:'“동시에 일어날 수 없다”와 “서로 영향이 없다”는 같은 말일까?',b:'배반사건을 독립이라고 판정해 곱셈정리를 잘못 적용함',a:'가정의 구별'},
+{k:'alg',t:'지수방정식과 지수부등식',g:'대수 · 지수와 로그',q:'원금이 세 배가 되는 해는 언제일까?',b:'밑이 1보다 작은데 부등호를 그대로 두어 해가 뒤집힘',a:'임계 시점 계산'},
+{k:'geo',t:'두 직선이 이루는 각',g:'기하 · 벡터의 내적',q:'교차로의 두 도로는 몇 도로 만날까?',b:'방향벡터의 부호에 따라 둔각이 나오는데 그대로 답으로 씀',a:'각도 추정'},
 {k:'h11',t:'조립제법 시각화',g:'공통수학1 · 다항식의 연산',q:'',b:'',a:''},
 {k:'h11',t:'다항식의 나눗셈 — 몫과 나머지',g:'공통수학1 · 다항식의 연산',q:'',b:'',a:''},
 {k:'h11',t:'f(a) 하나로 나머지 알아맞히기',g:'공통수학1 · 나머지정리',q:'',b:'',a:''},
@@ -6597,21 +6615,61 @@ function galCount(){
   $('#gExport').disabled = !n;
   $('#gClear').disabled = !n;
 }
+/* 과목 고르기 — 확장 카탈로그와 같은 묶음을 쓴다 (그래야 그대로 옮길 수 있다) */
+$('#gsub').innerHTML = '<option value="">고르지 않음</option>'
+  + CAT_GROUPS.map(g=>`<option value="${g.k}">${g.n}</option>`).join('');
+
 function galRender(){
-  $('#glist').innerHTML = GAL.map((g,i)=>`
-    <div class="gcard">
+  $('#glist').innerHTML = GAL.map((g,i)=>{
+    const gname = g.sub ? (CAT_GROUPS.find(x=>x.k===g.sub)||{}).n : '';
+    const tagline = [gname, g.unit].filter(Boolean).join(' · ');
+    return `
+    <div class="gcard${g.moved?' moved':''}">
       <div class="gn">${String(i+1).padStart(2,'0')}</div>
-      <h4>${esc(g.title)}</h4>
+      <h4>${esc(g.topic || g.title)}</h4>
+      ${tagline ? `<div class="gtag">${esc(tagline)}</div>` : ''}
       <div class="gwho">${esc(g.who||'이름 없음')}</div>
       <p class="gmemo">${esc(g.memo||'소개가 없습니다.')}</p>
       <div class="gfoot"><span class="gfile">${esc(g.name)} · ${(g.src.length/1024).toFixed(0)} KB</span>
         <span class="gbtns"><button class="b sm" data-o="${i}">열어 보기</button>
+        ${g.moved
+          ? '<span class="movedtag">✔ 카탈로그에 있음</span>'
+          : `<button class="b t sm" data-m="${i}">확장 카탈로그로 보내기</button>`}
         <button class="b g sm" data-x="${i}">빼기</button></span></div>
-    </div>`).join('');
+    </div>`;}).join('');
   $('#glist').querySelectorAll('[data-o]').forEach(b=>b.onclick=()=>galOpen(+b.dataset.o));
+  $('#glist').querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>galPromote(+b.dataset.m));
   $('#glist').querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>{
     GAL.splice(+b.dataset.x,1); galRender(); galCount(); $('#gpv').style.display='none';});
   galCount();
+}
+
+/* 우수작을 확장 카탈로그로 올린다 — 누르면 그 자리에서 탭①의 목록이 늘어난다.
+   저장소를 쓰지 않으므로 새로고침하면 사라진다. 그래서 모음집 내려받기를 함께 안내한다. */
+function galPromote(i){
+  const g = GAL[i];
+  if(!g.sub){ alert('먼저 과목을 골라 주세요. 카탈로그의 어느 묶음에 넣을지 정해야 합니다.'); return; }
+  const topic = (g.topic || g.title || '').trim();
+  if(!topic){ alert('주제를 적어 주세요.'); return; }
+  if(CATALOG.some(c=>c.t === topic)){ alert('같은 주제가 이미 카탈로그에 있습니다.'); return; }
+  const gname = (CAT_GROUPS.find(x=>x.k===g.sub)||{}).n || '';
+  CATALOG.push({
+    k: g.sub,
+    t: topic,
+    g: [gname, (g.unit||'').trim()].filter(Boolean).join(' · '),
+    q: (g.memo||'').trim(),
+    b: '',                                  // 결함 후보는 아직 — 실험실로 올리기 전에 채워야 한다
+    a: '연수 산출물 · ' + (g.who || '이름 없음')
+  });
+  g.moved = true;
+  if(typeof catDraw === 'function') catDraw();
+  galRender();
+  const tabBtn = document.querySelector('nav.tabs button[data-p=p1]');
+  if(confirm(`「${topic}」을 확장 카탈로그 ${gname} 묶음에 넣었습니다.\n지금 확인하러 가시겠습니까?`)){
+    if(tabBtn) tabBtn.click();
+    const el = document.querySelector('#catbody');
+    if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  }
 }
 function galOpen(i){
   const g = GAL[i];
@@ -6636,11 +6694,15 @@ function galAdd(files){
       GAL.push({
         name: f.name,
         title: (m && m[1].trim()) || f.name.replace(/\.html?$/i,''),
-        who: $('#who').value.trim(),
-        memo: $('#memo').value.trim(),
+        who:   $('#who').value.trim(),
+        memo:  $('#memo').value.trim(),
+        sub:   $('#gsub').value,                 // 과목 묶음 (카탈로그와 같은 키)
+        unit:  $('#gunit').value.trim(),         // 단원
+        topic: $('#gtopic').value.trim(),        // 주제
+        moved: false,
         src
       });
-      if(++done === list.length){ $('#memo').value=''; galRender(); }
+      if(++done === list.length){ ['memo','gunit','gtopic'].forEach(id=>$('#'+id).value=''); galRender(); }
       else galRender();
     };
     rd.readAsText(f, 'utf-8');

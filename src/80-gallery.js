@@ -14,21 +14,61 @@ function galCount(){
   $('#gExport').disabled = !n;
   $('#gClear').disabled = !n;
 }
+/* 과목 고르기 — 확장 카탈로그와 같은 묶음을 쓴다 (그래야 그대로 옮길 수 있다) */
+$('#gsub').innerHTML = '<option value="">고르지 않음</option>'
+  + CAT_GROUPS.map(g=>`<option value="${g.k}">${g.n}</option>`).join('');
+
 function galRender(){
-  $('#glist').innerHTML = GAL.map((g,i)=>`
-    <div class="gcard">
+  $('#glist').innerHTML = GAL.map((g,i)=>{
+    const gname = g.sub ? (CAT_GROUPS.find(x=>x.k===g.sub)||{}).n : '';
+    const tagline = [gname, g.unit].filter(Boolean).join(' · ');
+    return `
+    <div class="gcard${g.moved?' moved':''}">
       <div class="gn">${String(i+1).padStart(2,'0')}</div>
-      <h4>${esc(g.title)}</h4>
+      <h4>${esc(g.topic || g.title)}</h4>
+      ${tagline ? `<div class="gtag">${esc(tagline)}</div>` : ''}
       <div class="gwho">${esc(g.who||'이름 없음')}</div>
       <p class="gmemo">${esc(g.memo||'소개가 없습니다.')}</p>
       <div class="gfoot"><span class="gfile">${esc(g.name)} · ${(g.src.length/1024).toFixed(0)} KB</span>
         <span class="gbtns"><button class="b sm" data-o="${i}">열어 보기</button>
+        ${g.moved
+          ? '<span class="movedtag">✔ 카탈로그에 있음</span>'
+          : `<button class="b t sm" data-m="${i}">확장 카탈로그로 보내기</button>`}
         <button class="b g sm" data-x="${i}">빼기</button></span></div>
-    </div>`).join('');
+    </div>`;}).join('');
   $('#glist').querySelectorAll('[data-o]').forEach(b=>b.onclick=()=>galOpen(+b.dataset.o));
+  $('#glist').querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>galPromote(+b.dataset.m));
   $('#glist').querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>{
     GAL.splice(+b.dataset.x,1); galRender(); galCount(); $('#gpv').style.display='none';});
   galCount();
+}
+
+/* 우수작을 확장 카탈로그로 올린다 — 누르면 그 자리에서 탭①의 목록이 늘어난다.
+   저장소를 쓰지 않으므로 새로고침하면 사라진다. 그래서 모음집 내려받기를 함께 안내한다. */
+function galPromote(i){
+  const g = GAL[i];
+  if(!g.sub){ alert('먼저 과목을 골라 주세요. 카탈로그의 어느 묶음에 넣을지 정해야 합니다.'); return; }
+  const topic = (g.topic || g.title || '').trim();
+  if(!topic){ alert('주제를 적어 주세요.'); return; }
+  if(CATALOG.some(c=>c.t === topic)){ alert('같은 주제가 이미 카탈로그에 있습니다.'); return; }
+  const gname = (CAT_GROUPS.find(x=>x.k===g.sub)||{}).n || '';
+  CATALOG.push({
+    k: g.sub,
+    t: topic,
+    g: [gname, (g.unit||'').trim()].filter(Boolean).join(' · '),
+    q: (g.memo||'').trim(),
+    b: '',                                  // 결함 후보는 아직 — 실험실로 올리기 전에 채워야 한다
+    a: '연수 산출물 · ' + (g.who || '이름 없음')
+  });
+  g.moved = true;
+  if(typeof catDraw === 'function') catDraw();
+  galRender();
+  const tabBtn = document.querySelector('nav.tabs button[data-p=p1]');
+  if(confirm(`「${topic}」을 확장 카탈로그 ${gname} 묶음에 넣었습니다.\n지금 확인하러 가시겠습니까?`)){
+    if(tabBtn) tabBtn.click();
+    const el = document.querySelector('#catbody');
+    if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  }
 }
 function galOpen(i){
   const g = GAL[i];
@@ -53,11 +93,15 @@ function galAdd(files){
       GAL.push({
         name: f.name,
         title: (m && m[1].trim()) || f.name.replace(/\.html?$/i,''),
-        who: $('#who').value.trim(),
-        memo: $('#memo').value.trim(),
+        who:   $('#who').value.trim(),
+        memo:  $('#memo').value.trim(),
+        sub:   $('#gsub').value,                 // 과목 묶음 (카탈로그와 같은 키)
+        unit:  $('#gunit').value.trim(),         // 단원
+        topic: $('#gtopic').value.trim(),        // 주제
+        moved: false,
         src
       });
-      if(++done === list.length){ $('#memo').value=''; galRender(); }
+      if(++done === list.length){ ['memo','gunit','gtopic'].forEach(id=>$('#'+id).value=''); galRender(); }
       else galRender();
     };
     rd.readAsText(f, 'utf-8');
