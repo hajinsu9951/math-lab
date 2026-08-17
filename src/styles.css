@@ -85,10 +85,15 @@ p.sub{margin:0 0 22px;color:var(--ink3);font-size:14.5px}
   display:flex;flex-direction:column;gap:4px;position:relative;transition:.14s}
 .citem:hover{border-color:#B9CBF5;box-shadow:0 4px 14px rgba(17,24,39,.06)}
 .citem::before{content:'';position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0}
-.citem.core::before{background:var(--blue)}
-.citem.ai::before{background:var(--teal)}
-.citem.mid::before{background:var(--amber)}
-.citem.adv::before{background:var(--violet)}
+/* 묶음 색 — 중학교 주황, 공통수학 파랑, 대수·미적 청록, 확통·기하 초록,
+   인공지능 수학 보라, 과학계열 전문 교과 빨강 */
+.citem.m1::before,.citem.m2::before,.citem.m3::before{background:var(--amber)}
+.citem.h11::before,.citem.h12::before{background:var(--blue)}
+.citem.alg::before,.citem.cal1::before,.citem.cal2::before{background:#0EA5A0}
+.citem.prob::before,.citem.geo::before{background:var(--teal)}
+.citem.aim::before{background:var(--violet)}
+.citem.xalg::before,.citem.xgeo::before,.citem.xcal::before,
+.citem.disc::before,.citem.pure::before{background:var(--rose,#BE123C)}
 .cno{font-size:11px;font-weight:800;color:var(--ink3);letter-spacing:.6px;font-variant-numeric:tabular-nums}
 .citem h5{margin:0;font-size:14.5px;font-weight:800;line-height:1.35;letter-spacing:-.2px}
 .cg{font-size:11.8px;color:var(--ink3)}

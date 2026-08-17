@@ -22,15 +22,16 @@ function catDraw(){
           <div class="cno">${String(start+i).padStart(3,'0')}</div>
           <h5>${c.t}</h5>
           <div class="cg">${c.g}</div>
-          <p class="cq">${c.q}</p>
+          ${c.q ? `<p class="cq">${c.q}</p>` : ''}
           ${c.b ? `<p class="cb"><span>R4 결함 후보</span>${c.b}</p>`
                 : `<p class="cb none"><span>R4 결함 후보</span>아직 설계되지 않음 — 만들기 전에 반드시 채울 것</p>`}
-          <div class="ca">${c.a}</div>
+          ${c.a ? `<div class="ca">${c.a}</div>` : ''}
         </article>`).join('')}</div>
     </section>`;
   }).join('');
-  $('#catcnt').textContent = shown + '종 표시 중 · 결함 후보가 없는 항목 '
-    + CATALOG.filter(c=>!c.b).length + '종';
+  const ready = CATALOG.filter(c=>c.b).length;
+  $('#catcnt').innerHTML = `<b>${shown}종</b> 표시 중 · 전체 ${CATALOG.length}종 가운데 `
+    + `설계가 끝난 것 <b>${ready}종</b> · 주제만 잡힌 것 ${CATALOG.length - ready}종`;
 }
 $('#catfil').querySelectorAll('.cbtn').forEach(b=>b.onclick=()=>{
   $('#catfil').querySelectorAll('.cbtn').forEach(x=>x.classList.remove('on'));
