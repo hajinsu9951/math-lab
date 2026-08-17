@@ -1973,155 +1973,205 @@ const LABS=[
 
 /* ============ 카드 썸네일 ============
    외부 이미지 금지(단일 파일 원칙) → 인라인 SVG로 그린다.
-   장식이 아니라 그 실험실에서 학생이 실제로 보게 될 수학적 대상을 그린다. */
+   장식이 아니라 그 실험실에서 학생이 실제로 보게 될 수학적 대상을 그린다.
+
+   20장의 톤을 맞추기 위한 공통 규칙 — 새로 추가할 때도 반드시 지킬 것.
+     · 선 굵기는 세 단계만: 격자 1.2 / 보조 1.8 / 주선 2.6
+     · 그리는 영역은 x 12~108, y 10~54 안쪽 (viewBox 는 120×64)
+     · 색 역할 고정: 주 대상 파랑, 보조·정답 초록, 문제 지점 빨강, 안내선 주황, 흐린 것 회색
+     · 주인공은 하나. 시선이 갈 곳을 여러 개 두지 않는다
+     · 면(fill)을 옅게 깔아 잉크 비율을 10~18%로 맞춘다 — 선만 있으면 작게 줄었을 때 사라진다 */
+const TC = { blue:'#2563EB', teal:'#0E9384', rose:'#BE123C', amber:'#B45309',
+             ink:'#111827', mute:'#C3CBD6', grid:'#E8ECF2' };
+const T_GRID = `stroke="${TC.grid}" stroke-width="1.2" fill="none"`;
+const T_THIN = `stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"`;
+const T_BOLD = `stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"`;
 const svg = (inner, label) =>
   `<svg class="thumb" viewBox="0 0 120 64" role="img" aria-label="${label}">${inner}</svg>`;
+/* 좌표축 — 대부분의 그래프형 썸네일이 함께 쓴다 */
+const T_AX = `<path d="M14 54 H108 M14 54 V10" ${T_GRID}/>`;
 
-// 10번 파형은 실제 식 y = sin x + 0.4sin 2x + 0.25sin 3x 을 그대로 그린다
+// 파형은 실제 식 y = sin x + 0.4 sin 2x + 0.25 sin 3x 을 그대로 계산해 그린다
 const waveD = (() => {
   let d = '';
   for (let i = 0; i <= 72; i++) {
-    const x = 10 + i * 100 / 72, t = i / 72 * 4 * Math.PI;
-    const y = 32 - (Math.sin(t) + 0.4*Math.sin(2*t) + 0.25*Math.sin(3*t)) / 1.65 * 19;
+    const x = 14 + i * 92 / 72, t = i / 72 * 4 * Math.PI;
+    const y = 32 - (Math.sin(t) + 0.4*Math.sin(2*t) + 0.25*Math.sin(3*t)) / 1.65 * 18;
     d += (i ? 'L' : 'M') + x.toFixed(1) + ' ' + y.toFixed(1);
   }
   return d;
 })();
 
 const THUMBS = [
- svg(`<circle cx="38" cy="26" r="22.4" fill="none" stroke="#2563EB" stroke-width="1.5" opacity=".8"/>
-   <circle cx="78" cy="20" r="20.6" fill="none" stroke="#0E9384" stroke-width="1.5" opacity=".8"/>
-   <circle cx="58" cy="54" r="24.1" fill="none" stroke="#B45309" stroke-width="1.5" opacity=".8"/>
-   <circle cx="60" cy="30" r="3.6" fill="#BE123C"/>`, '세 원이 한 점에서 만나 위치가 정해지는 그림'),
 
- svg(`<text x="13" y="14" font-size="7.5" fill="#6B7280">사전확률</text>
-   <rect x="13" y="18" width="94" height="11" rx="3" fill="#E5E7EB"/>
-   <rect x="13" y="18" width="28" height="11" rx="3" fill="#2563EB"/>
-   <text x="13" y="43" font-size="7.5" fill="#6B7280">사후확률</text>
-   <rect x="13" y="47" width="94" height="11" rx="3" fill="#E5E7EB"/>
-   <rect x="13" y="47" width="76" height="11" rx="3" fill="#BE123C"/>`, '사전확률이 사후확률로 갱신되는 막대'),
+/* 01 GPS — 세 원이 한 점으로 좁혀진다 */
+ svg(`<circle cx="40" cy="26" r="21" fill="${TC.blue}" opacity=".07"/>
+   <circle cx="40" cy="26" r="21" stroke="${TC.blue}" ${T_THIN} opacity=".85"/>
+   <circle cx="76" cy="21" r="19.2" stroke="${TC.teal}" ${T_THIN} opacity=".85"/>
+   <circle cx="58" cy="52" r="22.4" stroke="${TC.amber}" ${T_THIN} opacity=".85"/>
+   <circle cx="60" cy="30" r="4.6" fill="${TC.rose}"/>`,
+   '세 원이 한 점에서 만나 위치가 정해지는 그림'),
 
- svg(`<path d="M12 56 L108 56 M12 56 L12 8" stroke="#E5E7EB" stroke-width="1.4" fill="none"/>
-   <path d="M14 54 C40 54 46 14 72 11 S98 9 106 9" fill="none" stroke="#0E9384" stroke-width="2.4"/>
-   <circle cx="52" cy="31" r="3" fill="#0E9384"/>`, '느리게 시작해 급격히 치솟는 확산 곡선'),
+/* 02 베이즈 — 사전확률이 사후확률로 갱신된다 */
+ svg(`<rect x="22" y="18" width="76" height="8" rx="4" fill="${TC.grid}"/>
+   <rect x="22" y="18" width="20" height="8" rx="4" fill="${TC.blue}"/>
+   <rect x="22" y="38" width="76" height="8" rx="4" fill="${TC.grid}"/>
+   <rect x="22" y="38" width="56" height="8" rx="4" fill="${TC.rose}"/>
+   <path d="M60 29 V35 M56.5 32 L60 35.5 L63.5 32" stroke="${TC.ink}" ${T_THIN} opacity=".45"/>`,
+   '사전확률 막대가 사후확률로 크게 갱신되는 그림'),
 
- svg(`<path d="M12 56 L108 56 M12 56 L12 8" stroke="#E5E7EB" stroke-width="1.4" fill="none"/>
-   <line x1="14" y1="46" x2="104" y2="14" stroke="#2563EB" stroke-width="2.4"/>
-   <line x1="14" y1="24" x2="104" y2="40" stroke="#0E9384" stroke-width="2.4"/>
-   <circle cx="56" cy="31" r="4.2" fill="#BE123C"/>
-   <line x1="56" y1="31" x2="56" y2="56" stroke="#BE123C" stroke-width="1.2" stroke-dasharray="3 2"/>`,
+/* 03 확산 — 느리게 시작해 치솟는 S곡선 */
+ svg(`${T_AX}
+   <path d="M14 54 C42 54 50 18 76 13 S100 10 106 10 V54 Z" fill="${TC.teal}" opacity=".13"/>
+   <path d="M14 54 C42 54 50 18 76 13 S100 10 106 10" stroke="${TC.teal}" ${T_BOLD}/>
+   <circle cx="55" cy="30" r="4" fill="${TC.teal}"/>`,
+   '느리게 시작해 급격히 치솟는 확산 곡선'),
+
+/* 04 손익분기 — 두 직선의 교점 */
+ svg(`${T_AX}
+   <path d="M16 46 L104 14" stroke="${TC.blue}" ${T_BOLD}/>
+   <path d="M16 22 L104 42" stroke="${TC.teal}" ${T_BOLD}/>
+   <path d="M57 31 V54" stroke="${TC.rose}" stroke-width="1.2" stroke-dasharray="3 2.5"/>
+   <circle cx="57" cy="31" r="4.6" fill="${TC.rose}"/>`,
    '두 요금제 직선이 한 점에서 만나는 손익분기 그래프'),
 
- svg(`<line x1="10" y1="52" x2="110" y2="52" stroke="#9CA3AF" stroke-width="1.4"/>
-   <rect x="78" y="16" width="20" height="36" fill="#DCE7FB" stroke="#94A3B8" stroke-width="1.2"/>
-   <line x1="18" y1="44" x2="78" y2="44" stroke="#B45309" stroke-width="1.2" stroke-dasharray="3 2"/>
-   <line x1="18" y1="44" x2="88" y2="16" stroke="#2563EB" stroke-width="2.2"/>
-   <line x1="88" y1="44" x2="88" y2="16" stroke="#0E9384" stroke-width="2"/>
-   <path d="M34 44 A16 16 0 0 0 31 38" fill="none" stroke="#B45309" stroke-width="1.4"/>
-   <circle cx="18" cy="44" r="3" fill="#111827"/>`,
+/* 05 삼각비 — 올려본각으로 높이를 잰다 */
+ svg(`<path d="M12 54 H108" stroke="${TC.grid}" stroke-width="1.2"/>
+   <rect x="80" y="16" width="20" height="38" fill="${TC.blue}" opacity=".14"/>
+   <rect x="80" y="16" width="20" height="38" stroke="${TC.mute}" stroke-width="1.2" fill="none"/>
+   <path d="M22 46 H80" stroke="${TC.amber}" stroke-width="1.2" stroke-dasharray="3 2.5"/>
+   <path d="M22 46 L90 16" stroke="${TC.blue}" ${T_BOLD}/>
+   <path d="M90 46 V16" stroke="${TC.teal}" ${T_THIN}/>
+   <path d="M38 46 A16 16 0 0 0 35 39" stroke="${TC.amber}" ${T_THIN}/>
+   <circle cx="22" cy="46" r="3.6" fill="${TC.ink}"/>`,
    '지면에서 건물 꼭대기를 올려본각으로 높이를 재는 직각삼각형'),
 
- svg(`<path d="M12 56 L108 56 M12 56 L12 8" stroke="#E5E7EB" stroke-width="1.4" fill="none"/>
-   <line x1="16" y1="50" x2="104" y2="14" stroke="#2563EB" stroke-width="2"/>
-   ${[[24,46],[34,40],[42,44],[52,32],[60,34],[70,24],[80,22],[92,16],[36,28],[76,36]]
-     .map(([x,y])=>`<circle cx="${x}" cy="${y}" r="2.8" fill="#111827"/>`).join('')}
-   <circle cx="98" cy="50" r="3.4" fill="#BE123C"/>`,
+/* 06 산점도 — 추세선과 이상치 */
+ svg(`${T_AX}
+   <path d="M18 48 L104 16" stroke="${TC.blue}" ${T_BOLD} opacity=".9"/>
+   ${[[26,44],[36,39],[44,42],[54,31],[62,33],[70,24],[80,22],[92,17],[38,28],[76,35]]
+     .map(([x,y])=>`<circle cx="${x}" cy="${y}" r="3" fill="${TC.ink}"/>`).join('')}
+   <circle cx="99" cy="49" r="4.4" fill="${TC.rose}"/>`,
    '점들이 오른쪽 위로 몰린 산점도와 추세선, 구석의 이상치'),
 
+/* 07 대푯값 — 한 사람만 튄다 */
  svg(`${[3200,3400,3500,3600,3800,3900,4100,4300,4600,9000]
-     .map((v,i)=>{ const h=v/9000*34; return `<rect x="${13+i*9.6}" y="${52-h}" width="7" height="${h}" rx="1"
-       fill="${i===9?'#BE123C':'#94A3B8'}"/>`; }).join('')}
-   <line x1="10" y1="30" x2="110" y2="30" stroke="#2563EB" stroke-width="1.6" stroke-dasharray="4 3"/>
-   <line x1="10" y1="38" x2="110" y2="38" stroke="#0E9384" stroke-width="1.6" stroke-dasharray="4 3"/>
-   <line x1="10" y1="52" x2="110" y2="52" stroke="#9CA3AF" stroke-width="1.2"/>`,
+     .map((v,i)=>{ const h=v/9000*34; return `<rect x="${15+i*9.4}" y="${52-h}" width="7" height="${h}" rx="1.5"
+       fill="${i===9?TC.rose:TC.mute}"/>`; }).join('')}
+   <path d="M12 28 H108" stroke="${TC.blue}" stroke-width="1.8" stroke-dasharray="4 3"/>
+   <path d="M12 38 H108" stroke="${TC.teal}" stroke-width="1.8" stroke-dasharray="4 3"/>
+   <path d="M12 52 H108" stroke="${TC.grid}" stroke-width="1.2"/>`,
    '한 사람만 크게 튀는 연봉 막대와 평균선·중앙값선'),
 
- svg(`${[1,2,3,4,5,6,7,8].map((i)=>{ const h=Math.min(40, 4+i*5);
-     return `<rect x="${12+i*12}" y="${52-h}" width="9" height="${h}" rx="1.5"
-       fill="${i===4?'#BE123C':'#CBD5E1'}"/>`; }).join('')}
-   <line x1="10" y1="52" x2="110" y2="52" stroke="#9CA3AF" stroke-width="1.2"/>
-   ${[0,1,2,3].map(i=>`<rect x="${16+i*9}" y="8" width="6" height="7" rx="1" fill="#2563EB"/>`).join('')}`,
+/* 08 경우의 수 — 자리 수가 늘수록 폭증 */
+ svg(`<path d="M12 54 H108" stroke="${TC.grid}" stroke-width="1.2"/>
+   ${[1,2,3,4,5,6,7].map(i=>{ const h=5+i*6;
+     return `<rect x="${16+(i-1)*13}" y="${52-h}" width="9" height="${h}" rx="1.5"
+       fill="${i===4?TC.rose:TC.blue}" opacity="${i===4?1:.28}"/>`; }).join('')}
+   ${[0,1,2,3].map(i=>`<rect x="${17+i*7}" y="10" width="5" height="6" rx="1.2" fill="${TC.blue}"/>`).join('')}`,
    '자리 수가 늘수록 급격히 커지는 경우의 수 막대'),
 
- svg(`<path d="M12 56 L108 56 M12 56 L12 8" stroke="#E5E7EB" stroke-width="1.4" fill="none"/>
-   <line x1="14" y1="36" x2="106" y2="36" stroke="#B45309" stroke-width="1.5" stroke-dasharray="4 3"/>
-   <path d="M16 14 L24 52 L32 22 L40 46 L50 28 L60 40 L72 33 L84 37 L96 35 L104 36"
-     fill="none" stroke="#2563EB" stroke-width="2" stroke-linejoin="round"/>`,
+/* 09 큰 수의 법칙 — 요동치다 수렴 */
+ svg(`${T_AX}
+   <path d="M14 36 H106" stroke="${TC.amber}" stroke-width="1.8" stroke-dasharray="4 3"/>
+   <path d="M17 14 L25 51 L33 21 L41 45 L51 28 L61 39 L73 33 L85 37 L96 35 L105 36"
+     stroke="${TC.blue}" ${T_BOLD}/>`,
    '요동치다가 이론 확률선으로 수렴하는 실험 확률 곡선'),
 
- svg(`<path d="M14 52 C34 52 34 14 60 14 C86 14 86 52 106 52" fill="none" stroke="#2563EB" stroke-width="2.2"/>
-   <path d="M14 52 C34 52 34 14 60 14 L60 52 Z" fill="#DCE7FB" opacity=".85"/>
-   <line x1="60" y1="52" x2="60" y2="14" stroke="#B45309" stroke-width="1.6" stroke-dasharray="4 3"/>
-   <line x1="78" y1="52" x2="78" y2="26" stroke="#BE123C" stroke-width="2"/>
-   <line x1="10" y1="52" x2="110" y2="52" stroke="#9CA3AF" stroke-width="1.2"/>`,
+/* 10 정규분포 — 내 점수의 위치 */
+ svg(`<path d="M14 52 C36 52 36 13 60 13 C84 13 84 52 106 52 Z" fill="${TC.blue}" opacity=".10"/>
+   <path d="M14 52 C36 52 36 13 60 13 L60 52 Z" fill="${TC.blue}" opacity=".18"/>
+   <path d="M14 52 C36 52 36 13 60 13 C84 13 84 52 106 52" stroke="${TC.blue}" ${T_BOLD}/>
+   <path d="M60 52 V13" stroke="${TC.amber}" stroke-width="1.8" stroke-dasharray="4 3"/>
+   <path d="M79 52 V25" stroke="${TC.rose}" ${T_THIN}/>
+   <path d="M12 52 H108" stroke="${TC.grid}" stroke-width="1.2"/>`,
    '정규분포 곡선과 평균선, 내 점수 위치'),
 
- svg(`<path d="M12 56 L108 56 M12 56 L12 8" stroke="#E5E7EB" stroke-width="1.4" fill="none"/>
-   <line x1="14" y1="50" x2="106" y2="30" stroke="#94A3B8" stroke-width="2"/>
-   <path d="M14 50 C46 48 70 36 106 10" fill="none" stroke="#2563EB" stroke-width="2.6"/>
-   <line x1="62" y1="56" x2="62" y2="34" stroke="#BE123C" stroke-width="1.2" stroke-dasharray="3 2"/>
-   <circle cx="62" cy="34" r="3.4" fill="#BE123C"/>`,
+/* 11 복리 — 단리 직선과 갈라진다 */
+ svg(`${T_AX}
+   <path d="M14 50 C46 47 70 34 106 11 L106 54 L14 54 Z" fill="${TC.blue}" opacity=".10"/>
+   <path d="M14 50 L106 30" stroke="${TC.mute}" ${T_THIN}/>
+   <path d="M14 50 C46 47 70 34 106 11" stroke="${TC.blue}" ${T_BOLD}/>
+   <path d="M64 54 V33" stroke="${TC.rose}" stroke-width="1.2" stroke-dasharray="3 2.5"/>
+   <circle cx="64" cy="33" r="4.4" fill="${TC.rose}"/>`,
    '단리 직선과 복리 곡선이 벌어지는 그래프와 두 배 지점'),
 
- svg(`${[1,10,100,1000,10000].map((v,i)=>{ const h=(i+1)*8;
-     return `<rect x="${14+i*11}" y="${52-h}" width="8" height="${h}" rx="1" fill="#2563EB"/>`; }).join('')}
-   ${[1,10,100,1000,10000].map((v,i)=>{ const h=Math.max(1.2, v/10000*40);
-     return `<rect x="${70+i*8}" y="${52-h}" width="6" height="${h}" rx="1" fill="#CBD5E1"/>`; }).join('')}
-   <line x1="10" y1="52" x2="110" y2="52" stroke="#9CA3AF" stroke-width="1.2"/>
-   <text x="16" y="12" font-size="7" fill="#2563EB">로그 눈금</text>
-   <text x="72" y="12" font-size="7" fill="#9CA3AF">보통 눈금</text>`,
+/* 12 로그 스케일 — 같은 자료, 다른 눈금 */
+ svg(`<path d="M12 54 H108" stroke="${TC.grid}" stroke-width="1.2"/>
+   ${[1,2,3,4,5].map((v,i)=>{ const h=8+i*8;
+     return `<rect x="${16+i*10}" y="${52-h}" width="7" height="${h}" rx="1.5" fill="${TC.blue}"/>`; }).join('')}
+   <path d="M68 14 V52" stroke="${TC.grid}" stroke-width="1.2"/>
+   ${[1,10,100,1000,10000].map((v,i)=>{ const h=Math.max(1.4, v/10000*40);
+     return `<rect x="${74+i*7}" y="${52-h}" width="5" height="${h}" rx="1" fill="${TC.mute}"/>`; }).join('')}`,
    '로그 눈금과 보통 눈금에서 같은 자료가 다르게 보이는 비교'),
 
- svg(`<path d="M12 56 L108 56 M12 56 L12 8" stroke="#E5E7EB" stroke-width="1.4" fill="none"/>
-   <path d="M14 52 C40 50 60 40 104 10" fill="none" stroke="#2563EB" stroke-width="2.4"/>
-   <line x1="26" y1="52" x2="100" y2="20" stroke="#B45309" stroke-width="1.8"/>
-   <line x1="34" y1="52" x2="96" y2="14" stroke="#BE123C" stroke-width="1.8" stroke-dasharray="4 3"/>
-   <circle cx="56" cy="38" r="3.4" fill="#111827"/>
-   <circle cx="86" cy="24" r="3" fill="#B45309"/>`,
+/* 13 순간속도 — 할선이 접선으로 */
+ svg(`${T_AX}
+   <path d="M14 52 C40 50 60 40 104 11 L104 54 L14 54 Z" fill="${TC.blue}" opacity=".08"/>
+   <path d="M14 52 C40 50 60 40 104 11" stroke="${TC.blue}" ${T_BOLD}/>
+   <path d="M26 51 L100 20" stroke="${TC.amber}" ${T_THIN}/>
+   <path d="M34 51 L96 15" stroke="${TC.rose}" stroke-width="1.8" stroke-dasharray="4 3" fill="none"/>
+   <circle cx="56" cy="38" r="4.2" fill="${TC.ink}"/>
+   <circle cx="87" cy="24" r="3.4" fill="${TC.amber}"/>`,
    '곡선 위 할선이 접선으로 다가가는 그림'),
 
- svg(`<rect x="11" y="15" width="98" height="34" rx="5" fill="none" stroke="#111827" stroke-width="1.5"/>
-   ${[0,1,2,3,4,5,6,7].map(i => {
-     const x = 19 + i*11, dbl = i % 2 === 0;
-     return `<rect x="${x}" y="27" width="7" height="12" rx="1.6" fill="${dbl ? '#B45309' : '#CBD5E1'}"/>`;
-   }).join('')}
-   <text x="19" y="24" font-size="6.5" fill="#B45309">×2</text>`, '카드번호에서 한 칸 걸러 두 배 하는 자리'),
+/* 14 룬 — 한 칸 걸러 두 배 */
+ svg(`<rect x="13" y="17" width="94" height="32" rx="6" fill="${TC.blue}" opacity=".07"/>
+   <rect x="13" y="17" width="94" height="32" rx="6" stroke="${TC.ink}" ${T_THIN} opacity=".75"/>
+   ${[0,1,2,3,4,5,6,7].map(i=>{ const dbl=i%2===0;
+     return `<rect x="${20+i*10.6}" y="29" width="7" height="12" rx="1.6"
+       fill="${dbl?TC.amber:TC.mute}"/>`; }).join('')}
+   <path d="M20 25 H27 M23.5 22 L23.5 25" stroke="${TC.amber}" stroke-width="1.2"/>`,
+   '카드번호에서 한 칸 걸러 두 배 하는 자리'),
 
- svg(`${[[24,49,46.3],[40,38,40.4],[56,36,34.5],[72,25,28.6],[88,21,22.6]]
-     .map(([x,y,ly]) => `<line x1="${x}" y1="${y}" x2="${x}" y2="${ly}" stroke="#BE123C" stroke-width="1.4"/>`).join('')}
-   <line x1="14" y1="50" x2="106" y2="16" stroke="#2563EB" stroke-width="2.2"/>
-   ${[[24,49],[40,38],[56,36],[72,25],[88,21]]
-     .map(([x,y]) => `<circle cx="${x}" cy="${y}" r="3" fill="#111827"/>`).join('')}`,
+/* 15 회귀 — 잔차가 붙은 직선 */
+ svg(`${T_AX}
+   ${[[28,48,45.2],[44,37,39.6],[58,35,34.7],[74,25,29.1],[92,21,22.8]]
+     .map(([x,y,ly])=>`<path d="M${x} ${y} V${ly}" stroke="${TC.rose}" ${T_THIN}/>`).join('')}
+   <path d="M18 51 L104 15" stroke="${TC.blue}" ${T_BOLD}/>
+   ${[[28,48],[44,37],[58,35],[74,25],[92,21]]
+     .map(([x,y])=>`<circle cx="${x}" cy="${y}" r="3.2" fill="${TC.ink}"/>`).join('')}`,
    '점들 사이를 지나는 직선과 빨간 잔차'),
 
- svg(`<path d="M16 12 Q60 68 104 12" fill="none" stroke="#2563EB" stroke-width="2.2"/>
-   ${[[27,24],[38,33],[49,38.4]].map(([x,y]) => `<circle cx="${x}" cy="${y}" r="2.8" fill="#B45309" opacity=".55"/>`).join('')}
-   <circle cx="60" cy="40" r="4" fill="#BE123C"/>`, '포물선을 따라 최솟값으로 내려가는 점'),
+/* 16 경사하강 — 골짜기를 내려간다 */
+ svg(`<path d="M18 12 Q60 66 102 12 L102 54 L18 54 Z" fill="${TC.blue}" opacity=".08"/>
+   <path d="M18 12 Q60 66 102 12" stroke="${TC.blue}" ${T_BOLD}/>
+   ${[[29,25],[40,34],[51,39]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="3.2" fill="${TC.amber}" opacity=".6"/>`).join('')}
+   <circle cx="60" cy="41" r="4.8" fill="${TC.rose}"/>
+   <path d="M12 54 H108" stroke="${TC.grid}" stroke-width="1.2"/>`,
+   '포물선을 따라 최솟값으로 내려가는 점'),
 
- svg(`<rect x="36" y="8" width="48" height="48" fill="none" stroke="#E5E7EB" stroke-width="1.4"/>
-   <path d="M36 8 A48 48 0 0 1 84 56" fill="none" stroke="#111827" stroke-width="1.6"/>
-   ${[[44,20],[56,26],[48,42],[68,30],[41,49],[60,14]].map(([x,y]) => `<circle cx="${x}" cy="${y}" r="2.4" fill="#0E9384"/>`).join('')}
-   ${[[76,16],[80,30],[70,13]].map(([x,y]) => `<circle cx="${x}" cy="${y}" r="2.4" fill="#CBD5E1"/>`).join('')}`,
+/* 17 몬테카를로 — 사분원 안팎의 점 */
+ svg(`<rect x="36" y="10" width="44" height="44" fill="${TC.teal}" opacity=".07"/>
+   <rect x="36" y="10" width="44" height="44" stroke="${TC.grid}" stroke-width="1.2" fill="none"/>
+   <path d="M36 10 A44 44 0 0 1 80 54" stroke="${TC.ink}" ${T_THIN} opacity=".8"/>
+   ${[[44,20],[55,26],[47,41],[66,30],[41,48],[59,15],[50,34]]
+     .map(([x,y])=>`<circle cx="${x}" cy="${y}" r="2.8" fill="${TC.teal}"/>`).join('')}
+   ${[[73,17],[77,29],[70,13]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="2.8" fill="${TC.mute}"/>`).join('')}`,
    '사분원 안팎에 흩뿌려진 점들'),
 
- svg(`<path d="M22 52 L96 16" stroke="#2563EB" stroke-width="2.2"/>
-   <path d="M22 52 L88 40" stroke="#0E9384" stroke-width="2.2"/>
-   <path d="M46 45 A26 26 0 0 0 42 36" fill="none" stroke="#B45309" stroke-width="1.5"/>
-   <text x="49" y="38" font-size="8" fill="#B45309">θ</text>
-   <circle cx="22" cy="52" r="2.6" fill="#111827"/>`, '원점에서 뻗은 두 벡터와 사잇각'),
+/* 18 코사인 유사도 — 두 벡터의 사잇각 */
+ svg(`<path d="M24 50 L96 16 L88 40 Z" fill="${TC.blue}" opacity=".09"/>
+   <path d="M24 50 L96 16" stroke="${TC.blue}" ${T_BOLD}/>
+   <path d="M24 50 L88 40" stroke="${TC.teal}" ${T_BOLD}/>
+   <path d="M46 45 A24 24 0 0 0 43 37" stroke="${TC.amber}" ${T_THIN}/>
+   <circle cx="24" cy="50" r="3.4" fill="${TC.ink}"/>`,
+   '원점에서 뻗은 두 벡터와 사잇각'),
 
+/* 19 합성곱 — 커널이 지나가면 윤곽이 남는다 */
  svg(`${[0,1,2].map(r => [0,1,2].map(c =>
-     `<rect x="${12+c*11}" y="${17+r*11}" width="9.5" height="9.5" rx="1.4"
-       fill="${r===1&&c===1 ? '#2563EB' : '#DCE7FB'}"/>`).join('')).join('')}
-   <path d="M50 32 L64 32 M60 28 L64 32 L60 36" fill="none" stroke="#6B7280" stroke-width="1.5"/>
+     `<rect x="${14+c*10}" y="${19+r*10}" width="8.6" height="8.6" rx="1.5"
+       fill="${r===1&&c===1 ? TC.blue : TC.blue}" opacity="${r===1&&c===1?1:.22}"/>`).join('')).join('')}
+   <path d="M50 33 H64 M60 29 L64 33 L60 37" stroke="${TC.ink}" ${T_THIN} opacity=".5"/>
    ${[0,1,2,3].map(r => [0,1,2,3].map(c => {
      const edge = (r===0||r===3||c===0||c===3);
-     return `<rect x="${70+c*10}" y="${14+r*10}" width="8.6" height="8.6" rx="1.2"
-       fill="${edge ? '#111827' : '#F1F5F9'}"/>`;}).join('')).join('')}`,
+     return `<rect x="${72+c*9}" y="${19+r*9}" width="7.6" height="7.6" rx="1.2"
+       fill="${edge ? TC.ink : TC.grid}" opacity="${edge?.9:1}"/>`;}).join('')).join('')}`,
    '3×3 커널이 이미지에 적용되어 윤곽이 드러나는 그림'),
 
- svg(`<line x1="10" y1="32" x2="110" y2="32" stroke="#E5E7EB" stroke-width="1.2"/>
-   <path d="${waveD}" fill="none" stroke="#111827" stroke-width="2.2" stroke-linejoin="round"/>`,
+/* 20 파형 — 배음이 겹친 합성파 */
+ svg(`<path d="M12 32 H108" stroke="${TC.grid}" stroke-width="1.2"/>
+   <path d="${waveD}" stroke="${TC.blue}" ${T_BOLD}/>`,
    '기본음과 배음이 합쳐진 울퉁불퉁한 파형')
 ];
 
