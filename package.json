@@ -7,9 +7,11 @@
   "scripts": {
     "build": "node build.mjs",
     "test": "node build.mjs && node test/verify.mjs",
-    "open": "node build.mjs && node -e \"console.log('dist/index.html 을 브라우저로 여세요')\""
+    "open": "node build.mjs && node -e \"console.log('dist/index.html 을 브라우저로 여세요')\"",
+    "ppt": "node docs/make-ppt.mjs"
   },
   "devDependencies": {
-    "playwright": "^1.62.1"
+    "playwright": "^1.62.1",
+    "pptxgenjs": "^4.0.1"
   }
 }
