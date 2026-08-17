@@ -1079,6 +1079,121 @@ function trigDemo(root){
   ['tth','tds','teh'].forEach(i=>$('#'+i).oninput=draw); draw();
 }
 
+/* ---------- LAB 06 산점도와 상관계수 ---------- */
+function corrDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+    <canvas id="co1" width="380" height="300" style="cursor:crosshair"></canvas>
+    <div style="font-size:12.5px;color:#6B7280;margin-top:6px">← 그래프를 클릭해 점을 추가해 보세요 (이상치를 찍어 보면 r 이 얼마나 흔들리는지 보입니다)</div></div>
+    <div class="col">
+      ${slider('crs','실제 관계의 세기',-100,100,5,70,'%')}
+      ${slider('crn','흩어진 정도(잡음)',0,60,2,18,'')}
+      <div class="btns"><button class="b g" id="crnew">새로 뽑기</button>
+        <button class="b g" id="crclr">지우기</button></div>
+      <div class="out" id="crout"></div>
+      <div class="note" style="margin-top:12px"><b>상관은 인과가 아닙니다.</b>
+      r 이 아무리 커도 “A가 B의 원인”이라는 뜻은 아닙니다. 숨은 제3의 변수를 늘 의심해야 합니다.</div>
+    </div></div>`;
+  const cv=$('#co1'),ctx=cv.getContext('2d'),W=380,H=300,P=34;
+  let pts=[];
+  const X=v=>P+(W-2*P)*v/10, Y=v=>H-P-(H-2*P)*v/10;
+  const iX=p=>(p-P)/(W-2*P)*10, iY=p=>(H-P-p)/(H-2*P)*10;
+  let seed=7; const rnd=()=>{ seed=(seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff; };
+  function gen(){
+    const s=+$('#crs').value/100, n=+$('#crn').value/100;
+    pts=[]; seed=7;
+    for(let i=0;i<24;i++){
+      const x=0.6+rnd()*8.8;
+      const base=5+s*(x-5);
+      const y=Math.max(0.2,Math.min(9.8, base+(rnd()-0.5)*20*n));
+      pts.push([x,y]);
+    }
+  }
+  function stats(){
+    const n=pts.length; if(n<2) return null;
+    const mx=pts.reduce((a,p)=>a+p[0],0)/n, my=pts.reduce((a,p)=>a+p[1],0)/n;
+    let sxy=0,sxx=0,syy=0;
+    pts.forEach(p=>{sxy+=(p[0]-mx)*(p[1]-my);sxx+=(p[0]-mx)**2;syy+=(p[1]-my)**2;});
+    const sdx=Math.sqrt(sxx/n), sdy=Math.sqrt(syy/n), cov=sxy/n;
+    return {n,mx,my,cov,sdx,sdy,r:(sdx&&sdy)?cov/(sdx*sdy):0,a:sxx?sxy/sxx:0};
+  }
+  function draw(){
+    $('#crsv').textContent=$('#crs').value+'%'; $('#crnv').textContent=$('#crn').value;
+    axes(ctx,W,H,P);
+    const S=stats();
+    if(S){
+      ctx.strokeStyle='#2563EB';ctx.lineWidth=2.2;ctx.beginPath();
+      const b=S.my-S.a*S.mx;
+      ctx.moveTo(X(0),Y(b));ctx.lineTo(X(10),Y(S.a*10+b));ctx.stroke();
+    }
+    ctx.fillStyle='#111827';
+    pts.forEach(p=>{ctx.beginPath();ctx.arc(X(p[0]),Y(p[1]),4,0,7);ctx.fill();});
+    if(S){
+      const str=Math.abs(S.r), lab= str>=.7?'강한':str>=.4?'뚜렷한':str>=.2?'약한':'거의 없는';
+      const dir=S.r>0?'양의':'음의';
+      $('#crout').innerHTML=
+        `<span class="mono" style="font-size:15px">r = 공분산 / (σx · σy)</span><br><br>
+         공분산 = <b>${S.cov.toFixed(3)}</b><br>
+         σx = ${S.sdx.toFixed(3)} &nbsp; σy = ${S.sdy.toFixed(3)}<br>
+         r = ${S.cov.toFixed(3)} / (${S.sdx.toFixed(3)} × ${S.sdy.toFixed(3)}) = <b style="font-size:16px">${S.r.toFixed(3)}</b><br><br>
+         → ${lab} ${dir} 상관 (자료 ${S.n}개)<br>
+         <span style="color:#6B7280;font-size:12.5px">r 은 반드시 −1 ≤ r ≤ 1 입니다. 이 범위를 벗어나면 계산이 틀린 것입니다.</span>`;
+    }
+  }
+  cv.onclick=e=>{const r=cv.getBoundingClientRect();
+    const x=iX((e.clientX-r.left)*W/r.width), y=iY((e.clientY-r.top)*H/r.height);
+    if(x>=0&&x<=10&&y>=0&&y<=10){pts.push([x,y]);draw();}};
+  $('#crnew').onclick=()=>{gen();draw();};
+  $('#crclr').onclick=()=>{pts=[];draw();};
+  ['crs','crn'].forEach(i=>$('#'+i).oninput=()=>{gen();draw();});
+  gen(); draw();
+}
+
+/* ---------- LAB 07 대푯값과 이상치 ---------- */
+function repDemo(root){
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="rp1" width="380" height="300"></canvas></div>
+    <div class="col">
+      ${slider('rpb','사장님 연봉',3000,60000,1000,4000,'만원')}
+      <div class="out" id="rpout"></div>
+      <div class="note" style="margin-top:12px">“우리 회사 <b>평균</b> 연봉”이라는 말이 왜 위험한지
+      한 사람의 값만 올려 보면 압니다. 평균은 끌려가고 <b>중앙값은 버팁니다.</b></div>
+    </div></div>`;
+  const cv=$('#rp1'),ctx=cv.getContext('2d'),W=380,H=300;
+  const base=[3200,3400,3500,3600,3800,3900,4100,4300,4600];
+  function draw(){
+    const boss=+$('#rpb').value;
+    $('#rpbv').textContent=boss.toLocaleString('ko-KR')+'만원';
+    const arr=base.concat([boss]);
+    const sorted=arr.slice().sort((a,b)=>a-b);
+    const n=sorted.length;
+    const mean=arr.reduce((a,b)=>a+b,0)/n;
+    const med=n%2 ? sorted[(n-1)/2] : (sorted[n/2-1]+sorted[n/2])/2;
+    const maxV=Math.max(...arr)*1.08;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const bw=(W-50)/n, Y=v=>H-40-(H-70)*v/maxV;
+    sorted.forEach((v,i)=>{
+      ctx.fillStyle = v===boss ? '#BE123C' : '#94A3B8';
+      ctx.fillRect(35+i*bw+3, Y(v), bw-6, H-40-Y(v));
+    });
+    ctx.strokeStyle='#9CA3AF';ctx.beginPath();ctx.moveTo(30,H-40);ctx.lineTo(W-10,H-40);ctx.stroke();
+    const mark=(v,col,lab)=>{ctx.strokeStyle=col;ctx.lineWidth=2;ctx.setLineDash([5,3]);
+      ctx.beginPath();ctx.moveTo(30,Y(v));ctx.lineTo(W-10,Y(v));ctx.stroke();ctx.setLineDash([]);
+      ctx.fillStyle=col;ctx.font='bold 11px sans-serif';ctx.fillText(lab,34,Y(v)-4);};
+    mark(mean,'#2563EB','평균 '+Math.round(mean).toLocaleString());
+    mark(med,'#0E9384','중앙값 '+Math.round(med).toLocaleString());
+    const gap=mean-med;
+    $('#rpout').innerHTML=
+      `직원 9명 + 사장님 1명 = 10명<br><br>
+       <b style="color:#2563EB">평균 ${Math.round(mean).toLocaleString()}만원</b><br>
+       <b style="color:#0E9384">중앙값 ${Math.round(med).toLocaleString()}만원</b><br><br>
+       차이 <b>${Math.round(gap).toLocaleString()}만원</b><br>
+       평균보다 적게 받는 사람 = <b>${arr.filter(v=>v<mean).length}명 / 10명</b><br><br>
+       <span style="color:#6B7280;font-size:12.5px">${gap>500
+         ? '한 사람의 값이 평균을 크게 끌어올렸습니다. 이럴 때는 중앙값이 “보통 사람”을 더 잘 나타냅니다.'
+         : '아직 이상치가 크지 않아 평균과 중앙값이 비슷합니다. 사장님 연봉을 올려 보세요.'}</span>`;
+  }
+  $('#rpb').oninput=draw; draw();
+}
+
 /* ============ 실험실별 수학 원리 ============
    LABS 와 같은 순서. 실험을 조작하는 것만으로 끝나지 않도록,
    ① 어떤 원리인가 ② 실험의 어느 조작이 그 원리를 드러내는가 ③ 수업의 어느 장면으로 잇는가
@@ -1172,6 +1287,46 @@ const PRINS = [
   {lv:'바로',   t:'학교 건물 실제로 재기', d:'각도기(또는 휴대폰 수평계 앱)와 줄자로 우리 학교 건물의 각과 거리를 재어 넣습니다. 층수 × 3 m 어림값과 비교해 <b>오차가 몇 %</b> 인지 계산하세요.'},
   {lv:'심화',   t:'접근할 수 없는 대상 재기', d:'강 건너 나무처럼 밑변을 잴 수 없으면 어떻게 할까요? <b>두 지점에서 각을 두 번 재는</b> 방법을 세우고, 두 식을 연립해 높이를 구해 보세요.'},
   {lv:'프로젝트', t:'각도 오차가 만드는 높이 오차', d:'각을 ±1° 씩 흔들어 높이가 얼마나 달라지는지 표로 만듭니다. <b>각이 클수록 오차가 커지는 이유</b>를 tan 그래프의 기울기로 설명하고, 측량하기 좋은 각도 범위를 제안하세요.'}
+ ]},
+
+{tex:[
+  {t:'\\text{공분산}=\\frac{1}{n}\\sum (x_i-\\bar{x})(y_i-\\bar{y})',
+   s:'x 와 y 가 <b>평균에서 같은 쪽으로 함께 벗어나면</b> 곱이 양수, 반대쪽이면 음수입니다. 그 평균이 공분산이고, 부호가 곧 관계의 방향입니다.'},
+  {t:'r=\\frac{\\text{공분산}}{\\sigma_x \\sigma_y}',
+   s:'공분산은 <b>단위에 휘둘립니다.</b> 시간을 분으로 바꾸면 값이 60배가 됩니다. 각자의 표준편차로 나누면 단위가 지워지고 관계의 세기만 남습니다.'},
+  {t:'-1 \\le r \\le 1',
+   s:'<b>코시-슈바르츠 부등식</b>에서 나오는 성질입니다. 그래서 r 이 1을 넘는 값이 나오면 계산이 틀린 것이고, 대개 <b>표준편차로 나누는 단계를 빠뜨린</b> 경우입니다.'},
+  {t:'r(x,y)=r(ax+b,\\;cy+d) \\quad (a,c>0)',
+   s:'단위를 바꾸거나 전체를 평행이동해도 r 은 변하지 않습니다. 이것이 “표준화된 지표”라는 말의 뜻이며, 서로 다른 자료끼리 관계의 세기를 비교할 수 있는 이유입니다.'}
+ ],
+ eq:'r = 공분산 / (σx · σy),  −1 ≤ r ≤ 1',
+ what:'두 변수가 <b>함께 움직이는 정도</b>를 하나의 수로 나타낸 것입니다. 부호는 방향(같이 커지나, 반대로 가나), 절댓값은 세기를 뜻하며, 단위와 무관하도록 표준편차로 나눕니다.',
+ probe:'관계의 세기 슬라이더를 −100%에서 +100%까지 밀어 보며 점의 배열과 r 이 어떻게 대응하는지 보세요. 그다음 <b>구석에 이상치를 하나 클릭</b>해 보십시오. 점 하나가 r 을 얼마나 흔드는지가 이 실험의 핵심 장면입니다.',
+ link:'중3 상관관계 또는 고1 통계의 도입으로 씁니다. 반드시 <b>“상관은 인과가 아니다”</b>까지 다루십시오 — r 이 커도 숨은 제3의 변수 때문일 수 있습니다. 학급 자료를 조사해 직접 r 을 구하게 하면 데이터 리터러시 활동이 됩니다.',
+ next:[
+  {lv:'바로',   t:'우리 반 자료로 r 구하기', d:'통학 거리와 등교 시간, 수면 시간과 집중도처럼 두 변수를 조사해 산점도를 그리고 r 을 손으로 계산합니다. <b>부호를 먼저 예측</b>하고 계산 결과와 맞춰 보세요.'},
+  {lv:'심화',   t:'이상치 하나의 위력', d:'점 20개로 r ≈ 0.8 을 만든 뒤, 구석에 점 하나를 추가해 r 이 얼마까지 떨어지는지 기록합니다. <b>왜 한 점이 그렇게 큰 힘을 갖는지</b>를 공분산 식으로 설명해 보세요.'},
+  {lv:'프로젝트', t:'상관은 인과가 아니다', d:'아이스크림 판매량과 익사 사고처럼 <b>r 은 높지만 인과가 아닌</b> 사례를 찾아, 숨은 제3의 변수를 밝히고 발표합니다. 뉴스 기사에서 실제 사례를 찾으면 더 좋습니다.'}
+ ]},
+
+{tex:[
+  {t:'\\bar{x}=\\frac{1}{n}\\sum_{i=1}^{n} x_i',
+   s:'모든 값을 더해 개수로 나눈 것이 평균입니다. <b>모든 값이 똑같은 무게로</b> 들어간다는 점이 곧 평균의 약점이 됩니다.'},
+  {t:'\\bar{x}_{\\text{새}}-\\bar{x}=\\frac{\\Delta}{n}',
+   s:'한 사람의 값만 Δ 만큼 올리면 평균은 <b>Δ/n 만큼</b> 따라 올라갑니다. 10명이면 5000만원을 올릴 때 평균이 500만원 오릅니다 — 한 사람이 전체를 끌고 갑니다.'},
+  {t:'\\text{중앙값} : \\;x_{(1)} \\le x_{(2)} \\le \\cdots \\le x_{(n)} \\;\\text{에서 가운데 값}',
+   s:'<b>순서대로 세운 뒤</b> 가운데를 고르므로, 맨 끝 값이 아무리 커져도 가운데 자리는 거의 그대로입니다. 정렬이 빠지면 중앙값이 아니라 그냥 “배열 가운데 값”이 되어 버립니다.'},
+  {t:'|\\text{중앙값}_{\\text{새}}-\\text{중앙값}| \\le \\text{이웃한 두 값의 간격}',
+   s:'이것이 중앙값이 <b>이상치에 강한(robust)</b> 이유입니다. 극단값을 아무리 키워도 중앙값은 바로 옆 값까지밖에 움직이지 않습니다.'}
+ ],
+ eq:'평균 = Σxᵢ / n,  중앙값 = 정렬 후 가운데 값',
+ what:'자료 전체를 하나의 수로 요약하는 방법이 여러 가지라는 것이 핵심입니다. <b>평균은 모든 값을 반영</b>하지만 극단값에 끌려가고, <b>중앙값은 순위만 보므로</b> 극단값에 버팁니다.',
+ probe:'사장님 연봉 슬라이더를 끝까지 올려 보세요. <b>파란 평균선은 위로 끌려가는데 초록 중앙값선은 거의 그대로</b>입니다. 동시에 “평균보다 적게 받는 사람 수”가 늘어나는데, 이것이 평균이 대표성을 잃었다는 신호입니다.',
+ link:'중1 대푯값 단원의 도입입니다. 세 대푯값의 정의를 외우게 하는 대신 <b>“어떤 상황에서 무엇을 써야 하는가”</b>를 묻는 자리로 쓰십시오. 실제 뉴스의 “평균 연봉·평균 집값” 기사를 가져오면 그대로 비판적 읽기 활동이 됩니다.',
+ next:[
+  {lv:'바로',   t:'평균보다 적은 사람이 몇 명인가', d:'이상치를 키우며 <b>평균 미만인 사람 수</b>를 기록해 표로 만듭니다. 10명 중 9명이 평균 미만이 되는 순간을 찾고, 그때 “평균”이라는 말이 왜 오해를 부르는지 적어 보세요.'},
+  {lv:'심화',   t:'최빈값과 절사평균', d:'값이 겹치도록 자료를 바꿔 <b>최빈값</b>을 만들어 보고, 위아래 10%를 잘라 내는 <b>절사평균</b>도 계산해 세 대푯값과 비교합니다. 어느 것이 “보통 사람”을 가장 잘 나타내나요?'},
+  {lv:'프로젝트', t:'기사 속 대푯값 비판하기', d:'“평균 연봉·평균 집값·평균 자산” 기사를 찾아, <b>중앙값을 썼다면 숫자가 어떻게 달라졌을지</b> 추정하고 기사에 대한 반론을 씁니다. 통계청 자료의 중앙값을 찾아 근거로 삼으세요.'}
  ]},
 
 {tex:[
@@ -1331,7 +1486,15 @@ const LABS=[
  m:['삼각비 tan','직각삼각형','각도와 라디안'],a:['드론 측량','레이저 거리계·LiDAR'],
  note:'각을 재고 거리를 알면 <b>tan 하나</b>로 높이가 나옵니다. 눈높이를 더하는 것을 빠뜨리면 실제보다 낮게 나오는데, 이 “한 항의 누락”이 측량에서 가장 흔한 실수입니다.',
  build:trigDemo},
-{n:6,core:0,t:'카드번호 검증기 (룬 알고리즘)',q:'오타 난 카드번호를 왜 즉시 잡아낼까?',
+{n:6,core:1,t:'“정말 관계가 있을까?” 산점도와 상관계수',q:'공부 시간과 성적, 정말 관계가 있을까?',
+ m:['산점도','상관계수 r','평균·표준편차'],a:['특성 선택','상관 ≠ 인과'],
+ note:'관계의 세기를 −100%에서 +100%까지 바꿔 보고, 구석에 <b>이상치</b>를 하나 찍어 보세요. r 이 얼마나 흔들리는지 바로 보입니다. r 은 반드시 −1과 1 사이라는 것도 화면에서 확인됩니다.',
+ build:corrDemo},
+{n:7,core:1,t:'“평균 연봉”의 함정 — 대푯값과 이상치',q:'평균 연봉 8천만 원, 이 회사 정말 좋은 회사일까?',
+ m:['평균·중앙값·최빈값','이상치','자료의 분포'],a:['데이터 전처리','robust 통계'],
+ note:'사장님 연봉 하나만 올려 보세요. <b>평균은 끌려가는데 중앙값은 버팁니다.</b> “평균보다 적게 받는 사람이 몇 명인지”가 함께 나오므로, 대푯값을 왜 골라 써야 하는지가 숫자로 드러납니다.',
+ build:repDemo},
+{n:8,core:0,t:'카드번호 검증기 (룬 알고리즘)',q:'오타 난 카드번호를 왜 즉시 잡아낼까?',
  m:['나머지·합동식','자릿수 분해','모듈러 연산'],a:['체크섬','데이터 무결성 검증'],
  note:'한 자리만 바꿔 보세요. 검증이 <b>반드시</b> 실패합니다. “나머지”라는 중학 개념 하나가 실제 결제 시스템을 떠받치고 있다는 사실이 강력한 동기가 됩니다.',
  build:luhnDemo},
@@ -1410,6 +1573,21 @@ const THUMBS = [
    <path d="M34 44 A16 16 0 0 0 31 38" fill="none" stroke="#B45309" stroke-width="1.4"/>
    <circle cx="18" cy="44" r="3" fill="#111827"/>`,
    '지면에서 건물 꼭대기를 올려본각으로 높이를 재는 직각삼각형'),
+
+ svg(`<path d="M12 56 L108 56 M12 56 L12 8" stroke="#E5E7EB" stroke-width="1.4" fill="none"/>
+   <line x1="16" y1="50" x2="104" y2="14" stroke="#2563EB" stroke-width="2"/>
+   ${[[24,46],[34,40],[42,44],[52,32],[60,34],[70,24],[80,22],[92,16],[36,28],[76,36]]
+     .map(([x,y])=>`<circle cx="${x}" cy="${y}" r="2.8" fill="#111827"/>`).join('')}
+   <circle cx="98" cy="50" r="3.4" fill="#BE123C"/>`,
+   '점들이 오른쪽 위로 몰린 산점도와 추세선, 구석의 이상치'),
+
+ svg(`${[3200,3400,3500,3600,3800,3900,4100,4300,4600,9000]
+     .map((v,i)=>{ const h=v/9000*34; return `<rect x="${13+i*9.6}" y="${52-h}" width="7" height="${h}" rx="1"
+       fill="${i===9?'#BE123C':'#94A3B8'}"/>`; }).join('')}
+   <line x1="10" y1="30" x2="110" y2="30" stroke="#2563EB" stroke-width="1.6" stroke-dasharray="4 3"/>
+   <line x1="10" y1="38" x2="110" y2="38" stroke="#0E9384" stroke-width="1.6" stroke-dasharray="4 3"/>
+   <line x1="10" y1="52" x2="110" y2="52" stroke="#9CA3AF" stroke-width="1.2"/>`,
+   '한 사람만 크게 튀는 연봉 막대와 평균선·중앙값선'),
 
  svg(`<rect x="11" y="15" width="98" height="34" rx="5" fill="none" stroke="#111827" stroke-width="1.5"/>
    ${[0,1,2,3,4,5,6,7].map(i => {
@@ -2241,6 +2419,188 @@ trig:{
       '    (P.th >= 70 ? " &nbsp;<span style=\'color:#BE123C\'>각이 70° 를 넘어 작은 오차도 크게 번집니다</span>" : "");',
       '}'],
  events:['["st","sd","se"].forEach(id => document.getElementById(id).oninput = update);']
+},
+
+corr:{
+ t:'산점도와 상관계수', grade:'중3~고1 · 상관관계·통계',
+ q:'공부 시간과 성적, 정말 관계가 있을까?',
+ eq:'r = 공분산 / (σx · σy),  −1 ≤ r ≤ 1',
+ model:'두 변수가 평균에서 같은 쪽으로 함께 벗어나는 정도를 표준편차로 나누어 −1~1 로 만든 값',
+ params:'자료 점들의 좌표',
+ controls:'좌표평면을 클릭해 자료 점을 추가하는 기능',
+ viz:'산점도와 추세선',
+ bug:'상관계수가 1을 넘는 값(예: 4.7)으로 표시됩니다. r 은 −1과 1 사이여야 하는데 범위를 완전히 벗어났습니다.',
+ fixask:'상관계수가 1보다 큰 값으로 나와. r 은 −1과 1 사이여야 하잖아.\n공분산만 쓰지 말고 x와 y의 표준편차로 각각 나눠서 r 을 구해 줘. 그리고 값이 −1~1 범위 안인지 화면에서 확인할 수 있게 표시해 줘.',
+ act:'r 의 절댓값으로 관계의 세기를 말로 판정해 주는 활동',
+ guide:['그래프를 클릭해 점을 더 찍어 보세요. r 이 즉시 다시 계산됩니다.',
+        '구석에 이상치를 하나 찍고 r 이 얼마나 흔들리는지 보세요.',
+        'r 이 커도 인과가 아닐 수 있습니다. 숨은 제3의 변수를 찾아보세요.'],
+ obj:'상관계수를 구하고 그 부호와 크기가 뜻하는 바를 해석할 수 있다.',
+ js2:['const P = {pts: [[1,2.2],[2,2.8],[3,4.1],[4,4.0],[5,5.6],[6,6.3],[7,6.9],[8,8.4]]};',
+      'function stat(){',
+      '  const n = P.pts.length; if(n < 2) return null;',
+      '  const mx = P.pts.reduce((s,p)=>s+p[0],0)/n, my = P.pts.reduce((s,p)=>s+p[1],0)/n;',
+      '  let sxy=0, sxx=0, syy=0;',
+      '  P.pts.forEach(p => { sxy += (p[0]-mx)*(p[1]-my); sxx += (p[0]-mx)*(p[0]-mx); syy += (p[1]-my)*(p[1]-my); });',
+      '  return {n:n, mx:mx, my:my, cov:sxy/n, sdx:Math.sqrt(sxx/n), sdy:Math.sqrt(syy/n), a:sxx?sxy/sxx:0};',
+      '}'],
+ body3:['<canvas id="cv" width="420" height="340" style="cursor:crosshair"></canvas>',
+        '<p style="font-size:13px;color:#666">그래프를 클릭하면 자료가 추가됩니다.</p>',
+        '<button id="clr">자료 지우기</button>'],
+ js3:['const PX = x => 40 + 34*x, PY = y => 300 - 30*y;',
+      'const IX = p => (p-40)/34,  IY = p => (300-p)/30;',
+      'function readInputs(){}',
+      'document.getElementById("cv").onclick = function(e){',
+      '  const r = this.getBoundingClientRect();',
+      '  const x = IX((e.clientX-r.left)*420/r.width), y = IY((e.clientY-r.top)*340/r.height);',
+      '  if(x>=0 && x<=10 && y>=0 && y<=10){ P.pts.push([x,y]); update(); }',
+      '};',
+      'document.getElementById("clr").onclick = function(){ P.pts = []; update(); };'],
+ body4:['<p id="out" style="font-size:15px"></p>'],
+ js4:['function grid(c){',
+      '  c.clearRect(0,0,420,340); c.strokeStyle="#eee";',
+      '  for(let i=0;i<=10;i++){',
+      '    c.beginPath(); c.moveTo(PX(i),PY(0)); c.lineTo(PX(i),PY(10)); c.stroke();',
+      '    c.beginPath(); c.moveTo(PX(0),PY(i)); c.lineTo(PX(10),PY(i)); c.stroke();',
+      '  }',
+      '}',
+      'function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d"); grid(c);',
+      '  c.fillStyle = "#111";',
+      '  P.pts.forEach(p => { c.beginPath(); c.arc(PX(p[0]),PY(p[1]),4.5,0,7); c.fill(); });',
+      '  const s = stat();',
+      '  if(s) document.getElementById("out").innerHTML =',
+      '    "상관계수 r = <b>" + s.cov.toFixed(3) + "</b>";   // 공분산을 그대로 r 이라고 씀',
+      '}'],
+ js5:['function grid(c){',
+      '  c.clearRect(0,0,420,340); c.strokeStyle="#eee";',
+      '  for(let i=0;i<=10;i++){',
+      '    c.beginPath(); c.moveTo(PX(i),PY(0)); c.lineTo(PX(i),PY(10)); c.stroke();',
+      '    c.beginPath(); c.moveTo(PX(0),PY(i)); c.lineTo(PX(10),PY(i)); c.stroke();',
+      '  }',
+      '}',
+      'function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d"); grid(c);',
+      '  const s = stat();',
+      '  if(s){',
+      '    const b = s.my - s.a*s.mx;',
+      '    c.strokeStyle = "#2563EB"; c.lineWidth = 2.4;',
+      '    c.beginPath(); c.moveTo(PX(0),PY(b)); c.lineTo(PX(10),PY(s.a*10+b)); c.stroke();',
+      '  }',
+      '  c.fillStyle = "#111";',
+      '  P.pts.forEach(p => { c.beginPath(); c.arc(PX(p[0]),PY(p[1]),4.5,0,7); c.fill(); });',
+      '  if(s){',
+      '    const r = (s.sdx && s.sdy) ? s.cov/(s.sdx*s.sdy) : 0;',
+      '    const ok = (r >= -1.0001 && r <= 1.0001);',
+      '    document.getElementById("out").innerHTML =',
+      '      "공분산 " + s.cov.toFixed(3) + " ÷ (σx " + s.sdx.toFixed(3) + " × σy " + s.sdy.toFixed(3) + ")<br>" +',
+      '      "상관계수 r = <b>" + r.toFixed(3) + "</b> " +',
+      '      (ok ? "<span style=\'color:#0E9384\'>(−1 ~ 1 범위 안)</span>"',
+      '          : "<span style=\'color:#BE123C\'>(범위를 벗어남 — 계산 오류)</span>");',
+      '  }',
+      '}'],
+ body6:['<p id="fb" style="font-size:15px"></p>'],
+ js6:['function check(){',
+      '  const s = stat(); if(!s) return;',
+      '  const r = (s.sdx && s.sdy) ? s.cov/(s.sdx*s.sdy) : 0, k = Math.abs(r);',
+      '  const lab = k>=0.7 ? "강한" : k>=0.4 ? "뚜렷한" : k>=0.2 ? "약한" : "거의 없는";',
+      '  document.getElementById("fb").innerHTML =',
+      '    "→ <b>" + lab + " " + (r>=0 ? "양의" : "음의") + " 상관</b> (자료 " + s.n + "개)<br>" +',
+      '    "<span style=\'font-size:13px;color:#666\'>다만 상관이 크다고 인과는 아닙니다. 숨은 제3의 변수를 의심하세요.</span>";',
+      '}'],
+ events:[]
+},
+
+rep:{
+ t:'대푯값과 이상치 (평균의 함정)', grade:'중1 · 대푯값',
+ q:'평균 연봉 8천만 원, 이 회사 정말 좋은 회사일까?',
+ eq:'평균 = Σxᵢ / n,  중앙값 = 정렬 후 가운데 값',
+ model:'모든 값을 반영하는 평균과 순위만 보는 중앙값이 이상치에 다르게 반응하는 성질',
+ params:'직원 9명의 연봉과 사장 1명의 연봉',
+ controls:'사장 연봉을 조절하는 슬라이더',
+ viz:'연봉 막대그래프와 평균선·중앙값선',
+ bug:'사장님 연봉을 6억으로 올리면 중앙값도 6억이 됩니다. 중앙값이 사장님 연봉을 그대로 따라다녀서, 평균보다 오히려 더 크게 튑니다.',
+ fixask:'사장님 연봉을 올리면 중앙값이 그 값을 그대로 따라가. 중앙값 = 사장님 연봉이 되어 버려. 중앙값은 극단값에 거의 안 흔들려야 하잖아.\n중앙값은 자료를 먼저 크기순으로 정렬한 다음 가운데 값을 골라야 해. 지금은 정렬하지 않고 배열의 가운데 자리를 그냥 쓰고 있어서, 사장님이 그 자리에 있는 것 같아. 정렬해서 다시 구해 줘.',
+ act:'평균보다 적게 받는 사람이 몇 명인지 세어 대표성을 판정하는 활동',
+ guide:['사장님 연봉 슬라이더를 끝까지 올려 보세요.',
+        '평균선과 중앙값선의 간격이 얼마나 벌어지는지 보세요.',
+        '평균보다 적게 받는 사람이 몇 명인지 세어 보세요.'],
+ obj:'평균과 중앙값의 차이를 이해하고 자료의 특성에 맞는 대푯값을 선택할 수 있다.',
+ js2:['const P = {pay: [3200,3400,3500,3600,3800,3900,4100,4300,4600], boss: 4000};',
+      '// 명단은 입사 순서대로라 사장님이 가운데에 끼어 있다 — 정렬하지 않으면 이 자리가 그대로 뽑힌다',
+      'function all(){ return P.pay.slice(0,5).concat([P.boss], P.pay.slice(5)); }',
+      'function mean(){ const a = all(); return a.reduce(function(s,v){return s+v;},0) / a.length; }'],
+ body3:['<label>사장님 연봉 <b id="vb">4000</b>만원<input type="range" id="sb" min="3000" max="60000" step="1000" value="4000"></label>'],
+ js3:['function readInputs(){',
+      '  P.boss = +document.getElementById("sb").value;',
+      '  document.getElementById("vb").textContent = P.boss.toLocaleString();',
+      '}'],
+ body4:['<canvas id="cv" width="420" height="300"></canvas>',
+        '<p id="out" style="font-size:15px"></p>'],
+ js4:['function median(){',
+      '  const a = all();',
+      '  return a[Math.floor(a.length/2)];        // 정렬하지 않고 배열 가운데 값을 씀',
+      '}',
+      'function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  const a = all(), mx = Math.max.apply(null,a)*1.1, bw = 380/a.length;',
+      '  const Y = v => 260 - 220*v/mx;',
+      '  c.clearRect(0,0,420,300);',
+      '  a.forEach(function(v,i){',
+      '    c.fillStyle = (i === a.length-1) ? "#BE123C" : "#94A3B8";',
+      '    c.fillRect(30+i*bw+3, Y(v), bw-6, 260-Y(v));',
+      '  });',
+      '  c.strokeStyle="#9CA3AF"; c.beginPath(); c.moveTo(25,260); c.lineTo(415,260); c.stroke();',
+      '  const m = mean(), md = median();',
+      '  [[m,"#2563EB","평균"],[md,"#0E9384","중앙값"]].forEach(function(o){',
+      '    c.strokeStyle=o[1]; c.lineWidth=2; c.setLineDash([5,3]);',
+      '    c.beginPath(); c.moveTo(25,Y(o[0])); c.lineTo(415,Y(o[0])); c.stroke(); c.setLineDash([]);',
+      '    c.fillStyle=o[1]; c.font="bold 11px sans-serif";',
+      '    c.fillText(o[2]+" "+Math.round(o[0]).toLocaleString(), 30, Y(o[0])-4);',
+      '  });',
+      '  document.getElementById("out").innerHTML =',
+      '    "평균 <b>" + Math.round(m).toLocaleString() + "</b>만원 · 중앙값 <b>" +',
+      '    Math.round(md).toLocaleString() + "</b>만원";',
+      '}'],
+ js5:['function median(){',
+      '  const a = all().slice().sort(function(x,y){ return x-y; });   // 반드시 정렬 먼저',
+      '  const n = a.length;',
+      '  return n%2 ? a[(n-1)/2] : (a[n/2-1] + a[n/2]) / 2;',
+      '}',
+      'function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  const a = all().slice().sort(function(x,y){ return x-y; });',
+      '  const mx = Math.max.apply(null,a)*1.1, bw = 380/a.length;',
+      '  const Y = v => 260 - 220*v/mx;',
+      '  c.clearRect(0,0,420,300);',
+      '  a.forEach(function(v,i){',
+      '    c.fillStyle = (v === P.boss) ? "#BE123C" : "#94A3B8";',
+      '    c.fillRect(30+i*bw+3, Y(v), bw-6, 260-Y(v));',
+      '  });',
+      '  c.strokeStyle="#9CA3AF"; c.beginPath(); c.moveTo(25,260); c.lineTo(415,260); c.stroke();',
+      '  const m = mean(), md = median();',
+      '  [[m,"#2563EB","평균"],[md,"#0E9384","중앙값"]].forEach(function(o){',
+      '    c.strokeStyle=o[1]; c.lineWidth=2; c.setLineDash([5,3]);',
+      '    c.beginPath(); c.moveTo(25,Y(o[0])); c.lineTo(415,Y(o[0])); c.stroke(); c.setLineDash([]);',
+      '    c.fillStyle=o[1]; c.font="bold 11px sans-serif";',
+      '    c.fillText(o[2]+" "+Math.round(o[0]).toLocaleString(), 30, Y(o[0])-4);',
+      '  });',
+      '  document.getElementById("out").innerHTML =',
+      '    "평균 <b>" + Math.round(m).toLocaleString() + "</b>만원 · 중앙값 <b>" +',
+      '    Math.round(md).toLocaleString() + "</b>만원 · 차이 <b>" +',
+      '    Math.round(m-md).toLocaleString() + "</b>만원";',
+      '}'],
+ body6:['<p id="fb" style="font-size:15px"></p>'],
+ js6:['function check(){',
+      '  const a = all(), m = mean();',
+      '  const below = a.filter(function(v){ return v < m; }).length;',
+      '  document.getElementById("fb").innerHTML =',
+      '    "평균보다 적게 받는 사람 <b>" + below + "명 / " + a.length + "명</b> " +',
+      '    (below >= a.length*0.7',
+      '      ? "<span style=\'color:#BE123C\'>→ 평균이 “보통 사람”을 대표하지 못합니다. 중앙값을 쓰세요.</span>"',
+      '      : "<span style=\'color:#0E9384\'>→ 아직 평균이 쓸 만합니다.</span>");',
+      '}'],
+ events:['document.getElementById("sb").oninput = update;']
 },
 
 luhn:{
