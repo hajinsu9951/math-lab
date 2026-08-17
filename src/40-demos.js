@@ -19,6 +19,102 @@ function slider(id,label,min,max,step,val,unit){
   return `<label class="ctl">${label} <span id="${id}v">${val}${unit||''}</span>
   <input type="range" id="${id}" min="${min}" max="${max}" step="${step}" value="${val}"></label>`;}
 
+/* ---------- LAB 11 요금제 손익분기 (일차함수) ---------- */
+function planDemo(root){
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="pl1" width="380" height="300"></canvas></div>
+    <div class="col">
+      ${slider('pa','A 요금제 기본료',0,30000,1000,10000,'원')}
+      ${slider('pb','A 요금제 분당 요금',0,200,10,50,'원')}
+      ${slider('pc','B 요금제 기본료',0,30000,1000,20000,'원')}
+      ${slider('pd','B 요금제 분당 요금',0,200,10,20,'원')}
+      <div class="out" id="plout"></div>
+      <div class="note" style="margin-top:12px">두 <b>일차함수의 교점</b>이 곧 “갈아탈 시점”입니다.
+      기본료는 <b>y절편</b>, 분당 요금은 <b>기울기</b>입니다.</div>
+    </div></div>`;
+  const cv=$('#pl1'),ctx=cv.getContext('2d'),W=380,H=300,P=40;
+  const MAXM=400;
+  function draw(){
+    const a=+$('#pa').value,b=+$('#pb').value,c=+$('#pc').value,d=+$('#pd').value;
+    [['pa',a,'원'],['pb',b,'원'],['pc',c,'원'],['pd',d,'원']].forEach(([id,v,u])=>
+      $('#'+id+'v').textContent=v.toLocaleString('ko-KR')+u);
+    const maxY=Math.max(a+b*MAXM, c+d*MAXM, 1);
+    const X=m=>P+(W-2*P)*m/MAXM, Y=w=>H-P-(H-2*P)*w/maxY;
+    axes(ctx,W,H,P);
+    const line=(k,s,col)=>{ctx.strokeStyle=col;ctx.lineWidth=2.6;ctx.beginPath();
+      ctx.moveTo(X(0),Y(k));ctx.lineTo(X(MAXM),Y(k+s*MAXM));ctx.stroke();};
+    line(a,b,'#2563EB'); line(c,d,'#0E9384');
+    let msg;
+    if(b===d){
+      msg = a===c ? '두 요금제가 <b>완전히 같습니다.</b> 어떤 시간에도 차이가 없습니다.'
+        : `분당 요금이 같아 두 직선이 <b>평행</b>합니다. 교점이 없으므로 <b>항상 ${a<c?'A':'B'}</b>가 저렴합니다.`;
+    } else {
+      const m=(c-a)/(b-d), y=a+b*m;
+      if(m>0 && m<=MAXM){
+        ctx.fillStyle='#BE123C';ctx.beginPath();ctx.arc(X(m),Y(y),6,0,7);ctx.fill();
+        ctx.strokeStyle='#BE123C';ctx.setLineDash([4,3]);ctx.lineWidth=1.2;
+        ctx.beginPath();ctx.moveTo(X(m),Y(y));ctx.lineTo(X(m),H-P);ctx.stroke();ctx.setLineDash([]);
+        ctx.fillStyle='#111827';ctx.font='bold 12px sans-serif';
+        ctx.fillText(Math.round(m)+'분',X(m)+8,Y(y)-9);
+      }
+      msg = m<=0 ? `교점이 음수 시간(${m.toFixed(1)}분)에 있어 <b>실제로는 만나지 않습니다.</b> 0분부터 계속 ${a<c?'A':'B'}가 저렴합니다.`
+        : m>MAXM ? `교점이 ${Math.round(m)}분으로 화면 밖입니다. 그 전까지는 ${a+b*1<c+d*1?'A':'B'}가 저렴합니다.`
+        : `<span class="mono" style="font-size:15px">${a.toLocaleString()} + ${b}x = ${c.toLocaleString()} + ${d}x</span><br>
+           x = (${c.toLocaleString()} − ${a.toLocaleString()}) / (${b} − ${d}) = <b>${m.toFixed(1)}분</b><br><br>
+           <b>${m.toFixed(0)}분보다 적게 쓰면 ${b<d?'A':'B'}</b>, 많이 쓰면 <b>${b<d?'B':'A'}</b>가 저렴합니다.<br>
+           그때 요금은 둘 다 <b>${Math.round(y).toLocaleString()}원</b>`;
+    }
+    $('#plout').innerHTML=msg;
+  }
+  ['pa','pb','pc','pd'].forEach(i=>$('#'+i).oninput=draw); draw();
+}
+
+/* ---------- LAB 12 드론으로 높이 재기 (삼각비) ---------- */
+function trigDemo(root){
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="tg1" width="380" height="300"></canvas></div>
+    <div class="col">
+      ${slider('tth','올려본각 θ',5,80,1,35,'°')}
+      ${slider('tds','수평 거리 d',10,120,1,50,'m')}
+      ${slider('teh','내 눈높이',0,3,0.1,1.6,'m')}
+      <div class="out" id="tgout"></div>
+      <div class="note" style="margin-top:12px">각을 재고 거리를 알면 <b>tan</b> 하나로 높이가 나옵니다.
+      드론·측량기가 하는 일이 정확히 이것입니다.</div>
+    </div></div>`;
+  const cv=$('#tg1'),ctx=cv.getContext('2d'),W=380,H=300;
+  function draw(){
+    const th=+$('#tth').value, d=+$('#tds').value, eh=+$('#teh').value;
+    $('#tthv').textContent=th+'°'; $('#tdsv').textContent=d+'m'; $('#tehv').textContent=eh.toFixed(1)+'m';
+    const rad=th*Math.PI/180, h=d*Math.tan(rad)+eh, hyp=d/Math.cos(rad);
+    const maxX=130, maxY=Math.max(60,h*1.15);
+    const X=v=>30+(W-60)*v/maxX, Y=v=>H-40-(H-70)*v/maxY;
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#F5F7FA';ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF';ctx.lineWidth=1.4;
+    ctx.beginPath();ctx.moveTo(0,Y(0));ctx.lineTo(W,Y(0));ctx.stroke();       // 지면
+    ctx.fillStyle='#CBD5E1';ctx.fillRect(X(d)-16,Y(h),32,Y(0)-Y(h));          // 건물
+    ctx.strokeStyle='#94A3B8';ctx.strokeRect(X(d)-16,Y(h),32,Y(0)-Y(h));
+    ctx.strokeStyle='#B45309';ctx.setLineDash([4,3]);ctx.lineWidth=1.4;       // 눈높이 수평선
+    ctx.beginPath();ctx.moveTo(X(0),Y(eh));ctx.lineTo(X(d),Y(eh));ctx.stroke();ctx.setLineDash([]);
+    ctx.strokeStyle='#2563EB';ctx.lineWidth=2.4;                              // 시선
+    ctx.beginPath();ctx.moveTo(X(0),Y(eh));ctx.lineTo(X(d),Y(h));ctx.stroke();
+    ctx.strokeStyle='#0E9384';ctx.lineWidth=2;                                // 높이 성분
+    ctx.beginPath();ctx.moveTo(X(d),Y(eh));ctx.lineTo(X(d),Y(h));ctx.stroke();
+    ctx.strokeStyle='#B45309';ctx.lineWidth=1.6;                              // 각 표시
+    ctx.beginPath();ctx.arc(X(0),Y(eh),26,-rad,0);ctx.stroke();
+    ctx.fillStyle='#B45309';ctx.font='bold 12px sans-serif';
+    ctx.fillText(th+'°',X(0)+30,Y(eh)-7);
+    ctx.fillStyle='#111827';ctx.beginPath();ctx.arc(X(0),Y(eh),4,0,7);ctx.fill();
+    ctx.font='bold 12px sans-serif';
+    ctx.fillText(h.toFixed(1)+' m',X(d)+20,Y(h)+14);
+    $('#tgout').innerHTML=
+      `<span class="mono" style="font-size:15px">tan ${th}° = (높이 − 눈높이) / ${d}</span><br><br>
+       tan ${th}° = <b>${Math.tan(rad).toFixed(4)}</b><br>
+       눈높이 위 부분 = ${d} × ${Math.tan(rad).toFixed(4)} = <b>${(d*Math.tan(rad)).toFixed(2)} m</b><br>
+       건물 높이 = 그 값 + 눈높이 ${eh.toFixed(1)} = <b>${h.toFixed(2)} m</b><br><br>
+       참고 · 시선 길이(빗변) = ${d} / cos ${th}° = ${hyp.toFixed(2)} m`;
+  }
+  ['tth','tds','teh'].forEach(i=>$('#'+i).oninput=draw); draw();
+}
+
 /* ============ 실험실별 수학 원리 ============
    LABS 와 같은 순서. 실험을 조작하는 것만으로 끝나지 않도록,
    ① 어떤 원리인가 ② 실험의 어느 조작이 그 원리를 드러내는가 ③ 수업의 어느 장면으로 잇는가
@@ -73,6 +169,46 @@ const PRINS = [
  what:'같은 비율을 <b>거듭 곱하는</b> 변화입니다. 더하기(일차)와 곱하기(지수)의 차이가 며칠만 지나도 감당 못 할 만큼 벌어집니다. 지수는 커진 값을 다루기 어렵게 만들고, <b>로그</b>는 그 지수를 끌어내려 다시 다룰 수 있게 만드는 도구입니다.',
  probe:'전파율을 조금만 올려 보세요. 예측을 먼저 적고 나서 실제 값을 보면 직관이 얼마나 빗나가는지 드러납니다. 세로 축 배율을 바꾸면 같은 데이터가 전혀 다른 인상을 준다는 것도 함께 확인하십시오 — <b>로그 축</b>이 필요한 이유가 여기서 나옵니다.',
  link:'지수함수 도입과 로그 도입을 하나로 잇습니다. “두 배가 되는 데 며칠?”을 물으면 학생이 스스로 2 = rᵗ 를 세우고, 그 지수를 꺼내려다 로그를 요구하게 됩니다. 마지막에는 <b>모델이 깨지는 지점(포화)</b>을 찾게 해 모델을 의심하는 법까지 다룹니다.'},
+
+{tex:[
+  {t:'y_A=a+bx, \\qquad y_B=c+dx',
+   s:'요금은 <b>기본료 + 분당요금 × 시간</b> 입니다. 기본료가 <b>y절편</b>, 분당 요금이 <b>기울기</b>가 되는 전형적인 일차함수입니다.'},
+  {t:'a+bx=c+dx \\;\\Rightarrow\\; (b-d)x=c-a \\;\\Rightarrow\\; x=\\frac{c-a}{b-d}',
+   s:'“같아지는 시점”을 묻는 것은 <b>두 일차식을 같게 놓는 것</b>, 곧 연립방정식의 해를 구하는 것입니다. x 항을 한쪽으로 모으면 답이 바로 나옵니다.'},
+  {t:'b=d \\;\\Rightarrow\\; (b-d)x=c-a \\;\\text{에서}\\; 0 \\cdot x=c-a',
+   s:'<b>분모가 0 이 되는 경우입니다.</b> 기울기가 같아 두 직선이 평행하므로, c ≠ a 면 해가 없고(영원히 만나지 않음) c = a 면 두 요금제가 완전히 같아 해가 무수히 많습니다. “해가 없다”가 그래프에서 무엇인지 이 자리에서 보입니다.'},
+  {t:'x>\\frac{c-a}{b-d} \\;\\text{일 때}\\; y_A>y_B \\quad (b>d)',
+   s:'교점 하나로 끝이 아니라 <b>어느 쪽이 유리한 구간</b>까지 읽어야 답이 됩니다. 기울기가 큰 쪽이 시간이 길어질수록 불리해집니다.'}
+ ],
+ eq:'a + bx = c + dx  ⇒  x = (c − a) / (b − d)',
+ what:'두 요금제를 각각 <b>일차함수</b>로 놓고, 그 값이 같아지는 순간을 찾는 문제입니다. 기본료는 y절편, 분당 요금은 기울기이며, <b>교점의 x좌표</b>가 곧 “갈아탈 시점”입니다.',
+ probe:'네 슬라이더를 움직여 보세요. 특히 <b>분당 요금을 서로 같게</b> 맞추면 두 직선이 평행해져 교점이 사라집니다. 화면이 “교점 없음”으로 바뀌는 순간이 연립방정식의 <b>해가 없는 경우</b>를 눈으로 보는 지점입니다.',
+ link:'일차함수와 연립방정식을 잇는 자리입니다. 식만 풀면 x 하나가 나오고 끝이지만, 그래프로 보면 <b>해의 개수(하나·없음·무수히 많음)</b>가 기울기 관계로 설명됩니다. 실제 통신사 요금표를 가져오면 그대로 수업이 됩니다.',
+ next:[
+  {lv:'바로',   t:'진짜 요금제로 계산하기', d:'실제 통신사 요금제 두 가지의 기본료와 데이터 초과 요금을 찾아 넣습니다. <b>내 사용량</b>을 세로선으로 표시해 어느 쪽이 유리한지 판정해 보세요.'},
+  {lv:'심화',   t:'세 요금제로 늘리기', d:'요금제를 셋으로 늘리면 구간이 셋으로 나뉩니다. <b>각 구간에서 최저가인 요금제</b>를 찾는 것은 세 직선의 아래쪽 경계(최솟값 함수)를 구하는 일입니다.'},
+  {lv:'프로젝트', t:'우리 반 요금제 설계', d:'학급 사용량을 조사해 분포를 구한 뒤, <b>가장 많은 학생에게 이득이 되는</b> 기본료와 분당 요금을 직접 설계합니다. 근거를 그래프로 제시합니다.'}
+ ]},
+
+{tex:[
+  {t:'\\tan \\theta=\\frac{\\text{높이}}{\\text{밑변}}',
+   s:'직각삼각형에서 <b>대변 / 인접변</b>이 탄젠트입니다. 각 하나와 밑변 하나만 알면 높이가 정해집니다.'},
+  {t:'h-e=d\\tan \\theta \\;\\Rightarrow\\; h=d\\tan \\theta+e',
+   s:'각을 재는 위치가 지면이 아니라 <b>눈높이 e</b> 이므로, tan 으로 구한 값은 “눈높이 위쪽 부분”뿐입니다. 마지막에 <b>e 를 더해야</b> 건물 전체 높이가 됩니다.'},
+  {t:'\\theta_{\\text{rad}}=\\theta_{\\text{도}} \\times \\frac{\\pi}{180}',
+   s:'계산기와 프로그램은 대부분 <b>라디안</b>을 받습니다. 35° 를 그대로 넣으면 tan 35(라디안) 이 계산되어 값이 전혀 달라집니다. 단위 변환을 빠뜨리는 것이 이 단원에서 가장 흔한 오류입니다.'},
+  {t:'\\text{빗변}=\\frac{d}{\\cos \\theta}',
+   s:'레이저 거리계는 빗변(시선 길이)을 잽니다. 그때는 밑변 대신 빗변을 알게 되므로 <b>sin 을 써서</b> 높이를 구합니다 — 무엇을 재느냐에 따라 쓰는 삼각비가 달라집니다.'}
+ ],
+ eq:'h = d · tan θ + e',
+ what:'올려본각 θ 와 수평 거리 d 로 만들어지는 <b>직각삼각형</b>에서 높이를 구합니다. 올라가지 않고도 잴 수 있다는 것이 삼각비의 힘입니다.',
+ probe:'각을 키워 보세요. 80° 근처에서 높이가 <b>급격히 치솟습니다.</b> tan 이 90° 에서 발산하기 때문인데, 그래서 실제 측량에서는 각이 너무 크면 작은 각도 오차가 큰 높이 오차로 번집니다. 눈높이를 0으로 바꿔 보면 결과가 얼마나 달라지는지도 확인하세요.',
+ link:'삼각비 단원의 활용 도입으로 씁니다. 공식을 외우기 전에 “<b>무엇을 알고 무엇을 모르는가</b>”를 그림에 표시하게 하면 어떤 삼각비를 쓸지 학생이 스스로 정합니다. 운동장에서 각도기와 줄자로 실측하면 그대로 야외 활동이 됩니다.',
+ next:[
+  {lv:'바로',   t:'학교 건물 실제로 재기', d:'각도기(또는 휴대폰 수평계 앱)와 줄자로 우리 학교 건물의 각과 거리를 재어 넣습니다. 층수 × 3 m 어림값과 비교해 <b>오차가 몇 %</b> 인지 계산하세요.'},
+  {lv:'심화',   t:'접근할 수 없는 대상 재기', d:'강 건너 나무처럼 밑변을 잴 수 없으면 어떻게 할까요? <b>두 지점에서 각을 두 번 재는</b> 방법을 세우고, 두 식을 연립해 높이를 구해 보세요.'},
+  {lv:'프로젝트', t:'각도 오차가 만드는 높이 오차', d:'각을 ±1° 씩 흔들어 높이가 얼마나 달라지는지 표로 만듭니다. <b>각이 클수록 오차가 커지는 이유</b>를 tan 그래프의 기울기로 설명하고, 측량하기 좋은 각도 범위를 제안하세요.'}
+ ]},
 
 {tex:[
   {t:'S=\\sum_{i=1}^{n} d_i \\equiv 0 \\pmod{10}',
@@ -223,7 +359,15 @@ const LABS=[
  m:['지수함수와 로그','증가율(미분의 직관)','로지스틱 S곡선'],a:['예측 모델링','추천 알고리즘의 증폭'],
  note:'선형 → 지수 → 로지스틱으로 <b>모델이 진화</b>하는 과정을 한 화면에서 비교합니다. 배가시간은 log2/ln(1+r)로 계산되어, 로그가 “왜 필요한가”에 답이 됩니다.',
  build:spreadDemo},
-{n:4,core:0,t:'카드번호 검증기 (룬 알고리즘)',q:'오타 난 카드번호를 왜 즉시 잡아낼까?',
+{n:4,core:1,t:'“어느 요금제가 이득일까?” 손익분기',q:'두 요금제, 몇 분부터 갈아타야 이득일까?',
+ m:['일차함수','기울기와 y절편','연립방정식(교점)'],a:['선형 비용 모델','손익분기 분석'],
+ note:'네 슬라이더를 움직여 보세요. 분당 요금을 같게 맞추면 두 직선이 <b>평행</b>해져 교점이 사라집니다. “해가 없다”가 그래프에서 무엇인지 눈으로 보는 순간입니다. 기본료는 y절편, 분당 요금은 기울기라는 대응도 그대로 드러납니다.',
+ build:planDemo},
+{n:5,core:1,t:'“저 건물 몇 층일까?” 드론으로 높이 재기',q:'올라가지 않고 건물 높이를 어떻게 잴까?',
+ m:['삼각비 tan','직각삼각형','각도와 라디안'],a:['드론 측량','레이저 거리계·LiDAR'],
+ note:'각을 재고 거리를 알면 <b>tan 하나</b>로 높이가 나옵니다. 눈높이를 더하는 것을 빠뜨리면 실제보다 낮게 나오는데, 이 “한 항의 누락”이 측량에서 가장 흔한 실수입니다.',
+ build:trigDemo},
+{n:6,core:0,t:'카드번호 검증기 (룬 알고리즘)',q:'오타 난 카드번호를 왜 즉시 잡아낼까?',
  m:['나머지·합동식','자릿수 분해','모듈러 연산'],a:['체크섬','데이터 무결성 검증'],
  note:'한 자리만 바꿔 보세요. 검증이 <b>반드시</b> 실패합니다. “나머지”라는 중학 개념 하나가 실제 결제 시스템을 떠받치고 있다는 사실이 강력한 동기가 됩니다.',
  build:luhnDemo},
@@ -286,6 +430,22 @@ const THUMBS = [
  svg(`<path d="M12 56 L108 56 M12 56 L12 8" stroke="#E5E7EB" stroke-width="1.4" fill="none"/>
    <path d="M14 54 C40 54 46 14 72 11 S98 9 106 9" fill="none" stroke="#0E9384" stroke-width="2.4"/>
    <circle cx="52" cy="31" r="3" fill="#0E9384"/>`, '느리게 시작해 급격히 치솟는 확산 곡선'),
+
+ svg(`<path d="M12 56 L108 56 M12 56 L12 8" stroke="#E5E7EB" stroke-width="1.4" fill="none"/>
+   <line x1="14" y1="46" x2="104" y2="14" stroke="#2563EB" stroke-width="2.4"/>
+   <line x1="14" y1="24" x2="104" y2="40" stroke="#0E9384" stroke-width="2.4"/>
+   <circle cx="56" cy="31" r="4.2" fill="#BE123C"/>
+   <line x1="56" y1="31" x2="56" y2="56" stroke="#BE123C" stroke-width="1.2" stroke-dasharray="3 2"/>`,
+   '두 요금제 직선이 한 점에서 만나는 손익분기 그래프'),
+
+ svg(`<line x1="10" y1="52" x2="110" y2="52" stroke="#9CA3AF" stroke-width="1.4"/>
+   <rect x="78" y="16" width="20" height="36" fill="#DCE7FB" stroke="#94A3B8" stroke-width="1.2"/>
+   <line x1="18" y1="44" x2="78" y2="44" stroke="#B45309" stroke-width="1.2" stroke-dasharray="3 2"/>
+   <line x1="18" y1="44" x2="88" y2="16" stroke="#2563EB" stroke-width="2.2"/>
+   <line x1="88" y1="44" x2="88" y2="16" stroke="#0E9384" stroke-width="2"/>
+   <path d="M34 44 A16 16 0 0 0 31 38" fill="none" stroke="#B45309" stroke-width="1.4"/>
+   <circle cx="18" cy="44" r="3" fill="#111827"/>`,
+   '지면에서 건물 꼭대기를 올려본각으로 높이를 재는 직각삼각형'),
 
  svg(`<rect x="11" y="15" width="98" height="34" rx="5" fill="none" stroke="#111827" stroke-width="1.5"/>
    ${[0,1,2,3,4,5,6,7].map(i => {
