@@ -3900,7 +3900,9 @@ $('#gwalk').innerHTML = `
 
 /* ---------- 실험실 선택 ---------- */
 const D = { key:'gps' };
-$('#dsel').innerHTML = Object.keys(DESIGN).map(k=>{
+// 정의 순서가 아니라 LAB 번호 순으로 세운다 (LAB 01 → 04)
+const DKEYS = Object.keys(DESIGN).sort((a,b)=>DESIGN[a].lab - DESIGN[b].lab);
+$('#dsel').innerHTML = DKEYS.map(k=>{
   const S = DESIGN[k];
   return `<div class="pcard ${k===D.key?'on':''}" data-k="${k}">
     <div class="pn">LAB ${String(S.lab).padStart(2,'0')}</div>
