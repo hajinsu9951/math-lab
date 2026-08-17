@@ -41,6 +41,16 @@ $('#dsel').querySelectorAll('.pcard').forEach(c=>c.onclick=()=>{
    루브릭은 두 가지 모양을 받는다 — 수준별(lv 있음)과 단일 기준(p 만 있음). */
 const leveled = S => !!(S.rub[0] && S.rub[0].lv);
 const list = v => Array.isArray(v) ? '<ul class="dul">'+v.map(x=>`<li>${x}</li>`).join('')+'</ul>' : v;
+/* 필기판이 비었는지 — 공책 줄만 있고 획이 없으면 빈 것으로 본다 */
+function isBlankPad(cv){
+  try{
+    const d = cv.getContext('2d').getImageData(0,0,cv.width,cv.height).data;
+    for(let i=0;i<d.length;i+=16){
+      if(d[i]<200 && d[i+1]<200 && d[i+2]<200) return false;   // 줄(#EEF1F5)보다 진한 점
+    }
+  }catch(e){ return false; }
+  return true;
+}
 function totals(S){
   const sum = leveled(S) ? S.rub.reduce((a,r)=>a+r.max,0) : S.rub.reduce((a,r)=>a+r.p,0);
   return { sum, all: sum };
@@ -109,9 +119,23 @@ function drawDesign(){
     <div class="dsec"><div class="dnum">3</div><h4>학생 활동지 — 실험실로 탐구하고 단계별로 기록하기</h4></div>
     <p class="dnote">각 STEP은 <b>웹 실험실에서 무엇을 조작하고 무엇을 기록할지</b>가 짝지어져 있습니다.
     조작만 하고 끝나지 않도록, 화면에서 본 값을 반드시 손계산과 대조하게 했습니다.</p>
+    <div class="subm">
+      <div class="submh">✎ 제출용 정보 — 다 쓴 뒤 아래 버튼으로 내려받아 제출하세요</div>
+      <div class="submc">
+        <label class="mnl">학번<input type="text" id="sb_no" maxlength="12" placeholder="10315"></label>
+        <label class="mnl">이름<input type="text" id="sb_nm" maxlength="20" placeholder="홍길동"></label>
+        <label class="mnl">모둠<input type="text" id="sb_gr" maxlength="20" placeholder="3모둠"></label>
+        <button class="b t" id="sb_go">과제 제출용 내려받기</button>
+      </div>
+      <p class="submn">손으로 쓴 <b>모든 단계의 풀이와 답안</b>이 파일 하나로 묶입니다.
+      브라우저에 저장되지 않으니 <b>새로고침 전에 반드시 내려받으세요.</b></p>
+    </div>
+    <nav class="stepnav">${S.steps.map((s,i)=>
+      `<a href="#stp${i}" data-j="${i}"><span>${s.n}</span>${s.t}</a>`).join('')}</nav>
     <div class="steps">${S.steps.map((s,i)=>`
-      <details class="dstp"${i===0?' open':''}>
-        <summary><span class="dstpn">${s.n}</span><b>${s.t}</b></summary>
+      <section class="dstp" id="stp${i}">
+        <header class="dsth"><span class="dstpn">${s.n}</span><b>${s.t}</b>
+          <span class="dstpi">${i+1} / ${S.steps.length}</span></header>
         <div class="dstpb">
           <p class="ask">${s.ask}</p>
           <p class="guide">${s.guide}</p>
@@ -122,7 +146,7 @@ function drawDesign(){
           <ul class="rec">${s.rec.map(x=>`<li>${x}</li>`).join('')}</ul>
           <div class="pad" data-pad="${esc(S.t)} ${s.n}"></div>
         </div>
-      </details>`).join('')}</div>
+      </section>`).join('')}</div>
 
     <div class="dlbar">
       <button class="b t" id="dlSheet">학생 활동지 내려받기</button>
@@ -161,6 +185,58 @@ function drawDesign(){
     if(typeof fn === 'function'){ try{ fn(box); }catch(e){ box.innerHTML =
       '<div class="mnb"><div class="mno"><div class="mnr no">도구를 그리지 못했습니다 — '+esc(e.message)+'</div></div></div>'; } }
   });
+
+  // 과제 제출 — 손으로 쓴 모든 단계를 활동지 한 부로 묶는다 (낱장 이미지가 아니라 한 파일)
+  $('#sb_go').onclick = ()=>{
+    const no = $('#sb_no').value.trim(), nm = $('#sb_nm').value.trim(), gr = $('#sb_gr').value.trim();
+    if(!no || !nm){ alert('학번과 이름을 먼저 적어 주세요.'); ($('#sb_no').value?$('#sb_nm'):$('#sb_no')).focus(); return; }
+    const pads = [...$('#dbody').querySelectorAll('.dstp')];
+    let written = 0;
+    const body = pads.map((sec,i)=>{
+      const s = S.steps[i];
+      const cv = sec.querySelector('.wpcv');
+      const img = cv ? cv.toDataURL('image/png') : '';
+      if(cv && !isBlankPad(cv)) written++;
+      return `<section class="st">
+        <h2><span>${s.n}</span> ${esc(s.t)}</h2>
+        <p class="q"><b>물음</b> ${s.ask}</p>
+        <ul>${s.rec.map(x=>`<li>${x}</li>`).join('')}</ul>
+        ${img?`<img src="${img}" alt="${esc(s.n)} 손글씨 풀이와 답안">`:''}
+      </section>`;
+    }).join('');
+    const stamp = new Date().toLocaleString('ko-KR');
+    const html = `<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(S.t)} 활동지 — ${esc(no)} ${esc(nm)}</title>
+<style>
+body{margin:0;background:#F7F8FA;color:#111827;
+  font-family:'Freesentation','Pretendard','맑은 고딕',system-ui,sans-serif;line-height:1.7}
+.wrap{max-width:900px;margin:0 auto;padding:26px 20px 60px}
+header{background:#fff;border:1px solid #E5E7EB;border-radius:14px;padding:18px 20px;margin-bottom:16px}
+h1{margin:0 0 6px;font-size:22px;font-weight:800;letter-spacing:-.4px}
+.meta{display:flex;gap:18px;flex-wrap:wrap;font-size:14px;color:#374151;margin-top:8px}
+.meta b{color:#6B7280;font-weight:700;margin-right:5px}
+.st{background:#fff;border:1px solid #E5E7EB;border-radius:14px;padding:16px 18px;margin-bottom:13px}
+.st h2{margin:0 0 7px;font-size:16px;font-weight:800;display:flex;align-items:center;gap:9px}
+.st h2 span{font-size:11px;font-weight:800;color:#fff;background:#2563EB;padding:2px 10px;border-radius:999px}
+.q{margin:0 0 7px;font-size:13.5px;color:#2563EB;font-weight:700}
+.st ul{margin:0 0 11px;padding-left:18px;font-size:12.8px;color:#374151;line-height:1.85}
+.st img{display:block;width:100%;border:1px solid #E5E7EB;border-radius:9px;background:#fff}
+footer{margin-top:20px;font-size:12.5px;color:#6B7280}
+@media print{body{background:#fff}.st,header{break-inside:avoid;box-shadow:none}}
+</style></head><body><div class="wrap">
+<header>
+  <h1>${esc(S.t)}</h1>
+  <div>${esc(S.head.과목)} · ${esc(S.head.단원)} · ${esc(S.head.배점)}</div>
+  <div class="meta"><span><b>학번</b>${esc(no)}</span><span><b>이름</b>${esc(nm)}</span>
+    ${gr?`<span><b>모둠</b>${esc(gr)}</span>`:''}<span><b>제출</b>${esc(stamp)}</span></div>
+</header>
+${body}
+<footer>손으로 작성한 ${S.steps.length}단계 활동지입니다. 인쇄하면 그대로 제출본이 됩니다.</footer>
+</div></body></html>`;
+    dl(html, `${S.t}_활동지_${no}_${nm}.html`, 'text/html');
+    if(!written) alert('아직 손으로 쓴 내용이 없습니다. 빈 활동지로 저장됩니다.');
+  };
 
   $('#dlSheet').onclick = ()=>dlDoc(sheetDoc(S), S.t+'_학생활동지');
   $('#dlTeach').onclick = ()=>dlDoc(teachDoc(S), S.t+'_교사안내자료');

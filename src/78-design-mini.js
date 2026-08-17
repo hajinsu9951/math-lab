@@ -32,8 +32,12 @@ function writePad(root, label){
   const S = { col:'#111827', er:false, drawing:false, last:null, dpr:Math.min(2, window.devicePixelRatio||1) };
   let strokes = [];                                   // 크기가 바뀌어도 다시 그리기 위해 보관
   function fit(){
+    // 칸 높이는 컨테이너에서 읽는다 — 사용자가 오른쪽 아래 손잡이를 끌어 늘릴 수 있다.
+    const head = root.querySelector('.wph');
+    const avail = (root.clientHeight || 0) - (head ? head.offsetHeight : 0) - 2;
+    if(avail > 120) H = avail;
     const w = Math.max(240, root.clientWidth || 320);
-    cv.width = w*S.dpr; cv.height = H*S.dpr;
+    cv.width = Math.round(w*S.dpr); cv.height = Math.round(H*S.dpr);
     cv.style.width='100%'; cv.style.height=H+'px';
     cx.setTransform(S.dpr,0,0,S.dpr,0,0);
     redraw(w);
@@ -78,7 +82,12 @@ function writePad(root, label){
     a.download=(label||'풀이와 답안').replace(/[\\/:*?"<>|]/g,'')+'.png'; a.click();
   };
   root.querySelector('[data-t=big]').onclick = e =>{
-    H = H>=560 ? 240 : H+160; e.target.textContent = H>=560 ? '칸 줄이기' : '칸 넓히기'; fit();
+    const head = root.querySelector('.wph').offsetHeight;
+    const now = root.clientHeight || (H+head);
+    const next = now >= 640 ? 300 : now + 180;
+    root.style.height = next + 'px';
+    e.target.textContent = next >= 640 ? '칸 줄이기' : '칸 넓히기';
+    fit();
   };
   if(window.ResizeObserver) new ResizeObserver(()=>fit()).observe(root);
   fit();
