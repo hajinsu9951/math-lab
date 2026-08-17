@@ -1,4 +1,4 @@
-// 10종 실험실 × 7라운드 = 70개 상태를 모두 실행해 오류가 없는지 검사한다.
+// 10종 실험실 × 7라운드 = 140개 상태를 모두 실행해 오류가 없는지 검사한다.
 // 사용: node test/verify.mjs        (사전에 node build.mjs 실행)
 import { chromium } from 'playwright';
 import { dirname, join } from 'node:path';
@@ -15,7 +15,7 @@ page.on('console',  m => { if (m.type() === 'error') topErrors.push(m.text()); }
 
 await page.goto(URL);
 
-/* --- ① 실험실 10종 모달 --- */
+/* --- ① 실험실 20종 모달 --- */
 const cards = await page.locator('#cards .card').count();
 for (let i = 0; i < cards; i++) {
   await page.locator('#cards .card').nth(i).click();

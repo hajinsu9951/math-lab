@@ -372,6 +372,165 @@ function zDemo(root){
   ['zx','zm','zs'].forEach(i=>$('#'+i).oninput=draw); draw();
 }
 
+/* ---------- LAB 11 복리와 72의 법칙 ---------- */
+function cmpDemo(root){
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="cm1" width="380" height="280"></canvas></div>
+    <div class="col">
+      ${slider('cmp','원금',100,5000,100,1000,'만원')}
+      ${slider('cmr','연 이자율',1,20,0.5,7,'%')}
+      ${slider('cmy','기간',1,40,1,20,'년')}
+      <div class="out" id="cmout"></div>
+      <div class="note" style="margin-top:12px">단리는 직선, 복리는 곡선입니다.
+      <b>72를 이자율로 나누면</b> 두 배 되는 햇수가 나오는데, 왜 하필 72인지 로그로 확인할 수 있습니다.</div>
+    </div></div>`;
+  const cv=$('#cm1'),ctx=cv.getContext('2d'),W=380,H=280,P=42;
+  function draw(){
+    const p=+$('#cmp').value, r=+$('#cmr').value/100, y=+$('#cmy').value;
+    $('#cmpv').textContent=p.toLocaleString()+'만원'; $('#cmrv').textContent=(+$('#cmr').value).toFixed(1)+'%';
+    $('#cmyv').textContent=y+'년';
+    const simple=t=>p*(1+r*t), comp=t=>p*Math.pow(1+r,t);
+    const maxV=Math.max(comp(y),simple(y))*1.08;
+    const X=t=>P+(W-P-14)*t/y, Y=v=>H-P-(H-2*P)*v/maxV;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E5E7EB';
+    for(let i=0;i<=4;i++){const yy=H-P-(H-2*P)*i/4;ctx.beginPath();ctx.moveTo(P,yy);ctx.lineTo(W-14,yy);ctx.stroke();}
+    const path=(f,col,w)=>{ctx.strokeStyle=col;ctx.lineWidth=w;ctx.beginPath();
+      for(let t=0;t<=y;t+=y/160){const x=X(t),yy=Y(f(t));t?ctx.lineTo(x,yy):ctx.moveTo(x,yy);}ctx.stroke();};
+    path(simple,'#94A3B8',2); path(comp,'#2563EB',2.8);
+    const dbl=Math.log(2)/Math.log(1+r);
+    if(dbl<=y){
+      ctx.strokeStyle='#BE123C';ctx.setLineDash([4,3]);ctx.lineWidth=1.4;
+      ctx.beginPath();ctx.moveTo(X(dbl),Y(0));ctx.lineTo(X(dbl),Y(2*p));ctx.stroke();ctx.setLineDash([]);
+      ctx.fillStyle='#BE123C';ctx.beginPath();ctx.arc(X(dbl),Y(2*p),5,0,7);ctx.fill();
+      ctx.font='bold 11px sans-serif';ctx.fillText('두 배 '+dbl.toFixed(1)+'년',X(dbl)+6,Y(2*p)-8);
+    }
+    ctx.strokeStyle='#9CA3AF';ctx.beginPath();ctx.moveTo(P,H-P);ctx.lineTo(W-14,H-P);
+    ctx.moveTo(P,H-P);ctx.lineTo(P,22);ctx.stroke();
+    ctx.fillStyle='#6B7280';ctx.font='10px sans-serif';
+    ctx.fillText('복리',P+6,32); ctx.fillText('단리',P+6,44);
+    ctx.fillStyle='#2563EB';ctx.fillRect(P+34,26,12,3);
+    ctx.fillStyle='#94A3B8';ctx.fillRect(P+34,38,12,3);
+    $('#cmout').innerHTML=
+      `<span class="mono" style="font-size:15px">복리 S = P(1 + r)<sup>n</sup></span><br><br>
+       ${y}년 뒤 · 단리 <b>${Math.round(simple(y)).toLocaleString()}만원</b><br>
+       ${y}년 뒤 · 복리 <b style="color:#2563EB">${Math.round(comp(y)).toLocaleString()}만원</b><br>
+       차이 <b>${Math.round(comp(y)-simple(y)).toLocaleString()}만원</b><br><br>
+       두 배 되는 햇수 = log2 / log(1+${r.toFixed(3)}) = <b>${dbl.toFixed(2)}년</b><br>
+       72의 법칙 어림값 = 72 / ${(+$('#cmr').value).toFixed(1)} = <b>${(72/+$('#cmr').value).toFixed(2)}년</b><br>
+       <span style="color:#6B7280;font-size:12.5px">어림값이 정확값과 얼마나 가까운지 이자율을 바꿔 가며 확인해 보세요.</span>`;
+  }
+  ['cmp','cmr','cmy'].forEach(i=>$('#'+i).oninput=draw); draw();
+}
+
+/* ---------- LAB 12 로그 스케일 ---------- */
+function logDemo(root){
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="lg1" width="380" height="280"></canvas></div>
+    <div class="col">
+      <div class="seg" id="lgseg" style="margin-bottom:10px">
+        <button class="on" data-m="lin">보통 눈금</button><button data-m="log">로그 눈금</button></div>
+      <label class="ctl">자료<select id="lgd" style="padding:6px;font-size:14px;width:100%">
+        <option value="quake">지진 규모별 방출 에너지</option>
+        <option value="pop">도시별 인구</option>
+        <option value="sound">소리의 세기</option></select></label>
+      <div class="out" id="lgout"></div>
+      <div class="note" style="margin-top:12px">보통 눈금에서는 작은 값들이 <b>바닥에 붙어 아무것도 안 보입니다.</b>
+      로그 눈금으로 바꾸면 비로소 비교가 됩니다.</div>
+    </div></div>`;
+  const DATA={
+    quake:{lab:'지진 규모',unit:'× 기준 에너지',
+      items:[['규모 3',1],['규모 4',31.6],['규모 5',1000],['규모 6',31623],['규모 7',1e6],['규모 8',3.16e7]]},
+    pop:{lab:'도시 인구',unit:'명',
+      items:[['읍 단위',2e4],['중소도시',2.5e5],['광역시',1.5e6],['서울',9.4e6],['도쿄권',3.7e7]]},
+    sound:{lab:'소리 세기',unit:'× 기준 세기',
+      items:[['속삭임',10],['대화',1e4],['도로',1e7],['공사장',1e10],['제트기',1e13]]}
+  };
+  const cv=$('#lg1'),ctx=cv.getContext('2d'),W=380,H=280,P=44;
+  let mode='lin';
+  function draw(){
+    const D=DATA[$('#lgd').value], it=D.items, n=it.length;
+    const maxV=Math.max(...it.map(x=>x[1]));
+    const bw=(W-P-16)/n;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E5E7EB';
+    for(let i=0;i<=5;i++){const y=H-P-(H-2*P)*i/5;ctx.beginPath();ctx.moveTo(P,y);ctx.lineTo(W-16,y);ctx.stroke();
+      ctx.fillStyle='#9CA3AF';ctx.font='9px sans-serif';
+      const v = mode==='lin' ? maxV*i/5 : Math.pow(10, Math.log10(maxV)*i/5);
+      ctx.fillText(v>=1e4?v.toExponential(0):Math.round(v).toString(), 4, y+3);}
+    it.forEach((x,i)=>{
+      const frac = mode==='lin' ? x[1]/maxV : Math.log10(Math.max(1,x[1]))/Math.log10(maxV);
+      const h=(H-2*P)*Math.max(0,frac);
+      ctx.fillStyle = i===n-1 ? '#BE123C' : '#2563EB';
+      ctx.fillRect(P+i*bw+5, H-P-h, bw-10, h);
+      ctx.save(); ctx.translate(P+i*bw+bw/2, H-P+8); ctx.rotate(-0.5);
+      ctx.fillStyle='#374151'; ctx.font='10px sans-serif'; ctx.textAlign='right';
+      ctx.fillText(x[0],0,0); ctx.restore();
+    });
+    ctx.strokeStyle='#9CA3AF';ctx.beginPath();ctx.moveTo(P,H-P);ctx.lineTo(W-16,H-P);ctx.stroke();
+    const sm=it[0][1], lg=it[n-1][1];
+    $('#lgout').innerHTML=
+      `<b>${D.lab}</b> (${D.unit})<br><br>
+       가장 작은 값 ${sm.toExponential(1)} · 가장 큰 값 ${lg.toExponential(1)}<br>
+       배율 = <b>${(lg/sm).toExponential(1)}배</b><br>
+       log₁₀(배율) = <b>${Math.log10(lg/sm).toFixed(2)}</b> → 자릿수로 ${Math.round(Math.log10(lg/sm))}자리 차이<br><br>
+       <span style="color:#6B7280;font-size:12.5px">${mode==='lin'
+         ? '보통 눈금입니다. 작은 값들이 바닥에 붙어 서로 비교가 안 됩니다.'
+         : '로그 눈금입니다. 한 칸 올라갈 때마다 10배씩 커지므로 모든 값이 함께 보입니다.'}</span>`;
+  }
+  document.querySelectorAll('#lgseg button').forEach(b=>b.onclick=()=>{
+    document.querySelectorAll('#lgseg button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); mode=b.dataset.m; draw();});
+  $('#lgd').onchange=draw; draw();
+}
+
+/* ---------- LAB 13 순간속도와 미분계수 ---------- */
+function velDemo(root){
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="vl1" width="380" height="300"></canvas></div>
+    <div class="col">
+      ${slider('vlt','시각 t',0.2,4.8,0.1,2,'초')}
+      ${slider('vlh','구간 폭 h',0.02,2,0.02,1.2,'초')}
+      <div class="out" id="vlout"></div>
+      <div class="note" style="margin-top:12px">h 를 0에 가깝게 줄여 보세요. <b>할선이 접선으로</b> 다가갑니다.
+      과속 단속 카메라가 재는 것이 바로 이 극한값입니다.</div>
+    </div></div>`;
+  const cv=$('#vl1'),ctx=cv.getContext('2d'),W=380,H=300,P=40;
+  const s=t=>2*t*t+3*t;          // 위치 s(t) = 2t² + 3t
+  const v=t=>4*t+3;              // 순간속도 s'(t) = 4t + 3
+  function draw(){
+    const t=+$('#vlt').value, h=+$('#vlh').value;
+    $('#vltv').textContent=t.toFixed(1)+'초'; $('#vlhv').textContent=h.toFixed(2)+'초';
+    const T=5, maxS=s(T)*1.05;
+    const X=x=>P+(W-P-14)*x/T, Y=y=>H-P-(H-2*P)*y/maxS;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E5E7EB';
+    for(let i=0;i<=5;i++){const y=H-P-(H-2*P)*i/5;ctx.beginPath();ctx.moveTo(P,y);ctx.lineTo(W-14,y);ctx.stroke();}
+    ctx.strokeStyle='#2563EB';ctx.lineWidth=2.6;ctx.beginPath();
+    for(let x=0;x<=T;x+=0.02){const px=X(x),py=Y(s(x));x?ctx.lineTo(px,py):ctx.moveTo(px,py);}
+    ctx.stroke();
+    const t2=Math.min(T,t+h), sec=(s(t2)-s(t))/(t2-t), tan=v(t);
+    // 할선
+    ctx.strokeStyle='#B45309';ctx.lineWidth=2;ctx.beginPath();
+    ctx.moveTo(X(0),Y(s(t)-sec*t));ctx.lineTo(X(T),Y(s(t)+sec*(T-t)));ctx.stroke();
+    // 접선
+    ctx.strokeStyle='#BE123C';ctx.setLineDash([5,3]);ctx.lineWidth=2;ctx.beginPath();
+    ctx.moveTo(X(0),Y(s(t)-tan*t));ctx.lineTo(X(T),Y(s(t)+tan*(T-t)));ctx.stroke();ctx.setLineDash([]);
+    [[t,'#111827'],[t2,'#B45309']].forEach(([x,c])=>{ctx.fillStyle=c;
+      ctx.beginPath();ctx.arc(X(x),Y(s(x)),5,0,7);ctx.fill();});
+    ctx.strokeStyle='#9CA3AF';ctx.beginPath();ctx.moveTo(P,H-P);ctx.lineTo(W-14,H-P);
+    ctx.moveTo(P,H-P);ctx.lineTo(P,20);ctx.stroke();
+    ctx.fillStyle='#6B7280';ctx.font='10px sans-serif';ctx.fillText('시각 t →',P,H-14);
+    $('#vlout').innerHTML=
+      `<span class="mono">s(t) = 2t² + 3t</span><br><br>
+       <b style="color:#B45309">평균속도</b> = (s(${t2.toFixed(2)}) − s(${t.toFixed(1)})) / ${(t2-t).toFixed(2)}
+       = <b>${sec.toFixed(3)}</b><br>
+       <b style="color:#BE123C">순간속도</b> s′(${t.toFixed(1)}) = 4×${t.toFixed(1)} + 3 = <b>${tan.toFixed(3)}</b><br><br>
+       차이 <b>${Math.abs(sec-tan).toFixed(4)}</b><br>
+       <span style="color:#6B7280;font-size:12.5px">${Math.abs(sec-tan)<0.05
+         ? 'h 가 충분히 작아 할선과 접선이 거의 겹쳤습니다. 이것이 극한의 의미입니다.'
+         : 'h 를 더 줄여 보세요. 두 선이 점점 겹칩니다.'}</span>`;
+  }
+  ['vlt','vlh'].forEach(i=>$('#'+i).oninput=draw); draw();
+}
+
 /* ============ 실험실별 수학 원리 ============
    LABS 와 같은 순서. 실험을 조작하는 것만으로 끝나지 않도록,
    ① 어떤 원리인가 ② 실험의 어느 조작이 그 원리를 드러내는가 ③ 수업의 어느 장면으로 잇는가
@@ -570,6 +729,66 @@ const PRINS = [
  ]},
 
 {tex:[
+  {t:'\\text{단리} : S=P(1+rn), \\qquad \\text{복리} : S=P(1+r)^{n}',
+   s:'단리는 <b>원금에만</b> 이자가 붙어 n 에 대한 일차식이고, 복리는 <b>이자에도 이자가</b> 붙어 지수식이 됩니다. 직선과 곡선의 차이가 여기서 나옵니다.'},
+  {t:'2P=P(1+r)^{n} \\;\\Rightarrow\\; 2=(1+r)^{n}',
+   s:'“두 배가 되는 때”를 물으면 <b>원금 P 가 약분됩니다.</b> 즉 두 배가 되는 햇수는 원금과 무관하고 이자율에만 달렸습니다.'},
+  {t:'n=\\frac{\\log 2}{\\log (1+r)}',
+   s:'지수에 있는 n 을 꺼내려면 로그를 취해야 합니다. 로그가 <b>“지수를 끌어내리는 도구”</b>라는 것이 이 한 줄에 들어 있습니다.'},
+  {t:'\\log(1+r) \\approx r \\;\\Rightarrow\\; n \\approx \\frac{0.693}{r}=\\frac{69.3}{r(\\%)}',
+   s:'r 이 작을 때 log(1+r) ≈ r 이므로 n ≈ 0.693/r 입니다. 69.3 대신 <b>약수가 많은 72</b>를 쓰면 암산이 쉬워서 “72의 법칙”이라 부릅니다 — 근사식이지 정확한 공식이 아닙니다.'}
+ ],
+ eq:'S = P(1 + r)ⁿ,  두 배 되는 햇수 n = log 2 / log(1 + r)',
+ what:'이자가 <b>이자에도 붙는</b> 것이 복리입니다. 원금에만 붙는 단리는 직선, 복리는 지수 곡선이 되며, 기간이 길어질수록 둘의 차이가 걷잡을 수 없이 벌어집니다.',
+ probe:'기간을 40년까지 늘려 보세요. 단리와 복리의 간격이 <b>기간의 제곱보다 빠르게</b> 벌어집니다. 그다음 원금을 바꿔 보면 <b>“두 배 되는 햇수”는 전혀 변하지 않는다는 것</b>을 확인할 수 있습니다 — 원금이 약분되기 때문입니다.',
+ link:'대수의 지수함수와 로그를 하나로 잇는 자리입니다. “두 배가 되려면 몇 년?”을 물으면 학생이 스스로 2 = (1+r)ⁿ 을 세우고, 지수를 꺼내려다 로그를 요구하게 됩니다. 대출·적금 광고를 가져오면 금융 교육으로 확장됩니다.',
+ next:[
+  {lv:'바로',   t:'72의 법칙은 얼마나 정확한가', d:'이자율 1%·5%·10%·20% 에서 정확값과 72의 법칙 어림값을 표로 비교합니다. <b>어느 구간에서 잘 맞고 어디서 어긋나는지</b> 찾아보세요.'},
+  {lv:'심화',   t:'왜 69.3이 아니라 72인가', d:'이론값은 69.3인데 관행은 72를 씁니다. <b>72의 약수를 모두 적어 보고</b>, 암산 편의와 근사 오차 사이의 맞바꿈을 설명해 보세요.'},
+  {lv:'프로젝트', t:'대출 광고 뜯어보기', d:'실제 대출 상품의 연이율을 찾아 <b>원리금이 두 배가 되는 시점</b>을 계산합니다. 광고에 적힌 월 상환액과 총 상환액을 검산해 보고, 소비자에게 알려야 할 정보가 무엇인지 제안하세요.'}
+ ]},
+
+{tex:[
+  {t:'\\log_{10}(ab)=\\log_{10}a+\\log_{10}b',
+   s:'로그는 <b>곱셈을 덧셈으로</b> 바꿉니다. 그래서 값이 10배씩 커지는 자료가 로그 축에서는 일정한 간격으로 늘어섭니다.'},
+  {t:'E \\propto 10^{1.5M} \\;\\Rightarrow\\; \\frac{E_8}{E_7}=10^{1.5}\\approx 31.6',
+   s:'지진 규모는 <b>이미 로그 값</b>입니다. 규모가 1 커지면 에너지는 약 31.6배가 됩니다. “7과 8은 1 차이”라는 말이 왜 오해를 부르는지가 여기 있습니다.'},
+  {t:'\\text{dB}=10\\log_{10}\\frac{I}{I_0}',
+   s:'소리의 세기도 마찬가지입니다. 데시벨이 10 커지면 실제 세기는 <b>10배</b>입니다. 사람의 감각이 로그에 가깝기 때문에 이런 단위를 씁니다.'},
+  {t:'y=ax^{k} \\;\\Rightarrow\\; \\log y=\\log a+k\\log x',
+   s:'양쪽 축을 모두 로그로 바꾸면 거듭제곱 관계가 <b>직선</b>이 되고 기울기가 지수 k 가 됩니다. 로그 축은 보기 좋으라고 쓰는 게 아니라 <b>관계를 드러내는 도구</b>입니다.'}
+ ],
+ eq:'log(ab) = log a + log b,  규모 1 차이 = 에너지 약 31.6배',
+ what:'값의 범위가 수십만 배로 벌어지는 자료는 보통 눈금에 담을 수 없습니다. 로그는 <b>곱셈을 덧셈으로</b> 바꾸어, 한 칸이 “10배”를 뜻하는 자를 만들어 줍니다.',
+ probe:'같은 자료를 두 눈금으로 번갈아 보세요. 보통 눈금에서는 작은 값들이 <b>바닥에 붙어 서로 구별조차 안 됩니다.</b> 로그로 바꾸는 순간 모두가 비교 가능한 크기로 살아납니다. 자료를 바꿔 가며 배율과 log₁₀(배율)이 어떻게 대응하는지도 확인하세요.',
+ link:'대수의 로그 단원에서 <b>“로그가 왜 필요한가”</b>에 답하는 자리입니다. 정의와 법칙을 먼저 가르치면 도구인지 모르고 끝나지만, 그릴 수 없는 자료를 먼저 보여 주면 로그가 해법으로 등장합니다. 지진·소음 뉴스와 연결하기 좋습니다.',
+ next:[
+  {lv:'바로',   t:'규모 1 차이는 몇 배인가', d:'지진 규모 5와 7의 에너지 비를 계산하고, 뉴스에서 “규모 7은 6보다 조금 강하다”처럼 쓴 표현을 찾아 <b>무엇이 틀렸는지</b> 지적해 보세요.'},
+  {lv:'심화',   t:'양쪽 축을 모두 로그로', d:'거듭제곱 관계 y = axᵏ 인 자료를 만들어 양쪽 로그 축에 그리면 직선이 됩니다. <b>그 직선의 기울기가 k</b> 임을 확인하고, 자료에서 지수를 읽어내 보세요.'},
+  {lv:'프로젝트', t:'로그 축으로 속인 그래프 찾기', d:'로그 축을 쓰면 급격한 증가가 완만해 보입니다. 뉴스·보고서에서 <b>축 선택으로 인상이 달라진 사례</b>를 찾아, 같은 자료를 두 눈금으로 다시 그려 비교 발표하세요.'}
+ ]},
+
+{tex:[
+  {t:'\\text{평균속도}=\\frac{s(t+h)-s(t)}{h}',
+   s:'두 시각 사이의 <b>위치 변화량을 시간으로 나눈 것</b>입니다. 그래프에서는 두 점을 잇는 <b>할선의 기울기</b>입니다.'},
+  {t:'s(t)=2t^2+3t \\;\\Rightarrow\\; \\frac{s(t+h)-s(t)}{h}=4t+3+2h',
+   s:'직접 전개해 보면 평균속도가 <b>4t + 3 + 2h</b> 로 정리됩니다. h 가 남아 있다는 것이 “구간의 길이가 답에 섞여 있다”는 뜻입니다.'},
+  {t:'\\lim_{h \\to 0}(4t+3+2h)=4t+3',
+   s:'h 를 0으로 보내면 <b>2h 항이 사라지고</b> 그 순간만의 속도가 남습니다. 이것이 미분계수 s′(t) 이며, 할선이 접선으로 바뀌는 순간입니다.'},
+  {t:'s\'(t)=\\lim_{h \\to 0}\\frac{s(t+h)-s(t)}{h}',
+   s:'미분계수의 정의 그 자체입니다. <b>h = 0 을 대입하는 것이 아니라</b> 0으로 “다가갈 때”의 값이라는 점이 핵심입니다 — 대입하면 분모가 0이 되어 버립니다.'}
+ ],
+ eq:'s′(t) = lim(h→0) [s(t+h) − s(t)] / h',
+ what:'“한 순간의 속도”는 시간 간격이 0이면 정의할 수 없습니다. 그래서 <b>짧은 구간의 평균속도를 구한 뒤 구간을 0으로 좁혀 가는</b> 극한으로 정의합니다. 그 값이 접선의 기울기입니다.',
+ probe:'h 를 2초에서 0.02초까지 줄여 보세요. <b>주황 할선이 빨간 접선에 겹쳐 갑니다.</b> 화면에 평균속도와 순간속도, 그리고 둘의 차이가 함께 나오므로 차이가 0으로 줄어드는 과정을 숫자로 따라갈 수 있습니다.',
+ link:'미적분 I 의 미분계수 도입입니다. 정의식을 칠판에 먼저 쓰면 기호에 막히지만, <b>“단속 카메라는 어떻게 재는가”</b>로 시작하면 학생이 스스로 구간을 줄이자고 말합니다. 그 순간 극한이 필요해집니다.',
+ next:[
+  {lv:'바로',   t:'h를 줄이며 표 만들기', d:'h = 1, 0.5, 0.1, 0.01 일 때 평균속도를 기록해 표로 만듭니다. <b>어떤 값에 다가가는지</b> 예측하고 s′(t) = 4t + 3 과 맞춰 보세요.'},
+  {lv:'심화',   t:'식으로 직접 유도하기', d:'s(t) = 2t² + 3t 로 (s(t+h) − s(t))/h 를 전개해 <b>4t + 3 + 2h</b> 를 얻고, h → 0 에서 2h 가 사라지는 과정을 손으로 씁니다. 다른 함수로도 해 보세요.'},
+  {lv:'프로젝트', t:'구간 단속의 수학', d:'과속 단속에는 지점 단속과 구간 단속이 있습니다. <b>구간 단속은 평균속도, 지점 단속은 순간속도</b>를 잽니다. 두 방식이 각각 못 잡는 경우를 그래프로 그려 설명하고, 어느 쪽이 더 공정한지 논술하세요.'}
+ ]},
+
+{tex:[
   {t:'S=\\sum_{i=1}^{n} d_i \\equiv 0 \\pmod{10}',
    s:'끝에서 한 자리 걸러 두 배 한 값들(두 자리가 되면 9를 뺌)을 모두 더한 합 S 가 <b>10으로 나누어떨어져야</b> 올바른 번호입니다.'},
   {t:'2d-9 \\equiv 2d \\pmod{9}',
@@ -746,7 +965,19 @@ const LABS=[
  m:['정규분포','표준편차','표준점수 z'],a:['특성 표준화','정규화(normalization)'],
  note:'점수를 그대로 둔 채 <b>표준편차만</b> 바꿔 보세요. z 와 백분위가 크게 달라집니다. 원점수로는 비교할 수 없고 z 로 바꿔야 한다는 것이 곡선 위에서 그대로 보입니다.',
  build:zDemo},
-{n:11,core:0,t:'카드번호 검증기 (룬 알고리즘)',q:'오타 난 카드번호를 왜 즉시 잡아낼까?',
+{n:11,core:1,t:'“복리가 왜 무서울까?” 72의 법칙',q:'적금과 대출, 두 배가 되는 데 몇 년 걸릴까?',
+ m:['지수함수','로그','등비수열'],a:['누적 비용 모델','학습률 감쇠'],
+ note:'단리(회색 직선)와 복리(파란 곡선)를 겹쳐 놓았습니다. 기간을 늘릴수록 차이가 벌어지는 것이 그대로 보이고, <b>두 배 되는 햇수</b>를 로그로 구한 값과 72의 법칙 어림값이 얼마나 가까운지도 나란히 확인됩니다.',
+ build:cmpDemo},
+{n:12,core:1,t:'“왜 로그로 그릴까?” 로그 스케일',q:'지진 규모 7과 8은 몇 배 차이일까?',
+ m:['로그의 뜻','자릿수','로그 그래프'],a:['로그 손실','데이터 시각화'],
+ note:'같은 자료를 <b>보통 눈금과 로그 눈금</b>으로 번갈아 보세요. 보통 눈금에서는 작은 값들이 바닥에 붙어 아무것도 안 보이다가, 로그로 바꾸는 순간 전부 비교 가능해집니다. 축을 바꾸는 것이 왜 “해석”인지 알게 됩니다.',
+ build:logDemo},
+{n:13,core:1,t:'“단속 카메라는 어떻게 알까?” 순간속도',q:'한 순간의 속도를 어떻게 잴 수 있을까?',
+ m:['평균변화율','미분계수','극한'],a:['기울기 = 학습 신호','속도 추정'],
+ note:'구간 폭 h 를 2초에서 0.02초까지 줄여 보세요. <b>주황 할선이 빨간 접선으로 겹쳐 갑니다.</b> 평균속도와 순간속도의 차이가 숫자로 함께 나오므로, 극한이 “무한히 가까이”라는 말의 뜻이 눈에 보입니다.',
+ build:velDemo},
+{n:14,core:0,t:'카드번호 검증기 (룬 알고리즘)',q:'오타 난 카드번호를 왜 즉시 잡아낼까?',
  m:['나머지·합동식','자릿수 분해','모듈러 연산'],a:['체크섬','데이터 무결성 검증'],
  note:'한 자리만 바꿔 보세요. 검증이 <b>반드시</b> 실패합니다. “나머지”라는 중학 개념 하나가 실제 결제 시스템을 떠받치고 있다는 사실이 강력한 동기가 됩니다.',
  build:luhnDemo},
@@ -860,6 +1091,30 @@ const THUMBS = [
    <line x1="78" y1="52" x2="78" y2="26" stroke="#BE123C" stroke-width="2"/>
    <line x1="10" y1="52" x2="110" y2="52" stroke="#9CA3AF" stroke-width="1.2"/>`,
    '정규분포 곡선과 평균선, 내 점수 위치'),
+
+ svg(`<path d="M12 56 L108 56 M12 56 L12 8" stroke="#E5E7EB" stroke-width="1.4" fill="none"/>
+   <line x1="14" y1="50" x2="106" y2="30" stroke="#94A3B8" stroke-width="2"/>
+   <path d="M14 50 C46 48 70 36 106 10" fill="none" stroke="#2563EB" stroke-width="2.6"/>
+   <line x1="62" y1="56" x2="62" y2="34" stroke="#BE123C" stroke-width="1.2" stroke-dasharray="3 2"/>
+   <circle cx="62" cy="34" r="3.4" fill="#BE123C"/>`,
+   '단리 직선과 복리 곡선이 벌어지는 그래프와 두 배 지점'),
+
+ svg(`${[1,10,100,1000,10000].map((v,i)=>{ const h=(i+1)*8;
+     return `<rect x="${14+i*11}" y="${52-h}" width="8" height="${h}" rx="1" fill="#2563EB"/>`; }).join('')}
+   ${[1,10,100,1000,10000].map((v,i)=>{ const h=Math.max(1.2, v/10000*40);
+     return `<rect x="${70+i*8}" y="${52-h}" width="6" height="${h}" rx="1" fill="#CBD5E1"/>`; }).join('')}
+   <line x1="10" y1="52" x2="110" y2="52" stroke="#9CA3AF" stroke-width="1.2"/>
+   <text x="16" y="12" font-size="7" fill="#2563EB">로그 눈금</text>
+   <text x="72" y="12" font-size="7" fill="#9CA3AF">보통 눈금</text>`,
+   '로그 눈금과 보통 눈금에서 같은 자료가 다르게 보이는 비교'),
+
+ svg(`<path d="M12 56 L108 56 M12 56 L12 8" stroke="#E5E7EB" stroke-width="1.4" fill="none"/>
+   <path d="M14 52 C40 50 60 40 104 10" fill="none" stroke="#2563EB" stroke-width="2.4"/>
+   <line x1="26" y1="52" x2="100" y2="20" stroke="#B45309" stroke-width="1.8"/>
+   <line x1="34" y1="52" x2="96" y2="14" stroke="#BE123C" stroke-width="1.8" stroke-dasharray="4 3"/>
+   <circle cx="56" cy="38" r="3.4" fill="#111827"/>
+   <circle cx="86" cy="24" r="3" fill="#B45309"/>`,
+   '곡선 위 할선이 접선으로 다가가는 그림'),
 
  svg(`<rect x="11" y="15" width="98" height="34" rx="5" fill="none" stroke="#111827" stroke-width="1.5"/>
    ${[0,1,2,3,4,5,6,7].map(i => {
