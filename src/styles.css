@@ -62,6 +62,43 @@ p.sub{margin:0 0 22px;color:var(--ink3);font-size:14.5px}
 .tk code{font-family:'JetBrains Mono',Consolas,monospace;font-size:11.5px;
   background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:1px 5px}
 
+.tsub{font-size:11.5px;font-weight:700;opacity:.62;margin-left:2px}
+
+/* ===== 확장 카탈로그 80종 ===== */
+.catbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:14px 0 16px}
+.catfil{display:flex;gap:6px;flex-wrap:wrap}
+.cbtn{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 13px;
+  font-size:12.8px;font-family:inherit;color:var(--ink2);cursor:pointer;transition:.14s}
+.cbtn b{color:var(--ink3);margin-left:4px;font-variant-numeric:tabular-nums}
+.cbtn:hover{border-color:var(--blue);color:var(--blue)}
+.cbtn.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.cbtn.on b{color:#B9C4D6}
+.catcnt{font-size:12.3px;color:var(--ink3)}
+.catg{margin-bottom:26px}
+.catgh{margin-bottom:11px;padding-bottom:8px;border-bottom:2px solid var(--line)}
+.catgh h4{margin:0;font-size:15.5px;font-weight:800;display:flex;align-items:baseline;gap:8px}
+.catgh h4 span{font-size:11.5px;font-weight:700;color:#fff;background:var(--ink3);
+  padding:2px 8px;border-radius:999px}
+.catgh p{margin:4px 0 0;font-size:12.6px;color:var(--ink3);line-height:1.6}
+.catgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(252px,1fr));gap:10px}
+.citem{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;
+  display:flex;flex-direction:column;gap:4px;position:relative;transition:.14s}
+.citem:hover{border-color:#B9CBF5;box-shadow:0 4px 14px rgba(17,24,39,.06)}
+.citem::before{content:'';position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0}
+.citem.core::before{background:var(--blue)}
+.citem.ai::before{background:var(--teal)}
+.citem.mid::before{background:var(--amber)}
+.citem.adv::before{background:var(--violet)}
+.cno{font-size:11px;font-weight:800;color:var(--ink3);letter-spacing:.6px;font-variant-numeric:tabular-nums}
+.citem h5{margin:0;font-size:14.5px;font-weight:800;line-height:1.35;letter-spacing:-.2px}
+.cg{font-size:11.8px;color:var(--ink3)}
+.cq{margin:3px 0 0;font-size:12.8px;color:var(--ink2);line-height:1.6}
+.cb{margin:5px 0 0;font-size:12.2px;color:var(--rose,#BE123C);line-height:1.6;
+  background:var(--rose-s,#FFF1F4);border-radius:7px;padding:6px 9px}
+.cb span{display:block;font-size:10.5px;font-weight:800;opacity:.75;margin-bottom:1px}
+.cb.none{color:var(--ink3);background:var(--bg)}
+.ca{margin-top:auto;padding-top:7px;font-size:11.5px;color:var(--teal);font-weight:700}
+
 /* ===== 실험실 모달의 수학 원리 ===== */
 .prin{margin:0 0 16px;background:var(--card);border:1px solid var(--line);border-radius:13px;overflow:hidden}
 .prinhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;

@@ -23,6 +23,8 @@ const out = [
   src('35-tex.js'),
   src('40-demos.js'),
   src('50-labs-spec.js'),
+  src('55-catalog.js'),
+  src('57-catalog-ui.js'),
   src('60-engine.js'),
   src('70-design.js'),
   src('78-design-mini.js'),
