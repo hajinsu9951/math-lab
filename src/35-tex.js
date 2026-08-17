@@ -132,16 +132,16 @@ function texToMathML(src, block){
        + '<mrow>'+body+'</mrow></math>';
 }
 
-/* 유도 한 단계 = 번호 + 수식(항상 보임) + 접어 둔 설명 + 접어 둔 LaTeX 원본.
+/* 유도 한 단계 = 번호 + 수식(항상 보임) + 접어 둔 설명.
    설명을 접어 두는 것이 핵심이다. 학생이 “왜 이렇게 되지?”를 먼저 스스로 생각한 뒤
    눌러서 확인하게 한다. 바로 보이면 읽고 넘어가 버린다.
-   LaTeX 원본은 교사가 HWP 수식 편집기나 다른 자료로 그대로 옮기기 위한 것이다. */
+   LaTeX 원본은 화면에 내보이지 않는다. 수식은 자료에 문자열로 남아 있으므로
+   교사가 옮겨 쓸 일이 있으면 src/40-demos.js 의 PRINS 에서 그대로 복사하면 된다. */
 function texBlock(latex, say, n){
   return '<div class="tx">'
     + '<div class="txhead"><span class="txn">'+n+'단계</span>'
     + '<div class="txf">'+texToMathML(latex, true)+'</div></div>'
     + (say ? '<details class="txwhy"><summary>왜 이렇게 되나?</summary><p>'+say+'</p></details>' : '')
-    + '<details class="txsrc"><summary>LaTeX 원본</summary><code>'+xe(latex)+'</code></details>'
     + '</div>';
 }
 function texSteps(list){
