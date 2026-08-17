@@ -92,6 +92,7 @@ p.sub{margin:0 0 22px;color:var(--ink3);font-size:14.5px}
 .citem.alg::before,.citem.cal1::before,.citem.cal2::before{background:#0EA5A0}
 .citem.prob::before,.citem.geo::before{background:var(--teal)}
 .citem.aim::before{background:var(--violet)}
+.citem.econ::before,.citem.job::before,.citem.cult::before{background:#9333EA}
 .citem.xalg::before,.citem.xgeo::before,.citem.xcal::before,
 .citem.disc::before,.citem.pure::before{background:var(--rose,#BE123C)}
 .cno{font-size:11px;font-weight:800;color:var(--ink3);letter-spacing:.6px;font-variant-numeric:tabular-nums}

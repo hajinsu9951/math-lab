@@ -942,7 +942,67 @@ const PRINS = [
  eq:'(a, b) ∈ f  ⟺  (b, a) ∈ f⁻¹,  두 그래프는 y = x 에 대칭',
  what:'역함수는 <b>대응을 거꾸로 보는 것</b>입니다. x 와 y 를 맞바꾸는 하나의 조작이, 함수에서는 “역함수”로 도형에서는 “y = x 대칭이동”으로 불릴 뿐 같은 일입니다.',
  probe:'슬라이더를 움직이면 대응점 두 개가 <b>빨간 선분으로 이어져</b> 좌표가 뒤바뀌는 것이 보입니다. 무리함수를 골라 역함수가 <b>포물선의 위쪽 가지만</b>인 것을 확인하고, <b>점대칭 보기</b>를 켜서 “좌표 맞바꾸기”와 “부호 뒤집기”가 어떻게 다른지 비교하십시오.',
- link:'공통수학2 역함수·무리함수 단원의 발견 활동입니다. 공식을 주지 말고 여러 함수의 역함수를 직접 구하게 한 뒤 <b>공통점을 학생이 말하게</b> 하십시오. 도형의 y = x 대칭이동 [10공수2-01-07] 과 하나로 이으면 통합적 사고가 완성됩니다.'}
+ link:'공통수학2 역함수·무리함수 단원의 발견 활동입니다. 공식을 주지 말고 여러 함수의 역함수를 직접 구하게 한 뒤 <b>공통점을 학생이 말하게</b> 하십시오. 도형의 y = x 대칭이동 [10공수2-01-07] 과 하나로 이으면 통합적 사고가 완성됩니다.'},
+
+{tex:[
+  {t:'S_n=\\sum_{k=1}^{n} a_k, \\qquad \\sum_{k=1}^{\\infty} a_k=\\lim_{n \\to \\infty} S_n',
+   s:'급수의 합은 <b>부분합 수열의 극한</b>으로 정의합니다. “무한히 더한다”가 아니라 “부분합이 어디로 가는가”를 묻는 것입니다.'},
+  {t:'\\sum_{k=1}^{\\infty} ar^{k-1}=\\frac{a}{1-r} \\quad (\\left|r\\right|<1)',
+   s:'등비급수는 <b>|r| &lt; 1</b> 일 때만 수렴합니다. 공비가 1보다 크면 항이 커지므로 부분합이 끝없이 늘어납니다.'},
+  {t:'a_k \\to 0 \\;\\;\\text{이지만}\\;\\; \\sum \\frac{1}{k} \\to \\infty',
+   s:'<b>항이 0으로 가는 것은 수렴의 필요조건일 뿐 충분조건이 아닙니다.</b> 조화급수가 그 반례입니다 — 항은 0에 가까워지는데 합은 발산합니다.'},
+  {t:'\\sum_{k=1}^{2^m} \\frac{1}{k} > 1+\\frac{m}{2}',
+   s:'조화급수가 왜 발산하는지에 대한 증명입니다. 항을 2배씩 묶으면 각 묶음의 합이 <b>항상 1/2 이상</b>이므로, 묶음을 계속 더하면 얼마든지 커집니다. 다만 아주 느려서 화면으로는 수렴처럼 보입니다.'}
+ ],
+ next:[
+  {lv:'바로',   t:'조화급수가 2를 넘는 지점 찾기', d:'항을 늘리며 부분합이 2, 3, 4를 넘는 항의 개수를 기록합니다. <b>1 늘어날 때마다 필요한 항이 몇 배가 되는지</b> 표로 만들어 보세요.'},
+  {lv:'심화',   t:'p급수의 경계 찾기', d:'Σ 1/nᵖ 에서 p 를 0.5, 1, 1.5, 2 로 바꿔 가며 수렴 여부를 확인하고, <b>수렴과 발산의 경계가 p = 1</b> 임을 실험으로 확인하세요.'},
+  {lv:'프로젝트', t:'반복 알고리즘은 언제 멈추나', d:'프로그램이 “충분히 수렴했다”고 판단하는 기준(항의 크기? 부분합의 변화량?)을 직접 정하고, <b>조화급수에서 그 기준이 왜 위험한지</b> 보이세요.'}
+ ],
+ eq:'Σaₖ = lim Sₙ,  등비급수는 |r| < 1 일 때 a/(1−r)',
+ what:'급수의 합은 <b>부분합 수열의 극한</b>입니다. 항을 아무리 더해도 어떤 값에 다가가면 수렴, 끝없이 커지면 발산이며, 항이 0으로 간다고 해서 반드시 수렴하지는 않습니다.',
+ probe:'급수를 바꿔 가며 항을 1에서 120까지 늘려 보세요. 등비급수는 주황 극한선에 금방 붙지만, <b>조화급수는 계속 조금씩 올라갑니다.</b> 120항에서도 멈추지 않는 것을 보고 “느린 것과 수렴하는 것은 다르다”를 말하게 하십시오.',
+ link:'미적분Ⅱ 수열의 극한·급수 단원의 도입입니다. 수렴판정법을 배우기 전에 <b>“왜 판정법이 필요한가”</b>를 먼저 겪게 하는 자리입니다. 조화급수 하나로 그 필요성이 설명됩니다.'},
+
+{tex:[
+  {t:'f(x) \\approx \\sum_{k=0}^{n} \\frac{f^{(k)}(0)}{k!}x^{k}',
+   s:'원함수를 <b>0에서의 미분계수들</b>로 만든 다항식으로 흉내 냅니다. k! 로 나누는 이유는 k번 미분했을 때 값이 맞아떨어지게 하기 위해서입니다.'},
+  {t:'\\sin x \\approx x-\\frac{x^3}{3!}+\\frac{x^5}{5!}-\\cdots',
+   s:'sin 은 홀수 차수만 남습니다. 원점에서 <b>기함수</b>이기 때문입니다. 첫 항 x 만 써도 작은 각에서는 꽤 정확합니다 — 물리에서 쓰는 sin θ ≈ θ 가 이것입니다.'},
+  {t:'\\ln(1+x)=x-\\frac{x^2}{2}+\\frac{x^3}{3}-\\cdots \\quad (\\left|x\\right|<1)',
+   s:'<b>수렴반경이 1입니다.</b> |x| &gt; 1 에서는 항이 커져 버려서 차수를 올릴수록 오히려 원함수에서 멀어집니다.'},
+  {t:'\\left|R_n(x)\\right| \\le \\frac{M\\left|x\\right|^{n+1}}{(n+1)!}',
+   s:'오차의 상한입니다. <b>x 가 0에 가까울수록, n 이 클수록</b> 오차가 급격히 줄어듭니다. 분모의 계승이 지수보다 빨리 커지기 때문에 원점 근처에서는 몇 항만으로도 충분합니다.'}
+ ],
+ next:[
+  {lv:'바로',   t:'몇 차면 충분한가', d:'x = 0.5, 1, 2 에서 오차가 0.001 이하가 되는 최소 차수를 각각 찾습니다. <b>x 가 커질수록 필요한 차수가 어떻게 늘어나는지</b> 정리하세요.'},
+  {lv:'심화',   t:'수렴반경 밖에서 무너지는 이유', d:'ln(1+x) 를 골라 x = 1.5 에서 차수를 올려 봅니다. 오차가 <b>줄지 않고 커지는</b> 것을 확인하고, 항의 크기 |x|ⁿ/n 이 발산하기 때문임을 설명하세요.'},
+  {lv:'프로젝트', t:'sin θ ≈ θ 는 어디까지 쓸 수 있나', d:'진자 운동에서 쓰는 근사입니다. 각을 키우며 <b>오차가 몇 %가 되는 지점</b>을 찾고, 실제 물리 실험에서 허용되는 범위를 조사해 비교하세요.'}
+ ],
+ eq:'f(x) ≈ Σ f⁽ᵏ⁾(0) xᵏ / k!',
+ what:'복잡한 함수를 <b>다항식으로 흉내 내는</b> 방법입니다. 원점에서의 미분계수들을 계수로 삼으며, 차수를 올릴수록 원점에서 먼 곳까지 따라붙습니다. 계산기와 컴퓨터가 sin·log 를 구하는 실제 방식입니다.',
+ probe:'차수 슬라이더를 1에서 15까지 올려 보세요. 붉은 근사 곡선이 <b>원점부터 바깥으로 번져 가며</b> 원함수를 덮습니다. 그다음 ln(1+x) 를 골라 보십시오 — 붉게 칠한 <b>수렴반경 밖</b>에서는 차수를 올려도 어긋납니다.',
+ link:'미적분Ⅱ 멱급수 단원입니다. “계산기는 sin 을 어떻게 아는가”로 시작하면 급수가 도구로 등장합니다. 물리의 sin θ ≈ θ 근사와 이으면 교과 융합이 자연스럽습니다.'},
+
+{tex:[
+  {t:'V=\\pi \\int_{a}^{b} \\left[f(x)\\right]^2 dx',
+   s:'x 에서 자른 단면이 <b>반지름 f(x) 인 원</b>이므로 넓이가 π[f(x)]² 이고, 그것을 두께 dx 로 쌓아 적분합니다.'},
+  {t:'\\Delta V_i=\\pi \\left[f(x_i)\\right]^2 \\Delta x',
+   s:'원판 하나의 부피입니다. <b>반지름을 제곱</b>하는 것이 핵심입니다 — 지름을 넣으면 부피가 네 배가 됩니다.'},
+  {t:'V \\approx \\sum_{i=1}^{n} \\pi \\left[f(x_i)\\right]^2 \\Delta x \\;\\to\\; \\pi\\int_a^b \\left[f(x)\\right]^2 dx',
+   s:'원판을 늘리면 합이 적분값으로 갑니다. <b>구분구적법</b>이며, 적분이 “무한히 얇게 쪼개 더한 것”이라는 정의 그대로입니다.'},
+  {t:'y=x,\\; 0 \\le x \\le b \\;\\Rightarrow\\; V=\\pi\\int_0^b x^2 dx=\\frac{\\pi b^3}{3}',
+   s:'원뿔의 부피 공식이 그대로 나옵니다. 밑면 반지름 b, 높이 b 인 원뿔이므로 <b>(1/3)πr²h</b> 와 일치합니다 — 외웠던 공식이 적분에서 유도되는 순간입니다.'}
+ ],
+ next:[
+  {lv:'바로',   t:'원판 개수와 오차', d:'원판을 1, 4, 16, 60개로 늘리며 오차를 기록합니다. <b>개수를 4배로 늘리면 오차가 몇 분의 1이 되는지</b> 찾아보세요.'},
+  {lv:'심화',   t:'외운 공식을 유도로 바꾸기', d:'y = x 로 원뿔, y = √(r²−x²) 로 구를 만들어 <b>(1/3)πr²h 와 (4/3)πr³</b> 이 적분에서 그대로 나오는 것을 확인하세요.'},
+  {lv:'프로젝트', t:'우리 집 그릇의 부피 재기', d:'실제 컵이나 화병의 옆면 곡선을 좌표로 옮겨 함수로 근사한 뒤 부피를 구합니다. <b>물을 채워 실측한 값과 비교</b>해 오차를 논하세요.'}
+ ],
+ eq:'V = π ∫ₐᵇ [f(x)]² dx',
+ what:'곡선을 축 둘레로 돌린 입체의 부피입니다. 얇은 <b>원판</b>으로 잘라 πr²Δx 를 더하고, 두께를 0으로 보내면 적분이 됩니다. 적분의 정의가 그대로 쓰이는 자리입니다.',
+ probe:'원판 개수를 1개에서 60개로 늘려 보세요. 계단처럼 삐죽하던 근사가 <b>곡선에 밀착</b>하고, 합이 정확값에 붙는 것이 숫자로 보입니다. 곡선을 y = x 로 두면 결과가 정확히 πb³/3 — 원뿔 공식과 같아집니다.',
+ link:'미적분Ⅱ 정적분의 활용입니다. 원뿔·구의 부피 공식을 <b>외우는 대상에서 유도되는 결과로</b> 바꾸는 자리입니다. 3D 프린팅이나 회전 성형과 연결하면 실생활 맥락이 붙습니다.'}
 ];
 
 /* ============ 10종 실험실 정의 ============ */
@@ -1030,7 +1090,19 @@ const LABS=[
 {n:21,core:1,t:'“y = x 대칭의 발견” 역함수와 무리함수',q:'무리함수 y = √(x−2)+1 은 어떤 함수의 역함수일까?',
  m:['역함수','무리함수','y = x 대칭이동'],a:['암호화·복호화','가역 변환'],
  note:'함수를 바꿔 가며 파란 원함수와 초록 역함수가 <b>주황 y = x 에 대칭</b>인 것을 확인하세요. 슬라이더로 대응점의 좌표가 뒤바뀌는 것이 선으로 이어져 보입니다. <b>원점 점대칭</b>을 켜면 “좌표를 맞바꾸는 것”과 “부호를 뒤집는 것”이 어떻게 다른지 한 화면에서 비교됩니다.',
- build:symDemo}
+ build:symDemo},
+{n:22,core:0,t:'“무한히 더하면 어디로?” 급수의 부분합',q:'항을 끝없이 더하면 값이 정해질까?',
+ m:['수열의 극한','급수의 수렴·발산','등비급수'],a:['수치 계산','반복 알고리즘의 종료'],
+ note:'급수를 바꿔 가며 항을 늘려 보세요. 등비급수는 극한선에 붙지만 <b>조화급수는 아주 천천히 계속 커집니다</b> — 눈으로는 수렴처럼 보이는데 발산이라는 것이 이 실험의 함정이자 요점입니다.',
+ build:seriesDemo},
+{n:23,core:0,t:'“계산기는 sin을 어떻게 알까?” 테일러 근사',q:'다항식만으로 sin을 흉내 낼 수 있을까?',
+ m:['멱급수','테일러 급수','수렴반경'],a:['수치 해석','함수 근사'],
+ note:'차수를 올리면 붉은 근사 곡선이 원점부터 원함수에 붙습니다. ln(1+x)를 고르면 <b>수렴반경 밖(붉은 영역)</b>에서는 차수를 올려도 오히려 어긋납니다 — 근사가 언제나 좋아지지 않는다는 것을 보여 줍니다.',
+ build:taylorDemo},
+{n:24,core:0,t:'“이 그릇의 부피는?” 회전체와 원판',q:'곡선을 돌려 만든 입체의 부피는 어떻게 구할까?',
+ m:['정적분의 활용','구분구적법','회전체의 부피'],a:['3D 모델링','수치적분'],
+ note:'원판 개수를 1개에서 60개로 늘려 보세요. 계단 모양이던 근사가 <b>적분값에 붙습니다.</b> 각 원판이 πr²Δx 이고 r 이 반지름이라는 점이 핵심입니다 — 지름을 넣으면 부피가 네 배가 됩니다.',
+ build:revolveDemo}
 ];
 
 /* ---------- LAB 21 y = x 대칭의 발견 (역함수) ---------- */
@@ -1110,6 +1182,179 @@ function symDemo(root){
        <span style="color:#6B7280;font-size:12.5px">${D.note}</span>${pnote}`;
   }
   $('#syf').onchange=draw; $('#syp').onchange=draw; $('#sya').oninput=draw; draw();
+}
+
+/* ---------- LAB 22 급수의 부분합 (미적분Ⅱ) ---------- */
+function seriesDemo(root){
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="se1" width="380" height="290"></canvas></div>
+    <div class="col">
+      <label class="ctl">급수 고르기<select id="sek" style="padding:6px;font-size:14px;width:100%">
+        <option value="geo">등비급수 &nbsp; Σ (1/2)ⁿ</option>
+        <option value="geo2">등비급수 &nbsp; Σ (3/2)ⁿ</option>
+        <option value="harm">조화급수 &nbsp; Σ 1/n</option>
+        <option value="p2">Σ 1/n²</option>
+        <option value="alt">교대급수 &nbsp; Σ (−1)ⁿ⁺¹/n</option></select></label>
+      ${slider('sen','항의 개수 n',1,120,1,20,'항')}
+      <div class="out" id="seout"></div>
+      <div class="note" style="margin-top:12px">항을 늘려도 <b>어떤 값에 다가가면 수렴</b>,
+      끝없이 커지면 발산입니다. 조화급수는 아주 천천히 커져서 눈으로는 수렴처럼 보입니다 — 그것이 함정입니다.</div>
+    </div></div>`;
+  const cv=$('#se1'),ctx=cv.getContext('2d'),W=380,H=290,P=42;
+  const F={
+    geo: {f:n=>Math.pow(0.5,n), lim:1,    name:'Σ (1/2)ⁿ',      note:'첫째항 1/2, 공비 1/2 → 합은 1 로 수렴'},
+    geo2:{f:n=>Math.pow(1.5,n), lim:null, name:'Σ (3/2)ⁿ',      note:'공비가 1보다 커서 발산 — |r| < 1 이 수렴 조건'},
+    harm:{f:n=>1/n,             lim:null, name:'Σ 1/n',         note:'항은 0으로 가지만 합은 발산 — 아주 느리게 커진다'},
+    p2:  {f:n=>1/(n*n),         lim:Math.PI*Math.PI/6, name:'Σ 1/n²', note:'π²/6 ≈ 1.6449 로 수렴 (바젤 문제)'},
+    alt: {f:n=>Math.pow(-1,n+1)/n, lim:Math.log(2), name:'Σ (−1)ⁿ⁺¹/n', note:'ln 2 ≈ 0.6931 로 수렴 — 부호가 번갈아 상쇄된다'}
+  };
+  function draw(){
+    const k=$('#sek').value, N=+$('#sen').value, D=F[k];
+    $('#senv').textContent=N+'항';
+    const S=[]; let s=0;
+    for(let n=1;n<=N;n++){ s+=D.f(n); S.push(s); }
+    const hi=Math.max(...S, D.lim||0)*1.15, lo=Math.min(0,...S);
+    const X=i=>P+(W-P-14)*i/Math.max(1,N-1), Y=v=>H-P-(H-2*P)*(v-lo)/((hi-lo)||1);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E5E7EB';
+    for(let i=0;i<=4;i++){const y=H-P-(H-2*P)*i/4;ctx.beginPath();ctx.moveTo(P,y);ctx.lineTo(W-14,y);ctx.stroke();}
+    if(D.lim!==null){
+      ctx.strokeStyle='#B45309';ctx.setLineDash([5,3]);ctx.lineWidth=1.8;
+      ctx.beginPath();ctx.moveTo(P,Y(D.lim));ctx.lineTo(W-14,Y(D.lim));ctx.stroke();ctx.setLineDash([]);
+      ctx.fillStyle='#B45309';ctx.font='bold 11px sans-serif';
+      ctx.fillText('극한 '+D.lim.toFixed(4),P+6,Y(D.lim)-6);
+    }
+    ctx.strokeStyle='#2563EB';ctx.lineWidth=2.4;ctx.beginPath();
+    S.forEach((v,i)=>{const x=X(i),y=Y(v); i?ctx.lineTo(x,y):ctx.moveTo(x,y);});
+    ctx.stroke();
+    ctx.fillStyle='#2563EB';
+    S.forEach((v,i)=>{ if(N<=40){ctx.beginPath();ctx.arc(X(i),Y(v),2.6,0,7);ctx.fill();} });
+    ctx.strokeStyle='#9CA3AF';ctx.beginPath();ctx.moveTo(P,H-P);ctx.lineTo(W-14,H-P);ctx.stroke();
+    ctx.fillStyle='#6B7280';ctx.font='10px sans-serif';ctx.fillText('항의 개수 →',P,H-14);
+    const last=S[S.length-1];
+    const gap = D.lim!==null ? Math.abs(D.lim-last) : null;
+    $('#seout').innerHTML=
+      `<span class="mono" style="font-size:15px">${D.name}</span><br><br>
+       ${N}항까지의 부분합 = <b style="font-size:16px">${last.toFixed(6)}</b><br>
+       ${D.lim!==null
+         ? `극한 = <b>${D.lim.toFixed(6)}</b> · 차이 <b>${gap.toExponential(2)}</b>`
+         : `<b style="color:#BE123C">극한 없음 — 발산</b>`}<br><br>
+       <span style="color:#6B7280;font-size:12.5px">${D.note}</span>`;
+  }
+  $('#sek').onchange=draw; $('#sen').oninput=draw; draw();
+}
+
+/* ---------- LAB 23 테일러 근사 (미적분Ⅱ) ---------- */
+function taylorDemo(root){
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="ty1" width="380" height="300"></canvas></div>
+    <div class="col">
+      <label class="ctl">함수 고르기<select id="tyf" style="padding:6px;font-size:14px;width:100%">
+        <option value="sin">sin x</option><option value="cos">cos x</option>
+        <option value="exp">eˣ</option><option value="ln">ln(1+x)</option></select></label>
+      ${slider('tyn','근사 차수 n',1,15,1,3,'차')}
+      <div class="out" id="tyout"></div>
+      <div class="note" style="margin-top:12px">차수를 올리면 근사가 <b>원점 근처부터</b> 원함수에 붙습니다.
+      계산기가 sin 을 구하는 방법이 바로 이것입니다. ln(1+x)는 <b>수렴반경 밖(|x|&gt;1)</b>에서 무너집니다.</div>
+    </div></div>`;
+  const cv=$('#ty1'),ctx=cv.getContext('2d'),W=380,H=300,O=190,S=34;
+  const fact=n=>{let r=1;for(let i=2;i<=n;i++)r*=i;return r;};
+  const F={
+    sin:{f:x=>Math.sin(x), t:(x,n)=>{let s=0;for(let k=0;k<=n;k++){if(k%2===1)s+=Math.pow(-1,(k-1)/2)*Math.pow(x,k)/fact(k);}return s;}, name:'sin x', r:null},
+    cos:{f:x=>Math.cos(x), t:(x,n)=>{let s=0;for(let k=0;k<=n;k++){if(k%2===0)s+=Math.pow(-1,k/2)*Math.pow(x,k)/fact(k);}return s;}, name:'cos x', r:null},
+    exp:{f:x=>Math.exp(x), t:(x,n)=>{let s=0;for(let k=0;k<=n;k++)s+=Math.pow(x,k)/fact(k);return s;}, name:'eˣ', r:null},
+    ln: {f:x=>x>-1?Math.log(1+x):NaN, t:(x,n)=>{let s=0;for(let k=1;k<=n;k++)s+=Math.pow(-1,k+1)*Math.pow(x,k)/k;return s;}, name:'ln(1+x)', r:1}
+  };
+  function draw(){
+    const k=$('#tyf').value, n=+$('#tyn').value, D=F[k];
+    $('#tynv').textContent=n+'차';
+    const X=v=>O+v*S, Y=v=>150-v*S;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#EEF1F5';
+    for(let i=-5;i<=5;i++){ctx.beginPath();ctx.moveTo(X(i),0);ctx.lineTo(X(i),H);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(0,Y(i));ctx.lineTo(W,Y(i));ctx.stroke();}
+    ctx.strokeStyle='#9CA3AF';ctx.lineWidth=1.4;
+    ctx.beginPath();ctx.moveTo(0,Y(0));ctx.lineTo(W,Y(0));ctx.moveTo(X(0),0);ctx.lineTo(X(0),H);ctx.stroke();
+    if(D.r){   // 수렴반경 표시
+      ctx.fillStyle='rgba(190,18,60,.07)';
+      ctx.fillRect(0,0,X(-D.r),H); ctx.fillRect(X(D.r),0,W-X(D.r),H);
+    }
+    const plot=(fn,col,w)=>{ctx.strokeStyle=col;ctx.lineWidth=w;ctx.beginPath();let up=true;
+      for(let px=0;px<=W;px++){const x=(px-O)/S,y=fn(x);
+        if(!isFinite(y)||isNaN(y)||Math.abs(y)>6){up=true;continue;}
+        if(up){ctx.moveTo(px,Y(y));up=false;} else ctx.lineTo(px,Y(y));}
+      ctx.stroke();};
+    plot(D.f,'#2563EB',2.8);
+    plot(x=>D.t(x,n),'#BE123C',2.2);
+    ctx.fillStyle='#6B7280';ctx.font='10px sans-serif';
+    ctx.fillText('원함수',10,14); ctx.fillText(n+'차 근사',10,26);
+    ctx.fillStyle='#2563EB';ctx.fillRect(48,7,12,3);
+    ctx.fillStyle='#BE123C';ctx.fillRect(48,19,12,3);
+    // 오차 재기
+    const pts=[0.5,1,2].map(x=>({x, e:Math.abs(D.f(x)-D.t(x,n))}));
+    $('#tyout').innerHTML=
+      `<span class="mono" style="font-size:15px">${D.name} ≈ ${n}차 다항식</span><br><br>
+       ${pts.map(p=>`x = ${p.x} 에서 오차 <b>${isFinite(p.e)?p.e.toExponential(2):'—'}</b>`).join('<br>')}
+       <br><br><span style="color:#6B7280;font-size:12.5px">${D.r
+         ? '붉은 영역은 <b>수렴반경 밖</b>(|x| > 1)입니다. 차수를 올려도 그곳에서는 오히려 어긋납니다.'
+         : '차수를 올릴수록 원점에서 먼 곳까지 근사가 따라붙습니다.'}</span>`;
+  }
+  $('#tyf').onchange=draw; $('#tyn').oninput=draw; draw();
+}
+
+/* ---------- LAB 24 회전체의 부피 (미적분Ⅱ) ---------- */
+function revolveDemo(root){
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="rv1" width="380" height="300"></canvas></div>
+    <div class="col">
+      <label class="ctl">곡선 고르기<select id="rvf" style="padding:6px;font-size:14px;width:100%">
+        <option value="lin">y = x &nbsp;(원뿔)</option>
+        <option value="sqrt">y = √x</option>
+        <option value="sq">y = x²</option>
+        <option value="const">y = 1 &nbsp;(원기둥)</option></select></label>
+      ${slider('rvb','구간 끝 b',0.5,4,0.1,2,'')}
+      ${slider('rvn','원판 개수',1,60,1,8,'개')}
+      <div class="out" id="rvout"></div>
+      <div class="note" style="margin-top:12px">원판을 늘리면 <b>합이 적분값에 다가갑니다.</b>
+      각 원판의 부피는 π<b>r</b>²Δx 이고, r 은 <b>반지름</b>입니다 — 지름이 아닙니다.</div>
+    </div></div>`;
+  const cv=$('#rv1'),ctx=cv.getContext('2d'),W=380,H=300;
+  const F={
+    lin:  {f:x=>x,           name:'y = x',  V:b=>Math.PI*b*b*b/3},
+    sqrt: {f:x=>Math.sqrt(x),name:'y = √x', V:b=>Math.PI*b*b/2},
+    sq:   {f:x=>x*x,         name:'y = x²', V:b=>Math.PI*Math.pow(b,5)/5},
+    const:{f:x=>1,           name:'y = 1',  V:b=>Math.PI*b}
+  };
+  function draw(){
+    const k=$('#rvf').value, b=+$('#rvb').value, n=+$('#rvn').value, D=F[k];
+    $('#rvbv').textContent=b.toFixed(1); $('#rvnv').textContent=n+'개';
+    const maxY=Math.max(D.f(b),1)*1.25, P=34;
+    const X=x=>P+(W-2*P)*x/b, Y=y=>150-y*(110/maxY);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF';ctx.lineWidth=1.4;
+    ctx.beginPath();ctx.moveTo(0,150);ctx.lineTo(W,150);ctx.stroke();   // 회전축
+    // 원판 (사다리꼴 대신 직사각형 근사 — 왼쪽 끝 높이)
+    const dx=b/n;
+    for(let i=0;i<n;i++){
+      const x0=i*dx, r=D.f(x0+dx/2);
+      ctx.fillStyle='rgba(37,99,235,.16)';
+      ctx.fillRect(X(x0),Y(r),X(x0+dx)-X(x0),Y(-r)-Y(r));
+      ctx.strokeStyle='rgba(37,99,235,.45)';ctx.lineWidth=1;
+      ctx.strokeRect(X(x0),Y(r),X(x0+dx)-X(x0),Y(-r)-Y(r));
+    }
+    // 곡선과 그 대칭
+    [1,-1].forEach(s=>{ctx.strokeStyle=s>0?'#2563EB':'#93B4F5';ctx.lineWidth=2.4;ctx.beginPath();
+      for(let x=0;x<=b;x+=b/200){const px=X(x),py=Y(s*D.f(x)); x?ctx.lineTo(px,py):ctx.moveTo(px,py);}
+      ctx.stroke();});
+    const approx=(()=>{let s=0;for(let i=0;i<n;i++){const r=D.f(i*dx+dx/2);s+=Math.PI*r*r*dx;}return s;})();
+    const exact=D.V(b);
+    $('#rvout').innerHTML=
+      `<span class="mono" style="font-size:15px">V = π ∫₀^${b.toFixed(1)} [${D.name.replace('y = ','')}]² dx</span><br><br>
+       원판 ${n}개 합 = <b>${approx.toFixed(5)}</b><br>
+       정확한 값 = <b>${exact.toFixed(5)}</b><br>
+       차이 = <b>${Math.abs(exact-approx).toExponential(2)}</b><br><br>
+       <span style="color:#6B7280;font-size:12.5px">${n<8
+         ? '원판이 적어 계단이 뚜렷합니다. 개수를 늘려 보세요.'
+         : '원판을 늘릴수록 합이 적분값에 붙습니다 — 이것이 구분구적법입니다.'}</span>`;
+  }
+  ['rvb','rvn'].forEach(i=>$('#'+i).oninput=draw); $('#rvf').onchange=draw; draw();
 }
 
 /* ============ 카드 썸네일 ============
@@ -1323,7 +1568,33 @@ const THUMBS = [
    <path d="M52 24 L34 42" stroke="${TC.rose}" stroke-width="1.2" stroke-dasharray="3 2.5"/>
    <circle cx="52" cy="24" r="3.6" fill="${TC.blue}"/>
    <circle cx="34" cy="42" r="3.6" fill="${TC.teal}"/>`,
-   '원함수와 역함수가 y = x 대각선에 대칭인 그래프와 뒤바뀐 대응점')
+   '원함수와 역함수가 y = x 대각선에 대칭인 그래프와 뒤바뀐 대응점'),
+
+/* 22 급수 — 부분합이 극한선에 붙는다 */
+ svg(`${T_AX}
+   <path d="M14 22 H106" stroke="${TC.amber}" stroke-width="1.8" stroke-dasharray="4 3"/>
+   <path d="M18 50 L28 34 L38 27 L50 24 L62 23 L76 22.4 L92 22.1 L106 22"
+     stroke="${TC.blue}" ${T_BOLD}/>
+   ${[[18,50],[28,34],[38,27],[50,24],[62,23]].map(([x,y])=>
+     `<circle cx="${x}" cy="${y}" r="2.8" fill="${TC.blue}"/>`).join('')}`,
+   '부분합이 점점 극한선에 다가가는 그래프'),
+
+/* 23 테일러 — 근사가 원함수에 붙는다 */
+ svg(`<path d="M12 32 H108 M60 8 V56" ${T_GRID}/>
+   <path d="M14 46 C30 12 46 12 60 32 C74 52 90 52 106 18" stroke="${TC.blue}" ${T_BOLD}/>
+   <path d="M26 54 C40 16 50 14 60 32 C70 50 78 48 88 14" stroke="${TC.rose}"
+     stroke-width="1.8" fill="none" stroke-dasharray="5 3"/>
+   <circle cx="60" cy="32" r="3.6" fill="${TC.ink}"/>`,
+   '원함수 곡선에 붉은 근사 곡선이 원점 근처에서 겹치는 그림'),
+
+/* 24 회전체 — 원판을 쌓아 부피를 잰다 */
+ svg(`<path d="M10 32 H110" stroke="${TC.grid}" stroke-width="1.2"/>
+   ${[0,1,2,3,4,5].map(i=>{ const x=18+i*15, r=4+i*3.2;
+     return `<rect x="${x}" y="${32-r}" width="13" height="${r*2}" rx="1.5"
+       fill="${TC.blue}" opacity=".18" stroke="${TC.blue}" stroke-width="1"/>`;}).join('')}
+   <path d="M18 28 L108 12" stroke="${TC.blue}" ${T_BOLD}/>
+   <path d="M18 36 L108 52" stroke="${TC.blue}" stroke-width="1.8" fill="none" opacity=".45"/>`,
+   '곡선을 축 둘레로 돌려 만든 회전체를 원판으로 쌓은 그림')
 ];
 
 const cw=$('#cards');
