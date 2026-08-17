@@ -920,7 +920,29 @@ const PRINS = [
  eq:'y = a₁sin x + a₂sin 2x + a₃sin 3x',
  what:'음의 높낮이는 기본음이 정하고, <b>음색</b>은 배음이 얼마나 섞였는지가 정합니다. 배음은 진동수가 <b>정수배</b>인 파동이며, 여러 사인함수를 더하면 주기는 그대로인 채 모양만 달라집니다.',
  probe:'2배음·3배음 진폭을 올려 보세요. 파형이 매끈한 사인파에서 울퉁불퉁한 모양으로 바뀌고, <b>소리도 함께 달라집니다.</b> 그런데 합성 파형의 주기는 기본음과 같습니다 — 왜 그런지 설명하게 하십시오.',
- link:'삼각함수의 합을 다루는 자리이자 주기·진폭·위상을 구분시키는 활동입니다. 귀로 듣고 눈으로 보는 확인이 동시에 되므로, 삼각함수 단원의 도입으로 특히 강합니다.'}
+ link:'삼각함수의 합을 다루는 자리이자 주기·진폭·위상을 구분시키는 활동입니다. 귀로 듣고 눈으로 보는 확인이 동시에 되므로, 삼각함수 단원의 도입으로 특히 강합니다.'},
+
+{tex:[
+  {t:'y=f(x) \\;\\Rightarrow\\; x=f(y) \\;\\Rightarrow\\; y=f^{-1}(x)',
+   s:'역함수를 구하는 절차 자체입니다. <b>x 와 y 를 맞바꾼 뒤 y 에 대해 푸는 것</b>이며, 이 “맞바꿈”이 그래프에서는 y = x 대칭이 됩니다.'},
+  {t:'(a,\\,b) \\in f \\;\\Longleftrightarrow\\; (b,\\,a) \\in f^{-1}',
+   s:'원함수 위의 점과 역함수 위의 점은 <b>좌표가 서로 뒤바뀝니다.</b> 두 점을 이은 선분의 중점이 y = x 위에 있고 그 선분이 y = x 와 수직이므로, 두 그래프는 y = x 에 대칭입니다.'},
+  {t:'y=\\sqrt{x-2}+1 \\;\\Rightarrow\\; (y-1)^2=x-2 \\;\\Rightarrow\\; f^{-1}(x)=(x-1)^2+2',
+   s:'양변에서 1을 빼고 제곱하면 이차식이 나옵니다. 그런데 <b>제곱하는 순간 아래쪽 가지가 함께 생깁니다</b> — 그대로 두면 함수가 아니게 됩니다.'},
+  {t:'x \\ge 2,\\; y \\ge 1 \\;\\Rightarrow\\; f^{-1} \\text{의 정의역} : x \\ge 1',
+   s:'<b>원함수의 치역이 역함수의 정의역이 됩니다.</b> 그래서 x ≥ 1 로 제한해야 하고, 이 한 줄을 빠뜨리는 것이 이 단원에서 가장 흔한 감점 요인입니다.'},
+  {t:'f(f^{-1}(x))=\\sqrt{(x-1)^2}+1=\\left|x-1\\right|+1=x \\quad (x \\ge 1)',
+   s:'합성으로 검증합니다. √(제곱)이 절댓값이 되는 것을 처리하고, x ≥ 1 이므로 |x−1| = x−1 이 되어 <b>정확히 x 로 돌아옵니다.</b>'}
+ ],
+ next:[
+  {lv:'바로',   t:'교점은 언제 y = x 위에 있나', d:'일차함수에서 f(x) = x 를 풀어 교점을 구하고 그 점이 <b>왜 y = x 위에 있는지</b> 설명합니다. 교점이 y = x 위에 없는 경우도 있는지 찾아보세요.'},
+  {lv:'심화',   t:'정의역을 왜 제한하나', d:'y = x² 의 정의역을 x ≥ 0 으로 제한하지 않으면 역함수가 없습니다. <b>일대일 대응</b>이 왜 필요한지 그래프로 설명하고, 제한을 x ≤ 0 으로 바꾸면 역함수가 어떻게 달라지는지 구해 보세요.'},
+  {lv:'프로젝트', t:'대칭이동으로 암호 만들기', d:'좌표를 맞바꾸는 규칙으로 도형을 옮겨 간단한 암호를 설계합니다. <b>역함수를 적용하면 원래대로 돌아오는지</b> 확인하고, 점대칭·평행이동을 섞으면 해독이 얼마나 어려워지는지 논의하세요.'}
+ ],
+ eq:'(a, b) ∈ f  ⟺  (b, a) ∈ f⁻¹,  두 그래프는 y = x 에 대칭',
+ what:'역함수는 <b>대응을 거꾸로 보는 것</b>입니다. x 와 y 를 맞바꾸는 하나의 조작이, 함수에서는 “역함수”로 도형에서는 “y = x 대칭이동”으로 불릴 뿐 같은 일입니다.',
+ probe:'슬라이더를 움직이면 대응점 두 개가 <b>빨간 선분으로 이어져</b> 좌표가 뒤바뀌는 것이 보입니다. 무리함수를 골라 역함수가 <b>포물선의 위쪽 가지만</b>인 것을 확인하고, <b>점대칭 보기</b>를 켜서 “좌표 맞바꾸기”와 “부호 뒤집기”가 어떻게 다른지 비교하십시오.',
+ link:'공통수학2 역함수·무리함수 단원의 발견 활동입니다. 공식을 주지 말고 여러 함수의 역함수를 직접 구하게 한 뒤 <b>공통점을 학생이 말하게</b> 하십시오. 도형의 y = x 대칭이동 [10공수2-01-07] 과 하나로 이으면 통합적 사고가 완성됩니다.'}
 ];
 
 /* ============ 10종 실험실 정의 ============ */
@@ -1004,8 +1026,91 @@ const LABS=[
 {n:10,core:0,t:'소리와 삼각함수 — 파형 합성',q:'같은 “도”인데 피아노와 기타는 왜 다르게 들릴까?',
  m:['삼각함수','주기·진폭·위상','함수의 합성'],a:['음성 신호 처리','푸리에 변환의 직관'],
  note:'배음(2배·3배 진동수)의 진폭을 섞으면 <b>음색</b>이 달라집니다. 소리를 켜고 들어 보세요. sin 함수의 합이 곧 악기의 정체라는 사실이 삼각함수 단원의 강력한 도입이 됩니다.',
- build:waveDemo}
+ build:waveDemo},
+{n:21,core:1,t:'“y = x 대칭의 발견” 역함수와 무리함수',q:'무리함수 y = √(x−2)+1 은 어떤 함수의 역함수일까?',
+ m:['역함수','무리함수','y = x 대칭이동'],a:['암호화·복호화','가역 변환'],
+ note:'함수를 바꿔 가며 파란 원함수와 초록 역함수가 <b>주황 y = x 에 대칭</b>인 것을 확인하세요. 슬라이더로 대응점의 좌표가 뒤바뀌는 것이 선으로 이어져 보입니다. <b>원점 점대칭</b>을 켜면 “좌표를 맞바꾸는 것”과 “부호를 뒤집는 것”이 어떻게 다른지 한 화면에서 비교됩니다.',
+ build:symDemo}
 ];
+
+/* ---------- LAB 21 y = x 대칭의 발견 (역함수) ---------- */
+function symDemo(root){
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="sy1" width="380" height="330"></canvas></div>
+    <div class="col">
+      <label class="ctl">함수 고르기<select id="syf" style="padding:6px;font-size:14px;width:100%">
+        <option value="lin">일차 &nbsp; f(x) = 2x − 3</option>
+        <option value="sq">이차 &nbsp; y = x² (x ≥ 0)</option>
+        <option value="rt" selected>무리 &nbsp; y = √(x − 2) + 1</option>
+        <option value="rat">유리 &nbsp; f(x) = (2x + 1)/(x − 1)</option></select></label>
+      ${slider('sya','대응점 확인용 x',-2,8,0.1,3,'')}
+      <label class="ctl" style="margin-top:8px"><input type="checkbox" id="syp"> 원점 <b>점대칭</b>도 함께 보기</label>
+      <div class="out" id="syout"></div>
+      <div class="note" style="margin-top:12px">파란 원함수와 초록 역함수는 <b>주황 점선 y = x 에 대칭</b>입니다.
+      대응점의 좌표가 서로 뒤바뀌는 것을 슬라이더로 확인해 보세요.</div>
+    </div></div>`;
+  const cv=$('#sy1'),ctx=cv.getContext('2d'),W=380,H=330,O=150,S=26;
+  const X=v=>O+v*S, Y=v=>H-O-v*S;
+  const F={
+    lin:{ f:x=>2*x-3, g:x=>(x+3)/2, dom:[-6,8], idom:[-6,8],
+          fs:'f(x) = 2x − 3', gs:'f⁻¹(x) = (x + 3) / 2', note:'교점은 y = x 위의 (3, 3)' },
+    sq:{ f:x=>x>=0?x*x:NaN, g:x=>x>=0?Math.sqrt(x):NaN, dom:[0,8], idom:[0,8],
+          fs:'y = x²  (x ≥ 0)', gs:'f⁻¹(x) = √x', note:'정의역을 x ≥ 0 으로 제한해야 역함수가 존재' },
+    rt:{ f:x=>x>=2?Math.sqrt(x-2)+1:NaN, g:x=>x>=1?Math.pow(x-1,2)+2:NaN, dom:[2,10], idom:[1,5],
+          fs:'y = √(x − 2) + 1', gs:'f⁻¹(x) = (x − 1)² + 2  (x ≥ 1)',
+          note:'원함수의 치역 y ≥ 1 이 그대로 역함수의 정의역이 됨' },
+    rat:{ f:x=>Math.abs(x-1)<0.02?NaN:(2*x+1)/(x-1), g:x=>Math.abs(x-2)<0.02?NaN:(x+1)/(x-2), dom:[-6,8], idom:[-6,8],
+          fs:'f(x) = (2x + 1)/(x − 1)', gs:'f⁻¹(x) = (x + 1)/(x − 2)',
+          note:'점근선 x = 1, y = 2 가 역함수에서 x = 2, y = 1 로 뒤바뀜' }
+  };
+  function draw(){
+    const k=$('#syf').value, D=F[k], a=+$('#sya').value, showP=$('#syp').checked;
+    $('#syav').textContent=a.toFixed(1);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#EEF1F5';
+    for(let i=-6;i<=8;i++){ ctx.beginPath();ctx.moveTo(X(i),0);ctx.lineTo(X(i),H);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(0,Y(i));ctx.lineTo(W,Y(i));ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF';ctx.lineWidth=1.4;
+    ctx.beginPath();ctx.moveTo(0,Y(0));ctx.lineTo(W,Y(0));ctx.moveTo(X(0),0);ctx.lineTo(X(0),H);ctx.stroke();
+    ctx.strokeStyle='#B45309';ctx.setLineDash([5,3]);ctx.lineWidth=1.8;
+    ctx.beginPath();ctx.moveTo(X(-6),Y(-6));ctx.lineTo(X(9),Y(9));ctx.stroke();ctx.setLineDash([]);
+    const plot=(fn,lo,hi,col,w)=>{ ctx.strokeStyle=col;ctx.lineWidth=w;ctx.beginPath();let up=true;
+      for(let px=0;px<=W;px++){ const x=(px-O)/S; if(x<lo||x>hi){up=true;continue;}
+        const y=fn(x); if(!isFinite(y)||isNaN(y)||Math.abs(y)>12){up=true;continue;}
+        if(up){ctx.moveTo(px,Y(y));up=false;} else ctx.lineTo(px,Y(y)); }
+      ctx.stroke(); };
+    plot(D.f,D.dom[0],D.dom[1],'#2563EB',2.6);
+    plot(D.g,D.idom[0],D.idom[1],'#0E9384',2.6);
+    // 대응점 (a, f(a)) ↔ (f(a), a)
+    const fa=D.f(a);
+    let corr='정의역 밖입니다.';
+    if(isFinite(fa)&&!isNaN(fa)&&Math.abs(fa)<12){
+      ctx.strokeStyle='#BE123C';ctx.setLineDash([3,3]);ctx.lineWidth=1.4;
+      ctx.beginPath();ctx.moveTo(X(a),Y(fa));ctx.lineTo(X(fa),Y(a));ctx.stroke();ctx.setLineDash([]);
+      [[a,fa],[fa,a]].forEach(([px,py],i)=>{ ctx.fillStyle=i?'#0E9384':'#2563EB';
+        ctx.beginPath();ctx.arc(X(px),Y(py),5,0,7);ctx.fill();
+        ctx.fillStyle='#111827';ctx.font='bold 11px sans-serif';
+        ctx.fillText(`(${px.toFixed(1)}, ${py.toFixed(1)})`,X(px)+7,Y(py)-7); });
+      corr=`원함수 위의 점 <b>(${a.toFixed(1)}, ${fa.toFixed(2)})</b> ↔ 역함수 위의 점 <b>(${fa.toFixed(2)}, ${a.toFixed(1)})</b>`;
+    }
+    // 점대칭 비교 — 좌표를 맞바꾸는 것과 부호를 뒤집는 것의 차이
+    let pnote='';
+    if(showP){
+      plot(x=>{ const y=D.f(-x); return isNaN(y)?NaN:-y; },-D.dom[1],-D.dom[0],'#7C3AED',2);
+      if(isFinite(fa)&&!isNaN(fa)){
+        ctx.fillStyle='#7C3AED';ctx.beginPath();ctx.arc(X(-a),Y(-fa),4.5,0,7);ctx.fill();
+        ctx.font='bold 11px sans-serif';ctx.fillText(`(${(-a).toFixed(1)}, ${(-fa).toFixed(2)})`,X(-a)+7,Y(-fa)-7);
+      }
+      pnote=`<br><span style="color:#7C3AED">보라 곡선은 <b>원점 점대칭</b> (x, y) → (−x, −y) 입니다.
+        y = x 대칭은 <b>좌표를 맞바꾸고</b>, 점대칭은 <b>부호를 뒤집습니다</b> — 결과가 전혀 다릅니다.</span>`;
+    }
+    $('#syout').innerHTML=
+      `<span class="mono" style="font-size:15px">${D.fs}</span><br>
+       <span class="mono" style="font-size:15px;color:#0E9384">${D.gs}</span><br><br>
+       ${corr}<br><br>
+       <span style="color:#6B7280;font-size:12.5px">${D.note}</span>${pnote}`;
+  }
+  $('#syf').onchange=draw; $('#syp').onchange=draw; $('#sya').oninput=draw; draw();
+}
 
 /* ============ 카드 썸네일 ============
    외부 이미지 금지(단일 파일 원칙) → 인라인 SVG로 그린다.
@@ -1208,7 +1313,17 @@ const THUMBS = [
 /* 20 파형 — 배음이 겹친 합성파 */
  svg(`<path d="M12 32 H108" stroke="${TC.grid}" stroke-width="1.2"/>
    <path d="${waveD}" stroke="${TC.blue}" ${T_BOLD}/>`,
-   '기본음과 배음이 합쳐진 울퉁불퉁한 파형')
+   '기본음과 배음이 합쳐진 울퉁불퉁한 파형'),
+
+/* 21 y=x 대칭 — 원함수와 역함수가 대각선에 접힌다 */
+ svg(`<path d="M14 54 H106 M14 54 V10" ${T_GRID}/>
+   <path d="M14 50 L104 12" stroke="${TC.amber}" stroke-width="1.8" stroke-dasharray="4 3" fill="none"/>
+   <path d="M30 52 C46 40 54 28 60 14" stroke="${TC.blue}" ${T_BOLD}/>
+   <path d="M18 40 C34 34 50 26 66 22" stroke="${TC.teal}" ${T_BOLD}/>
+   <path d="M52 24 L34 42" stroke="${TC.rose}" stroke-width="1.2" stroke-dasharray="3 2.5"/>
+   <circle cx="52" cy="24" r="3.6" fill="${TC.blue}"/>
+   <circle cx="34" cy="42" r="3.6" fill="${TC.teal}"/>`,
+   '원함수와 역함수가 y = x 대각선에 대칭인 그래프와 뒤바뀐 대응점')
 ];
 
 const cw=$('#cards');
