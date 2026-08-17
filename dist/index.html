@@ -1194,6 +1194,148 @@ function repDemo(root){
   $('#rpb').oninput=draw; draw();
 }
 
+/* ---------- LAB 08 경우의 수 — 비밀번호 ---------- */
+function pwDemo(root){
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="pw1" width="380" height="260"></canvas></div>
+    <div class="col">
+      ${slider('pwn','비밀번호 자리 수',1,12,1,4,'자리')}
+      <label class="ctl">쓸 수 있는 문자<select id="pwk" style="padding:6px;font-size:14px;width:100%">
+        <option value="10">숫자만 (10종)</option>
+        <option value="26">영문 소문자만 (26종)</option>
+        <option value="36">소문자 + 숫자 (36종)</option>
+        <option value="62">대소문자 + 숫자 (62종)</option>
+        <option value="94">대소문자 + 숫자 + 기호 (94종)</option></select></label>
+      ${slider('pws','초당 시도 횟수',3,12,1,9,' (10의 거듭제곱)')}
+      <div class="out" id="pwout"></div>
+      <div class="note" style="margin-top:12px">자리 수를 하나 늘리는 것과 문자 종류를 늘리는 것 중
+      <b>무엇이 더 강력한지</b> 직접 비교해 보세요.</div>
+    </div></div>`;
+  const cv=$('#pw1'),ctx=cv.getContext('2d'),W=380,H=260;
+  const fmtT=s=>{ if(s<60) return s.toFixed(1)+'초';
+    if(s<3600) return (s/60).toFixed(1)+'분';
+    if(s<86400) return (s/3600).toFixed(1)+'시간';
+    if(s<3.15e7) return (s/86400).toFixed(1)+'일';
+    const y=s/3.15e7; return y<1e6 ? y.toFixed(1)+'년' : y.toExponential(2)+'년'; };
+  function draw(){
+    const n=+$('#pwn').value, k=+$('#pwk').value, sp=Math.pow(10,+$('#pws').value);
+    $('#pwnv').textContent=n+'자리'; $('#pwsv').textContent='10^'+$('#pws').value+'회';
+    const total=Math.pow(k,n), sec=total/2/sp;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    // 자리 수에 따른 가짓수를 로그 눈금 막대로
+    const P=34, maxLog=Math.log10(Math.pow(k,12))||1;
+    ctx.strokeStyle='#E5E7EB';
+    for(let i=0;i<=4;i++){const y=H-P-(H-2*P)*i/4;ctx.beginPath();ctx.moveTo(P,y);ctx.lineTo(W-14,y);ctx.stroke();}
+    for(let i=1;i<=12;i++){
+      const v=Math.log10(Math.pow(k,i)), h=(H-2*P)*Math.min(1,v/maxLog);
+      ctx.fillStyle = i===n ? '#BE123C' : '#CBD5E1';
+      ctx.fillRect(P+(i-1)*27+4, H-P-h, 20, h);
+    }
+    ctx.fillStyle='#6B7280';ctx.font='10px sans-serif';
+    ctx.fillText('자리 수 →',P,H-12); ctx.fillText('가짓수(로그 눈금)',P,18);
+    $('#pwout').innerHTML=
+      `<span class="mono" style="font-size:15px">${k}<sup>${n}</sup> = 가짓수</span><br><br>
+       전체 경우의 수 = <b>${total.toExponential(3)}</b>개<br>
+       평균 절반만 시도한다고 보면 ${(total/2).toExponential(3)}회<br>
+       초당 ${sp.toExponential(0)}회 시도 시 → <b style="font-size:16px">${fmtT(sec)}</b><br><br>
+       <span style="color:#6B7280;font-size:12.5px">한 자리 늘리면 ${k}배, 문자 종류를 늘리면 밑이 커집니다.
+       <b>지수의 위력</b>이 어디서 나오는지 비교해 보세요.</span>`;
+  }
+  ['pwn','pws'].forEach(i=>$('#'+i).oninput=draw); $('#pwk').onchange=draw; draw();
+}
+
+/* ---------- LAB 09 확률과 큰 수의 법칙 ---------- */
+function lawDemo(root){
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="lw1" width="380" height="280"></canvas></div>
+    <div class="col">
+      ${slider('lwp','당첨 확률',0.1,20,0.1,0.5,'%')}
+      ${slider('lwn','뽑은 횟수',10,3000,10,500,'회')}
+      <div class="btns"><button class="b" id="lwgo">다시 뽑기</button></div>
+      <div class="out" id="lwout"></div>
+      <div class="note" style="margin-top:12px">시행을 늘릴수록 실험 확률이 이론 확률로 <b>수렴</b>합니다.
+      “확률 0.5%”가 무슨 뜻인지 몸으로 알게 되는 자리입니다.</div>
+    </div></div>`;
+  const cv=$('#lw1'),ctx=cv.getContext('2d'),W=380,H=280,P=38;
+  let seed=11; const rnd=()=>{ seed=(seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff; };
+  function draw(reseed){
+    const p=+$('#lwp').value/100, n=+$('#lwn').value;
+    $('#lwpv').textContent=(+$('#lwp').value).toFixed(1)+'%'; $('#lwnv').textContent=n+'회';
+    if(reseed) seed=(Date.now()&0x7fffffff)||11;
+    let s=seed, hit=0; const path=[];
+    const rr=()=>{ s=(s*1103515245+12345)&0x7fffffff; return s/0x7fffffff; };
+    for(let i=1;i<=n;i++){ if(rr()<p) hit++; path.push(hit/i); }
+    const top=Math.max(p*3, 0.02);
+    const X=i=>P+(W-P-14)*i/n, Y=v=>H-P-(H-2*P)*Math.min(1,v/top);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E5E7EB';
+    for(let i=0;i<=4;i++){const y=H-P-(H-2*P)*i/4;ctx.beginPath();ctx.moveTo(P,y);ctx.lineTo(W-14,y);ctx.stroke();}
+    ctx.strokeStyle='#B45309';ctx.setLineDash([5,3]);ctx.lineWidth=1.6;
+    ctx.beginPath();ctx.moveTo(P,Y(p));ctx.lineTo(W-14,Y(p));ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle='#B45309';ctx.font='bold 11px sans-serif';
+    ctx.fillText('이론 확률 '+(p*100).toFixed(1)+'%',P+6,Y(p)-6);
+    ctx.strokeStyle='#2563EB';ctx.lineWidth=2;ctx.beginPath();
+    path.forEach((v,i)=>{ const x=X(i+1),y=Y(v); i?ctx.lineTo(x,y):ctx.moveTo(x,y); });
+    ctx.stroke();
+    ctx.fillStyle='#6B7280';ctx.font='10px sans-serif';ctx.fillText('뽑은 횟수 →',P,H-14);
+    const atLeast=1-Math.pow(1-p,n);
+    $('#lwout').innerHTML=
+      `${n}회 중 당첨 <b>${hit}회</b> → 실험 확률 <b>${(hit/n*100).toFixed(2)}%</b><br>
+       이론 확률 ${(p*100).toFixed(1)}%<br><br>
+       <span class="mono">P(적어도 한 번) = 1 − (1−p)<sup>n</sup></span><br>
+       = 1 − (1−${p.toFixed(3)})<sup>${n}</sup> = <b style="font-size:16px">${(atLeast*100).toFixed(1)}%</b><br><br>
+       <span style="color:#6B7280;font-size:12.5px">${atLeast<0.5
+         ? '절반도 안 됩니다. “이 정도 뽑으면 나오겠지”라는 감각이 왜 틀리는지 보여 주세요.'
+         : '이제 절반을 넘었습니다. 몇 번부터 넘는지 찾아보세요.'}</span>`;
+  }
+  ['lwp','lwn'].forEach(i=>$('#'+i).oninput=()=>draw(false));
+  $('#lwgo').onclick=()=>draw(true); draw(false);
+}
+
+/* ---------- LAB 10 정규분포와 표준점수 ---------- */
+function zDemo(root){
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="z1" width="380" height="270"></canvas></div>
+    <div class="col">
+      ${slider('zx','내 점수',0,100,1,78,'점')}
+      ${slider('zm','평균',0,100,1,65,'점')}
+      ${slider('zs','표준편차',1,30,1,12,'점')}
+      <div class="out" id="zout"></div>
+      <div class="note" style="margin-top:12px">같은 78점이라도 <b>평균과 표준편차가 다르면</b> 위치가 완전히 달라집니다.
+      원점수가 아니라 <b>z</b>로 바꿔야 비교할 수 있습니다.</div>
+    </div></div>`;
+  const cv=$('#z1'),ctx=cv.getContext('2d'),W=380,H=270,P=32;
+  const phi=z=>{ const t=1/(1+0.2316419*Math.abs(z));
+    const d=0.3989423*Math.exp(-z*z/2);
+    let p=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));
+    return z>0 ? 1-p : p; };
+  function draw(){
+    const x=+$('#zx').value, m=+$('#zm').value, s=+$('#zs').value;
+    $('#zxv').textContent=x+'점'; $('#zmv').textContent=m+'점'; $('#zsv').textContent=s+'점';
+    const z=(x-m)/s, pct=phi(z)*100;
+    const X=v=>P+(W-2*P)*v/100, pk=0.3989423/s;
+    const Y=v=>H-P-(H-2*P)*v/pk;
+    const f=v=>0.3989423/s*Math.exp(-Math.pow((v-m)/s,2)/2);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#DCE7FB';ctx.beginPath();ctx.moveTo(X(0),Y(0));
+    for(let v=0;v<=x;v+=0.5) ctx.lineTo(X(v),Y(f(v)));
+    ctx.lineTo(X(x),Y(0));ctx.closePath();ctx.fill();
+    ctx.strokeStyle='#2563EB';ctx.lineWidth=2.4;ctx.beginPath();
+    for(let v=0;v<=100;v+=0.5){const px=X(v),py=Y(f(v)); v?ctx.lineTo(px,py):ctx.moveTo(px,py);}
+    ctx.stroke();
+    ctx.strokeStyle='#9CA3AF';ctx.beginPath();ctx.moveTo(P,Y(0));ctx.lineTo(W-P,Y(0));ctx.stroke();
+    [[m,'#B45309','평균'],[x,'#BE123C','내 점수']].forEach(([v,c,l])=>{
+      ctx.strokeStyle=c;ctx.lineWidth=2;ctx.setLineDash(l==='평균'?[5,3]:[]);
+      ctx.beginPath();ctx.moveTo(X(v),Y(0));ctx.lineTo(X(v),Y(f(v)));ctx.stroke();ctx.setLineDash([]);
+      ctx.fillStyle=c;ctx.font='bold 11px sans-serif';ctx.fillText(l+' '+v,X(v)+4,Y(f(v))-6);});
+    $('#zout').innerHTML=
+      `<span class="mono" style="font-size:15px">z = (x − m) / σ</span><br><br>
+       z = (${x} − ${m}) / ${s} = <b style="font-size:16px">${z.toFixed(3)}</b><br><br>
+       상위 <b>${(100-pct).toFixed(1)}%</b> · 백분위 <b>${pct.toFixed(1)}</b><br>
+       ${Math.abs(z)<0.0001?'평균과 같습니다.':
+         z>0?`평균보다 <b>${z.toFixed(2)}σ 위</b>`:`평균보다 <b>${(-z).toFixed(2)}σ 아래</b>`}<br><br>
+       <span style="color:#6B7280;font-size:12.5px">표준편차를 바꿔 보세요. 점수는 그대로인데 z 와 백분위가 크게 달라집니다.</span>`;
+  }
+  ['zx','zm','zs'].forEach(i=>$('#'+i).oninput=draw); draw();
+}
+
 /* ============ 실험실별 수학 원리 ============
    LABS 와 같은 순서. 실험을 조작하는 것만으로 끝나지 않도록,
    ① 어떤 원리인가 ② 실험의 어느 조작이 그 원리를 드러내는가 ③ 수업의 어느 장면으로 잇는가
@@ -1327,6 +1469,68 @@ const PRINS = [
   {lv:'바로',   t:'평균보다 적은 사람이 몇 명인가', d:'이상치를 키우며 <b>평균 미만인 사람 수</b>를 기록해 표로 만듭니다. 10명 중 9명이 평균 미만이 되는 순간을 찾고, 그때 “평균”이라는 말이 왜 오해를 부르는지 적어 보세요.'},
   {lv:'심화',   t:'최빈값과 절사평균', d:'값이 겹치도록 자료를 바꿔 <b>최빈값</b>을 만들어 보고, 위아래 10%를 잘라 내는 <b>절사평균</b>도 계산해 세 대푯값과 비교합니다. 어느 것이 “보통 사람”을 가장 잘 나타내나요?'},
   {lv:'프로젝트', t:'기사 속 대푯값 비판하기', d:'“평균 연봉·평균 집값·평균 자산” 기사를 찾아, <b>중앙값을 썼다면 숫자가 어떻게 달라졌을지</b> 추정하고 기사에 대한 반론을 씁니다. 통계청 자료의 중앙값을 찾아 근거로 삼으세요.'}
+ ]},
+
+{tex:[
+  {t:'N=k^{n}',
+   s:'각 자리마다 <b>k 가지를 독립적으로</b> 고를 수 있으므로, 곱의 법칙에 따라 자리 수 n 만큼 곱합니다. 같은 문자를 여러 번 써도 되므로 <b>중복순열</b>입니다.'},
+  {t:'{}_{k}P_{n}=k(k-1)(k-2)\\cdots(k-n+1)',
+   s:'같은 문자를 두 번 못 쓰는 경우라면 이 순열 공식을 씁니다. 비밀번호는 <b>중복을 허용</b>하므로 이 식을 쓰면 가짓수를 실제보다 적게 잡게 됩니다 — 두 상황을 구별하는 것이 이 단원의 핵심입니다.'},
+  {t:'t=\\frac{k^{n}}{2v}',
+   s:'평균적으로 전체의 <b>절반</b>쯤 시도하면 맞습니다. 그것을 초당 시도 횟수 v 로 나누면 걸리는 시간이 나옵니다.'},
+  {t:'\\frac{k^{n+1}}{k^{n}}=k \\qquad \\frac{(k+1)^{n}}{k^{n}}=\\left(1+\\frac{1}{k}\\right)^{n}',
+   s:'<b>자리 수를 하나 늘리면 정확히 k 배</b>가 되지만, 문자 종류를 하나 늘리면 (1 + 1/k)ⁿ 배입니다. 어느 쪽이 유리한지는 k 와 n 의 크기에 달렸습니다 — 직접 비교해 보게 하십시오.'}
+ ],
+ eq:'N = kⁿ,  걸리는 시간 t = kⁿ / (2v)',
+ what:'각 자리를 <b>서로 독립적으로</b> 고르므로 곱의 법칙이 그대로 적용됩니다. 문자 종류가 밑, 자리 수가 지수인 <b>중복순열</b>이며, 지수가 왜 무서운지를 보여 주는 가장 현실적인 예입니다.',
+ probe:'자리 수를 1씩 올리며 시간이 어떻게 변하는지 보세요. 8자리에서 <b>초 단위였던 것이 12자리에서 연 단위</b>로 바뀝니다. 그다음 자리 수는 그대로 두고 문자 종류만 바꿔 어느 쪽이 더 강력한지 비교하십시오.',
+ link:'중2 경우의 수 단원의 마무리로 씁니다. 곱의 법칙을 계산 규칙으로만 배우면 남지 않지만, “내 비밀번호가 몇 초에 뚫리나”로 물으면 학생이 스스로 자리 수를 세게 됩니다. 정보 보안 수업과 연계하기도 좋습니다.',
+ next:[
+  {lv:'바로',   t:'내 비밀번호 진단하기', d:'실제로 쓰는 비밀번호의 자리 수와 문자 종류를 넣어 <b>몇 초·몇 년</b>이 걸리는지 확인합니다. 안전하려면 몇 자리가 필요한지 스스로 기준을 정해 보세요.'},
+  {lv:'심화',   t:'자리 수 vs 문자 종류', d:'“10자리 숫자만”과 “6자리 대소문자+숫자+기호” 중 어느 쪽이 강한지 계산으로 비교합니다. <b>같은 안전도를 만드는 조합</b>을 여러 개 찾아 표로 만드세요.'},
+  {lv:'프로젝트', t:'사전 공격이 왜 더 무서운가', d:'사람들이 쓰는 비밀번호는 고르게 흩어져 있지 않습니다. 자주 쓰는 단어 목록을 먼저 시도하면 탐색 공간이 얼마나 줄어드는지 추정하고, <b>안전한 비밀번호의 조건</b>을 제안하세요.'}
+ ]},
+
+{tex:[
+  {t:'P(\\text{한 번에 당첨})=p',
+   s:'한 번 뽑을 때 당첨될 확률입니다. 0.5% 는 p = 0.005 이며, 200번 뽑는다고 200 × 0.005 = 1 즉 “반드시 나온다”가 <b>아닙니다.</b>'},
+  {t:'P(\\text{n번 모두 꽝})=(1-p)^{n}',
+   s:'매번 독립이므로 꽝일 확률을 n 번 곱합니다. 여기서 <b>곱셈정리</b>가 쓰입니다.'},
+  {t:'P(\\text{적어도 한 번})=1-(1-p)^{n}',
+   s:'“적어도 한 번”은 직접 세기 어렵습니다. <b>여사건</b>(한 번도 안 나옴)을 구해 1에서 빼는 것이 훨씬 쉽습니다 — 이 발상이 이 단원의 요점입니다.'},
+  {t:'p=0.005,\\; n=200 \\;\\Rightarrow\\; 1-0.995^{200} \\approx 0.633',
+   s:'200번 뽑아도 <b>약 63%</b>입니다. 100%가 아닙니다. 세 번에 한 번은 200번을 뽑고도 못 얻는다는 뜻입니다.'},
+  {t:'\\frac{X_n}{n} \\;\\to\\; p \\quad (n \\to \\infty)',
+   s:'시행을 늘리면 상대도수가 확률로 다가갑니다(<b>큰 수의 법칙</b>). 화면의 파란 곡선이 주황 선에 붙는 과정이 바로 이것입니다.'}
+ ],
+ eq:'P(적어도 한 번) = 1 − (1 − p)ⁿ',
+ what:'“확률 0.5%”가 무슨 뜻인지 정확히 다루는 실험입니다. 여러 번 시행할 때의 확률은 <b>여사건</b>으로 구하고, 시행을 늘리면 실험 확률이 이론 확률로 수렴합니다.',
+ probe:'뽑는 횟수를 10에서 3000까지 늘려 보세요. 처음에는 곡선이 크게 요동치다가 점점 이론선에 붙습니다. <b>「다시 뽑기」를 여러 번 눌러</b> 같은 조건에서도 결과가 매번 다르다는 것, 그러나 큰 n 에서는 늘 비슷해진다는 것을 확인하십시오.',
+ link:'중2 확률 단원, 특히 <b>여사건</b>을 배우는 자리에서 씁니다. “적어도 하나”라는 표현이 나오면 여사건을 떠올리는 습관을 이 실험으로 만들 수 있습니다. 게임 확률 공시 문제와 연결하면 소비자 교육이 됩니다.',
+ next:[
+  {lv:'바로',   t:'50%를 넘는 지점 찾기', d:'당첨 확률을 고정하고 뽑는 횟수를 늘리며 <b>「적어도 한 번」이 50%를 넘는 순간</b>을 찾습니다. 1 − (1−p)ⁿ ≥ 0.5 를 로그로 풀어 그 값을 계산으로도 확인하세요.'},
+  {lv:'심화',   t:'천장 제도의 수학', d:'“N번 뽑으면 반드시 당첨”이라는 천장 제도가 있을 때 <b>기댓값</b>이 어떻게 달라지는지 계산합니다. 제도가 없을 때와 비교해 보세요.'},
+  {lv:'프로젝트', t:'게임 확률 공시 검증', d:'실제 게임의 공시 확률을 찾아, 커뮤니티에 올라온 사람들의 뽑기 기록과 비교합니다. <b>공시 확률이 맞다고 볼 수 있는지</b>를 시행 횟수와 함께 논증하세요.'}
+ ]},
+
+{tex:[
+  {t:'z=\\frac{x-m}{\\sigma}',
+   s:'평균을 빼서 <b>중심을 0으로</b> 옮기고, 표준편차로 나눠 <b>흩어진 정도를 1로</b> 맞춥니다. 두 단계를 모두 거쳐야 서로 다른 시험을 비교할 수 있습니다.'},
+  {t:'E(z)=0, \\qquad \\sigma(z)=1',
+   s:'그래서 z 는 어떤 시험이든 <b>평균 0, 표준편차 1</b>이 됩니다. 단위가 사라지므로 국어 점수와 수학 점수를 같은 자로 잴 수 있습니다.'},
+  {t:'x=m+z\\sigma',
+   s:'거꾸로 z 를 알면 원점수를 복원할 수 있습니다. z = 1 은 <b>평균보다 표준편차 하나만큼 위</b>라는 뜻이고, 정규분포에서 이는 상위 약 15.9% 입니다.'},
+  {t:'P(m-\\sigma \\le X \\le m+\\sigma) \\approx 0.683',
+   s:'정규분포에서 평균 ±1σ 안에 약 68%, ±2σ 안에 약 95% 가 들어갑니다. 이 값을 외워 두면 z 만 보고도 <b>대략 몇 등급인지</b> 바로 가늠할 수 있습니다.'}
+ ],
+ eq:'z = (x − m) / σ',
+ what:'원점수는 시험마다 난이도가 달라 그대로 비교할 수 없습니다. <b>평균을 빼고 표준편차로 나누어</b> 공통 자로 바꾼 것이 표준점수 z 이며, 백분위는 그 z 아래의 넓이입니다.',
+ probe:'점수와 평균을 그대로 둔 채 <b>표준편차만</b> 움직여 보세요. 같은 78점인데 z 와 백분위가 크게 달라집니다. 표준편차가 작을수록 같은 점수 차이가 큰 등급 차이를 만든다는 것이 곡선의 폭에서 보입니다.',
+ link:'확률과 통계의 정규분포 단원에서 씁니다. z 표를 찾는 연습에 앞서 <b>“왜 두 단계로 변환하는가”</b>를 먼저 겪게 하십시오. 실제 모의고사 성적표의 표준점수·백분위와 대조하면 학생의 몰입이 확실히 달라집니다.',
+ next:[
+  {lv:'바로',   t:'내 성적표로 확인하기', d:'모의고사 성적표의 원점수·평균·표준편차를 넣어 <b>표준점수와 백분위</b>가 성적표의 값과 맞는지 확인합니다. 다르다면 왜 다른지 찾아보세요.'},
+  {lv:'심화',   t:'두 과목 비교하기', d:'국어 80점(평균 70, σ 8)과 수학 75점(평균 60, σ 15) 중 <b>어느 쪽이 더 잘한 것</b>인지 z 로 판정합니다. 원점수로는 왜 비교할 수 없는지 설명하세요.'},
+  {lv:'프로젝트', t:'등급 컷은 어떻게 정해지나', d:'상위 4%, 11%, 23%… 라는 등급 비율을 z 로 바꿔 <b>등급 경계의 표준점수</b>를 구합니다. 표준편차가 달라지면 등급 컷 원점수가 어떻게 움직이는지 표로 만드세요.'}
  ]},
 
 {tex:[
@@ -1494,7 +1698,19 @@ const LABS=[
  m:['평균·중앙값·최빈값','이상치','자료의 분포'],a:['데이터 전처리','robust 통계'],
  note:'사장님 연봉 하나만 올려 보세요. <b>평균은 끌려가는데 중앙값은 버팁니다.</b> “평균보다 적게 받는 사람이 몇 명인지”가 함께 나오므로, 대푯값을 왜 골라 써야 하는지가 숫자로 드러납니다.',
  build:repDemo},
-{n:8,core:0,t:'카드번호 검증기 (룬 알고리즘)',q:'오타 난 카드번호를 왜 즉시 잡아낼까?',
+{n:8,core:1,t:'“내 비밀번호 안전할까?” 경우의 수',q:'내 비밀번호, 몇 초 만에 뚫릴까?',
+ m:['경우의 수','중복순열 kⁿ','지수의 위력'],a:['탐색 공간','무차별 대입 공격'],
+ note:'자리 수를 하나 늘리는 것과 문자 종류를 늘리는 것 중 <b>무엇이 더 강력한지</b> 비교해 보세요. 밑이 커지는 것과 지수가 커지는 것의 차이를 눈으로 보는 자리입니다. 로그 눈금 막대라 12자리까지 한 화면에 들어옵니다.',
+ build:pwDemo},
+{n:9,core:1,t:'“0.5% 뽑기, 200번이면 나올까?”',q:'확률 0.5%짜리를 200번 뽑으면 나올까?',
+ m:['확률의 뜻','여사건','큰 수의 법칙'],a:['표본과 추정','시뮬레이션'],
+ note:'뽑는 횟수를 늘리면 파란 실험 곡선이 주황 이론선으로 <b>수렴</b>합니다. 동시에 “적어도 한 번 당첨될 확률 1 − (1−p)ⁿ”이 함께 나와서, 감으로 찍은 답이 왜 틀리는지 숫자로 드러납니다.',
+ build:lawDemo},
+{n:10,core:1,t:'“내 점수는 몇 등급?” 정규분포와 표준점수',q:'같은 78점인데 왜 등급이 다를까?',
+ m:['정규분포','표준편차','표준점수 z'],a:['특성 표준화','정규화(normalization)'],
+ note:'점수를 그대로 둔 채 <b>표준편차만</b> 바꿔 보세요. z 와 백분위가 크게 달라집니다. 원점수로는 비교할 수 없고 z 로 바꿔야 한다는 것이 곡선 위에서 그대로 보입니다.',
+ build:zDemo},
+{n:11,core:0,t:'카드번호 검증기 (룬 알고리즘)',q:'오타 난 카드번호를 왜 즉시 잡아낼까?',
  m:['나머지·합동식','자릿수 분해','모듈러 연산'],a:['체크섬','데이터 무결성 검증'],
  note:'한 자리만 바꿔 보세요. 검증이 <b>반드시</b> 실패합니다. “나머지”라는 중학 개념 하나가 실제 결제 시스템을 떠받치고 있다는 사실이 강력한 동기가 됩니다.',
  build:luhnDemo},
@@ -1588,6 +1804,26 @@ const THUMBS = [
    <line x1="10" y1="38" x2="110" y2="38" stroke="#0E9384" stroke-width="1.6" stroke-dasharray="4 3"/>
    <line x1="10" y1="52" x2="110" y2="52" stroke="#9CA3AF" stroke-width="1.2"/>`,
    '한 사람만 크게 튀는 연봉 막대와 평균선·중앙값선'),
+
+ svg(`${[1,2,3,4,5,6,7,8].map((i)=>{ const h=Math.min(40, 4+i*5);
+     return `<rect x="${12+i*12}" y="${52-h}" width="9" height="${h}" rx="1.5"
+       fill="${i===4?'#BE123C':'#CBD5E1'}"/>`; }).join('')}
+   <line x1="10" y1="52" x2="110" y2="52" stroke="#9CA3AF" stroke-width="1.2"/>
+   ${[0,1,2,3].map(i=>`<rect x="${16+i*9}" y="8" width="6" height="7" rx="1" fill="#2563EB"/>`).join('')}`,
+   '자리 수가 늘수록 급격히 커지는 경우의 수 막대'),
+
+ svg(`<path d="M12 56 L108 56 M12 56 L12 8" stroke="#E5E7EB" stroke-width="1.4" fill="none"/>
+   <line x1="14" y1="36" x2="106" y2="36" stroke="#B45309" stroke-width="1.5" stroke-dasharray="4 3"/>
+   <path d="M16 14 L24 52 L32 22 L40 46 L50 28 L60 40 L72 33 L84 37 L96 35 L104 36"
+     fill="none" stroke="#2563EB" stroke-width="2" stroke-linejoin="round"/>`,
+   '요동치다가 이론 확률선으로 수렴하는 실험 확률 곡선'),
+
+ svg(`<path d="M14 52 C34 52 34 14 60 14 C86 14 86 52 106 52" fill="none" stroke="#2563EB" stroke-width="2.2"/>
+   <path d="M14 52 C34 52 34 14 60 14 L60 52 Z" fill="#DCE7FB" opacity=".85"/>
+   <line x1="60" y1="52" x2="60" y2="14" stroke="#B45309" stroke-width="1.6" stroke-dasharray="4 3"/>
+   <line x1="78" y1="52" x2="78" y2="26" stroke="#BE123C" stroke-width="2"/>
+   <line x1="10" y1="52" x2="110" y2="52" stroke="#9CA3AF" stroke-width="1.2"/>`,
+   '정규분포 곡선과 평균선, 내 점수 위치'),
 
  svg(`<rect x="11" y="15" width="98" height="34" rx="5" fill="none" stroke="#111827" stroke-width="1.5"/>
    ${[0,1,2,3,4,5,6,7].map(i => {
@@ -2601,6 +2837,252 @@ rep:{
       '      : "<span style=\'color:#0E9384\'>→ 아직 평균이 쓸 만합니다.</span>");',
       '}'],
  events:['document.getElementById("sb").oninput = update;']
+},
+
+pw:{
+ t:'비밀번호와 경우의 수', grade:'중2 · 경우의 수',
+ q:'내 비밀번호, 몇 초 만에 뚫릴까?',
+ eq:'N = kⁿ,  걸리는 시간 t = kⁿ / (2v)',
+ model:'각 자리를 독립적으로 고르는 중복순열 — 문자 종류가 밑, 자리 수가 지수',
+ params:'자리 수, 쓸 수 있는 문자 종류 수, 초당 시도 횟수',
+ controls:'자리 수와 문자 종류를 조절하는 슬라이더',
+ viz:'자리 수에 따른 가짓수 막대그래프',
+ bug:'6자리 숫자 비밀번호의 가짓수가 100만이 아니라 15만 1200으로 나옵니다. 자리 수를 늘릴수록 실제보다 점점 더 적게 나오고, 11자리를 넘기면 0이 되어 버립니다.',
+ fixask:'6자리 숫자 비밀번호면 10의 6제곱인 100만 가지여야 하는데 15만 1200으로 나와. 자리 수를 늘리면 오히려 0이 돼.\n비밀번호는 같은 숫자를 여러 번 써도 되니까 순열이 아니라 중복순열이야. k×(k−1)×(k−2)… 로 줄여 가며 곱하지 말고 k의 n제곱으로 계산해 줘.',
+ act:'전체를 훑는 데 걸리는 시간을 초·일·년 단위로 바꿔 보여 주는 활동',
+ guide:['자리 수를 하나씩 늘리며 시간이 어떻게 변하는지 보세요.',
+        '자리 수를 늘리는 것과 문자 종류를 늘리는 것 중 무엇이 더 강력한가요?',
+        '안전하려면 몇 자리가 필요한지 스스로 기준을 정해 보세요.'],
+ obj:'중복순열을 이용해 경우의 수를 구하고 그 크기를 실생활 맥락에서 해석할 수 있다.',
+ js2:['const P = {n:6, k:10, v:1e9};',
+      'function fmtTime(s){',
+      '  if(s < 60) return s.toFixed(1) + "초";',
+      '  if(s < 3600) return (s/60).toFixed(1) + "분";',
+      '  if(s < 86400) return (s/3600).toFixed(1) + "시간";',
+      '  if(s < 3.15e7) return (s/86400).toFixed(1) + "일";',
+      '  return (s/3.15e7).toExponential(2) + "년";',
+      '}'],
+ body3:['<label>자리 수 <b id="vn">6</b>자리<input type="range" id="sn" min="1" max="12" step="1" value="6"></label>',
+        '<label>문자 종류 <b id="vk">10</b>가지<input type="range" id="sk" min="10" max="94" step="1" value="10"></label>'],
+ js3:['function readInputs(){',
+      '  P.n = +document.getElementById("sn").value; document.getElementById("vn").textContent = P.n;',
+      '  P.k = +document.getElementById("sk").value; document.getElementById("vk").textContent = P.k;',
+      '}'],
+ body4:['<canvas id="cv" width="420" height="260"></canvas>',
+        '<p id="out" style="font-size:15px"></p>'],
+ js4:['function total(){',
+      '  let t = 1;',
+      '  for(let i = 0; i < P.n; i++) t *= (P.k - i);   // 쓴 숫자는 다시 못 쓴다고 보고 줄여 가며 곱함',
+      '  return t;',
+      '}',
+      'function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  c.clearRect(0,0,420,260);',
+      '  const save = P.n;',
+      '  for(let i = 1; i <= 12; i++){',
+      '    P.n = i; const v = Math.log10(Math.max(1,total()));',
+      '    const h = Math.min(190, v*16);',
+      '    c.fillStyle = (i === save) ? "#BE123C" : "#CBD5E1";',
+      '    c.fillRect(24 + (i-1)*31, 220 - h, 24, h);',
+      '  }',
+      '  P.n = save;',
+      '  c.strokeStyle = "#9CA3AF"; c.beginPath(); c.moveTo(18,220); c.lineTo(410,220); c.stroke();',
+      '  const N = total();',
+      '  document.getElementById("out").innerHTML =',
+      '    "가짓수 = <b>" + N.toLocaleString() + "</b>개";',
+      '}'],
+ js5:['function total(){ return Math.pow(P.k, P.n); }   // 중복을 허용하므로 k의 n제곱',
+      'function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  c.clearRect(0,0,420,260);',
+      '  const save = P.n;',
+      '  for(let i = 1; i <= 12; i++){',
+      '    P.n = i; const v = Math.log10(Math.max(1,total()));',
+      '    const h = Math.min(190, v*16);',
+      '    c.fillStyle = (i === save) ? "#BE123C" : "#CBD5E1";',
+      '    c.fillRect(24 + (i-1)*31, 220 - h, 24, h);',
+      '  }',
+      '  P.n = save;',
+      '  c.strokeStyle = "#9CA3AF"; c.beginPath(); c.moveTo(18,220); c.lineTo(410,220); c.stroke();',
+      '  c.fillStyle = "#6B7280"; c.font = "11px sans-serif";',
+      '  c.fillText("자리 수 1 → 12 (세로는 로그 눈금)", 24, 240);',
+      '  const N = total();',
+      '  document.getElementById("out").innerHTML =',
+      '    P.k + "<sup>" + P.n + "</sup> = <b>" + N.toExponential(3) + "</b>개";',
+      '}'],
+ body6:['<p id="fb" style="font-size:15px"></p>'],
+ js6:['function check(){',
+      '  const N = total(), sec = N / 2 / P.v;',
+      '  document.getElementById("fb").innerHTML =',
+      '    "초당 10억 번 시도하면 평균 <b>" + fmtTime(sec) + "</b> 걸립니다 " +',
+      '    (sec < 86400 ? "<span style=\'color:#BE123C\'>— 하루 안에 뚫립니다</span>"',
+      '                 : "<span style=\'color:#0E9384\'>— 충분히 안전합니다</span>");',
+      '}'],
+ events:['["sn","sk"].forEach(id => document.getElementById(id).oninput = update);']
+},
+
+law:{
+ t:'뽑기 확률과 큰 수의 법칙', grade:'중2 · 확률',
+ q:'확률 0.5%짜리를 200번 뽑으면 나올까?',
+ eq:'P(적어도 한 번) = 1 − (1 − p)ⁿ',
+ model:'매번 독립인 시행에서 여사건으로 “적어도 한 번”을 구하고, 시행을 늘리면 상대도수가 확률로 수렴하는 성질',
+ params:'당첨 확률 p, 뽑는 횟수 n',
+ controls:'확률과 횟수를 조절하는 슬라이더',
+ viz:'누적 상대도수 곡선과 이론 확률선',
+ bug:'뽑는 횟수를 3000까지 올려도 파란 곡선이 이론선에 가까워지지 않고 계속 심하게 요동칩니다. 100번일 때나 3000번일 때나 흔들리는 정도가 똑같습니다.',
+ fixask:'횟수를 아무리 늘려도 곡선이 이론 확률선으로 수렴하지 않고 계속 똑같이 출렁여.\n지금은 매 지점마다 당첨 횟수를 새로 세는 것 같은데, 그러면 안 돼. 처음부터 그 지점까지 <b>누적</b>한 당첨 횟수를 누적 시행 횟수로 나눠서 그려 줘.',
+ act:'“적어도 한 번 당첨될 확률”을 여사건으로 계산해 함께 보여 주는 활동',
+ guide:['횟수를 10에서 3000까지 늘리며 곡선이 어떻게 변하는지 보세요.',
+        '같은 조건에서 여러 번 다시 뽑아 결과가 매번 다른 것을 확인하세요.',
+        '“적어도 한 번”이 50%를 넘는 횟수를 찾아보세요.'],
+ obj:'여사건을 이용해 “적어도 한 번” 일어날 확률을 구하고, 큰 수의 법칙을 설명할 수 있다.',
+ js2:['const P = {p:0.005, n:500, seed:11};',
+      'function rnd(){ P.seed = (P.seed*1103515245 + 12345) & 0x7fffffff; return P.seed/0x7fffffff; }',
+      'function atLeastOne(){ return 1 - Math.pow(1 - P.p, P.n); }'],
+ body3:['<label>당첨 확률 <b id="vp">0.5</b>%<input type="range" id="sp" min="0.1" max="20" step="0.1" value="0.5"></label>',
+        '<label>뽑는 횟수 <b id="vn">500</b>회<input type="range" id="sn" min="10" max="3000" step="10" value="500"></label>'],
+ js3:['function readInputs(){',
+      '  P.p = +document.getElementById("sp").value / 100;',
+      '  document.getElementById("vp").textContent = (P.p*100).toFixed(1);',
+      '  P.n = +document.getElementById("sn").value;',
+      '  document.getElementById("vn").textContent = P.n;',
+      '}'],
+ body4:['<canvas id="cv" width="420" height="300"></canvas>',
+        '<p id="out" style="font-size:15px"></p>'],
+ js4:['function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  c.clearRect(0,0,420,300);',
+      '  const top = Math.max(P.p*3, 0.02);',
+      '  const X = i => 40 + 370*i/P.n, Y = v => 260 - 220*Math.min(1,v/top);',
+      '  c.strokeStyle="#B45309"; c.setLineDash([5,3]); c.lineWidth=1.6;',
+      '  c.beginPath(); c.moveTo(40,Y(P.p)); c.lineTo(410,Y(P.p)); c.stroke(); c.setLineDash([]);',
+      '  P.seed = 11;',
+      '  c.strokeStyle="#2563EB"; c.lineWidth=2; c.beginPath();',
+      '  for(let i = 1; i <= P.n; i++){',
+      '    let h = 0;',
+      '    for(let j = 0; j < 20; j++) if(rnd() < P.p) h++;   // 그 지점에서 20번만 새로 세어 봄',
+      '    const v = h/20;',
+      '    if(i === 1) c.moveTo(X(i),Y(v)); else c.lineTo(X(i),Y(v));',
+      '  }',
+      '  c.stroke();',
+      '  c.strokeStyle="#9CA3AF"; c.beginPath(); c.moveTo(40,260); c.lineTo(410,260); c.stroke();',
+      '  document.getElementById("out").innerHTML = "이론 확률 <b>" + (P.p*100).toFixed(1) + "%</b>";',
+      '}'],
+ js5:['function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  c.clearRect(0,0,420,300);',
+      '  const top = Math.max(P.p*3, 0.02);',
+      '  const X = i => 40 + 370*i/P.n, Y = v => 260 - 220*Math.min(1,v/top);',
+      '  c.strokeStyle="#B45309"; c.setLineDash([5,3]); c.lineWidth=1.6;',
+      '  c.beginPath(); c.moveTo(40,Y(P.p)); c.lineTo(410,Y(P.p)); c.stroke(); c.setLineDash([]);',
+      '  c.fillStyle="#B45309"; c.font="bold 11px sans-serif";',
+      '  c.fillText("이론 확률 " + (P.p*100).toFixed(1) + "%", 46, Y(P.p)-6);',
+      '  P.seed = 11;',
+      '  let hit = 0;',
+      '  c.strokeStyle="#2563EB"; c.lineWidth=2; c.beginPath();',
+      '  for(let i = 1; i <= P.n; i++){',
+      '    if(rnd() < P.p) hit++;            // 누적해서 세고',
+      '    const v = hit / i;                // 누적 시행 횟수로 나눈다',
+      '    if(i === 1) c.moveTo(X(i),Y(v)); else c.lineTo(X(i),Y(v));',
+      '  }',
+      '  c.stroke();',
+      '  c.strokeStyle="#9CA3AF"; c.beginPath(); c.moveTo(40,260); c.lineTo(410,260); c.stroke();',
+      '  c.fillStyle="#6B7280"; c.font="11px sans-serif"; c.fillText("뽑은 횟수 →", 40, 282);',
+      '  document.getElementById("out").innerHTML =',
+      '    P.n + "회 중 당첨 <b>" + hit + "회</b> → 실험 확률 <b>" +',
+      '    (hit/P.n*100).toFixed(2) + "%</b> (이론 " + (P.p*100).toFixed(1) + "%)";',
+      '}'],
+ body6:['<p id="fb" style="font-size:15px"></p>'],
+ js6:['function check(){',
+      '  const a = atLeastOne();',
+      '  document.getElementById("fb").innerHTML =',
+      '    "P(적어도 한 번) = 1 − (1 − " + P.p.toFixed(3) + ")<sup>" + P.n + "</sup> = <b>" +',
+      '    (a*100).toFixed(1) + "%</b> " +',
+      '    (a < 0.5 ? "<span style=\'color:#BE123C\'>— 절반도 안 됩니다</span>"',
+      '             : "<span style=\'color:#0E9384\'>— 절반을 넘었습니다</span>");',
+      '}'],
+ events:['["sp","sn"].forEach(id => document.getElementById(id).oninput = update);']
+},
+
+zscore:{
+ t:'정규분포와 표준점수', grade:'고2 · 확률과 통계',
+ q:'같은 78점인데 왜 등급이 다를까?',
+ eq:'z = (x − m) / σ',
+ model:'평균을 빼서 중심을 0으로 옮기고 표준편차로 나눠 흩어진 정도를 1로 맞추는 표준화',
+ params:'내 점수, 평균, 표준편차',
+ controls:'점수·평균·표준편차를 조절하는 슬라이더',
+ viz:'정규분포 곡선과 내 점수 위치',
+ bug:'표준편차를 5에서 25로 크게 바꿔도 z 값이 전혀 달라지지 않습니다. 흩어진 정도가 완전히 다른 시험인데 같은 등급이 나옵니다.',
+ fixask:'표준편차를 바꿔도 z 값이 그대로야. 표준편차가 5일 때와 25일 때가 같은 z 가 나오면 안 되잖아.\n지금은 평균을 빼는 것만 하고 있는 것 같아. 평균을 뺀 다음 반드시 표준편차로 나눠 줘. z = (x − m) / σ 야.',
+ act:'z로부터 백분위를 구해 상위 몇 %인지 알려 주는 활동',
+ guide:['점수와 평균은 그대로 두고 표준편차만 바꿔 보세요.',
+        'z = 1 일 때 상위 몇 %인지 확인하고 외워 두세요.',
+        '내 모의고사 성적표의 표준점수와 대조해 보세요.'],
+ obj:'표준점수를 구하고 정규분포에서 그 위치가 뜻하는 바를 해석할 수 있다.',
+ js2:['const P = {x:78, m:65, s:12};',
+      'function phi(z){',
+      '  const t = 1/(1 + 0.2316419*Math.abs(z));',
+      '  const d = 0.3989423*Math.exp(-z*z/2);',
+      '  const p = d*t*(0.3193815 + t*(-0.3565638 + t*(1.781478 + t*(-1.821256 + t*1.330274))));',
+      '  return z > 0 ? 1-p : p;',
+      '}'],
+ body3:['<label>내 점수 <b id="vx">78</b>점<input type="range" id="sx" min="0" max="100" step="1" value="78"></label>',
+        '<label>평균 <b id="vm">65</b>점<input type="range" id="sm" min="0" max="100" step="1" value="65"></label>',
+        '<label>표준편차 <b id="vs">12</b>점<input type="range" id="ss" min="1" max="30" step="1" value="12"></label>'],
+ js3:['function readInputs(){',
+      '  P.x = +document.getElementById("sx").value; document.getElementById("vx").textContent = P.x;',
+      '  P.m = +document.getElementById("sm").value; document.getElementById("vm").textContent = P.m;',
+      '  P.s = +document.getElementById("ss").value; document.getElementById("vs").textContent = P.s;',
+      '}'],
+ body4:['<canvas id="cv" width="420" height="280"></canvas>',
+        '<p id="out" style="font-size:15px"></p>'],
+ js4:['function zscore(){ return P.x - P.m; }        // 평균만 뺐다',
+      'function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  const f = v => 0.3989423/P.s*Math.exp(-Math.pow((v-P.m)/P.s,2)/2);',
+      '  const pk = 0.3989423/P.s;',
+      '  const X = v => 30 + 360*v/100, Y = v => 240 - 200*v/pk;',
+      '  c.clearRect(0,0,420,280);',
+      '  c.strokeStyle="#2563EB"; c.lineWidth=2.4; c.beginPath();',
+      '  for(let v = 0; v <= 100; v += 0.5){ const px=X(v), py=Y(f(v)); v ? c.lineTo(px,py) : c.moveTo(px,py); }',
+      '  c.stroke();',
+      '  c.strokeStyle="#9CA3AF"; c.beginPath(); c.moveTo(30,240); c.lineTo(400,240); c.stroke();',
+      '  c.strokeStyle="#BE123C"; c.lineWidth=2;',
+      '  c.beginPath(); c.moveTo(X(P.x),240); c.lineTo(X(P.x),Y(f(P.x))); c.stroke();',
+      '  document.getElementById("out").innerHTML = "z = <b>" + zscore().toFixed(3) + "</b>";',
+      '}'],
+ js5:['function zscore(){ return (P.x - P.m) / P.s; }   // 평균을 빼고 표준편차로 나눈다',
+      'function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  const f = v => 0.3989423/P.s*Math.exp(-Math.pow((v-P.m)/P.s,2)/2);',
+      '  const pk = 0.3989423/P.s;',
+      '  const X = v => 30 + 360*v/100, Y = v => 240 - 200*v/pk;',
+      '  c.clearRect(0,0,420,280);',
+      '  c.fillStyle="#DCE7FB"; c.beginPath(); c.moveTo(X(0),Y(0));',
+      '  for(let v = 0; v <= P.x; v += 0.5) c.lineTo(X(v),Y(f(v)));',
+      '  c.lineTo(X(P.x),Y(0)); c.closePath(); c.fill();',
+      '  c.strokeStyle="#2563EB"; c.lineWidth=2.4; c.beginPath();',
+      '  for(let v = 0; v <= 100; v += 0.5){ const px=X(v), py=Y(f(v)); v ? c.lineTo(px,py) : c.moveTo(px,py); }',
+      '  c.stroke();',
+      '  c.strokeStyle="#9CA3AF"; c.beginPath(); c.moveTo(30,240); c.lineTo(400,240); c.stroke();',
+      '  c.strokeStyle="#B45309"; c.setLineDash([5,3]); c.lineWidth=2;',
+      '  c.beginPath(); c.moveTo(X(P.m),240); c.lineTo(X(P.m),Y(f(P.m))); c.stroke(); c.setLineDash([]);',
+      '  c.strokeStyle="#BE123C"; c.lineWidth=2;',
+      '  c.beginPath(); c.moveTo(X(P.x),240); c.lineTo(X(P.x),Y(f(P.x))); c.stroke();',
+      '  c.fillStyle="#B45309"; c.font="bold 11px sans-serif"; c.fillText("평균 "+P.m, X(P.m)+4, Y(f(P.m))-6);',
+      '  c.fillStyle="#BE123C"; c.fillText("내 점수 "+P.x, X(P.x)+4, Y(f(P.x))-6);',
+      '  document.getElementById("out").innerHTML =',
+      '    "z = (" + P.x + " − " + P.m + ") / " + P.s + " = <b>" + zscore().toFixed(3) + "</b>";',
+      '}'],
+ body6:['<p id="fb" style="font-size:15px"></p>'],
+ js6:['function check(){',
+      '  const z = zscore(), pct = phi(z)*100;',
+      '  document.getElementById("fb").innerHTML =',
+      '    "백분위 <b>" + pct.toFixed(1) + "</b> · 상위 <b>" + (100-pct).toFixed(1) + "%</b>" +',
+      '    (Math.abs(z) < 0.0001 ? " (평균과 같음)" :',
+      '     z > 0 ? " — 평균보다 " + z.toFixed(2) + "σ 위" : " — 평균보다 " + (-z).toFixed(2) + "σ 아래");',
+      '}'],
+ events:['["sx","sm","ss"].forEach(id => document.getElementById(id).oninput = update);']
 },
 
 luhn:{
