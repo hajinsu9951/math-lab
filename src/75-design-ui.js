@@ -107,11 +107,10 @@ function drawDesign(){
     <div class="dsec"><div class="dnum">3</div><h4>학생 활동지 — 실험실로 탐구하고 단계별로 기록하기</h4></div>
     <p class="dnote">각 STEP은 <b>웹 실험실에서 무엇을 조작하고 무엇을 기록할지</b>가 짝지어져 있습니다.
     조작만 하고 끝나지 않도록, 화면에서 본 값을 반드시 손계산과 대조하게 했습니다.</p>
-    <div class="steps">${S.steps.map(s=>`
-      <div class="dstp">
-        <div class="dstpn">${s.n}</div>
+    <div class="steps">${S.steps.map((s,i)=>`
+      <details class="dstp"${i===0?' open':''}>
+        <summary><span class="dstpn">${s.n}</span><b>${s.t}</b></summary>
         <div class="dstpb">
-          <h5>${s.t}</h5>
           <p class="ask">${s.ask}</p>
           <p class="guide">${s.guide}</p>
           ${s.labtip?`<p class="labtip">${s.labtip}</p>`:''}
@@ -121,7 +120,7 @@ function drawDesign(){
           <ul class="rec">${s.rec.map(x=>`<li>${x}</li>`).join('')}</ul>
           <div class="pad" data-pad="${esc(S.t)} ${s.n}"></div>
         </div>
-      </div>`).join('')}</div>
+      </details>`).join('')}</div>
 
     <div class="dlbar">
       <button class="b t" id="dlSheet">학생 활동지 내려받기</button>
