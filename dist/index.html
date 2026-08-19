@@ -1594,6 +1594,610 @@ function velDemo(root){
    LABS 와 같은 순서. 실험을 조작하는 것만으로 끝나지 않도록,
    ① 어떤 원리인가 ② 실험의 어느 조작이 그 원리를 드러내는가 ③ 수업의 어느 장면으로 잇는가
    세 칸을 반드시 채운다. ②가 비면 그 실험실은 탐구가 아니라 시청이다. */
+
+/* ═══════════════════ 중학교 1학년 10종 (LAB 25~34) ═══════════════════
+   2022 개정 중1 성취기준을 영역 비중대로 나눈 1차 10종.
+   수와 연산 2 · 변화와 관계 3 · 도형과 측정 3 · 자료와 가능성 2.
+   각 실험실은 카탈로그에서 승격한 것이므로 55-catalog.js 에서 같은 주제를 지웠다. */
+
+/* ---------- LAB 25 소인수분해와 암호 [9수01-01] ---------- */
+function primeDemo(root){
+  const PR=[2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97];
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="pf1" width="380" height="300"></canvas></div>
+    <div class="col">
+      ${slider('pfa','소수 p (몇 번째)',0,24,1,7,'번째')}
+      ${slider('pfb','소수 q (몇 번째)',0,24,1,12,'번째')}
+      <div class="out" id="pfout"></div>
+      <div class="note" style="margin-top:12px">곱하는 것은 한 번이면 끝나는데, <b>되돌리는 것</b>은 나눠 보는 수밖에 없습니다.
+      이 비대칭이 암호가 되는 자리입니다.</div>
+    </div></div>`;
+  const cv=$('#pf1'),ctx=cv.getContext('2d'),W=380,H=300;
+  function factor(n){const f=[];let m=n,d=2,tries=0;
+    while(d*d<=m){tries++;if(m%d===0){f.push(d);m/=d;}else d++;}
+    if(m>1)f.push(m);return{f,tries};}
+  function draw(){
+    const p=PR[+$('#pfa').value],q=PR[+$('#pfb').value],N=p*q;
+    $('#pfav').textContent=(+$('#pfa').value+1)+'번째 (p='+p+')';
+    $('#pfbv').textContent=(+$('#pfb').value+1)+'번째 (q='+q+')';
+    const {tries}=factor(N);
+    ctx.clearRect(0,0,W,H);
+    // 소인수분해 나무 — N 을 두 갈래로
+    ctx.fillStyle='#111827';ctx.font='bold 26px sans-serif';ctx.textAlign='center';
+    ctx.fillText(String(N),W/2,44);
+    ctx.strokeStyle='#9CA3AF';ctx.lineWidth=1.6;
+    ctx.beginPath();ctx.moveTo(W/2-8,56);ctx.lineTo(W/2-70,92);
+    ctx.moveTo(W/2+8,56);ctx.lineTo(W/2+70,92);ctx.stroke();
+    ctx.font='bold 21px sans-serif';
+    ctx.fillStyle='#2563EB';ctx.fillText(String(p),W/2-78,116);
+    ctx.fillStyle='#0E9384';ctx.fillText(String(q),W/2+78,116);
+    ctx.fillStyle='#6B7280';ctx.font='12px sans-serif';
+    ctx.fillText('소수',W/2-78,134);ctx.fillText('소수',W/2+78,134);
+    // 시행 횟수 막대 — √N 까지 vs N 까지
+    const barY=176,BW=300,BX=(W-BW)/2;
+    const full=N-1, half=Math.floor(Math.sqrt(N));
+    ctx.textAlign='left';ctx.fillStyle='#6B7280';ctx.font='12px sans-serif';
+    ctx.fillText('2부터 N까지 다 나눠 보면',BX,barY-8);
+    ctx.fillStyle='#E5E7EB';ctx.fillRect(BX,barY,BW,16);
+    ctx.fillStyle='#BE123C';ctx.fillRect(BX,barY,BW,16);
+    ctx.fillStyle='#111827';ctx.font='bold 12px sans-serif';
+    ctx.fillText(full.toLocaleString()+'번',BX+BW+6>W-40?BX+6:BX+BW-56,barY+12);
+    ctx.fillStyle='#6B7280';ctx.font='12px sans-serif';
+    ctx.fillText('√N 까지만 나눠 보면',BX,barY+42);
+    ctx.fillStyle='#E5E7EB';ctx.fillRect(BX,barY+50,BW,16);
+    ctx.fillStyle='#0E9384';ctx.fillRect(BX,barY+50,Math.max(2,BW*half/full),16);
+    ctx.fillStyle='#111827';ctx.font='bold 12px sans-serif';
+    ctx.fillText(half+'번',BX+Math.max(2,BW*half/full)+6,barY+62);
+    ctx.textAlign='center';ctx.fillStyle='#6B7280';ctx.font='12px sans-serif';
+    ctx.fillText('실제로 p 를 찾기까지 나눠 본 횟수 : '+tries+'번',W/2,H-14);
+    $('#pfout').innerHTML=
+      `<span class="mono" style="font-size:16px">${p} × ${q} = <b>${N}</b></span><br><br>
+       곱하는 데는 <b>한 번</b>이면 됩니다.<br>
+       ${N} 만 보고 ${p} 를 되찾으려면 <b>${tries}번</b> 나눠 봐야 했습니다.<br><br>
+       나눠 볼 필요가 있는 곳은 <b>√${N} ≈ ${Math.sqrt(N).toFixed(1)}</b> 까지입니다 —
+       그보다 큰 약수가 있다면 짝이 되는 작은 약수가 이미 나왔을 것이기 때문입니다.`;
+  }
+  ['pfa','pfb'].forEach(i=>$('#'+i).oninput=draw); draw();
+}
+
+/* ---------- LAB 26 영하 5도에서 3도 오르면 [9수01-05] ---------- */
+function intDemo(root){
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="iz1" width="380" height="300"></canvas></div>
+    <div class="col">
+      ${slider('iza','처음 온도 a',-10,10,1,-5,'°C')}
+      ${slider('izb','변화량 b',-10,10,1,3,'°C')}
+      <label class="ctl">무엇을 할까요
+        <select id="izop" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+          <option value="+">a + b — b 만큼 오른다</option>
+          <option value="-">a − b — b 만큼 내린다</option>
+        </select></label>
+      <div class="out" id="izout"></div>
+      <div class="note" style="margin-top:12px">뺄셈은 <b>반대 방향으로 가는 덧셈</b>입니다.
+      화살표의 방향이 바뀌는 것을 보세요.</div>
+    </div></div>`;
+  const cv=$('#iz1'),ctx=cv.getContext('2d'),W=380,H=300,P=26;
+  const X=v=>P+(W-2*P)*(v+12)/24;
+  function arrow(y,from,to,col,lab){
+    if(from===to)return;
+    ctx.strokeStyle=col;ctx.lineWidth=2.6;ctx.beginPath();
+    ctx.moveTo(X(from),y);ctx.lineTo(X(to),y);ctx.stroke();
+    const d=to>from?1:-1;
+    ctx.fillStyle=col;ctx.beginPath();
+    ctx.moveTo(X(to),y);ctx.lineTo(X(to)-d*9,y-5);ctx.lineTo(X(to)-d*9,y+5);ctx.fill();
+    ctx.font='bold 12px sans-serif';ctx.textAlign='center';
+    ctx.fillText(lab,(X(from)+X(to))/2,y-9);
+  }
+  function draw(){
+    const a=+$('#iza').value,b=+$('#izb').value,op=$('#izop').value;
+    $('#izav').textContent=a+'°C';$('#izbv').textContent=b+'°C';
+    const r=op==='+'?a+b:a-b, eff=op==='+'?b:-b;
+    ctx.clearRect(0,0,W,H);
+    // 수직선
+    const y0=150;
+    ctx.strokeStyle='#9CA3AF';ctx.lineWidth=1.4;
+    ctx.beginPath();ctx.moveTo(P,y0);ctx.lineTo(W-P,y0);ctx.stroke();
+    ctx.font='11px sans-serif';ctx.textAlign='center';
+    for(let v=-12;v<=12;v+=2){
+      ctx.strokeStyle=v===0?'#111827':'#D1D5DB';ctx.lineWidth=v===0?1.8:1;
+      ctx.beginPath();ctx.moveTo(X(v),y0-6);ctx.lineTo(X(v),y0+6);ctx.stroke();
+      ctx.fillStyle=v===0?'#111827':'#9CA3AF';ctx.fillText(String(v),X(v),y0+22);
+    }
+    ctx.fillStyle='#6B7280';ctx.textAlign='left';ctx.font='11px sans-serif';
+    ctx.fillText('영하 ←',P,y0+44);ctx.textAlign='right';ctx.fillText('→ 영상',W-P,y0+44);
+    // 시작점·화살표·도착점
+    ctx.fillStyle='#2563EB';ctx.beginPath();ctx.arc(X(a),y0,6,0,7);ctx.fill();
+    ctx.textAlign='center';ctx.font='bold 12px sans-serif';ctx.fillText('a='+a,X(a),y0-30);
+    arrow(y0-14, a, r, eff>=0?'#0E9384':'#BE123C', (eff>=0?'+':'')+eff);
+    ctx.fillStyle='#BE123C';ctx.beginPath();ctx.arc(X(r),y0,6,0,7);ctx.fill();
+    ctx.fillStyle='#111827';ctx.font='bold 13px sans-serif';ctx.fillText(r+'°C',X(r),y0+62);
+    const sign = op==='-' ? `${a} − (${b<0?'':''}${b}) = ${a} + (${-b}) = <b>${r}</b>`
+                          : `${a} + (${b}) = <b>${r}</b>`;
+    $('#izout').innerHTML=
+      `<span class="mono" style="font-size:16px">${sign}</span><br><br>
+       화살표는 <b>${Math.abs(eff)}칸 ${eff>=0?'오른쪽(따뜻해지는 쪽)':'왼쪽(추워지는 쪽)'}</b>으로 갔습니다.<br>
+       ${op==='-'?'빼기는 <b>부호를 바꿔 더하는 것</b>과 같습니다. 부호를 한 번만 바꾸면 방향이 반대로 갑니다.'
+                 :'더하기는 화살표를 <b>그 부호 방향으로</b> 놓는 것입니다.'}`;
+  }
+  ['iza','izb'].forEach(i=>$('#'+i).oninput=draw); $('#izop').onchange=draw; draw();
+}
+
+/* ---------- LAB 27 규칙을 한 줄로 — 문자와 식 [9수02-01] ---------- */
+function letterDemo(root){
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="lt1" width="380" height="300"></canvas></div>
+    <div class="col">
+      ${slider('ltn','몇 번째 도형 n',1,8,1,3,'번째')}
+      ${slider('lta','대입할 값 a',0,10,1,3,'')}
+      <div class="out" id="ltout"></div>
+      <div class="note" style="margin-top:12px"><b>2a</b> 는 “2와 a”가 아니라 <b>2 × a</b> 입니다.
+      약속을 잘못 읽으면 대입 결과가 통째로 달라집니다.</div>
+    </div></div>`;
+  const cv=$('#lt1'),ctx=cv.getContext('2d'),W=380,H=300;
+  function draw(){
+    const n=+$('#ltn').value,a=+$('#lta').value;
+    $('#ltnv').textContent=n+'번째'; $('#ltav').textContent=String(a);
+    ctx.clearRect(0,0,W,H);
+    // 성냥개비로 만든 정사각형 n 개를 옆으로 이어 붙인 그림
+    const S=Math.min(38,300/n), OX=(W-S*n)/2, OY=54;
+    ctx.lineWidth=3.2; ctx.lineCap='round';
+    for(let i=0;i<n;i++){
+      const x=OX+i*S;
+      ctx.strokeStyle='#2563EB';
+      ctx.beginPath();ctx.moveTo(x,OY);ctx.lineTo(x+S,OY);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(x,OY+S);ctx.lineTo(x+S,OY+S);ctx.stroke();
+      ctx.strokeStyle = i===0 ? '#B45309' : '#0E9384';
+      ctx.beginPath();ctx.moveTo(x,OY);ctx.lineTo(x,OY+S);ctx.stroke();
+    }
+    ctx.strokeStyle='#0E9384';
+    ctx.beginPath();ctx.moveTo(OX+n*S,OY);ctx.lineTo(OX+n*S,OY+S);ctx.stroke();
+    ctx.font='12px sans-serif'; ctx.textAlign='center'; ctx.fillStyle='#6B7280';
+    ctx.fillText('정사각형 '+n+'개 · 성냥개비 '+(3*n+1)+'개', W/2, OY+S+24);
+    // 생김새가 다른 세 식이 같은 값을 내는지 확인한다
+    const exprs=[['3n + 1',3*n+1],['4 + 3(n − 1)',4+3*(n-1)],['4n − (n − 1)',4*n-(n-1)]];
+    exprs.forEach((e,i)=>{
+      const y=OY+S+58+i*30;
+      ctx.fillStyle='#F7F8FA'; ctx.fillRect(30,y-17,320,25);
+      ctx.fillStyle='#111827'; ctx.font='bold 14px ui-monospace,monospace'; ctx.textAlign='left';
+      ctx.fillText(e[0],40,y);
+      ctx.fillStyle = e[1]===3*n+1 ? '#0E9384' : '#BE123C';
+      ctx.font='bold 14px sans-serif'; ctx.textAlign='right';
+      ctx.fillText('= '+e[1],342,y);
+    });
+    const right=2*a, wrong=Number('2'+a);
+    $('#ltout').innerHTML=
+      `n = ${n} 일 때 성냥개비는 <b>${3*n+1}개</b>.<br>
+       세 식은 <b>생김새만 다를 뿐 값이 같습니다</b> — 같은 규칙을 다르게 본 것뿐입니다.<br><br>
+       <span class="mono" style="font-size:15px">2a</span> 에 a = ${a} 를 넣으면
+       <b>2 × ${a} = ${right}</b> 입니다.<br>
+       “2와 ${a}”로 읽어 <b>${wrong}</b> 이라고 쓰면 <b>${wrong-right}만큼</b> 어긋납니다.`;
+  }
+  ['ltn','lta'].forEach(i=>$('#'+i).oninput=draw); draw();
+}
+
+/* ---------- LAB 28 저울이 균형을 이루려면 [9수02-03][9수02-04] ---------- */
+function scaleDemo(root){
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="sc1" width="380" height="300"></canvas></div>
+    <div class="col">
+      <div class="out" id="scEq" style="font-size:17px;text-align:center"></div>
+      <label class="ctl">양변에 같은 일을 합니다</label>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">
+        <button class="b sm" id="scS1">양변에서 1 빼기</button>
+        <button class="b sm" id="scA1">양변에 1 더하기</button>
+        <button class="b sm" id="scD2">양변을 2로 나누기</button>
+        <button class="b sm" id="scL1">왼쪽에서만 1 빼기</button>
+        <button class="b g sm" id="scR">처음으로</button>
+      </div>
+      <div class="out" id="scout"></div>
+      <div class="note" style="margin-top:12px">균형을 지키려면 <b>양변에 똑같이</b> 해야 합니다.
+      한쪽만 건드리는 순간 저울이 기울고, 답도 달라집니다.</div>
+    </div></div>`;
+  const cv=$('#sc1'),ctx=cv.getContext('2d'),W=380,H=300;
+  const S0={la:2,lb:3,ra:0,rb:11};                    // 2x + 3 = 11
+  let S={...S0}, log=[], broken=false;
+  const num=v=>Number.isInteger(v)?String(v):v.toFixed(1);
+  function fmt(a,b){
+    const t=[];
+    if(a) t.push((a===1?'':num(a))+'x');
+    if(b||!a) t.push(num(b));
+    return t.join(' + ').replace('+ -','− ');
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const cx=W/2, cy=112, arm=112, tilt=broken?0.15:0;
+    ctx.strokeStyle='#6B7280'; ctx.lineWidth=3;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx,cy+100);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(cx-70,cy+100);ctx.lineTo(cx+70,cy+100);ctx.stroke();
+    ctx.save(); ctx.translate(cx,cy); ctx.rotate(tilt);
+    ctx.strokeStyle='#111827'; ctx.lineWidth=4;
+    ctx.beginPath();ctx.moveTo(-arm,0);ctx.lineTo(arm,0);ctx.stroke();
+    [[-arm,'#2563EB',fmt(S.la,S.lb)],[arm,'#0E9384',fmt(S.ra,S.rb)]].forEach(([px,col,txt])=>{
+      ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.4;
+      ctx.beginPath();ctx.moveTo(px,0);ctx.lineTo(px,32);ctx.stroke();
+      ctx.fillStyle=col; ctx.globalAlpha=.12; ctx.fillRect(px-48,32,96,34); ctx.globalAlpha=1;
+      ctx.strokeStyle=col; ctx.lineWidth=1.8; ctx.strokeRect(px-48,32,96,34);
+      ctx.fillStyle=col; ctx.font='bold 16px ui-monospace,monospace'; ctx.textAlign='center';
+      ctx.fillText(txt,px,54);
+    });
+    ctx.restore();
+    ctx.textAlign='center';
+    ctx.fillStyle = broken ? '#BE123C' : '#0E9384'; ctx.font='bold 13px sans-serif';
+    ctx.fillText(broken?'균형이 깨졌습니다':'균형입니다', cx, cy+128);
+    $('#scEq').innerHTML=`<span class="mono">${fmt(S.la,S.lb)} = ${fmt(S.ra,S.rb)}</span>`;
+    const done = S.la===1 && S.lb===0 && S.ra===0;
+    $('#scout').innerHTML =
+      (broken ? '<b class="no">한쪽만 건드렸습니다.</b> 저울이 기울었고, 이 식은 더 이상 처음 식과 같은 뜻이 아닙니다. 「처음으로」를 눌러 다시 하세요.<br><br>'
+              : done ? `<b class="ok">x = ${num(S.rb)} 를 찾았습니다.</b> 처음 식 2x + 3 = 11 에 넣어 검산해 보세요.<br><br>` : '')
+      + (log.length ? '<b>지금까지 한 일</b><br>' + log.map(s=>'· '+s).join('<br>')
+                    : '양변에 같은 일을 하며 x 만 남겨 보세요.');
+  }
+  function act(f,name,bad){
+    if(broken && !bad) return;
+    f(); log.push(name); if(bad) broken=true; draw();
+  }
+  $('#scS1').onclick=()=>act(()=>{S.lb-=1;S.rb-=1;},'양변에서 1 빼기');
+  $('#scA1').onclick=()=>act(()=>{S.lb+=1;S.rb+=1;},'양변에 1 더하기');
+  $('#scD2').onclick=()=>act(()=>{S.la/=2;S.lb/=2;S.ra/=2;S.rb/=2;},'양변을 2로 나누기');
+  $('#scL1').onclick=()=>act(()=>{S.lb-=1;},'왼쪽에서만 1 빼기 ← 균형이 깨집니다',true);
+  $('#scR').onclick=()=>{S={...S0};log=[];broken=false;draw();};
+  draw();
+}
+
+/* ---------- LAB 29 지렛대는 왜 힘이 덜 들까 [9수02-07] ---------- */
+function propDemo(root){
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="pp1" width="380" height="300"></canvas></div>
+    <div class="col">
+      ${slider('ppd','받침점에서 내 손까지 거리 x',1,10,1,4,'m')}
+      ${slider('ppw','일정하게 유지되는 양 k',6,60,2,24,'')}
+      <label class="ctl">어떤 관계인가
+        <select id="ppk" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+          <option value="inv">반비례 y = k ÷ x — 필요한 힘</option>
+          <option value="dir">정비례 y = a × x — 거리에 비례하는 양</option>
+        </select></label>
+      <div class="out" id="ppout"></div>
+      <div class="note" style="margin-top:12px">곱이 일정하면 <b>반비례</b>, 비가 일정하면 <b>정비례</b>입니다.
+      직선이냐 굽은 선이냐가 그대로 갈립니다.</div>
+    </div></div>`;
+  const cv=$('#pp1'),ctx=cv.getContext('2d'),W=380,H=300,P=42;
+  function draw(){
+    const x=+$('#ppd').value, k=+$('#ppw').value, mode=$('#ppk').value;
+    $('#ppdv').textContent=x+'m'; $('#ppwv').textContent=String(k);
+    const f = v => mode==='inv' ? k/v : (k/10)*v;
+    const maxY = mode==='inv' ? k : k;
+    const X = v => P+(W-2*P)*v/10;
+    const Y = v => H-P-(H-2*P)*Math.min(v,maxY)/maxY;
+    axes(ctx,W,H,P);
+    ctx.strokeStyle = mode==='inv' ? '#B45309' : '#2563EB';
+    ctx.lineWidth=2.8; ctx.beginPath();
+    for(let i=0;i<=200;i++){
+      const v=0.5+i*9.5/200, px=X(v), py=Y(f(v));
+      i?ctx.lineTo(px,py):ctx.moveTo(px,py);
+    }
+    ctx.stroke();
+    ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(x),Y(f(x)),6,0,7); ctx.fill();
+    ctx.fillStyle='#111827'; ctx.font='bold 12px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('('+x+', '+f(x).toFixed(1)+')', X(x)+9, Y(f(x))-8);
+    ctx.fillStyle='#6B7280'; ctx.font='11px sans-serif';
+    ctx.fillText('x (거리)', W-P-46, H-P+18);
+    ctx.fillText('y', P-16, P-8);
+    const cells = v => `<td>${v}</td>`;
+    const xs=[1,2,4,5,10];
+    $('#ppout').innerHTML=
+      `<table style="width:100%;border-collapse:collapse;font-size:12.5px;text-align:center">
+       <tr style="color:#6B7280"><td>x</td>${xs.map(cells).join('')}</tr>
+       <tr><td style="color:#6B7280">y</td>${xs.map(v=>`<td><b>${f(v).toFixed(1)}</b></td>`).join('')}</tr>
+       <tr style="color:#6B7280"><td>${mode==='inv'?'x × y':'y ÷ x'}</td>${
+          xs.map(v=>`<td>${mode==='inv'?(v*f(v)).toFixed(0):(f(v)/v).toFixed(1)}</td>`).join('')}</tr></table><br>
+       ${mode==='inv'
+         ? `<b>x × y 가 ${k} 로 일정</b>합니다. 이것이 반비례이고, 그래프는 <b>직선이 아니라 굽은 선</b>입니다.<br>
+            손을 받침점에서 ${x}m 떼면 필요한 힘은 <b>${(k/x).toFixed(1)}</b> — 두 배 멀리 잡으면 힘은 절반입니다.`
+         : `<b>y ÷ x 가 ${(k/10).toFixed(1)} 로 일정</b>합니다. 이것이 정비례이고, 그래프는 <b>원점을 지나는 직선</b>입니다.`}`;
+  }
+  ['ppd','ppw'].forEach(i=>$('#'+i).oninput=draw); $('#ppk').onchange=draw; draw();
+}
+
+/* ---------- LAB 30 그림의 원근법 — 평행선과 각 [9수03-02] ---------- */
+function paraDemo(root){
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="pa1" width="380" height="300"></canvas></div>
+    <div class="col">
+      ${slider('paT','횡단선의 기울어진 각 θ',20,80,1,54,'°')}
+      ${slider('paG','두 평행선 사이 간격',50,130,5,90,'px')}
+      <label class="ctl">무엇을 표시할까요
+        <select id="paM" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+          <option value="co">동위각 — 같은 자리에 있는 각</option>
+          <option value="al">엇각 — 엇갈린 자리에 있는 각</option>
+          <option value="in">동측내각 — 같은 쪽 안쪽 각</option>
+        </select></label>
+      <div class="out" id="paout"></div>
+      <div class="note" style="margin-top:12px">평행선이라는 <b>조건</b>이 있어야 같습니다.
+      평행이 아니면 이름은 그대로여도 크기는 달라집니다.</div>
+    </div></div>`;
+  const cv=$('#pa1'),ctx=cv.getContext('2d'),W=380,H=300;
+  function arc(cx,cy,a0,a1,r,col,txt){
+    ctx.strokeStyle=col; ctx.lineWidth=2.2;
+    ctx.beginPath(); ctx.arc(cx,cy,r,a0,a1); ctx.stroke();
+    const am=(a0+a1)/2;
+    ctx.fillStyle=col; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(txt, cx+Math.cos(am)*(r+15), cy+Math.sin(am)*(r+15)+4);
+  }
+  function draw(){
+    const th=+$('#paT').value, gap=+$('#paG').value, mode=$('#paM').value;
+    $('#paTv').textContent=th+'°'; $('#paGv').textContent=gap+'px';
+    ctx.clearRect(0,0,W,H);
+    const y1=100, y2=100+gap, r=th*Math.PI/180;
+    // 두 평행선
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4;
+    [y1,y2].forEach(y=>{ctx.beginPath();ctx.moveTo(24,y);ctx.lineTo(W-24,y);ctx.stroke();});
+    ctx.fillStyle='#6B7280'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('ℓ',26,y1-8); ctx.fillText('m',26,y2-8);
+    // 횡단선 — y1 에서 x1 을 지나도록
+    const x1=150, dx=gap/Math.tan(r), x2=x1+dx;
+    ctx.strokeStyle='#B45309'; ctx.lineWidth=2.4;
+    const ext=70;
+    ctx.beginPath();
+    ctx.moveTo(x1-ext/Math.tan(r)*-1*0+ (x1 - (ext*Math.cos(r))), y1 - ext*Math.sin(r));
+    ctx.lineTo(x2 + ext*Math.cos(r), y2 + ext*Math.sin(r));
+    ctx.stroke();
+    ctx.fillStyle='#B45309'; ctx.fillText('n', x2+ext*Math.cos(r)+4, y2+ext*Math.sin(r));
+    // 각 표시 — 위 교점(x1,y1), 아래 교점(x2,y2)
+    const A=Math.PI-r;                     // 횡단선이 왼쪽 위로 가는 방향
+    let pairs, name, why;
+    if(mode==='co'){
+      pairs=[[x1,y1,0,r],[x2,y2,0,r]];
+      name='동위각'; why='두 각이 <b>교점 기준 같은 자리</b>(오른쪽 위)에 있습니다.';
+    }else if(mode==='al'){
+      pairs=[[x1,y1,r,Math.PI],[x2,y2,Math.PI+r,2*Math.PI]];
+      name='엇각'; why='두 각이 <b>횡단선을 사이에 두고 엇갈린 자리</b>에 있습니다.';
+    }else{
+      pairs=[[x1,y1,0,r],[x2,y2,Math.PI+r,2*Math.PI]];
+      name='동측내각'; why='두 평행선 <b>안쪽·횡단선의 같은 쪽</b>에 있습니다. 합이 180°가 됩니다.';
+    }
+    const shown = mode==='in' ? [th,180-th] : [th,th];
+    pairs.forEach((p,i)=>arc(p[0],p[1],p[2],p[3],26+i*4,i?'#0E9384':'#BE123C',shown[i]+'°'));
+    [[x1,y1],[x2,y2]].forEach(([px,py])=>{
+      ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(px,py,4,0,7); ctx.fill();
+    });
+    $('#paout').innerHTML=
+      `<b>${name}</b> — ${why}<br><br>
+       ${mode==='in'
+         ? `${th}° + ${180-th}° = <b>180°</b> 입니다. 같은 것이 아니라 <b>더해서 180°</b>인 관계입니다.`
+         : `두 각이 모두 <b>${th}°</b> 로 같습니다.`}<br><br>
+       <b>주의</b> — 이름은 <b>자리</b>가 정합니다. 같아지는 것은 <b>ℓ ∥ m 일 때만</b>입니다.
+       동위각과 엇각을 바꿔 쓰면 자리가 틀려 각이 맞지 않습니다.`;
+  }
+  ['paT','paG'].forEach(i=>$('#'+i).oninput=draw); $('#paM').onchange=draw; draw();
+}
+
+/* ---------- LAB 31 구조물은 왜 삼각형일까 — 합동 조건 [9수03-04] ---------- */
+function congDemo(root){
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="cg1" width="380" height="300"></canvas></div>
+    <div class="col">
+      <label class="ctl">어떤 조건으로 만들까요
+        <select id="cgM" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+          <option value="sss">SSS — 세 변</option>
+          <option value="sas">SAS — 두 변과 낀 각</option>
+          <option value="asa">ASA — 한 변과 양 끝 각</option>
+          <option value="ssa">SSA — 두 변과 낀 각이 아닌 각 ← 조건이 아님</option>
+        </select></label>
+      ${slider('cgA','각 A',20,70,1,35,'°')}
+      ${slider('cgB','변 b 의 길이',60,130,1,95,'')}
+      <div class="out" id="cgout"></div>
+      <div class="note" style="margin-top:12px">조건이 맞으면 <b>모양이 하나로 정해집니다</b>.
+      SSA 는 두 개가 나올 수 있어 조건이 되지 못합니다.</div>
+    </div></div>`;
+  const cv=$('#cg1'),ctx=cv.getContext('2d'),W=380,H=300;
+  function tri(pts,col,alpha,lab){
+    ctx.beginPath(); ctx.moveTo(pts[0][0],pts[0][1]);
+    ctx.lineTo(pts[1][0],pts[1][1]); ctx.lineTo(pts[2][0],pts[2][1]); ctx.closePath();
+    ctx.fillStyle=col; ctx.globalAlpha=alpha; ctx.fill(); ctx.globalAlpha=1;
+    ctx.strokeStyle=col; ctx.lineWidth=2.4; ctx.stroke();
+    if(lab){ ctx.fillStyle=col; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(lab,(pts[0][0]+pts[1][0]+pts[2][0])/3,(pts[0][1]+pts[1][1]+pts[2][1])/3+4); }
+  }
+  function draw(){
+    const A=+$('#cgA').value*Math.PI/180, b=+$('#cgB').value, mode=$('#cgM').value;
+    $('#cgAv').textContent=(+$('#cgA').value)+'°'; $('#cgBv').textContent=String(b);
+    ctx.clearRect(0,0,W,H);
+    const O=[60,240], a=150;                       // 밑변 길이 a 고정
+    const P1=O, P2=[O[0]+a,O[1]];
+    // 각 A 를 낀 반직선 위 거리 b 인 점
+    const C=[O[0]+b*Math.cos(-A), O[1]+b*Math.sin(-A)];
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(O[0],O[1]); ctx.lineTo(O[0]+230*Math.cos(-A),O[1]+230*Math.sin(-A)); ctx.stroke();
+    tri([P1,P2,C],'#2563EB',.13,'①');
+    let msg;
+    if(mode==='ssa'){
+      // 같은 (a, 대변 길이 c, 각 A) 를 만족하는 두 번째 삼각형 — 원과 직선이 두 점에서 만난다
+      const c=Math.hypot(C[0]-P2[0],C[1]-P2[1]);
+      // 반직선 위에서 P2 로부터 거리 c 인 다른 점 찾기
+      const ux=Math.cos(-A), uy=Math.sin(-A);
+      const px=P2[0]-O[0], py=P2[1]-O[1];
+      const t=px*ux+py*uy, d2=px*px+py*py-t*t, disc=c*c-d2;
+      if(disc>0.5){
+        const s=Math.sqrt(disc), t1=t+s, t2=t-s;
+        const alt=Math.abs(t1-b)<0.5? t2 : t1;
+        if(alt>4 && Math.abs(alt-b)>3){
+          const C2=[O[0]+alt*ux, O[1]+alt*uy];
+          tri([P1,P2,C2],'#BE123C',.13,'②');
+          msg=`<b class="no">삼각형이 두 개 나왔습니다.</b> 같은 (변 ${a}, 변 ${c.toFixed(0)}, 각 ${(+$('#cgA').value)}°)
+               인데 <b>모양이 다릅니다</b> — b = ${b} 인 것과 b = ${alt.toFixed(0)} 인 것.<br><br>
+               SSA 가 합동 조건이 <b>되지 못하는 이유</b>가 이것입니다. 각이 두 변 사이에 끼어 있지 않으면
+               <b>원과 직선이 두 점에서 만나</b> 후보가 둘 남습니다.`;
+        }
+      }
+      if(!msg) msg=`지금 값에서는 후보가 하나뿐입니다. <b>변 b 를 줄여</b>(90 아래로) 보세요 —
+                    원이 직선과 <b>두 번</b> 만나는 순간 삼각형이 둘로 갈라집니다.`;
+    }else{
+      const label={sss:'세 변(SSS)',sas:'두 변과 그 낀 각(SAS)',asa:'한 변과 양 끝 각(ASA)'}[mode];
+      msg=`<b class="ok">모양이 하나로 정해집니다.</b> ${label}이 같으면 두 삼각형은 <b>합동</b>입니다.<br><br>
+           슬라이더를 움직여도 <b>주어진 값이 같으면 늘 같은 삼각형</b>이 그려집니다 —
+           이것이 “조건이 된다”는 말의 뜻입니다.<br><br>
+           구조물을 삼각형으로 짜는 이유도 같습니다. 변의 길이가 정해지면 <b>모양이 흔들리지 않습니다</b>.`;
+    }
+    $('#cgout').innerHTML=msg;
+  }
+  ['cgA','cgB'].forEach(i=>$('#'+i).oninput=draw); $('#cgM').onchange=draw; draw();
+}
+
+/* ---------- LAB 32 원그래프의 각도는 어떻게 정할까 [9수03-06] ---------- */
+function sectDemo(root){
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="se1" width="380" height="300"></canvas></div>
+    <div class="col">
+      ${slider('seA','중심각',10,360,5,120,'°')}
+      ${slider('seR','반지름 r',40,110,5,80,'')}
+      <div class="out" id="seout"></div>
+      <div class="note" style="margin-top:12px">호의 길이도 넓이도 <b>중심각에 정비례</b>합니다.
+      반지름을 두 배로 하면 호는 두 배, 넓이는 <b>네 배</b>가 됩니다.</div>
+    </div></div>`;
+  const cv=$('#se1'),ctx=cv.getContext('2d'),W=380,H=300;
+  function draw(){
+    const a=+$('#seA').value, r=+$('#seR').value;
+    $('#seAv').textContent=a+'°'; $('#seRv').textContent=String(r);
+    ctx.clearRect(0,0,W,H);
+    const cx=130, cy=145, rad=a*Math.PI/180;
+    ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.arc(cx,cy,r,0,7); ctx.stroke();
+    ctx.fillStyle='#2563EB'; ctx.globalAlpha=.16;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,-rad,0); ctx.closePath(); ctx.fill();
+    ctx.globalAlpha=1;
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=3;
+    ctx.beginPath(); ctx.arc(cx,cy,r,-rad,0); ctx.stroke();
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+r,cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+r*Math.cos(-rad),cy+r*Math.sin(-rad)); ctx.stroke();
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(cx,cy,3.5,0,7); ctx.fill();
+    ctx.fillStyle='#2563EB'; ctx.font='bold 13px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(a+'°', cx+34*Math.cos(-rad/2), cy+34*Math.sin(-rad/2)+5);
+    const arcL=2*Math.PI*r*a/360, area=Math.PI*r*r*a/360;
+    // 비율 막대 — 중심각 비율과 호·넓이 비율이 같은지 눈으로
+    const BX=250, BW=100;
+    [['중심각 / 360°',a/360,'#B45309'],['호 / 원둘레',arcL/(2*Math.PI*r),'#2563EB'],
+     ['넓이 / 원넓이',area/(Math.PI*r*r),'#0E9384']].forEach(([lab,v,col],i)=>{
+      const y=88+i*46;
+      ctx.fillStyle='#6B7280'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(lab,BX,y-6);
+      ctx.fillStyle='#E5E7EB'; ctx.fillRect(BX,y,BW,13);
+      ctx.fillStyle=col; ctx.fillRect(BX,y,BW*v,13);
+      ctx.fillStyle='#111827'; ctx.font='bold 11px sans-serif';
+      ctx.fillText((v*100).toFixed(1)+'%',BX,y+27);
+    });
+    $('#seout').innerHTML=
+      `<span class="mono" style="font-size:14px">호 = 2πr × ${a}/360 = <b>${arcL.toFixed(1)}</b></span><br>
+       <span class="mono" style="font-size:14px">넓이 = πr² × ${a}/360 = <b>${area.toFixed(1)}</b></span><br><br>
+       세 비율이 <b>모두 ${(a/360*100).toFixed(1)}%</b> 로 같습니다 — 호도 넓이도 중심각에 정비례합니다.<br><br>
+       <b>원그래프</b>는 이것을 거꾸로 씁니다. 어떤 항목이 전체의 ${(a/360*100).toFixed(1)}% 라면
+       중심각을 <b>360° × ${(a/360*100).toFixed(1)}% = ${a}°</b> 로 잡습니다.`;
+  }
+  ['seA','seR'].forEach(i=>$('#'+i).oninput=draw); draw();
+}
+
+/* ---------- LAB 33 신발은 어느 치수를 더 들여놔야 할까 [9수04-01] ---------- */
+function repM1Demo(root){
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="rm1" width="380" height="300"></canvas></div>
+    <div class="col">
+      ${slider('rmS','치수 250 을 산 사람 수',0,30,1,4,'명')}
+      ${slider('rmB','치수 280 을 산 사람 수',0,30,1,4,'명')}
+      <div class="out" id="rmout"></div>
+      <div class="note" style="margin-top:12px">평균 치수의 신발은 <b>아무도 안 살 수도</b> 있습니다.
+      “가장 많이 팔린 것”을 묻고 있다면 답은 <b>최빈값</b>입니다.</div>
+    </div></div>`;
+  const cv=$('#rm1'),ctx=cv.getContext('2d'),W=380,H=300,P=40;
+  const SIZES=[230,240,250,260,270,280];
+  function draw(){
+    const s=+$('#rmS').value, b=+$('#rmB').value;
+    $('#rmSv').textContent=s+'명'; $('#rmBv').textContent=b+'명';
+    const cnt=[3,6,s,18,7,b];
+    const data=[]; SIZES.forEach((z,i)=>{for(let k=0;k<cnt[i];k++)data.push(z);});
+    const n=data.length;
+    const mean=n?data.reduce((x,y)=>x+y,0)/n:0;
+    const sorted=[...data].sort((x,y)=>x-y);
+    const med=n?(n%2?sorted[(n-1)/2]:(sorted[n/2-1]+sorted[n/2])/2):0;
+    const mx=Math.max(...cnt), mode=SIZES[cnt.indexOf(mx)];
+    ctx.clearRect(0,0,W,H);
+    const BW=(W-2*P)/SIZES.length;
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    cnt.forEach((c,i)=>{
+      const h=(H-2*P)*c/Math.max(mx,1), x=P+i*BW+5;
+      ctx.fillStyle = c===mx ? '#0E9384' : '#93A3B8';
+      ctx.fillRect(x,H-P-h,BW-10,h);
+      ctx.fillStyle='#111827'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+      if(c) ctx.fillText(String(c), x+(BW-10)/2, H-P-h-5);
+      ctx.fillStyle='#6B7280'; ctx.font='11px sans-serif';
+      ctx.fillText(String(SIZES[i]), x+(BW-10)/2, H-P+16);
+    });
+    // 평균·중앙값 위치를 눈금 위에 표시
+    const xOf=v=>P+(v-225)/60*(W-2*P);
+    [[mean,'#BE123C','평균'],[med,'#B45309','중앙값']].forEach(([v,col,lab],i)=>{
+      if(!n) return;
+      ctx.strokeStyle=col; ctx.lineWidth=2; ctx.setLineDash([5,3]);
+      ctx.beginPath(); ctx.moveTo(xOf(v),P-6); ctx.lineTo(xOf(v),H-P); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle=col; ctx.font='bold 11px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(lab+' '+v.toFixed(1), xOf(v)+5, P+4+i*15);
+    });
+    $('#rmout').innerHTML= !n ? '자료가 없습니다.' :
+      `모두 <b>${n}명</b>이 샀습니다.<br><br>
+       평균 <b>${mean.toFixed(1)}</b> · 중앙값 <b>${med}</b> · 최빈값 <b>${mode}</b><br><br>
+       가게에 가장 많이 들여놓아야 할 치수는 <b>${mode}</b> 입니다 — <b>${mx}명</b>이 샀습니다.<br>
+       평균 ${mean.toFixed(1)} 은 <b>실제로 파는 치수가 아닙니다</b>.
+       ${Math.abs(mean-mode)>5?'평균만 보고 주문하면 가장 많이 팔리는 치수가 모자랍니다.':''}<br><br>
+       <b>무엇을 묻고 있는가</b>가 대푯값을 고릅니다 — “한가운데”면 중앙값, “가장 흔한 것”이면 최빈값입니다.`;
+  }
+  ['rmS','rmB'].forEach(i=>$('#'+i).oninput=draw); draw();
+}
+
+/* ---------- LAB 34 구간을 몇 개로 나눠야 할까 [9수04-02][9수04-04] ---------- */
+function histDemo(root){
+  root.innerHTML=`<div class="row"><div class="col"><canvas id="hs1" width="380" height="300"></canvas></div>
+    <div class="col">
+      ${slider('hsW','계급의 크기',5,40,5,10,'점')}
+      ${slider('hsO','계급의 시작점',0,20,5,0,'점')}
+      <div class="out" id="hsout"></div>
+      <div class="note" style="margin-top:12px">같은 자료인데 <b>계급을 어떻게 자르느냐</b>에 따라
+      분포의 인상이 달라집니다. 그래서 계급의 크기를 반드시 밝혀야 합니다.</div>
+    </div></div>`;
+  const cv=$('#hs1'),ctx=cv.getContext('2d'),W=380,H=300,P=42;
+  // 어느 반의 수학 점수 40명 — 고정 자료
+  const DATA=[42,48,51,53,55,56,58,58,60,61,62,63,63,64,65,66,66,67,68,68,
+              69,70,71,72,72,73,74,75,76,77,78,80,81,83,85,87,88,91,94,97];
+  function draw(){
+    const w=+$('#hsW').value, off=+$('#hsO').value;
+    $('#hsWv').textContent=w+'점'; $('#hsOv').textContent=off+'점';
+    const lo=Math.floor((40-off)/w)*w+off, hi=100;
+    const bins=[];
+    for(let s=lo;s<hi;s+=w) bins.push({s,e:s+w,c:DATA.filter(v=>v>=s&&v<s+w).length});
+    const mx=Math.max(...bins.map(b=>b.c),1);
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(P,P-10); ctx.lineTo(P,H-P); ctx.stroke();
+    const BW=(W-2*P)/bins.length;
+    bins.forEach((b,i)=>{
+      const h=(H-2*P)*b.c/mx, x=P+i*BW;
+      ctx.fillStyle='#2563EB'; ctx.globalAlpha=.75;
+      ctx.fillRect(x,H-P-h,BW,h); ctx.globalAlpha=1;
+      ctx.strokeStyle='#fff'; ctx.lineWidth=1.4; ctx.strokeRect(x,H-P-h,BW,h);
+      if(b.c){ ctx.fillStyle='#111827'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+        ctx.fillText(String(b.c), x+BW/2, H-P-h-5); }
+      if(bins.length<=8||i%2===0){
+        ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+        ctx.fillText(String(b.s), x, H-P+15);
+      }
+    });
+    ctx.fillStyle='#6B7280'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('(도수)',P-30,P-14); ctx.fillText('점수',W-P-24,H-P+30);
+    const peak=bins.reduce((a,b)=>b.c>a.c?b:a,bins[0]);
+    const rel=(peak.c/DATA.length*100).toFixed(1);
+    $('#hsout').innerHTML=
+      `자료 <b>${DATA.length}명</b> · 계급의 크기 <b>${w}점</b> · 계급 <b>${bins.length}개</b><br><br>
+       도수가 가장 큰 계급은 <b>${peak.s} 이상 ${peak.e} 미만</b> — ${peak.c}명(<b>${rel}%</b>)입니다.<br><br>
+       ${bins.length<=4 ? '<b class="no">계급이 너무 큽니다.</b> 봉우리가 뭉개져 분포의 모양이 사라졌습니다.'
+        : bins.length>=11 ? '<b class="no">계급이 너무 잘습니다.</b> 도수가 들쭉날쭉해 어디가 중심인지 읽기 어렵습니다.'
+        : '<b class="ok">읽을 만한 계급 수입니다.</b> 보통 5~10개 사이로 잡습니다.'}<br><br>
+       <b>주의</b> — 계급의 크기가 다른 두 그래프는 <b>막대 높이를 그대로 비교하면 안 됩니다</b>.
+       폭이 넓으면 그만큼 더 많은 자료가 들어와 높아 보일 뿐입니다.`;
+  }
+  ['hsW','hsO'].forEach(i=>$('#'+i).oninput=draw); draw();
+}
+
 const PRINS = [
 {tex:[
   {t:'\\sqrt{(x-a)^2+(y-b)^2}=r', s:'기준점 <b>(a, b)</b> 에서 잰 거리가 r 이라는 말을 두 점 사이의 거리 공식으로 그대로 옮긴 것입니다.'},
@@ -2062,6 +2666,185 @@ const PRINS = [
  what:'곡선을 축 둘레로 돌린 입체의 부피입니다. 얇은 <b>원판</b>으로 잘라 πr²Δx 를 더하고, 두께를 0으로 보내면 적분이 됩니다. 적분의 정의가 그대로 쓰이는 자리입니다.',
  probe:'원판 개수를 1개에서 60개로 늘려 보세요. 계단처럼 삐죽하던 근사가 <b>곡선에 밀착</b>하고, 합이 정확값에 붙는 것이 숫자로 보입니다. 곡선을 y = x 로 두면 결과가 정확히 πb³/3 — 원뿔 공식과 같아집니다.',
  link:'미적분Ⅱ 정적분의 활용입니다. 원뿔·구의 부피 공식을 <b>외우는 대상에서 유도되는 결과로</b> 바꾸는 자리입니다. 3D 프린팅이나 회전 성형과 연결하면 실생활 맥락이 붙습니다.'}
+,
+
+/* 25 소인수분해와 암호 */
+{tex:[
+  {t:'N=p \\times q', s:'서로 다른 두 소수를 곱해 만든 수입니다. 곱셈은 <b>한 번</b>이면 끝납니다.'},
+  {t:'d \\mid N \\;\\Rightarrow\\; \\frac{N}{d} \\mid N',
+   s:'d 가 N 의 약수이면 <b>N ÷ d 도 약수</b>입니다. 약수는 늘 짝을 지어 나온다는 뜻입니다.'},
+  {t:'d \\le \\sqrt{N} \\;\\text{까지만 확인하면 된다}',
+   s:'짝을 이루는 두 약수 중 <b>작은 쪽은 반드시 √N 이하</b>입니다. 그보다 큰 약수만 있다면 짝이 되는 작은 약수가 이미 나왔어야 하므로, √N 까지만 나눠 보면 충분합니다.'}
+ ],
+ next:[
+  {lv:'바로',   t:'우리 반 번호로 소수 찾기', d:'1번부터 30번까지 번호를 놓고 소수인 번호만 일어서게 합니다. 2의 배수·3의 배수·5의 배수를 차례로 앉히는 <b>에라토스테네스의 체</b>를 몸으로 해 보세요.'},
+  {lv:'심화',   t:'√N 까지면 충분한 이유 증명하기', d:'“N 이 √N 보다 큰 약수만 가진다면 모순”임을 보입니다. 약수가 짝을 이룬다는 사실 하나로 증명이 끝난다는 것을 확인하세요.'},
+  {lv:'프로젝트', t:'교실용 자물쇠 만들기', d:'두 소수를 골라 곱한 수를 공개하고, 다른 모둠이 그 수를 되돌리는 데 몇 번 나눠 봐야 하는지 겨룹니다. 자릿수를 늘리면 시간이 어떻게 늘어나는지 표로 정리해 보세요.'}
+ ],
+ eq:'N = p × q  ·  약수는 √N 을 경계로 짝을 이룬다',
+ what:'곱하기와 되돌리기의 <b>난이도가 다릅니다</b>. p 와 q 를 곱해 N 을 만드는 데는 한 번이면 되지만, N 만 보고 p 를 찾으려면 하나씩 나눠 보는 수밖에 없습니다. 이 <b>비대칭</b>이 오늘날 인터넷 암호가 서 있는 자리입니다.',
+ probe:'p 와 q 를 키우며 “실제로 나눠 본 횟수”가 어떻게 늘어나는지 보세요. 작은 소수를 넣으면 금방 갈라지지만 둘 다 크면 급격히 늘어납니다. 두 막대를 비교하면 √N 까지만 확인하는 것이 얼마나 큰 절약인지도 눈에 들어옵니다.',
+ link:'소인수분해 단원의 도입으로 씁니다. “소수를 왜 배우나”에 대한 답이 되고, 약수가 짝을 이룬다는 성질은 뒤에 나오는 <b>최대공약수·최소공배수</b>로 그대로 이어집니다.'},
+
+/* 26 정수와 유리수의 사칙 */
+{tex:[
+  {t:'a+b \\;\\text{는 수직선에서}\\; a \\;\\text{에서}\\; b \\;\\text{만큼 움직인 자리}',
+   s:'b 가 양수면 오른쪽, 음수면 왼쪽으로 갑니다. 덧셈은 <b>화살표를 이어 붙이는 일</b>입니다.'},
+  {t:'a-b=a+(-b)', s:'빼기는 <b>반대 방향으로 가는 덧셈</b>입니다. 부호를 바꿔 더하는 것으로 뺄셈이 덧셈에 흡수됩니다.'},
+  {t:'a-(-b)=a+b', s:'음수를 빼면 오른쪽으로 갑니다. 부호를 <b>두 번</b> 바꾸었기 때문입니다 — 여기서 한 번만 바꾸는 것이 가장 흔한 실수입니다.'}
+ ],
+ next:[
+  {lv:'바로',   t:'우리 도시 기온으로 계산하기', d:'기상청에서 최근 일주일의 최저·최고 기온을 받아 하루 기온차를 모두 구합니다. 영하가 낀 날의 계산을 <b>수직선에 화살표로</b> 그려 확인하세요.'},
+  {lv:'심화',   t:'왜 음수 × 음수 = 양수인가', d:'(−2) × 3, (−2) × 2, (−2) × 1, (−2) × 0 을 차례로 계산해 규칙을 찾고, 그 규칙을 이어 (−2) × (−1) 을 예측합니다. 분배법칙으로도 확인해 보세요.'},
+  {lv:'프로젝트', t:'해수면 기준 지도 만들기', d:'0을 해수면으로 잡고 우리 지역의 산·건물·지하를 부호가 있는 수로 표시한 단면도를 만듭니다. <b>기준을 어디에 두느냐</b>에 따라 모든 수가 바뀐다는 것을 확인하세요.'}
+ ],
+ eq:'a − b = a + (−b)',
+ what:'수직선 위에서 덧셈은 <b>화살표를 이어 붙이는 일</b>이고, 뺄셈은 그 화살표를 <b>거꾸로 놓는 일</b>입니다. 규칙을 외우는 것이 아니라 방향을 보는 것으로 바뀌면, 부호가 여럿 겹쳐도 헷갈리지 않습니다.',
+ probe:'연산을 뺄셈으로 바꾸면 화살표가 반대로 돕니다. 그 상태에서 b 를 음수로 두면 화살표가 <b>다시 오른쪽으로</b> 돌아오는데, 부호를 두 번 바꾼 자리입니다. 한 번만 바꾸면 어디로 가는지도 함께 보세요.',
+ link:'정수의 덧셈·뺄셈을 마친 직후에 씁니다. 화살표로 잡아 둔 감각은 뒤의 <b>절댓값</b>과 <b>일차부등식의 해</b>를 수직선에서 다룰 때 그대로 쓰입니다.'},
+
+/* 27 문자와 식 */
+{tex:[
+  {t:'2a = 2 \\times a', s:'문자와 수 사이의 곱셈 기호는 <b>생략하기로 약속</b>했습니다. “2와 a”가 아닙니다.'},
+  {t:'3n+1', s:'정사각형 하나마다 성냥개비 3개가 새로 들고, 맨 처음 왼쪽 변 1개가 따로 있습니다. <b>규칙을 한 줄로</b> 적은 것입니다.'},
+  {t:'4+3(n-1) = 4n-(n-1) = 3n+1',
+   s:'세는 방법이 달라 <b>생김새가 다른 식</b>이 나오지만, 정리하면 모두 같습니다. 어느 쪽으로 세도 개수는 하나이기 때문입니다.'}
+ ],
+ next:[
+  {lv:'바로',   t:'다른 도형으로 규칙 만들기', d:'정삼각형을 이어 붙이거나 정사각형을 2층으로 쌓아 새 규칙을 만들고, n 번째 개수를 식으로 적습니다. 짝과 <b>서로 다른 식</b>을 만든 뒤 같은지 확인하세요.'},
+  {lv:'심화',   t:'같은 식임을 설명하기', d:'4 + 3(n − 1) 과 3n + 1 이 같다는 것을 <b>계산이 아니라 세는 방식으로</b> 설명합니다. 어느 성냥개비를 어떻게 묶었는지 그림에 표시해 보세요.'},
+  {lv:'프로젝트', t:'우리 학교 계단·타일 수식화', d:'학교의 계단·복도 타일·자전거 거치대처럼 규칙적으로 반복되는 것을 찾아 사진을 찍고 n 번째 식을 세웁니다. 실제로 세어 검증하는 것까지 포함하세요.'}
+ ],
+ eq:'3n + 1  (문자와 수 사이의 × 는 생략한다)',
+ what:'문자는 <b>“아직 정하지 않은 수”의 자리</b>입니다. 100번째를 묻는 순간 하나씩 세는 방법은 무너지고, 규칙을 한 줄로 적는 것이 유일한 길이 됩니다. 이것이 문자를 쓰는 이유입니다.',
+ probe:'n 을 키우면서 세 식의 값이 <b>언제나 같은지</b> 확인하세요. 그다음 아래쪽에서 2a 에 값을 대입해 보면, 이것을 “2와 a”로 읽었을 때 결과가 얼마나 어긋나는지 숫자로 나옵니다.',
+ link:'문자의 사용과 식의 값 단원의 도입입니다. 여기서 세운 식은 그대로 <b>일차식의 계산</b>과 <b>일차방정식</b>의 재료가 되고, 중2 의 <b>일차함수</b>로 이어집니다.'},
+
+/* 28 등식의 성질 */
+{tex:[
+  {t:'a=b \\;\\Rightarrow\\; a+c=b+c', s:'양변에 <b>같은 수</b>를 더해도 등식은 그대로입니다. 저울 양쪽에 같은 무게를 얹는 일과 같습니다.'},
+  {t:'a=b \\;\\Rightarrow\\; ac=bc \\quad (c \\ne 0)',
+   s:'양변에 같은 수를 곱하거나 나누어도 그대로입니다. 다만 <b>0으로 나누는 것</b>은 안 됩니다.'},
+  {t:'2x+3=11 \\;\\Rightarrow\\; 2x=8 \\;\\Rightarrow\\; x=4',
+   s:'양변에서 3을 빼고, 양변을 2로 나누었습니다. <b>이항</b>은 새 규칙이 아니라 이 성질을 줄여 쓴 것입니다.'}
+ ],
+ next:[
+  {lv:'바로',   t:'문제를 저울 그림으로 옮기기', d:'교과서의 일차방정식 다섯 문제를 저울 그림으로 먼저 그린 뒤 풀이합니다. 각 단계마다 <b>양변에 무엇을 했는지</b> 옆에 적으세요.'},
+  {lv:'심화',   t:'왜 0으로는 나눌 수 없는가', d:'양변에 0을 곱하면 어떤 등식이든 0 = 0 이 되어 정보가 사라집니다. 0으로 나누는 조작이 왜 <b>해를 잃거나 없는 해를 만드는지</b> 예를 들어 설명하세요.'},
+  {lv:'프로젝트', t:'해가 없는 식·해가 무수한 식 만들기', d:'양변을 조작해 0 · x = 5 (해 없음)와 0 · x = 0 (해 무수히 많음)이 되는 방정식을 각각 만들고, 저울 그림으로 그 상태가 무엇인지 설명합니다.'}
+ ],
+ eq:'a = b ⇒ a + c = b + c,  ac = bc (c ≠ 0)',
+ what:'방정식을 푸는 일은 <b>균형을 지키면서 x 만 남기는 일</b>입니다. 등식의 성질은 외울 규칙이 아니라 “저울이 기울지 않게 하는 조건”이고, 이항은 그 조작을 줄여 쓴 표기일 뿐입니다.',
+ probe:'「왼쪽에서만 1 빼기」를 눌러 보세요. 저울이 기울고, 그 순간부터 <b>처음 식과 다른 식</b>이 됩니다. 답을 구해도 원래 문제의 답이 아니라는 것을 확인하고, 「처음으로」를 눌러 바르게 다시 풀어 보세요.',
+ link:'일차방정식의 풀이 직전에 씁니다. 이항을 먼저 가르치면 학생은 “부호를 바꿔 넘긴다”는 <b>절차만</b> 외웁니다. 저울을 먼저 겪으면 왜 부호가 바뀌는지가 설명됩니다.'},
+
+/* 29 정비례와 반비례 */
+{tex:[
+  {t:'y=ax \\;\\Leftrightarrow\\; \\frac{y}{x}=a \\;(\\text{일정})',
+   s:'정비례는 <b>비가 일정</b>합니다. 그래프는 원점을 지나는 직선입니다.'},
+  {t:'y=\\frac{k}{x} \\;\\Leftrightarrow\\; xy=k \\;(\\text{일정})',
+   s:'반비례는 <b>곱이 일정</b>합니다. 그래프는 직선이 아니라 좌표축에 다가가는 굽은 선입니다.'},
+  {t:'F_1 d_1 = F_2 d_2', s:'지렛대가 균형을 이루는 조건입니다. 곱이 일정하므로 <b>거리를 두 배로 하면 힘은 절반</b>이 됩니다.'}
+ ],
+ next:[
+  {lv:'바로',   t:'교실에서 지렛대 재기', d:'30cm 자와 지우개로 지렛대를 만들어 받침점 위치를 바꿔 가며 균형을 맞춥니다. 거리와 무게를 표로 적고 <b>곱이 일정한지</b> 확인하세요.'},
+  {lv:'심화',   t:'정비례로 착각하기 쉬운 상황 모으기', d:'“사람이 두 배면 시간이 절반”처럼 반비례인 상황과, “개수가 두 배면 값도 두 배”처럼 정비례인 상황을 각각 다섯 개씩 모아 <b>무엇이 일정한지</b>로 구분합니다.'},
+  {lv:'프로젝트', t:'우리 학교 급식 배식 시간 모델', d:'배식대 수와 대기 시간을 실제로 재어 표로 만들고, 곱이 일정한지 비가 일정한지 판단합니다. 어긋난다면 <b>왜 이상적인 반비례가 아닌지</b> 설명하세요.'}
+ ],
+ eq:'정비례 y = ax (y ÷ x 가 일정)  ·  반비례 y = k / x (x × y 가 일정)',
+ what:'두 관계를 가르는 것은 그래프 모양이 아니라 <b>무엇이 일정한가</b>입니다. 비가 일정하면 정비례, 곱이 일정하면 반비례입니다. 표의 셋째 줄만 보면 어느 쪽인지 바로 판정됩니다.',
+ probe:'표에서 x × y 와 y ÷ x 를 번갈아 보세요. 반비례에서는 앞의 줄이, 정비례에서는 뒤의 줄이 <b>변하지 않습니다</b>. 이 상태에서 반비례 자료에 직선을 그으면 왜 맞지 않는지도 화면에서 확인됩니다.',
+ link:'정비례·반비례 단원의 마무리로 씁니다. “곱이 일정 / 비가 일정”이라는 판정 기준은 중2 <b>일차함수</b>와 중3 <b>이차함수</b>에서 관계의 종류를 가릴 때 그대로 다시 쓰입니다.'},
+
+/* 30 평행선과 각 */
+{tex:[
+  {t:'\\angle a + \\angle b = 180^\\circ \\;(\\text{일직선})',
+   s:'한 직선 위에서 이웃한 두 각의 합은 180°입니다. 여기서 모든 관계가 출발합니다.'},
+  {t:'\\ell \\parallel m \\;\\Rightarrow\\; \\text{동위각이 같다}',
+   s:'평행선을 가로지르면 <b>같은 자리에 있는 각</b>이 같습니다. 평행이라는 조건이 있어야 성립합니다.'},
+  {t:'\\text{동위각} = \\text{맞꼭지각} \\;\\Rightarrow\\; \\text{엇각이 같다}',
+   s:'엇각은 동위각의 맞꼭지각입니다. 맞꼭지각이 같다는 사실 하나만 더하면 <b>엇각도 자동으로</b> 나옵니다.'}
+ ],
+ next:[
+  {lv:'바로',   t:'교실에서 평행선 찾아 각 재기', d:'복도 타일·창틀·책상 줄에서 평행선과 그것을 가로지르는 선을 찾아 각도기로 재고, 동위각·엇각이 실제로 같은지 확인합니다.'},
+  {lv:'심화',   t:'평행이 아니면 어떻게 되는가', d:'두 직선이 평행하지 않을 때 동위각의 차이가 <b>두 직선이 벌어진 정도</b>와 어떤 관계인지 조사합니다. 각의 이름은 그대로여도 크기는 왜 달라지는지 설명하세요.'},
+  {lv:'프로젝트', t:'1점 투시 그림 그리기', d:'소실점 하나를 잡고 교실을 원근법으로 그립니다. 실제로는 평행한 선들이 그림에서 왜 한 점으로 모이는지, 그때 각이 어떻게 변하는지 정리하세요.'}
+ ],
+ eq:'ℓ ∥ m ⇒ 동위각이 같다 ⇒ 엇각이 같다',
+ what:'각의 이름은 <b>자리</b>가 정하고, 크기가 같아지는 것은 <b>평행할 때만</b>입니다. 이 둘을 섞으면 “엇각이니까 같다”는 잘못된 근거가 나옵니다. 자리를 먼저 확인하고, 평행 조건을 확인하는 순서가 중요합니다.',
+ probe:'표시할 각을 동위각 → 엇각 → 동측내각으로 바꿔 보세요. 동측내각을 고르면 <b>같은 것이 아니라 합이 180°</b>인 다른 관계가 나옵니다. 각의 이름마다 결론이 다르다는 것을 확인하세요.',
+ link:'평행선의 성질 단원에서 씁니다. 여기서 잡은 “동위각 → 엇각” 연결은 중2 <b>삼각형의 내각의 합</b> 증명에서 그대로 쓰이는 도구입니다.'},
+
+/* 31 삼각형의 합동 */
+{tex:[
+  {t:'\\text{SSS · SAS · ASA}', s:'이 셋 중 하나가 같으면 두 삼각형은 <b>합동</b>입니다. 모양이 하나로 정해진다는 뜻입니다.'},
+  {t:'\\text{SSA 는 조건이 아니다}',
+   s:'각이 <b>두 변 사이에 끼어 있지 않으면</b> 삼각형이 두 개 나올 수 있습니다. “같은 값인데 다른 모양”이 있으므로 조건이 되지 못합니다.'},
+  {t:'\\text{반지름}\\;c\\;\\text{인 원} \\cap \\text{반직선} = \\text{두 점}',
+   s:'SSA 로 작도하면 원과 반직선이 <b>두 점에서 만나</b> 후보가 둘 남습니다. 반례가 생기는 자리가 여기입니다.'}
+ ],
+ next:[
+  {lv:'바로',   t:'자와 컴퍼스로 직접 작도하기', d:'세 변의 길이만 주고 삼각형을 작도해 짝과 겹쳐 봅니다. 정말 하나뿐인지, 뒤집은 것도 같은 것으로 볼지 이야기해 보세요.'},
+  {lv:'심화',   t:'SSA 가 되는 예외 찾기', d:'SSA 인데도 삼각형이 하나로 정해지는 경우(직각·둔각이 낀 경우 등)를 찾아 <b>왜 그때는 후보가 하나뿐인지</b> 원과 직선의 교점 수로 설명합니다.'},
+  {lv:'프로젝트', t:'흔들리지 않는 구조물 만들기', d:'빨대와 실로 사각형 틀과 삼각형 틀을 만들어 손으로 밀어 봅니다. 사각형이 왜 찌그러지는지를 <b>합동 조건</b>으로 설명하고, 보강재를 어디에 넣을지 정하세요.'}
+ ],
+ eq:'SSS · SAS · ASA 는 합동 조건, SSA 는 아니다',
+ what:'“조건이 된다”는 말은 <b>주어진 값이 같으면 모양이 하나로 정해진다</b>는 뜻입니다. SSA 는 같은 값에서 삼각형이 둘 나오므로 조건이 아닙니다. 반례 하나면 충분하다는 것을 겪는 자리입니다.',
+ probe:'SSA 를 고르고 변 b 를 90 아래로 줄여 보세요. 삼각형이 <b>두 개</b> 그려집니다. 두 삼각형의 세 값(변·변·각)이 정말 같은지 하나씩 확인한 뒤, SAS 로 바꾸면 왜 하나로 정해지는지 비교하세요.',
+ link:'삼각형의 합동 조건 단원에서 씁니다. 반례로 명제를 무너뜨리는 경험은 중2 이후의 <b>증명</b> 단원 전체의 바탕이 됩니다.'},
+
+/* 32 부채꼴 */
+{tex:[
+  {t:'\\ell = 2\\pi r \\times \\frac{x}{360}', s:'호의 길이는 원둘레에 <b>중심각의 비율</b>을 곱한 것입니다.'},
+  {t:'S = \\pi r^2 \\times \\frac{x}{360}', s:'넓이도 같은 비율입니다. 원 전체를 360조각으로 보고 그중 x 조각을 세는 셈입니다.'},
+  {t:'S = \\frac{1}{2} r \\ell', s:'두 식에서 x/360 을 지우면 남는 관계입니다. <b>밑변이 호, 높이가 반지름인 삼각형</b>과 같은 꼴이라는 것이 보입니다.'}
+ ],
+ next:[
+  {lv:'바로',   t:'우리 반 자료로 원그래프 그리기', d:'좋아하는 과목을 조사해 비율을 구하고, 중심각을 계산해 각도기로 원그래프를 그립니다. 각의 합이 <b>정확히 360°</b>가 되는지 확인하세요.'},
+  {lv:'심화',   t:'S = ½rℓ 유도하기', d:'호의 길이와 넓이 두 식에서 중심각을 소거해 S = ½rℓ 을 얻습니다. 이 식이 <b>삼각형 넓이 공식과 닮은 이유</b>를 부채꼴을 잘게 자른 그림으로 설명하세요.'},
+  {lv:'프로젝트', t:'운동장 트랙 설계하기', d:'직선 구간과 반원 구간으로 트랙을 설계하고 레인마다 실제 길이를 계산합니다. 출발선을 얼마나 <b>앞당겨야 공평한지</b>를 호의 길이로 구하세요.'}
+ ],
+ eq:'ℓ = 2πr × x/360,  S = πr² × x/360,  S = ½rℓ',
+ what:'부채꼴의 모든 계산은 <b>“전체 중 몇 분의 몇인가”</b> 하나로 정리됩니다. 중심각의 비율이 곧 호의 비율이고 넓이의 비율입니다. 공식이 셋으로 보이지만 실은 같은 생각의 세 가지 표현입니다.',
+ probe:'오른쪽 막대 셋을 보세요. 중심각·호·넓이의 비율이 <b>언제나 같은 값</b>입니다. 반지름을 키우면 호와 넓이의 절대값은 커지는데 비율은 그대로인 것도 확인하세요 — 원그래프가 크기와 무관하게 성립하는 이유입니다.',
+ link:'원과 부채꼴 단원에서 씁니다. 비율로 계산하는 감각은 중1 <b>자료와 가능성</b>의 원그래프와 바로 이어지고, 고등학교의 <b>호도법</b>에서 다시 만납니다.'},
+
+/* 33 대푯값 */
+{tex:[
+  {t:'\\bar{x}=\\frac{x_1+x_2+\\cdots+x_n}{n}', s:'평균은 <b>모두 더해 고르게 나눈 값</b>입니다. 모든 자료가 영향을 줍니다.'},
+  {t:'\\text{중앙값} = \\text{크기순으로 늘어놓았을 때 한가운데}',
+   s:'순서만 보므로 <b>극단값에 흔들리지 않습니다</b>.'},
+  {t:'\\text{최빈값} = \\text{가장 많이 나타난 값}',
+   s:'“가장 흔한 것”을 묻는 상황에서만 답이 됩니다. 자료가 숫자가 아니어도 구할 수 있습니다.'}
+ ],
+ next:[
+  {lv:'바로',   t:'우리 반 자료로 세 값 구하기', d:'통학 시간·형제 수·좋아하는 색을 조사해 평균·중앙값·최빈값을 각각 구합니다. <b>구할 수 없는 것</b>이 있는 자료도 찾아보세요.'},
+  {lv:'심화',   t:'평균만 바꾸는 자료 만들기', d:'중앙값과 최빈값은 그대로 두고 평균만 크게 바꾸는 자료를 직접 만듭니다. 값 하나를 어디에 놓아야 하는지, 왜 그런지 설명하세요.'},
+  {lv:'프로젝트', t:'기사 속 대푯값 검증하기', d:'“평균 연봉”, “평균 집값”이 나오는 기사를 찾아 그 상황에서 <b>어떤 대푯값이 더 정직한지</b> 판단하고, 근거를 들어 대안을 제시합니다.'}
+ ],
+ eq:'평균 · 중앙값 · 최빈값 — 무엇을 묻는가가 고른다',
+ what:'대푯값은 <b>하나가 아닙니다</b>. 평균은 모든 자료를 반영하지만 극단값에 끌려가고, 중앙값은 순서만 보므로 버티며, 최빈값은 “가장 흔한 것”에 답합니다. 질문이 무엇이냐가 어느 것을 쓸지 정합니다.',
+ probe:'양 끝 치수의 사람 수를 늘려 보세요. 평균 눈금은 따라 움직이는데 <b>가장 높은 막대는 그대로</b>입니다. 평균 치수의 신발이 실제로는 아무도 사지 않는 치수가 될 수도 있다는 것을 확인하세요.',
+ link:'대푯값 단원에서 씁니다. “질문이 방법을 고른다”는 태도는 바로 다음 <b>도수분포표·히스토그램</b>에서 계급을 정할 때 그대로 이어집니다.'},
+
+/* 34 도수분포표와 히스토그램 */
+{tex:[
+  {t:'(\\text{계급의 크기}) = \\frac{\\text{범위}}{\\text{계급의 개수}}',
+   s:'자료의 범위를 몇 조각으로 자를지 정하면 계급의 크기가 정해집니다. 보통 <b>5~10개</b>로 잡습니다.'},
+  {t:'(\\text{상대도수}) = \\frac{(\\text{그 계급의 도수})}{(\\text{도수의 총합})}',
+   s:'전체 크기가 다른 두 집단을 비교하려면 도수가 아니라 <b>상대도수</b>로 봐야 합니다.'},
+  {t:'\\text{계급의 크기가 다르면 막대 높이를 직접 비교할 수 없다}',
+   s:'폭이 넓은 계급은 더 많은 자료를 받아 <b>높아 보일 뿐</b>입니다. 히스토그램에서 정보를 담는 것은 높이가 아니라 넓이입니다.'}
+ ],
+ next:[
+  {lv:'바로',   t:'우리 반 자료로 계급 정하기', d:'수행평가 점수나 통학 시간을 모아 계급의 크기를 3가지로 바꿔 가며 그려 보고, <b>어느 것이 가장 읽기 좋은지</b> 근거를 들어 고릅니다.'},
+  {lv:'심화',   t:'같은 자료로 다른 인상 만들기', d:'계급의 크기와 시작점만 바꿔 “고르게 퍼져 있다”와 “한쪽에 몰려 있다”는 두 인상을 각각 만들어 냅니다. 무엇이 그런 차이를 만들었는지 설명하세요.'},
+  {lv:'프로젝트', t:'뉴스 그래프 감사하기', d:'기사에 실린 히스토그램·막대그래프를 모아 계급의 크기가 밝혀져 있는지, 축이 0에서 시작하는지 점검하고 <b>바르게 다시 그린 그래프</b>를 함께 제시합니다.'}
+ ],
+ eq:'계급의 크기 = 범위 ÷ 계급의 개수  ·  상대도수 = 도수 ÷ 총합',
+ what:'히스토그램은 자료를 <b>구간으로 묶어 보는 도구</b>입니다. 그런데 어떻게 묶느냐는 사람이 정합니다. 같은 자료라도 계급을 달리 자르면 분포의 인상이 달라지므로, 계급의 크기를 밝히지 않은 그래프는 <b>비교할 수 없습니다</b>.',
+ probe:'계급의 크기를 5 → 40 으로 옮겨 보세요. 같은 40명의 점수인데 봉우리가 생겼다 사라집니다. 시작점만 5 옮겨도 모양이 바뀌는 것까지 확인하면, 그래프가 “사실”이 아니라 <b>선택의 결과</b>라는 것이 분명해집니다.',
+ link:'도수분포표·히스토그램 단원에서 씁니다. 여기서 겪은 “같은 자료, 다른 그림”은 중3 <b>상관관계</b>와 고등학교 <b>통계</b>에서 시각화를 비판적으로 읽는 바탕이 됩니다.'}
 ];
 
 /* ============ 10종 실험실 정의 ============ */
@@ -2162,6 +2945,47 @@ const LABS=[
  m:['정적분의 활용','구분구적법','회전체의 부피'],a:['3D 모델링','수치적분'],
  note:'원판 개수를 1개에서 60개로 늘려 보세요. 계단 모양이던 근사가 <b>적분값에 붙습니다.</b> 각 원판이 πr²Δx 이고 r 이 반지름이라는 점이 핵심입니다 — 지름을 넣으면 부피가 네 배가 됩니다.',
  build:revolveDemo}
+,
+{n:25,core:0,t:'“큰 수를 못 쪼개서 안전하다니?” 소인수분해와 암호',q:'곱하기는 쉬운데 왜 되돌리기는 어려울까?',
+ m:['소인수분해','소수와 합성수','제곱근의 어림'],a:['공개키 암호(RSA)','계산 복잡도'],
+ note:'p 와 q 를 키워 보세요. 곱하는 데는 <b>한 번</b>이면 되는데 되돌리려면 나눠 본 횟수가 급격히 늘어납니다. √N 까지만 나눠 보면 되는 이유도 화면에서 확인됩니다 — 그보다 큰 약수가 있다면 짝이 되는 작은 약수가 이미 나왔을 것이기 때문입니다.',
+ build:primeDemo},
+{n:26,core:0,t:'“영하 5도에서 3도 오르면?” 수직선 위의 정수',q:'빼기는 왜 반대 방향으로 가는 걸까?',
+ m:['정수와 유리수','수직선','덧셈과 뺄셈의 관계'],a:['부호가 있는 데이터','기준점과 상대값'],
+ note:'연산을 뺄셈으로 바꾸면 화살표가 <b>반대로 돌아섭니다</b>. “빼기는 부호를 바꿔 더하는 것”이 말이 아니라 그림으로 보입니다. b 를 음수로 두고 뺄셈을 시키면 화살표가 다시 오른쪽으로 가는데, 부호를 두 번 바꾼 자리입니다.',
+ build:intDemo},
+{n:27,core:0,t:'“규칙을 어떻게 한 줄로 적을까?” 문자와 식',q:'성냥개비 100번째 도형에는 몇 개가 필요할까?',
+ m:['문자의 사용','식의 값','대입'],a:['일반화와 패턴','변수의 뜻'],
+ note:'세 식이 <b>생김새는 달라도 값이 같습니다</b> — 같은 규칙을 다르게 본 것뿐입니다. 아래쪽에서 2a 에 값을 대입해 보면, 이것을 “2와 a”로 읽었을 때 결과가 통째로 달라지는 것이 숫자로 나옵니다.',
+ build:letterDemo},
+{n:28,core:0,t:'“저울이 균형을 이루려면?” 등식의 성질',q:'왜 양변에 똑같이 해야 할까?',
+ m:['일차방정식','등식의 성질','이항'],a:['제약 조건','알고리즘의 불변량'],
+ note:'「왼쪽에서만 1 빼기」를 눌러 보세요. 저울이 기울고, 그 순간부터 <b>처음 식과 다른 식</b>이 됩니다. 등식의 성질이 규칙이 아니라 균형을 지키는 일이라는 것을 손으로 겪는 자리입니다.',
+ build:scaleDemo},
+{n:29,core:0,t:'“지렛대는 왜 힘이 덜 들까?” 정비례와 반비례',q:'거리를 두 배로 하면 힘은 왜 절반이 될까?',
+ m:['정비례와 반비례','그래프','비례관계의 식'],a:['역관계 모델','단위 환산'],
+ note:'표의 셋째 줄을 보세요. 반비례는 <b>x × y 가 일정</b>하고 정비례는 <b>y ÷ x 가 일정</b>합니다. 무엇이 일정한지가 그래프가 직선이냐 굽은 선이냐를 그대로 가릅니다.',
+ build:propDemo},
+{n:30,core:0,t:'“그림의 원근법은 어떤 원리일까?” 평행선과 각',q:'평행선을 가로지르면 왜 같은 각이 생길까?',
+ m:['평행선의 성질','동위각과 엇각','각의 크기'],a:['소실점과 원근법','도형 인식'],
+ note:'표시할 각을 바꿔 보세요. 이름은 <b>자리</b>가 정하고, 같아지는 것은 <b>ℓ ∥ m 일 때만</b>입니다. 동측내각을 고르면 같은 것이 아니라 <b>합이 180°</b>라는 다른 관계가 나옵니다.',
+ build:paraDemo},
+{n:31,core:0,t:'“구조물은 왜 삼각형일까?” 삼각형의 합동',q:'무엇을 알아야 삼각형이 하나로 정해질까?',
+ m:['삼각형의 합동 조건','작도','반례'],a:['강체 구조','제약 만족'],
+ note:'SSA 를 고르고 변 b 를 90 아래로 줄여 보세요. <b>삼각형이 두 개</b> 그려집니다. 주어진 값이 같은데 모양이 다르므로 조건이 되지 못합니다 — 반례를 학생이 직접 만들어 내는 자리입니다.',
+ build:congDemo},
+{n:32,core:0,t:'“원그래프의 각도는 어떻게 정할까?” 부채꼴',q:'32%는 몇 도로 그려야 할까?',
+ m:['부채꼴의 호의 길이','부채꼴의 넓이','중심각'],a:['비율 시각화','원그래프'],
+ note:'오른쪽 막대 셋을 보세요. 중심각·호·넓이의 <b>비율이 언제나 같습니다</b>. 반지름을 키우면 호와 넓이의 절대값은 달라지지만 비율은 그대로입니다 — 원그래프가 성립하는 이유입니다.',
+ build:sectDemo},
+{n:33,core:0,t:'“신발은 어느 치수를 더 들여놔야 할까?” 대푯값',q:'평균 치수의 신발은 정말 잘 팔릴까?',
+ m:['평균·중앙값·최빈값','자료의 분포','대푯값의 선택'],a:['추천의 기준값','대표값 왜곡'],
+ note:'양 끝 치수를 늘려 보세요. 평균은 따라 움직이는데 <b>가장 많이 팔리는 치수는 그대로</b>입니다. “무엇을 묻고 있는가”가 대푯값을 고른다는 것이 숫자로 드러납니다.',
+ build:repM1Demo},
+{n:34,core:0,t:'“구간을 몇 개로 나눠야 할까?” 도수분포표와 히스토그램',q:'같은 점수인데 왜 그래프가 달라 보일까?',
+ m:['도수분포표','히스토그램','계급과 계급값'],a:['구간화(binning)','시각화의 왜곡'],
+ note:'계급의 크기를 5 → 40 으로 옮겨 보세요. <b>같은 40명의 점수</b>인데 봉우리가 생겼다 사라졌다 합니다. 계급의 크기를 밝히지 않은 히스토그램은 비교할 수 없다는 것이 한눈에 보입니다.',
+ build:histDemo}
 ];
 
 /* ---------- LAB 21 y = x 대칭의 발견 (역함수) ---------- */
@@ -2654,6 +3478,108 @@ const THUMBS = [
    <path d="M18 28 L108 12" stroke="${TC.blue}" ${T_BOLD}/>
    <path d="M18 36 L108 52" stroke="${TC.blue}" stroke-width="1.8" fill="none" opacity=".45"/>`,
    '곡선을 축 둘레로 돌려 만든 회전체를 원판으로 쌓은 그림')
+,
+
+/* 25 소인수분해 — N 이 두 소수로 갈라지는 나무 */
+ svg(`<rect x="46" y="10" width="28" height="15" rx="4" fill="${TC.blue}" opacity=".12"/>
+   <rect x="46" y="10" width="28" height="15" rx="4" stroke="${TC.blue}" ${T_THIN}/>
+   <path d="M56 25 L32 40 M64 25 L88 40" stroke="${TC.mute}" ${T_THIN}/>
+   <rect x="18" y="40" width="26" height="14" rx="4" fill="${TC.teal}" opacity=".14"/>
+   <rect x="18" y="40" width="26" height="14" rx="4" stroke="${TC.teal}" ${T_THIN}/>
+   <rect x="76" y="40" width="26" height="14" rx="4" fill="${TC.teal}" opacity=".14"/>
+   <rect x="76" y="40" width="26" height="14" rx="4" stroke="${TC.teal}" ${T_THIN}/>`,
+   '큰 수가 두 소수로 갈라지는 소인수분해 나무'),
+
+/* 26 정수 — 수직선 위에서 음수 쪽으로 갔다가 되돌아오는 화살표 */
+ svg(`<path d="M12 38 H108" stroke="${TC.mute}" ${T_THIN}/>
+   <path d="M60 32 V44" stroke="${TC.ink}" stroke-width="1.8"/>
+   <path d="M30 33 V43 M44 34 V42 M76 34 V42 M92 33 V43" ${T_GRID}/>
+   <rect x="30" y="20" width="30" height="10" fill="${TC.rose}" opacity=".10"/>
+   <path d="M30 25 H74" stroke="${TC.teal}" ${T_BOLD}/>
+   <path d="M74 25 l-7 -4 v8 z" fill="${TC.teal}"/>
+   <circle cx="30" cy="38" r="4" fill="${TC.rose}"/>`,
+   '수직선 위 음수에서 오른쪽으로 이동하는 화살표'),
+
+/* 27 문자와 식 — 성냥개비 정사각형이 이어지며 늘어나는 규칙 */
+ svg(`<path d="M16 20 H40 V44 H16 Z" stroke="${TC.blue}" ${T_THIN}/>
+   <path d="M40 20 H64 V44 H40" stroke="${TC.blue}" ${T_THIN}/>
+   <path d="M64 20 H88 V44 H64" stroke="${TC.blue}" ${T_THIN}/>
+   <rect x="16" y="20" width="24" height="24" fill="${TC.blue}" opacity=".08"/>
+   <path d="M16 20 V44" stroke="${TC.amber}" ${T_BOLD}/>
+   <path d="M96 26 h8 M96 32 h8 M96 38 h8" stroke="${TC.mute}" ${T_THIN}/>`,
+   '성냥개비 정사각형이 옆으로 이어지며 늘어나는 규칙'),
+
+/* 28 저울 — 양팔이 수평으로 균형을 이룬 등식 */
+ svg(`<path d="M60 14 V40 M44 40 H76" stroke="${TC.mute}" ${T_THIN}/>
+   <path d="M16 20 H104" stroke="${TC.ink}" ${T_BOLD}/>
+   <path d="M16 20 V27 M104 20 V27" stroke="${TC.mute}" ${T_GRID}/>
+   <rect x="6" y="27" width="30" height="15" rx="3" fill="${TC.blue}" opacity=".14"/>
+   <rect x="6" y="27" width="30" height="15" rx="3" stroke="${TC.blue}" ${T_THIN}/>
+   <rect x="84" y="27" width="30" height="15" rx="3" fill="${TC.teal}" opacity=".14"/>
+   <rect x="84" y="27" width="30" height="15" rx="3" stroke="${TC.teal}" ${T_THIN}/>
+   <path d="M52 47 H68" stroke="${TC.mute}" ${T_THIN}/>`,
+   '양팔이 수평으로 균형을 이룬 저울'),
+
+/* 29 반비례 — xy 가 일정한 굽은 선과 넓이가 같은 두 직사각형 */
+ svg(`${T_AX}
+   <rect x="14" y="22" width="22" height="32" fill="${TC.amber}" opacity=".12"/>
+   <rect x="14" y="40" width="44" height="14" fill="${TC.teal}" opacity=".12"/>
+   <path d="M20 14 C40 14 34 50 104 50" stroke="${TC.amber}" ${T_BOLD}/>
+   <circle cx="36" cy="22" r="3.4" fill="${TC.rose}"/>
+   <circle cx="58" cy="40" r="3.4" fill="${TC.rose}"/>`,
+   '곱이 일정한 반비례 곡선과 넓이가 같은 두 직사각형'),
+
+/* 30 평행선과 각 — 평행한 두 직선을 가로지르는 횡단선의 동위각 */
+ svg(`<path d="M12 22 H108 M12 46 H108" stroke="${TC.blue}" ${T_THIN}/>
+   <path d="M34 58 L82 10" stroke="${TC.amber}" ${T_BOLD}/>
+   <path d="M58 22 a12 12 0 0 0 -8 -11" stroke="${TC.rose}" ${T_THIN}/>
+   <path d="M46 46 a12 12 0 0 0 -8 -11" stroke="${TC.teal}" ${T_THIN}/>
+   <circle cx="58" cy="22" r="2.6" fill="${TC.ink}"/>
+   <circle cx="46" cy="46" r="2.6" fill="${TC.ink}"/>`,
+   '평행한 두 직선을 가로지르는 횡단선과 동위각'),
+
+/* 31 합동 — 같은 조건인데 겹치지 않는 두 삼각형 (SSA 반례) */
+ svg(`<path d="M20 50 H88 L34 16 Z" fill="${TC.blue}" opacity=".10"/>
+   <path d="M20 50 H88 L34 16 Z" stroke="${TC.blue}" ${T_THIN}/>
+   <path d="M20 50 H88 L62 22 Z" fill="${TC.rose}" opacity=".10"/>
+   <path d="M20 50 H88 L62 22 Z" stroke="${TC.rose}" ${T_BOLD}/>
+   <path d="M20 50 L74 10" stroke="${TC.mute}" ${T_GRID}/>
+   <circle cx="34" cy="16" r="2.8" fill="${TC.blue}"/>
+   <circle cx="62" cy="22" r="2.8" fill="${TC.rose}"/>`,
+   '같은 조건인데 겹치지 않는 두 삼각형 — SSA 반례'),
+
+/* 32 부채꼴 — 중심각이 잘라낸 부채꼴과 그만큼의 호 */
+ svg(`<circle cx="46" cy="32" r="21" stroke="${TC.grid}" ${T_THIN}/>
+   <path d="M46 32 L67 32 A21 21 0 0 0 56 13 Z" fill="${TC.blue}" opacity=".16"/>
+   <path d="M46 32 L67 32 M46 32 L56 13" stroke="${TC.mute}" ${T_THIN}/>
+   <path d="M67 32 A21 21 0 0 0 56 13" stroke="${TC.blue}" ${T_BOLD}/>
+   <rect x="80" y="20" width="28" height="7" rx="3" fill="${TC.grid}"/>
+   <rect x="80" y="20" width="13" height="7" rx="3" fill="${TC.blue}"/>
+   <rect x="80" y="36" width="28" height="7" rx="3" fill="${TC.grid}"/>
+   <rect x="80" y="36" width="13" height="7" rx="3" fill="${TC.teal}"/>`,
+   '중심각이 잘라낸 부채꼴과 같은 비율의 두 막대'),
+
+/* 33 대푯값 — 봉우리(최빈값)와 어긋난 평균 눈금 */
+ svg(`<path d="M14 54 H108" ${T_GRID}/>
+   <rect x="18" y="44" width="12" height="10" fill="${TC.mute}" opacity=".6"/>
+   <rect x="32" y="36" width="12" height="18" fill="${TC.mute}" opacity=".6"/>
+   <rect x="46" y="16" width="12" height="38" fill="${TC.teal}" opacity=".85"/>
+   <rect x="60" y="40" width="12" height="14" fill="${TC.mute}" opacity=".6"/>
+   <rect x="74" y="46" width="12" height="8" fill="${TC.mute}" opacity=".6"/>
+   <path d="M68 10 V54" stroke="${TC.rose}" stroke-width="1.8" stroke-dasharray="4 3" fill="none"/>`,
+   '가장 높은 막대와 어긋난 자리에 있는 평균 눈금'),
+
+/* 34 히스토그램 — 계급 폭이 다른 두 그래프가 다른 인상을 준다 */
+ svg(`<path d="M14 54 H108" ${T_GRID}/>
+   <rect x="16" y="42" width="10" height="12" fill="${TC.blue}" opacity=".22"/>
+   <rect x="27" y="30" width="10" height="24" fill="${TC.blue}" opacity=".35"/>
+   <rect x="38" y="20" width="10" height="34" fill="${TC.blue}" opacity=".55"/>
+   <rect x="49" y="34" width="10" height="20" fill="${TC.blue}" opacity=".35"/>
+   <rect x="70" y="26" width="18" height="28" fill="${TC.rose}" opacity=".18"/>
+   <rect x="70" y="26" width="18" height="28" stroke="${TC.rose}" ${T_THIN}/>
+   <rect x="89" y="38" width="18" height="16" fill="${TC.rose}" opacity=".18"/>
+   <rect x="89" y="38" width="18" height="16" stroke="${TC.rose}" ${T_THIN}/>`,
+   '계급 폭이 다른 두 히스토그램이 나란히 놓인 그림')
 ];
 
 const cw=$('#cards');
@@ -5065,6 +5991,782 @@ revolve:{
       '}'],
  events:['document.getElementById("sn").oninput = update;']
 }
+,
+
+/* ---------- 25. 소인수분해와 암호 ---------- */
+prime:{
+ t:'소인수분해와 암호', grade:'중1 · 소인수분해 [9수01-01]',
+ q:'곱하기는 한 번이면 되는데, 왜 되돌리기는 어려울까?',
+ eq:'N = p × q  ·  약수는 √N 을 경계로 짝을 이룬다',
+ model:'두 소수를 곱해 만든 수를 다시 나눠 보며 소인수를 찾는 과정',
+ params:'소수 목록과 학생이 고른 두 소수 p, q',
+ controls:'p 와 q 를 고르는 슬라이더 두 개',
+ viz:'N 이 p 와 q 로 갈라지는 나무와, 나눠 본 횟수 막대',
+ bug:'2부터 N까지 전부 나눠 보게 만들어, p 와 q 를 크게 잡으면 화면이 몇 초씩 멈춥니다. √N 까지만 확인하면 된다는 것을 알려 주지 않았기 때문입니다.',
+ fixask:'큰 수를 넣으면 화면이 멈춰. 약수는 짝을 이루니까 √N 까지만 나눠 보면 되잖아. 거기까지만 확인하도록 고치고, 실제로 나눠 본 횟수도 같이 보여 줘.',
+ act:'N 만 보고 p 를 맞히면 “찾았습니다”라고 알려 주고, 나눠 본 횟수를 세어 주는 활동',
+ guide:['p 와 q 를 작게 두고 시작해, 나눠 본 횟수가 몇 번인지 보세요.',
+        'p 와 q 를 둘 다 크게 키우면 횟수가 어떻게 늘어나는지 관찰하세요.',
+        '두 막대(√N 까지 / N 까지)의 길이 차이가 무엇을 뜻하는지 말해 보세요.'],
+ obj:'소인수분해가 곱셈보다 훨씬 오래 걸리는 이유를 설명하고, √N 까지만 확인하면 되는 근거를 약수의 짝으로 설명할 수 있다.',
+ js2:['const PRIMES = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97];',
+      'let p = PRIMES[7], q = PRIMES[12];   // 학생이 고르는 두 소수',
+      'let N = p * q;                        // 공개되는 수'],
+ body3:['<label>소수 p = <b id="vp">19</b><input type="range" id="sp" min="0" max="24" step="1" value="7"></label>',
+        '<label>소수 q = <b id="vq">41</b><input type="range" id="sq" min="0" max="24" step="1" value="12"></label>'],
+ js3:['function readInputs(){',
+      '  p = PRIMES[+document.getElementById("sp").value];',
+      '  q = PRIMES[+document.getElementById("sq").value];',
+      '  N = p * q;',
+      '  document.getElementById("vp").textContent = p;',
+      '  document.getElementById("vq").textContent = q;',
+      '}'],
+ body4:['<p id="out" style="font-size:16px"></p>'],
+ js4:['function factor(n){                      // 2부터 n 까지 전부 나눠 본다',
+      '  let tries = 0;',
+      '  for(let d = 2; d <= n; d++){',
+      '    tries++;',
+      '    if(n % d === 0) return {first:d, tries:tries};',
+      '  }',
+      '  return {first:n, tries:tries};',
+      '}',
+      'function draw(){',
+      '  const r = factor(N);',
+      '  document.getElementById("out").innerHTML =',
+      '    p + " × " + q + " = <b>" + N + "</b><br>가장 작은 소인수 " + r.first',
+      '    + " 를 찾기까지 <b>" + r.tries + "번</b> 나눠 봤습니다.";',
+      '}'],
+ js5:['function factor(n){                      // √n 까지만 나눠 보면 충분하다',
+      '  let tries = 0;',
+      '  for(let d = 2; d * d <= n; d++){       // d*d <= n 이 √n 까지라는 뜻',
+      '    tries++;',
+      '    if(n % d === 0) return {first:d, tries:tries};',
+      '  }',
+      '  return {first:n, tries:tries};',
+      '}',
+      'function draw(){',
+      '  const r = factor(N), full = N - 1, half = Math.floor(Math.sqrt(N));',
+      '  document.getElementById("out").innerHTML =',
+      '    p + " × " + q + " = <b>" + N + "</b><br>"',
+      '    + "가장 작은 소인수 " + r.first + " · 나눠 본 횟수 <b>" + r.tries + "번</b><br>"',
+      '    + "2~N 을 다 보면 " + full + "번, √N 까지면 " + half + "번";',
+      '}'],
+ body6:['<p id="fb" style="font-size:17px"></p>',
+        '<label>내가 생각한 p = <input type="number" id="guess" min="2" max="9999" style="width:90px"></label>',
+        '<button id="chk">맞는지 보기</button>'],
+ js6:['document.getElementById("chk").onclick = function(){',
+      '  const g = +document.getElementById("guess").value;',
+      '  const ok = g > 1 && N % g === 0 && g !== N;',
+      '  document.getElementById("fb").innerHTML = ok',
+      '    ? \'<span class="ok">찾았습니다! \' + g + \' × \' + (N/g) + \' = \' + N + \' 🎯</span>\'',
+      '    : \'<span class="no">\' + N + \' 은 \' + g + \' 로 나누어떨어지지 않습니다.</span>\';',
+      '};'],
+ events:['document.getElementById("sp").oninput = update;',
+         'document.getElementById("sq").oninput = update;']
+},
+
+/* ---------- 26. 정수와 유리수의 사칙 ---------- */
+intline:{
+ t:'수직선 위의 정수 — 영하 5도에서 3도 오르면', grade:'중1 · 정수와 유리수 [9수01-05]',
+ q:'빼기는 왜 반대 방향으로 가는 걸까?',
+ eq:'a − b = a + (−b)',
+ model:'수직선 위에서 a 에 화살표를 이어 붙여 결과를 찾는 과정',
+ params:'처음 온도 a, 변화량 b, 연산(+ 또는 −)',
+ controls:'a 와 b 슬라이더, 연산을 고르는 선택창',
+ viz:'−12부터 12까지의 수직선과 a 에서 결과로 가는 화살표',
+ bug:'뺄셈을 골라도 화살표가 <b>덧셈과 같은 방향</b>으로 갑니다. 부호를 바꿔야 한다는 것을 말해 주지 않았기 때문입니다.',
+ fixask:'뺄셈인데 화살표가 덧셈과 같은 쪽으로 가. a − b 는 a + (−b) 니까 화살표 방향을 반대로 돌려 줘. 화살표 위에 실제로 더해지는 값(부호 포함)도 적어 줘.',
+ act:'결과 온도를 먼저 예측해 적고, 화살표를 보고 맞았는지 확인하는 활동',
+ guide:['a 를 음수로 두고 b 를 양수로 두어 덧셈부터 해 보세요.',
+        '연산을 뺄셈으로 바꾸면 화살표가 어느 쪽으로 도는지 관찰하세요.',
+        'b 를 음수로 둔 채 뺄셈을 시키면 화살표가 어디로 가는지, 왜 그런지 말해 보세요.'],
+ obj:'정수의 뺄셈을 덧셈으로 바꾸어 수직선 위의 이동으로 설명할 수 있다.',
+ js2:['let a = -5, b = 3, op = "+";           // 처음 온도 · 변화량 · 연산',
+      'function result(){ return op === "+" ? a + b : a - b; }'],
+ body3:['<label>처음 온도 a = <b id="va">-5</b><input type="range" id="sa" min="-10" max="10" step="1" value="-5"></label>',
+        '<label>변화량 b = <b id="vb">3</b><input type="range" id="sb" min="-10" max="10" step="1" value="3"></label>',
+        '<label>연산 <select id="sop"><option value="+">a + b</option><option value="-">a − b</option></select></label>'],
+ js3:['function readInputs(){',
+      '  a = +document.getElementById("sa").value;',
+      '  b = +document.getElementById("sb").value;',
+      '  op = document.getElementById("sop").value;',
+      '  document.getElementById("va").textContent = a;',
+      '  document.getElementById("vb").textContent = b;',
+      '}'],
+ body4:['<canvas id="cv" width="420" height="140"></canvas>',
+        '<p id="out" style="font-size:16px"></p>'],
+ js4:['const PX = v => 30 + (v + 12) * 15;      // 수직선 좌표 → 화면 좌표',
+      'function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  c.clearRect(0,0,420,140);',
+      '  c.strokeStyle = "#999"; c.beginPath(); c.moveTo(20,90); c.lineTo(400,90); c.stroke();',
+      '  c.fillStyle = "#666"; c.font = "11px sans-serif"; c.textAlign = "center";',
+      '  for(let v=-12; v<=12; v+=2){',
+      '    c.beginPath(); c.moveTo(PX(v),84); c.lineTo(PX(v),96); c.stroke();',
+      '    c.fillText(v, PX(v), 112);',
+      '  }',
+      '  c.strokeStyle = "#0E9384"; c.lineWidth = 3;',
+      '  c.beginPath(); c.moveTo(PX(a),70); c.lineTo(PX(a+b),70); c.stroke();   // 늘 b 만큼',
+      '  document.getElementById("out").textContent = a + " " + op + " " + b + " = " + result();',
+      '}'],
+ js5:['const PX = v => 30 + (v + 12) * 15;',
+      'function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  c.clearRect(0,0,420,140);',
+      '  c.strokeStyle = "#999"; c.lineWidth = 1;',
+      '  c.beginPath(); c.moveTo(20,90); c.lineTo(400,90); c.stroke();',
+      '  c.fillStyle = "#666"; c.font = "11px sans-serif"; c.textAlign = "center";',
+      '  for(let v=-12; v<=12; v+=2){',
+      '    c.beginPath(); c.moveTo(PX(v),84); c.lineTo(PX(v),96); c.stroke();',
+      '    c.fillText(v, PX(v), 112);',
+      '  }',
+      '  const eff = (op === "+") ? b : -b;      // 뺄셈이면 부호를 뒤집는다',
+      '  const to = a + eff;',
+      '  c.strokeStyle = eff >= 0 ? "#0E9384" : "#BE123C"; c.lineWidth = 3;',
+      '  c.beginPath(); c.moveTo(PX(a),70); c.lineTo(PX(to),70); c.stroke();',
+      '  const d = to >= a ? 1 : -1;',
+      '  c.fillStyle = c.strokeStyle;',
+      '  c.beginPath(); c.moveTo(PX(to),70); c.lineTo(PX(to)-d*9,65); c.lineTo(PX(to)-d*9,75); c.fill();',
+      '  c.font = "bold 12px sans-serif";',
+      '  c.fillText((eff>=0?"+":"") + eff, (PX(a)+PX(to))/2, 60);',
+      '  c.fillStyle = "#2563EB"; c.beginPath(); c.arc(PX(a),90,5,0,7); c.fill();',
+      '  c.fillStyle = "#BE123C"; c.beginPath(); c.arc(PX(to),90,5,0,7); c.fill();',
+      '  document.getElementById("out").innerHTML = op === "-"',
+      '    ? a + " − (" + b + ") = " + a + " + (" + (-b) + ") = <b>" + to + "</b>"',
+      '    : a + " + (" + b + ") = <b>" + to + "</b>";',
+      '}'],
+ body6:['<label>결과를 예측해 보세요 <input type="number" id="guess" style="width:80px"></label>',
+        '<button id="chk">맞는지 보기</button><p id="fb" style="font-size:17px"></p>'],
+ js6:['document.getElementById("chk").onclick = function(){',
+      '  const g = +document.getElementById("guess").value;',
+      '  document.getElementById("fb").innerHTML = (g === result())',
+      '    ? \'<span class="ok">맞았습니다 — 화살표가 그쪽으로 갔습니다 🎯</span>\'',
+      '    : \'<span class="no">아닙니다. 화살표의 방향을 다시 보세요.</span>\';',
+      '};'],
+ events:['document.getElementById("sa").oninput = update;',
+         'document.getElementById("sb").oninput = update;',
+         'document.getElementById("sop").onchange = update;']
+},
+
+/* ---------- 27. 문자와 식 ---------- */
+letter:{
+ t:'규칙을 한 줄로 — 문자와 식', grade:'중1 · 문자와 식 [9수02-01]',
+ q:'성냥개비 100번째 도형에는 몇 개가 필요할까?',
+ eq:'3n + 1   (문자와 수 사이의 × 는 생략한다)',
+ model:'정사각형 n 개를 이어 붙일 때 필요한 성냥개비 수를 식으로 일반화',
+ params:'몇 번째 도형인지를 나타내는 n',
+ controls:'n 슬라이더와 대입할 값 a',
+ viz:'성냥개비로 만든 정사각형 n 개와, 값이 같은 세 가지 식',
+ bug:'식을 문자열로 이어 붙여 계산하는 바람에 2a 에 a = 3 을 넣으면 <b>23</b> 이 나옵니다. 곱셈 기호를 생략한 약속을 코드가 모르기 때문입니다.',
+ fixask:'2a 에 3을 넣었더니 23이 나와. 2a 는 “2와 a”가 아니라 2 × a 니까 곱셈으로 계산해야 해. 문자열로 붙이지 말고 수로 계산하도록 고쳐 줘.',
+ act:'n 을 주고 성냥개비 수를 먼저 예측하게 한 뒤, 세 식의 값이 모두 같은지 확인하는 활동',
+ guide:['n 을 1부터 늘리며 성냥개비가 몇 개씩 더 드는지 세어 보세요.',
+        '세 식이 왜 모두 같은 값을 내는지, 어느 성냥개비를 어떻게 묶었는지 말해 보세요.',
+        '2a 에 값을 대입해 보고, 이것을 “2와 a”로 읽으면 얼마나 어긋나는지 확인하세요.'],
+ obj:'규칙적으로 변하는 상황을 문자를 사용한 식으로 나타내고, 곱셈 기호 생략의 약속에 따라 식의 값을 구할 수 있다.',
+ js2:['let n = 3, a = 3;',
+      'const need = k => 3 * k + 1;          // 정사각형 k 개에 필요한 성냥개비 수'],
+ body3:['<label>몇 번째 도형 n = <b id="vn">3</b><input type="range" id="sn" min="1" max="8" step="1" value="3"></label>',
+        '<label>대입할 값 a = <b id="vaa">3</b><input type="range" id="sa" min="0" max="10" step="1" value="3"></label>'],
+ js3:['function readInputs(){',
+      '  n = +document.getElementById("sn").value;',
+      '  a = +document.getElementById("sa").value;',
+      '  document.getElementById("vn").textContent = n;',
+      '  document.getElementById("vaa").textContent = a;',
+      '}'],
+ body4:['<canvas id="cv" width="420" height="120"></canvas>',
+        '<p id="out" style="font-size:16px"></p>'],
+ js4:['function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  c.clearRect(0,0,420,120);',
+      '  const S = Math.min(40, 340/n);',
+      '  c.strokeStyle = "#2563EB"; c.lineWidth = 3;',
+      '  for(let i=0;i<n;i++) c.strokeRect(20 + i*S, 30, S, S);',
+      '  const val = "2" + a;                    // 문자열로 이어 붙임 ← 잘못',
+      '  document.getElementById("out").innerHTML =',
+      '    "성냥개비 <b>" + need(n) + "개</b><br>2a 에 a = " + a + " 를 넣으면 <b>" + val + "</b>";',
+      '}'],
+ js5:['function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  c.clearRect(0,0,420,120);',
+      '  const S = Math.min(40, 340/n);',
+      '  c.strokeStyle = "#2563EB"; c.lineWidth = 3;',
+      '  for(let i=0;i<n;i++) c.strokeRect(20 + i*S, 30, S, S);',
+      '  const val = 2 * a;                      // 2a = 2 × a — 곱셈으로 계산',
+      '  const e1 = 3*n + 1, e2 = 4 + 3*(n-1), e3 = 4*n - (n-1);',
+      '  document.getElementById("out").innerHTML =',
+      '    "성냥개비 <b>" + need(n) + "개</b><br>"',
+      '    + "3n+1 = " + e1 + " · 4+3(n−1) = " + e2 + " · 4n−(n−1) = " + e3',
+      '    + ((e1===e2 && e2===e3) ? \' <span class="ok">세 식이 같습니다</span>\' : \'\')',
+      '    + "<br>2a 에 a = " + a + " 를 넣으면 <b>" + val + "</b> (2 × " + a + ")";',
+      '}'],
+ body6:['<label>n = <span id="qn"></span> 일 때 성냥개비는? <input type="number" id="guess" style="width:80px"></label>',
+        '<button id="chk">맞는지 보기</button><p id="fb" style="font-size:17px"></p>'],
+ js6:['document.getElementById("chk").onclick = function(){',
+      '  const g = +document.getElementById("guess").value;',
+      '  document.getElementById("fb").innerHTML = (g === need(n))',
+      '    ? \'<span class="ok">맞았습니다 — 3n + 1 = \' + need(n) + \' 🎯</span>\'',
+      '    : \'<span class="no">아닙니다. 정사각형 하나마다 몇 개씩 새로 드는지 세어 보세요.</span>\';',
+      '};'],
+ events:['document.getElementById("sn").oninput = update;',
+         'document.getElementById("sa").oninput = update;']
+},
+
+/* ---------- 28. 등식의 성질 (저울) ---------- */
+balance:{
+ t:'저울이 균형을 이루려면 — 등식의 성질', grade:'중1 · 일차방정식 [9수02-03][9수02-04]',
+ q:'방정식을 풀 때 왜 양변에 똑같이 해야 할까?',
+ eq:'a = b ⇒ a + c = b + c,  ac = bc (c ≠ 0)',
+ model:'2x + 3 = 11 을 양팔 저울로 보고, 양변에 같은 조작을 하며 x 를 남기는 과정',
+ params:'좌변·우변의 x 계수와 상수항',
+ controls:'양변에서 빼기·더하기·나누기 버튼',
+ viz:'양팔 저울과 양쪽 접시에 놓인 식',
+ bug:'버튼을 누르면 <b>한쪽 접시만</b> 바뀝니다. 저울은 그대로 수평이어서, 균형이 깨졌다는 사실이 화면에 드러나지 않습니다.',
+ fixask:'버튼을 누르면 왼쪽만 바뀌는데 저울은 계속 수평이야. 양변에 똑같이 적용하도록 고치고, 한쪽만 바뀐 경우에는 저울이 실제로 기울어지게 해 줘.',
+ act:'x 만 남기면 “찾았습니다”라고 알려 주고, 지금까지 한 조작을 순서대로 보여 주는 활동',
+ guide:['양변에서 3을 빼면 식이 어떻게 되는지 보세요.',
+        '양변을 2로 나누어 x 만 남겨 보세요.',
+        '「왼쪽에서만 빼기」를 눌러 저울이 기우는 것을 확인하고, 그때 답이 왜 달라지는지 말해 보세요.'],
+ obj:'등식의 성질을 이용하여 일차방정식을 풀고, 양변에 같은 조작을 해야 하는 이유를 설명할 수 있다.',
+ js2:['let L = {a:2, b:3};                    // 좌변 2x + 3',
+      'let R = {a:0, b:11};                   // 우변 11',
+      'let broken = false;                    // 균형이 깨졌는지'],
+ body3:['<button id="bSub">양변에서 1 빼기</button> <button id="bDiv">양변을 2로 나누기</button>',
+        '<button id="bBad">왼쪽에서만 1 빼기</button> <button id="bRst">처음으로</button>'],
+ js3:['function fmt(o){',
+      '  const t = [];',
+      '  if(o.a) t.push((o.a === 1 ? "" : o.a) + "x");',
+      '  if(o.b || !o.a) t.push(o.b);',
+      '  return t.join(" + ");',
+      '}'],
+ body4:['<canvas id="cv" width="420" height="200"></canvas>',
+        '<p id="out" style="font-size:17px"></p>'],
+ js4:['function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  c.clearRect(0,0,420,200);',
+      '  c.strokeStyle = "#111"; c.lineWidth = 4;',
+      '  c.beginPath(); c.moveTo(60,60); c.lineTo(360,60); c.stroke();   // 늘 수평',
+      '  c.strokeStyle = "#666"; c.lineWidth = 2;',
+      '  c.beginPath(); c.moveTo(210,60); c.lineTo(210,150); c.stroke();',
+      '  c.font = "bold 17px sans-serif"; c.textAlign = "center"; c.fillStyle = "#2563EB";',
+      '  c.fillText(fmt(L), 110, 100);',
+      '  c.fillStyle = "#0E9384"; c.fillText(fmt(R), 310, 100);',
+      '  document.getElementById("out").textContent = fmt(L) + " = " + fmt(R);',
+      '}'],
+ js5:['function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  c.clearRect(0,0,420,200);',
+      '  const tilt = broken ? 0.15 : 0;                 // 균형이 깨지면 기울인다',
+      '  c.strokeStyle = "#666"; c.lineWidth = 2;',
+      '  c.beginPath(); c.moveTo(210,60); c.lineTo(210,160); c.stroke();',
+      '  c.save(); c.translate(210,60); c.rotate(tilt);',
+      '  c.strokeStyle = "#111"; c.lineWidth = 4;',
+      '  c.beginPath(); c.moveTo(-150,0); c.lineTo(150,0); c.stroke();',
+      '  c.font = "bold 17px sans-serif"; c.textAlign = "center";',
+      '  c.fillStyle = "#2563EB"; c.fillText(fmt(L), -100, 40);',
+      '  c.fillStyle = "#0E9384"; c.fillText(fmt(R), 100, 40);',
+      '  c.restore();',
+      '  c.fillStyle = broken ? "#BE123C" : "#0E9384";',
+      '  c.font = "bold 13px sans-serif"; c.textAlign = "center";',
+      '  c.fillText(broken ? "균형이 깨졌습니다" : "균형입니다", 210, 185);',
+      '  document.getElementById("out").textContent = fmt(L) + " = " + fmt(R);',
+      '}'],
+ body6:['<p id="fb" style="font-size:17px"></p>'],
+ js6:['function check(){',
+      '  const done = (L.a === 1 && L.b === 0 && R.a === 0);',
+      '  document.getElementById("fb").innerHTML = broken',
+      '    ? \'<span class="no">한쪽만 건드렸습니다 — 처음 식과 다른 식이 되었습니다.</span>\'',
+      '    : done ? \'<span class="ok">x = \' + R.b + \' 를 찾았습니다 🎯 처음 식에 넣어 검산해 보세요.</span>\'',
+      '           : "양변에 같은 일을 하며 x 만 남겨 보세요.";',
+      '}'],
+ events:['document.getElementById("bSub").onclick = function(){ L.b--; R.b--; update(); };',
+         'document.getElementById("bDiv").onclick = function(){ L.a/=2; L.b/=2; R.a/=2; R.b/=2; update(); };',
+         'document.getElementById("bBad").onclick = function(){ L.b--; broken = true; update(); };',
+         'document.getElementById("bRst").onclick = function(){ L={a:2,b:3}; R={a:0,b:11}; broken=false; update(); };']
+},
+
+/* ---------- 29. 정비례와 반비례 ---------- */
+propinv:{
+ t:'지렛대는 왜 힘이 덜 들까 — 정비례와 반비례', grade:'중1 · 좌표평면과 그래프 [9수02-07]',
+ q:'거리를 두 배로 하면 힘은 왜 절반이 될까?',
+ eq:'정비례 y = ax (y ÷ x 가 일정) · 반비례 y = k / x (x × y 가 일정)',
+ model:'받침점에서의 거리와 필요한 힘의 곱이 일정한 지렛대',
+ params:'일정하게 유지되는 값 k, 손을 잡는 거리 x',
+ controls:'거리 x 슬라이더, k 슬라이더, 정비례/반비례 선택창',
+ viz:'좌표평면 위의 그래프와 x · y · (x×y) 표',
+ bug:'반비례를 골라도 <b>직선</b>이 그려집니다. y = k/x 대신 두 점만 잇도록 만들었기 때문에, 굽은 선이 나올 수 없습니다.',
+ fixask:'반비례인데 그래프가 직선으로 나와. y = k / x 를 x 를 잘게 쪼개 가며 계산해서 굽은 선으로 그려 줘. x 가 0에 가까워질 때 y 가 커지는 것도 보이게 해 줘.',
+ act:'표의 x × y 칸이 일정한지 보고 정비례인지 반비례인지 판정하게 하는 활동',
+ guide:['반비례를 고르고 표의 셋째 줄(x × y)이 변하는지 보세요.',
+        '정비례로 바꾸면 어느 줄이 일정해지는지 확인하세요.',
+        'x 를 2배로 했을 때 y 가 어떻게 되는지 두 경우를 비교해 말해 보세요.'],
+ obj:'정비례와 반비례를 “무엇이 일정한가”로 구분하고, 각각의 그래프 모양을 설명할 수 있다.',
+ js2:['let k = 24, x = 4, mode = "inv";        // 일정한 값 · 지금 거리 · 관계의 종류',
+      'const f = v => (mode === "inv") ? k / v : (k/10) * v;'],
+ body3:['<label>거리 x = <b id="vx">4</b><input type="range" id="sx" min="1" max="10" step="1" value="4"></label>',
+        '<label>일정한 값 k = <b id="vk">24</b><input type="range" id="sk" min="6" max="60" step="2" value="24"></label>',
+        '<label>관계 <select id="sm"><option value="inv">반비례</option><option value="dir">정비례</option></select></label>'],
+ js3:['function readInputs(){',
+      '  x = +document.getElementById("sx").value;',
+      '  k = +document.getElementById("sk").value;',
+      '  mode = document.getElementById("sm").value;',
+      '  document.getElementById("vx").textContent = x;',
+      '  document.getElementById("vk").textContent = k;',
+      '}'],
+ body4:['<canvas id="cv" width="400" height="300"></canvas>',
+        '<div id="out"></div>'],
+ js4:['const PX = v => 40 + v * 32, PY = v => 260 - v * 4;',
+      'function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  c.clearRect(0,0,400,300);',
+      '  c.strokeStyle = "#999"; c.beginPath();',
+      '  c.moveTo(40,20); c.lineTo(40,260); c.lineTo(380,260); c.stroke();',
+      '  c.strokeStyle = "#B45309"; c.lineWidth = 3;',
+      '  c.beginPath();',
+      '  c.moveTo(PX(1), PY(f(1)));           // 두 점만 이어서 직선이 된다',
+      '  c.lineTo(PX(10), PY(f(10)));',
+      '  c.stroke();',
+      '}'],
+ js5:['const PX = v => 40 + v * 32, PY = v => 260 - v * 4;',
+      'function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  c.clearRect(0,0,400,300);',
+      '  c.strokeStyle = "#999"; c.lineWidth = 1; c.beginPath();',
+      '  c.moveTo(40,20); c.lineTo(40,260); c.lineTo(380,260); c.stroke();',
+      '  c.strokeStyle = (mode === "inv") ? "#B45309" : "#2563EB"; c.lineWidth = 3;',
+      '  c.beginPath();',
+      '  for(let i=0;i<=200;i++){            // x 를 잘게 쪼개 실제 식으로 계산',
+      '    const v = 0.5 + i * 9.5/200;',
+      '    const px = PX(v), py = PY(Math.min(f(v), 60));',
+      '    i ? c.lineTo(px,py) : c.moveTo(px,py);',
+      '  }',
+      '  c.stroke();',
+      '  c.fillStyle = "#BE123C";',
+      '  c.beginPath(); c.arc(PX(x), PY(f(x)), 6, 0, 7); c.fill();',
+      '}'],
+ body6:['<p id="fb" style="font-size:16px"></p>'],
+ js6:['function check(){',
+      '  const xs = [1,2,4,5,10];',
+      '  const prod = xs.map(v => (v*f(v)).toFixed(1));',
+      '  const same = prod.every(p => p === prod[0]);',
+      '  document.getElementById("fb").innerHTML =',
+      '    "x × y : " + prod.join(" · ") + "<br>"',
+      '    + (same ? \'<span class="ok">곱이 일정합니다 — 반비례입니다</span>\'',
+      '            : \'<span class="no">곱이 변합니다 — 반비례가 아닙니다</span>\');',
+      '}'],
+ events:['document.getElementById("sx").oninput = update;',
+         'document.getElementById("sk").oninput = update;',
+         'document.getElementById("sm").onchange = update;']
+},
+
+/* ---------- 30. 평행선과 각 ---------- */
+parallel:{
+ t:'평행선과 각 — 그림의 원근법', grade:'중1 · 기본 도형 [9수03-02]',
+ q:'평행선을 가로지르면 왜 같은 각이 생길까?',
+ eq:'ℓ ∥ m ⇒ 동위각이 같다 ⇒ 엇각이 같다',
+ model:'평행한 두 직선과 그것을 가로지르는 횡단선이 만드는 각의 관계',
+ params:'횡단선의 기울어진 각 θ, 두 평행선의 간격',
+ controls:'θ 슬라이더, 간격 슬라이더, 각의 종류 선택창',
+ viz:'평행한 두 직선과 횡단선, 두 교점에 표시된 각',
+ bug:'동위각을 골라도 <b>엇각 자리</b>에 표시됩니다. 각의 이름과 실제 자리를 짝지어 주지 않고 아무 각이나 칠했기 때문입니다.',
+ fixask:'동위각을 골랐는데 엇각 자리에 표시돼. 동위각은 두 교점에서 같은 쪽·같은 방향에 있는 각이야. 고른 이름에 맞는 자리에 칠하고, 각의 크기도 옆에 적어 줘.',
+ act:'두 각의 크기를 예측해 적게 하고, 실제 값과 비교해 주는 활동',
+ guide:['θ 를 바꾸며 두 각이 늘 같은지 확인하세요.',
+        '각의 종류를 동측내각으로 바꾸면 무엇이 달라지는지 보세요.',
+        '두 직선이 평행하지 않다면 어떻게 될지 예상해 말해 보세요.'],
+ obj:'평행선에서 동위각과 엇각의 위치를 구분하고, 그 크기 관계를 평행 조건과 함께 설명할 수 있다.',
+ js2:['let th = 54, gap = 90, kind = "co";     // 횡단선 각 · 간격 · 각의 종류',
+      'const rad = d => d * Math.PI / 180;'],
+ body3:['<label>횡단선의 각 θ = <b id="vt">54</b>°<input type="range" id="st" min="20" max="80" step="1" value="54"></label>',
+        '<label>간격 = <b id="vg">90</b><input type="range" id="sg" min="50" max="130" step="5" value="90"></label>',
+        '<label>각의 종류 <select id="sk"><option value="co">동위각</option><option value="al">엇각</option><option value="in">동측내각</option></select></label>'],
+ js3:['function readInputs(){',
+      '  th = +document.getElementById("st").value;',
+      '  gap = +document.getElementById("sg").value;',
+      '  kind = document.getElementById("sk").value;',
+      '  document.getElementById("vt").textContent = th;',
+      '  document.getElementById("vg").textContent = gap;',
+      '}'],
+ body4:['<canvas id="cv" width="400" height="300"></canvas>',
+        '<p id="out" style="font-size:16px"></p>'],
+ js4:['function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  c.clearRect(0,0,400,300);',
+      '  const y1 = 90, y2 = 90 + gap;',
+      '  c.strokeStyle = "#2563EB"; c.lineWidth = 2;',
+      '  c.beginPath(); c.moveTo(20,y1); c.lineTo(380,y1); c.stroke();',
+      '  c.beginPath(); c.moveTo(20,y2); c.lineTo(380,y2); c.stroke();',
+      '  const dx = gap / Math.tan(rad(th)), x1 = 160, x2 = x1 + dx;',
+      '  c.strokeStyle = "#B45309";',
+      '  c.beginPath(); c.moveTo(x1-60, y1-60*Math.tan(rad(th))); c.lineTo(x2+60, y2+60*Math.tan(rad(th))); c.stroke();',
+      '  c.strokeStyle = "#BE123C"; c.lineWidth = 2.5;',
+      '  c.beginPath(); c.arc(x1, y1, 26, 0, rad(th)); c.stroke();      // 자리를 따지지 않고 그림',
+      '  c.beginPath(); c.arc(x2, y2, 26, Math.PI, Math.PI + rad(th)); c.stroke();',
+      '  document.getElementById("out").textContent = "두 각 모두 " + th + "°";',
+      '}'],
+ js5:['function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  c.clearRect(0,0,400,300);',
+      '  const y1 = 90, y2 = 90 + gap, r = rad(th);',
+      '  c.strokeStyle = "#2563EB"; c.lineWidth = 2;',
+      '  c.beginPath(); c.moveTo(20,y1); c.lineTo(380,y1); c.stroke();',
+      '  c.beginPath(); c.moveTo(20,y2); c.lineTo(380,y2); c.stroke();',
+      '  const dx = gap / Math.tan(r), x1 = 160, x2 = x1 + dx;',
+      '  c.strokeStyle = "#B45309";',
+      '  c.beginPath(); c.moveTo(x1-60*Math.cos(r), y1-60*Math.sin(r));',
+      '  c.lineTo(x2+60*Math.cos(r), y2+60*Math.sin(r)); c.stroke();',
+      '  // 고른 이름에 맞는 자리를 정한다',
+      '  const spots = {',
+      '    co: [[x1,y1,0,r],[x2,y2,0,r]],                                  // 같은 쪽 같은 방향',
+      '    al: [[x1,y1,r,Math.PI],[x2,y2,Math.PI+r,2*Math.PI]],            // 엇갈린 자리',
+      '    in: [[x1,y1,0,r],[x2,y2,Math.PI+r,2*Math.PI]]                   // 안쪽 같은 쪽',
+      '  }[kind];',
+      '  const size = (kind === "in") ? [th, 180-th] : [th, th];',
+      '  spots.forEach(function(s,i){',
+      '    c.strokeStyle = i ? "#0E9384" : "#BE123C"; c.lineWidth = 2.5;',
+      '    c.beginPath(); c.arc(s[0], s[1], 26+i*4, s[2], s[3]); c.stroke();',
+      '    const am = (s[2]+s[3])/2;',
+      '    c.fillStyle = c.strokeStyle; c.font = "bold 13px sans-serif"; c.textAlign = "center";',
+      '    c.fillText(size[i] + "°", s[0] + Math.cos(am)*44, s[1] + Math.sin(am)*44 + 4);',
+      '  });',
+      '  document.getElementById("out").innerHTML = (kind === "in")',
+      '    ? th + "° + " + (180-th) + "° = <b>180°</b> — 같은 것이 아니라 합이 180°입니다."',
+      '    : "두 각 모두 <b>" + th + "°</b> — ℓ ∥ m 이기 때문입니다.";',
+      '}'],
+ body6:['<label>두 번째 각을 예측해 보세요 <input type="number" id="guess" style="width:80px"></label>°',
+        '<button id="chk">맞는지 보기</button><p id="fb" style="font-size:17px"></p>'],
+ js6:['document.getElementById("chk").onclick = function(){',
+      '  const g = +document.getElementById("guess").value;',
+      '  const ans = (kind === "in") ? 180 - th : th;',
+      '  document.getElementById("fb").innerHTML = (g === ans)',
+      '    ? \'<span class="ok">맞았습니다 — \' + ans + \'° 입니다 🎯</span>\'',
+      '    : \'<span class="no">아닙니다. 두 각이 어느 자리에 있는지 다시 보세요.</span>\';',
+      '};'],
+ events:['document.getElementById("st").oninput = update;',
+         'document.getElementById("sg").oninput = update;',
+         'document.getElementById("sk").onchange = update;']
+},
+
+/* ---------- 31. 삼각형의 합동 ---------- */
+congruent:{
+ t:'구조물은 왜 삼각형일까 — 합동 조건', grade:'중1 · 작도와 합동 [9수03-04]',
+ q:'무엇을 알아야 삼각형이 하나로 정해질까?',
+ eq:'SSS · SAS · ASA 는 합동 조건, SSA 는 아니다',
+ model:'주어진 조건으로 삼각형을 작도했을 때 후보가 몇 개 나오는지',
+ params:'밑변의 길이, 각 A, 변 b',
+ controls:'조건 선택창(SSS·SAS·ASA·SSA), 각 A 슬라이더, 변 b 슬라이더',
+ viz:'좌표 위에 그려진 삼각형과, SSA 일 때 함께 나타나는 두 번째 삼각형',
+ bug:'SSA 를 골라도 삼각형이 <b>하나만</b> 그려집니다. 원과 반직선의 교점을 하나만 쓰고 나머지 하나를 버렸기 때문에, 반례가 화면에 나타나지 않습니다.',
+ fixask:'SSA 는 삼각형이 두 개 나올 수 있는데 하나만 그려져. 원과 반직선의 교점이 둘일 때 둘 다 그려서 겹쳐 보여 줘. 두 삼각형의 세 값이 같다는 것도 적어 줘.',
+ act:'조건마다 삼각형이 몇 개 나오는지 세어 보고, 합동 조건인지 판정하게 하는 활동',
+ guide:['SAS 를 고르고 슬라이더를 움직여, 값이 같으면 늘 같은 삼각형인지 보세요.',
+        'SSA 로 바꾸고 변 b 를 줄이면 언제 삼각형이 둘로 갈라지는지 찾으세요.',
+        '두 삼각형이 정말 같은 조건을 만족하는지 값을 하나씩 확인해 보세요.'],
+ obj:'삼각형의 합동 조건을 이해하고, SSA 가 조건이 되지 못함을 반례로 설명할 수 있다.',
+ js2:['let A = 35, b = 95, mode = "sas";      // 각 A · 변 b · 조건',
+      'const a = 150;                          // 밑변은 고정',
+      'const O = [60,240];                     // 왼쪽 꼭짓점'],
+ body3:['<label>조건 <select id="sm"><option value="sas">SAS</option><option value="asa">ASA</option><option value="ssa">SSA</option></select></label>',
+        '<label>각 A = <b id="vA">35</b>°<input type="range" id="sA" min="20" max="70" step="1" value="35"></label>',
+        '<label>변 b = <b id="vb">95</b><input type="range" id="sb" min="60" max="130" step="1" value="95"></label>'],
+ js3:['function readInputs(){',
+      '  A = +document.getElementById("sA").value;',
+      '  b = +document.getElementById("sb").value;',
+      '  mode = document.getElementById("sm").value;',
+      '  document.getElementById("vA").textContent = A;',
+      '  document.getElementById("vb").textContent = b;',
+      '}'],
+ body4:['<canvas id="cv" width="400" height="300"></canvas>',
+        '<p id="out" style="font-size:16px"></p>'],
+ js4:['function tri(c, P, col){',
+      '  c.beginPath(); c.moveTo(P[0][0],P[0][1]);',
+      '  c.lineTo(P[1][0],P[1][1]); c.lineTo(P[2][0],P[2][1]); c.closePath();',
+      '  c.strokeStyle = col; c.lineWidth = 2.4; c.stroke();',
+      '}',
+      'function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  c.clearRect(0,0,400,300);',
+      '  const r = A * Math.PI / 180;',
+      '  const P2 = [O[0]+a, O[1]];',
+      '  const C  = [O[0]+b*Math.cos(-r), O[1]+b*Math.sin(-r)];',
+      '  tri(c, [O,P2,C], "#2563EB");          // 후보를 하나만 그린다',
+      '  document.getElementById("out").textContent = "삼각형 1개";',
+      '}'],
+ js5:['function tri(c, P, col){',
+      '  c.beginPath(); c.moveTo(P[0][0],P[0][1]);',
+      '  c.lineTo(P[1][0],P[1][1]); c.lineTo(P[2][0],P[2][1]); c.closePath();',
+      '  c.strokeStyle = col; c.lineWidth = 2.4; c.stroke();',
+      '}',
+      'function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  c.clearRect(0,0,400,300);',
+      '  const r = A * Math.PI / 180, ux = Math.cos(-r), uy = Math.sin(-r);',
+      '  const P2 = [O[0]+a, O[1]];',
+      '  const C  = [O[0]+b*ux, O[1]+b*uy];',
+      '  c.strokeStyle = "#ddd"; c.lineWidth = 1;',
+      '  c.beginPath(); c.moveTo(O[0],O[1]); c.lineTo(O[0]+230*ux, O[1]+230*uy); c.stroke();',
+      '  tri(c, [O,P2,C], "#2563EB");',
+      '  let msg = "삼각형 1개 — 모양이 하나로 정해집니다.";',
+      '  if(mode === "ssa"){                    // 원과 반직선의 교점을 둘 다 쓴다',
+      '    const cLen = Math.hypot(C[0]-P2[0], C[1]-P2[1]);',
+      '    const px = P2[0]-O[0], py = P2[1]-O[1];',
+      '    const t = px*ux + py*uy, d2 = px*px + py*py - t*t;',
+      '    const disc = cLen*cLen - d2;',
+      '    if(disc > 0.5){',
+      '      const s = Math.sqrt(disc);',
+      '      const alt = (Math.abs(t+s-b) < 0.5) ? t-s : t+s;',
+      '      if(alt > 4 && Math.abs(alt-b) > 3){',
+      '        tri(c, [O,P2,[O[0]+alt*ux, O[1]+alt*uy]], "#BE123C");',
+      '        msg = "삼각형 2개 — 같은 (변 " + a + ", 변 " + cLen.toFixed(0)',
+      '            + ", 각 " + A + "°) 인데 모양이 다릅니다. SSA 는 조건이 아닙니다.";',
+      '      }',
+      '    }',
+      '  }',
+      '  document.getElementById("out").textContent = msg;',
+      '}'],
+ body6:['<p id="fb" style="font-size:17px"></p>'],
+ js6:['function check(){',
+      '  document.getElementById("fb").innerHTML = (mode === "ssa")',
+      '    ? \'<span class="no">SSA — 반례가 있으므로 합동 조건이 아닙니다.</span>\'',
+      '    : \'<span class="ok">\' + mode.toUpperCase() + \' — 합동 조건입니다 🎯</span>\';',
+      '}'],
+ events:['document.getElementById("sA").oninput = update;',
+         'document.getElementById("sb").oninput = update;',
+         'document.getElementById("sm").onchange = update;']
+},
+
+/* ---------- 32. 부채꼴 ---------- */
+sector:{
+ t:'원그래프의 각도는 어떻게 정할까 — 부채꼴', grade:'중1 · 평면도형의 성질 [9수03-06]',
+ q:'32%는 몇 도로 그려야 할까?',
+ eq:'ℓ = 2πr × x/360,  S = πr² × x/360',
+ model:'중심각의 비율이 곧 호의 비율이고 넓이의 비율인 관계',
+ params:'중심각 x, 반지름 r',
+ controls:'중심각 슬라이더, 반지름 슬라이더',
+ viz:'부채꼴 그림과 중심각·호·넓이의 비율 막대 셋',
+ bug:'넓이도 <b>호와 같은 비</b>로 계산해, 반지름을 두 배로 하면 넓이가 두 배로만 늘어납니다. 넓이는 반지름의 제곱에 비례한다는 것을 반영하지 않았습니다.',
+ fixask:'반지름을 2배로 했는데 넓이가 2배밖에 안 늘어. 넓이는 πr² × x/360 이라서 반지름의 제곱에 비례해야 해. 호는 2πr × x/360 그대로 두고 넓이 식만 고쳐 줘.',
+ act:'비율을 주고 중심각을 몇 도로 그려야 하는지 맞히게 하는 활동',
+ guide:['중심각을 바꾸며 세 비율 막대가 늘 같은지 확인하세요.',
+        '반지름을 두 배로 하고 호와 넓이가 각각 몇 배가 되는지 보세요.',
+        '전체의 25%를 원그래프에 그리려면 중심각을 몇 도로 해야 하는지 계산해 보세요.'],
+ obj:'부채꼴의 호의 길이와 넓이를 중심각의 비율로 구하고, 비율 자료를 원그래프의 중심각으로 옮길 수 있다.',
+ js2:['let x = 120, r = 80;                    // 중심각 · 반지름',
+      'const arcLen = () => 2 * Math.PI * r * x / 360;'],
+ body3:['<label>중심각 = <b id="vx">120</b>°<input type="range" id="sx" min="10" max="360" step="5" value="120"></label>',
+        '<label>반지름 r = <b id="vr">80</b><input type="range" id="sr" min="40" max="110" step="5" value="80"></label>'],
+ js3:['function readInputs(){',
+      '  x = +document.getElementById("sx").value;',
+      '  r = +document.getElementById("sr").value;',
+      '  document.getElementById("vx").textContent = x;',
+      '  document.getElementById("vr").textContent = r;',
+      '}'],
+ body4:['<canvas id="cv" width="400" height="280"></canvas>',
+        '<p id="out" style="font-size:16px"></p>'],
+ js4:['function area(){ return 2 * Math.PI * r * x / 360; }   // 호와 같은 식 ← 잘못',
+      'function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  c.clearRect(0,0,400,280);',
+      '  const cx = 130, cy = 140, rd = x * Math.PI / 180;',
+      '  c.strokeStyle = "#ddd"; c.beginPath(); c.arc(cx,cy,r,0,7); c.stroke();',
+      '  c.fillStyle = "rgba(37,99,235,.16)";',
+      '  c.beginPath(); c.moveTo(cx,cy); c.arc(cx,cy,r,-rd,0); c.closePath(); c.fill();',
+      '  document.getElementById("out").innerHTML =',
+      '    "호 = " + arcLen().toFixed(1) + " · 넓이 = " + area().toFixed(1);',
+      '}'],
+ js5:['function area(){ return Math.PI * r * r * x / 360; }   // 넓이는 r 의 제곱에 비례',
+      'function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  c.clearRect(0,0,400,280);',
+      '  const cx = 130, cy = 140, rd = x * Math.PI / 180;',
+      '  c.strokeStyle = "#ddd"; c.beginPath(); c.arc(cx,cy,r,0,7); c.stroke();',
+      '  c.fillStyle = "rgba(37,99,235,.16)";',
+      '  c.beginPath(); c.moveTo(cx,cy); c.arc(cx,cy,r,-rd,0); c.closePath(); c.fill();',
+      '  c.strokeStyle = "#2563EB"; c.lineWidth = 3;',
+      '  c.beginPath(); c.arc(cx,cy,r,-rd,0); c.stroke();',
+      '  const ratios = [["중심각", x/360], ["호", arcLen()/(2*Math.PI*r)],',
+      '                  ["넓이", area()/(Math.PI*r*r)]];',
+      '  ratios.forEach(function(v,i){',
+      '    const y = 70 + i*50;',
+      '    c.fillStyle = "#666"; c.font = "11px sans-serif"; c.textAlign = "left";',
+      '    c.fillText(v[0] + " 비율", 260, y-6);',
+      '    c.fillStyle = "#eee"; c.fillRect(260, y, 110, 13);',
+      '    c.fillStyle = "#2563EB"; c.fillRect(260, y, 110*v[1], 13);',
+      '    c.fillStyle = "#111"; c.font = "bold 11px sans-serif";',
+      '    c.fillText((v[1]*100).toFixed(1) + "%", 260, y+27);',
+      '  });',
+      '  document.getElementById("out").innerHTML =',
+      '    "호 = 2πr × " + x + "/360 = <b>" + arcLen().toFixed(1) + "</b><br>"',
+      '    + "넓이 = πr² × " + x + "/360 = <b>" + area().toFixed(1) + "</b>";',
+      '}'],
+ body6:['<label>전체의 <input type="number" id="pct" value="25" style="width:70px">% 를 그리려면?</label>',
+        '<button id="chk">중심각 구하기</button><p id="fb" style="font-size:17px"></p>'],
+ js6:['document.getElementById("chk").onclick = function(){',
+      '  const p = +document.getElementById("pct").value;',
+      '  document.getElementById("fb").innerHTML =',
+      '    "360° × " + p + "% = <b>" + (360*p/100).toFixed(1) + "°</b>";',
+      '};'],
+ events:['document.getElementById("sx").oninput = update;',
+         'document.getElementById("sr").oninput = update;']
+},
+
+/* ---------- 33. 대푯값 ---------- */
+repshoe:{
+ t:'신발은 어느 치수를 더 들여놔야 할까 — 대푯값', grade:'중1 · 대푯값 [9수04-01]',
+ q:'평균 치수의 신발은 정말 잘 팔릴까?',
+ eq:'평균 · 중앙값 · 최빈값 — 무엇을 묻는가가 고른다',
+ model:'치수별로 팔린 켤레 수에서 세 대푯값을 구해 비교',
+ params:'치수 230~280 별 판매 수',
+ controls:'양 끝 치수(250·280)의 판매 수 슬라이더',
+ viz:'치수별 막대그래프와 평균·중앙값 위치를 나타내는 눈금선',
+ bug:'“가장 많이 팔린 치수”를 물었는데 <b>평균</b>을 답으로 내놓습니다. 최빈값을 구하지 않고 평균 하나만 계산했기 때문입니다.',
+ fixask:'가장 많이 들여놔야 할 치수를 물었는데 평균을 알려 줘. 도수가 가장 큰 치수(최빈값)를 찾아서 답하고, 평균·중앙값도 함께 보여 줘서 세 값이 얼마나 다른지 비교되게 해 줘.',
+ act:'가장 많이 들여놓아야 할 치수를 맞히면 알려 주는 활동',
+ guide:['양 끝 치수의 판매 수를 늘리며 평균 눈금이 어떻게 움직이는지 보세요.',
+        '가장 높은 막대는 그대로인지 확인하세요.',
+        '가게 주인이라면 어느 값을 보고 주문할지, 이유와 함께 말해 보세요.'],
+ obj:'자료의 상황에 맞는 대푯값을 고르고, 그 이유를 설명할 수 있다.',
+ js2:['const SIZES = [230,240,250,260,270,280];',
+      'let cnt = [3,6,4,18,7,4];              // 치수별 판매 수',
+      'function data(){',
+      '  const d = [];',
+      '  SIZES.forEach(function(z,i){ for(let k=0;k<cnt[i];k++) d.push(z); });',
+      '  return d;',
+      '}'],
+ body3:['<label>250 판매 수 = <b id="v1">4</b><input type="range" id="s1" min="0" max="30" step="1" value="4"></label>',
+        '<label>280 판매 수 = <b id="v2">4</b><input type="range" id="s2" min="0" max="30" step="1" value="4"></label>'],
+ js3:['function readInputs(){',
+      '  cnt[2] = +document.getElementById("s1").value;',
+      '  cnt[5] = +document.getElementById("s2").value;',
+      '  document.getElementById("v1").textContent = cnt[2];',
+      '  document.getElementById("v2").textContent = cnt[5];',
+      '}'],
+ body4:['<canvas id="cv" width="400" height="250"></canvas>',
+        '<p id="out" style="font-size:16px"></p>'],
+ js4:['function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  c.clearRect(0,0,400,250);',
+      '  const mx = Math.max.apply(null, cnt);',
+      '  cnt.forEach(function(v,i){',
+      '    const h = 170 * v / mx;',
+      '    c.fillStyle = "#93A3B8"; c.fillRect(30 + i*58, 210-h, 46, h);',
+      '    c.fillStyle = "#666"; c.font = "11px sans-serif"; c.textAlign = "center";',
+      '    c.fillText(SIZES[i], 53 + i*58, 228);',
+      '  });',
+      '  const d = data(), mean = d.reduce(function(a,b){return a+b;},0) / d.length;',
+      '  document.getElementById("out").innerHTML =',
+      '    "가장 많이 들여놓을 치수는 <b>" + mean.toFixed(1) + "</b> 입니다.";   // 평균으로 답함',
+      '}'],
+ js5:['function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  c.clearRect(0,0,400,250);',
+      '  const mx = Math.max.apply(null, cnt);',
+      '  const mode = SIZES[cnt.indexOf(mx)];',
+      '  cnt.forEach(function(v,i){',
+      '    const h = 170 * v / mx;',
+      '    c.fillStyle = (v === mx) ? "#0E9384" : "#93A3B8";   // 최빈값을 눈에 띄게',
+      '    c.fillRect(30 + i*58, 210-h, 46, h);',
+      '    c.fillStyle = "#666"; c.font = "11px sans-serif"; c.textAlign = "center";',
+      '    c.fillText(SIZES[i], 53 + i*58, 228);',
+      '  });',
+      '  const d = data().sort(function(a,b){return a-b;}), n = d.length;',
+      '  const mean = d.reduce(function(a,b){return a+b;},0) / n;',
+      '  const med = n % 2 ? d[(n-1)/2] : (d[n/2-1] + d[n/2]) / 2;',
+      '  document.getElementById("out").innerHTML =',
+      '    "평균 <b>" + mean.toFixed(1) + "</b> · 중앙값 <b>" + med',
+      '    + "</b> · 최빈값 <b>" + mode + "</b><br>"',
+      '    + "가장 많이 들여놓을 치수는 <b>" + mode + "</b> — " + mx + "명이 샀습니다.";',
+      '}'],
+ body6:['<label>어느 치수를 주문할까요? <input type="number" id="guess" step="10" style="width:80px"></label>',
+        '<button id="chk">맞는지 보기</button><p id="fb" style="font-size:17px"></p>'],
+ js6:['document.getElementById("chk").onclick = function(){',
+      '  const g = +document.getElementById("guess").value;',
+      '  const mode = SIZES[cnt.indexOf(Math.max.apply(null, cnt))];',
+      '  document.getElementById("fb").innerHTML = (g === mode)',
+      '    ? \'<span class="ok">맞았습니다 — 최빈값 \' + mode + \' 입니다 🎯</span>\'',
+      '    : \'<span class="no">아닙니다. 가장 높은 막대를 보세요.</span>\';',
+      '};'],
+ events:['document.getElementById("s1").oninput = update;',
+         'document.getElementById("s2").oninput = update;']
+},
+
+/* ---------- 34. 도수분포표와 히스토그램 ---------- */
+histo:{
+ t:'구간을 몇 개로 나눠야 할까 — 히스토그램', grade:'중1 · 도수분포표·상대도수 [9수04-02]',
+ q:'같은 점수인데 왜 그래프가 달라 보일까?',
+ eq:'계급의 크기 = 범위 ÷ 계급의 개수',
+ model:'같은 자료를 계급의 크기만 바꿔 가며 히스토그램으로 그리기',
+ params:'40명의 수학 점수, 계급의 크기, 계급의 시작점',
+ controls:'계급의 크기 슬라이더, 시작점 슬라이더',
+ viz:'계급별 도수를 막대로 그린 히스토그램',
+ bug:'계급의 크기를 바꿔도 <b>막대 폭이 그대로</b>라, 폭이 넓은 계급이 좁은 계급과 같은 자리를 차지합니다. 넓이가 아니라 높이만 보게 되어 분포가 왜곡됩니다.',
+ fixask:'계급 크기를 바꿔도 막대 폭이 그대로야. 계급의 크기에 비례해서 막대 폭도 바뀌게 해 줘. 계급이 몇 개인지, 각 계급의 구간도 축에 적어 줘.',
+ act:'계급의 크기를 바꿔 가며 “봉우리가 몇 개로 보이는지” 세어 보게 하는 활동',
+ guide:['계급의 크기를 5로 두고 봉우리가 몇 개로 보이는지 세어 보세요.',
+        '40으로 키우면 봉우리가 어떻게 되는지 확인하세요.',
+        '시작점만 5 옮기면 모양이 달라지는지 보고, 그것이 무엇을 뜻하는지 말해 보세요.'],
+ obj:'도수분포표와 히스토그램을 만들고, 계급의 크기에 따라 분포의 인상이 달라짐을 설명할 수 있다.',
+ js2:['const DATA = [42,48,51,53,55,56,58,58,60,61,62,63,63,64,65,66,66,67,68,68,',
+      '              69,70,71,72,72,73,74,75,76,77,78,80,81,83,85,87,88,91,94,97];',
+      'let w = 10, off = 0;                    // 계급의 크기 · 시작점'],
+ body3:['<label>계급의 크기 = <b id="vw">10</b><input type="range" id="sw" min="5" max="40" step="5" value="10"></label>',
+        '<label>시작점 = <b id="vo">0</b><input type="range" id="so" min="0" max="20" step="5" value="0"></label>'],
+ js3:['function readInputs(){',
+      '  w = +document.getElementById("sw").value;',
+      '  off = +document.getElementById("so").value;',
+      '  document.getElementById("vw").textContent = w;',
+      '  document.getElementById("vo").textContent = off;',
+      '}',
+      'function bins(){',
+      '  const lo = Math.floor((40-off)/w)*w + off, out = [];',
+      '  for(let s = lo; s < 100; s += w)',
+      '    out.push({s:s, e:s+w, c:DATA.filter(function(v){return v>=s && v<s+w;}).length});',
+      '  return out;',
+      '}'],
+ body4:['<canvas id="cv" width="400" height="260"></canvas>',
+        '<p id="out" style="font-size:16px"></p>'],
+ js4:['function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  c.clearRect(0,0,400,260);',
+      '  const B = bins(), mx = Math.max.apply(null, B.map(function(b){return b.c;}));',
+      '  B.forEach(function(b,i){',
+      '    const h = 180 * b.c / mx;',
+      '    c.fillStyle = "rgba(37,99,235,.75)";',
+      '    c.fillRect(40 + i*30, 220-h, 28, h);      // 폭을 늘 28 로 고정 ← 잘못',
+      '  });',
+      '  document.getElementById("out").textContent = "계급 " + B.length + "개";',
+      '}'],
+ js5:['function draw(){',
+      '  const c = document.getElementById("cv").getContext("2d");',
+      '  c.clearRect(0,0,400,260);',
+      '  const B = bins(), mx = Math.max.apply(null, B.map(function(b){return b.c;}));',
+      '  const BW = 340 / B.length;                  // 계급 수에 맞춰 폭을 정한다',
+      '  c.strokeStyle = "#999"; c.beginPath();',
+      '  c.moveTo(40,220); c.lineTo(380,220); c.stroke();',
+      '  B.forEach(function(b,i){',
+      '    const h = 180 * b.c / mx, x = 40 + i*BW;',
+      '    c.fillStyle = "rgba(37,99,235,.75)"; c.fillRect(x, 220-h, BW, h);',
+      '    c.strokeStyle = "#fff"; c.lineWidth = 1.4; c.strokeRect(x, 220-h, BW, h);',
+      '    if(b.c){ c.fillStyle = "#111"; c.font = "bold 11px sans-serif"; c.textAlign = "center";',
+      '      c.fillText(b.c, x + BW/2, 214-h); }',
+      '    c.fillStyle = "#666"; c.font = "10px sans-serif"; c.textAlign = "center";',
+      '    c.fillText(b.s, x, 236);',
+      '  });',
+      '  const peak = B.reduce(function(a,b){ return b.c > a.c ? b : a; }, B[0]);',
+      '  document.getElementById("out").innerHTML =',
+      '    "계급의 크기 " + w + " · 계급 <b>" + B.length + "개</b><br>"',
+      '    + "가장 많은 계급 : " + peak.s + " 이상 " + peak.e + " 미만 (" + peak.c + "명)";',
+      '}'],
+ body6:['<p id="fb" style="font-size:16px"></p>'],
+ js6:['function check(){',
+      '  const n = bins().length;',
+      '  document.getElementById("fb").innerHTML = (n >= 5 && n <= 10)',
+      '    ? \'<span class="ok">계급 \' + n + \'개 — 읽기 좋은 범위입니다 🎯</span>\'',
+      '    : \'<span class="no">계급 \' + n + \'개 — \' + (n < 5 ? "너무 성깁니다" : "너무 잘습니다") + \'. 보통 5~10개로 잡습니다.</span>\';',
+      '}'],
+ events:['document.getElementById("sw").oninput = update;',
+         'document.getElementById("so").oninput = update;']
+}
 };
 
 /* ============ 확장 카탈로그 ============
@@ -5099,31 +6801,21 @@ const CAT_GROUPS = [
 ];
 
 const CATALOG = [
-{k:'m1',t:'소인수분해와 암호',g:'중1 · 소인수분해',q:'큰 수를 못 쪼개서 안전하다니?',b:'작은 소수만 시험해 합성수를 소수라고 판정함',a:'RSA 맛보기'},
 {k:'m1',t:'소수 판정 — 어디까지 나눠 봐야 하나',g:'중1 · 소인수분해',q:'',b:'',a:''},
-{k:'m1',t:'정수와 유리수의 사칙',g:'중1 · 정수와 유리수',q:'영하 5도에서 3도 오르면?',b:'음수끼리 뺄 때 부호를 한 번만 바꿔 결과가 틀림',a:'좌표·온도'},
 {k:'m1',t:'절댓값과 평균 오차',g:'중1 · 정수와 유리수',q:'오차는 어떻게 재야 공평할까?',b:'부호를 그대로 더해 오차 합이 0으로 나옴',a:'손실 지표'},
 {k:'m1',t:'수직선 위에서 덧셈·뺄셈 따라가기',g:'중1 · 정수와 유리수',q:'',b:'',a:''},
-{k:'m1',t:'문자와 식',g:'중1 · 문자와 식',q:'규칙을 어떻게 한 줄로 적을까?',b:'2a 를 “2와 a” 로 읽어 대입 결과가 틀림',a:'수식 일반화'},
 {k:'m1',t:'식의 값과 대입 — 계산기 만들기',g:'중1 · 문자와 식',q:'',b:'',a:''},
-{k:'m1',t:'일차방정식 (저울)',g:'중1 · 일차방정식',q:'저울이 균형을 이루려면?',b:'양변에 다른 값을 더해 균형이 깨짐',a:'등식의 성질'},
 {k:'m1',t:'비율·농도 문제의 방정식화',g:'중1 · 일차방정식',q:'',b:'',a:''},
-{k:'m1',t:'비례와 반비례',g:'중1 · 좌표평면과 그래프',q:'지렛대는 왜 힘이 덜 들까?',b:'반비례인데 정비례 그래프를 그려 직선이 나옴',a:'물리 모델'},
 {k:'m1',t:'그래프 읽기 — 이동 거리 그래프',g:'중1 · 좌표평면과 그래프',q:'',b:'',a:''},
 {k:'m1',t:'기본 작도',g:'중1 · 기본 도형',q:'자와 컴퍼스만으로 무엇까지 될까?',b:'수직이등분선인데 한쪽 반지름만 달라 안 지남',a:'CAD의 조상'},
-{k:'m1',t:'평행선과 각',g:'중1 · 기본 도형',q:'그림의 원근법은 어떤 원리일까?',b:'동위각과 엇각을 바꿔 써서 각이 안 맞음',a:'투시 도법'},
 {k:'m1',t:'각의 이등분선 작도와 검증',g:'중1 · 기본 도형',q:'',b:'',a:''},
-{k:'m1',t:'삼각형의 합동',g:'중1 · 작도와 합동',q:'구조물은 왜 삼각형일까?',b:'SSA 를 합동 조건으로 인정해 다른 삼각형이 겹침',a:'구조 안정성'},
 {k:'m1',t:'삼각형이 하나로 정해지는 조건',g:'중1 · 작도와 합동',q:'',b:'',a:''},
 {k:'m1',t:'다각형의 내각',g:'중1 · 평면도형의 성질',q:'바닥 타일은 왜 그 모양들뿐일까?',b:'내각의 합 공식에서 −2 를 빼먹음',a:'테셀레이션'},
-{k:'m1',t:'원과 부채꼴',g:'중1 · 평면도형의 성질',q:'원그래프의 각도는 어떻게 정할까?',b:'호의 길이와 넓이에 같은 비를 써서 넓이가 틀림',a:'비율 시각화'},
 {k:'m1',t:'부채꼴 넓이와 호의 길이 관계',g:'중1 · 평면도형의 성질',q:'',b:'',a:''},
 {k:'m1',t:'겉넓이와 부피',g:'중1 · 입체도형의 성질',q:'택배 상자는 왜 그 크기일까?',b:'원기둥 옆면을 펼치지 않고 사각형으로 계산',a:'포장 최적화'},
 {k:'m1',t:'회전체',g:'중1 · 입체도형의 성질',q:'3D 프린터는 어떻게 모양을 만들까?',b:'회전축을 잘못 잡아 단면이 대칭이 아님',a:'3D 모델링'},
 {k:'m1',t:'정다면체',g:'중1 · 입체도형의 성질',q:'주사위는 정말 공정할까?',b:'면의 개수만 세고 각 면이 합동인지 확인하지 않음',a:'난수 생성'},
 {k:'m1',t:'오일러 공식 v − e + f = 2 확인',g:'중1 · 입체도형의 성질',q:'',b:'',a:''},
-{k:'m1',t:'최빈값이 필요한 순간 (신발 사이즈)',g:'중1 · 대푯값',q:'',b:'',a:''},
-{k:'m1',t:'도수분포표와 히스토그램',g:'중1 · 도수분포표·상대도수',q:'구간을 몇 개로 나눠야 할까?',b:'계급 폭을 다르게 두고 높이를 그대로 비교함',a:'데이터 요약'},
 {k:'m1',t:'줄기와 잎',g:'중1 · 도수분포표·상대도수',q:'원자료를 잃지 않고 정리하려면?',b:'잎을 정렬하지 않아 중앙값을 잘못 읽음',a:'원자료 보존'},
 {k:'m1',t:'계급 폭을 바꾸면 모양이 달라진다',g:'중1 · 도수분포표·상대도수',q:'',b:'',a:''},
 {k:'m1',t:'일차부등식',g:'중1 · 일차부등식',q:'예산 안에서 몇 개까지 살 수 있을까?',b:'음수를 곱할 때 부등호를 안 뒤집음',a:'제약 조건'},
