@@ -1,10 +1,19 @@
 /* ================= 탭⑤ 우리 연수 모음집 =================
-   서버도 브라우저 저장소도 쓰지 않는다(단일 파일 원칙 · localStorage 금지).
-   올린 파일은 메모리에만 있다가, 「모음집 내려받기」로 단일 HTML 하나에 묶여 나간다.
-   그 파일을 강사가 배포하면 연수 뒤에도 전원이 서로의 자료를 열어 볼 수 있다. */
+   브라우저 저장소는 쓰지 않는다(단일 파일 원칙 · localStorage 금지).
+   올린 파일은 메모리에만 있다가 세 가지 방법으로 밖에 남는다.
+
+     ① 모음집 내려받기  — 열람용 단일 HTML. 배포하면 누구나 바로 열어 본다.
+     ② 작업 저장(.json) — 메타까지 그대로 담은 작업 파일. 다시 올리면 이어서 작업한다.
+     ③ 공동 보관함      — 구글 스프레드시트에 누적. 연수가 끝난 뒤에도 우수 사례를 올리고 꺼낸다.
+
+   ③은 주소가 있을 때만 켜진다. 없으면 ①②만으로 완결되며 연수장 인터넷이 끊겨도 진행에 지장이 없다. */
 
 const GAL = [];
 const MAXB = 2 * 1024 * 1024;   // 한 파일 2MB 제한 — 모음집이 감당 못 할 만큼 커지는 것을 막는다
+
+/* 공동 보관함 기본 주소. 배포 뒤 여기에 박아 두면 참가자가 주소를 입력할 필요가 없다.
+   비워 두면 화면의 입력칸에 직접 넣어 쓴다. */
+const GAL_URL = '';
 
 function galCount(){
   const n = GAL.length;
@@ -156,7 +165,8 @@ $('#gClear').onclick = ()=>{
    <\/script> 로 빠져나가지 못하도록 < 를 이스케이프한다. */
 $('#gExport').onclick = ()=>{
   if(!GAL.length) return;
-  const data = JSON.stringify(GAL.map(g=>({t:g.title, w:g.who, m:g.memo, n:g.name, s:g.src})))
+  const data = JSON.stringify(GAL.map(g=>({t:g.title, w:g.who, m:g.memo, n:g.name, s:g.src,
+      u:[(CAT_GROUPS.find(x=>x.k===g.sub)||{}).n, g.unit].filter(Boolean).join(' · '), p:g.topic})))
     .replace(/</g,'\\u003c').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
   const html = `<!DOCTYPE html>
 <html lang="ko">
@@ -182,6 +192,7 @@ header p{margin:0;color:var(--ink2);font-size:14px}
 .c.on{border-color:var(--blue);box-shadow:0 0 0 2px #DBE6FF}
 .n{font-size:11.5px;font-weight:800;color:var(--ink3);letter-spacing:.6px}
 .c h3{margin:0;font-size:15.5px;font-weight:800;line-height:1.35}
+.u{font-size:12px;color:var(--ink3);font-weight:700}
 .w{font-size:12.5px;color:var(--teal);font-weight:700}
 .m{margin:0;font-size:13px;color:var(--ink2)}
 .f{margin-top:auto;font-size:11.5px;color:var(--ink3)}
@@ -215,7 +226,8 @@ var g = document.getElementById('g');
 g.innerHTML = D.map(function(d,i){
   return '<div class="c" data-i="'+i+'">'
     + '<div class="n">' + String(i+1).padStart(2,'0') + '</div>'
-    + '<h3>' + esc(d.t) + '</h3>'
+    + '<h3>' + esc(d.p || d.t) + '</h3>'
+    + (d.u ? '<div class="u">' + esc(d.u) + '</div>' : '')
     + '<div class="w">' + esc(d.w || '이름 없음') + '</div>'
     + '<p class="m">' + esc(d.m || '') + '</p>'
     + '<div class="f">' + esc(d.n) + '</div></div>';
@@ -240,3 +252,132 @@ g.querySelectorAll('.c').forEach(function(c){
 };
 
 galRender();
+
+/* ================= ② 작업 저장 / 불러오기 =================
+   메타(과목·단원·주제·제작자·소개)까지 그대로 담은 작업 파일.
+   「모음집 내려받기」가 열람용이라면 이쪽은 이어서 작업하기 위한 것이다.
+   연수가 끝난 뒤 우수 사례를 골라 올릴 때도 이 파일에서 꺼낸다. */
+const GAL_FMT = 'mathlab-gallery-1';
+
+function galBundle(){
+  return { fmt: GAL_FMT, at: new Date().toISOString(), n: GAL.length,
+    items: GAL.map(g=>({ name:g.name, title:g.title, who:g.who, memo:g.memo,
+      sub:g.sub, unit:g.unit, topic:g.topic, moved:!!g.moved, src:g.src })) };
+}
+function galAdopt(items, mode){
+  if(mode === 'replace') GAL.length = 0;
+  const have = new Set(GAL.map(g=>g.name + '\u0000' + g.src.length));
+  let added = 0, skipped = 0;
+  items.forEach(it=>{
+    if(!it || typeof it.src !== 'string') return;
+    const key = (it.name||'') + '\u0000' + it.src.length;
+    if(have.has(key)){ skipped++; return; }
+    have.add(key);
+    GAL.push({ name:it.name||'이름없음.html', title:it.title||it.name||'제목 없음',
+      who:it.who||'', memo:it.memo||'', sub:it.sub||'', unit:it.unit||'',
+      topic:it.topic||'', moved:!!it.moved, src:it.src, id:it.id||'' });
+    added++;
+  });
+  galRender();
+  return { added, skipped };
+}
+
+$('#gSaveJ').onclick = ()=>{
+  if(!GAL.length){ alert('아직 올라온 자료가 없습니다.'); return; }
+  const d = new Date(), p = n => String(n).padStart(2,'0');
+  dl(JSON.stringify(galBundle()), `연수모음집_작업_${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}.json`,
+     'application/json');
+};
+$('#gLoadJ').onclick = ()=>$('#gfileJ').click();
+$('#gfileJ').onchange = e=>{
+  const f = e.target.files[0]; e.target.value = '';
+  if(!f) return;
+  const rd = new FileReader();
+  rd.onload = ()=>{
+    let b;
+    try { b = JSON.parse(rd.result); } catch { alert('작업 파일을 읽지 못했습니다. 「작업 저장」으로 받은 .json 인지 확인해 주세요.'); return; }
+    const items = Array.isArray(b) ? b : b.items;
+    if(!Array.isArray(items)){ alert('작업 파일의 형식이 아닙니다.'); return; }
+    const mode = GAL.length
+      ? (confirm(`지금 ${GAL.length}편이 올라와 있습니다.\n\n[확인] 지금 것에 이어 붙이기\n[취소] 지금 것을 지우고 파일 것으로 바꾸기`) ? 'merge' : 'replace')
+      : 'replace';
+    const r = galAdopt(items, mode);
+    alert(`${r.added}편을 불러왔습니다.` + (r.skipped ? `\n같은 파일 ${r.skipped}편은 건너뛰었습니다.` : ''));
+  };
+  rd.readAsText(f, 'utf-8');
+};
+
+/* ================= ③ 공동 보관함 (구글 스프레드시트) =================
+   주소가 없으면 버튼이 꺼져 있고, 나머지 기능은 그대로 쓸 수 있다.
+   실패해도 화면은 멈추지 않는다 — 메시지만 띄우고 메모리 모드로 계속 간다. */
+function galUrl(){ return (($('#gurl').value || '').trim() || GAL_URL).replace(/\s/g,''); }
+function gstat(msg, bad){
+  const el = $('#gstat');
+  el.textContent = msg || '';
+  el.className = 'gstat' + (bad ? ' bad' : '');
+}
+function galSyncReady(){
+  const on = /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec/.test(galUrl());
+  $('#gPush').disabled = !on;
+  $('#gPull').disabled = !on;
+  return on;
+}
+if(GAL_URL) $('#gurl').value = GAL_URL;
+$('#gurl').oninput = ()=>{ galSyncReady(); gstat(''); };
+galSyncReady();
+
+async function galFetch(url, opt){
+  const res = await fetch(url, opt);
+  if(!res.ok) throw new Error('보관함이 ' + res.status + ' 를 돌려주었습니다.');
+  const txt = await res.text();
+  let j; try { j = JSON.parse(txt); } catch { throw new Error('보관함 응답을 읽지 못했습니다. 배포를 「모든 사용자」로 하셨는지 확인해 주세요.'); }
+  if(j && j.error) throw new Error(j.error);
+  return j;
+}
+
+$('#gPush').onclick = async ()=>{
+  if(!galSyncReady()) return;
+  const todo = GAL.filter(g=>!g.id);
+  if(!todo.length){ gstat('새로 올릴 것이 없습니다. 이미 전부 보관함에 있습니다.'); return; }
+  $('#gPush').disabled = true;
+  let ok = 0;
+  try{
+    for(const g of todo){
+      const gname = (CAT_GROUPS.find(x=>x.k===g.sub)||{}).n || '';
+      gstat(`올리는 중… ${ok+1}/${todo.length}`);
+      const r = await galFetch(galUrl(), {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },   // preflight 를 피한다
+        body: JSON.stringify({ mode:'put', sub:g.sub, subName:gname, unit:g.unit,
+          topic:g.topic, who:g.who, memo:g.memo, name:g.name, title:g.title, src:g.src })
+      });
+      g.id = r.id; ok++;
+    }
+    gstat(`${ok}편을 보관함에 저장했습니다.`);
+    galRender();
+  }catch(e){
+    gstat(`${ok}편까지 올렸습니다 — ` + e.message, true);
+  }finally{ galSyncReady(); }
+};
+
+$('#gPull').onclick = async ()=>{
+  if(!galSyncReady()) return;
+  $('#gPull').disabled = true;
+  try{
+    gstat('목록을 받는 중…');
+    const list = await galFetch(galUrl() + '?mode=list');
+    const have = new Set(GAL.map(g=>g.id).filter(Boolean));
+    const need = list.filter(r=>!have.has(r.id));
+    if(!need.length){ gstat(`보관함에 ${list.length}편 — 새로 가져올 것이 없습니다.`); return; }
+    const got = [];
+    for(let i=0;i<need.length;i++){
+      gstat(`가져오는 중… ${i+1}/${need.length}`);
+      const it = await galFetch(galUrl() + '?mode=item&id=' + encodeURIComponent(need[i].id));
+      got.push(it);
+    }
+    const r = galAdopt(got, 'merge');
+    gstat(`${r.added}편을 가져왔습니다. (보관함 전체 ${list.length}편)`);
+  }catch(e){
+    gstat(e.message, true);
+  }finally{ galSyncReady(); }
+};

@@ -21,8 +21,9 @@
       </div>
       <label class="ctl">주제 <input type="text" id="gtopic" placeholder="예) 드론으로 건물 높이 재기" maxlength="40"></label>
       <label class="ctl">한 줄 소개 <input type="text" id="memo" placeholder="예) 각도와 거리로 높이를 구하는 자료" maxlength="60"></label>
-      <p class="upnote"><b>서버에 올라가지 않습니다.</b> 파일은 이 브라우저 안에서만 열립니다.
-      새로고침하면 사라지니, 연수 마무리에 반드시 <b>모음집 내려받기</b>를 하세요.</p>
+      <p class="upnote"><b>기본은 이 브라우저 안에서만 열립니다.</b> 새로고침하면 사라지니
+      아래 <b>작업 저장</b>으로 파일 하나를 받아 두세요 — 다음에 <b>작업 불러오기</b>로 그대로 이어집니다.
+      <b>공동 보관함</b> 주소가 들어 있으면 연수가 끝난 뒤에도 우수 사례를 올리고 꺼내 볼 수 있습니다.</p>
     </div>
   </div>
 
@@ -30,10 +31,30 @@
     <div class="gcount" id="gcount">아직 올라온 자료가 없습니다.</div>
     <div class="btns">
       <button class="b t" id="gExport">모음집 내려받기 (HTML 하나)</button>
+      <button class="b" id="gSaveJ">작업 저장 (.json)</button>
+      <button class="b" id="gLoadJ">작업 불러오기</button>
+      <input type="file" id="gfileJ" accept=".json,application/json" hidden>
       <button class="b" id="gCatOut">카탈로그 추가분 내보내기</button>
       <button class="b g" id="gClear">전체 비우기</button>
     </div>
   </div>
+
+  <!-- 공동 보관함 — 연수가 끝나도 남는 곳. 주소가 없으면 안내만 보이고 버튼은 꺼져 있습니다. -->
+  <details class="gsync" id="gsync">
+    <summary><b>공동 보관함</b> — 연수가 끝난 뒤에도 우수 사례를 올리고 꺼내 보기</summary>
+    <div class="gsyncin">
+      <p class="upnote">구글 스프레드시트 한 장에 쌓입니다. 강사가 한 번만 배포해 두면
+      참가자는 <b>로그인 없이</b> 올리고, 다음 연수에서도 그대로 남습니다.
+      배포 방법은 <b>docs/모음집_보관함_설치안내.md</b> 에 있습니다.</p>
+      <label class="ctl">보관함 주소 (Apps Script 웹앱 URL)
+        <input type="text" id="gurl" placeholder="https://script.google.com/macros/s/…/exec"></label>
+      <div class="btns">
+        <button class="b t" id="gPush">보관함에 올리기</button>
+        <button class="b" id="gPull">보관함에서 가져오기</button>
+        <span class="gstat" id="gstat"></span>
+      </div>
+    </div>
+  </details>
 
   <div class="glist" id="glist"></div>
 
