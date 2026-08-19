@@ -105,6 +105,17 @@ p.sub{margin:0 0 22px;color:var(--ink3);font-size:14.5px}
 .cb.none{color:var(--ink3);background:var(--bg)}
 .ca{margin-top:auto;padding-top:7px;font-size:11.5px;color:var(--teal);font-weight:700}
 
+/* ===== 카탈로그 안의 「제작 완료」 항목 — 눌러서 그 실험실을 연다 ===== */
+.citem.made{cursor:pointer;border-color:#C7D7F7;background:linear-gradient(180deg,var(--blue-s) 0%,var(--card) 46%)}
+.citem.made:hover{border-color:var(--blue);box-shadow:0 6px 18px rgba(37,99,235,.13)}
+.citem.made:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.cno{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.cmade{font-size:10px;font-weight:800;letter-spacing:0;color:#fff;background:var(--blue);
+  border-radius:999px;padding:2px 7px}
+.cgo{margin-top:7px;font-size:11.8px;font-weight:800;color:var(--blue)}
+.catgh h4 .gmade{background:var(--blue)}
+.madekey{color:var(--blue)}
+
 /* ===== 실험실 모달의 수학 원리 ===== */
 .prin{margin:0 0 16px;background:var(--card);border:1px solid var(--line);border-radius:13px;overflow:hidden}
 .prinhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;

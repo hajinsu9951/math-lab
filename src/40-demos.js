@@ -3828,8 +3828,17 @@ const THUMBS = [
    '오르다가 평평해졌다 다시 오르는 거리-시간 꺾은선')
 ];
 
+/* 상단 카드는 20종만 — 나머지 실험실은 아래 확장 카탈로그의 제 과목 자리에서 연다.
+   LABS 자체는 44종 그대로 두어야 한다. 데모·탭②·검증이 모두 이 배열을 쓴다.
+   연수 편성(core)은 9/28·10/12 에 실제로 다루고 탭④에 수업·평가 설계까지 있는 것이므로
+   번호가 뒤에 있어도 반드시 상단에 둔다. 나머지는 번호순으로 채우고, 화면에는 다시 번호순으로 늘어놓는다. */
+const TOP_N = 20;
+const TOP = LABS.map((L,i)=>({L,i})).filter(x=>x.L.core)
+  .concat(LABS.map((L,i)=>({L,i})).filter(x=>!x.L.core))
+  .slice(0, TOP_N)
+  .sort((a,b)=>a.i-b.i);
 const cw=$('#cards');
-LABS.forEach((L,i)=>{
+TOP.forEach(({L,i})=>{
   const c=el(`<div class="card">
     <div class="no">LAB ${String(i+1).padStart(2,'0')} <span class="badge ${L.core?'b-core':'b-ext'}">${L.core?'연수 편성':'확장 후보'}</span></div>
     ${THUMBS[i]||''}
@@ -3839,6 +3848,8 @@ LABS.forEach((L,i)=>{
     <div class="go">▶ 직접 조작해 보기</div></div>`);
   c.onclick=()=>open(L,i); cw.appendChild(c);
 });
+/* 카탈로그의 「제작 완료」 카드가 부른다 — 번호만 주면 그 실험실이 열린다 */
+function openLab(i){ if(LABS[i]) open(LABS[i], i); }
 function open(L,i){
   $('#mTitle').textContent=`LAB ${String(i+1).padStart(2,'0')} · ${L.t}`;
   $('#mQ').textContent=L.q;
