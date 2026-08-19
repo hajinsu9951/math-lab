@@ -607,3 +607,20 @@ footer{padding:26px 0 40px;color:var(--ink3);font-size:12.5px;text-align:center}
 .gsyncin .btns{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .gstat{font-size:12.5px;color:var(--ink3)}
 .gstat.bad{color:#B42318;font-weight:700}
+
+/* ---------- 탭① 탐구 보고서 블록 ---------- */
+.iqb{margin-top:18px;border:1px solid var(--line);border-radius:13px;background:#fff;padding:15px 16px 16px}
+.iqh{font-size:14.5px;font-weight:800;color:var(--blue);margin-bottom:10px}
+.iqq{margin:0 0 12px;padding-left:20px;font-size:13.2px;color:var(--ink2);line-height:1.75}
+.iqq li{margin:3px 0}
+.iqq b{color:var(--ink);margin-right:5px}
+.iqbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0}
+.iqn{font-size:12.2px;color:var(--ink3)}
+.iqt{max-height:210px;overflow:auto;border:1px solid var(--line);border-radius:9px}
+.iqt table{width:100%;border-collapse:collapse;font-size:12.8px}
+.iqt th,.iqt td{padding:5px 9px;text-align:center;border-bottom:1px solid var(--line);white-space:nowrap}
+.iqt thead th{position:sticky;top:0;background:#F7F8FA;color:var(--ink2);font-weight:800;z-index:1}
+.iqt tbody tr:nth-child(even){background:#FCFDFE}
+.iqt tbody:empty::after{content:'아직 기록이 없습니다 — 조작하다 「지금 값 기록」을 누르세요'}
+.iqhint{margin:9px 0 0;font-size:12.4px;color:var(--ink3);line-height:1.65}
+.iqpad{margin-top:12px;height:300px;border:1px solid var(--line);border-radius:10px;overflow:hidden;resize:vertical}
