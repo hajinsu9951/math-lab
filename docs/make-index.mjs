@@ -150,7 +150,35 @@ if (goal.length) {
     '---', '');
 }
 if (outline.length) {
-  p('## 3시간 구성', '', '```', ...outline, '```', '', '---', '');
+  // 계획서의 표는 셀이 한 줄씩 풀려 나온다 — 머리 4칸, 대상, 그다음부터 세션이 반복된다.
+  // 세션은 "1. [체험·해체]" 로 열리고 "1H" 로 닫히며, 그 사이 • 로 시작하는 줄이 내용이다.
+  const head = outline.slice(0, 4);                 // 대상 · 단원(또는 단계) · 내용 · 시간
+  const who = [], sess = [];
+  let cur = null;
+  outline.slice(head.length).forEach(l => {
+    if (/^\d+\.\s*\[/.test(l)) { cur = { t: [l], b: [], h: '' }; sess.push(cur); return; }
+    if (!cur) { who.push(l); return; }               // 세션이 열리기 전 줄은 '대상' 칸
+    if (/^\d+\s*H$/i.test(l)) { cur.h = l; return; }
+    if (/^[◦•·]/.test(l)) { cur.b.push(l.replace(/^[◦•·]\s*/, '')); return; }
+    (cur.b.length ? cur.b : cur.t).push(l);          // 제목이 여러 줄로 끊긴 경우
+  });
+
+  p('## 3시간 구성', '');
+  if (who.length) p(`**대상** — ${who.join(' ')}`, '');
+  if (sess.length) {
+    // 한눈에 보는 차례 (내용은 아래 절에 펼친다 — 표 칸에 넣으면 읽을 수 없다)
+    p(`| ${esc(head[1])} | ${esc(head[3])} |`, '|---|---|');
+    sess.forEach(s => p(`| ${esc(s.t.join(' '))} | ${s.h} |`));
+    p('');
+    sess.forEach(s => {
+      p(`### ${s.t.join(' ')}${s.h ? ` · ${s.h}` : ''}`, '');
+      s.b.forEach(b => p(`- ${b}`));
+      p('');
+    });
+  } else {
+    p('```', ...outline, '```', '');
+  }
+  p('---', '');
 }
 if (ladder.length || scenario.length) {
   p('## 운영 시나리오 (강사용)', '',

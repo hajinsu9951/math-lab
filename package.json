@@ -10,7 +10,8 @@
     "open": "node build.mjs && node -e \"console.log('dist/index.html 을 브라우저로 여세요')\"",
     "ppt": "node docs/make-ppt.mjs",
     "ppt:check": "node docs/render-check.mjs",
-    "docs": "node build.mjs && node docs/make-index.mjs"
+    "docs": "node build.mjs && node docs/make-index.mjs && node docs/make-ppt-md.mjs",
+    "ppt:md": "node docs/make-ppt-md.mjs"
   },
   "devDependencies": {
     "playwright": "^1.62.1",
