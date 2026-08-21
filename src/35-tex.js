@@ -10,12 +10,17 @@
 
 const TEX_GREEK = {alpha:'α',beta:'β',gamma:'γ',delta:'δ',epsilon:'ε',varepsilon:'ε',
   theta:'θ',lambda:'λ',mu:'μ',pi:'π',rho:'ρ',sigma:'σ',tau:'τ',phi:'φ',omega:'ω',
-  Delta:'Δ',Sigma:'Σ',Omega:'Ω',Phi:'Φ'};
+  Delta:'Δ',Sigma:'Σ',Omega:'Ω',Phi:'Φ',ell:'ℓ'};
 const TEX_OPS = {cdot:'·',times:'×',div:'÷',pm:'±',mp:'∓',le:'≤',leq:'≤',ge:'≥',geq:'≥',
   ne:'≠',neq:'≠',approx:'≈',equiv:'≡',to:'→',rightarrow:'→',Rightarrow:'⇒',
   in:'∈',notin:'∉',mid:'∣',cap:'∩',cup:'∪',ldots:'…',cdots:'⋯',infty:'∞',
-  partial:'∂',propto:'∝',because:'∵',therefore:'∴'};
-const TEX_FUNCS = ['sin','cos','tan','sec','csc','cot','log','ln','exp','max','min','arg','det'];
+  partial:'∂',propto:'∝',because:'∵',therefore:'∴',
+  Leftrightarrow:'⇔',Longleftrightarrow:'⟺',leftrightarrow:'↔',mapsto:'↦',
+  parallel:'∥',perp:'⊥',angle:'∠',triangle:'△',circ:'∘',
+  varnothing:'∅',emptyset:'∅',subset:'⊂',subseteq:'⊆',supset:'⊃',supseteq:'⊇',
+  sim:'∼',cong:'≅',forall:'∀',exists:'∃',setminus:'∖',land:'∧',lor:'∨'};
+const TEX_FUNCS = ['sin','cos','tan','sec','csc','cot','log','ln','exp','max','min','arg','det','gcd','lcm'];
+const TEX_BB = {N:'ℕ',Z:'ℤ',Q:'ℚ',R:'ℝ',C:'ℂ',P:'ℙ'};
 
 function xe(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
@@ -53,7 +58,55 @@ function texToMathML(src, block){
     if(t.t==='sc'){ p++; return ''; }              // 홀로 온 첨자 기호는 버린다
     /* cmd */
     const v = t.v; p++;
-    if(v==='frac'){ const a=atom(), b=atom(); return '<mfrac>'+a+b+'</mfrac>'; }
+    if(v==='frac'||v==='tfrac'||v==='dfrac'){ const a=atom(), b=atom(); return '<mfrac>'+a+b+'</mfrac>'; }
+    if(v==='{'||v==='}'||v==='%'||v==='&'||v==='#') return '<mo>'+xe(v)+'</mo>';
+    if(v==='\\') return '<mspace linebreak="newline"/>';
+    if(v==='lim') return '<mo movablelimits="false">lim</mo>';
+    if(v==='int') return '<mo>&#x222B;</mo>';
+    if(v==='not'){
+      const q=T[p];
+      if(q&&q.t==='cmd'){ p++;
+        if(q.v==='Rightarrow') return '<mo>&#x21CF;</mo>';
+        if(q.v==='Leftrightarrow') return '<mo>&#x21CE;</mo>';
+        if(q.v==='in') return '<mo>&#x2209;</mo>';
+        if(q.v==='equiv') return '<mo>&#x2262;</mo>';
+        return '<mo>&#xAC;</mo><mo>'+(TEX_OPS[q.v]||xe(q.v))+'</mo>';
+      }
+      if(q&&q.t==='op'&&q.v==='='){ p++; return '<mo>&#x2260;</mo>'; }
+      return '<mo>&#xAC;</mo>';
+    }
+    if(v==='mathbb'){
+      if(T[p]&&T[p].t==='{'){ p++; let out='';
+        while(p<T.length&&T[p].t!=='}'){ const q=T[p];
+          out+=(q.t==='id'&&TEX_BB[q.v])?'<mi mathvariant="normal">'+TEX_BB[q.v]+'</mi>':'<mi>'+xe(q.v||'')+'</mi>'; p++; }
+        if(T[p]) p++;
+        return out;
+      }
+      return '';
+    }
+    if(v==='begin'){
+      // egin{cases} 행1 \ 행2 end{cases} — 왼 중괄호 + 세로 나열
+      if(T[p]&&T[p].t==='{'){ let d=1; p++;
+        while(p<T.length&&d){ if(T[p].t==='{')d++; if(T[p].t==='}')d--; p++; } }
+      const rows=[]; let cur=[];
+      while(p<T.length){
+        const q=T[p];
+        if(q.t==='cmd'&&q.v==='end'){ p++;
+          if(T[p]&&T[p].t==='{'){ let d=1; p++;
+            while(p<T.length&&d){ if(T[p].t==='{')d++; if(T[p].t==='}')d--; p++; } }
+          break; }
+        if(q.t==='cmd'&&q.v==='\\'){ p++; rows.push(cur); cur=[]; continue; }
+        if(q.t==='sc'){ const kind=q.v; p++; const sc2=atom();
+          const base=cur.pop()||'<mrow></mrow>';
+          cur.push((kind==='_'?'<msub>':'<msup>')+base+sc2+(kind==='_'?'</msub>':'</msup>'));
+          continue; }
+        cur.push(atom());
+      }
+      rows.push(cur);
+      return '<mrow><mo stretchy="true">{</mo><mtable columnalign="left">'
+        + rows.map(r=>'<mtr><mtd>'+r.join('')+'</mtd></mtr>').join('')
+        + '</mtable></mrow>';
+    }
     if(v==='sqrt'){
       if(T[p] && T[p].t==='op' && T[p].v==='['){
         p++; const idx=[];
@@ -109,7 +162,7 @@ function texToMathML(src, block){
       if(t.t==='sc'){
         const kind=t.v; p++; const s=atom();
         const base = out.pop() || '<mrow></mrow>';
-        const big = /&#x2211;|&#x220F;/.test(base);      // ∑ ∏ 는 위아래로 붙인다
+        const big = /&#x2211;|&#x220F;|>lim</.test(base);      // ∑ ∏ 는 위아래로 붙인다
         let second=null, kind2=null;
         if(T[p] && T[p].t==='sc' && T[p].v!==kind){ kind2=T[p].v; p++; second=atom(); }
         if(second!==null){

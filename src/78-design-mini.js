@@ -91,6 +91,13 @@ function writePad(root, label){
   };
   if(window.ResizeObserver) new ResizeObserver(()=>fit()).observe(root);
   fit();
+  /* 손잡이 — 「예상을 쓴 다음에 자료를 연다」 같은 데서 실제로 썼는지 물어본다.
+     기존 호출부는 반환값을 쓰지 않으므로 그대로 두어도 된다. */
+  return {
+    canvas: cv,
+    hasInk: ()=> strokes.some(st=>st.c !== '#ffffff' && st.p.length > 1),
+    onInk: fn => { root.addEventListener('pointerup', fn); root.addEventListener('pointerleave', fn); }
+  };
 }
 
 const MINI = {
