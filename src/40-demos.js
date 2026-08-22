@@ -3971,7 +3971,135 @@ const PRINS = [
   eq:'S = −(w−5)² + 25 → w=5 에서 최대',
   what:'이차함수가 “그래프 단원”이 아니라 <b>결정의 도구</b>임을 겪습니다. 접으면(완전제곱) 최적점이 좌표로 튀어나옵니다.',
   probe:'w = 4.9 와 5.1 의 넓이가 같은 것을 확인하세요 — 봉우리 좌우의 대칭이 “왜 같을 때 최대인가”의 그림입니다.',
-  link:'이차함수 활용의 대표 문제입니다. 고교 미분(LAB 카탈로그의 최적화)으로 가는 가장 자연스러운 다리입니다.'}
+  link:'이차함수 활용의 대표 문제입니다. 고교 미분(LAB 카탈로그의 최적화)으로 가는 가장 자연스러운 다리입니다.'},
+
+/* 53 곱셈공식 넓이 */
+ {tex:[
+   {t:'(a+b)^2 = a^2 + 2ab + b^2', s:'큰 정사각형이 네 조각 — a² 하나, ab <b>둘</b>, b² 하나. 2ab 의 「2」는 조각의 개수입니다.'},
+   {t:'(a-b)^2 = a^2 - 2ab + b^2', s:'a² 에서 a×b 기둥을 두 번 빼면 모서리가 <b>겹쳐서 두 번</b> 빠집니다 — 겹친 b² 을 한 번 되돌리는 것이 마지막 항입니다.'},
+   {t:'(a+b)(a-b) = a^2 - b^2', s:'같은 그림에서 조각 하나를 잘라 옮기면 가운데 항이 아예 사라집니다 — 합차 공식(LAB 47)과 한 가족입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'21² 을 3초에', d:'21² = (20+1)² 을 네 조각(400+40+40+1)으로 암산해 보세요. 19² 은 차의 제곱으로.'},
+   {lv:'심화',   t:'(a+b)³ 은 몇 조각?', d:'정육면체를 같은 방식으로 자르면 조각이 몇 개이고 각각 무엇일지 예상하고, 전개식과 맞춰 보세요.'},
+   {lv:'프로젝트', t:'겹침 세기의 수학', d:'두 번 뺀 것을 되돌리는 아이디어(포함배제)로 「1~100 중 2 또는 3 의 배수」를 세는 문제를 만들어 해설하세요.'}
+  ],
+  eq:'(a±b)² = a² ± 2ab + b²',
+  what:'곱셈공식이 외울 주문이 아니라 <b>넓이 분할의 목록</b>임을 확인합니다. 각 항이 그림의 조각 하나와 정확히 짝지어집니다.',
+  probe:'a=b 로 만들어 보세요 — 네 조각이 같아지며 (2a)² = 4a² 이 저절로 나옵니다. 특수한 경우가 공식을 검산해 줍니다.',
+  link:'다항식의 곱셈 도입 차시. 인수분해(LAB 47)·완전제곱식(LAB 50)이 모두 이 그림의 역방향입니다.'},
+
+/* 54 특수각 삼각비 */
+ {tex:[
+   {t:'\\sin 30^\\circ = \\frac{1}{2}, \\; \\cos 30^\\circ = \\frac{\\sqrt{3}}{2}', s:'한 변 2 인 정삼각형을 반으로 — 빗변 2, 밑변 1, 높이 √3. 세 값이 이 한 그림에서 다 나옵니다.'},
+   {t:'\\sin 45^\\circ = \\cos 45^\\circ = \\frac{\\sqrt{2}}{2}', s:'한 변 1 인 정사각형의 대각선 — 1:1:√2. 두 직각변이 같으니 sin 과 cos 도 같습니다.'},
+   {t:'\\sin^2\\theta + \\cos^2\\theta = 1', s:'세 특수각 모두에서 성립합니다 — 빗변 1 인 직각삼각형의 피타고라스 정리 그 자체이기 때문입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'짝의 발견', d:'sin 30° = cos 60°, sin 60° = cos 30° — 우연인지 표에서 확인하고 「남은 각」으로 설명해 보세요.'},
+   {lv:'심화',   t:'15° 는 왜 안 깔끔한가', d:'특수각이 아닌 각의 삼각비가 「깔끔한 수」가 아닌 이유를, 정다각형 작도 가능성과 이어 조사해 보세요.'},
+   {lv:'프로젝트', t:'경사로 안전 기준', d:'휠체어 경사로의 법정 기울기(1/12)를 각도와 tan 으로 환산하고, 학교 경사로를 실측해 판정 보고서를 쓰세요.'}
+  ],
+  eq:'30°·45°·60° — 두 도형에서 나온 세 기준값',
+  what:'특수각의 값이 <b>정삼각형·정사각형이라는 출생지</b>를 갖는다는 사실을 확인합니다. 암기가 아니라 도형 두 개를 반으로 자르는 일입니다.',
+  probe:'자석에 붙는 순간에만 값이 분수·근호로 깔끔해지는 것을 보세요 — 37° 같은 각은 소수 근삿값뿐입니다. 그 차이가 「특수」의 뜻입니다.',
+  link:'삼각비 도입 직후. 삼각비의 표(LAB 55)와 측량(LAB 05)으로 가기 전 기준값을 몸에 붙이는 차시입니다.'},
+
+/* 55 삼각비 표와 보간 */
+ {tex:[
+   {t:'\\sin 35^\\circ = 0.5736, \\; \\sin 40^\\circ = 0.6428', s:'표는 띄엄띄엄 — 필요한 37° 는 표에 없습니다. 수학자들은 표 사이를 <b>직선으로 이어</b> 읽었습니다.'},
+   {t:'\\sin 37^\\circ \\approx 0.5736 + \\frac{2}{5}(0.6428-0.5736) = 0.6013', s:'일차 보간 — 두 칸 사이를 2/5 만큼 간 지점. 참값 0.6018 과 소수 셋째 자리까지 같습니다.'},
+   {t:'\\cos(90^\\circ - \\theta) = \\sin\\theta', s:'표를 반만 만들어도 되는 이유 — 직각삼각형의 남은 각이 90°−θ 라서 sin 표가 곧 cos 표입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'tan 표도 만들기', d:'같은 방법으로 tan 표를 만들고, 80° 근처에서 보간 오차가 왜 커지는지 확인하세요 — 급하게 휘는 곳은 직선이 못 따라갑니다.'},
+   {lv:'심화',   t:'표 간격의 경제학', d:'간격을 1°로 좁히면 정확하지만 표가 큽니다. 오차 0.001 이내로 만들 최소 간격을 실험으로 정해 보세요.'},
+   {lv:'프로젝트', t:'게임 엔진의 룩업 테이블', d:'sin 을 매번 계산하는 대신 표+보간을 쓰는 코드의 속도 이득을 조사하고, 미니 표 라이브러리를 설계해 보세요.'}
+  ],
+  eq:'표 + 일차 보간 = 계산기 이전의 계산기',
+  what:'함수값을 <b>미리 계산해 두고 사이를 직선으로 잇는</b> 기술을 체험합니다. 400년 전 항해사도, 오늘의 게임 엔진도 같은 방법을 씁니다.',
+  probe:'표를 성기게(15° 간격) 만들어 같은 보간을 해 보세요 — 오차가 훌쩍 큽니다. 표의 촘촘함과 정확도의 거래가 눈에 보입니다.',
+  link:'삼각비 단원의 활용 차시. 중2 일차함수(두 점을 잇는 직선)가 도구로 재등장하는 지점입니다.'},
+
+/* 56 원주각 */
+ {tex:[
+   {t:'\\angle APB = \\frac{1}{2}\\angle AOB', s:'같은 호를 바라보는 원주각은 중심각의 절반 — P 가 어디에 있든 변하지 않습니다.'},
+   {t:'\\angle AOB = 180^\\circ \\;\\Rightarrow\\; \\angle APB = 90^\\circ', s:'호가 반원이면 원주각은 직각 — <b>탈레스의 정리</b>입니다. 지름만 그으면 직각이 공짜로 나옵니다.'},
+   {t:'OP = OA = OB = r', s:'증명의 열쇠 — 중심과 이은 세 선분이 모두 반지름이라 이등변삼각형 두 개가 생기고, 바깥각 정리가 「2배」를 만듭니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'직각 만들기 기계', d:'종이에 원을 그리고 지름을 그은 뒤, 원 위 아무 점이나 이어 직각삼각형을 다섯 개 만들어 각도기로 검산하세요.'},
+   {lv:'심화',   t:'같은 쪽·반대쪽', d:'P 를 호 AB 와 같은 쪽으로 옮기면 각이 180°−θ 가 됩니다 — 내접 사각형(LAB 58)의 대각합이 여기서 나옵니다.'},
+   {lv:'프로젝트', t:'골대가 가장 넓어 보이는 자리', d:'축구장에서 골대를 같은 각으로 보는 자리들이 원을 이룹니다. 드리블 경로 위에서 슛 각이 최대가 되는 지점을 작도로 찾으세요.'}
+  ],
+  eq:'원주각 = 중심각 ÷ 2 — 위치와 무관',
+  what:'원이 <b>각을 보존하는 곡선</b>임을 발견합니다. 「어디서 보나 같다」는 불변량의 첫 경험이고, 탈레스는 그 특수한 경우입니다.',
+  probe:'P 를 끌 때 각도 표시가 소수 첫째 자리까지 안 변하는 것을 확인하세요 — 우연이 아니라 정리입니다. A·B 를 끌면 그때만 변합니다.',
+  link:'원의 성질 단원의 중심 정리. 내접 사각형(LAB 58)·접선(LAB 57)과 삼각 측량의 뿌리가 됩니다.'},
+
+/* 57 원의 접선 */
+ {tex:[
+   {t:'OA \\perp PA', s:'접선은 접점에서 반지름과 직각 — 원에 「스치기만」 하려면 이 각도뿐입니다.'},
+   {t:'PA = PB = \\sqrt{OP^2 - r^2}', s:'직각이 생기는 순간 피타고라스가 접선의 길이를 계산해 줍니다 — 두 접선이 같은 이유이기도 합니다(합동).'},
+   {t:'\\text{가시 범위} = 2\\cos^{-1}\\frac{r}{OP} < 180^\\circ', s:'위성이 아무리 높아도 반구를 넘겨 볼 수는 없습니다 — 접선이 만드는 기하학적 한계입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'정지궤도 위성의 시야', d:'지구 반지름 6371km, 정지궤도 35786km 를 넣어 가시 범위를 계산하고, 위성 몇 대면 전 지구를 덮는지 구하세요.'},
+   {lv:'심화',   t:'두 접선의 합동 증명', d:'△OPA ≡ △OPB 를 RHS 합동으로 증명해 「접선의 길이는 같다」를 완성하세요.'},
+   {lv:'프로젝트', t:'등대의 사각지대', d:'해안선(원호)과 등대 위치를 정해 불빛이 닿지 않는 사각지대를 접선으로 작도하고 지도로 만들어 보세요.'}
+  ],
+  eq:'PA = √(OP² − r²) · 반지름⊥접선',
+  what:'「스친다」는 말이 <b>직각이라는 정확한 조건</b>으로 번역되는 것을 봅니다. 직각 하나가 길이 공식과 가시 범위 한계를 모두 낳습니다.',
+  probe:'P 를 원에 바짝 붙여 보세요 — 접선 길이가 0 으로, 가시 범위도 0 으로 무너집니다. 공식의 극한 상태가 그림으로 확인됩니다.',
+  link:'원의 성질 마무리 차시. 피타고라스(중2)가 원 위에서 재활용되는 지점이고, 고교 원의 방정식·판별식 접선 문제의 원형입니다.'},
+
+/* 58 내접 사각형 */
+ {tex:[
+   {t:'\\angle A + \\angle C = 180^\\circ', s:'마주보는 두 각의 합은 반드시 180° — 모양을 아무리 바꿔도 원 위에 있는 한 변하지 않습니다.'},
+   {t:'\\angle A = \\frac{1}{2}(\\text{호 } BCD), \\; \\angle C = \\frac{1}{2}(\\text{호 } DAB)', s:'두 각은 각각 반대쪽 호의 절반(원주각) — 두 호를 합치면 원 전체 360° 이므로 각의 합은 180°.'},
+   {t:'\\angle A + \\angle C \\ne 180^\\circ \\;\\Rightarrow\\; \\text{네 점은 한 원 위가 아니다}', s:'대우 — 대각합은 「네 점이 한 원 위」를 판정하는 시험지가 됩니다. D 를 떼는 순간 무너지는 이유입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'붙임각 정리', d:'한 변을 연장해 만든 바깥각이 「반대쪽 안쪽 각」과 같음을 대각합 180° 에서 유도하세요.'},
+   {lv:'심화',   t:'원 위 판정 실전', d:'좌표 네 점이 한 원 위에 있는지 대각합으로 판정하는 절차를 만들고, 한 점을 조금씩 옮기며 민감도를 조사하세요.'},
+   {lv:'프로젝트', t:'프톨레마이오스로 가는 길', d:'내접 사각형에서 대각선과 변 사이에 성립하는 프톨레마이오스 정리를 조사하고, 특수한 경우가 피타고라스가 됨을 확인하세요.'}
+  ],
+  eq:'내접 사각형 ⇔ 대각의 합 180°',
+  what:'「원 위에 있다」는 위치 조건이 <b>각도를 묶는 구속</b>임을 반례와 함께 체험합니다. 조건⇒결론과 그 대우가 한 화면에 다 있습니다.',
+  probe:'D 를 원 안쪽으로 넣을 때와 바깥으로 뺄 때 합이 반대 방향으로 틀어지는 것을 비교하세요 — 180° 는 정확히 원 위에서만 성립합니다.',
+  link:'원주각(LAB 56)의 직접 응용. 「판정 조건」이라는 사고방식이 고1 명제 단원으로 이어집니다.'},
+
+/* 59 상자그림 */
+ {tex:[
+   {t:'\\text{IQR} = Q_3 - Q_1', s:'가운데 절반이 퍼진 폭 — 상자의 길이입니다. 극단값의 영향을 받지 않는 「순서 기반」 산포도입니다.'},
+   {t:'\\text{이상치} : x < Q_1 - 1.5\\,\\text{IQR} \\;\\text{또는}\\; x > Q_3 + 1.5\\,\\text{IQR}', s:'수염의 한계 — 이 선을 넘는 점은 자동으로 분리됩니다. 「멀다」에 숫자 기준을 준 것입니다.'},
+   {t:'\\text{중앙값은 버티고 평균은 끌려간다}', s:'한 점이 아무리 커져도 순서는 한 칸만 바뀝니다 — 상자·중앙값이 강건한 이유이고, 평균과의 차이가 이상치의 경보가 됩니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'우리 반 기록으로', d:'실제 체력 기록(오래달리기 등)으로 상자그림을 그리고, 1.5×IQR 기준으로 이상치가 있는지 판정하세요.'},
+   {lv:'심화',   t:'왜 하필 1.5인가', d:'1.0·2.0 으로 바꾸면 이상치 개수가 어떻게 변하는지 실험하고, 1.5 가 관례가 된 사연을 조사하세요.'},
+   {lv:'프로젝트', t:'두 반 비교 리포트', d:'두 학급 기록을 나란한 상자그림으로 그려 「어느 반이 더 고른가」를 IQR 로 판정하는 보고서를 쓰세요.'}
+  ],
+  eq:'다섯 수 요약 + 1.5×IQR 이상치 규칙',
+  what:'분포 전체를 <b>다섯 개의 수로 요약</b>하고, 이상치를 눈대중이 아니라 <b>규칙으로</b> 골라내는 도구를 익힙니다.',
+  probe:'점 하나를 천천히 끌며 수염 한계를 넘는 정확한 순간을 잡아 보세요 — 「이상하다」가 부등식 하나로 바뀌는 순간입니다.',
+  link:'2022 개정에서 새로 들어온 내용입니다. 대푯값(LAB 33)·산점도(LAB 60)와 함께 데이터 리터러시 축을 완성합니다.'},
+
+/* 60 이상치와 상관 */
+ {tex:[
+   {t:'r = \\frac{\\sum (x-\\bar{x})(y-\\bar{y})}{\\sqrt{\\sum(x-\\bar{x})^2}\\sqrt{\\sum(y-\\bar{y})^2}}', s:'r 은 평균에서 잰 편차의 곱으로 만들어집니다 — 평균에서 먼 점일수록 발언권이 큽니다.'},
+   {t:'r_{12} = 0.98 \\;\\rightarrow\\; r_{13} = 0.6\\text{대}', s:'열두 점이 만든 상관을 한 점이 무너뜨립니다 — 표본이 작을수록 한 점의 권력은 더 큽니다.'},
+   {t:'\\text{제외는 계산이 아니라 판단이다}', s:'입력 실수는 지우고, 진짜 특이 사례는 남겨 따로 보고합니다 — 다시 계산하는 것은 그다음 일입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'가장 파괴적인 구석', d:'네 구석에 이상치를 하나씩 넣어 r 의 낙폭을 재고, 어느 위치가 왜 가장 센지 편차의 곱으로 설명하세요.'},
+   {lv:'심화',   t:'강건한 상관', d:'순위로 바꿔 계산하는 스피어만 상관을 조사해 같은 자료에 적용하고, 이상치에 덜 흔들리는지 비교하세요.'},
+   {lv:'프로젝트', t:'데이터 정제 규약 만들기', d:'우리 반 설문 데이터의 이상치 처리 규칙(언제 지우고, 언제 남기고, 어떻게 기록하는지)을 문서로 만들어 보세요.'}
+  ],
+  eq:'점 하나 ↔ r 급변 — 정제는 판단의 문제',
+  what:'상관계수가 <b>모든 점의 민주주의가 아니라는 것</b>을 체험합니다. 평균에서 먼 한 점이 결론을 좌우할 수 있고, 그래서 정제가 분석의 절반입니다.',
+  probe:'같은 이상치를 대각선 방향(추세와 같은 방향) 구석에 넣어 보세요 — 이번엔 r 이 오히려 올라갑니다. 이상치가 상관을 「만들 수도」 있습니다.',
+  link:'산점도와 상관관계 단원의 마무리. LAB 06(상관계수)·LAB 59(상자그림)와 함께 「자료를 의심하는 눈」을 완성합니다.'}
 ];
 
 /* ============ 10종 실험실 정의 ============ */
@@ -4185,7 +4313,39 @@ const LABS=[
 {n:52,core:0,t:'“울타리 20m 의 최대 넓이” 이차함수 최적화',q:'울타리 20m 로 가장 넓은 땅을 만들려면?',
  m:['이차함수의 최대·최소','완전제곱식','정의역'],a:['최적화','제약 조건'],
  note:'모서리를 끌면 넓이 그래프에 지금 위치가 찍힙니다. 봉우리(w=5, 정사각형)를 찾고, S=−(w−5)²+25 로 그 좌표를 증명하세요. 정의역 밖(w>10)이 왜 무의미한지도 화면이 말해 줍니다.',
- build:fenceDemo}
+ build:fenceDemo},
+{n:53,core:0,t:'“전개를 그림으로” 곱셈공식의 넓이 모형',q:'식의 전개를 그림으로 볼 수 있을까?',
+ m:['곱셈공식','(a+b)²·(a−b)²','다항식의 전개'],a:['포함배제','기호↔도형 번역'],
+ note:'a·b 경계를 끌면 (a+b)² 의 네 조각이 실제 넓이로 움직입니다. (a−b)² 모드에서는 두 번 뺀 겹침을 b² 만큼 되돌리는 순간 — 공식의 +b² — 이 그림에서 먼저 나옵니다.',
+ build:xpDemo},
+{n:54,core:0,t:'“왜 하필 그 수일까” 특수각의 삼각비',q:'30°·45°·60° 의 값은 왜 그 수일까?',
+ m:['삼각비','특수각','정삼각형·정사각형'],a:['삼각함수 테이블','정밀 기준값'],
+ note:'사분원의 점을 끌면 특수각에서 자석처럼 붙으며 sin·cos·tan 의 정확한 값(분수·근호)이 뜹니다. 「근거」 버튼이 정삼각형 반쪽(1:√3:2)·정사각형 반쪽(1:1:√2)을 그려 값의 출생지를 보여 줍니다.',
+ build:taDemo},
+{n:55,core:0,t:'“계산기 이전의 계산기” 삼각비의 표와 보간',q:'계산기 없던 시절엔 어떻게 구했을까?',
+ m:['삼각비의 표','일차 보간','함수의 증가'],a:['룩업 테이블','근사 계산'],
+ note:'각을 바꿔 가며 나만의 sin 표를 만들고, 표에 없는 sin 37° 를 이웃 두 칸을 직선으로 이어 추정합니다. 컴퓨터 그래픽·게임 엔진이 지금도 쓰는 룩업 테이블+보간의 원형입니다.',
+ build:tbDemo},
+{n:56,core:0,t:'“어디서 봐도 같은 각” 원주각',q:'카메라의 시야각은 어디서 같아질까?',
+ m:['원주각','중심각','탈레스의 정리'],a:['시야 범위','카메라 배치'],
+ note:'P 를 원 위 어디로 끌어도 원주각이 변하지 않는 것, 중심각이 정확히 그 두 배인 것, 지름을 만들면 90°(탈레스)가 되는 것 — 세 발견이 한 화면에서 이어집니다.',
+ build:iaDemo},
+{n:57,core:0,t:'“위성은 어디까지 보나” 원의 접선',q:'위성은 지구의 어디까지 보일까?',
+ m:['접선','접선의 길이','피타고라스 정리'],a:['가시 범위','통신 커버리지'],
+ note:'위성을 끌면 두 접선과 가시 범위(붉은 호)가 따라 움직입니다. 두 접선의 길이가 늘 같은 것, 아무리 멀어도 반구(180°)를 못 넘는 것, PA² = OP² − r² 검산까지.',
+ build:tnDemo},
+{n:58,core:0,t:'“네 점이 한 원 위에 있다면” 내접 사각형',q:'네 점이 한 원 위에 있으면 무엇이 정해질까?',
+ m:['원에 내접하는 사각형','원주각','대각의 합'],a:['기하 제약 검사','형상 판정'],
+ note:'꼭짓점을 원을 따라 끌면 모양이 아무리 변해도 대각의 합은 180°. D 를 원에서 떼어 내는 순간 그 약속이 무너집니다 — 조건과 결론의 관계를 반례로 체험합니다.',
+ build:cyDemo},
+{n:59,core:0,t:'“이상치를 자동으로 찾는 그림” 상자그림',q:'이상치를 눈으로 찾으려면?',
+ m:['상자그림','사분위수·IQR','이상치 판정'],a:['분포 시각화','데이터 정제'],
+ note:'기록 점을 끌어 멀리 보내면 1.5×IQR 수염 한계를 넘는 순간 자동으로 이상치로 분리됩니다. 평균은 끌려가는데 상자는 버티는 것 — 순서 기반 통계의 강건함이 한눈에 보입니다.',
+ build:bxDemo},
+{n:60,core:0,t:'“점 하나의 권력” 이상치와 상관',q:'점 하나가 결론을 바꿀 수 있을까?',
+ m:['산점도','상관계수','자료의 정제'],a:['데이터 정제','로버스트 통계'],
+ note:'구석에 이상치를 찍으면 r 이 0.98 → 0.6 대로 무너지고, 제외 토글이 되살립니다. 지워도 되는 점(입력 실수)과 지우면 안 되는 점(진짜 특이 사례)의 구분까지 다룹니다.',
+ build:ocDemo}
 ];
 
 /* ---------- LAB 21 y = x 대칭의 발견 (역함수) ---------- */
@@ -5309,6 +5469,614 @@ function fenceDemo(root){
               (25-S.w*(10-S.w)).toFixed(2)] });
 }
 
+/* ═══════════════ 중학교 3학년 2차 (LAB 53~60) ═══════════════ */
+
+/* ---------- LAB 53 곱셈공식을 넓이로 보기 ---------- */
+function xpDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="xp1" width="400" height="300"></canvas>
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b t sm" id="xpSum">(a+b)² 모드</button>
+        <button class="b t sm" id="xpDif">(a−b)² 모드</button>
+        <span id="xpStep"></span></div>
+    </div>
+    <div class="col">
+      <div class="out" id="xpout"></div>
+      <div class="note" style="margin-top:12px"><b>주황 손잡이</b>로 a·b 의 경계를 끄세요.
+      전개 공식의 각 항이 <b>진짜 넓이 조각</b>으로 보입니다. (a−b)² 모드에서는
+      두 번 뺀 겹침을 b² 만큼 <b>되돌려 주는</b> 순간이 공식의 +b² 입니다.</div>
+    </div></div>`;
+  const cv=$('#xp1'),ctx=cv.getContext('2d'),W=400,H=300;
+  const S={ mode:'sum', a:6, st:0 };                    // a+b=10 고정, st: 차모드 단계
+  const SC=22, px=52, py=44;
+  function draw(){
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const a=S.a, b=10-a;
+    if(S.mode==='sum'){
+      const T=10*SC;
+      ctx.strokeStyle='#374151'; ctx.lineWidth=1.8; ctx.strokeRect(px,py,T,T);
+      // a² / ab / ab / b²
+      ctx.fillStyle='rgba(37,99,235,.22)';  ctx.fillRect(px,py+ b*SC, a*SC, a*SC);
+      ctx.fillStyle='rgba(180,83,9,.25)';   ctx.fillRect(px+a*SC,py+b*SC, b*SC, a*SC);
+      ctx.fillStyle='rgba(180,83,9,.25)';   ctx.fillRect(px,py, a*SC, b*SC);
+      ctx.fillStyle='rgba(14,147,132,.25)'; ctx.fillRect(px+a*SC,py, b*SC, b*SC);
+      ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(px+a*SC,py); ctx.lineTo(px+a*SC,py+T); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(px,py+b*SC); ctx.lineTo(px+T,py+b*SC); ctx.stroke();
+      ctx.fillStyle='#111827'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('a²='+(a*a), px+a*SC/2, py+b*SC+a*SC/2);
+      ctx.fillText('ab='+(a*b), px+a*SC+b*SC/2, py+b*SC+a*SC/2);
+      ctx.fillText('ab='+(a*b), px+a*SC/2, py+b*SC/2+4);
+      ctx.fillText('b²='+(b*b), px+a*SC+b*SC/2, py+b*SC/2+4);
+      handle(ctx, px+a*SC, py+T, '#B45309', 'a='+a+' b='+b);
+      const same=a===b;
+      $('#xpout').innerHTML =
+        `<span class="mono" style="font-size:15.5px">(a+b)² = a² + 2ab + b²<br>(${a}+${b})² = ${a*a} + ${2*a*b} + ${b*b} = <b>${(a+b)*(a+b)}</b></span><br>`
+        + (same?`<b style="color:#0E9384">a = b = 5 — 네 조각이 같아졌습니다 (25 × 4 = 100).</b>`
+               :`<span style="color:#6B7280;font-size:12.5px">가운데 두 조각(ab)이 왜 <b>둘</b>인지가 2ab 의 정체입니다.</span>`);
+      $('#xpStep').innerHTML='';
+    } else {
+      const A=9, B=10-S.a>3?10-S.a:3;                   // 차모드: a=9 고정, b=3~? 간단히 b=3
+      const b2=3, T=A*SC*1.2;
+      ctx.strokeStyle='#374151'; ctx.lineWidth=1.8; ctx.strokeRect(px,py,T,T);
+      ctx.fillStyle='rgba(37,99,235,.13)'; ctx.fillRect(px,py,T,T);
+      ctx.fillStyle='#111827'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('a² = 81 (a=9)', px+T/2, py-8);
+      const bw=b2*SC*1.2;
+      if(S.st>=1){ ctx.fillStyle='rgba(190,18,60,.3)'; ctx.fillRect(px+T-bw,py,bw,T);
+        ctx.strokeStyle='#BE123C'; ctx.strokeRect(px+T-bw,py,bw,T);
+        ctx.fillStyle='#BE123C'; ctx.fillText('−ab', px+T-bw/2, py+T/2); }
+      if(S.st>=2){ ctx.fillStyle='rgba(190,18,60,.3)'; ctx.fillRect(px,py+T-bw,T,bw);
+        ctx.strokeStyle='#BE123C'; ctx.strokeRect(px,py+T-bw,T,bw);
+        ctx.fillStyle='#BE123C'; ctx.fillText('−ab', px+T/2-bw, py+T-bw/2+4);
+        ctx.fillStyle='rgba(120,7,40,.55)'; ctx.fillRect(px+T-bw,py+T-bw,bw,bw);
+        ctx.fillStyle='#fff'; ctx.fillText('겹침!', px+T-bw/2, py+T-bw/2+4); }
+      if(S.st>=3){ ctx.fillStyle='rgba(14,147,132,.5)'; ctx.fillRect(px+T-bw,py+T-bw,bw,bw);
+        ctx.strokeStyle='#0E9384'; ctx.lineWidth=2; ctx.strokeRect(px+T-bw,py+T-bw,bw,bw);
+        ctx.fillStyle='#0B6E63'; ctx.fillText('+b²', px+T-bw/2, py+T-bw/2+4);
+        ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.4; ctx.strokeRect(px,py,T-bw,T-bw); }
+      $('#xpStep').innerHTML =
+        `<button class="b g sm" id="xpS1">① a×b 빼기</button>
+         <button class="b g sm" id="xpS2">② 또 빼기</button>
+         <button class="b g sm" id="xpS3">③ b² 되돌리기</button>`;
+      $('#xpS1').onclick=()=>{ if(S.st===0)S.st=1; draw(); };
+      $('#xpS2').onclick=()=>{ if(S.st===1)S.st=2; draw(); };
+      $('#xpS3').onclick=()=>{ if(S.st===2)S.st=3; draw(); };
+      $('#xpout').innerHTML =
+        S.st===0?`a=9, b=3 — 큰 정사각형에서 (a−b)² = 6² = 36 을 꺼내 봅시다. ① 부터.`
+        :S.st===1?`<span class="mono">a² − ab = 81 − 27 = 54</span> — 오른쪽 기둥을 뺐습니다. 아직 기역자.`
+        :S.st===2?`<b style="color:#BE123C">두 번 뺀 자리가 겹쳤습니다 — 모서리 b² = 9 만큼 과잉 삭제!</b><br><span class="mono">81 − 27 − 27 = 27 ≠ 36</span>`
+        :`<b style="color:#0E9384">(a−b)² = a² − 2ab + b² 완성.</b><br><span class="mono">81 − 54 + 9 = <b>36</b> = 6²</span> — 겹침을 되돌리는 +b² 이 공식의 마지막 항입니다.`;
+    }
+  }
+  dragOn(cv,{
+    hit:p=>{ if(S.mode!=='sum') return null;
+      const a=S.a, T=10*SC;
+      return Math.hypot(p.x-(px+a*SC), p.y-(py+T))<22?'a':null; },
+    move:(h,p)=>{ S.a=Math.max(2,Math.min(8,Math.round((p.x-px)/SC))); draw(); }
+  });
+  $('#xpSum').onclick=()=>{ S.mode='sum'; draw(); };
+  $('#xpDif').onclick=()=>{ S.mode='dif'; S.st=0; draw(); };
+  draw();
+  inquiry(root,{ id:'xp', title:'곱셈공식 — 전개는 넓이 분할이다',
+    q:['(a+b)² 모드에서 a 를 바꿔 가며 네 조각의 넓이를 기록하세요.',
+       '「2ab」 항이 조각 몇 개에서 오는지, (a−b)² 의 「+b²」 이 어느 순간에 나오는지 정리하세요.',
+       '(a+b)(a−b) 을 같은 그림으로 설계하면 어떤 조각이 사라질지 예상해 손으로 그려 보세요.'],
+    cols:['a','b','a²','2ab','b²','(a+b)²'],
+    hint:'힌트 — 겹치게 두 번 뺐으면 겹친 만큼 한 번 되돌린다: 포함과 배제의 첫 만남입니다.',
+    read:()=>{ const a=S.a,b=10-a; return [a,b,a*a,2*a*b,b*b,(a+b)*(a+b)]; } });
+}
+
+/* ---------- LAB 54 특수각의 삼각비 ---------- */
+function taDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ta1" width="400" height="300"></canvas>
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="taTri">근거: 정삼각형 반쪽</button>
+        <button class="b g sm" id="taSq">근거: 정사각형 반쪽</button></div>
+    </div>
+    <div class="col">
+      <div class="out" id="taout"></div>
+      <div class="note" style="margin-top:12px">사분원 위의 점을 끌면 각이 변합니다.
+      <b>30°·45°·60° 근처에서는 자석처럼 붙고</b>, 그 값이 왜 그 수인지
+      「근거」 버튼이 도형으로 보여 줍니다.</div>
+    </div></div>`;
+  const cv=$('#ta1'),ctx=cv.getContext('2d'),W=400,H=300;
+  const O={x:60,y:250}, R=180;
+  const S={ th:20, fig:null };
+  const EX={30:['1/2','√3/2','1/√3'],45:['√2/2','√2/2','1'],60:['√3/2','1/2','√3']};
+  function draw(){
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(O.x,O.y); ctx.lineTo(O.x+R+16,O.y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(O.x,O.y); ctx.lineTo(O.x,O.y-R-16); ctx.stroke();
+    ctx.strokeStyle='#D1D5DB'; ctx.beginPath(); ctx.arc(O.x,O.y,R,-Math.PI/2,0); ctx.stroke();
+    const t=S.th*Math.PI/180, px=O.x+R*Math.cos(t), py=O.y-R*Math.sin(t);
+    // 직각삼각형
+    ctx.fillStyle='rgba(37,99,235,.12)';
+    ctx.beginPath(); ctx.moveTo(O.x,O.y); ctx.lineTo(px,O.y); ctx.lineTo(px,py); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(O.x,O.y); ctx.lineTo(px,py); ctx.stroke();
+    ctx.strokeStyle='#0E9384'; ctx.beginPath(); ctx.moveTo(px,O.y); ctx.lineTo(px,py); ctx.stroke();
+    ctx.strokeStyle='#B45309'; ctx.beginPath(); ctx.moveTo(O.x,O.y); ctx.lineTo(px,O.y); ctx.stroke();
+    handle(ctx, px, py, '#B45309','θ = '+S.th+'°');
+    // 근거 그림 (오른쪽 위)
+    if(S.fig==='tri'){
+      const bx=246,by=40,L=104;
+      ctx.strokeStyle='#6B7280'; ctx.lineWidth=1.6;
+      ctx.beginPath(); ctx.moveTo(bx,by+L); ctx.lineTo(bx+L,by+L); ctx.lineTo(bx+L/2,by+L-L*0.866); ctx.closePath(); ctx.stroke();
+      ctx.strokeStyle='#BE123C'; ctx.setLineDash([4,3]);
+      ctx.beginPath(); ctx.moveTo(bx+L/2,by+L); ctx.lineTo(bx+L/2,by+L-L*0.866); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#374151'; ctx.font='10.5px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('한 변 2 의 정삼각형을 반으로', bx+L/2, by+L+16);
+      ctx.fillText('밑변 1 · 빗변 2 · 높이 √3', bx+L/2, by+L+30);
+    }
+    if(S.fig==='sq'){
+      const bx=250,by=44,L=96;
+      ctx.strokeStyle='#6B7280'; ctx.lineWidth=1.6; ctx.strokeRect(bx,by,L,L);
+      ctx.strokeStyle='#BE123C';
+      ctx.beginPath(); ctx.moveTo(bx,by+L); ctx.lineTo(bx+L,by); ctx.stroke();
+      ctx.fillStyle='#374151'; ctx.font='10.5px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('한 변 1 의 정사각형의 대각선', bx+L/2, by+L+16);
+      ctx.fillText('1 · 1 · √2 — 두 각은 45°', bx+L/2, by+L+30);
+    }
+    const sp=EX[S.th];
+    $('#taout').innerHTML = sp
+      ? `<b style="color:#0E9384">θ = ${S.th}° — 특수각!</b><br>
+         <span class="mono" style="font-size:15px">sin ${S.th}° = ${sp[0]} &nbsp; cos ${S.th}° = ${sp[1]} &nbsp; tan ${S.th}° = ${sp[2]}</span><br>
+         <span class="mono">≈ ${Math.sin(t).toFixed(4)} · ${Math.cos(t).toFixed(4)} · ${Math.tan(t).toFixed(4)}</span><br>
+         <span style="color:#6B7280;font-size:12.5px">${S.th===45?'「근거: 정사각형 반쪽」— 1:1:√2 에서 나온 값입니다.':'「근거: 정삼각형 반쪽」— 1:√3:2 에서 나온 값입니다.'}</span>`
+      : `<span class="mono">θ = ${S.th}° · sin=${Math.sin(t).toFixed(3)} cos=${Math.cos(t).toFixed(3)} tan=${Math.abs(Math.tan(t))>40?'∞':Math.tan(t).toFixed(3)}</span><br>
+         <span style="color:#6B7280;font-size:12.5px">30°·45°·60° 에 가까이 가면 딸깍 붙습니다 — 거기서만 값이 「깔끔한 수」입니다.</span>`;
+  }
+  dragOn(cv,{
+    hit:p=>{ const t=S.th*Math.PI/180;
+      return Math.hypot(p.x-(O.x+R*Math.cos(t)), p.y-(O.y-R*Math.sin(t)))<24?'p':null; },
+    move:(h,p)=>{ let d=Math.atan2(O.y-p.y, p.x-O.x)*180/Math.PI;
+      d=Math.max(3,Math.min(87,Math.round(d)));
+      [30,45,60].forEach(s=>{ if(Math.abs(d-s)<3) d=s; });
+      S.th=d; draw(); }
+  });
+  $('#taTri').onclick=()=>{ S.fig=S.fig==='tri'?null:'tri'; draw(); };
+  $('#taSq').onclick=()=>{ S.fig=S.fig==='sq'?null:'sq'; draw(); };
+  draw();
+  inquiry(root,{ id:'ta', title:'특수각 — 값이 깔끔한 데는 도형의 이유가 있다',
+    q:['30°·45°·60° 각각에서 sin·cos·tan 을 기록하세요 (분수와 근삿값 모두).',
+       'sin 30° 와 cos 60° 처럼 짝이 되는 값들을 표에서 찾아 묶으세요.',
+       '정삼각형 반쪽(1:√3:2)에서 세 값이 나오는 과정을 손으로 그려 쓰고, sin²θ + cos²θ 를 세 각에서 계산해 규칙을 쓰세요.'],
+    cols:['θ','sin','cos','tan'],
+    hint:'힌트 — 표를 세로로 읽지 말고 대각선으로 읽어 보세요: sin 30° = cos 60°. 우연일까요?',
+    read:()=>{ const sp=EX[S.th]; const t=S.th*Math.PI/180;
+      return [S.th+'°', sp?sp[0]:Math.sin(t).toFixed(3), sp?sp[1]:Math.cos(t).toFixed(3), sp?sp[2]:Math.tan(t).toFixed(3)]; } });
+}
+
+/* ---------- LAB 55 삼각비의 표와 보간 ---------- */
+function tbDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="tb1" width="400" height="240"></canvas>
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        ${slider('tbT','각 θ (5° 눈금)',0,90,5,20,'°')}
+        <button class="b t sm" id="tbAdd">이 각을 표에 기록</button>
+        <button class="b g sm" id="tbQ">보간 도전 — sin 37°</button></div>
+      <div id="tbQz" style="margin-top:8px"></div>
+    </div>
+    <div class="col">
+      <div class="out" id="tbout"></div>
+      <div id="tbTable" class="note" style="margin-top:10px;font-family:ui-monospace,monospace;font-size:12.5px"></div>
+    </div></div>`;
+  const cv=$('#tb1'),ctx=cv.getContext('2d'),W=400,H=240;
+  const S={ rows:{}, quiz:false, ok:false };
+  function draw(){
+    const th=+$('#tbT').value, t=th*Math.PI/180;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const O={x:40,y:210}, R=170;
+    ctx.strokeStyle='#9CA3AF'; ctx.beginPath(); ctx.moveTo(O.x,O.y); ctx.lineTo(O.x+R+14,O.y); ctx.stroke();
+    ctx.strokeStyle='#D1D5DB'; ctx.beginPath(); ctx.arc(O.x,O.y,R,-Math.PI/2,0); ctx.stroke();
+    const px=O.x+R*Math.cos(t), py=O.y-R*Math.sin(t);
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.2;
+    ctx.beginPath(); ctx.moveTo(O.x,O.y); ctx.lineTo(px,py); ctx.stroke();
+    ctx.strokeStyle='#0E9384'; ctx.beginPath(); ctx.moveTo(px,O.y); ctx.lineTo(px,py); ctx.stroke();
+    ctx.fillStyle='#0B6E63'; ctx.font='bold 11px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('sin '+th+'° = '+Math.sin(t).toFixed(4), px+8, (O.y+py)/2);
+    const n=Object.keys(S.rows).length;
+    $('#tbout').innerHTML =
+      `<span class="mono">θ = ${th}° · sin θ = ${Math.sin(t).toFixed(4)}</span><br>`
+      + `표 항목 <b>${n}개</b> — ${n<5?'각을 바꿔 가며 표를 채우세요. 계산기 없던 시절의 수학자가 하던 일입니다.':'훌륭한 표입니다. 이제 표에 없는 각을 「보간」으로 잡아 보세요.'}`;
+    const ks=Object.keys(S.rows).map(Number).sort((a,b)=>a-b);
+    $('#tbTable').innerHTML = ks.length?('θ | sin θ<br>'+ks.map(k=>String(k).padStart(2)+'° | '+S.rows[k]).join('<br>')):'(표가 비어 있습니다)';
+  }
+  $('#tbT').oninput=draw;
+  $('#tbAdd').onclick=()=>{ const th=+$('#tbT').value;
+    S.rows[th]=Math.sin(th*Math.PI/180).toFixed(4); draw(); };
+  $('#tbQ').onclick=()=>{ S.quiz=true;
+    $('#tbQz').innerHTML=`<b>sin 37° = ?</b> 표의 35° 와 40° 사이를 직선으로 이어 추정하세요.
+      <input type="number" step="0.0001" id="tbA" style="width:110px;padding:5px;border:1px solid #E5E7EB;border-radius:7px">
+      <button class="b t sm" id="tbC">판정</button> <span id="tbR" style="font-weight:800"></span>`;
+    $('#tbC').onclick=()=>{ const v=+$('#tbA').value, tru=Math.sin(37*Math.PI/180);
+      if(Math.abs(v-tru)<0.01){ S.ok=true;
+        $('#tbR').innerHTML=`<span style="color:#0E9384">보간 성공 — 참값 ${tru.toFixed(4)}, 직선 추정 0.6013. 표 사이를 직선으로 잇는 것이 보간입니다.</span>`; }
+      else $('#tbR').innerHTML='<span style="color:#BE123C">다시 — 0.5736(35°)과 0.6428(40°) 사이 어디쯤일까요?</span>'; };
+  };
+  draw();
+  inquiry(root,{ id:'tb', title:'삼각비의 표 — 계산기 이전의 계산기',
+    q:['5° 간격으로 표를 채우며 기록하세요 (0°~90° 중 8칸 이상).',
+       'sin 의 증가폭이 각이 커질수록 어떻게 변하는지 표의 이웃 칸 차이로 정리하세요.',
+       'cos(90°−θ) = sin θ 가 표에서 성립하는지 세 쌍으로 확인하고, 직각삼각형 그림으로 이유를 쓰세요.'],
+    cols:['θ','sin θ','이웃 칸과의 차'],
+    hint:'힌트 — 90° 근처에서 sin 은 거의 안 늘어납니다. 사분원 그림에서 세로가 어디쯤 왔는지 보세요.',
+    read:()=>{ const th=+$('#tbT').value;
+      return [th+'°', Math.sin(th*Math.PI/180).toFixed(4), '—']; } });
+}
+
+/* ---------- LAB 56 원주각 ---------- */
+function iaDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ia1" width="400" height="320"></canvas>
+      <div class="note" style="margin-top:8px"><b>P(주황)</b>는 물론 <b>호의 양 끝 A·B(파랑)</b>도
+      끌 수 있습니다. A·B 를 마주보게 벌리면 지름이 됩니다.</div>
+    </div>
+    <div class="col">
+      <div class="out" id="iaout"></div>
+      <div class="note" style="margin-top:12px">같은 호 AB 를 바라보는 <b>원주각은 P 가 어디에 있든 같고</b>,
+      중심각의 절반입니다. 카메라 시야각이 같아지는 자리들 — 그것이 원입니다.</div>
+    </div></div>`;
+  const cv=$('#ia1'),ctx=cv.getContext('2d'),W=400,H=320;
+  const O={x:200,y:165}, R=130;
+  const S={ a:210, b:330, p:90, seen:{} };             // 도 단위 (0=오른쪽, 반시계)
+  const pos=d=>({x:O.x+R*Math.cos(d*Math.PI/180), y:O.y-R*Math.sin(d*Math.PI/180)});
+  const angAt=(P,A,B)=>{ const v1={x:A.x-P.x,y:A.y-P.y}, v2={x:B.x-P.x,y:B.y-P.y};
+    const d=(Math.atan2(v1.y,v1.x)-Math.atan2(v2.y,v2.x))*180/Math.PI;
+    let a=Math.abs(d); if(a>180)a=360-a; return a; };
+  function central(){ let c=Math.abs(S.a-S.b); if(c>180)c=360-c; return c; }
+  function draw(){
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.arc(O.x,O.y,R,0,7); ctx.stroke();
+    const A=pos(S.a), B=pos(S.b), P=pos(S.p);
+    // 호 AB (P 반대쪽) 강조
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=3;
+    let s=S.a*Math.PI/180, e=S.b*Math.PI/180;
+    ctx.beginPath(); ctx.arc(O.x,O.y,R,-s,-e, ((S.b-S.a+360)%360)>180 );
+    ctx.stroke();
+    // 중심각
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(O.x,O.y); ctx.lineTo(A.x,A.y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(O.x,O.y); ctx.lineTo(B.x,B.y); ctx.stroke(); ctx.setLineDash([]);
+    // 원주각
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(P.x,P.y); ctx.lineTo(A.x,A.y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(P.x,P.y); ctx.lineTo(B.x,B.y); ctx.stroke();
+    ctx.fillStyle='#2563EB'; ctx.beginPath(); ctx.arc(A.x,A.y,6,0,7); ctx.fill();
+    ctx.beginPath(); ctx.arc(B.x,B.y,6,0,7); ctx.fill();
+    ctx.fillStyle='#111827'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('A', A.x+(A.x>O.x?14:-14), A.y+4); ctx.fillText('B', B.x+(B.x>O.x?14:-14), B.y+4);
+    handle(ctx, P.x, P.y, '#B45309', 'P');
+    const c=central(), ins=angAt(P,A,B);
+    // 표본: P 위치(10° 반올림)별 원주각 기록
+    S.seen[Math.round(S.p/10)*10]=Math.round(ins);
+    const vals=Object.values(S.seen), uni=[...new Set(vals)];
+    const many=Object.keys(S.seen).length>=3 && Math.max(...vals)-Math.min(...vals)<=1;
+    const isDia=Math.abs(c-180)<3;
+    $('#iaout').innerHTML =
+      `<span class="mono">중심각 ∠AOB = <b>${c.toFixed(0)}°</b> &nbsp; 원주각 ∠APB = <b style="color:#2563EB">${ins.toFixed(1)}°</b></span><br>`
+      + `<span class="mono">중심각 ÷ 원주각 = ${(c/ins).toFixed(2)}</span><br>`
+      + (isDia?`<b style="color:#0E9384">AB 가 지름 — 반원의 원주각은 90°. 탈레스의 정리입니다.</b><br>`:'')
+      + (many?`<b style="color:#2563EB">서로 다른 ${Object.keys(S.seen).length}곳에서 같은 각 — 원주각은 어디서나 같습니다.</b>`
+             :`<span style="color:#6B7280;font-size:12.5px">P 를 이리저리 옮기며 원주각이 변하는지 지켜보세요.</span>`);
+  }
+  dragOn(cv,{
+    hit:p=>{ const P=pos(S.p), A=pos(S.a), B=pos(S.b);
+      if(Math.hypot(p.x-P.x,p.y-P.y)<24) return 'p';
+      if(Math.hypot(p.x-A.x,p.y-A.y)<20) return 'a';
+      if(Math.hypot(p.x-B.x,p.y-B.y)<20) return 'b';
+      return null; },
+    move:(h,p)=>{ let d=Math.atan2(O.y-p.y, p.x-O.x)*180/Math.PI; d=(d+360)%360;
+      if(h==='p'){ S.p=d; }
+      else { S[h]=Math.round(d/5)*5; S.seen={}; }
+      draw(); }
+  });
+  draw();
+  inquiry(root,{ id:'ia', title:'원주각 — 어디서 보나 같은 각',
+    q:['P 를 다섯 곳 이상 옮기며 (P 위치, 원주각) 을 기록하세요.',
+       '호 AB 를 바꿔 (중심각, 원주각) 짝을 세 가지 이상 만들고 나눗셈 열을 보세요.',
+       '「중심각 = 2 × 원주각」 이 되는 이유를 이등변삼각형(OP=OA=OB) 두 개로 손으로 증명해 보세요.'],
+    cols:['중심각','원주각','나눗셈'],
+    hint:'힌트 — O 에서 P 로 선을 그으면 이등변삼각형 둘로 쪼개집니다. 바깥각 = 두 밑각의 합.',
+    read:()=>{ const A=pos(S.a),B=pos(S.b),P=pos(S.p); const c=central(), i=angAt(P,A,B);
+      return [c.toFixed(0)+'°', i.toFixed(1)+'°', (c/i).toFixed(2)]; } });
+}
+
+/* ---------- LAB 57 원의 접선 — 위성의 가시 범위 ---------- */
+function tnDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="tn1" width="400" height="300"></canvas>
+      <div class="ctl" style="margin-top:8px">
+        <button class="b t sm" id="tnChk">피타고라스 검산 — OP² − r² = PA² ?</button></div>
+    </div>
+    <div class="col">
+      <div class="out" id="tnout"></div>
+      <div class="note" style="margin-top:12px"><b>위성 P(주황)</b>를 끌어 보세요. P 에서 지구에 그은
+      <b>두 접선의 길이는 언제나 같고</b>, 접점 사이의 붉은 호가 위성이 내려다보는
+      <b>가시 범위</b>입니다. 접선은 반지름과 직각 — 그래서 피타고라스가 통합니다.</div>
+    </div></div>`;
+  const cv=$('#tn1'),ctx=cv.getContext('2d'),W=400,H=300;
+  const O={x:130,y:150}, r=78;
+  const S={ px:300, py:80, chk:false };
+  function draw(){
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    // 지구
+    ctx.fillStyle='rgba(14,147,132,.12)';
+    ctx.beginPath(); ctx.arc(O.x,O.y,r,0,7); ctx.fill();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=1.8; ctx.beginPath(); ctx.arc(O.x,O.y,r,0,7); ctx.stroke();
+    const d=Math.hypot(S.px-O.x,S.py-O.y);
+    const L=Math.sqrt(Math.max(0,d*d-r*r));
+    const base=Math.atan2(S.py-O.y,S.px-O.x), half=Math.acos(r/d);
+    const A={x:O.x+r*Math.cos(base+half), y:O.y+r*Math.sin(base+half)};
+    const B={x:O.x+r*Math.cos(base-half), y:O.y+r*Math.sin(base-half)};
+    // 가시 호
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=4;
+    ctx.beginPath(); ctx.arc(O.x,O.y,r, base-half, base+half); ctx.stroke();
+    // 접선·반지름
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(S.px,S.py); ctx.lineTo(A.x,A.y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(S.px,S.py); ctx.lineTo(B.x,B.y); ctx.stroke();
+    ctx.strokeStyle='#9CA3AF'; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(O.x,O.y); ctx.lineTo(A.x,A.y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(O.x,O.y); ctx.lineTo(S.px,S.py); ctx.stroke(); ctx.setLineDash([]);
+    // 직각 표시
+    const ux=(S.px-A.x)/Math.hypot(S.px-A.x,S.py-A.y), uy=(S.py-A.y)/Math.hypot(S.px-A.x,S.py-A.y);
+    const vx=(O.x-A.x)/r, vy=(O.y-A.y)/r, m=9;
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(A.x+ux*m,A.y+uy*m); ctx.lineTo(A.x+ux*m+vx*m,A.y+uy*m+vy*m); ctx.lineTo(A.x+vx*m,A.y+vy*m); ctx.stroke();
+    handle(ctx, S.px, S.py, '#B45309','위성 P');
+    const vis=(2*half*180/Math.PI);
+    $('#tnout').innerHTML =
+      `<span class="mono">OP = ${(d/26).toFixed(2)} · r = ${(r/26).toFixed(2)}</span><br>`
+      + `접선 PA = PB = <b>${(L/26).toFixed(2)}</b> — 두 접선의 길이는 늘 같습니다.<br>`
+      + `<b style="color:#BE123C">가시 범위 ${vis.toFixed(0)}°</b> — 멀수록 넓어지지만 180° 는 절대 못 넘습니다.<br>`
+      + (S.chk?`<span class="mono">OP² − r² = ${((d*d-r*r)/676).toFixed(2)} · PA² = ${(L*L/676).toFixed(2)} — <b style="color:#0E9384">PA² 일치!</b></span> 반지름⊥접선이라 피타고라스가 통합니다.`
+              :`<span style="color:#6B7280;font-size:12.5px">「피타고라스 검산」으로 접선 길이의 공식을 확인하세요.</span>`);
+  }
+  dragOn(cv,{
+    hit:p=>Math.hypot(p.x-S.px,p.y-S.py)<26?'p':null,
+    move:(h,p)=>{ const d=Math.hypot(p.x-O.x,p.y-O.y);
+      if(d>r+18){ S.px=Math.max(8,Math.min(W-8,p.x)); S.py=Math.max(8,Math.min(H-8,p.y)); S.chk=false; draw(); } }
+  });
+  $('#tnChk').onclick=()=>{ S.chk=true; draw(); };
+  draw();
+  inquiry(root,{ id:'tn', title:'접선 — 위성이 보는 만큼',
+    q:['P 를 가깝게·멀게 옮기며 (OP, PA, 가시 범위) 를 기록하세요.',
+       '가시 범위가 커지는데도 180° 를 넘지 못하는 이유를 표에서 찾으세요.',
+       'PA² = OP² − r² 이 성립하는 이유를 「반지름⊥접선」과 피타고라스 정리로 손으로 쓰세요.'],
+    cols:['OP','접선 PA','가시 범위'],
+    hint:'힌트 — OP 가 아무리 커져도 접선은 결국 원의 「옆구리」에 닿습니다. 정확히 절반 너머는 볼 수 없습니다.',
+    read:()=>{ const d=Math.hypot(S.px-O.x,S.py-O.y), L=Math.sqrt(Math.max(0,d*d-r*r));
+      return [(d/26).toFixed(2), (L/26).toFixed(2), (2*Math.acos(r/d)*180/Math.PI).toFixed(0)+'°']; } });
+}
+
+/* ---------- LAB 58 내접 사각형 — 대각의 합 ---------- */
+function cyDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="cy1" width="400" height="320"></canvas>
+      <div class="note" style="margin-top:8px">네 꼭짓점을 <b>원을 따라</b> 끌면 모양이 변합니다.
+      <b>D(주황)만은 원에서 떼어 낼 수도</b> 있습니다 — 떼는 순간 무엇이 무너질까요?</div>
+    </div>
+    <div class="col">
+      <div class="out" id="cyout"></div>
+      <div class="note" style="margin-top:12px">원에 내접한 사각형의 <b>마주보는 두 각의 합은 180°</b>.
+      네 점이 한 원 위에 있다는 강한 조건이 각도를 묶어 버립니다 —
+      거꾸로, 대각합 180° 는 「네 점이 한 원 위」의 판정 시험지입니다.</div>
+    </div></div>`;
+  const cv=$('#cy1'),ctx=cv.getContext('2d'),W=400,H=320;
+  const O={x:200,y:160}, R=125;
+  const S={ ang:{A:150,B:70,C:-40}, D:{x:O.x+R*Math.cos(-2.9), y:O.y-R*Math.sin(-2.9)}, seen:new Set() };
+  const pos=d=>({x:O.x+R*Math.cos(d*Math.PI/180), y:O.y-R*Math.sin(d*Math.PI/180)});
+  const inner=(P,Q,R2)=>{ const v1={x:Q.x-P.x,y:Q.y-P.y}, v2={x:R2.x-P.x,y:R2.y-P.y};
+    let a=Math.abs((Math.atan2(v1.y,v1.x)-Math.atan2(v2.y,v2.x))*180/Math.PI);
+    if(a>180)a=360-a; return a; };
+  function draw(){
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.arc(O.x,O.y,R,0,7); ctx.stroke();
+    const A=pos(S.ang.A), B=pos(S.ang.B), C=pos(S.ang.C), D=S.D;
+    const onCircle=Math.abs(Math.hypot(D.x-O.x,D.y-O.y)-R)<7;
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2; ctx.fillStyle='rgba(37,99,235,.07)';
+    ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y); ctx.lineTo(C.x,C.y); ctx.lineTo(D.x,D.y); ctx.closePath();
+    ctx.fill(); ctx.stroke();
+    [[A,'A','#2563EB'],[B,'B','#2563EB'],[C,'C','#2563EB']].forEach(([P,nm,col])=>{
+      ctx.fillStyle=col; ctx.beginPath(); ctx.arc(P.x,P.y,6,0,7); ctx.fill();
+      ctx.fillStyle='#111827'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(nm, P.x+(P.x>O.x?14:-14), P.y+4); });
+    handle(ctx, D.x, D.y, onCircle?'#B45309':'#BE123C','D');
+    const aA=inner(A,B,D), aC=inner(C,B,D), aB=inner(B,A,C), aD=inner(D,A,C);
+    const s1=aA+aC, s2=aB+aD;
+    if(onCircle){
+      const key=[S.ang.A,S.ang.B,S.ang.C].map(v=>Math.round(v/15)).join(',');
+      S.seen.add(key);
+    }
+    const many=onCircle && S.seen.size>=3;
+    $('#cyout').innerHTML =
+      `<span class="mono">∠A + ∠C = ${aA.toFixed(0)}° + ${aC.toFixed(0)}° = <b>${s1.toFixed(0)}°</b><br>∠B + ∠D = ${aB.toFixed(0)}° + ${aD.toFixed(0)}° = <b>${s2.toFixed(0)}°</b></span><br>`
+      + (onCircle
+        ? (many?`<b style="color:#0E9384">세 모양 모두 180° — 내접 사각형의 약속입니다.</b>`
+               :`<span style="color:#6B7280;font-size:12.5px">꼭짓점들을 끌어 다른 모양에서도 확인해 보세요.</span>`)
+        : `<b style="color:#BE123C">D 가 원을 떠났습니다 — 대각합 ${s2.toFixed(0)}°, 180° 이 무너집니다.</b> 원 위라는 조건이 각을 묶고 있었던 것입니다.`);
+  }
+  dragOn(cv,{
+    hit:p=>{ if(Math.hypot(p.x-S.D.x,p.y-S.D.y)<24) return 'D';
+      for(const k of ['A','B','C']){ const P=pos(S.ang[k]);
+        if(Math.hypot(p.x-P.x,p.y-P.y)<20) return k; }
+      return null; },
+    move:(h,p)=>{
+      if(h==='D'){ const d=Math.hypot(p.x-O.x,p.y-O.y);
+        if(Math.abs(d-R)<16){ const a=Math.atan2(O.y-p.y,p.x-O.x); S.D={x:O.x+R*Math.cos(a), y:O.y-R*Math.sin(a)}; }
+        else S.D={x:p.x,y:p.y}; }
+      else { let d=Math.atan2(O.y-p.y, p.x-O.x)*180/Math.PI; S.ang[h]=d; }
+      draw(); }
+  });
+  draw();
+  inquiry(root,{ id:'cy', title:'내접 사각형 — 원이 각을 묶는다',
+    q:['모양을 바꿔 가며 (∠A+∠C, ∠B+∠D) 를 다섯 번 기록하세요.',
+       'D 를 원 밖·안으로 옮길 때 합이 각각 어느 쪽으로 틀어지는지 정리하세요.',
+       '대각합 180° 가 되는 이유를 원주각으로 증명하세요 — ∠A 와 ∠C 가 바라보는 두 호를 합치면 원 전체가 됩니다.'],
+    cols:['∠A+∠C','∠B+∠D','D는 원 위?'],
+    hint:'힌트 — ∠A 는 호 BCD 의 절반, ∠C 는 호 DAB 의 절반. 두 호를 합치면 360°.',
+    read:()=>{ const A=pos(S.ang.A),B=pos(S.ang.B),C=pos(S.ang.C),D=S.D;
+      const on=Math.abs(Math.hypot(D.x-O.x,D.y-O.y)-R)<7;
+      return [(inner(A,B,D)+inner(C,B,D)).toFixed(0)+'°',(inner(B,A,C)+inner(D,A,C)).toFixed(0)+'°',on?'예':'아니오']; } });
+}
+
+/* ---------- LAB 59 상자그림 ---------- */
+function bxDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="bx1" width="400" height="300"></canvas>
+      <div class="note" style="margin-top:8px">수직선 위의 <b>기록 점들을 좌우로</b> 끌 수 있습니다.
+      상자·수염·이상치 표시가 실시간으로 다시 그려집니다.</div>
+    </div>
+    <div class="col">
+      <div class="out" id="bxout"></div>
+      <div class="note" style="margin-top:12px">상자그림은 다섯 수(최소·Q1·중앙값·Q3·최대) 요약입니다.
+      수염 길이의 한계는 <b>1.5 × IQR</b> — 그 밖의 점은 자동으로 <b>이상치</b>로 분리됩니다.</div>
+    </div></div>`;
+  const cv=$('#bx1'),ctx=cv.getContext('2d'),W=400,H=300;
+  const S={ v:[12,14,15,16,17,18,18,19,20,21,22,24,26] };
+  const X=v=>30+(v-0)*(W-60)/60, invX=p=>Math.round((p-30)*60/(W-60));
+  const q=(arr,f)=>{ const s=[...arr].sort((a,b)=>a-b); const i=(s.length-1)*f;
+    const lo=Math.floor(i), hi=Math.ceil(i); return s[lo]+(s[hi]-s[lo])*(i-lo); };
+  function draw(){
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const v=S.v, Q1=q(v,.25), MD=q(v,.5), Q3=q(v,.75), IQR=Q3-Q1;
+    const lo=Q1-1.5*IQR, hi=Q3+1.5*IQR;
+    const ins=v.filter(x=>x>=lo&&x<=hi), outs=v.filter(x=>x<lo||x>hi);
+    const mn=Math.min(...ins), mx=Math.max(...ins);
+    const mean=v.reduce((a,b)=>a+b,0)/v.length;
+    // 수직선 + 점
+    const ry=230;
+    ctx.strokeStyle='#9CA3AF'; ctx.beginPath(); ctx.moveTo(20,ry); ctx.lineTo(W-16,ry); ctx.stroke();
+    for(let t=0;t<=60;t+=10){ ctx.strokeStyle='#374151';
+      ctx.beginPath(); ctx.moveTo(X(t),ry-4); ctx.lineTo(X(t),ry+4); ctx.stroke();
+      ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(t, X(t), ry+17); }
+    v.forEach(x=>{ ctx.fillStyle=(x<lo||x>hi)?'#BE123C':'#2563EB';
+      ctx.beginPath(); ctx.arc(X(x),ry-16,6,0,7); ctx.fill(); });
+    // 상자그림
+    const by=110, bh=44;
+    ctx.strokeStyle='#374151'; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(X(mn),by+bh/2); ctx.lineTo(X(Q1),by+bh/2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(Q3),by+bh/2); ctx.lineTo(X(mx),by+bh/2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(mn),by+10); ctx.lineTo(X(mn),by+bh-10); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(mx),by+10); ctx.lineTo(X(mx),by+bh-10); ctx.stroke();
+    ctx.fillStyle='rgba(37,99,235,.15)'; ctx.fillRect(X(Q1),by,X(Q3)-X(Q1),bh);
+    ctx.strokeStyle='#2563EB'; ctx.strokeRect(X(Q1),by,X(Q3)-X(Q1),bh);
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.6;
+    ctx.beginPath(); ctx.moveTo(X(MD),by); ctx.lineTo(X(MD),by+bh); ctx.stroke();
+    outs.forEach(x=>{ ctx.fillStyle='#BE123C';
+      ctx.beginPath(); ctx.arc(X(x),by+bh/2,5,0,7); ctx.fill(); });
+    // 평균 삼각형
+    ctx.fillStyle='#B45309';
+    ctx.beginPath(); ctx.moveTo(X(mean),by-14); ctx.lineTo(X(mean)-6,by-4); ctx.lineTo(X(mean)+6,by-4); ctx.closePath(); ctx.fill();
+    ctx.fillStyle='#92400E'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('평균', X(mean), by-18);
+    $('#bxout').innerHTML =
+      `<span class="mono">Q1=${Q1.toFixed(1)} · 중앙값=${MD.toFixed(1)} · Q3=${Q3.toFixed(1)} · IQR=${IQR.toFixed(1)}</span><br>`
+      + `수염 한계: ${lo.toFixed(1)} ~ ${hi.toFixed(1)}<br>`
+      + (outs.length?`<b style="color:#BE123C">수염 밖 이상치 ${outs.length}개</b> — 상자그림이 자동으로 골라냈습니다.<br>`
+                    :`이상치 없음 — 모두 수염 안에 있습니다.<br>`)
+      + `<span class="mono">평균 ${mean.toFixed(1)} vs 중앙값 ${MD.toFixed(1)}</span>`
+      + (outs.length&&Math.abs(mean-MD)>1.5?` — <b style="color:#B45309">평균만 끌려갔습니다. 상자는 강건합니다.</b>`:'');
+  }
+  dragOn(cv,{
+    hit:p=>{ if(Math.abs(p.y-(230-16))>18) return null;
+      let best=-1,bd=20;
+      S.v.forEach((x,i)=>{ const d=Math.abs(p.x-X(x)); if(d<bd){bd=d;best=i;} });
+      return best>=0?String(best):null; },
+    move:(h,p)=>{ S.v[+h]=Math.max(0,Math.min(60,invX(p.x))); draw(); }
+  });
+  draw();
+  inquiry(root,{ id:'bx', title:'상자그림 — 다섯 수로 그린 분포',
+    q:['점 하나를 끌어 멀리 보내며 (그 값, 이상치 여부, 평균, 중앙값) 을 기록하세요.',
+       '수염 한계(1.5×IQR)를 넘는 순간이 정확히 어디인지 표에서 찾으세요.',
+       '평균은 끌려가는데 중앙값·상자가 버티는 이유를 쓰고, 이상치를 「자동으로」 정의할 수 있다는 것의 가치를 정리하세요.'],
+    cols:['움직인 값','이상치?','평균','중앙값'],
+    hint:'힌트 — 상자는 「순서」로만 만들어집니다. 값 하나가 아무리 커져도 순서는 한 칸만 바뀝니다.',
+    read:()=>{ const v=S.v, Q1=q(v,.25), Q3=q(v,.75), IQR=Q3-Q1;
+      const mx=Math.max(...v), out=mx>Q3+1.5*IQR;
+      return [mx, out?'이상치':'수염 안', (v.reduce((a,b)=>a+b,0)/v.length).toFixed(1), q(v,.5).toFixed(1)]; } });
+}
+
+/* ---------- LAB 60 이상치와 상관 ---------- */
+function ocDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="oc1" width="400" height="300"></canvas>
+      <div class="ctl" style="margin-top:8px">
+        <label class="ctl" style="margin:0"><input type="checkbox" id="ocEx"> 이상치를 제외하고 다시 계산</label>
+        <button class="b g sm" id="ocRst">이상치 지우기</button></div>
+    </div>
+    <div class="col">
+      <div class="out" id="ocout"></div>
+      <div class="note" style="margin-top:12px">파란 점: 공부시간·성적 12명. <b>빈 곳(특히 구석)을 클릭</b>하면
+      이상치가 추가됩니다. 점 하나가 상관계수 r 을 어디까지 끌고 내려가는지,
+      제외 토글이 그것을 어떻게 되살리는지 보세요.</div>
+    </div></div>`;
+  const cv=$('#oc1'),ctx=cv.getContext('2d'),W=400,H=300;
+  const BASE=[[1,42],[1.5,50],[2,48],[2.5,58],[3,55],[3.5,66],[4,62],[4.5,72],[5,70],[5.5,80],[6,78],[6.5,88]];
+  const S={ outs:[] };
+  const X=v=>40+v*(W-70)/8, Y=v=>H-40-(v-30)*(H-70)/70;
+  const invP=p=>[ (p.x-40)*8/(W-70), 30+(H-40-p.y)*70/(H-70) ];
+  function corr(pts){ const n=pts.length;
+    const mx=pts.reduce((a,p)=>a+p[0],0)/n, my=pts.reduce((a,p)=>a+p[1],0)/n;
+    let sxy=0,sx=0,sy=0;
+    pts.forEach(p=>{ sxy+=(p[0]-mx)*(p[1]-my); sx+=(p[0]-mx)**2; sy+=(p[1]-my)**2; });
+    return sxy/Math.sqrt(sx*sy); }
+  function draw(){
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E8ECF2';
+    for(let i=0;i<=8;i++){ ctx.beginPath(); ctx.moveTo(X(i),20); ctx.lineTo(X(i),H-40); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.3;
+    ctx.beginPath(); ctx.moveTo(X(0),H-40); ctx.lineTo(X(8),H-40); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(0),H-40); ctx.lineTo(X(0),20); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('공부시간', W-40, H-24); ctx.fillText('성적', 24, 16);
+    BASE.forEach(p=>{ ctx.fillStyle='#2563EB';
+      ctx.beginPath(); ctx.arc(X(p[0]),Y(p[1]),5.5,0,7); ctx.fill(); });
+    S.outs.forEach(p=>{ ctx.fillStyle='#BE123C';
+      ctx.beginPath(); ctx.arc(X(p[0]),Y(p[1]),7,0,7); ctx.fill();
+      ctx.strokeStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(p[0]),Y(p[1]),11,0,7); ctx.stroke(); });
+    const r0=corr(BASE);
+    const ex=$('#ocEx').checked;
+    const all=ex?BASE:BASE.concat(S.outs);
+    const r=corr(all);
+    let msg;
+    if(!S.outs.length) msg=`<span style="color:#6B7280;font-size:12.5px">구석(예: 오래 공부했는데 낮은 점수)을 클릭해 이상치를 넣어 보세요.</span>`;
+    else if(ex) msg=`<b style="color:#0E9384">제외 후 r = ${r.toFixed(2)} — 상관이 회복됐습니다.</b> 단, 지우기 전에 「왜 저 점이 나왔나」를 물어야 합니다.`;
+    else if(r0-r>0.25) msg=`<b style="color:#BE123C">r 이 ${r0.toFixed(2)} → ${r.toFixed(2)} — 점 ${S.outs.length}개가 상관을 무너뜨렸습니다.</b>`;
+    else msg=`이상치가 아직 온순합니다 — 더 구석에 찍어 보세요.`;
+    $('#ocout').innerHTML =
+      `<span class="mono" style="font-size:16px">r = <b>${r.toFixed(3)}</b></span> <span class="mono" style="color:#6B7280">(원래 ${r0.toFixed(3)})</span><br>`+msg;
+  }
+  cv.style.touchAction='none';
+  cv.addEventListener('pointerdown',e=>{
+    const rct=cv.getBoundingClientRect();
+    const p={x:(e.clientX-rct.left)*W/rct.width, y:(e.clientY-rct.top)*H/rct.height};
+    const [vx,vy]=invP(p);
+    if(vx<0||vx>8||vy<30||vy>100) return;
+    const nearBase=BASE.some(b=>Math.hypot(X(b[0])-p.x,Y(b[1])-p.y)<14);
+    if(nearBase) return;
+    if(S.outs.length<3){ S.outs.push([Math.round(vx*2)/2, Math.round(vy)]); draw(); }
+  });
+  $('#ocEx').onchange=draw;
+  $('#ocRst').onclick=()=>{ S.outs=[]; $('#ocEx').checked=false; draw(); };
+  draw();
+  inquiry(root,{ id:'oc', title:'이상치와 상관 — 점 하나의 권력',
+    q:['이상치를 위치를 바꿔 가며 넣고 (위치, r) 을 기록하세요. 어느 구석이 가장 파괴적인가요?',
+       '「제외 후 r」 열과 원래 r 을 비교해 제외의 효과를 정리하세요.',
+       '이상치를 지워도 되는 경우와 지우면 안 되는 경우를 하나씩 만들어 쓰세요 — 입력 실수와 진짜 특이 사례는 다릅니다.'],
+    cols:['이상치 위치','r (포함)','r (제외)'],
+    hint:'힌트 — r 은 평균에서 잰 거리의 곱으로 만들어집니다. 평균에서 멀수록 한 점의 발언권이 커집니다.',
+    read:()=>{ const r1=corr(BASE.concat(S.outs)), r2=corr(BASE);
+      return [S.outs.map(p=>'('+p[0]+','+p[1]+')').join(' ')||'없음', r1.toFixed(3), r2.toFixed(3)]; } });
+}
+
 /* ============ 카드 썸네일 ============
    외부 이미지 금지(단일 파일 원칙) → 인라인 SVG로 그린다.
    장식이 아니라 그 실험실에서 학생이 실제로 보게 될 수학적 대상을 그린다.
@@ -5828,7 +6596,80 @@ const THUMBS = [
    <circle cx="81" cy="19" r="3.8" fill="${TC.rose}"/>
    <path d="M81 19 V54" stroke="${TC.grid}" stroke-width="1" stroke-dasharray="2.5 2"/>
    <text x="81" y="63" font-size="8.5" font-weight="800" fill="#6B7280" text-anchor="middle">w=5</text>`,
-   '울타리 직사각형과 넓이 그래프의 봉우리')
+   '울타리 직사각형과 넓이 그래프의 봉우리'),
+
+/* 53 곱셈공식 넓이 — 네 조각 정사각형 */
+ svg(`<rect x="34" y="10" width="30" height="30" fill="${TC.blue}" opacity=".22" stroke="${TC.blue}" stroke-width="1.3"/>
+   <rect x="64" y="10" width="16" height="30" fill="${TC.amber}" opacity=".35" stroke="${TC.amber}" stroke-width="1"/>
+   <rect x="34" y="40" width="30" height="16" fill="${TC.amber}" opacity=".35" stroke="${TC.amber}" stroke-width="1"/>
+   <rect x="64" y="40" width="16" height="16" fill="${TC.teal}" opacity=".35" stroke="${TC.teal}" stroke-width="1"/>
+   <text x="94" y="26" font-size="9" font-weight="800" fill="${TC.ink}">a²+2ab</text>
+   <text x="94" y="40" font-size="9" font-weight="800" fill="${TC.ink}">+b²</text>`,
+   '정사각형이 a² ab ab b² 네 조각으로 나뉜 그림'),
+
+/* 54 특수각 — 사분원과 자석 각 */
+ svg(`<path d="M14 54 H74 M14 54 V10" ${T_GRID}/>
+   <path d="M74 54 A60 60 0 0 0 14 -6" stroke="${TC.mute}" ${T_THIN}/>
+   <path d="M14 54 L66 24" stroke="${TC.blue}" ${T_BOLD}/>
+   <path d="M66 54 L66 24" stroke="${TC.teal}" ${T_THIN}/>
+   <circle cx="66" cy="24" r="3.6" fill="${TC.amber}"/>
+   <text x="86" y="22" font-size="9" font-weight="800" fill="${TC.ink}">30·45·60</text>
+   <text x="86" y="36" font-size="9" font-weight="800" fill="${TC.teal}">√3/2</text>`,
+   '사분원 위에서 특수각에 자석처럼 붙는 점'),
+
+/* 55 삼각비 표 — 표와 보간 직선 */
+ svg(`${T_AX}
+   <circle cx="34" cy="42" r="3" fill="${TC.blue}"/>
+   <circle cx="58" cy="33" r="3" fill="${TC.blue}"/>
+   <circle cx="82" cy="26" r="3" fill="${TC.blue}"/>
+   <path d="M58 33 L82 26" stroke="${TC.amber}" stroke-width="1.6" stroke-dasharray="3 2"/>
+   <circle cx="70" cy="29.5" r="3.4" fill="none" stroke="${TC.rose}" stroke-width="1.8"/>
+   <text x="70" y="16" font-size="8.5" font-weight="800" fill="${TC.rose}" text-anchor="middle">sin 37°?</text>`,
+   '표의 두 점 사이를 직선으로 이어 값을 추정하는 그림'),
+
+/* 56 원주각 — 같은 호를 보는 두 자리 */
+ svg(`<circle cx="60" cy="34" r="26" stroke="${TC.mute}" ${T_THIN}/>
+   <path d="M44 55 A26 26 0 0 0 76 55" stroke="${TC.rose}" stroke-width="2.6" fill="none"/>
+   <path d="M44 55 L52 12 L76 55" stroke="${TC.blue}" ${T_THIN}/>
+   <path d="M44 55 L74 14 L76 55" stroke="${TC.teal}" ${T_THIN} opacity=".8"/>
+   <text x="97" y="22" font-size="9" font-weight="800" fill="${TC.ink}">같은 각</text>`,
+   '같은 호를 바라보는 두 원주각이 같은 그림'),
+
+/* 57 접선 — 위성과 가시 호 */
+ svg(`<circle cx="42" cy="36" r="20" fill="${TC.teal}" opacity=".12"/>
+   <circle cx="42" cy="36" r="20" stroke="${TC.teal}" ${T_THIN}/>
+   <path d="M28 22 A20 20 0 0 1 57 25" stroke="${TC.rose}" stroke-width="2.6" fill="none"/>
+   <path d="M96 14 L28 22 M96 14 L57 25" stroke="${TC.blue}" ${T_THIN}/>
+   <circle cx="96" cy="14" r="3.8" fill="${TC.amber}"/>
+   <text x="88" y="52" font-size="9" font-weight="800" fill="${TC.ink}">PA=PB</text>`,
+   '위성에서 그은 두 접선과 가시 범위 호'),
+
+/* 58 내접 사각형 — 원과 마주보는 두 각 */
+ svg(`<circle cx="60" cy="32" r="25" stroke="${TC.mute}" ${T_THIN}/>
+   <path d="M38 42 L50 10 L84 20 L74 54 Z" stroke="${TC.blue}" ${T_THIN} fill="${TC.blue}" fill-opacity=".08"/>
+   <circle cx="50" cy="10" r="3" fill="${TC.teal}"/>
+   <circle cx="74" cy="54" r="3" fill="${TC.teal}"/>
+   <text x="99" y="34" font-size="9" font-weight="800" fill="${TC.ink}">합 180°</text>`,
+   '원에 내접한 사각형의 마주보는 두 각'),
+
+/* 59 상자그림 — 상자·수염·이상치 */
+ svg(`<path d="M20 32 H38 M80 32 H92" stroke="${TC.ink}" stroke-width="1.6"/>
+   <path d="M20 26 V38 M92 26 V38" stroke="${TC.ink}" stroke-width="1.6"/>
+   <rect x="38" y="22" width="42" height="20" fill="${TC.blue}" opacity=".16" stroke="${TC.blue}" stroke-width="1.4"/>
+   <path d="M56 22 V42" stroke="${TC.teal}" stroke-width="2.4"/>
+   <circle cx="104" cy="32" r="3.6" fill="${TC.rose}"/>
+   <text x="62" y="56" font-size="8.5" font-weight="800" fill="#6B7280" text-anchor="middle">1.5×IQR 밖 = 이상치</text>`,
+   '상자와 수염, 수염 밖에 떨어진 이상치 점'),
+
+/* 60 이상치와 상관 — 추세와 반란 점 */
+ svg(`${T_AX}
+   <circle cx="28" cy="46" r="2.6" fill="${TC.blue}"/><circle cx="40" cy="41" r="2.6" fill="${TC.blue}"/>
+   <circle cx="52" cy="37" r="2.6" fill="${TC.blue}"/><circle cx="64" cy="31" r="2.6" fill="${TC.blue}"/>
+   <circle cx="76" cy="27" r="2.6" fill="${TC.blue}"/><circle cx="88" cy="22" r="2.6" fill="${TC.blue}"/>
+   <path d="M22 50 L98 17" stroke="${TC.teal}" stroke-width="1.6" stroke-dasharray="4 3"/>
+   <circle cx="98" cy="48" r="4.4" fill="${TC.rose}"/>
+   <text x="98" y="61" font-size="8.5" font-weight="800" fill="${TC.rose}" text-anchor="middle">r↓</text>`,
+   '추세를 따르는 점들과 상관을 무너뜨리는 구석의 이상치')
 ];
 
 /* 상단 카드는 20종만 — 나머지 실험실은 아래 확장 카탈로그의 제 과목 자리에서 연다.
@@ -6832,6 +7673,159 @@ const MISSIONS={
   },
   {
    "t": "적용 — 한 면이 벽이면(3면 울타리, 총 20m) 최대가 정사각형이 아님을 S = w(20−2w) 로 확인하세요."
+  }
+ ],
+ "53": [
+  {
+   "t": "(a+b)² 모드에서 a 손잡이를 끌며 네 조각의 넓이가 변하는 것을 관찰하세요."
+  },
+  {
+   "t": "a 와 b 를 똑같이 5 로 만들어 보세요 — 조각들이 어떻게 되나요?",
+   "re": "네 조각이 같아"
+  },
+  {
+   "t": "(a−b)² 모드에서 ①→②→③ 을 완주하세요 — 겹침이 어디서 생기고 무엇으로 갚나요?",
+   "re": "2ab \\+ b² 완성"
+  },
+  {
+   "t": "기록·발견 — a 세 값에서 (a², 2ab, b², 합) 표를 만들고 2ab 의 「2」의 정체를 쓰세요."
+  },
+  {
+   "t": "적용 — 21² 과 19² 을 곱셈공식 조각으로 암산하고 과정을 쓰세요."
+  }
+ ],
+ "54": [
+  {
+   "t": "사분원의 점을 끌며 sin·cos 가 어떻게 커지고 작아지는지 관찰하세요."
+  },
+  {
+   "t": "30° 자석에 붙여 정확한 값을 확인하세요.",
+   "re": "sin 30° = 1/2"
+  },
+  {
+   "t": "45° 로 — 두 값이 같아지는 이유를 「근거: 정사각형 반쪽」으로 확인하세요.",
+   "re": "tan 45° = 1"
+  },
+  {
+   "t": "60° 로 — 30° 의 값들과 어떤 짝을 이루는지 확인하세요.",
+   "re": "cos 60° = 1/2"
+  },
+  {
+   "t": "적용 — 세 특수각 각각에서 sin²θ + cos²θ 를 계산해 규칙을 찾고 이유를 쓰세요."
+  }
+ ],
+ "55": [
+  {
+   "t": "각 θ 를 바꾸며 sin 값이 어떻게 변하는지 관찰하세요."
+  },
+  {
+   "t": "서로 다른 각 5개 이상을 표에 기록해 나만의 삼각비 표를 만드세요.",
+   "re": "표 항목 [5-9]개|표 항목 1\\d개"
+  },
+  {
+   "t": "표의 이웃 두 칸을 직선으로 이어 sin 37° 를 추정해 판정을 통과하세요.",
+   "re": "보간 성공"
+  },
+  {
+   "t": "기록·발견 — 이웃 칸과의 차 열을 보고, 각이 커질수록 증가폭이 어떻게 되는지 쓰세요."
+  },
+  {
+   "t": "적용 — 내 표만으로 cos 53° 를 추정하는 방법을 쓰고 값을 구하세요."
+  }
+ ],
+ "56": [
+  {
+   "t": "P 를 끌며 원주각의 값이 변하는지 지켜보세요."
+  },
+  {
+   "t": "P 를 서로 다른 세 곳 이상으로 옮겨 각이 정말 안 변하는지 확정하세요.",
+   "re": "어디서나 같습니다"
+  },
+  {
+   "t": "A·B 를 끌어 마주보게(지름) 만들어 보세요 — 원주각이 몇 도가 되나요?",
+   "re": "탈레스"
+  },
+  {
+   "t": "기록·발견 — 호 크기를 바꿔 (중심각, 원주각, 나눗셈) 표를 세 줄 이상 만드세요."
+  },
+  {
+   "t": "적용 — 골대를 같은 각으로 보는 자리들이 왜 원을 이루는지 이 실험으로 설명하세요."
+  }
+ ],
+ "57": [
+  {
+   "t": "위성 P 를 끌며 접선 두 개와 가시 범위(붉은 호)가 변하는 것을 관찰하세요."
+  },
+  {
+   "t": "P 를 멀리 보내 가시 범위를 140° 이상으로 키우세요 — 180° 에 닿을 수 있나요?",
+   "re": "가시 범위 1[4-7]\\d°"
+  },
+  {
+   "t": "검산 버튼으로 접선 길이의 공식을 확인하세요.",
+   "re": "PA² 일치"
+  },
+  {
+   "t": "기록·발견 — P 위치 세 곳에서 (OP, PA, 가시 범위) 표를 만드세요."
+  },
+  {
+   "t": "적용 — 접선이 반지름과 직각인 이유를 「원에 스치기만 한다」로 설명해 쓰세요."
+  }
+ ],
+ "58": [
+  {
+   "t": "꼭짓점 A·B·C 를 원을 따라 끌며 두 대각합을 읽어 두세요."
+  },
+  {
+   "t": "서로 다른 세 모양에서 대각합을 확정하세요.",
+   "re": "내접 사각형의 약속"
+  },
+  {
+   "t": "D 를 원에서 떼어 내 보세요 — 합이 어떻게 되나요?",
+   "re": "무너집니다"
+  },
+  {
+   "t": "기록·발견 — D 를 원 안·원 위·원 밖에 둔 세 경우의 대각합을 표로 만드세요."
+  },
+  {
+   "t": "적용 — 좌표 네 점이 한 원 위에 있는지 대각합으로 판정하는 절차를 쓰세요."
+  }
+ ],
+ "59": [
+  {
+   "t": "점 하나를 조금씩 끌며 상자·수염이 다시 그려지는 것을 관찰하세요."
+  },
+  {
+   "t": "점 하나를 멀리 끌어 수염 한계를 넘겨 자동 분리되는 순간을 잡으세요.",
+   "re": "수염 밖 이상치"
+  },
+  {
+   "t": "그 점을 다시 끌어와 분리가 풀리는 경계를 확인하세요.",
+   "re": "모두 수염 안"
+  },
+  {
+   "t": "기록·발견 — 그 과정에서 (움직인 값, 평균, 중앙값) 표를 만들고 누가 끌려갔는지 쓰세요."
+  },
+  {
+   "t": "적용 — 1.5×IQR 규칙의 좋은 점과 한계를 한 가지씩 쓰세요."
+  }
+ ],
+ "60": [
+  {
+   "t": "파란 점들의 산점도와 상관계수 r 을 읽어 두세요."
+  },
+  {
+   "t": "구석을 클릭해 이상치를 넣어 r 을 크게 떨어뜨리세요.",
+   "re": "무너뜨렸"
+  },
+  {
+   "t": "「이상치를 제외하고 다시 계산」을 켜 원래 상관으로 되돌리세요.",
+   "re": "회복"
+  },
+  {
+   "t": "기록·발견 — 이상치 위치를 바꿔 가며 (위치, r) 표를 만들고 가장 파괴적인 구석을 찾으세요."
+  },
+  {
+   "t": "적용 — 지워도 되는 점과 지우면 안 되는 점의 예를 하나씩 만들어 쓰세요."
   }
  ]
 };
