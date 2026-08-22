@@ -9,7 +9,7 @@ const p = await b.newPage({ viewport: { width: 1300, height: 1100 } });
 const errs = [];
 p.on('pageerror', e => errs.push('PAGE ' + e.message));
 await p.goto(URL);
-for (let i = 0; i < 44; i++) {
+for (let i = 0; i < 52; i++) {
   await p.evaluate(n => openLab(n), i);
   await p.waitForTimeout(450);
   const prog = await p.evaluate(() => {
