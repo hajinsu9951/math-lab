@@ -5806,7 +5806,167 @@ const PRINS = [
   eq:'더하고, 겹친 만큼 한 번 빼라',
   what:'덧셈정리의 −P(A∩B) 가 규칙이 아니라 <b>이중 계산의 교정</b>임을 겹침 조작으로 확인합니다.',
   probe:'두 사건을 완전히 떼어 보세요 — 그 순간에만 덧셈이 무죄가 됩니다. 곱셈공식의 포함배제(LAB 53)와 같은 뼈대입니다.',
-  link:'확률 단원 종장. 경우의 수 겹침(LAB 86)·집합의 포함배제(고1)와 하나의 원리로 묶입니다.'}
+  link:'확률 단원 종장. 경우의 수 겹침(LAB 86)·집합의 포함배제(고1)와 하나의 원리로 묶입니다.'},
+
+/* 92 조립제법 */
+ {tex:[
+   {t:'f(x) = (x-k)Q(x) + R', s:'나눗셈의 등식 — 몫 Q 와 나머지 R 이 조립제법 마지막 줄에 그대로 나타납니다.'},
+   {t:'\\text{내리고} \\to \\times k \\to \\text{더하고}', s:'세 동작의 반복 — 세로셈 나눗셈에서 「곱해서 빼는」 일을 계수만으로 접은 것입니다.'},
+   {t:'R = 0 \\;\\Leftrightarrow\\; (x-k) \\text{ 는 } f \\text{ 의 인수}', s:'나머지가 0 이 되는 k 를 찾는 일이 곧 인수분해 — 삼차식 풀이의 표준 출발점입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'사차식 도전', d:'x⁴ − 1 을 (x−1) 로 조립제법 두 번 연속 나눠 완전히 쪼개 보세요.'},
+   {lv:'심화',   t:'호너의 방법', d:'f(k) 를 계산할 때 조립제법 절차가 곱셈 횟수를 몇 번에서 몇 번으로 줄이는지 세어 보세요 — 컴퓨터가 다항식을 계산하는 실제 방식입니다.'},
+   {lv:'프로젝트', t:'조립제법 계산기', d:'계수 목록과 k 를 넣으면 몫·나머지를 돌려주는 계산 절차를 순서도로 설계하세요.'}
+  ],
+  eq:'내리고 · ×k · 더하고 — 마지막 칸이 R',
+  what:'나눗셈이라는 무거운 연산이 <b>덧셈·곱셈의 반복으로 접히는</b> 것을 봅니다. 알고리즘이라는 말의 실감이 여기 있습니다.',
+  probe:'마지막 칸(R)과 f(k) 를 나란히 놓아 보세요 — 늘 같습니다. 다음 실험(나머지정리)의 예고편입니다.',
+  link:'다항식의 연산 단원. 나머지정리(LAB 93)·삼차방정식(LAB 96)의 도구가 되는 기본기입니다.'},
+
+/* 93 나머지정리 */
+ {tex:[
+   {t:'f(x) = (x-a)Q(x) + R', s:'무엇으로 나누든 성립하는 나눗셈 등식 — R 은 상수입니다(나눗수가 일차니까).'},
+   {t:'x = a \\;\\Rightarrow\\; f(a) = 0 \\cdot Q(a) + R = R', s:'대입 한 번에 Q 가 통째로 사라집니다 — 나머지를 나눗셈 없이 얻는 지름길.'},
+   {t:'f(a) = 0 \\;\\Leftrightarrow\\; f(x) = (x-a)Q(x)', s:'인수정리 — 근 하나가 인수 하나. 세 근을 찾으면 삼차식이 완전히 분해됩니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'후보는 어디서 오나', d:'정수 근 후보가 왜 상수항의 약수뿐인지 곱셈으로 설명하고, ±1, ±2, ±3, ±6 을 전수 검사해 보세요.'},
+   {lv:'심화',   t:'중근의 감각', d:'f 와 f 의 도함수가 같은 근을 가질 때(중근) 그래프가 어떻게 보이는지 조사해 보세요.'},
+   {lv:'프로젝트', t:'근 탐색기 설계', d:'후보 대입 → 인수 추출 → 몫 재검사의 반복으로 고차식을 분해하는 절차를 만들어 발표하세요.'}
+  ],
+  eq:'f(a) = R — 대입이 나눗셈을 대신한다',
+  what:'「대입 한 번 = 나눗셈 한 번」이라는 교환이 성립하는 이유를 등식 하나로 봅니다. 정리가 노동을 줄이는 장면입니다.',
+  probe:'a 를 근이 아닌 곳에 두고도 f(a) 와 나머지가 일치하는 것을 확인하세요 — 정리는 근에서만 사는 것이 아닙니다.',
+  link:'항등식과 나머지정리 단원. 조립제법(LAB 92)과 한 쌍으로, 인수분해·고차방정식의 표준 루트입니다.'},
+
+/* 94 복소평면 */
+ {tex:[
+   {t:'(a+bi) \\cdot i = -b + ai', s:'전개 한 줄 — 점 (a, b) 가 (−b, a) 로 갑니다. 정확히 원점 중심 +90° 회전입니다.'},
+   {t:'i^2 = -1, \\; i^3 = -i, \\; i^4 = 1', s:'90° 를 두 번 = 180°(부호 반전), 네 번 = 제자리 — 거듭제곱의 주기 4 가 그림에서 당연해집니다.'},
+   {t:'z \\bar{z} = a^2 + b^2', s:'켤레와의 곱은 언제나 실수 — 원점까지 거리의 제곱입니다. 복소수의 크기가 여기서 나옵니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'i 의 2026 제곱', d:'2026 을 4 로 나눈 나머지로 i²⁰²⁶ 을 3초에 구하고, 회전 그림으로 설명하세요.'},
+   {lv:'심화',   t:'1+i 를 곱하면', d:'×(1+i) 가 「45° 회전 + √2 배 확대」임을 몇 개의 점으로 실험해 보세요.'},
+   {lv:'프로젝트', t:'회전하는 좌표', d:'게임에서 캐릭터를 회전시킬 때 복소수 곱(또는 회전행렬)이 쓰이는 사례를 조사해 미니 데모를 설계하세요.'}
+  ],
+  eq:'×i = +90° 회전 · 주기 4',
+  what:'허수가 「없는 수」가 아니라 <b>평면을 도는 수</b>임을 발자국으로 확인합니다. 대수(전개)와 기하(회전)가 같은 말을 합니다.',
+  probe:'z 를 실수축 위(b=0)에 놓고 ×i — 순허수가 됩니다. 실수와 허수가 서로의 90° 방향이라는 것이 좌표로 보입니다.',
+  link:'복소수와 이차방정식 단원. 행렬 회전(LAB 100)·삼각함수의 회전(고2)과 만나는 삼거리입니다.'},
+
+/* 95 근과 계수 */
+ {tex:[
+   {t:'x^2+bx+c = (x-p)(x-q)', s:'인수분해 꼴과 전개 꼴 — 같은 식의 두 얼굴입니다.'},
+   {t:'p+q = -b, \\quad pq = c', s:'전개해 계수를 비교하면 근의 합·곱이 계수에 그대로 박혀 있습니다.'},
+   {t:'\\text{합 } S, \\text{곱 } P \\;\\Rightarrow\\; t^2 - St + P = 0', s:'거꾸로 쓰기 — 합·곱만 알면 두 수는 이 방정식의 근입니다. 「수 맞히기」의 정체.'}
+  ],
+  next:[
+   {lv:'바로',   t:'검산 두 배 빠르게', d:'근의 공식으로 푼 문제를 합·곱으로 검산하는 습관을 다섯 문제로 연습하세요.'},
+   {lv:'심화',   t:'대칭식의 힘', d:'p²+q² 을 p+q 와 pq 만으로 나타내고, 근을 구하지 않고 값을 계산해 보세요.'},
+   {lv:'프로젝트', t:'삼차의 비에타', d:'삼차방정식의 세 근의 합·곱 규칙(비에타 공식)을 조사해 이차와 비교하는 자료를 만드세요.'}
+  ],
+  eq:'합 = −b · 곱 = c — 계수는 근의 요약본',
+  what:'방정식을 「풀기 전에 아는 것」이 얼마나 많은지 확인합니다. 구조(계수)가 답(근)의 정보를 들고 있다는 대수의 관점입니다.',
+  probe:'D < 0 으로 실근이 사라져도 합·곱 표시는 그대로 남는 것을 보세요 — 복소근의 세계에서도 관계는 살아 있습니다.',
+  link:'이차방정식 단원. 근의 공식(LAB 48)의 다음 차시이자, 대칭식·비에타(고2)의 입구입니다.'},
+
+/* 96 삼차 실근 */
+ {tex:[
+   {t:'f(x) = x^3 - 3x + k', s:'산(극대) 하나와 골짜기(극소) 하나를 가진 가장 단순한 삼차 — k 가 전체를 위아래로 옮깁니다.'},
+   {t:'f(-1) = k+2, \\quad f(1) = k-2', s:'산꼭대기와 골짜기 바닥의 높이 — 이 둘의 부호가 실근 수를 결정합니다.'},
+   {t:'(k+2)(k-2) < 0 \\;\\Leftrightarrow\\; \\text{실근 3개}', s:'산은 위, 골짜기는 아래 — x축을 세 번 건널 수밖에 없습니다. 등호면 접함(중근 포함 2개).'}
+  ],
+  next:[
+   {lv:'바로',   t:'경계값 확인', d:'k = 2 와 k = −2 에서 접점의 x 좌표를 인수분해로 구해 화면과 맞추세요.'},
+   {lv:'심화',   t:'산이 없는 삼차', d:'x³ + 3x + k 처럼 극값이 없는 삼차는 실근이 몇 개인지 그래프 개형으로 판정하세요.'},
+   {lv:'프로젝트', t:'실근 개수 지도', d:'x³ + px + q 의 (p, q) 평면에서 실근 3개 영역의 경계 곡선을 조사해 그려 보세요.'}
+  ],
+  eq:'극대 × 극소 < 0 ⇔ 실근 3개',
+  what:'이차의 판별식 논리가 삼차에서는 <b>극값의 부호 싸움</b>으로 확장되는 것을 봅니다. 그래프 개형이 곧 판정 도구입니다.',
+  probe:'접하는 순간(자석)에 두 근이 하나로 합쳐지는 것을 보세요 — 판별식 D = 0 과 완전히 같은 사건입니다.',
+  link:'여러 가지 방정식 단원. 판별식(LAB 49)의 확장이고, 미분(고2)에서 극값을 계산으로 얻으며 완성됩니다.'},
+
+/* 97 이차부등식 */
+ {tex:[
+   {t:'x^2+bx+c < 0 \\;\\Leftrightarrow\\; \\text{포물선이 } x\\text{축 아래}', s:'부등식 풀이 = 그래프의 지하 구간 읽기. 식과 그림의 완전한 동치입니다.'},
+   {t:'D > 0: \\; \\alpha < x < \\beta \\;\\text{(사이)}', s:'근이 둘이면 「< 0」의 해는 두 근 사이 — 아래로 처진 구간입니다.'},
+   {t:'D < 0: \\; \\text{해 없음 또는 모든 실수}', s:'축과 안 만나면 포물선은 늘 한쪽 — 부등호 방향이 전부/없음을 가릅니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'경계 포함 연습', d:'≤ 로 바꾸면 해집합의 끝점이 어떻게 달라지는지(●와 ○) 세 문제로 정리하세요.'},
+   {lv:'심화',   t:'항상 성립 조건', d:'모든 실수 x 에서 x² + bx + c > 0 이 되는 (b, c) 조건을 D 로 구하고 화면으로 확인하세요.'},
+   {lv:'프로젝트', t:'안전 범위 설계', d:'이익·속도 등 실생활 조건을 이차부등식으로 모델링해 「허용 구간」을 구하는 문제를 만들어 보세요.'}
+  ],
+  eq:'해집합 = 포물선의 지하(또는 지상) 구간',
+  what:'부등식이 방정식과 달리 <b>구간을 답으로</b> 갖는 이유를 그래프에서 봅니다. 네 가지 운명(사이·바깥·전부·없음)이 D 와 부등호로 정리됩니다.',
+  probe:'D < 0 인 채 부등호만 뒤집어 보세요 — 해가 「없음」에서 「모든 실수」로 반전됩니다. 그래프는 그대로인데 질문이 바뀐 것입니다.',
+  link:'이차방정식과 이차함수 단원. 판별식(LAB 49)·부등식 영역(LAB 98)을 잇는 다리입니다.'},
+
+/* 98 선형계획 */
+ {tex:[
+   {t:'x+y \\le 6, \\;\\; x+2y \\le 8, \\;\\; x, y \\ge 0', s:'제약들의 교집합이 볼록한 다각형 영역을 만듭니다 — 가능한 계획 전부의 지도입니다.'},
+   {t:'z = 3x + 2y', s:'목적함수 — 같은 z 의 점들은 한 직선(등이익선) 위에 있습니다. z 를 키우면 직선이 평행이동합니다.'},
+   {t:'\\text{최댓값은 꼭짓점에서}', s:'직선 다발이 영역을 떠나는 마지막 순간은 반드시 모서리 — 후보가 꼭짓점 몇 개로 줄어드는 것이 선형계획법의 힘입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'제약 하나 추가', d:'y ≤ 3 을 추가하면 영역과 최적해가 어떻게 변하는지 그려서 확인하세요.'},
+   {lv:'심화',   t:'평행한 특수 경우', d:'목적함수의 기울기가 어느 변과 평행하면 최적해가 「변 전체」가 됩니다 — 그 목적함수를 설계해 보세요.'},
+   {lv:'프로젝트', t:'우리 반 매점 계획', d:'실제 가격·재료 한도로 이익 최대화 문제를 만들어 꼭짓점 계산과 그림으로 푸는 보고서를 쓰세요.'}
+  ],
+  eq:'제약 = 볼록 영역 · 최적 = 꼭짓점',
+  what:'부등식 여러 개가 <b>결정의 지도</b>가 되고, 최적화가 「꼭짓점 몇 개 비교」로 끝나는 것을 체험합니다 — 산업 현장의 OR 이 이 원리 위에 있습니다.',
+  probe:'목적함수를 바꿔 최적 꼭짓점이 점프하는 순간을 보세요 — 답은 연속적으로 이동하지 않고 모서리에서 모서리로 뜁니다.',
+  link:'여러 가지 부등식 단원의 절정. 경사하강(LAB 16)과 비교하면 「볼록 문제는 왜 쉬운가」가 보입니다.'},
+
+/* 99 순열·조합 */
+ {tex:[
+   {t:'{}_4P_2 = 4 \\times 3 = 12', s:'첫 자리 4 갈래, 둘째 자리 3 갈래 — 순서가 있는 뽑기는 곱의 법칙 그대로입니다.'},
+   {t:'{}_4C_2 = \\frac{{}_4P_2}{2!} = 6', s:'짝 {가,나} 하나가 순열 두 줄(가나·나가)을 대표 — 겹친 배수 2! 로 나눕니다.'},
+   {t:'\\frac{4!}{2! \\, 2!} = 6', s:'AABB — 구별 안 되는 A 끼리·B 끼리의 바꿔치기 수만큼 나누는 같은 원리입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'우리 반 실전', d:'반에서 회장·부회장 뽑기와 대표 2명 뽑기의 가짓수를 각각 계산하고 비의 값을 확인하세요.'},
+   {lv:'심화',   t:'3명이면 몇 배?', d:'순서 있는 3명 나열과 없는 3명 뽑기의 비가 왜 3! 인지 목록의 묶음으로 설명하세요.'},
+   {lv:'프로젝트', t:'MISSISSIPPI', d:'같은 글자가 많은 단어의 나열 수를 공식으로 구하고, 작은 단어로 목록 검증까지 하는 자료를 만드세요.'}
+  ],
+  eq:'조합 = 순열 ÷ (순서의 가짓수)',
+  what:'순열과 조합이 별개 공식이 아니라 <b>나눗셈 하나로 이어진 한 가족</b>임을 목록으로 확인합니다. 나눗셈 = 중복 제거라는 관점이 핵심입니다.',
+  probe:'목록에서 {가,나} 를 골라 그에 대응하는 순열 줄들을 형광펜으로 묶어 보세요 — 2! 이 눈에 보입니다.',
+  link:'경우의 수 단원(중2 LAB 86)의 고1 완성형. 확률(조합적 확률)과 이항정리로 직결됩니다.'},
+
+/* 100 행렬 변환 */
+ {tex:[
+   {t:'(x, y) \\mapsto x\\,(a, c) + y\\,(b, d)', s:'행렬의 열 (a,c)·(b,d) 는 기저가 가는 곳 — 모든 점은 두 목적지의 조합으로 따라갑니다.'},
+   {t:'e_1 \\mapsto (0, 1), \\quad e_2 \\mapsto (-1, 0) \\;\\Rightarrow\\; 90^\\circ \\text{ 회전}', s:'e₁ 은 위로, e₂ 는 왼쪽으로 — 이 두 문장이 곧 회전 행렬 [0 −1; 1 0] 입니다.'},
+   {t:'|ad - bc| = \\text{넓이 배율}', s:'행렬식 — 도형의 넓이가 몇 배가 되는지. 0 이면 납작하게 붕괴해 되돌릴 수 없습니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'180°·반사 만들기', d:'180° 회전과 x축 반사 행렬을 예측해 쓰고 화면에서 만들어 검산하세요.'},
+   {lv:'심화',   t:'왜 역행렬이 없나', d:'det = 0 인 변환이 정보를 잃는 이유를 「두 점이 한 점으로」의 예로 설명하세요.'},
+   {lv:'프로젝트', t:'픽셀 변환기', d:'작은 픽셀 그림에 행렬을 적용하는 절차를 설계하고, 사진 앱의 회전·확대 메뉴와 대응시켜 보세요.'}
+  ],
+  eq:'열 = 기저의 목적지 · |det| = 넓이 배율',
+  what:'행렬이 숫자표가 아니라 <b>평면을 움직이는 기계</b>임을 손으로 확인합니다. 컴퓨터 그래픽·AI 의 선형변환이 전부 이 그림입니다.',
+  probe:'두 화살표를 한 직선 위에 겹쳐 보세요 — 도형이 선분으로 붕괴합니다. det = 0 의 뜻이 그림 하나로 끝납니다.',
+  link:'행렬 단원(2022 개정 공통수학1 복귀). 복소수 회전(LAB 94)·합성곱 필터(LAB 19)와 이어집니다.'},
+
+/* 101 행렬 곱 비가환 */
+ {tex:[
+   {t:'AB \\ne BA', s:'행렬 곱은 일반적으로 교환되지 않습니다 — 변환의 「적용 순서」가 곱의 순서이기 때문입니다.'},
+   {t:'\\text{회전} \\circ \\text{가로늘림} \\ne \\text{가로늘림} \\circ \\text{회전}', s:'먼저 돌리고 늘리면 비스듬히 늘고, 먼저 늘리고 돌리면 뚱뚱한 채 돕니다 — 그림이 증명입니다.'},
+   {t:'kI \\cdot A = A \\cdot kI', s:'균등 확대(스칼라 행렬)는 예외 — 방향을 가리지 않는 변환은 누구와도 순서를 바꿀 수 있습니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'수로 확인', d:'두 변환의 행렬을 직접 곱해 AB 와 BA 를 계산하고 화면의 합성 행렬과 맞추세요.'},
+   {lv:'심화',   t:'교환자 [A,B]', d:'AB − BA 를 계산해 「얼마나 안 바뀌는지」의 크기로 읽어 보세요 — 0 이면 교환 가능.'},
+   {lv:'프로젝트', t:'순서의 세계', d:'로봇 팔 관절, 루빅스 큐브, 옷 입기 — 순서를 타는 합성의 예 셋을 모아 행렬 곱과 잇는 발표를 만드세요.'}
+  ],
+  eq:'곱의 순서 = 변환의 적용 순서',
+  what:'교환법칙이 <b>당연하지 않은 세계</b>를 처음 만납니다. 수의 곱에서 오던 직관이 어디서 왜 깨지는지를 그림 두 장이 보여 줍니다.',
+  probe:'양쪽에 같은 변환을 같은 순서로 넣으면 언제나 같은 것도 확인하세요 — 다른 것은 「순서」뿐임을 대조군이 증명합니다.',
+  link:'행렬 단원의 마무리. 함수의 합성(공통수학2)·변환 파이프라인(그래픽스)의 문법입니다.'}
 ];
 
 /* ============ 10종 실험실 정의 ============ */
@@ -6176,7 +6336,47 @@ const LABS=[
 {n:91,core:0,t:'“겹침을 두 번 세지 마라” 확률의 덧셈',q:'두 사건을 함께 볼 때는?',
  m:['확률의 덧셈정리','배반사건','벤다이어그램'],a:['사건 결합','중복 제거'],
  note:'두 원을 끌어 겹침을 조절해 보세요. 그냥 더하면 겹친 만큼 <b>두 번 세어져 1 을 넘는 사고</b>가 나고, P(A∩B) 를 빼면 바로잡힙니다. 떨어져 있을 때(배반)만 덧셈으로 충분합니다.',
- build:probAddDemo}
+ build:probAddDemo},
+{n:92,core:0,t:'“계수만으로 나눗셈” 조립제법',q:'나눗셈을 계수만으로 할 수 있을까?',
+ m:['다항식의 나눗셈','조립제법','몫과 나머지'],a:['알고리즘 최적화','호너의 방법'],
+ note:'내리고·곱하고·더하고 — 세 동작이 칸을 타고 흐르는 것을 한 칸씩 진행하며 봅니다. k 를 잘 고르면 나머지가 0 이 되는 순간, 나눗셈이 인수분해로 바뀝니다.',
+ build:snDemo},
+{n:93,core:0,t:'“나누지 않고 아는 나머지” 나머지정리',q:'직접 나누지 않고 나머지를 알 수 있을까?',
+ m:['나머지정리','인수정리','삼차식의 인수분해'],a:['빠른 판정','근 탐색'],
+ note:'a 를 끌면 f(a) 가 즉시 계산되고, 「실제로 나눠 확인」이 늘 같은 값을 보여 줍니다. f(a)=0 인 자리 셋을 모두 찾으면 삼차식이 완전 인수분해로 무너집니다.',
+ build:rmDemo},
+{n:94,core:0,t:'“i 를 곱하면 90° 회전” 복소평면',q:'i 를 곱한다는 건 그림에서 무엇일까?',
+ m:['복소수','복소평면','켤레복소수'],a:['신호 처리','회전 표현'],
+ note:'z 를 찍고 ×i 를 누를 때마다 점이 정확히 90° 씩 돕니다 — 네 번이면 제자리(i⁴=1). 켤레 토글은 실수축 거울 대칭과 z·z̄ 가 실수가 되는 것까지 보여 줍니다.',
+ build:cxDemo},
+{n:95,core:0,t:'“구하지 않고 아는 합과 곱” 근과 계수',q:'근을 구하지 않고 두 근의 합을 알 수 있을까?',
+ m:['이차방정식','근과 계수의 관계','두 수 찾기'],a:['역문제','파라미터 추정'],
+ note:'b·c 를 움직이면 두 근·합·곱이 실시간으로 따라옵니다 — 합은 늘 −b, 곱은 늘 c. 「수 맞히기」는 이 관계를 거꾸로 쓰는 게임: 합·곱만 듣고 두 수를 방정식으로 잡습니다.',
+ build:vtDemo},
+{n:96,core:0,t:'“산과 골짜기가 정하는 근의 수” 삼차방정식',q:'삼차식은 실근이 몇 개일까?',
+ m:['삼차방정식','그래프와 실근','극값'],a:['해의 존재 판정','근 개수 분석'],
+ note:'곡선을 위아래로 끌면 실근이 1개 ↔ 2개(접함, 자석) ↔ 3개로 갈립니다. 극대·극소가 x축을 사이에 두는가 — 판별식의 삼차 버전을 눈으로 만듭니다.',
+ build:cbDemo},
+{n:97,core:0,t:'“해집합이 칠해진다” 이차부등식',q:'부등식의 해는 그림에서 어디일까?',
+ m:['이차부등식','이차함수의 그래프','해집합'],a:['조건 영역','허용 범위 판정'],
+ note:'포물선의 지하(<0) 구간이 붉게, 해집합이 수직선에 초록으로 칠해집니다. 구간·바깥·모든 실수·해 없음 — 네 가지 운명을 b·c·부등호 방향으로 모두 만들어 봅니다.',
+ build:qiDemo},
+{n:98,core:0,t:'“답은 늘 꼭짓점에 있다” 선형계획',q:'한정된 자원으로 이익을 최대로 하려면?',
+ m:['연립일차부등식','부등식의 영역','최적화'],a:['선형계획법','자원 배분'],
+ note:'제약이 만든 영역 위에서 이익선을 끌어 올리면, 마지막으로 스치는 곳이 언제나 꼭짓점입니다. 목적함수를 바꾸면 최적 꼭짓점이 옮겨 가는 것까지 — OR 의 첫 페이지입니다.',
+ build:lpDemo},
+{n:99,core:0,t:'“순서의 값은 2! 배” 순열과 조합',q:'순서를 따지느냐가 왜 그렇게 중요할까?',
+ m:['순열','조합','같은 것이 있는 순열'],a:['경우의 수 알고리즘','중복 제거'],
+ note:'회장·부회장(순열 12)과 청소 짝(조합 6)의 목록이 실제로 쌓입니다 — 정확히 2! 배. AABB 도전은 「구별 안 되는 것끼리 바꿔치기」를 나눗셈으로 지우는 감각을 줍니다.',
+ build:pmDemo},
+{n:100,core:0,t:'“사진을 움직이는 숫자판” 행렬과 변환',q:'사진 회전·확대는 왜 행렬 곱셈일까?',
+ m:['행렬','일차변환','행렬식'],a:['컴퓨터 그래픽','이미지 변환'],
+ note:'기저 화살표 두 개를 끌면 도형 F 가 통째로 따라 변합니다 — 열이 곧 기저의 목적지. 90° 회전 행렬을 직접 만들어 유령에 겹치고, det = 0 의 붕괴까지 봅니다.',
+ build:mxDemo},
+{n:101,core:0,t:'“순서를 타는 곱셈” 행렬 곱의 비가환',q:'순서를 바꾸면 결과가 달라지는 곱셈이 있을까?',
+ m:['행렬의 곱셈','합성 변환','교환법칙'],a:['변환 파이프라인','연산 순서'],
+ note:'회전→늘리기와 늘리기→회전을 두 판에 나란히 — 결과가 다릅니다(AB ≠ BA). 균등 확대처럼 순서를 안 타는 짝을 찾는 것이 반전 미션입니다.',
+ build:ncDemo}
 ];
 
 /* ---------- LAB 21 y = x 대칭의 발견 (역함수) ---------- */
@@ -10501,6 +10701,727 @@ function probAddDemo(root){
    달성은 화면 문구를 실험실이 스스로 읽어(re) 자동으로 확인하고,
    자동 감지가 없는 미션은 「해냈어요」 자가 확인으로 넘는다. */
 
+/* ═══════════════ 공통수학1 (LAB 92~101) ═══════════════ */
+
+/* ---------- LAB 92 조립제법 ---------- */
+function snDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sn1" width="400" height="250"></canvas>
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        ${slider('snK','나눗수 (x − k) 의 k',-3,3,1,0,'')}
+        <button class="b t sm" id="snGo">한 칸 진행 ▶</button>
+        <button class="b g sm" id="snRst">처음부터</button></div>
+    </div>
+    <div class="col">
+      <div class="out" id="snout"></div>
+      <div class="note" style="margin-top:12px">x³ − 2x² − 5x + 6 을 (x − k) 로 나눕니다.
+      <b>내리고 → k 곱하고 → 더하고</b> — 계수만으로 나눗셈이 끝나는 것이 조립제법입니다.
+      마지막 칸이 나머지 R 이고, k 를 잘 고르면 R = 0 이 됩니다.</div>
+    </div></div>`;
+  const cv=$('#sn1'),ctx=cv.getContext('2d'),W=400,H=250;
+  const CO=[1,-2,-5,6];
+  const S={ k:0, st:0, row:[], done:false };
+  function calc(){
+    S.row=[CO[0]];
+    for(let i=1;i<4;i++) S.row.push(CO[i]+S.row[i-1]*S.k);
+  }
+  function draw(){
+    calc();
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=110, cw=66, y0=60, y1=105, y2=150;
+    ctx.fillStyle='#374151'; ctx.font='bold 14px ui-monospace,monospace'; ctx.textAlign='center';
+    ctx.fillText('k = '+S.k, 50, y0+5);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(76,30); ctx.lineTo(76,170); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(80,y2-22); ctx.lineTo(W-16,y2-22); ctx.stroke();
+    CO.forEach((c,i)=>{ ctx.fillStyle='#111827';
+      ctx.fillText(c, cx+i*cw, y0+5); });
+    for(let i=0;i<4;i++){
+      if(i>0 && i<=S.st){ ctx.fillStyle='#B45309';
+        ctx.fillText((S.row[i-1]*S.k), cx+i*cw, y1+5); }
+      if(i<=S.st){ ctx.fillStyle=i===3?'#BE123C':'#0E9384';
+        ctx.font='bold 15px ui-monospace,monospace';
+        ctx.fillText(S.row[i], cx+i*cw, y2+5);
+        ctx.font='bold 14px ui-monospace,monospace'; }
+    }
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('내림', cx, y2+24);
+    if(S.st>=3){ ctx.fillStyle='#BE123C'; ctx.font='bold 11px sans-serif';
+      ctx.fillText('나머지', cx+3*cw, y2+24); }
+    const R=S.row[3];
+    $('#snout').innerHTML =
+      `<span class="mono">x³ − 2x² − 5x + 6 ÷ (x − ${S.k})</span><br>`
+      + (S.st<3
+        ? `진행 ${S.st} / 3 — 「한 칸 진행」으로 <b>${S.st===0?'첫 계수를 내리세요':'k 곱해 더하세요'}</b>.`
+        : `<b style="color:#0E9384">조립 완료 — 나머지 R = ${R}</b><br>
+           몫: <span class="mono">x² ${S.row[1]>=0?'+ '+S.row[1]:'− '+(-S.row[1])}x ${S.row[2]>=0?'+ '+S.row[2]:'− '+(-S.row[2])}</span><br>`
+          + (R===0
+            ? `<b style="color:#BE123C">R = 0 — (x − ${S.k}) 는 인수!</b> 나누어떨어졌습니다.`
+            : `<span class="mono">f(${S.k}) = ${CO[0]*S.k**3+CO[1]*S.k**2+CO[2]*S.k+CO[3]}</span> — 직접 대입한 값과 나머지가 같습니다(나머지정리의 예고).`));
+  }
+  $('#snGo').onclick=()=>{ if(S.st<3){ S.st++; draw(); } };
+  $('#snRst').onclick=()=>{ S.st=0; draw(); };
+  $('#snK').oninput=()=>{ S.k=+$('#snK').value; S.st=0; draw(); };
+  draw();
+  inquiry(root,{ id:'sn', title:'조립제법 — 계수만으로 나눗셈',
+    q:['k 를 −3~3 으로 바꿔 가며 (k, 나머지 R) 표를 채우세요.',
+       'R = 0 이 되는 k 를 모두 찾고, 그 k 들이 f(x) 와 어떤 관계인지 쓰세요.',
+       '「내리고 · 곱하고 · 더하고」가 세로셈 나눗셈의 어느 동작과 같은지 짝지어 설명하세요.'],
+    cols:['k','몫의 계수','나머지 R','f(k)'],
+    hint:'힌트 — 마지막 칸(R)과 f(k) 를 나란히 적어 보세요. 늘 같습니다. 우연일까요?',
+    read:()=>{ calc(); const R=S.row[3];
+      return [S.k, S.row.slice(0,3).join(', '), S.st>=3?R:'미완',
+        CO[0]*S.k**3+CO[1]*S.k**2+CO[2]*S.k+CO[3]]; } });
+}
+
+/* ---------- LAB 93 나머지정리·인수정리 ---------- */
+function rmDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="rm1" width="400" height="290"></canvas>
+      <div class="ctl" style="margin-top:8px">
+        <button class="b t sm" id="rmChk">실제로 나눠 나머지 확인</button>
+        <button class="b g sm" id="rmRst">발견 지우기</button></div>
+    </div>
+    <div class="col">
+      <div class="out" id="rmout"></div>
+      <div class="note" style="margin-top:12px">f(x) = x³ − 4x² + x + 6.
+      <b>주황 점 a 를 끌면 f(a) 가 즉시</b> 계산됩니다. 「실제로 나눠 확인」이
+      (x−a) 로 나눈 나머지를 보여 줍니다 — 둘이 늘 같은 것이 나머지정리,
+      f(a) = 0 인 a 가 곧 인수를 알려 주는 것이 인수정리입니다.</div>
+    </div></div>`;
+  const cv=$('#rm1'),ctx=cv.getContext('2d'),W=400,H=290;
+  const f=x=>x**3-4*x*x+x+6;
+  const S={ a:0.5, chk:false, roots:new Set() };
+  const X=v=>W/2+v*44, Y=v=>150-v*9;
+  const invX=p=>(p-W/2)/44;
+  function draw(){
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.3;
+    ctx.beginPath(); ctx.moveTo(10,Y(0)); ctx.lineTo(W-10,Y(0)); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.2; ctx.beginPath();
+    for(let i=0;i<=160;i++){ const x=-2.2+6*i/160, y=Math.max(-14,Math.min(14,f(x)));
+      const px=X(x), py=Y(y); i?ctx.lineTo(px,py):ctx.moveTo(px,py); }
+    ctx.stroke();
+    S.roots.forEach(r=>{ ctx.fillStyle='#0E9384';
+      ctx.beginPath(); ctx.arc(X(r),Y(0),6,0,7); ctx.fill(); });
+    const fa=f(S.a);
+    ctx.strokeStyle='#B45309'; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(X(S.a),Y(0)); ctx.lineTo(X(S.a),Y(Math.max(-14,Math.min(14,fa)))); ctx.stroke();
+    ctx.setLineDash([]);
+    handle(ctx, X(S.a), Y(0), '#B45309', 'a = '+S.a.toFixed(1));
+    const isRoot=Math.abs(fa)<1e-9;
+    $('#rmout').innerHTML =
+      `<span class="mono">f(${S.a.toFixed(1)}) = ${fa.toFixed(2)}</span><br>`
+      + (S.chk? `(x − ${S.a.toFixed(1)}) 로 나눈 나머지 = <b>${fa.toFixed(2)}</b> — <b style="color:#0E9384">f(a) 와 같습니다. 나머지정리!</b><br>`:'')
+      + (isRoot? `<b style="color:#BE123C">근 발견 — (x − ${Math.round(S.a)}) 는 f 의 인수입니다.</b><br>`:'')
+      + (S.roots.size>=3
+        ? `<b style="color:#0E9384">세 근 모두 발견 — 완전 인수분해 f(x) = (x+1)(x−2)(x−3)</b>`
+        : `<span style="color:#6B7280;font-size:12.5px">찾은 근 ${S.roots.size} / 3 — 곡선이 x축을 지나는 자리를 노리세요 (0.1 단위 자석).</span>`);
+  }
+  dragOn(cv,{
+    hit:p=>Math.hypot(p.x-X(S.a),p.y-Y(0))<26?'a':null,
+    move:(h,p)=>{ let a=Math.round(invX(p.x)*10)/10;
+      [-1,2,3].forEach(r=>{ if(Math.abs(a-r)<0.15) a=r; });
+      S.a=Math.max(-2.2,Math.min(3.8,a)); S.chk=false;
+      if(Math.abs(f(S.a))<1e-9) S.roots.add(Math.round(S.a));
+      draw(); }
+  });
+  $('#rmChk').onclick=()=>{ S.chk=true; draw(); };
+  $('#rmRst').onclick=()=>{ S.roots=new Set(); S.chk=false; draw(); };
+  draw();
+  inquiry(root,{ id:'rm', title:'나머지정리 — 나누지 않고 아는 나머지',
+    q:['a 다섯 곳에서 (a, f(a), 나눈 나머지) 를 기록하세요.',
+       'f(a) = 0 인 a 세 개를 찾고, 그때의 인수를 각각 쓰세요.',
+       'f(x) = (x−a)Q(x) + R 에 x = a 를 넣으면 무슨 일이 생기는지 손으로 써서 나머지정리를 증명하세요.'],
+    cols:['a','f(a)','나눈 나머지','같은가'],
+    hint:'힌트 — 나눗셈 등식에 x = a 를 대입하면 Q(x) 항이 통째로 사라집니다.',
+    read:()=>[S.a.toFixed(1), f(S.a).toFixed(2), S.chk?f(S.a).toFixed(2):'미확인', S.chk?'같다':'—'] });
+}
+
+/* ---------- LAB 94 복소수 — i 를 곱하면 90° 회전 ---------- */
+function cxDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="cx1" width="400" height="300"></canvas>
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b t" id="cxMul">× i</button>
+        <button class="b g sm" id="cxCj">켤레 보기</button>
+        <button class="b g sm" id="cxRst">처음부터</button></div>
+    </div>
+    <div class="col">
+      <div class="out" id="cxout"></div>
+      <div class="note" style="margin-top:12px">복소수 z = a + bi 는 평면의 점 (a, b).
+      <b>주황 점을 끌어 z 를 정하고 「× i」</b>를 눌러 보세요 — 곱셈이
+      그림에서는 회전이라는 것, 네 번이면 제자리라는 것이 복소평면의 첫 발견입니다.</div>
+    </div></div>`;
+  const cv=$('#cx1'),ctx=cv.getContext('2d'),W=400,H=300;
+  const O={x:200,y:150}, SC=34;
+  const S={ a:3, b:1, n:0, cj:false, trail:[] };
+  const cur=()=>{ let re=S.a, im=S.b;
+    for(let k=0;k<S.n;k++){ const t=re; re=-im; im=t; }
+    return [re,im]; };
+  function draw(){
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E8ECF2';
+    for(let v=-5;v<=5;v++){ ctx.beginPath(); ctx.moveTo(O.x+v*SC,10); ctx.lineTo(O.x+v*SC,H-10); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(20,O.y+v*SC); ctx.lineTo(W-20,O.y+v*SC); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(20,O.y); ctx.lineTo(W-20,O.y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(O.x,10); ctx.lineTo(O.x,H-10); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif';
+    ctx.fillText('실수축', W-42, O.y-6); ctx.fillText('허수축', O.x+6, 20);
+    // 궤적
+    S.trail.forEach(([re,im],i)=>{ ctx.fillStyle='rgba(37,99,235,.35)';
+      ctx.beginPath(); ctx.arc(O.x+re*SC, O.y-im*SC, 4, 0, 7); ctx.fill(); });
+    const [re,im]=cur();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.2;
+    ctx.beginPath(); ctx.moveTo(O.x,O.y); ctx.lineTo(O.x+re*SC,O.y-im*SC); ctx.stroke();
+    ctx.fillStyle='#2563EB'; ctx.beginPath(); ctx.arc(O.x+re*SC,O.y-im*SC,6,0,7); ctx.fill();
+    if(S.n===0) handle(ctx, O.x+S.a*SC, O.y-S.b*SC, '#B45309','z');
+    if(S.cj){ ctx.strokeStyle='#0E9384'; ctx.setLineDash([4,3]); ctx.lineWidth=1.8;
+      ctx.beginPath(); ctx.moveTo(O.x,O.y); ctx.lineTo(O.x+re*SC,O.y+im*SC); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#0E9384'; ctx.beginPath(); ctx.arc(O.x+re*SC,O.y+im*SC,5,0,7); ctx.fill(); }
+    const zs=(r,i2)=>`${r}${i2>=0?' + '+i2:' − '+(-i2)}i`;
+    $('#cxout').innerHTML =
+      `<span class="mono">z = ${zs(S.a,S.b)} &nbsp;·&nbsp; 지금: i<sup>${S.n%4}</sup>·z = ${zs(re,im)}</span><br>`
+      + (S.n>0? `<b style="color:#2563EB">× i 는 +90° 회전</b> — 길이는 그대로, 방향만 돕니다.<br>`:'')
+      + (S.n>0&&S.n%4===0? `<b style="color:#0E9384">네 바퀴에 제자리 — i⁴ = 1 입니다.</b><br>`:'')
+      + (S.cj? `<b style="color:#0B6E63">켤레 z̄ = ${zs(re,-im)} — 실수축 거울 대칭입니다.</b> z·z̄ = ${re*re+im*im} (실수!)`
+             : `<span style="color:#6B7280;font-size:12.5px">「× i」 를 누르며 점의 발자국을 지켜보세요.</span>`);
+  }
+  dragOn(cv,{
+    hit:p=>{ if(S.n>0) return null;
+      return Math.hypot(p.x-(O.x+S.a*SC), p.y-(O.y-S.b*SC))<24?'z':null; },
+    move:(h,p)=>{ S.a=Math.max(-4,Math.min(4,Math.round((p.x-O.x)/SC)));
+      S.b=Math.max(-3,Math.min(3,Math.round((O.y-p.y)/SC)));
+      if(S.a===0&&S.b===0) S.a=1;
+      S.trail=[[S.a,S.b]]; draw(); }
+  });
+  $('#cxMul').onclick=()=>{ S.n++; S.trail.push(cur()); draw(); };
+  $('#cxCj').onclick=()=>{ S.cj=!S.cj; draw(); };
+  $('#cxRst').onclick=()=>{ S.n=0; S.cj=false; S.trail=[[S.a,S.b]]; draw(); };
+  draw();
+  inquiry(root,{ id:'cx', title:'복소평면 — 곱셈이 회전이 되는 곳',
+    q:['z 를 세 가지로 바꿔 가며 ×i 네 번의 발자국을 기록하세요.',
+       'i⁰, i¹, i², i³, i⁴ 의 값을 표로 정리하고 주기를 쓰세요.',
+       '(a+bi)·i = −b+ai 를 손으로 전개하고, 이 계산이 왜 「90° 회전」과 같은지 두 점의 위치로 설명하세요.'],
+    cols:['z','×i 1번','×i 2번','×i 4번'],
+    hint:'힌트 — i² = −1 은 「90° 를 두 번 = 180°」, 즉 부호 뒤집기입니다.',
+    read:()=>{ const t=S.trail;
+      const zs=q=>q?`${q[0]}+${q[1]}i`:'—';
+      return [zs([S.a,S.b]), zs(t[1]), zs(t[2]), zs(t[4])]; } });
+}
+
+/* ---------- LAB 95 근과 계수의 관계 ---------- */
+function vtDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="vt1" width="400" height="260"></canvas>
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        ${slider('vtB','b (x의 계수)',-8,8,1,1,'')}
+        ${slider('vtC','c (상수항)',-12,12,1,-2,'')}
+        <button class="b t sm" id="vtQ">수 맞히기 도전</button></div>
+      <div id="vtQz" style="margin-top:6px;font-weight:800"></div>
+    </div>
+    <div class="col">
+      <div class="out" id="vtout"></div>
+      <div class="note" style="margin-top:12px">x² + bx + c = 0 의 두 근을 구하지 않아도
+      <b>합은 −b, 곱은 c</b> — 계수가 근의 정보를 통째로 들고 있습니다.
+      「수 맞히기」는 이 관계를 거꾸로 쓰는 게임입니다: 합 S·곱 P 인 두 수 = t² − St + P 의 두 근.</div>
+    </div></div>`;
+  const cv=$('#vt1'),ctx=cv.getContext('2d'),W=400,H=260;
+  const S={ quiz:null, win:0 };
+  const QS=[{s:5,p:6},{s:-1,p:-12},{s:2,p:-15}];
+  function roots(b,c){ const D=b*b-4*c;
+    if(D<0) return null;
+    return [(-b-Math.sqrt(D))/2, (-b+Math.sqrt(D))/2]; }
+  function draw(){
+    const b=+$('#vtB').value, c=+$('#vtC').value;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const X=v=>W/2+v*22, Y=v=>140-v*5.5;
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(10,Y(0)); ctx.lineTo(W-10,Y(0)); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.2; ctx.beginPath();
+    for(let i=0;i<=140;i++){ const x=-8.6+17.2*i/140, y=Math.max(-24,Math.min(22,x*x+b*x+c));
+      const px=X(x), py=Y(y); i?ctx.lineTo(px,py):ctx.moveTo(px,py); }
+    ctx.stroke();
+    const rs=roots(b,c);
+    if(rs) rs.forEach(r=>{ ctx.fillStyle='#BE123C';
+      ctx.beginPath(); ctx.arc(X(r),Y(0),5.5,0,7); ctx.fill(); });
+    let quiz='';
+    if(S.quiz){
+      const q=S.quiz, hit=rs && b===-q.s && c===q.p;
+      quiz = hit
+        ? `<b style="color:#0E9384">문제 해결! 두 수는 ${rs[0].toFixed(0)} 와 ${rs[1].toFixed(0)} ${S.win>=1?'— <span style=\"color:#B45309\">2연승!</span>':''}</b>`
+        : `목표: 합 ${q.s} · 곱 ${q.p} 인 두 수 — b·c 를 조절해 방정식으로 잡으세요.`;
+    }
+    $('#vtQz').innerHTML=quiz;
+    $('#vtout').innerHTML =
+      `<span class="mono">x² ${b>=0?'+ '+b:'− '+(-b)}x ${c>=0?'+ '+c:'− '+(-c)} = 0</span><br>`
+      + (rs? `두 근: <b>${rs[0].toFixed(2)}, ${rs[1].toFixed(2)}</b><br>
+              <span class="mono">합 = ${(rs[0]+rs[1]).toFixed(2)} ( = −b = ${-b}) &nbsp; 곱 = ${(rs[0]*rs[1]).toFixed(2)} ( = c = ${c})</span>`
+           : `<span style="color:#BE123C">실근 없음 (D < 0)</span> — 그래도 합·곱은 −b, c 로 정해져 있습니다.`);
+  }
+  $('#vtB').oninput=draw; $('#vtC').oninput=draw;
+  $('#vtQ').onclick=()=>{
+    if(S.quiz){ const b=+$('#vtB').value, c=+$('#vtC').value;
+      if(b===-S.quiz.s&&c===S.quiz.p) S.win++; }
+    S.quiz=QS[Math.min(S.win,QS.length-1)];
+    if(S.win>=QS.length) S.quiz=QS[0];
+    draw();
+  };
+  draw();
+  inquiry(root,{ id:'vt', title:'근과 계수 — 구하지 않고 아는 것들',
+    q:['b·c 다섯 조합에서 (두 근, 합, 곱, −b, c) 를 기록하세요.',
+       '합·곱 열이 계수 열과 늘 일치하는지 확인하고, (x−p)(x−q) 전개로 이유를 쓰세요.',
+       '합 7, 곱 12 인 두 수를 방정식 없이 말하고, 화면으로 검산하세요.'],
+    cols:['b','c','두 근','합','곱'],
+    hint:'힌트 — (x−p)(x−q) = x² −(p+q)x + pq. 계수는 근의 요약본입니다.',
+    read:()=>{ const b=+$('#vtB').value, c=+$('#vtC').value, rs=roots(b,c);
+      return [b, c, rs?rs.map(r=>r.toFixed(1)).join(', '):'없음',
+        rs?(rs[0]+rs[1]).toFixed(1):'—', rs?(rs[0]*rs[1]).toFixed(1):'—']; } });
+}
+
+/* ---------- LAB 96 삼차방정식의 실근 ---------- */
+function cbDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="cb1" width="400" height="300"></canvas>
+      <div class="note" style="margin-top:8px"><b>곡선을 위아래로 끌면(주황 손잡이)</b>
+      상수항 k 가 변합니다. 접하는 순간에는 자석처럼 붙습니다.</div>
+    </div>
+    <div class="col">
+      <div class="out" id="cbout"></div>
+      <div class="note" style="margin-top:12px">f(x) = x³ − 3x + k.
+      삼차 곡선은 x축과 <b>1번 · 2번(접함) · 3번</b> 만날 수 있습니다 —
+      산과 골짜기(극값)가 x축을 사이에 두는지가 운명을 가릅니다.</div>
+    </div></div>`;
+  const cv=$('#cb1'),ctx=cv.getContext('2d'),W=400,H=300;
+  const S={ k:3 };
+  const X=v=>W/2+v*58, Y=v=>150-v*22;
+  function nroots(){ const a=S.k+2, b=S.k-2;    // f(−1)=k+2(극대), f(1)=k−2(극소)
+    if(Math.abs(a)<0.03||Math.abs(b)<0.03) return 2;
+    return a*b<0?3:1; }
+  function draw(){
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.3;
+    ctx.beginPath(); ctx.moveTo(10,Y(0)); ctx.lineTo(W-10,Y(0)); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4; ctx.beginPath();
+    for(let i=0;i<=160;i++){ const x=-2.9+5.8*i/160, y=Math.max(-6.2,Math.min(6.2,x**3-3*x+S.k));
+      const px=X(x), py=Y(y); i?ctx.lineTo(px,py):ctx.moveTo(px,py); }
+    ctx.stroke();
+    // 극값 점
+    [[-1,S.k+2],[1,S.k-2]].forEach(([x,y])=>{ ctx.fillStyle='#B45309';
+      ctx.beginPath(); ctx.arc(X(x),Y(Math.max(-6.2,Math.min(6.2,y))),4.5,0,7); ctx.fill(); });
+    handle(ctx, X(1.9), Y(Math.max(-6.2,Math.min(6.2,1.9**3-3*1.9+S.k))), '#B45309', 'k = '+S.k.toFixed(2));
+    const n=nroots();
+    $('#cbout').innerHTML =
+      `<span class="mono">f(x) = x³ − 3x ${S.k>=0?'+ '+S.k.toFixed(2):'− '+(-S.k).toFixed(2)}</span><br>`
+      + `극대 f(−1) = ${(S.k+2).toFixed(2)} · 극소 f(1) = ${(S.k-2).toFixed(2)}<br>`
+      + (n===3? `<b style="color:#0E9384">실근 3개 — 산은 x축 위, 골짜기는 아래.</b>`
+        : n===2? `<b style="color:#BE123C">접했습니다 — 중근 포함 실근 2개.</b> 극값 하나가 정확히 0 입니다.`
+        : `<b style="color:#2563EB">실근 1개</b> — 산과 골짜기가 같은 쪽에 있습니다.`);
+  }
+  dragOn(cv,{
+    hit:p=>p.y>20&&p.y<H-20?'k':null,
+    move:(h,p,st)=>{ let k=S.k-(p.y-(st&&st.py!==undefined?st.py:p.y))/22;
+      // dragOn 이 이전 좌표를 안 주면 위치 기반으로: 곡선 위 y 를 직접 맞춘다
+      k=Math.round(((150-p.y)/22 - (1.9**3-3*1.9))*100)/100;
+      [-2,2].forEach(s=>{ if(Math.abs(k-s)<0.25) k=s; });
+      S.k=Math.max(-5,Math.min(5,k)); draw(); }
+  });
+  draw();
+  inquiry(root,{ id:'cb', title:'삼차방정식 — 실근의 개수는 극값이 정한다',
+    q:['k 를 바꿔 가며 (k, 극대, 극소, 실근 수) 를 여섯 줄 기록하세요. 접하는 k 두 개를 꼭 포함하세요.',
+       '「극대 × 극소」의 부호 열을 만들어 실근 수와의 규칙을 찾으세요.',
+       '이 규칙이 이차방정식의 판별식과 어떻게 닮았는지, 무엇이 다른지 쓰세요.'],
+    cols:['k','극대','극소','실근 수'],
+    hint:'힌트 — 산꼭대기와 골짜기가 x축을 「사이에 두면」 세 번 건넙니다.',
+    read:()=>[S.k.toFixed(2), (S.k+2).toFixed(2), (S.k-2).toFixed(2), nroots()+'개'] });
+}
+
+/* ---------- LAB 97 이차부등식 ---------- */
+function qiDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="qi1" width="400" height="280"></canvas>
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        ${slider('qiB','b',-6,6,1,0,'')}
+        ${slider('qiC','c',-8,8,1,1,'')}
+        <button class="b g sm" id="qiDir">부등호 뒤집기 (지금: <span id="qiDv">&lt;</span> 0)</button></div>
+    </div>
+    <div class="col">
+      <div class="out" id="qiout"></div>
+      <div class="note" style="margin-top:12px">x² + bx + c 와 0 의 대소는
+      <b>포물선이 x축 아래/위 어디에 있는가</b>입니다. 해집합이 수직선에
+      실시간으로 칠해집니다 — 구간·바깥·전부·없음, 네 가지 운명을 모두 만들어 보세요.</div>
+    </div></div>`;
+  const cv=$('#qi1'),ctx=cv.getContext('2d'),W=400,H=280;
+  const S={ lt:true };
+  function draw(){
+    const b=+$('#qiB').value, c=+$('#qiC').value;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const X=v=>W/2+v*26, Y=v=>120-v*7;
+    const D=b*b-4*c;
+    const rs=D>=0?[(-b-Math.sqrt(D))/2,(-b+Math.sqrt(D))/2]:null;
+    // 해 구간 하이라이트 (곡선 아래/위 부분 강조)
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2; ctx.beginPath();
+    for(let i=0;i<=150;i++){ const x=-7.3+14.6*i/150, y=Math.max(-15,Math.min(18,x*x+b*x+c));
+      const px=X(x), py=Y(y); i?ctx.lineTo(px,py):ctx.moveTo(px,py); }
+    ctx.stroke();
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.3;
+    ctx.beginPath(); ctx.moveTo(10,Y(0)); ctx.lineTo(W-10,Y(0)); ctx.stroke();
+    // 만족 구간 진하게
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=4; ctx.beginPath();
+    let on=false;
+    for(let i=0;i<=150;i++){ const x=-7.3+14.6*i/150, y=x*x+b*x+c;
+      const ok=S.lt? y<0 : y>0;
+      const px=X(x), py=Y(Math.max(-15,Math.min(18,y)));
+      if(ok&&!on){ ctx.moveTo(px,py); on=true; }
+      else if(ok) ctx.lineTo(px,py);
+      else on=false; }
+    ctx.stroke();
+    // 수직선 해집합
+    const ny=H-40;
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(20,ny); ctx.lineTo(W-20,ny); ctx.stroke();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=5;
+    const seg=(x1,x2)=>{ ctx.beginPath(); ctx.moveTo(Math.max(20,X(x1)),ny); ctx.lineTo(Math.min(W-20,X(x2)),ny); ctx.stroke(); };
+    let sol;
+    if(rs&&rs[1]-rs[0]>1e-9){
+      if(S.lt){ seg(rs[0],rs[1]); sol=`${rs[0].toFixed(1)} < x < ${rs[1].toFixed(1)}`; }
+      else { seg(-7.3,rs[0]); seg(rs[1],7.3); sol=`x < ${rs[0].toFixed(1)} 또는 x > ${rs[1].toFixed(1)}`; }
+      rs.forEach(r=>{ ctx.fillStyle='#fff'; ctx.strokeStyle='#0E9384'; ctx.lineWidth=2;
+        ctx.beginPath(); ctx.arc(X(r),ny,5,0,7); ctx.fill(); ctx.stroke(); });
+    } else if(rs){ // 중근
+      if(S.lt) sol='해가 없습니다 (딱 한 점에서만 0)';
+      else { seg(-7.3,rs[0]); seg(rs[0],7.3); sol=`x ≠ ${rs[0].toFixed(1)} 인 모든 실수`; }
+    } else {
+      if(S.lt) sol='해가 없습니다 — 포물선이 늘 x축 위';
+      else { seg(-7.3,7.3); sol='모든 실수 — 포물선이 늘 x축 위'; }
+    }
+    $('#qiDv').innerHTML=S.lt?'&lt;':'&gt;';
+    $('#qiout').innerHTML =
+      `<span class="mono">x² ${b>=0?'+ '+b:'− '+(-b)}x ${c>=0?'+ '+c:'− '+(-c)} ${S.lt?'<':'>'} 0</span><br>`
+      + `해: <b style="color:#0E9384">${sol}</b><br>`
+      + `<span style="color:#6B7280;font-size:12.5px">붉은 곡선 = 부등식을 만족하는 부분, 초록 선 = 해집합.</span>`;
+  }
+  $('#qiB').oninput=draw; $('#qiC').oninput=draw;
+  $('#qiDir').onclick=()=>{ S.lt=!S.lt; draw(); };
+  draw();
+  inquiry(root,{ id:'qi', title:'이차부등식 — 그림이 곧 해집합',
+    q:['b·c 를 바꿔 가며 (식, 부등호, 해집합) 여섯 줄을 기록하세요. 네 가지 운명을 모두 포함하세요.',
+       '판별식 D 의 부호 열을 추가해 해집합의 모양과 짝지으세요.',
+       'x² − 2x − 3 < 0 을 손으로 풀고(인수분해 → 수직선), 화면으로 검산하세요.'],
+    cols:['b','c','부등호','해집합'],
+    hint:'힌트 — 「< 0」은 포물선의 지하 구간, 「> 0」은 지상 구간을 읽는 일입니다.',
+    read:()=>{ const b=+$('#qiB').value, c=+$('#qiC').value;
+      return [b, c, S.lt?'< 0':'> 0', $('#qiout').innerText.match(/해: ([^\n]*)/)?.[1]||'']; } });
+}
+
+/* ---------- LAB 98 부등식 영역과 선형계획 ---------- */
+function lpDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="lp1" width="400" height="300"></canvas>
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="lpObj">목적함수 바꾸기: <span id="lpOv">z = 3x + 2y</span></button></div>
+    </div>
+    <div class="col">
+      <div class="out" id="lpout"></div>
+      <div class="note" style="margin-top:12px">빵 x개·케이크 y개.
+      제약: x + y ≤ 6 (오븐), x + 2y ≤ 8 (반죽), x·y ≥ 0.
+      <b>점 P(주황)로 생산 계획을 정하고, 이익선(빨강)을 끌어 올려 보세요</b> —
+      마지막까지 영역에 걸치는 곳이 늘 꼭짓점인 것이 선형계획법의 심장입니다.</div>
+    </div></div>`;
+  const cv=$('#lp1'),ctx=cv.getContext('2d'),W=400,H=300;
+  const S={ px:2, py:2, z:6, obj:0 };
+  const OBJ=[{a:3,b:2,t:'z = 3x + 2y',best:[4,2],bz:16},{a:1,b:3,t:'z = x + 3y',best:[0,4],bz:12}];
+  const X=v=>50+v*40, Y=v=>H-40-v*40;
+  const inside=(x,y)=>x>=-0.001&&y>=-0.001&&x+y<=6.001&&x+2*y<=8.001;
+  function draw(){
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E8ECF2';
+    for(let v=0;v<=8;v++){ ctx.beginPath(); ctx.moveTo(X(v),20); ctx.lineTo(X(v),H-40); ctx.stroke(); }
+    for(let v=0;v<=6;v++){ ctx.beginPath(); ctx.moveTo(50,Y(v)); ctx.lineTo(W-10,Y(v)); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(50,Y(0)); ctx.lineTo(W-10,Y(0)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(0),20); ctx.lineTo(X(0),H-40); ctx.stroke();
+    // 가능 영역: (0,0)(6,0)(4,2)(0,4)
+    ctx.fillStyle='rgba(14,147,132,.15)';
+    ctx.beginPath(); ctx.moveTo(X(0),Y(0)); ctx.lineTo(X(6),Y(0)); ctx.lineTo(X(4),Y(2)); ctx.lineTo(X(0),Y(4)); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=1.8; ctx.stroke();
+    [[0,0],[6,0],[4,2],[0,4]].forEach(([x,y])=>{ ctx.fillStyle='#0B6E63';
+      ctx.beginPath(); ctx.arc(X(x),Y(y),4,0,7); ctx.fill(); });
+    // 이익선 z = ax+by
+    const o=OBJ[S.obj];
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2.2;
+    ctx.beginPath();
+    const y0=(S.z-o.a*(-1))/o.b, y1=(S.z-o.a*9)/o.b;
+    ctx.moveTo(X(-1),Y(y0)); ctx.lineTo(X(9),Y(y1)); ctx.stroke();
+    handle(ctx, X(4.6), Y((S.z-o.a*4.6)/o.b), '#BE123C', 'z = '+S.z.toFixed(1));
+    // 생산점 P
+    const pin=inside(S.px,S.py);
+    const isVertex=Math.abs(S.px-o.best[0])<0.15&&Math.abs(S.py-o.best[1])<0.15;
+    handle(ctx, X(S.px), Y(S.py), pin?'#B45309':'#BE123C','P('+S.px.toFixed(1)+', '+S.py.toFixed(1)+')');
+    const zBest=o.bz, zNow=o.a*S.px+o.b*S.py;
+    const zLineMax=Math.abs(S.z-zBest)<0.4;
+    $('#lpout').innerHTML =
+      `<span class="mono">${o.t} · P 의 이익 z = ${zNow.toFixed(1)}</span><br>`
+      + (pin? (isVertex?`<b style="color:#0E9384">꼭짓점 명중 — 이 목적함수의 최적 생산 계획입니다.</b><br>`
+                       :`조건 만족 — 하지만 더 나은 계획이 있을까요?<br>`)
+            : `<b style="color:#BE123C">조건 위반 — 오븐 또는 반죽 한도를 넘었습니다.</b><br>`)
+      + (zLineMax? `<b style="color:#BE123C">이익선이 마지막으로 영역을 스칩니다 — ${S.obj===0?`최대 z = 16, 꼭짓점 (4, 2)`:`이번엔 (0, 4) 가 최대 (z = 12)`}.</b>`
+                 : `<span style="color:#6B7280;font-size:12.5px">이익선을 끌어 올려 영역을 떠나기 직전의 값을 찾으세요.</span>`);
+  }
+  dragOn(cv,{
+    hit:p=>{ if(Math.hypot(p.x-X(S.px),p.y-Y(S.py))<22) return 'P';
+      const o=OBJ[S.obj];
+      const d=Math.abs(o.a*((p.x-50)/40)+o.b*((H-40-p.y)/40)-S.z)/Math.hypot(o.a,o.b);
+      return d<0.5?'z':null; },
+    move:(h,p)=>{ const o=OBJ[S.obj];
+      if(h==='P'){ S.px=Math.max(0,Math.min(8,Math.round((p.x-50)/40*10)/10));
+        S.py=Math.max(0,Math.min(6,Math.round((H-40-p.y)/40*10)/10));
+        [[0,0],[6,0],[4,2],[0,4]].forEach(([vx,vy])=>{ if(Math.hypot(S.px-vx,S.py-vy)<0.3){ S.px=vx; S.py=vy; } });
+      } else {
+        let z=o.a*((p.x-50)/40)+o.b*((H-40-p.y)/40);
+        if(Math.abs(z-o.bz)<0.7) z=o.bz;
+        S.z=Math.max(2,Math.min(22,z));
+      }
+      draw(); }
+  });
+  $('#lpObj').onclick=()=>{ S.obj=1-S.obj; $('#lpOv').textContent=OBJ[S.obj].t; S.z=6; draw(); };
+  draw();
+  inquiry(root,{ id:'lp', title:'선형계획 — 답은 늘 꼭짓점에 있다',
+    q:['네 꼭짓점 각각에서 z 값을 계산해 표를 채우세요.',
+       '이익선을 끌 때 영역을 마지막으로 스치는 곳이 어디인지, 목적함수를 바꾸면 어떻게 달라지는지 기록하세요.',
+       '왜 최적해가 영역 안쪽이 아니라 꼭짓점에서 나오는지, 평행한 직선 다발 그림으로 설명하세요.'],
+    cols:['꼭짓점','z = 3x+2y','z = x+3y'],
+    hint:'힌트 — 이익선은 기울기가 고정된 채 평행이동만 합니다. 마지막 접촉점은 모서리일 수밖에 없습니다.',
+    read:()=>{ const o=OBJ[S.obj];
+      return ['P('+S.px.toFixed(1)+','+S.py.toFixed(1)+')', (3*S.px+2*S.py).toFixed(1), (S.px+3*S.py).toFixed(1)]; } });
+}
+
+/* ---------- LAB 99 순열과 조합 ---------- */
+function pmDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="pm1" width="400" height="270"></canvas>
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b t sm" id="pmP">순서 있게 나열 (회장·부회장)</button>
+        <button class="b t sm" id="pmC">순서 없이 뽑기 (청소 짝)</button>
+        <button class="b g sm" id="pmA">도전: AABB 나열</button></div>
+    </div>
+    <div class="col">
+      <div class="out" id="pmout"></div>
+      <div class="note" style="margin-top:12px">넷(가·나·다·라) 중 둘 —
+      <b>회장·부회장은 순서가 있고, 청소 짝은 없습니다.</b>
+      나열을 눌러 목록이 실제로 쌓이는 것을 보세요: 12 와 6, 정확히 2배 차이입니다.</div>
+    </div></div>`;
+  const cv=$('#pm1'),ctx=cv.getContext('2d'),W=400,H=270;
+  const NM=['가','나','다','라'];
+  const S={ mode:null, list:[], t:0, aabb:false };
+  function build(mode){
+    S.mode=mode; S.list=[]; S.aabb=false;
+    for(let i=0;i<4;i++) for(let j=0;j<4;j++){
+      if(i===j) continue;
+      if(mode==='C'&&i>j) continue;
+      S.list.push(mode==='P'?NM[i]+NM[j]:'{'+NM[i]+','+NM[j]+'}');
+    }
+    S.t=0; anim();
+  }
+  function anim(){
+    if(!$('#pm1')) return;
+    if(S.t<S.list.length){ S.t++; draw(); setTimeout(anim,150); }
+    else draw();
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    if(S.aabb){
+      const perms=['AABB','ABAB','ABBA','BAAB','BABA','BBAA'];
+      ctx.fillStyle='#111827'; ctx.font='bold 15px ui-monospace,monospace'; ctx.textAlign='center';
+      perms.forEach((s,i)=>ctx.fillText(s, 90+(i%3)*110, 70+Math.floor(i/3)*46));
+      ctx.fillStyle='#374151'; ctx.font='12px sans-serif';
+      ctx.fillText('4! ÷ (2! × 2!) = 24 ÷ 4 = 6', W/2, 200);
+      return;
+    }
+    ctx.fillStyle='#111827'; ctx.font='bold 14px ui-monospace,monospace'; ctx.textAlign='center';
+    S.list.slice(0,S.t).forEach((s,i)=>{
+      ctx.fillText(s, 70+(i%4)*90, 50+Math.floor(i/4)*44);
+    });
+    if(!S.mode){ ctx.fillStyle='#6B7280'; ctx.font='13px sans-serif';
+      ctx.fillText('버튼을 눌러 목록을 쌓아 보세요', W/2, 120); }
+  }
+  function out(){
+    if(S.aabb){
+      $('#pmout').innerHTML=`<b style="color:#0E9384">같은 것이 있는 순열: 6가지.</b><br>
+        <span class="mono">4! / (2!·2!) = 6</span> — A 둘·B 둘이 서로 구별되지 않아 <b>겹치는 만큼 나눕니다</b>.`;
+      return;
+    }
+    if(!S.mode){ $('#pmout').innerHTML='두 버튼으로 목록을 만들어 비교하세요.'; return; }
+    const done=S.t>=S.list.length;
+    $('#pmout').innerHTML = S.mode==='P'
+      ? (done?`<b style="color:#2563EB">순열 12가지 — ₄P₂ = 4 × 3</b><br><span style="color:#6B7280;font-size:12.5px">가나 와 나가 가 다른 줄입니다 — 순서가 있으니까요.</span>`:`나열 중… ${S.t}/12`)
+      : (done?`<b style="color:#0E9384">조합 6가지 — 순열 12 를 2! 로 나눈 값입니다.</b><br><span class="mono">₄C₂ = ₄P₂ / 2!</span> — {가,나} 하나가 순열 두 줄(가나·나가)을 대표합니다.`:`나열 중… ${S.t}/6`);
+  }
+  $('#pmP').onclick=()=>{ build('P'); out(); const t=setInterval(()=>{ out(); if(S.t>=S.list.length) clearInterval(t); },200); };
+  $('#pmC').onclick=()=>{ build('C'); out(); const t=setInterval(()=>{ out(); if(S.t>=S.list.length) clearInterval(t); },200); };
+  $('#pmA').onclick=()=>{ S.aabb=true; S.mode=null; draw(); out(); };
+  draw(); out();
+  inquiry(root,{ id:'pm', title:'순열과 조합 — 순서의 값은 2! 배',
+    q:['순열 12줄과 조합 6줄을 실제 목록으로 확인하고, 조합 하나가 순열 몇 줄을 대표하는지 세어 보세요.',
+       '5명 중 2명이면 각각 몇 가지가 될지 공식으로 예측하고 목록의 규칙으로 검산하세요.',
+       'AABB 6가지가 4! 을 2!·2! 로 나눈 값인 이유를 「구별 안 되는 것끼리 바꿔치기」로 설명하세요.'],
+    cols:['상황','순서','가짓수','식'],
+    hint:'힌트 — 나눗셈은 늘 「겹쳐 세어진 배수」를 지우는 동작입니다.',
+    read:()=>[S.aabb?'AABB':S.mode==='P'?'회장·부회장':S.mode==='C'?'청소 짝':'—',
+      S.aabb?'같은 것 있음':S.mode==='P'?'있음':'없음',
+      S.aabb?6:S.list.length, S.aabb?'4!/(2!2!)':S.mode==='P'?'4×3':'4×3/2!'] });
+}
+
+/* ---------- LAB 100 행렬과 이미지 변환 ---------- */
+function mxDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="mx1" width="400" height="300"></canvas>
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b t sm" id="mxT">도전: 90° 회전 만들기</button>
+        <button class="b g sm" id="mxRst">원래대로</button></div>
+    </div>
+    <div class="col">
+      <div class="out" id="mxout"></div>
+      <div class="note" style="margin-top:12px">행렬의 두 열은 <b>기저 화살표 e₁(파랑)·e₂(초록)이
+      가는 곳</b>입니다. 화살표 끝을 끌면 도형 F 전체가 따라 변합니다 —
+      사진 앱의 회전·확대가 전부 이 2×2 숫자판입니다.</div>
+    </div></div>`;
+  const cv=$('#mx1'),ctx=cv.getContext('2d'),W=400,H=300;
+  const O={x:170,y:170}, SC=52;
+  const S={ m:[1,0,0,1], quiz:false, hit:false };     // [a,b,c,d] = 열 (a,c),(b,d)
+  const F=[[0,0],[0,2],[1.2,2],[1.2,1.6],[0.5,1.6],[0.5,1],[1,1],[1,0.6],[0.5,0.6],[0.5,0]];
+  const ap=(x,y)=>[S.m[0]*x+S.m[1]*y, S.m[2]*x+S.m[3]*y];
+  function draw(){
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E8ECF2';
+    for(let v=-3;v<=4;v++){ ctx.beginPath(); ctx.moveTo(O.x+v*SC,10); ctx.lineTo(O.x+v*SC,H-10); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(20,O.y+v*SC); ctx.lineTo(W-20,O.y+v*SC); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.3;
+    ctx.beginPath(); ctx.moveTo(20,O.y); ctx.lineTo(W-20,O.y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(O.x,10); ctx.lineTo(O.x,H-10); ctx.stroke();
+    // 목표 유령 (90° 회전 F)
+    if(S.quiz){ ctx.strokeStyle='#BE123C'; ctx.setLineDash([4,3]); ctx.lineWidth=1.6; ctx.beginPath();
+      F.forEach(([x,y],i)=>{ const px=O.x+(-y)*SC, py=O.y-(x)*SC;
+        i?ctx.lineTo(px,py):ctx.moveTo(px,py); });
+      ctx.closePath(); ctx.stroke(); ctx.setLineDash([]); }
+    // 변환된 F
+    ctx.fillStyle='rgba(37,99,235,.15)'; ctx.strokeStyle='#2563EB'; ctx.lineWidth=2; ctx.beginPath();
+    F.forEach(([x,y],i)=>{ const [tx,ty]=ap(x,y); const px=O.x+tx*SC, py=O.y-ty*SC;
+      i?ctx.lineTo(px,py):ctx.moveTo(px,py); });
+    ctx.closePath(); ctx.fill(); ctx.stroke();
+    // 기저 화살표
+    const arrow=(vx,vy,col,lab)=>{ ctx.strokeStyle=col; ctx.lineWidth=2.6;
+      ctx.beginPath(); ctx.moveTo(O.x,O.y); ctx.lineTo(O.x+vx*SC,O.y-vy*SC); ctx.stroke();
+      handle(ctx, O.x+vx*SC, O.y-vy*SC, col, lab); };
+    arrow(S.m[0],S.m[2],'#2563EB','e₁→');
+    arrow(S.m[1],S.m[3],'#0E9384','e₂→');
+    const det=S.m[0]*S.m[3]-S.m[1]*S.m[2];
+    const rot=S.m[0]===0&&S.m[2]===1&&S.m[1]===-1&&S.m[3]===0;
+    if(S.quiz&&rot) S.hit=true;
+    $('#mxout').innerHTML =
+      `<span class="mono">행렬 [ ${S.m[0]} &nbsp; ${S.m[1]} ; ${S.m[2]} &nbsp; ${S.m[3]} ]</span><br>`
+      + `넓이 배율 |det| = <b>${Math.abs(det).toFixed(2)}</b><br>`
+      + (Math.abs(det)<1e-9? `<b style="color:#BE123C">넓이 0 — 도형이 납작하게 붕괴했습니다 (det = 0).</b> 두 화살표가 한 직선 위입니다.<br>`:'')
+      + (S.hit? `<b style="color:#0E9384">90° 회전 완성 — 행렬 [0 −1; 1 0].</b> e₁ 은 위로, e₂ 는 왼쪽으로.`
+        : S.quiz? `<span style="color:#BE123C">도전 중 — 붉은 유령(90° 회전된 F)에 도형을 겹치세요. 화살표 끝은 0.5 단위로 붙습니다.</span>`
+        : `<span style="color:#6B7280;font-size:12.5px">화살표 두 개를 이리저리 끌어 도형이 어떻게 늘고 기울고 도는지 보세요.</span>`);
+  }
+  dragOn(cv,{
+    hit:p=>{ if(Math.hypot(p.x-(O.x+S.m[0]*SC),p.y-(O.y-S.m[2]*SC))<20) return 'e1';
+      if(Math.hypot(p.x-(O.x+S.m[1]*SC),p.y-(O.y-S.m[3]*SC))<20) return 'e2';
+      return null; },
+    move:(h,p)=>{ const vx=Math.round((p.x-O.x)/SC*2)/2, vy=Math.round((O.y-p.y)/SC*2)/2;
+      if(h==='e1'){ S.m[0]=vx; S.m[2]=vy; } else { S.m[1]=vx; S.m[3]=vy; }
+      draw(); }
+  });
+  $('#mxT').onclick=()=>{ S.quiz=true; S.hit=false; draw(); };
+  $('#mxRst').onclick=()=>{ S.m=[1,0,0,1]; S.quiz=false; S.hit=false; draw(); };
+  draw();
+  inquiry(root,{ id:'mx', title:'행렬 — 사진을 움직이는 숫자판',
+    q:['행렬 네 가지(항등·확대·전단·회전)에서 (행렬, 도형의 변화, |det|) 를 기록하세요.',
+       '|det| 열이 도형의 무엇과 일치하는지 찾고, det = 0 이면 왜 되돌릴 수 없는지 쓰세요.',
+       '180° 회전 행렬을 예측해 쓰고, 화면에서 만들어 검산하세요.'],
+    cols:['행렬','도형 변화','|det|'],
+    hint:'힌트 — 열이 곧 기저의 목적지입니다. 어디로 보낼지 정하면 행렬은 저절로 나옵니다.',
+    read:()=>{ const det=S.m[0]*S.m[3]-S.m[1]*S.m[2];
+      return ['['+S.m.join(' ')+']', S.hit?'90° 회전':'—', Math.abs(det).toFixed(2)]; } });
+}
+
+/* ---------- LAB 101 행렬 곱 — 순서를 바꾸면 ---------- */
+function ncDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="nc1" width="400" height="260"></canvas>
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <span style="font-weight:800">왼쪽:</span>
+        <button class="b t sm" data-s="L" data-o="R">회전 90°</button>
+        <button class="b t sm" data-s="L" data-o="X">가로 2배</button>
+        <button class="b t sm" data-s="L" data-o="U">모두 2배</button>
+        <span style="font-weight:800;margin-left:8px">오른쪽:</span>
+        <button class="b g sm" data-s="R" data-o="R">회전 90°</button>
+        <button class="b g sm" data-s="R" data-o="X">가로 2배</button>
+        <button class="b g sm" data-s="R" data-o="U">모두 2배</button>
+        <button class="b g sm" id="ncRst" style="margin-left:8px">지우기</button></div>
+    </div>
+    <div class="col">
+      <div class="out" id="ncout"></div>
+      <div class="note" style="margin-top:12px">같은 두 변환을 <b>왼쪽 판과 오른쪽 판에
+      서로 반대 순서로</b> 적용해 보세요. 결과가 다르면 — 그 곱셈은 순서를 탑니다.
+      숫자의 곱에서는 없던 일이 행렬에서는 일상입니다.</div>
+    </div></div>`;
+  const cv=$('#nc1'),ctx=cv.getContext('2d'),W=400,H=260;
+  const OPS={ R:[0,-1,1,0], X:[2,0,0,1], U:[2,0,0,2] };
+  const NM2={ R:'회전', X:'가로2배', U:'모두2배' };
+  const S={ L:[], R:[] };
+  const mul=(A,B)=>[A[0]*B[0]+A[1]*B[2], A[0]*B[1]+A[1]*B[3], A[2]*B[0]+A[3]*B[2], A[2]*B[1]+A[3]*B[3]];
+  const tot=seq=>seq.reduce((M,o)=>mul(OPS[o],M),[1,0,0,1]);
+  const F=[[0,0],[0,1.4],[0.8,1.4],[0.8,1.1],[0.35,1.1],[0.35,0.75],[0.7,0.75],[0.7,0.45],[0.35,0.45],[0.35,0]];
+  function panel(ox, M, label){
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.1;
+    ctx.beginPath(); ctx.moveTo(ox-70,130); ctx.lineTo(ox+80,130); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(ox,40); ctx.lineTo(ox,220); ctx.stroke();
+    ctx.fillStyle='rgba(37,99,235,.16)'; ctx.strokeStyle='#2563EB'; ctx.lineWidth=1.8; ctx.beginPath();
+    F.forEach(([x,y],i)=>{ const tx=M[0]*x+M[1]*y, ty=M[2]*x+M[3]*y;
+      const px=ox+tx*36, py=130-ty*36;
+      i?ctx.lineTo(px,py):ctx.moveTo(px,py); });
+    ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.fillStyle='#374151'; ctx.font='bold 11.5px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(label, ox, 246);
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    panel(105, tot(S.L), '왼쪽: '+(S.L.map(o=>NM2[o]).join(' → ')||'아직 없음'));
+    panel(300, tot(S.R), '오른쪽: '+(S.R.map(o=>NM2[o]).join(' → ')||'아직 없음'));
+    const L=tot(S.L), R=tot(S.R);
+    const same=L.every((v,i)=>Math.abs(v-R[i])<1e-9);
+    const rev = S.L.length===2 && S.R.length===2 && S.L[0]===S.R[1] && S.L[1]===S.R[0] && (S.L[0]!==S.L[1]);
+    let msg='';
+    if(rev && !same) msg=`<b style="color:#BE123C">두 결과가 다릅니다 — 곱의 순서가 결과를 바꿉니다 (AB ≠ BA).</b>`;
+    else if(rev && same) msg=`<b style="color:#0E9384">이 짝은 순서를 바꿔도 같습니다 — 교환이 되는 특별한 경우입니다.</b>`;
+    else if(S.L.length&&S.R.length) msg=`<span style="color:#6B7280;font-size:12.5px">양쪽에 두 변환씩, 서로 반대 순서로 넣어 보세요.</span>`;
+    else msg=`<span style="color:#6B7280;font-size:12.5px">버튼으로 왼쪽·오른쪽 판에 변환을 쌓으세요 (판마다 2개까지).</span>`;
+    $('#ncout').innerHTML =
+      `<span class="mono">왼쪽 합성 [${tot(S.L).join(' ')}] · 오른쪽 합성 [${tot(S.R).join(' ')}]</span><br>`+msg;
+  }
+  root.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{
+    const side=b.dataset.s, op=b.dataset.o;
+    if(S[side].length<2) S[side].push(op);
+    draw();
+  });
+  $('#ncRst').onclick=()=>{ S.L=[]; S.R=[]; draw(); };
+  draw();
+  inquiry(root,{ id:'nc', title:'행렬의 곱 — 순서를 타는 곱셈',
+    q:['(회전, 가로2배) 짝을 두 순서로 실행해 두 결과 행렬을 기록하세요.',
+       '순서를 바꿔도 같은 짝을 하나 찾아 기록하고, 왜 그 짝만 되는지 짐작을 쓰세요.',
+       '「옷 입기(양말→신발 vs 신발→양말)」처럼 순서를 타는 일상 예를 두 개 만들어 행렬 곱과 잇으세요.'],
+    cols:['순서','합성 행렬','같은가'],
+    hint:'힌트 — 균등 확대(모두 2배)는 방향을 안 가립니다. 방향을 가리는 변환끼리가 순서를 탑니다.',
+    read:()=>{ const L=tot(S.L), R=tot(S.R);
+      return [(S.L.join('→')||'—')+' vs '+(S.R.join('→')||'—'),
+        '['+L.join(' ')+'] / ['+R.join(' ')+']',
+        L.every((v,i)=>v===R[i])?'같다':'다르다']; } });
+}
+
 /* ============ 카드 썸네일 ============
    외부 이미지 금지(단일 파일 원칙) → 인라인 SVG로 그린다.
    장식이 아니라 그 실험실에서 학생이 실제로 보게 될 수학적 대상을 그린다.
@@ -11367,7 +12288,101 @@ const THUMBS = [
    <text x="61" y="36" font-size="10" font-weight="800" fill="${TC.rose}" text-anchor="middle">−1번</text>
    <text x="104" y="20" font-size="9" font-weight="800" fill="${TC.ink}">P(A)+P(B)</text>
    <text x="104" y="48" font-size="9" font-weight="800" fill="${TC.rose}">−P(A∩B)</text>`,
-   '두 원의 겹친 부분을 한 번 빼 주는 덧셈정리 그림')
+   '두 원의 겹친 부분을 한 번 빼 주는 덧셈정리 그림'),
+
+/* 92 조립제법 — 계수의 폭포 */
+ svg(`<path d="M30 14 V52 M22 44 H104" stroke="${TC.mute}" stroke-width="1.4"/>
+   <text x="44" y="26" font-size="10" font-weight="800" fill="${TC.ink}">1</text>
+   <text x="62" y="26" font-size="10" font-weight="800" fill="${TC.ink}">−2</text>
+   <text x="82" y="26" font-size="10" font-weight="800" fill="${TC.ink}">−5</text>
+   <text x="100" y="26" font-size="10" font-weight="800" fill="${TC.ink}">6</text>
+   <text x="62" y="38" font-size="9" fill="${TC.amber}">＋</text>
+   <text x="44" y="56" font-size="10" font-weight="800" fill="${TC.teal}">1</text>
+   <text x="62" y="56" font-size="10" font-weight="800" fill="${TC.teal}">−1</text>
+   <text x="82" y="56" font-size="10" font-weight="800" fill="${TC.teal}">−6</text>
+   <text x="100" y="56" font-size="10" font-weight="800" fill="${TC.rose}">0</text>`,
+   '계수가 폭포처럼 내려와 나머지 0 에 닿는 조립제법 표'),
+
+/* 93 나머지정리 — f(a) 와 나머지의 일치 */
+ svg(`${T_AX}
+   <path d="M18 44 C40 8 66 60 102 16" stroke="${TC.blue}" ${T_BOLD}/>
+   <circle cx="52" cy="38" r="4" fill="${TC.amber}"/>
+   <path d="M52 38 V54" stroke="${TC.amber}" stroke-width="1.4" stroke-dasharray="3 2"/>
+   <text x="86" y="52" font-size="9" font-weight="800" fill="${TC.teal}">f(a)=R</text>`,
+   '점 a 에서의 함숫값이 곧 나머지임을 보이는 그래프'),
+
+/* 94 복소평면 — i 곱하기 회전 */
+ svg(`<path d="M60 8 V56 M18 32 H102" ${T_GRID}/>
+   <path d="M60 32 L92 20" stroke="${TC.blue}" ${T_THIN}/>
+   <path d="M60 32 L72 0" stroke="${TC.teal}" ${T_THIN} opacity=".85"/>
+   <path d="M88 14 A26 26 0 0 0 74 6" stroke="${TC.rose}" stroke-width="1.6" fill="none"/>
+   <circle cx="92" cy="20" r="3.6" fill="${TC.blue}"/>
+   <circle cx="72" cy="0" r="3.4" fill="${TC.teal}"/>
+   <text x="93" y="44" font-size="9" font-weight="800" fill="${TC.rose}">×i = 90°</text>`,
+   '복소수에 i 를 곱하면 90도 회전하는 그림'),
+
+/* 95 근과 계수 — 합·곱이 계수로 */
+ svg(`${T_AX}
+   <path d="M24 16 Q60 74 96 16" stroke="${TC.blue}" ${T_BOLD}/>
+   <circle cx="40" cy="54" r="3.6" fill="${TC.rose}"/>
+   <circle cx="80" cy="54" r="3.6" fill="${TC.rose}"/>
+   <text x="60" y="14" font-size="9" font-weight="800" fill="${TC.ink}" text-anchor="middle">p+q = −b</text>
+   <text x="60" y="26" font-size="9" font-weight="800" fill="${TC.teal}" text-anchor="middle">pq = c</text>`,
+   '두 근의 합과 곱이 계수에 들어 있는 포물선'),
+
+/* 96 삼차 실근 — 산과 골짜기 */
+ svg(`${T_AX}
+   <path d="M16 50 C34 8 50 8 60 32 C70 56 86 56 104 14" stroke="${TC.blue}" ${T_BOLD}/>
+   <circle cx="40" cy="17" r="3.4" fill="${TC.amber}"/>
+   <circle cx="78" cy="47" r="3.4" fill="${TC.amber}"/>
+   <circle cx="26" cy="54" r="3" fill="${TC.rose}"/>
+   <circle cx="58" cy="54" r="3" fill="${TC.rose}"/>
+   <circle cx="97" cy="54" r="3" fill="${TC.rose}"/>`,
+   '산과 골짜기가 x축을 사이에 두어 실근이 셋인 삼차 곡선'),
+
+/* 97 이차부등식 — 지하 구간 */
+ svg(`${T_AX}
+   <path d="M24 12 Q60 78 96 12" stroke="${TC.blue}" ${T_THIN}/>
+   <path d="M38 54 Q60 70 82 54" stroke="${TC.rose}" stroke-width="3" fill="none"/>
+   <path d="M38 58 H82" stroke="${TC.teal}" stroke-width="3.4"/>
+   <circle cx="38" cy="58" r="3" fill="#fff" stroke="${TC.teal}" stroke-width="1.6"/>
+   <circle cx="82" cy="58" r="3" fill="#fff" stroke="${TC.teal}" stroke-width="1.6"/>
+   <text x="99" y="60" font-size="8.5" font-weight="800" fill="${TC.teal}">해집합</text>`,
+   '포물선의 지하 구간이 수직선의 해집합으로 내려오는 그림'),
+
+/* 98 선형계획 — 영역과 이익선 */
+ svg(`<path d="M20 54 V12 M20 54 H104" ${T_GRID}/>
+   <path d="M20 22 L52 22 L84 40 L96 54 L20 54 Z" fill="${TC.teal}" opacity=".18"/>
+   <path d="M20 22 L52 22 L84 40 L96 54" stroke="${TC.teal}" ${T_THIN}/>
+   <path d="M30 60 L104 22" stroke="${TC.rose}" stroke-width="2" stroke-dasharray="5 3"/>
+   <circle cx="84" cy="40" r="4" fill="${TC.rose}"/>
+   <text x="94" y="14" font-size="8.5" font-weight="800" fill="${TC.rose}">z 최대</text>`,
+   '이익 직선이 볼록 영역의 꼭짓점을 마지막으로 스치는 그림'),
+
+/* 99 순열·조합 — 12 대 6 */
+ svg(`<text x="34" y="22" font-size="10" font-weight="800" fill="${TC.blue}">가나 나가</text>
+   <text x="34" y="35" font-size="10" font-weight="800" fill="${TC.blue}">가다 다가 …</text>
+   <rect x="24" y="42" width="72" height="16" rx="4" fill="${TC.teal}" opacity=".15"/>
+   <text x="60" y="54" font-size="10" font-weight="800" fill="${TC.teal}" text-anchor="middle">{가,나} {가,다} …</text>
+   <text x="104" y="24" font-size="10" font-weight="800" fill="${TC.ink}">12</text>
+   <text x="104" y="54" font-size="10" font-weight="800" fill="${TC.teal}">6</text>`,
+   '순열 12줄이 조합 6묶음으로 접히는 그림'),
+
+/* 100 행렬 변환 — 기저 화살표와 F */
+ svg(`<path d="M50 8 V56 M18 40 H106" ${T_GRID}/>
+   <path d="M50 40 L84 34" stroke="${TC.blue}" stroke-width="2.2"/>
+   <path d="M50 40 L60 12" stroke="${TC.teal}" stroke-width="2.2"/>
+   <path d="M62 36 L62 18 L76 16 L76 22 L68 23 L68 26 L74 25 L74 31 L68 32 L68 36 Z" fill="${TC.blue}" opacity=".3" stroke="${TC.blue}" stroke-width="1"/>
+   <text x="94" y="52" font-size="8.5" font-weight="800" fill="${TC.ink}">열 = 목적지</text>`,
+   '기저 화살표 둘이 도형 F 를 끌고 가는 행렬 변환'),
+
+/* 101 비가환 — 두 순서 두 결과 */
+ svg(`<rect x="20" y="18" width="26" height="16" rx="2" fill="${TC.blue}" opacity=".3" stroke="${TC.blue}" stroke-width="1.2" transform="rotate(-18 33 26)"/>
+   <rect x="66" y="14" width="16" height="26" rx="2" fill="${TC.teal}" opacity=".3" stroke="${TC.teal}" stroke-width="1.2" transform="rotate(12 74 27)"/>
+   <text x="33" y="52" font-size="9" font-weight="800" fill="${TC.blue}" text-anchor="middle">R→S</text>
+   <text x="74" y="52" font-size="9" font-weight="800" fill="${TC.teal}" text-anchor="middle">S→R</text>
+   <text x="98" y="32" font-size="11" font-weight="800" fill="${TC.rose}">≠</text>`,
+   '같은 두 변환을 다른 순서로 적용해 달라진 두 도형')
 ];
 
 /* 상단 카드는 20종만 — 나머지 실험실은 아래 확장 카탈로그의 제 과목 자리에서 연다.
@@ -13085,6 +14100,200 @@ const MISSIONS={
   },
   {
    "t": "적용 — 겹침이 없는(배반) 경우에만 그냥 더해도 되는 이유를 쓰세요."
+  }
+ ],
+ "92": [
+  {
+   "t": "표에 놓인 계수 1, −2, −5, 6 이 어떤 식의 것인지 읽어 두세요."
+  },
+  {
+   "t": "한 칸씩 세 번 진행해 조립을 끝내고, 마지막 칸의 뜻을 확인하세요.",
+   "re": "조립 완료"
+  },
+  {
+   "t": "k 를 바꿔 나머지를 0 으로 만들어 보세요 — 그 순간 무엇을 얻나요?",
+   "re": "는 인수!"
+  },
+  {
+   "t": "기록·발견 — k 를 −3~3 으로 바꾸며 (k, R, f(k)) 표를 채우고 두 열을 비교하세요."
+  },
+  {
+   "t": "적용 — f(2) 를 대입 대신 조립제법으로 구하는 이유(곱셈 횟수)를 쓰세요."
+  }
+ ],
+ "93": [
+  {
+   "t": "a 를 끌며 f(a) 값이 실시간으로 변하는 것을 관찰하세요."
+  },
+  {
+   "t": "아무 a 에서 「실제로 나눠 확인」— 대입값과 나머지를 비교하세요.",
+   "re": "나머지정리!"
+  },
+  {
+   "t": "곡선이 x축을 지나는 자리를 잡아 첫 인수를 얻으세요.",
+   "re": "근 발견"
+  },
+  {
+   "t": "남은 근까지 모두 찾아 삼차식을 끝까지 분해하세요.",
+   "re": "완전 인수분해"
+  },
+  {
+   "t": "적용 — 정수 근 후보가 왜 6 의 약수뿐인지 쓰고, ±1·±2·±3·±6 검사와 화면 결과를 맞추세요."
+  }
+ ],
+ "94": [
+  {
+   "t": "z 를 끌어 여러 곳에 두고 화살표(원점→z)를 관찰하세요."
+  },
+  {
+   "t": "「× i」 한 번 — 점이 어디로 갔는지 각도로 확인하세요.",
+   "re": "\\+90° 회전"
+  },
+  {
+   "t": "네 번 곱해 발자국이 한 바퀴 도는 것을 확인하세요.",
+   "re": "i⁴ = 1"
+  },
+  {
+   "t": "「켤레 보기」— z̄ 의 위치와 z·z̄ 값의 특징을 확인하세요.",
+   "re": "거울 대칭"
+  },
+  {
+   "t": "적용 — i²⁰²⁶ 을 나머지 계산으로 구하고, 회전 그림으로 근거를 쓰세요."
+  }
+ ],
+ "95": [
+  {
+   "t": "b·c 를 움직여 두 근과 합·곱이 따라 변하는 것을 관찰하세요."
+  },
+  {
+   "t": "「수 맞히기 도전」— 합·곱만 보고 계수를 조절해 첫 문제를 잡으세요.",
+   "re": "문제 해결!"
+  },
+  {
+   "t": "다음 문제(음수 섞임)까지 연달아 잡아내세요.",
+   "re": "2연승"
+  },
+  {
+   "t": "기록·발견 — 다섯 조합에서 (두 근, 합, 곱, −b, c) 표를 만들고 규칙을 쓰세요."
+  },
+  {
+   "t": "적용 — 합 7 · 곱 12 인 두 수를 방정식 없이 말하고 화면으로 검산하세요."
+  }
+ ],
+ "96": [
+  {
+   "t": "곡선을 위아래로 끌며 산(극대)·골짜기(극소) 점을 관찰하세요."
+  },
+  {
+   "t": "x축을 세 번 건너는 상태를 만드세요.",
+   "re": "실근 3개"
+  },
+  {
+   "t": "천천히 끌어 곡선이 x축을 스치는 순간을 자석으로 잡으세요.",
+   "re": "접했습니다"
+  },
+  {
+   "t": "기록·발견 — k 여섯 값에서 (극대, 극소, 실근 수) 표를 만들고 부호 곱의 규칙을 쓰세요."
+  },
+  {
+   "t": "적용 — x³ − 3x + k = 0 의 실근이 3개일 k 의 범위를 쓰고 화면으로 확인하세요."
+  }
+ ],
+ "97": [
+  {
+   "t": "처음 식 x² + 1 < 0 의 해가 왜 없는지 그래프에서 확인하세요."
+  },
+  {
+   "t": "c 를 낮춰 해가 두 근 사이의 구간이 되게 만드세요.",
+   "re": "< x <"
+  },
+  {
+   "t": "부등호를 뒤집어 해가 바깥쪽 두 조각이 되게 하세요.",
+   "re": "또는 x >"
+  },
+  {
+   "t": "기록·발견 — 네 가지 운명(사이·바깥·전부·없음)을 모두 만들어 (b, c, 부등호, 해) 표를 채우세요."
+  },
+  {
+   "t": "적용 — x² − 2x − 3 < 0 을 손으로 풀고 화면으로 검산하세요."
+  }
+ ],
+ "98": [
+  {
+   "t": "P 를 영역 안팎으로 끌며 조건 만족·위반이 갈리는 경계를 관찰하세요."
+  },
+  {
+   "t": "네 꼭짓점의 이익을 견주어 P 를 최적의 자리에 놓으세요.",
+   "re": "꼭짓점 명중"
+  },
+  {
+   "t": "이익선을 끌어 올려 영역을 떠나기 직전의 z 를 찾으세요.",
+   "re": "영역을 스칩니다"
+  },
+  {
+   "t": "목적함수를 바꾸고 다시 밀어 — 최적 꼭짓점이 옮겨 가는 것을 확인하세요.",
+   "re": "\\(0, 4\\) 가 최대"
+  },
+  {
+   "t": "적용 — 답이 늘 꼭짓점에서 나오는 이유를 평행선 다발 그림으로 쓰세요."
+  }
+ ],
+ "99": [
+  {
+   "t": "넷 중 둘을 고르는 두 상황(회장·부회장 / 청소 짝)의 차이를 생각해 두세요."
+  },
+  {
+   "t": "회장·부회장 목록을 끝까지 쌓아 가짓수를 확인하세요.",
+   "re": "순열 12가지"
+  },
+  {
+   "t": "청소 짝 목록으로 바꿔 — 두 수의 비가 왜 2! 인지 확인하세요.",
+   "re": "조합 6가지"
+  },
+  {
+   "t": "AABB 도전을 열어 나눗셈이 겹침을 지우는 것을 확인하세요.",
+   "re": "같은 것이 있는 순열: 6가지"
+  },
+  {
+   "t": "적용 — 5명 중 2명이면 순열·조합이 각각 몇인지 공식으로 구하고 규칙으로 검산하세요."
+  }
+ ],
+ "100": [
+  {
+   "t": "파랑·초록 화살표를 끌며 도형 F 가 어떻게 따라 변하는지 관찰하세요."
+  },
+  {
+   "t": "「도전」을 열고 두 화살표만으로 붉은 유령에 도형을 겹치세요.",
+   "re": "회전 완성"
+  },
+  {
+   "t": "두 화살표를 한 직선 위에 겹쳐 보세요 — 도형에 무슨 일이 생기나요?",
+   "re": "납작하게 붕괴"
+  },
+  {
+   "t": "기록·발견 — 항등·확대·전단·회전 네 행렬의 |det| 표를 만들고 뜻을 쓰세요."
+  },
+  {
+   "t": "적용 — 180° 회전 행렬을 예측해 쓰고 화면에서 만들어 검산하세요."
+  }
+ ],
+ "101": [
+  {
+   "t": "왼쪽 판에 변환 두 개를 쌓아 합성 결과를 관찰하세요."
+  },
+  {
+   "t": "오른쪽 판에 같은 두 변환을 반대 순서로 — 두 도형을 비교하세요.",
+   "re": "순서가 결과를 바꿉"
+  },
+  {
+   "t": "순서를 바꿔도 결과가 같은 짝을 찾아내세요.",
+   "re": "바꿔도 같습니다"
+  },
+  {
+   "t": "기록·발견 — 시도한 짝마다 (순서, 합성 행렬, 같은가) 표를 채우세요."
+  },
+  {
+   "t": "적용 — 순서를 타는 일상 예(옷 입기 등) 둘을 행렬 곱과 이어 쓰세요."
   }
  ]
 };
@@ -17148,22 +18357,9 @@ const CATALOG = [
 {k:'prob',t:'독립과 배반은 다르다',g:'확률과 통계 · 확률의 뜻과 활용',q:'“동시에 일어날 수 없다”와 “서로 영향이 없다”는 같은 말일까?',b:'배반사건을 독립이라고 판정해 곱셈정리를 잘못 적용함',a:'가정의 구별'},
 {k:'alg',t:'지수방정식과 지수부등식',g:'대수 · 지수와 로그',q:'원금이 세 배가 되는 해는 언제일까?',b:'밑이 1보다 작은데 부등호를 그대로 두어 해가 뒤집힘',a:'임계 시점 계산'},
 {k:'geo',t:'두 직선이 이루는 각',g:'기하 · 벡터의 내적',q:'교차로의 두 도로는 몇 도로 만날까?',b:'방향벡터의 부호에 따라 둔각이 나오는데 그대로 답으로 씀',a:'각도 추정'},
-{k:'h11',t:'조립제법 시각화',g:'공통수학1 · 다항식의 연산',q:'나눗셈을 계수만으로 할 수 있을까?',b:'내린 계수에 더하지 않고 곱만 해 나머지가 늘 0 으로 나옴',a:'다항식 연산 최적화'},
 {k:'h11',t:'다항식의 나눗셈 — 몫과 나머지',g:'공통수학1 · 다항식의 연산',q:'나머지의 차수는 왜 나눗수보다 낮아야 할까?',b:'나머지의 차수를 검사하지 않아 나눗셈이 도중에 멈춤',a:'유클리드 호제법'},
-{k:'h11',t:'f(a) 하나로 나머지 알아맞히기',g:'공통수학1 · 나머지정리',q:'직접 나누지 않고 나머지를 알 수 있을까?',b:'x−a 로 나누는데 f(−a) 를 대입해 부호가 반대인 나머지를 냄',a:'해시·체크섬'},
-{k:'h11',t:'인수정리로 근 찾기',g:'공통수학1 · 나머지정리',q:'삼차식의 근을 어떻게 찾아낼까?',b:'상수항의 약수만 넣고 최고차항의 약수로 나눈 후보를 빠뜨려 유리근을 놓침',a:'근 탐색 알고리즘'},
 {k:'h11',t:'복잡한 식을 치환으로 풀기',g:'공통수학1 · 인수분해',q:'식이 복잡할 때 무엇을 한 덩어리로 볼까?',b:'치환한 t 의 범위를 옮기지 않아 원래 없는 해까지 나옴',a:'변수 변환'},
-{k:'h11',t:'복소평면에서 i를 곱하면 90° 회전',g:'공통수학1 · 복소수',q:'i 를 곱한다는 건 그림에서 무엇일까?',b:'실수부와 허수부를 맞바꾸기만 하고 부호를 안 바꿔 90° 회전이 아니라 대칭이 됨',a:'2D 회전 변환'},
-{k:'h11',t:'켤레복소수의 대칭',g:'공통수학1 · 복소수',q:'켤레는 그림에서 어디에 있을까?',b:'켤레를 원점 대칭으로 그려 실수축이 아니라 원점 기준으로 뒤집힘',a:'신호의 위상'},
-{k:'h11',t:'근과 계수의 관계',g:'공통수학1 · 이차방정식',q:'근을 구하지 않고 두 근의 합을 알 수 있을까?',b:'합을 b/a 로 계산해 부호가 반대로 나옴',a:'계수로부터의 추론'},
 {k:'h11',t:'판별식과 그래프의 교점 개수',g:'공통수학1 · 이차함수와 이차방정식',q:'해가 몇 개인지 그림으로 알 수 있을까?',b:'D=0 을 두 개로 세어 접할 때도 교점을 두 개로 표시함',a:'충돌 판정'},
-{k:'h11',t:'삼차방정식의 실근을 그래프로',g:'공통수학1 · 여러 가지 방정식',q:'삼차식은 실근이 몇 개일까?',b:'극댓값·극솟값의 부호를 보지 않고 늘 실근 세 개로 표시함',a:'수치 근 찾기'},
-{k:'h11',t:'부등식 영역과 선형계획',g:'공통수학1 · 여러 가지 부등식',q:'한정된 자원으로 이익을 최대로 하려면?',b:'경계선을 포함하지 않아 최적해가 사라짐',a:'자원 배분'},
-{k:'h11',t:'이차부등식의 해를 그래프로',g:'공통수학1 · 여러 가지 부등식',q:'부등식의 해는 그림에서 어디일까?',b:'위로 볼록·아래로 볼록을 가리지 않아 a<0 일 때 해가 반대로 칠해짐',a:'조건 영역 표시'},
-{k:'h11',t:'순열과 조합의 갈림길',g:'공통수학1 · 순열과 조합',q:'순서를 따지느냐가 왜 그렇게 중요할까?',b:'조합인데 r! 로 나누지 않아 경우의 수가 r! 배로 부풀음',a:'중복 제거'},
-{k:'h11',t:'같은 것이 있는 순열',g:'공통수학1 · 순열과 조합',q:'AABB 를 늘어놓는 방법은 몇 가지일까?',b:'같은 문자의 개수만큼 나누지 않아 같은 배열을 여러 번 셈',a:'중복 순열 계산'},
-{k:'h11',t:'행렬과 이미지 변환',g:'공통수학1 · 행렬',q:'사진 회전·확대는 왜 행렬 곱셈일까?',b:'곱하는 순서를 바꿔 그림이 뒤틀림',a:'선형 변환'},
-{k:'h11',t:'행렬의 곱은 왜 교환법칙이 안 될까',g:'공통수학1 · 행렬',q:'순서를 바꾸면 결과가 달라지는 곱셈이 있을까?',b:'성분별로 곱해 AB 와 BA 가 늘 같게 나옴',a:'신경망의 층 순서'},
 {k:'h11',t:'이차함수 최대 · 최소',g:'공통수학1 · 이차함수',q:'가격을 얼마로 매겨야 이익이 클까?',b:'꼭짓점 공식의 부호를 틀려 최소를 최대라고 함',a:'수익 최적화'},
 {k:'h12',t:'내분점·외분점을 끌어서 보기',g:'공통수학2 · 평면좌표',q:'선분을 3:2 로 나누는 점은 어디일까?',b:'외분점에서 부호를 바꾸지 않아 내분점과 같은 자리에 찍힘',a:'보간과 외삽'},
 {k:'h12',t:'평행·수직 조건 실험',g:'공통수학2 · 직선의 방정식',q:'두 직선이 수직인지 식으로 어떻게 알까?',b:'기울기의 곱이 −1 인지가 아니라 합이 0 인지를 봐 수직이 아닌데 수직이라 함',a:'직교성 판정'},
@@ -17475,7 +18671,17 @@ const LABCAT = [
 {k:'m2',g:'중2 · 확률',b:'직접 세다 「모두 앞면」을 빠뜨려 6/8 이라는 틀린 확률이 나옴'},
 {k:'m2',g:'중2 · 확률',b:'3연속 뒤 확률을 0.25 로 조작해 코드가 도박사의 오류를 저지름'},
 {k:'m2',g:'중2 · 확률',b:'조건이 붙어도 분모를 전체 24명으로 둬 확률이 그대로임'},
-{k:'m2',g:'중2 · 확률',b:'배반이 아닌데 그냥 더해 확률이 1 을 넘음'}
+{k:'m2',g:'중2 · 확률',b:'배반이 아닌데 그냥 더해 확률이 1 을 넘음'},
+{k:'h11',g:'공통수학1 · 다항식의 연산',b:'k 를 곱하지 않고 더하기만 반복해 둘째 칸부터 계수가 어긋남'},
+{k:'h11',g:'공통수학1 · 나머지정리',b:'f(a) 대신 f(−a) 를 계산해 나머지의 부호가 뒤집힘'},
+{k:'h11',g:'공통수학1 · 복소수',b:'×i 를 (a,b)→(b,−a) 로 구현해 회전 방향이 반대(−90°)가 됨'},
+{k:'h11',g:'공통수학1 · 이차방정식',b:'합·곱을 −b, c 가 아니라 b, −c 와 비교해 늘 불일치로 표시됨'},
+{k:'h11',g:'공통수학1 · 여러 가지 방정식',b:'극값 부호 곱을 ≤ 0 으로 판정해 접할 때를 실근 3개로 셈'},
+{k:'h11',g:'공통수학1 · 여러 가지 부등식',b:'D<0 에서 부등호 방향을 안 보고 무조건 「해 없음」으로 표시함'},
+{k:'h11',g:'공통수학1 · 여러 가지 부등식',b:'이익선을 영역 밖까지 밀어도 최댓값이 계속 커진다고 표시함'},
+{k:'h11',g:'공통수학1 · 순열과 조합',b:'조합에서 2! 로 나누지 않아 목록은 6개인데 숫자는 12로 표시됨'},
+{k:'h11',g:'공통수학1 · 행렬',b:'열과 행을 바꿔 읽어 기저 화살표와 도형이 따로 움직임'},
+{k:'h11',g:'공통수학1 · 행렬',b:'AB 와 BA 를 같은 코드로 계산해 늘 「같다」로 판정함'}
 ];
 
 /* ================= 확장 카탈로그 렌더 =================
