@@ -5966,7 +5966,39 @@ const PRINS = [
   eq:'곱의 순서 = 변환의 적용 순서',
   what:'교환법칙이 <b>당연하지 않은 세계</b>를 처음 만납니다. 수의 곱에서 오던 직관이 어디서 왜 깨지는지를 그림 두 장이 보여 줍니다.',
   probe:'양쪽에 같은 변환을 같은 순서로 넣으면 언제나 같은 것도 확인하세요 — 다른 것은 「순서」뿐임을 대조군이 증명합니다.',
-  link:'행렬 단원의 마무리. 함수의 합성(공통수학2)·변환 파이프라인(그래픽스)의 문법입니다.'}
+  link:'행렬 단원의 마무리. 함수의 합성(공통수학2)·변환 파이프라인(그래픽스)의 문법입니다.'},
+
+/* 102 카드 쌓기 */
+ {tex:[
+   {t:'\\text{위 } k \\text{장의 한 걸음} = \\frac{1}{2k}', s:'위 k장 묶음의 무게중심이 받침 끝에 딱 걸칠 때까지 — 그 최대 한 걸음이 1/(2k) 입니다.'},
+   {t:'\\text{총 돌출} = \\frac{1}{2}\\left(1 + \\frac{1}{2} + \\frac{1}{3} + \\cdots + \\frac{1}{n}\\right)', s:'걸음들을 다 더하면 조화급수의 절반 — 4장이면 1.04 카드, 맨 위 카드가 통째로 밖에 뜹니다.'},
+   {t:'1 + \\frac{1}{2} + \\frac{1}{3} + \\cdots = \\infty', s:'항은 0으로 가는데 합은 무한 — 카드만 충분하면 돌출은 얼마든지 커집니다. 다리 없이 강을 건너는 수학.'}
+  ],
+  next:[
+   {lv:'바로',   t:'진짜 카드로 재현', d:'트럼프 카드 6장으로 화면의 배치를 실제 책상에서 재현하고, 이론과 실물의 오차 원인을 적으세요.'},
+   {lv:'심화',   t:'2카드 돌출 설계', d:'돌출 2카드가 되려면 ½Hₙ ≥ 2, 즉 Hₙ ≥ 4 — 필요한 장수를 계산하고 왜 이렇게 급히 늘어나는지 로그와 이으세요.'},
+   {lv:'프로젝트', t:'RME 보고서', d:'실험 설계 → 실패 → 규칙 발견 → 일반화의 전 과정을 원 수업(2019 RME)의 활동 보고서 양식으로 작성해 발표하세요.'}
+  ],
+  eq:'총 돌출 = ½(1+½+⅓+…+1/n) → ∞',
+  what:'항이 0으로 가는 급수도 발산할 수 있다는 반직관을 <b>몸(카드)으로 겪는</b> 실험입니다. 무게중심·점화식·급수가 한 장면에 모입니다.',
+  probe:'맨 위부터 밀어야 하는 이유를 확인하세요 — 아래 카드를 먼저 밀면 위 묶음의 무게중심이 즉시 받침을 벗어납니다. 순서가 곧 점화식입니다.',
+  link:'급수 단원(LAB 22)의 실물 짝. 2019 RME 수업 모형의 활동 1~5 를 사다리 다섯 단계로 계승한 디지털 전환 사례입니다.'},
+
+/* 103 RGB 색 좌표 */
+ {tex:[
+   {t:'4B_{(16)} = 4 \\times 16 + 11 = 75', s:'16진수 두 자리가 좌표 하나 — 진법이 색 코드라는 실생활 표기로 나타납니다.'},
+   {t:'P = \\frac{3A + 1B}{4}', s:'빨강 A 와 파랑 B 를 1:3 으로 내분한 색 — 색 합성이 내분점 공식 그 자체입니다.'},
+   {t:'\\text{무게중심} = \\frac{R+G+B}{3} \\;\\Rightarrow\\; R=G=B \\text{ (무채색)}', s:'세 원색의 무게중심에서 세 좌표가 같아집니다 — 회색이 삼각형 한가운데인 이유입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'우리 반 색 사전', d:'각자 좋아하는 색의 16진 코드를 모아 (R,G,B) 좌표로 환산한 「반 색 사전」을 만드세요.'},
+   {lv:'심화',   t:'채도·명도의 좌표화', d:'RGB 최댓값·최솟값으로 명도·채도를 정의하는 식을 조사하고, 같은 채도의 색들이 좌표에서 어떤 모임을 이루는지 탐구하세요.'},
+   {lv:'프로젝트', t:'LED 색 공간(원 수업 계승)', d:'2019 수업처럼 아두이노 LED 로 색을 구현하는 순서도를 짜고, 좌표→전류의 변환 규칙을 설계해 보세요.'}
+  ],
+  eq:'색 = 좌표 (R,G,B) · 합성 = 내분점',
+  what:'진법·내분점·무게중심이라는 세 단원이 <b>그림판의 색 코드 하나</b>에서 만나는 융합 실험입니다. 수학이 미술·공학의 언어가 되는 장면입니다.',
+  probe:'삼각형 위 점을 보며 슬라이더를 움직이세요 — 한 원색을 키우면 점이 그 꼭짓점으로 끌려갑니다. 가중 무게중심의 정의가 눈으로 보입니다.',
+  link:'좌표와 내분점 단원의 응용. 2019 STEAM 색공간 수업(그림판·아두이노)의 디지털 전환이며, 픽셀·이미지(LAB 19)와 이어집니다.'}
 ];
 
 /* ============ 10종 실험실 정의 ============ */
@@ -6376,7 +6408,15 @@ const LABS=[
 {n:101,core:0,t:'“순서를 타는 곱셈” 행렬 곱의 비가환',q:'순서를 바꾸면 결과가 달라지는 곱셈이 있을까?',
  m:['행렬의 곱셈','합성 변환','교환법칙'],a:['변환 파이프라인','연산 순서'],
  note:'회전→늘리기와 늘리기→회전을 두 판에 나란히 — 결과가 다릅니다(AB ≠ BA). 균등 확대처럼 순서를 안 타는 짝을 찾는 것이 반전 미션입니다.',
- build:ncDemo}
+ build:ncDemo},
+{n:102,core:0,t:'“책상 밖으로 무한히” 카드 쌓기와 조화급수',q:'카드를 얼마나 멀리 내밀 수 있을까?',
+ m:['무한급수','조화급수의 발산','무게중심'],a:['구조 안정성','RME 실험의 디지털 전환'],
+ note:'2019 RME 수업(종이 카드 실험)의 디지털판. 카드를 끌면 무게중심 판정이 실시간으로 무너짐을 알려 주고, ½·¼·⅙ 규칙을 발견하면 4장만으로 맨 위 카드가 책상 밖 허공에 뜹니다. 이론 한계 ½Hₙ 이 화면에 함께 있어 실험↔이론이 즉시 비교됩니다.',
+ build:ovDemo},
+{n:103,core:0,t:'“색은 좌표다” RGB 색 좌표 실험실',q:'그림판의 색 코드는 무슨 뜻일까?',
+ m:['16진법','내분점','무게중심 좌표'],a:['디지털 색 표현','픽셀과 이미지'],
+ note:'2019 STEAM 색공간 수업의 디지털판. 슬라이더로 색 좌표를 옮기면 원색 삼각형 위의 점이 따라 움직이고, 16진수 해독·1:3 내분점 색 만들기·무채색(무게중심) 합성까지 세 도전이 이어집니다. 내분점 공식이 미술 팔레트에서 다시 태어납니다.',
+ build:clDemo}
 ];
 
 /* ---------- LAB 21 y = x 대칭의 발견 (역함수) ---------- */
@@ -11422,6 +11462,222 @@ function ncDemo(root){
         L.every((v,i)=>v===R[i])?'같다':'다르다']; } });
 }
 
+/* ═══════════════ 2019 STEAM·RME 디지털 전환 (LAB 102~103) ═══════════════
+   원자료: 「1-1. RME 수업 모형」(카드 무한 쌓기 · 무한급수), 「RME 수업 모형」(RGB 색공간).
+   오프라인 종이 카드·그림판 실험을 무한 시행 가능한 웹 실험으로 옮기고,
+   원 수업의 활동 1~5 단계를 실험 사다리 5단계로 계승했다. */
+
+/* ---------- LAB 102 카드 무한 쌓기 — 조화급수의 오버행 ---------- */
+function ovDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ov1" width="400" height="300"></canvas>
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        ${slider('ovN','카드 수',2,8,1,4,'장')}
+        <label class="ctl" style="margin:0"><input type="checkbox" id="ovHint"> ½·⅓·… 눈금 보기</label>
+        <button class="b g sm" id="ovRst">가지런히</button></div>
+    </div>
+    <div class="col">
+      <div class="out" id="ovout"></div>
+      <div class="note" style="margin-top:12px">카드를 좌우로 끌어 <b>책상 끝 너머로</b> 내밀어 보세요.
+      위에 얹힌 카드들의 무게중심이 받침을 벗어나는 순간 와르르 —
+      실패가 곧 힌트입니다. 목표: <b>맨 위 카드를 통째로 책상 밖에</b> 띄우기.</div>
+    </div></div>`;
+  const cv=$('#ov1'),ctx=cv.getContext('2d'),W=400,H=300;
+  const L=120, EDGE=210, CH=17;                       // 카드 길이(px), 책상 끝 x, 카드 두께
+  const S={ n:4, x:[], hint:false };                  // x[i]=왼끝(카드 길이 단위, 책상 끝=0), 0=맨 아래
+  function reset(){ S.x=Array(S.n).fill(-1); }
+  function stability(){
+    // 위에서 j장 묶음의 무게중심이 그 아래 받침(카드 j+1 의 오른끝 / 책상 끝 0)을 넘는지
+    for(let j=S.n-1;j>=0;j--){
+      let com=0;
+      for(let i=j;i<S.n;i++) com+=S.x[i]+0.5;
+      com/=(S.n-j);
+      const sup=j===0?0:S.x[j-1]+1;
+      if(com>sup+1e-9) return {bad:true, cnt:S.n-j};
+    }
+    return {bad:false};
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    // 책상
+    const ty=250;
+    ctx.fillStyle='#E5E7EB'; ctx.fillRect(0,ty,EDGE,H-ty);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(0,ty); ctx.lineTo(EDGE,ty); ctx.lineTo(EDGE,H); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('책상', EDGE/2, ty+26);
+    ctx.fillStyle='#BE123C'; ctx.fillText('절벽 ↓', EDGE+26, ty+14);
+    const st=stability();
+    // 카드 (아래→위)
+    for(let i=0;i<S.n;i++){
+      const px=EDGE+S.x[i]*L, py=ty-(i+1)*CH;
+      const danger=st.bad && i>=S.n-st.cnt;
+      ctx.fillStyle=danger?'rgba(190,18,60,.4)':'rgba(37,99,235,.22)';
+      ctx.fillRect(px,py,L,CH-2);
+      ctx.strokeStyle=danger?'#BE123C':'#2563EB'; ctx.lineWidth=1.6;
+      ctx.strokeRect(px,py,L,CH-2);
+      // 무게중심 점
+      ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(px+L/2,py+CH/2-1,2.2,0,7); ctx.fill();
+    }
+    // 눈금 힌트: 위에서 k번째 겹의 권장 밀기 1/(2k)
+    if(S.hint){
+      ctx.strokeStyle='#B45309'; ctx.setLineDash([3,3]); ctx.lineWidth=1.2;
+      let acc=0;
+      for(let k=1;k<S.n;k++){ acc+=1/(2*k);
+        const px=EDGE+(acc-1)*L+L;                     // 위에서 k번째 카드의 권장 오른끝
+        const py=ty-(S.n-k)*CH-CH;
+        ctx.beginPath(); ctx.moveTo(px,py-4); ctx.lineTo(px,py+CH+2); ctx.stroke();
+      }
+      ctx.setLineDash([]);
+      ctx.fillStyle='#92400E'; ctx.font='10px sans-serif'; ctx.textAlign='left';
+      ctx.fillText('주황 눈금 = ½, ¼, ⅙ … 씩 밀기', 14, 22);
+    }
+    const top=S.x[S.n-1];
+    const over=top+1;                                  // 맨 위 카드 오른끝의 돌출량
+    const Hn=Array.from({length:S.n},(_,i)=>1/(i+1)).reduce((a,b)=>a+b,0);
+    const fullOut=!st.bad && top>=-1e-9;
+    $('#ovout').innerHTML =
+      (st.bad
+        ? `<b style="color:#BE123C">와르르 — 위 ${st.cnt}장의 무게중심이 받침을 벗어났습니다.</b><br>
+           <span style="color:#6B7280;font-size:12.5px">붉은 카드들을 안쪽으로 되돌리거나, 아래 카드를 더 내밀어 받쳐 주세요.</span><br>`
+        : `안정 — 맨 위 카드 돌출 <b>${Math.max(0,over).toFixed(2)}</b> 카드<br>`)
+      + (fullOut? `<b style="color:#0E9384">완전 돌출! 맨 위 카드가 책상 밖 허공에 통째로 떠 있습니다.</b><br>`:'')
+      + `<span class="mono">이론 한계(${S.n}장) = ½(1 + ½ + … + 1/${S.n}) = ${(Hn/2).toFixed(3)} 카드</span><br>`
+      + `<span style="color:#6B7280;font-size:12.5px">카드를 늘릴수록 한계가 커집니다 — 멈추지 않고요. 그것이 조화급수의 발산입니다.</span>`;
+  }
+  dragOn(cv,{
+    hit:p=>{ const ty=250;
+      for(let i=S.n-1;i>=0;i--){ const py=ty-(i+1)*CH;
+        if(p.y>=py&&p.y<py+CH && p.x>=EDGE+S.x[i]*L-8 && p.x<=EDGE+S.x[i]*L+L+8) return String(i); }
+      return null; },
+    move:(h,p)=>{ const i=+h;
+      S.x[i]=Math.max(-1.6,Math.min(1.4,Math.round(((p.x-EDGE)/L-0.5)*24)/24));
+      draw(); }
+  });
+  $('#ovN').oninput=()=>{ S.n=+$('#ovN').value; reset(); draw(); };
+  $('#ovHint').onchange=()=>{ S.hint=$('#ovHint').checked; draw(); };
+  $('#ovRst').onclick=()=>{ reset(); draw(); };
+  reset(); draw();
+  inquiry(root,{ id:'ov', title:'카드 무한 쌓기 — 조화급수의 오버행 (RME)',
+    q:['짝과 역할을 나눠(조작·기록) 카드 수별 최대 돌출량을 표로 채우세요 (2~8장).',
+       '「최대 돌출」 열과 ½(1+½+⅓+…) 값을 견주고, 위에서 k번째 카드를 왜 1/(2k) 만큼만 밀 수 있는지 무게중심으로 쓰세요.',
+       '돌출 2카드가 되려면 몇 장이 필요한지 이론 한계 식으로 추정하세요 — 이 합은 왜 멈추지 않고 자랄까요?'],
+    cols:['카드 수','최대 돌출','이론 한계 ½Hₙ','차이'],
+    hint:'힌트 — 위 k장의 무게중심은 받침 끝에 „딱 걸치는“ 순간까지만 밀 수 있습니다. 그 한 걸음이 1/(2k) 입니다.',
+    read:()=>{ const Hn=Array.from({length:S.n},(_,i)=>1/(i+1)).reduce((a,b)=>a+b,0);
+      const st=stability(); const over=S.x[S.n-1]+1;
+      return [S.n+'장', st.bad?'무너짐':Math.max(0,over).toFixed(2), (Hn/2).toFixed(3),
+        st.bad?'—':(Hn/2-Math.max(0,over)).toFixed(3)]; } });
+}
+
+/* ---------- LAB 103 RGB 색 좌표 실험실 ---------- */
+function clDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="cl1" width="400" height="240"></canvas>
+      <div class="ctl" style="margin-top:6px">
+        ${slider('clR','R (빨강)',0,255,5,200,'')}
+        ${slider('clG','G (초록)',0,255,5,60,'')}
+        ${slider('clB','B (파랑)',0,255,5,60,'')}</div>
+    </div>
+    <div class="col">
+      <div class="out" id="clout"></div>
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b t sm" id="clQ1">도전① 16진수 해독</button>
+        <button class="b t sm" id="clQ2">도전② 1:3 내분점</button>
+        <button class="b t sm" id="clQ3">도전③ 무채색 합성</button></div>
+      <div id="clQz" class="note" style="margin-top:8px">색은 좌표 (R, G, B) — 슬라이더로 점을 옮기면
+      색이 변합니다. 삼각형은 세 원색을 꼭짓점으로 한 <b>색의 좌표평면</b>,
+      가운데로 갈수록 회색이 되는 이유가 오늘의 수학입니다.</div>
+      <div id="clT" style="margin-top:8px"></div>
+    </div></div>`;
+  const cv=$('#cl1'),ctx=cv.getContext('2d'),W=400,H=240;
+  const S={ quiz:0, t:4, done:{} };                   // t: 내분 슬라이더 값(0~8 → 0~1)
+  const TARGET=[75,150,200];                           // #4B96C8
+  const MIXB=[50,200,120];                             // 도전③ 상대색
+  const RV={x:70,y:210}, GV={x:200,y:30}, BV={x:330,y:210};
+  const rgb=()=>[+$('#clR').value,+$('#clG').value,+$('#clB').value];
+  const hex=c=>'#'+c.map(v=>v.toString(16).toUpperCase().padStart(2,'0')).join('');
+  function draw(){
+    const [r,g,b]=rgb();
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    // 색 견본
+    ctx.fillStyle=`rgb(${r},${g},${b})`; ctx.fillRect(14,14,86,60);
+    ctx.strokeStyle='#374151'; ctx.strokeRect(14,14,86,60);
+    ctx.fillStyle='#111827'; ctx.font='bold 12px ui-monospace,monospace'; ctx.textAlign='left';
+    ctx.fillText(hex([r,g,b]), 14, 90);
+    ctx.font='10.5px sans-serif'; ctx.fillStyle='#6B7280';
+    ctx.fillText(`(${r}, ${g}, ${b})`, 14, 104);
+    // 원색 삼각형 (무게중심 좌표)
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(RV.x,RV.y); ctx.lineTo(GV.x,GV.y); ctx.lineTo(BV.x,BV.y); ctx.closePath(); ctx.stroke();
+    [[RV,'#DC2626','R'],[GV,'#16A34A','G'],[BV,'#2563EB','B']].forEach(([P,c2,nm])=>{
+      ctx.fillStyle=c2; ctx.beginPath(); ctx.arc(P.x,P.y,7,0,7); ctx.fill();
+      ctx.fillStyle='#111827'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(nm, P.x, P.y+22); });
+    // 현재 색의 자리 (가중 무게중심)
+    const s=r+g+b||1;
+    const px=(r*RV.x+g*GV.x+b*BV.x)/s, py=(r*RV.y+g*GV.y+b*BV.y)/s;
+    ctx.fillStyle=`rgb(${r},${g},${b})`; ctx.beginPath(); ctx.arc(px,py,9,0,7); ctx.fill();
+    ctx.strokeStyle='#111827'; ctx.lineWidth=1.6; ctx.stroke();
+    // 정중앙(무게중심) 표식
+    const cx0=(RV.x+GV.x+BV.x)/3, cy0=(RV.y+GV.y+BV.y)/3;
+    ctx.strokeStyle='#9CA3AF'; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.arc(cx0,cy0,6,0,7); ctx.stroke(); ctx.setLineDash([]);
+    quiz();
+  }
+  function quiz(){
+    const [r,g,b]=rgb();
+    let html='';
+    if(S.quiz===1){
+      const ok=Math.abs(r-TARGET[0])<=10&&Math.abs(g-TARGET[1])<=10&&Math.abs(b-TARGET[2])<=10;
+      if(ok) S.done[1]=true;
+      html=`<b>도전① — 코드 <span class="mono">#4B96C8</span> 의 색을 만드세요.</b><br>
+        16진수 두 자리가 좌표 하나: 4B → 4×16+11. `
+        + (ok?`<b style="color:#0E9384">16진법 해독 성공 — (75, 150, 200) 명중!</b>`
+             :`<span style="color:#6B7280">지금 (${r}, ${g}, ${b}) — 각 좌표 ±10 안에 들어오면 성공.</span>`);
+    } else if(S.quiz===2){
+      const t=S.t/8;
+      const P=[Math.round(255*(1-t)),0,Math.round(255*t)];
+      const ok=S.t===2;
+      if(ok) S.done[2]=true;
+      html=`<b>도전② — 빨강(255,0,0)과 파랑(0,0,255)을 1 : 3 으로 내분한 색을 찾으세요.</b><br>
+        <input type="range" id="clTt" min="0" max="8" step="1" value="${S.t}" style="width:70%">
+        <span class="mono">t = ${S.t}/8</span><br>
+        <span style="display:inline-block;width:46px;height:22px;background:rgb(${P[0]},${P[1]},${P[2]});border:1px solid #374151;vertical-align:middle"></span>
+        <span class="mono"> (${P[0]}, ${P[1]}, ${P[2]})</span> `
+        + (ok?`<b style="color:#0E9384">내분점 (1:3) 명중 — 좌표 (191, 0, 64), 빨강 쪽 ¼ 지점!</b>`
+             :`<span style="color:#6B7280">빨강에서 파랑 방향으로 얼마나 간 지점일까요?</span>`);
+    } else if(S.quiz===3){
+      const mid=[Math.round((r+MIXB[0])/2),Math.round((g+MIXB[1])/2),Math.round((b+MIXB[2])/2)];
+      const ok=Math.abs(mid[0]-mid[1])<=6&&Math.abs(mid[1]-mid[2])<=6;
+      if(ok) S.done[3]=true;
+      html=`<b>도전③ — 내 색과 고정색 (50, 200, 120)을 1:1 로 섞어 무채색(회색)을 만드세요.</b><br>
+        합성색 = 두 좌표의 중점:
+        <span style="display:inline-block;width:46px;height:22px;background:rgb(${mid[0]},${mid[1]},${mid[2]});border:1px solid #374151;vertical-align:middle"></span>
+        <span class="mono"> (${mid[0]}, ${mid[1]}, ${mid[2]})</span><br>`
+        + (ok?`<b style="color:#0E9384">채도 0 도달 — 세 좌표가 같아졌습니다. R = G = B 가 곧 회색입니다.</b>`
+             :`<span style="color:#6B7280">중점의 세 좌표가 같아지려면 내 색을 어디에 둬야 할까요?</span>`);
+    } else {
+      html=`색은 좌표 (R, G, B) — 슬라이더로 점을 옮기면 색이 변합니다. 삼각형 위 점이
+        현재 색의 자리, 점선 원이 세 원색의 무게중심(무채색 자리)입니다.`;
+    }
+    $('#clQz').innerHTML=html;
+    const tt=$('#clTt'); if(tt) tt.oninput=()=>{ S.t=+tt.value; quiz(); };
+  }
+  ['clR','clG','clB'].forEach(id=>$('#'+id).oninput=draw);
+  $('#clQ1').onclick=()=>{ S.quiz=1; quiz(); };
+  $('#clQ2').onclick=()=>{ S.quiz=2; quiz(); };
+  $('#clQ3').onclick=()=>{ S.quiz=3; quiz(); };
+  draw();
+  inquiry(root,{ id:'cl', title:'RGB 색 좌표 — 색을 수로 다루기 (STEAM)',
+    q:['좋아하는 색 세 가지의 (R,G,B) 와 16진 코드를 표로 기록하세요.',
+       '삼각형 위 점의 위치와 색의 관계를 정리하세요 — 꼭짓점에 가까울 때, 가운데(점선 원)에 갈 때 무엇이 변하나요?',
+       '두 색의 1:1 합성이 좌표의 중점인 이유를 내분점 공식으로 쓰고, 1:3 이면 어디로 가는지 일반화하세요.'],
+    cols:['색 이름','(R, G, B)','16진 코드'],
+    hint:'힌트 — 색 합성은 좌표의 내분입니다. 도형 단원의 내분점 공식이 미술 시간의 팔레트에서 다시 태어납니다.',
+    read:()=>{ const [r,g,b]=rgb(); return ['내 색', `(${r}, ${g}, ${b})`, hex([r,g,b])]; } });
+}
+
 /* ============ 카드 썸네일 ============
    외부 이미지 금지(단일 파일 원칙) → 인라인 SVG로 그린다.
    장식이 아니라 그 실험실에서 학생이 실제로 보게 될 수학적 대상을 그린다.
@@ -12382,7 +12638,25 @@ const THUMBS = [
    <text x="33" y="52" font-size="9" font-weight="800" fill="${TC.blue}" text-anchor="middle">R→S</text>
    <text x="74" y="52" font-size="9" font-weight="800" fill="${TC.teal}" text-anchor="middle">S→R</text>
    <text x="98" y="32" font-size="11" font-weight="800" fill="${TC.rose}">≠</text>`,
-   '같은 두 변환을 다른 순서로 적용해 달라진 두 도형')
+   '같은 두 변환을 다른 순서로 적용해 달라진 두 도형'),
+
+ svg(`<rect x="14" y="46" width="52" height="10" fill="${TC.mute}" opacity=".5"/>
+   <rect x="30" y="38" width="34" height="7" fill="${TC.blue}" opacity=".3" stroke="${TC.blue}" stroke-width="1"/>
+   <rect x="40" y="30" width="34" height="7" fill="${TC.blue}" opacity=".3" stroke="${TC.blue}" stroke-width="1"/>
+   <rect x="52" y="22" width="34" height="7" fill="${TC.blue}" opacity=".3" stroke="${TC.blue}" stroke-width="1"/>
+   <rect x="68" y="14" width="34" height="7" fill="${TC.teal}" opacity=".45" stroke="${TC.teal}" stroke-width="1.2"/>
+   <path d="M66 58 V12" stroke="${TC.rose}" stroke-width="1.2" stroke-dasharray="3 2"/>
+   <text x="96" y="52" font-size="8.5" font-weight="800" fill="${TC.rose}">절벽 밖!</text>`,
+   '카드가 계단처럼 밀려 맨 위 장이 책상 밖에 뜬 그림'),
+
+ svg(`<path d="M28 52 L60 12 L92 52 Z" stroke="${TC.mute}" stroke-width="1.4" fill="none"/>
+   <circle cx="28" cy="52" r="5" fill="#DC2626"/>
+   <circle cx="60" cy="12" r="5" fill="#16A34A"/>
+   <circle cx="92" cy="52" r="5" fill="#2563EB"/>
+   <circle cx="60" cy="38.7" r="4" fill="#9CA3AF" stroke="${TC.ink}" stroke-width="1"/>
+   <circle cx="72" cy="42" r="4.6" fill="#B06AC8" stroke="${TC.ink}" stroke-width="1.2"/>
+   <text x="60" y="62" font-size="8.5" font-weight="800" fill="${TC.ink3}" text-anchor="middle">색 = 좌표</text>`,
+   '세 원색 삼각형 위에서 색이 좌표점으로 움직이는 그림')
 ];
 
 /* 상단 카드는 20종만 — 나머지 실험실은 아래 확장 카탈로그의 제 과목 자리에서 연다.
@@ -14294,6 +14568,45 @@ const MISSIONS={
   },
   {
    "t": "적용 — 순서를 타는 일상 예(옷 입기 등) 둘을 행렬 곱과 이어 쓰세요."
+  }
+ ],
+ "102": [
+  {
+   "t": "카드 4장을 이리저리 끌며 어디까지 버티는지 감을 잡으세요."
+  },
+  {
+   "t": "일부러 무너뜨려 보세요 — 몇 장째에서 무너졌다고 나오나요?",
+   "re": "무게중심이 받침을 벗어났"
+  },
+  {
+   "t": "맨 위 카드를 통째로 책상 밖 허공에 띄우세요 (눈금 힌트를 켜도 좋습니다).",
+   "re": "완전 돌출"
+  },
+  {
+   "t": "기록·발견 — 카드 수 2~8장에서 (최대 돌출, 이론 한계) 표를 채우고 ½(1+½+⅓+…) 규칙을 쓰세요."
+  },
+  {
+   "t": "적용 — 돌출 2카드가 되려면 몇 장이 필요한지 이론 한계 식으로 추정하세요."
+  }
+ ],
+ "103": [
+  {
+   "t": "세 슬라이더를 움직여 색과 삼각형 위 점이 함께 변하는 것을 관찰하세요."
+  },
+  {
+   "t": "도전① — 16진 코드 #4B96C8 을 좌표로 해독해 그 색을 만드세요.",
+   "re": "해독 성공"
+  },
+  {
+   "t": "도전② — 빨강과 파랑의 1:3 내분점 색을 찾아내세요.",
+   "re": "내분점 \\(1:3\\) 명중"
+  },
+  {
+   "t": "도전③ — 고정색과 섞어 회색을 만드세요 — 중점의 세 좌표를 같게!",
+   "re": "채도 0 도달"
+  },
+  {
+   "t": "적용 — 내가 좋아하는 색의 16진 코드를 10진 좌표로 환산하고, 어느 꼭짓점에 가까운지 삼각형에서 확인하세요."
   }
  ]
 };
@@ -18681,7 +18994,9 @@ const LABCAT = [
 {k:'h11',g:'공통수학1 · 여러 가지 부등식',b:'이익선을 영역 밖까지 밀어도 최댓값이 계속 커진다고 표시함'},
 {k:'h11',g:'공통수학1 · 순열과 조합',b:'조합에서 2! 로 나누지 않아 목록은 6개인데 숫자는 12로 표시됨'},
 {k:'h11',g:'공통수학1 · 행렬',b:'열과 행을 바꿔 읽어 기저 화살표와 도형이 따로 움직임'},
-{k:'h11',g:'공통수학1 · 행렬',b:'AB 와 BA 를 같은 코드로 계산해 늘 「같다」로 판정함'}
+{k:'h11',g:'공통수학1 · 행렬',b:'AB 와 BA 를 같은 코드로 계산해 늘 「같다」로 판정함'},
+{k:'cal2',g:'미적분Ⅱ · 급수 (RME 융합)',b:'무게중심을 카드 묶음이 아니라 낱장 기준으로 판정해 아무리 밀어도 안 무너짐'},
+{k:'h12',g:'공통수학2 · 평면좌표와 내분점 (STEAM 융합)',b:'내분점을 (A+B)/2 로 고정 계산해 1:3 을 골라도 중점 색이 나옴'}
 ];
 
 /* ================= 확장 카탈로그 렌더 =================
