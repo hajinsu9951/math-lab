@@ -1269,8 +1269,7 @@ function planDemo(root){
       ${slider('pc','B 요금제 기본료',0,30000,1000,20000,'원')}
       ${slider('pd','B 요금제 분당 요금',0,200,10,20,'원')}
       <div class="out" id="plout"></div>
-      <div class="note" style="margin-top:12px">두 <b>일차함수의 교점</b>이 곧 “갈아탈 시점”입니다.
-      기본료는 <b>y절편</b>, 분당 요금은 <b>기울기</b>입니다.</div>
+      <div class="note" style="margin-top:12px">슬라이더 넷이 그래프의 어디를 조종하는지부터 찾아보세요. 두 직선이 만나는 자리에서는 요금에 무슨 일이 벌어질까요?</div>
     </div></div>`;
   const cv=$('#pl1'),ctx=cv.getContext('2d'),W=380,H=300,P=40;
   const MAXM=400;
@@ -1317,8 +1316,7 @@ function trigDemo(root){
       ${slider('tds','수평 거리 d',10,120,1,50,'m')}
       ${slider('teh','내 눈높이',0,3,0.1,1.6,'m')}
       <div class="out" id="tgout"></div>
-      <div class="note" style="margin-top:12px">각을 재고 거리를 알면 <b>tan</b> 하나로 높이가 나옵니다.
-      드론·측량기가 하는 일이 정확히 이것입니다.</div>
+      <div class="note" style="margin-top:12px">올라가지 않고 높이를 재려면 무엇 무엇을 알면 될까요? 각과 거리를 바꾸며 단서를 모아 보세요.</div>
     </div></div>`;
   const cv=$('#tg1'),ctx=cv.getContext('2d'),W=380,H=300;
   function draw(){
@@ -1528,8 +1526,7 @@ function lawDemo(root){
       ${slider('lwn','뽑은 횟수',10,3000,10,100,'회')}
       <div class="btns"><button class="b" id="lwgo">다시 뽑기</button></div>
       <div class="out" id="lwout"></div>
-      <div class="note" style="margin-top:12px">시행을 늘릴수록 실험 확률이 이론 확률로 <b>수렴</b>합니다.
-      “확률 0.5%”가 무슨 뜻인지 몸으로 알게 되는 자리입니다.</div>
+      <div class="note" style="margin-top:12px">「확률 0.5%」라는 말은 실제 뽑기에서 어떤 모습으로 나타날까요? 횟수를 바꿔 가며 지켜보세요.</div>
     </div></div>`;
   const cv=$('#lw1'),ctx=cv.getContext('2d'),W=380,H=280,P=38;
   let seed=11; const rnd=()=>{ seed=(seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff; };
@@ -1621,8 +1618,7 @@ function cmpDemo(root){
       ${slider('cmr','연 이자율',1,20,0.5,7,'%')}
       ${slider('cmy','기간',1,40,1,20,'년')}
       <div class="out" id="cmout"></div>
-      <div class="note" style="margin-top:12px">단리는 직선, 복리는 곡선입니다.
-      <b>72를 이자율로 나누면</b> 두 배 되는 햇수가 나오는데, 왜 하필 72인지 로그로 확인할 수 있습니다.</div>
+      <div class="note" style="margin-top:12px">두 곡선의 모양 차이는 어디서 올까요? 그리고 72 를 이자율로 나눈 값은 무엇과 닮아 있나요? 직접 견줘 보세요.</div>
     </div></div>`;
   const cv=$('#cm1'),ctx=cv.getContext('2d'),W=380,H=280,P=42;
   function draw(){
@@ -1674,8 +1670,7 @@ function logDemo(root){
         <option value="pop">도시별 인구</option>
         <option value="sound">소리의 세기</option></select></label>
       <div class="out" id="lgout"></div>
-      <div class="note" style="margin-top:12px">보통 눈금에서는 작은 값들이 <b>바닥에 붙어 아무것도 안 보입니다.</b>
-      로그 눈금으로 바꾸면 비로소 비교가 됩니다.</div>
+      <div class="note" style="margin-top:12px">작은 값들이 화면 어디에 숨어 있나요? 모두가 보이게 만드는 방법이 있을까요?</div>
     </div></div>`;
   const DATA={
     quake:{lab:'지진 규모',unit:'× 기준 에너지',
@@ -1730,8 +1725,7 @@ function velDemo(root){
       ${slider('vlt','시각 t',0.2,4.8,0.1,2,'초')}
       ${slider('vlh','구간 폭 h',0.02,2,0.02,1.2,'초')}
       <div class="out" id="vlout"></div>
-      <div class="note" style="margin-top:12px">h 를 0에 가깝게 줄여 보세요. <b>할선이 접선으로</b> 다가갑니다.
-      과속 단속 카메라가 재는 것이 바로 이 극한값입니다.</div>
+      <div class="note" style="margin-top:12px">h 를 마음껏 줄여 보세요 — 할선의 운명은 어떻게 될까요? 과속 단속 카메라와 무슨 관계가 있을지도 생각해 보세요.</div>
     </div></div>`;
   const cv=$('#vl1'),ctx=cv.getContext('2d'),W=380,H=300,P=40;
   const s=t=>2*t*t+3*t;          // 위치 s(t) = 2t² + 3t
@@ -1803,9 +1797,7 @@ function primeDemo(root){
         <button class="b g sm" id="pfRst">다시</button>
       </div>
       <div class="out" id="pfout"></div>
-      <div class="note" style="margin-top:12px">곱하는 것은 <b>한 번</b>이면 끝나는데, 되돌리는 것은
-      나눠 보는 수밖에 없습니다. 이 비대칭이 <b>공개키 암호(RSA)</b>가 서는 자리입니다.
-      실제 암호는 자릿수가 <b>수백 자리</b>인 소수를 씁니다.</div>
+      <div class="note" style="margin-top:12px">곱하기와 「소인수로 되돌리기」 — 컴퓨터에게 두 일의 난이도는 같을까요? 크기를 바꿔 가며 시간을 비교해 보세요.</div>
     </div></div>`;
   const cv=$('#pf1'),ctx=cv.getContext('2d'),W=380,H=170;
   const S={ p:7, q:31, d:1, found:null, tries:0, fails:[] };
@@ -1912,8 +1904,7 @@ function intDemo(root){
           <option value="-">a − b — b 를 거꾸로 간다</option>
         </select></label>
       <div class="out" id="izout"></div>
-      <div class="note" style="margin-top:12px">뺄셈은 <b>반대 방향으로 가는 덧셈</b>입니다.
-      a − b = a + (−b). 화살표의 <b>길이는 |b| 그대로</b>이고 방향만 뒤집힙니다.</div>
+      <div class="note" style="margin-top:12px">빼기 화살표는 더하기 화살표와 어떤 관계일까요? 여러 짝으로 실험해 규칙을 잡아 보세요.</div>
     </div></div>`;
   const cv=$('#iz1'),ctx=cv.getContext('2d'),W=380,H=300,P=26;
   const S={ a:-5, b:3 };
@@ -2020,8 +2011,7 @@ function letterDemo(root){
           <option value="c">4n − (n−1) — 네 개씩 n 칸, 겹친 (n−1)개 빼기</option>
         </select></label>
       <div class="out" id="ltout"></div>
-      <div class="note" style="margin-top:12px"><b>2a</b> 는 “2와 a”가 아니라 <b>2 × a</b> 입니다.
-      a = 7 이면 2a = 14 이지 27 이 아닙니다 — 약속을 잘못 읽으면 대입이 통째로 어긋납니다.</div>
+      <div class="note" style="margin-top:12px">2a 에 a = 7 을 넣으면 얼마일까요 — 27? 14? 기계가 어느 약속을 따르는지 시험해 보세요.</div>
     </div></div>`;
   const cv=$('#lt1'),ctx=cv.getContext('2d'),W=380,H=300;
   const S={ n:1, flash:[] };
@@ -2194,8 +2184,7 @@ function propDemo(root){
         <button class="b g sm" id="ppClr">점 지우기</button>
       </div>
       <div class="out" id="ppout"></div>
-      <div class="note" style="margin-top:12px"><b>곱 x × y 가 일정</b>하면 반비례,
-      <b>비 y ÷ x 가 일정</b>하면 정비례입니다. 점을 여러 개 찍은 뒤 두 값을 견줘 보세요.</div>
+      <div class="note" style="margin-top:12px">점을 여러 개 찍은 뒤 y÷x 와 x×y 두 값을 추적해 보세요 — 어느 쪽이 변하지 않나요?</div>
     </div></div>`;
   const c1=$('#pp1'),x1=c1.getContext('2d'),W=380,H1=150;
   const c2=$('#pp2'),x2=c2.getContext('2d'),H2=180,P=40;
@@ -2333,9 +2322,7 @@ function paraDemo(root){
         <button class="b g sm" id="paPar">아랫줄을 평행으로 되돌리기</button>
       </div>
       <div class="out" id="paout"></div>
-      <div class="note" style="margin-top:12px">평행선이라는 <b>조건</b>이 있어야 같습니다.
-      평행이 아니면 이름(동위각·엇각)은 그대로여도 <b>크기는 달라집니다</b> —
-      그림에서 철길이 만나 보이는 소실점이 바로 그 어긋남입니다.</div>
+      <div class="note" style="margin-top:12px">같은 이름의 각(동위각·엇각)은 언제 같고 언제 어긋날까요? 평행을 만들었다 깨며 조건을 찾아보세요.</div>
     </div></div>`;
   const cv=$('#pa1'),ctx=cv.getContext('2d'),W=380,H=300;
   const Y1=92, Y2=208, CX=W/2, MID=(Y1+Y2)/2, HF=(Y2-Y1)/2;
@@ -2459,9 +2446,7 @@ function congDemo(root){
           <option value="ssa" selected>SSA — 두 변과 낀 각이 아닌 각 ← 조건이 아님</option>
         </select></label>
       <div class="out" id="cgout"></div>
-      <div class="note" style="margin-top:12px">조건이 맞으면 <b>모양이 하나로 정해집니다</b>.
-      SSA 는 컴퍼스 원이 반직선을 <b>두 번 자를 수 있어</b> 두 개가 나옵니다 —
-      그래서 다리·철탑은 세 변을 고정하는 <b>삼각형(SSS)</b>으로 짓습니다.</div>
+      <div class="note" style="margin-top:12px">어떤 조건이면 삼각형이 「하나로」 정해질까요? 조건을 바꿔 가며 두 개가 나오는 경우를 찾아보세요.</div>
     </div></div>`;
   const cv=$('#cg1'),ctx=cv.getContext('2d'),W=380,H=300;
   const A={x:52,y:236};                       // 각 A 의 꼭짓점 (반직선의 시작)
@@ -2587,10 +2572,7 @@ function sectDemo(root){
     </div>
     <div class="col">
       <div class="out" id="scout"></div>
-      <div class="note" style="margin-top:12px">호의 길이도 넓이도 <b>중심각에 정비례</b>합니다.
-      반지름을 두 배로 하면 호는 두 배, 넓이는 <b>네 배</b>가 되지만
-      <b>비율(각/360 · 호/둘레 · 넓이/원)</b>은 셋 다 그대로입니다 —
-      그래서 원그래프는 원의 크기와 상관없이 읽을 수 있습니다.</div>
+      <div class="note" style="margin-top:12px">중심각·호·넓이 — 셋 중 무엇이 무엇을 따라 움직이나요? 반지름을 바꾸면 비율은 어떻게 될까요?</div>
     </div></div>`;
   const cv=$('#sc1'),ctx=cv.getContext('2d'),W=380,H=300;
   const C={x:180,y:158};
@@ -2685,9 +2667,7 @@ function repM1Demo(root){
         <button class="b g sm" id="rmRst">개점 (다시)</button>
       </div>
       <div class="out" id="rmout"></div>
-      <div class="note" style="margin-top:12px">평균 치수의 신발은 <b>아무도 안 살 수도</b> 있습니다.
-      “가장 많이 팔린 것”을 묻고 있다면 답은 <b>최빈값</b>입니다.
-      대푯값은 하나가 아니라 <b>물음에 따라 고르는 것</b>입니다.</div>
+      <div class="note" style="margin-top:12px">신발 가게 주인이 정말 궁금한 것은 무엇일까요? 세 대푯값 중 그 물음에 답하는 것을 찾아보세요.</div>
     </div></div>`;
   const cv=$('#rm1'),ctx=cv.getContext('2d'),W=380,H=300,P=36;
   const SIZES=[230,240,250,260,270,280];
@@ -2798,9 +2778,7 @@ function histDemo(root){
         <button class="b g sm" id="hsP4">폭 40</button>
       </div>
       <div class="out" id="hsout"></div>
-      <div class="note" style="margin-top:12px">같은 자료인데 <b>계급을 어떻게 자르느냐</b>에 따라
-      봉우리가 하나가 되기도, 둘이 되기도 합니다. 그래서 히스토그램에는
-      <b>계급의 크기를 반드시 밝혀야</b> 합니다.</div>
+      <div class="note" style="margin-top:12px">계급 폭을 바꾸면 같은 자료의 인상이 어떻게 달라지나요? 봉우리 수까지 달라질 수 있을까요?</div>
     </div></div>`;
   const cv=$('#hs1'),ctx=cv.getContext('2d'),W=380,H=300;
   // 어느 반의 수학 점수 40명 — 고정 자료
@@ -3102,9 +3080,7 @@ function gcdDemo(root){
         <button class="b g sm" id="gdRst">처음으로</button>
       </div>
       <div class="out" id="gdout"></div>
-      <div class="note" style="margin-top:12px">처음 맞물린 자리로 <b>다시 돌아오는 때</b>가
-      최소공배수입니다. 소인수분해로 보면 두 바퀴의 소인수를 <b>모두(높은 지수로)</b>
-      담아야 두 바퀴가 동시에 정수 바퀴를 돌기 때문입니다.</div>
+      <div class="note" style="margin-top:12px">두 톱니가 처음 자리에서 다시 만나는 시각은 두 수의 무엇과 관련될까요? 기록에서 규칙을 캐 보세요.</div>
     </div></div>`;
   const cv=$('#gd1'),ctx=cv.getContext('2d'),W=380,H=300;
   const gcd=(x,y)=>y?gcd(y,x%y):x;
@@ -3203,9 +3179,7 @@ function constructDemo(root){
     </div>
     <div class="col">
       <div class="out" id="cnout"></div>
-      <div class="note" style="margin-top:12px">원은 “그 점에서 거리가 같은 점들”의 모임입니다.
-      반지름 b 인 호와 반지름 c 인 호가 만나는 점이 곧 <b>두 조건을 동시에 만족하는 꼭짓점</b>입니다.
-      호가 만나지 못하면 — 그런 삼각형은 세상에 없습니다.</div>
+      <div class="note" style="margin-top:12px">호와 호가 만나는 점은 어떤 특별한 자격을 갖고 있을까요? 호가 만나지 못하면 무슨 뜻일까요?</div>
     </div></div>`;
   const cv=$('#cn1'),ctx=cv.getContext('2d'),W=380,H=300;
   const A={x:80,y:212};
@@ -3316,9 +3290,7 @@ function polyDemo(root){
           <option value="12">정십이각형 — 150°</option>
         </select></label>
       <div class="out" id="pgout"></div>
-      <div class="note" style="margin-top:12px">한 점에 모인 각이 <b>정확히 360°</b>여야 빈틈도
-      겹침도 없습니다. 붙일 수 있는 정다각형이 <b>세 가지뿐</b>인 이유를 직접 확인하세요.
-      (벌집이 정육각형인 것도 같은 이유입니다)</div>
+      <div class="note" style="margin-top:12px">채워지는 도형과 안 되는 도형 — 갈림길은 어디에 있을까요? 한 점에 모인 각들을 세어 보세요.</div>
     </div></div>`;
   const cv=$('#pg1'),ctx=cv.getContext('2d'),W=380,H=300;
   const C={x:190,y:172}, R=86;
@@ -3412,9 +3384,7 @@ function solidDemo(root){
         <button class="b t sm" id="sdPrint">한 층씩 쌓기 (3D 프린터)</button>
       </div>
       <div class="out" id="sdout"></div>
-      <div class="note" style="margin-top:12px">다면체는 <b>v − e + f = 2</b> (오일러 공식)가
-      성립하고, 회전체의 단면은 축에 수직으로 자르면 <b>언제나 원</b>입니다 —
-      돌려 보고 잘라 보면 두 성질이 함께 보입니다.</div>
+      <div class="note" style="margin-top:12px">꼭짓점·모서리·면의 수를 여러 입체에서 세어 보세요 — 세 수 사이에 숨은 약속이 있을까요? 단면도 잘라 보세요.</div>
     </div></div>`;
   const cv=$('#sd1'),ctx=cv.getContext('2d'),W=380,H=300;
   const S={ yaw:0.6, pitch:0.42, t:0.5, print:null, layer:0 };
@@ -3564,9 +3534,7 @@ function boxDemo(root){
         <button class="b g sm" id="bxCube">정육면체 (20×20×20)</button>
       </div>
       <div class="out" id="bxout"></div>
-      <div class="note" style="margin-top:12px">같은 부피라도 겉넓이는 다릅니다.
-      <b>정육면체에 가까울수록</b> 종이가 적게 듭니다 — 그런데 실제 택배 상자는 왜
-      정육면체가 아닐까요? (물건 모양·쌓기·손잡이…) 그것이 수학과 현실의 대화입니다.</div>
+      <div class="note" style="margin-top:12px">같은 부피인데 종이(겉넓이)가 덜 드는 모양이 있을까요? 극단적인 모양들과 비교해 보세요.</div>
     </div></div>`;
   const cv=$('#bx1'),ctx=cv.getContext('2d'),W=380,H=300;
   const V=8000;
@@ -3674,9 +3642,7 @@ function stemDemo(root){
         <button class="b g sm" id="stRst">다시</button>
       </div>
       <div class="out" id="stout"></div>
-      <div class="note" style="margin-top:12px">줄기와 잎은 <b>원래 값을 그대로 남깁니다</b> —
-      중앙값을 잎에서 직접 셀 수 있습니다. 히스토그램은 값을 <b>구간 개수로 뭉개는</b>
-      대신 큰 자료의 분포를 한눈에 보여 줍니다. 목적에 따라 골라 쓰는 것입니다.</div>
+      <div class="note" style="margin-top:12px">줄기와 잎 그림과 히스토그램 — 각자 무엇을 지키고 무엇을 포기하나요? 두 그림을 오가며 비교하세요.</div>
     </div></div>`;
   const cv=$('#st1'),ctx=cv.getContext('2d'),W=380,H=300;
   const DATA=[42,48,51,53,55,56,58,58,61,62,63,64,65,66,66,67,68,69,72,73,75,77,81,84,92];
@@ -3869,9 +3835,7 @@ function statInqDemo(root){
         <button class="b g sm" id="siClr">점 지우기</button>
       </div>
       <div class="out" id="siout"></div>
-      <div class="note" style="margin-top:12px">몇 명에게 묻느냐에 따라 결론이 흔들립니다.
-      <b>같은 크기로 여러 번</b> 뽑아 흔들림의 폭을 재는 것 — 그것이 “몇 명이면 충분한가”에
-      답하는 유일한 방법입니다. 누구에게 묻는가(편향)도 함께 생각하세요.</div>
+      <div class="note" style="margin-top:12px">몇 명에게 물으면 믿을 만할까요? 같은 크기로 여러 번 뽑아 결과의 흔들림을 재 보세요.</div>
     </div></div>`;
   const cv=$('#si1'),ctx=cv.getContext('2d'),W=380,H=300;
   const TOPIC=[{n:'통학 시간',u:'분',mu:22,sd:11,lo:0,hi:70},
@@ -6431,8 +6395,7 @@ function symDemo(root){
       ${slider('sya','대응점 확인용 x',-2,8,0.1,3,'')}
       <label class="ctl" style="margin-top:8px"><input type="checkbox" id="syp"> 원점 <b>점대칭</b>도 함께 보기</label>
       <div class="out" id="syout"></div>
-      <div class="note" style="margin-top:12px">파란 원함수와 초록 역함수는 <b>주황 점선 y = x 에 대칭</b>입니다.
-      대응점의 좌표가 서로 뒤바뀌는 것을 슬라이더로 확인해 보세요.</div>
+      <div class="note" style="margin-top:12px">파란 그래프와 초록 그래프 사이에 어떤 대칭이 숨어 있나요? 대응점 연결선으로 확인해 보세요.</div>
     </div></div>`;
   const cv=$('#sy1'),ctx=cv.getContext('2d'),W=380,H=330,O=150,S=26;
   const X=v=>O+v*S, Y=v=>H-O-v*S;
@@ -6807,9 +6770,7 @@ function revolveDemo(root){
         <button class="b g sm" id="rvP4">와인잔</button>
       </div>
       <div class="out" id="rvout"></div>
-      <div class="note" style="margin-top:12px">원판 한 장의 부피는 <b>π r² Δy</b> 입니다.
-      반지름을 <b>제곱</b>하기 때문에, 굵기를 2배로 하면 부피는 <b>4배</b>가 됩니다.
-      원판을 늘릴수록 계단이 곡선에 붙어 오차가 줄어듭니다.</div>
+      <div class="note" style="margin-top:12px">원판 한 장의 부피는 무엇 무엇으로 정해질까요? 원판을 늘릴수록 계단과 곡선 사이에 무슨 일이 생기나요?</div>
     </div></div>`;
   const cv=$('#rv1'), ctx=cv.getContext('2d'), W=400, H=320;
   const AX=W/2, TOP=26, BOT=H-34, HGT=BOT-TOP;      // 회전축은 화면 한가운데 세로선
@@ -6917,9 +6878,7 @@ function sqrtAddDemo(root){
       <div class="ctl"><button class="b g sm" id="saSnap">√2+√3 이어붙이기</button>
         <button class="b g sm" id="saRst">흩어놓기</button></div>
       <div class="out" id="saout"></div>
-      <div class="note" style="margin-top:12px">√2+√3 ≈ 3.15 이고 √5 ≈ 2.24 —
-      <b>근호는 덧셈을 통과하지 못합니다</b>. 넓이(제곱)의 세계와 길이의 세계가
-      다르기 때문입니다: (√2+√3)² = 5 + 2√6 ≠ 5.</div>
+      <div class="note" style="margin-top:12px">√2 막대와 √3 막대를 이어붙이면 √5 막대와 같을까요? 자로 재고, 제곱해서도 판정해 보세요.</div>
     </div></div>`;
   const cv=$('#sa1'),ctx=cv.getContext('2d'),W=400,H=290;
   const SC=70, X0=40;                                 // 1 단위 = 70px
@@ -7095,9 +7054,7 @@ function mentalDemo(root){
     <div class="col">
       <div class="out" id="mtout"></div>
       <div class="ctl" style="margin-top:10px" id="mtQ"></div>
-      <div class="note" style="margin-top:12px">(100−b)(100+b) = 100² − b².
-      직사각형에서 <b>조각 하나를 잘라 옮기면</b> 큰 정사각형에서 작은 정사각형이
-      빠진 모양 — 그래서 곱셈이 뺄셈 한 번으로 끝납니다.</div>
+      <div class="note" style="margin-top:12px">조각이 옮겨 붙고 나면 어떤 모양이 남나요? 그 모양이 99×101 암산과 무슨 관계가 있을까요?</div>
     </div></div>`;
   const cv=$('#mt1'),ctx=cv.getContext('2d'),W=400,H=260;
   const S={ b:1, solved:0 };
@@ -7177,9 +7134,7 @@ function quadRootDemo(root){
       <div class="ctl"><button class="b t sm" id="qrNew">새 포물선</button>
         <button class="b g sm" id="qrShow">공식으로 검산</button></div>
       <div class="out" id="qrout"></div>
-      <div class="note" style="margin-top:12px">눈으로 찍은 근을
-      <span class="mono">x = (−b ± √(b²−4ac)) / 2a</span> 가 확인해 줍니다 —
-      공식은 “찍기”를 “정확히”로 바꾸는 도구입니다.</div>
+      <div class="note" style="margin-top:12px">눈으로 찍은 근과 공식이 계산한 근 — 얼마나 가까울까요? 공식의 역할이 무엇인지 겪어 보세요.</div>
     </div></div>`;
   const cv=$('#qr1'),ctx=cv.getContext('2d'),W=400,H=300;
   const S={ a:1,b:-2,c:-3, g1:-3,g2:4, show:false };
@@ -7250,9 +7205,7 @@ function discrimDemo(root){
     </div>
     <div class="col">
       <div class="out" id="dcout"></div>
-      <div class="note" style="margin-top:12px">x² − 2x − k = 0 의 판별식
-      D = 4 + 4k 의 <b>부호</b>가 교점 개수를 미리 알려 줍니다 —
-      풀기 전에 아는 것, 그것이 판별식의 힘입니다.</div>
+      <div class="note" style="margin-top:12px">수평선을 옮기면 교점의 개수가 변합니다 — 풀지 않고도 개수를 미리 아는 방법이 있을까요? D 값을 추적해 보세요.</div>
     </div></div>`;
   const cv=$('#dc1'),ctx=cv.getContext('2d'),W=400,H=300;
   const S={ k:2 };                                    // y = k 수평선, 포물선 y=x²−2x
@@ -7319,9 +7272,7 @@ function complSqDemo(root){
     </div>
     <div class="col">
       <div class="out" id="cqout"></div>
-      <div class="note" style="margin-top:12px">x² + bx 는 <b>기역자 모양</b> — 정사각형이 되려면
-      모서리에 <b>(b/2)² 만큼의 구멍</b>을 채워야 합니다. 그 “채운 만큼 우변에도”가
-      완전제곱식 풀이이고, 문자로 끝까지 가면 <b>근의 공식</b>이 나옵니다.</div>
+      <div class="note" style="margin-top:12px">기역자 모양을 정사각형으로 바꾸려면 무엇이 더 필요할까요? 그 크기는 b 와 어떤 관계일까요?</div>
     </div></div>`;
   const cv=$('#cq1'),ctx=cv.getContext('2d'),W=400,H=300;
   const S={ b:6, stage:0 };                            // 0 나열 → 1 접어 배치 → 2 채움
@@ -7406,9 +7357,7 @@ function parabShiftDemo(root){
       <div class="ctl"><button class="b t sm" id="psNew">새 목표</button>
         <span class="mono" id="psQ" style="font-size:16px;margin-left:8px"></span></div>
       <div class="out" id="psout"></div>
-      <div class="note" style="margin-top:12px">y = (x−p)² + q 의 꼭짓점은 <b>(p, q)</b>.
-      괄호 안이 <b>−p</b> 인데 오른쪽으로 가는 것 — 부호의 함정이 이 실험의 핵심입니다.
-      x−3 은 “3 늦게 출발” = 오른쪽 이동입니다.</div>
+      <div class="note" style="margin-top:12px">괄호 안의 부호와 실제 이동 방향 — 예상과 같나요? 함정이 어디 숨어 있는지 배달로 찾아내세요.</div>
     </div></div>`;
   const cv=$('#ps1'),ctx=cv.getContext('2d'),W=400,H=300;
   const S={ p:0,q:0, tp:2,tq:-3 };
@@ -7478,9 +7427,7 @@ function fenceDemo(root){
     </div>
     <div class="col">
       <div class="out" id="fnout"></div>
-      <div class="note" style="margin-top:12px">둘레 20m: 가로 w 면 세로는 10−w.
-      넓이 S = w(10−w) 는 이차함수 — <b>꼭짓점이 최대</b>입니다. 단, w 는 0과 10 사이라는
-      <b>정의역</b>을 벗어나면 울타리가 성립하지 않습니다.</div>
+      <div class="note" style="margin-top:12px">둘레가 정해져 있을 때 가장 넓은 울타리는 어떤 모양일까요? 그래프의 봉우리가 답을 알고 있을까요?</div>
     </div></div>`;
   const cv=$('#fn1'),ctx=cv.getContext('2d'),W=400,H=300;
   const S={ w:3 };
@@ -7553,9 +7500,7 @@ function xpDemo(root){
     </div>
     <div class="col">
       <div class="out" id="xpout"></div>
-      <div class="note" style="margin-top:12px"><b>주황 손잡이</b>로 a·b 의 경계를 끄세요.
-      전개 공식의 각 항이 <b>진짜 넓이 조각</b>으로 보입니다. (a−b)² 모드에서는
-      두 번 뺀 겹침을 b² 만큼 <b>되돌려 주는</b> 순간이 공식의 +b² 입니다.</div>
+      <div class="note" style="margin-top:12px">주황 손잡이로 a·b 의 경계를 끄세요. 전개식의 각 항은 그림의 어느 조각일까요? (a−b)² 모드의 겹침 사건도 조사해 보세요.</div>
     </div></div>`;
   const cv=$('#xp1'),ctx=cv.getContext('2d'),W=400,H=300;
   const S={ mode:'sum', a:6, st:0 };                    // a+b=10 고정, st: 차모드 단계
@@ -7788,8 +7733,7 @@ function iaDemo(root){
     </div>
     <div class="col">
       <div class="out" id="iaout"></div>
-      <div class="note" style="margin-top:12px">같은 호 AB 를 바라보는 <b>원주각은 P 가 어디에 있든 같고</b>,
-      중심각의 절반입니다. 카메라 시야각이 같아지는 자리들 — 그것이 원입니다.</div>
+      <div class="note" style="margin-top:12px">P 를 옮기면 각은 변할까요? 중심각과는 어떤 비율일까요? 직접 재 보고 판정하세요.</div>
     </div></div>`;
   const cv=$('#ia1'),ctx=cv.getContext('2d'),W=400,H=320;
   const O={x:200,y:165}, R=130;
@@ -7866,9 +7810,7 @@ function tnDemo(root){
     </div>
     <div class="col">
       <div class="out" id="tnout"></div>
-      <div class="note" style="margin-top:12px"><b>위성 P(주황)</b>를 끌어 보세요. P 에서 지구에 그은
-      <b>두 접선의 길이는 언제나 같고</b>, 접점 사이의 붉은 호가 위성이 내려다보는
-      <b>가시 범위</b>입니다. 접선은 반지름과 직각 — 그래서 피타고라스가 통합니다.</div>
+      <div class="note" style="margin-top:12px">위성 P(주황)를 끌어 보세요. 두 접선의 길이는 서로 어떤 관계인가요? 위성이 높아지면 가시 범위는 어디까지 넓어질 수 있을까요?</div>
     </div></div>`;
   const cv=$('#tn1'),ctx=cv.getContext('2d'),W=400,H=300;
   const O={x:130,y:150}, r=78;
@@ -7934,9 +7876,7 @@ function cyDemo(root){
     </div>
     <div class="col">
       <div class="out" id="cyout"></div>
-      <div class="note" style="margin-top:12px">원에 내접한 사각형의 <b>마주보는 두 각의 합은 180°</b>.
-      네 점이 한 원 위에 있다는 강한 조건이 각도를 묶어 버립니다 —
-      거꾸로, 대각합 180° 는 「네 점이 한 원 위」의 판정 시험지입니다.</div>
+      <div class="note" style="margin-top:12px">모양을 아무리 바꿔도 변하지 않는 값이 있을까요? 두 대각합을 추적하고, D 를 원에서 떼어 보세요.</div>
     </div></div>`;
   const cv=$('#cy1'),ctx=cv.getContext('2d'),W=400,H=320;
   const O={x:200,y:160}, R=125;
@@ -8006,8 +7946,7 @@ function bxDemo(root){
     </div>
     <div class="col">
       <div class="out" id="bxout"></div>
-      <div class="note" style="margin-top:12px">상자그림은 다섯 수(최소·Q1·중앙값·Q3·최대) 요약입니다.
-      수염 길이의 한계는 <b>1.5 × IQR</b> — 그 밖의 점은 자동으로 <b>이상치</b>로 분리됩니다.</div>
+      <div class="note" style="margin-top:12px">상자와 수염은 자료의 무엇으로 만들어질까요? 점을 끌어 어떤 값이 상자를 움직이는지 찾아보세요.</div>
     </div></div>`;
   const cv=$('#bx1'),ctx=cv.getContext('2d'),W=400,H=300;
   const S={ v:[12,14,15,16,17,18,18,19,20,21,22,24,26] }; let bxHad=false;
@@ -8085,9 +8024,7 @@ function ocDemo(root){
     </div>
     <div class="col">
       <div class="out" id="ocout"></div>
-      <div class="note" style="margin-top:12px">파란 점: 공부시간·성적 12명. <b>빈 곳(특히 구석)을 클릭</b>하면
-      이상치가 추가됩니다. 점 하나가 상관계수 r 을 어디까지 끌고 내려가는지,
-      제외 토글이 그것을 어떻게 되살리는지 보세요.</div>
+      <div class="note" style="margin-top:12px">파란 점: 공부시간·성적 12명. 빈 곳(특히 구석)을 클릭해 보세요 — 점 하나가 r 에 얼마나 힘을 쓸 수 있을까요?</div>
     </div></div>`;
   const cv=$('#oc1'),ctx=cv.getContext('2d'),W=400,H=300;
   const BASE=[[1,42],[1.5,50],[2,48],[2.5,58],[3,55],[3.5,66],[4,62],[4.5,72],[5,70],[5.5,80],[6,78],[6.5,88]];
@@ -8160,9 +8097,7 @@ function sieveDemo(root){
         <button class="b g sm" id="svRst">처음부터</button>
       </div>
       <div class="out" id="svout"></div>
-      <div class="note" style="margin-top:12px">체질은 <b>√120 ≈ 10.9</b> 앞의 소수
-      (2·3·5·7)까지만 하면 끝납니다 — 11 로 거르려 해도 11² = 121 이 120 을 넘어
-      <b>새로 지워질 수가 없기 때문</b>입니다. 남은 수는 전부 소수입니다.</div>
+      <div class="note" style="margin-top:12px">어느 소수까지 거르면 끝일까요? 더 거를 필요가 없어지는 순간을 찾아보세요.</div>
     </div></div>`;
   const cv=$('#sv1'),ctx=cv.getContext('2d'),W=380,H=300;
   const N=120, COLS=12, CW=(W-24)/COLS, CH=22;
@@ -8226,9 +8161,7 @@ function absErrDemo(root){
     </div>
     <div class="col">
       <div class="out" id="aeout"></div>
-      <div class="note" style="margin-top:12px">오차를 부호 그대로 더하면 <b>+ 와 − 가 상쇄되어
-      0</b> 이 될 수 있습니다 — 엉망인 예보가 만점이 되는 셈입니다. 그래서 오차는
-      <b>절댓값(거리)</b>으로 재야 공평합니다. AI 의 손실 함수가 |오차| 나 오차² 인 이유입니다.</div>
+      <div class="note" style="margin-top:12px">오차를 부호째 더한 채점 — 공평할까요? 엉망인 예보로 만점을 받는 방법이 있는지 찾아보세요.</div>
     </div></div>`;
   const cv=$('#ae1'),ctx=cv.getContext('2d'),W=380,H=300,P=40;
   const REAL=[3,-2,5,0,-4];                       // 실제 기온
@@ -8302,9 +8235,7 @@ function substDemo(root){
           <option value="2">5a − a — 묶어 세기</option>
           <option value="3">24 ÷ a — 나눠 먹기</option></select></label>
       <div class="out" id="sbout"></div>
-      <div class="note" style="margin-top:12px"><b>2a 는 2 × a</b> 입니다. a = 7 을 넣었을 때
-      “27”이 나오면 그 기계는 문자를 <b>글자로 이어 붙인 것</b>입니다 — 약속(생략된 곱셈)을
-      잘못 읽은 기계를 골라내 보세요.</div>
+      <div class="note" style="margin-top:12px">a = 7 일 때 2a — 27 을 내놓는 기계가 있다면 무엇을 잘못 읽은 걸까요? 기계들을 시험해 보세요.</div>
     </div></div>`;
   const cv=$('#sb1'),ctx=cv.getContext('2d'),W=380,H=250;
   const FS=[
@@ -8391,10 +8322,7 @@ function saltDemo(root){
     </div>
     <div class="col">
       <div class="out" id="slout"></div>
-      <div class="note" style="margin-top:12px">농도 = 소금 ÷ (소금 + 물) × 100.
-      <b>물을 부으면 분모만 커지고</b>, 증발시키면 분모만 작아집니다 —
-      소금의 양은 그대로라는 사실이 농도 방정식의 출발점입니다.
-      목표 <b>5%</b> 를 정확히 맞춰 보세요.</div>
+      <div class="note" style="margin-top:12px">물을 부을 때와 증발시킬 때 — 변하는 것과 안 변하는 것은 각각 무엇일까요? 목표 5% 에 도전하세요.</div>
     </div></div>`;
   const cv=$('#sl1'),ctx=cv.getContext('2d'),W=380,H=280;
   const S={ salt:20, water:180, hist:[] };
@@ -8466,9 +8394,7 @@ function pbisectDemo(root){
     </div>
     <div class="col">
       <div class="out" id="pbout"></div>
-      <div class="note" style="margin-top:12px">두 호가 만나려면 반지름이 <b>AB 의 절반보다
-      길어야</b> 합니다. 완성된 수직이등분선 위의 점은 <b>어디에 있든 PA = PB</b> —
-      “두 점에서 같은 거리에 있는 점들의 모임”이 이 직선의 정의입니다.</div>
+      <div class="note" style="margin-top:12px">완성된 선 위의 점 P 는 어떤 특별한 성질을 가질까요? P 를 끌어 A·B 까지의 거리를 감시하세요.</div>
     </div></div>`;
   const cv=$('#pb1'),ctx=cv.getContext('2d'),W=380,H=300;
   const S={ A:{x:110,y:170}, B:{x:270,y:150}, r:105, t:0.3 };   // t: P 의 위치(선 위 매개변수)
@@ -8565,9 +8491,7 @@ function abisectDemo(root){
     </div>
     <div class="col">
       <div class="out" id="about"></div>
-      <div class="note" style="margin-top:12px">① 꼭짓점 O 에서 호(r₁)를 그어 두 변에서 같은
-      거리의 두 점을 얻고 ② 그 두 점에서 같은 반지름(r₂)의 호를 교차시킵니다.
-      교점과 O 를 이으면 <b>어떤 각이든 정확히 절반</b> — 각도기가 없어도 됩니다.</div>
+      <div class="note" style="margin-top:12px">컴퍼스 세 번으로 각이 정말 「정확히」 절반이 될까요? 각도기 없이 그것을 믿을 근거는 무엇일까요?</div>
     </div></div>`;
   const cv=$('#ab1'),ctx=cv.getContext('2d'),W=380,H=300;
   const O={x:70,y:230};
@@ -8678,9 +8602,7 @@ function arcAreaDemo(root){
     </div>
     <div class="col">
       <div class="out" id="aaout"></div>
-      <div class="note" style="margin-top:12px">부채꼴을 잘게 잘라 <b>번갈아 붙이면</b>
-      평행사변형에 가까워집니다 — 가로는 호의 절반 <b>l/2</b>, 세로는 반지름 <b>r</b>.
-      그래서 넓이는 <b>S = ½ r l</b>. 원의 넓이 πr² = ½·r·2πr 도 같은 원리입니다.</div>
+      <div class="note" style="margin-top:12px">조각을 잘게 낼수록 무엇에 가까워지나요? 그 도형의 가로·세로에 이름을 붙일 수 있나요?</div>
     </div></div>`;
   const cv=$('#aa1'),ctx=cv.getContext('2d'),W=380,H=300;
   const S={ ang:150, r:95, n:4 };
@@ -8769,10 +8691,7 @@ function platonicDemo(root){
         <button class="b g sm" id="plRst">비우기</button>
       </div>
       <div class="out" id="plout"></div>
-      <div class="note" style="margin-top:12px">입체의 꼭짓점이 되려면 모인 각의 합이
-      <b>360°보다 작아야</b> 합니다(딱 360°면 평면 타일, 넘으면 겹침).
-      그리고 한 꼭짓점에 <b>3장 이상</b>은 모여야 합니다. 이 두 조건을 만족하는
-      조합을 전부 찾아 보세요 — 정확히 <b>5가지</b>뿐입니다.</div>
+      <div class="note" style="margin-top:12px">꼭짓점에 도형을 모아 보세요 — 접히는 경우와 안 접히는 경우의 갈림길은 무엇일까요? 조합을 전부 찾아보세요.</div>
     </div></div>`;
   const cv=$('#pl1'),ctx=cv.getContext('2d'),W=380,H=300;
   const NAME={ '3-3':'정사면체','3-4':'정팔면체','3-5':'정이십면체','4-3':'정육면체','5-3':'정십이면체' };
@@ -8854,9 +8773,7 @@ function ineqDemo(root){
     </div>
     <div class="col">
       <div class="out" id="iqout"></div>
-      <div class="note" style="margin-top:12px">담을 수 있는 최대 개수가 부등식
-      <b>800x ≤ 5000</b> 의 해입니다. 그리고 아래 <b>「−2 를 양변에 곱하기」</b>를 눌러
-      보세요 — 부등호를 안 뒤집으면 <b>해가 반대로</b> 칠해지는 사고가 납니다.</div>
+      <div class="note" style="margin-top:12px">예산 안에서 몇 개까지 담을 수 있을까요? 그리고 「−2 를 양변에 곱하기」에서는 무엇을 조심해야 할까요?</div>
     </div></div>`;
   const cv=$('#iq1'),ctx=cv.getContext('2d'),W=380,H=280;
   const PRICE=800, BUDGET=5000;
@@ -8946,9 +8863,7 @@ function hashDemo(root){
           <option value="7" selected>m = 7 (소수)</option>
           <option value="11">m = 11 (소수)</option></select></label>
       <div class="out" id="hhout"></div>
-      <div class="note" style="margin-top:12px">번호 % m (나머지)이 곧 <b>사물함 번호</b>입니다 —
-      이것이 해시입니다. 학번이 짝수에 몰려 있을 때 m 도 짝수면 <b>절반의 사물함만</b> 쓰게
-      됩니다. 그래서 실제 해시 테이블은 <b>소수</b> 크기를 즐겨 씁니다.</div>
+      <div class="note" style="margin-top:12px">번호가 사물함에 배정되는 규칙을 알아낼 수 있나요? m 값에 따라 배정이 공평하기도 몰리기도 하는 이유는?</div>
     </div></div>`;
   const cv=$('#hh1'),ctx=cv.getContext('2d'),W=380,H=300;
   const IDS=[20104,20208,20312,20416,20520,20624,20728,20832,20936,21040,20105,20211];
@@ -9031,9 +8946,7 @@ function fracDecDemo(root){
       <div class="ctl"><button class="b t" id="fdStep">한 자리 더 나누기</button>
         <button class="b g sm" id="fdRst">처음부터</button></div>
       <div class="out" id="fdout"></div>
-      <div class="note" style="margin-top:12px">분모를 소인수분해해 <b>2와 5뿐이면 유한소수</b>,
-      다른 소인수가 있으면 순환소수입니다. 컴퓨터는 <b>이진법</b>이라 1/10 조차 순환 —
-      그래서 0.1 + 0.2 가 정확히 0.3 이 아닙니다.</div>
+      <div class="note" style="margin-top:12px">어떤 분수는 소수가 끝나고 어떤 분수는 영원히 돕니다 — 갈림길은 분수의 어디에 있을까요? 컴퓨터의 0.1+0.2 문제와도 이어집니다.</div>
     </div></div>`;
   const cv=$('#fd1'),ctx=cv.getContext('2d'),W=380,H=280;
   const FR=[[1,3],[1,4],[1,6],[1,7],[1,8],[3,11],[1,10],[7,20]];
@@ -9222,9 +9135,7 @@ function foldDemo(root){
     </div>
     <div class="col">
       <div class="out" id="foout"></div>
-      <div class="note" style="margin-top:12px">한 번 접을 때마다 두께가 <b>×2</b> —
-      더하기가 아니라 <b>곱하기</b>가 쌓입니다. 2¹⁰ ≈ 1000 이라는 어림
-      (10번마다 천 배)을 기억하면 지수의 크기가 감이 옵니다.</div>
+      <div class="note" style="margin-top:12px">접을 때마다 두께에 무슨 일이 벌어지나요? 더하기로 자라는 것과 어떻게 다른가요?</div>
     </div></div>`;
   const cv=$('#fo1'),ctx=cv.getContext('2d'),W=380,H=290;
   const T0=0.1;                                       // mm
@@ -9295,8 +9206,7 @@ function sqAreaDemo(root){
           <option value="all">(a+b)² — 네 조각 모두</option>
           <option value="wrong">a² + b² 만 — 함정 확인</option></select></label>
       <div class="out" id="sqout"></div>
-      <div class="note" style="margin-top:12px">(a+b)² 이 a²+b² 이 아닌 이유는 그림 한 장 —
-      가운데 <b>ab 직사각형 두 개</b>가 남기 때문입니다. 식의 전개가 곧 넓이 쪼개기입니다.</div>
+      <div class="note" style="margin-top:12px">(a+b)² 은 a²+b² 과 같을까요? 그림의 조각들을 세어 판정해 보세요.</div>
     </div></div>`;
   const cv=$('#sq1'),ctx=cv.getContext('2d'),W=380,H=300;
   const S={ a:7, b:4 };
@@ -9374,9 +9284,7 @@ function flipDemo(root){
     </div>
     <div class="col">
       <div class="out" id="flout"></div>
-      <div class="note" style="margin-top:12px">양수를 곱하면 수직선이 <b>늘어나기만</b> 하고,
-      음수를 곱하면 0 을 중심으로 <b>뒤집힙니다(반사)</b>. 순서가 반대가 되니
-      부등호도 함께 뒤집어야 참이 유지됩니다.</div>
+      <div class="note" style="margin-top:12px">곱하는 수에 따라 수직선에 어떤 일이 벌어지나요? 순서가 위험해지는 순간을 찾아보세요.</div>
     </div></div>`;
   const cv=$('#fl1'),ctx=cv.getContext('2d'),W=380,H=280;
   const S={ a:2, b:5, k:1 };
@@ -9464,9 +9372,7 @@ function sysDemo(root){
     </div>
     <div class="col">
       <div class="out" id="syout"></div>
-      <div class="note" style="margin-top:12px">연립방정식의 해 = 두 직선의 <b>교점</b>.
-      기울기가 다르면 한 점(해 1개), 기울기만 같으면 평행(해 없음),
-      기울기·절편이 다 같으면 같은 직선(해 무수히 많음) — 세 경우가 전부입니다.</div>
+      <div class="note" style="margin-top:12px">두 직선을 움직이면 해(교점)는 몇 가지 운명을 가질 수 있을까요? 모두 만들어 보세요.</div>
     </div></div>`;
   const cv=$('#sy1'),ctx=cv.getContext('2d'),W=380,H=300,P=34;
   const S={ l1:{m:1, c:-1}, l2:{m:-0.5, c:3} };
@@ -9551,9 +9457,7 @@ function elimDemo(root){
     </div>
     <div class="col">
       <div class="out" id="elout"></div>
-      <div class="note" style="margin-top:12px">소거의 요령은 <b>한 문자의 계수 절댓값을 같게</b>
-      만든 뒤 더하거나 빼는 것입니다. 곱할 때는 반드시 <b>식 전체(우변 포함)</b>에 곱해야
-      등식이 유지됩니다.</div>
+      <div class="note" style="margin-top:12px">문자 하나를 지우려면 어떤 준비가 필요할까요? 실패하는 시도부터 해 보세요.</div>
     </div></div>`;
   const cv=$('#el1'),ctx=cv.getContext('2d'),W=380,H=240;
   const ORIG=[{a:2,b:3,c:12},{a:3,b:-1,c:7}];       // ax + by = c
@@ -9612,9 +9516,7 @@ function slopeDemo(root){
     <div class="col">
       <div class="ctl"><button class="b g sm" id="spTrace">잔상 남기기 켜기/끄기</button></div>
       <div class="out" id="spout"></div>
-      <div class="note" style="margin-top:12px">기울기를 바꾸면 직선은 <b>y절편을 축으로 회전</b>하고,
-      절편을 바꾸면 <b>모양 그대로 평행이동</b>합니다. 두 손잡이의 역할이 다릅니다 —
-      그것이 y = ax + b 에서 a 와 b 가 하는 일입니다.</div>
+      <div class="note" style="margin-top:12px">두 손잡이는 직선에게 각각 어떤 운동을 시키나요? 잔상을 켜고 두 운동을 구분해 보세요.</div>
     </div></div>`;
   const cv=$('#sp1'),ctx=cv.getContext('2d'),W=380,H=300;
   const S={ m:1, c:1, trace:false, ghosts:[] };
@@ -9840,9 +9742,7 @@ function paragramDemo(root){
       <div class="ctl"><button class="b t sm" id="pgmSnap">평행사변형으로 맞추기</button>
         <button class="b g sm" id="pgmTrap">사다리꼴 함정 만들기</button></div>
       <div class="out" id="pgmout"></div>
-      <div class="note" style="margin-top:12px">평행사변형의 조건은 여러 얼굴을 가진 <b>같은 사실</b>입니다 —
-      두 쌍의 대변 평행 · 두 쌍의 대변 같음 · 대각선이 서로를 이등분.
-      <b>한 쌍만 평행</b>(사다리꼴)으로는 부족합니다.</div>
+      <div class="note" style="margin-top:12px">다섯 개의 판정 등은 따로 놀까요, 함께 움직일까요? 꼭짓점을 끌며 어긋나는 순간을 찾아보세요.</div>
     </div></div>`;
   const cv=$('#pgm1'),ctx=cv.getContext('2d'),W=380,H=300;
   const S={ P:[{x:90,y:230},{x:290,y:230},{x:330,y:90},{x:130,y:90}] };
@@ -9912,9 +9812,7 @@ function scaleMapDemo(root){
     </div>
     <div class="col">
       <div class="out" id="smout"></div>
-      <div class="note" style="margin-top:12px">닮음비가 k 면 <b>길이는 k배, 넓이는 k²배</b>.
-      지도의 축척 1:25000 은 길이 이야기 — 실제 넓이는 25000² 배입니다.
-      사진을 “2배로 키우면” 파일이 4배 무거워지는 이유이기도 합니다.</div>
+      <div class="note" style="margin-top:12px">길이를 k배 하면 넓이는 몇 배가 될까요? 지도 축척과 사진 용량 이야기까지 이어 보세요.</div>
     </div></div>`;
   const cv=$('#sm1'),ctx=cv.getContext('2d'),W=380,H=300;
   const S={ k:1.6 };
@@ -9989,9 +9887,7 @@ function homothetyDemo(root){
     </div>
     <div class="col">
       <div class="out" id="hoout"></div>
-      <div class="note" style="margin-top:12px">닮음의 위치에 있는 두 도형은 <b>대응점을 이은
-      직선들이 모두 한 점(닮음의 중심)을 지납니다</b>. 빔프로젝터가 광원(O)에서 화면으로
-      그림을 키우는 것과 같은 원리입니다.</div>
+      <div class="note" style="margin-top:12px">대응점을 이은 선들은 어디를 지나가나요? 빔프로젝터·그림자와 무슨 관계일까요?</div>
     </div></div>`;
   const cv=$('#ho1'),ctx=cv.getContext('2d'),W=380,H=300;
   const S={ O:{x:60,y:150}, k:1.8 };
@@ -10069,9 +9965,7 @@ function pythaDemo(root){
     </div>
     <div class="col">
       <div class="out" id="pyout"></div>
-      <div class="note" style="margin-top:12px">55인치는 <b>대각선</b>의 길이입니다.
-      대각선² = 가로² + 세로² — 두 작은 정사각형의 넓이를 합치면
-      정확히 큰 정사각형이 됩니다. 그것이 피타고라스 정리입니다.</div>
+      <div class="note" style="margin-top:12px">55인치 TV 의 「55」는 어느 길이일까요? 세 정사각형 넓이 사이의 관계를 추적해 보세요.</div>
     </div></div>`;
   const cv=$('#py1'),ctx=cv.getContext('2d'),W=380,H=300;
   const S={ a:12, b:7 };                              // 가로 a, 세로 b (그림 배율 8px/단위)
@@ -10148,9 +10042,7 @@ function pythaConvDemo(root){
     </div>
     <div class="col">
       <div class="out" id="pcout"></div>
-      <div class="note" style="margin-top:12px">판정은 반드시 <b>가장 긴 변</b>을 c 로 두고
-      c² 과 a²+b² 을 비교해야 합니다. c² = a²+b² 직각 · c² < 예각 · c² > 둔각 —
-      목수가 3·4·5 밧줄로 직각을 만드는 원리입니다.</div>
+      <div class="note" style="margin-top:12px">세 변만 알고 직각인지 판정할 수 있을까요? 어느 변끼리 비교해야 공정한 재판이 될까요?</div>
     </div></div>`;
   const cv=$('#pc1'),ctx=cv.getContext('2d'),W=380,H=300;
   const S={ a:6, b:8, c:15 };
@@ -10239,9 +10131,7 @@ function tripleDemo(root){
     </div>
     <div class="col">
       <div class="out" id="tpout"></div>
-      <div class="note" style="margin-top:12px">(3,4,5)를 찾았다면 그 <b>배수 (6,8,10)·(9,12,15)</b>도
-      전부 보물입니다 — 닮은 삼각형이기 때문입니다. 배수가 아닌 <b>새 원시 수</b>
-      (5,12,13)·(8,15,17)을 찾는 것이 진짜 사냥입니다.</div>
+      <div class="note" style="margin-top:12px">하나를 찾으면 공짜로 따라오는 것들이 있을까요? 「진짜 새로운」 세 쌍의 기준은 무엇일까요?</div>
     </div></div>`;
   const cv=$('#tp1'),ctx=cv.getContext('2d'),W=380,H=300;
   const N=16, CS=(W-70)/N;
@@ -10311,9 +10201,7 @@ function countDemo(root){
     </div>
     <div class="col">
       <div class="out" id="ctout"></div>
-      <div class="note" style="margin-top:12px">「그리고」는 갈림길이 <b>이어지므로 곱</b>(가지가
-      뻗어남), 「또는」은 목록이 <b>나란히 놓이므로 합</b>입니다. 나무 그림에서
-      가지 끝을 직접 세어 보면 두 법칙이 갈립니다.</div>
+      <div class="note" style="margin-top:12px">「또는」과 「그리고」 — 세는 방법이 왜 달라질까요? 나무 그림의 가지 끝을 직접 세어 판정하세요.</div>
     </div></div>`;
   const cv=$('#ct1'),ctx=cv.getContext('2d'),W=380,H=300;
   const KIM=['참치','치즈','불고기'], DR=['콜라','주스'];
@@ -10387,9 +10275,7 @@ function cubeScaleDemo(root){
     </div>
     <div class="col">
       <div class="out" id="csout"></div>
-      <div class="note" style="margin-top:12px">닮음비 k 면 <b>겉넓이 ×k² · 부피(무게) ×k³</b>.
-      2배 모형의 무게는 8배 — 축소 모형이 가볍고, 코끼리 다리가 굵고,
-      거인이 없는 이유가 전부 이 세제곱입니다.</div>
+      <div class="note" style="margin-top:12px">크기를 k배 하면 겉넓이와 부피는 각각 몇 배가 될까요? 거인과 코끼리 다리 이야기로 이어 보세요.</div>
     </div></div>`;
   const cv=$('#cs1'),ctx=cv.getContext('2d'),W=380,H=300;
   const S={ k:2 };
@@ -10453,9 +10339,7 @@ function complementDemo(root){
       <div class="ctl"><button class="b t sm" id="cmFlip">여사건으로 뒤집어 보기</button>
         <button class="b g sm" id="cmRst">선택 지우기</button></div>
       <div class="out" id="cmout"></div>
-      <div class="note" style="margin-top:12px">「적어도 하나」를 직접 세면 7칸을 골라야 하지만,
-      반대쪽(모두 뒷면)은 <b>단 1칸</b> — 그래서 1 − 1/8 = 7/8 로 가는 길이 빠르고
-      빠뜨림이 없습니다. 그것이 여사건입니다.</div>
+      <div class="note" style="margin-top:12px">「적어도 하나」로 가는 두 갈래 길이 있습니다 — 어느 쪽이 빠르고 안전할까요? 둘 다 걸어 보세요.</div>
     </div></div>`;
   const cv=$('#cm1'),ctx=cv.getContext('2d'),W=380,H=300;
   const CASES=['앞앞앞','앞앞뒤','앞뒤앞','뒤앞앞','앞뒤뒤','뒤앞뒤','뒤뒤앞','뒤뒤뒤'];
@@ -10607,9 +10491,7 @@ function condProbDemo(root){
     </div>
     <div class="col">
       <div class="out" id="cpout"></div>
-      <div class="note" style="margin-top:12px">조건이 붙는 순간 <b>분모가 “전체”에서 “조건을
-      만족하는 무리”로 줄어듭니다</b>. 어두워지지 않고 남은 칸만 세면 그것이 조건부확률 —
-      P(A|B) = (A 이면서 B) ÷ (B 전체) 입니다.</div>
+      <div class="note" style="margin-top:12px">조건이 붙으면 화면의 무엇이 줄어드나요? 그 변화가 확률 계산의 어디에 들어갈까요?</div>
     </div></div>`;
   const cv=$('#cp1'),ctx=cv.getContext('2d'),W=380,H=300;
   // 학급 24명: 남 14(안경 6), 여 10(안경 5)
@@ -10754,9 +10636,7 @@ function snDemo(root){
     </div>
     <div class="col">
       <div class="out" id="snout"></div>
-      <div class="note" style="margin-top:12px">x³ − 2x² − 5x + 6 을 (x − k) 로 나눕니다.
-      <b>내리고 → k 곱하고 → 더하고</b> — 계수만으로 나눗셈이 끝나는 것이 조립제법입니다.
-      마지막 칸이 나머지 R 이고, k 를 잘 고르면 R = 0 이 됩니다.</div>
+      <div class="note" style="margin-top:12px">x³ − 2x² − 5x + 6 을 (x − k) 로 나눕니다. 내리고 → 곱하고 → 더하고 — 이 세 동작만으로 나눗셈이 정말 끝날까요? 마지막 칸의 정체는?</div>
     </div></div>`;
   const cv=$('#sn1'),ctx=cv.getContext('2d'),W=400,H=250;
   const CO=[1,-2,-5,6];
@@ -10824,10 +10704,7 @@ function rmDemo(root){
     </div>
     <div class="col">
       <div class="out" id="rmout"></div>
-      <div class="note" style="margin-top:12px">f(x) = x³ − 4x² + x + 6.
-      <b>주황 점 a 를 끌면 f(a) 가 즉시</b> 계산됩니다. 「실제로 나눠 확인」이
-      (x−a) 로 나눈 나머지를 보여 줍니다 — 둘이 늘 같은 것이 나머지정리,
-      f(a) = 0 인 a 가 곧 인수를 알려 주는 것이 인수정리입니다.</div>
+      <div class="note" style="margin-top:12px">f(x) = x³ − 4x² + x + 6. 주황 점 a 를 끌면 f(a) 가 즉시 계산됩니다. 대입값과 「실제로 나눈 나머지」 — 둘은 어떤 관계일까요?</div>
     </div></div>`;
   const cv=$('#rm1'),ctx=cv.getContext('2d'),W=400,H=290;
   const f=x=>x**3-4*x*x+x+6;
@@ -10889,9 +10766,7 @@ function cxDemo(root){
     </div>
     <div class="col">
       <div class="out" id="cxout"></div>
-      <div class="note" style="margin-top:12px">복소수 z = a + bi 는 평면의 점 (a, b).
-      <b>주황 점을 끌어 z 를 정하고 「× i」</b>를 눌러 보세요 — 곱셈이
-      그림에서는 회전이라는 것, 네 번이면 제자리라는 것이 복소평면의 첫 발견입니다.</div>
+      <div class="note" style="margin-top:12px">복소수 z = a + bi 는 평면의 점 (a, b). 「× i」를 누르면 점은 어디로 갈까요? 반복하면 어떤 여행을 하게 될까요?</div>
     </div></div>`;
   const cv=$('#cx1'),ctx=cv.getContext('2d'),W=400,H=300;
   const O={x:200,y:150}, SC=34;
@@ -10963,9 +10838,7 @@ function vtDemo(root){
     </div>
     <div class="col">
       <div class="out" id="vtout"></div>
-      <div class="note" style="margin-top:12px">x² + bx + c = 0 의 두 근을 구하지 않아도
-      <b>합은 −b, 곱은 c</b> — 계수가 근의 정보를 통째로 들고 있습니다.
-      「수 맞히기」는 이 관계를 거꾸로 쓰는 게임입니다: 합 S·곱 P 인 두 수 = t² − St + P 의 두 근.</div>
+      <div class="note" style="margin-top:12px">두 근을 구하지 않고도 알 수 있는 값들이 있을까요? b·c 를 움직이며 합과 곱을 추적해 보세요.</div>
     </div></div>`;
   const cv=$('#vt1'),ctx=cv.getContext('2d'),W=400,H=260;
   const S={ quiz:null, win:0 };
@@ -11088,9 +10961,7 @@ function qiDemo(root){
     </div>
     <div class="col">
       <div class="out" id="qiout"></div>
-      <div class="note" style="margin-top:12px">x² + bx + c 와 0 의 대소는
-      <b>포물선이 x축 아래/위 어디에 있는가</b>입니다. 해집합이 수직선에
-      실시간으로 칠해집니다 — 구간·바깥·전부·없음, 네 가지 운명을 모두 만들어 보세요.</div>
+      <div class="note" style="margin-top:12px">부등식의 해는 그래프의 어디에 사는 걸까요? 수직선의 초록 칠과 포물선을 함께 지켜보세요.</div>
     </div></div>`;
   const cv=$('#qi1'),ctx=cv.getContext('2d'),W=400,H=280;
   const S={ lt:true };
@@ -11164,10 +11035,7 @@ function lpDemo(root){
     </div>
     <div class="col">
       <div class="out" id="lpout"></div>
-      <div class="note" style="margin-top:12px">빵 x개·케이크 y개.
-      제약: x + y ≤ 6 (오븐), x + 2y ≤ 8 (반죽), x·y ≥ 0.
-      <b>점 P(주황)로 생산 계획을 정하고, 이익선(빨강)을 끌어 올려 보세요</b> —
-      마지막까지 영역에 걸치는 곳이 늘 꼭짓점인 것이 선형계획법의 심장입니다.</div>
+      <div class="note" style="margin-top:12px">빵 x개·케이크 y개. 제약: x+y ≤ 6 (오븐), x+2y ≤ 8 (반죽). 이익이 최대인 계획은 영역의 어디에 숨어 있을까요? 이익선을 밀며 찾아보세요.</div>
     </div></div>`;
   const cv=$('#lp1'),ctx=cv.getContext('2d'),W=400,H=300;
   const S={ px:2, py:2, z:6, obj:0 };
@@ -11248,9 +11116,7 @@ function pmDemo(root){
     </div>
     <div class="col">
       <div class="out" id="pmout"></div>
-      <div class="note" style="margin-top:12px">넷(가·나·다·라) 중 둘 —
-      <b>회장·부회장은 순서가 있고, 청소 짝은 없습니다.</b>
-      나열을 눌러 목록이 실제로 쌓이는 것을 보세요: 12 와 6, 정확히 2배 차이입니다.</div>
+      <div class="note" style="margin-top:12px">넷(가·나·다·라) 중 둘 — 회장·부회장 뽑기와 청소 짝 뽑기는 같은 문제일까요? 두 목록을 쌓아 비교해 보세요.</div>
     </div></div>`;
   const cv=$('#pm1'),ctx=cv.getContext('2d'),W=400,H=270;
   const NM=['가','나','다','라'];
@@ -11323,9 +11189,7 @@ function mxDemo(root){
     </div>
     <div class="col">
       <div class="out" id="mxout"></div>
-      <div class="note" style="margin-top:12px">행렬의 두 열은 <b>기저 화살표 e₁(파랑)·e₂(초록)이
-      가는 곳</b>입니다. 화살표 끝을 끌면 도형 F 전체가 따라 변합니다 —
-      사진 앱의 회전·확대가 전부 이 2×2 숫자판입니다.</div>
+      <div class="note" style="margin-top:12px">화살표 두 개(e₁·e₂)를 끌면 도형 F 는 어떻게 반응하나요? 행렬 숫자판과 화살표의 관계를 찾아보세요.</div>
     </div></div>`;
   const cv=$('#mx1'),ctx=cv.getContext('2d'),W=400,H=300;
   const O={x:170,y:170}, SC=52;
@@ -11405,9 +11269,7 @@ function ncDemo(root){
     </div>
     <div class="col">
       <div class="out" id="ncout"></div>
-      <div class="note" style="margin-top:12px">같은 두 변환을 <b>왼쪽 판과 오른쪽 판에
-      서로 반대 순서로</b> 적용해 보세요. 결과가 다르면 — 그 곱셈은 순서를 탑니다.
-      숫자의 곱에서는 없던 일이 행렬에서는 일상입니다.</div>
+      <div class="note" style="margin-top:12px">같은 두 변환을 두 판에 서로 반대 순서로 적용하면 — 결과는 같을까요, 다를까요? 먼저 걸고 시험하세요.</div>
     </div></div>`;
   const cv=$('#nc1'),ctx=cv.getContext('2d'),W=400,H=260;
   const OPS={ R:[0,-1,1,0], X:[2,0,0,1], U:[2,0,0,2] };
@@ -11478,9 +11340,7 @@ function ovDemo(root){
     </div>
     <div class="col">
       <div class="out" id="ovout"></div>
-      <div class="note" style="margin-top:12px">카드를 좌우로 끌어 <b>책상 끝 너머로</b> 내밀어 보세요.
-      위에 얹힌 카드들의 무게중심이 받침을 벗어나는 순간 와르르 —
-      실패가 곧 힌트입니다. 목표: <b>맨 위 카드를 통째로 책상 밖에</b> 띄우기.</div>
+      <div class="note" style="margin-top:12px">카드를 좌우로 끌어 책상 끝 너머로 내밀어 보세요. 언제 무너지고 언제 버틸까요? 목표: 맨 위 카드를 통째로 책상 밖에 띄우기.</div>
     </div></div>`;
   const cv=$('#ov1'),ctx=cv.getContext('2d'),W=400,H=300;
   const L=120, EDGE=210, CH=17;                       // 카드 길이(px), 책상 끝 x, 카드 두께
@@ -11585,9 +11445,7 @@ function clDemo(root){
         <button class="b t sm" id="clQ1">도전① 16진수 해독</button>
         <button class="b t sm" id="clQ2">도전② 1:3 내분점</button>
         <button class="b t sm" id="clQ3">도전③ 무채색 합성</button></div>
-      <div id="clQz" class="note" style="margin-top:8px">색은 좌표 (R, G, B) — 슬라이더로 점을 옮기면
-      색이 변합니다. 삼각형은 세 원색을 꼭짓점으로 한 <b>색의 좌표평면</b>,
-      가운데로 갈수록 회색이 되는 이유가 오늘의 수학입니다.</div>
+      <div id="clQz" class="note" style="margin-top:8px">색은 좌표 (R, G, B) — 슬라이더로 점을 옮기면 색이 변합니다. 삼각형 가운데로 갈수록 색은 어떻게 될까요? 왜 그럴까요?</div>
       <div id="clT" style="margin-top:8px"></div>
     </div></div>`;
   const cv=$('#cl1'),ctx=cv.getContext('2d'),W=400,H=240;
@@ -12683,7 +12541,7 @@ TOP.forEach(({L,i})=>{
 function stepLadder(root, list){
   const box=document.createElement('div');
   box.className='ldr';
-  box.innerHTML = `<div class="ldh">🧗 <b>실험 사다리</b> — 단계를 하나씩 넘으세요
+  box.innerHTML = `<div class="ldh">🧗 <b>탐구 사다리</b> — 먼저 예상하고, 실험으로 판정하고, 네 말로 정리하세요
       <span class="ldp" id="ldp">0 / ${list.length}</span></div>`
     + list.map((s,i)=>`<div class="ldi ${i===0?'now':'lock'}">
         <span class="ldn">STEP ${i+1}</span>
@@ -12728,1885 +12586,1888 @@ function stepLadder(root, list){
 const MISSIONS={
  "1": [
   {
-   "t": "기준점을 2개로 줄이고 — 내 위치 후보가 몇 개 남는지 읽으세요.",
+   "t": "1분 자유 탐색 — 슬라이더 넷을 마음대로. 원이 왜 여러 개일까? 궁금한 것 하나를 적어 두세요.",
    "re": "아직 후보가 둘"
   },
   {
-   "t": "기준점 3개·오차 0 — 후보를 한 점으로 좁히세요.",
+   "t": "기준점이 2개뿐이라면 내 위치를 특정할 수 있을까요? 예상을 적고 직접 줄여서 판정하세요.",
    "re": "위치 확정"
   },
   {
-   "t": "오차를 키워 교점이 「오차 삼각형」으로 번지게 만들고, 가장 그럴듯한 자리를 눈으로 정하세요.",
+   "t": "도전 — 후보를 정확히 한 점으로 좁혀 보세요. 무엇 무엇이 필요했나요?",
    "re": "그럴듯한 위치"
   },
   {
-   "t": "기록·발견 — 오차 0.2·0.6·1.0 에서 번짐의 크기를 표로 적고, 오차와 후보 영역의 관계를 한 줄로 쓰세요."
+   "t": "오차를 이리저리 키워 보세요 — 교점이 어떻게 변하나요? 오차와 후보 영역의 관계를 표로 잡고 네 말로 쓰세요."
   },
   {
-   "t": "적용 — 내 위치를 다른 곳으로 옮기고, 세 원의 반지름이 각각 어떻게 변할지 예측한 뒤 확인하세요."
+   "t": "내 문제 만들기 — 내 위치를 옮기면 세 반지름이 어떻게 될지 먼저 예언하고, 맞는지 시험하세요."
   }
  ],
  "2": [
   {
-   "t": "문자에 단어를 넣어 분류기가 단어를 잡아내는 것을 확인하세요."
+   "t": "1분 자유 탐색 — 아무 문자나 넣어 보세요. 분류기는 무엇을 보고 판단하는 걸까요?"
   },
   {
-   "t": "가중치를 조절해 광고 문자가 스팸함으로 가게 만드세요 — 확률이 어떻게 변하는지 읽으세요."
+   "t": "어떤 단어를 넣으면 스팸 확률이 가장 크게 뛸까요? 예상 단어를 적고 시험하세요."
   },
   {
-   "t": "사전에 없는 단어만 넣어 분류기가 왜 판단을 못 하는지 직접 확인하세요.",
+   "t": "분류기가 판단 불능이 되는 문자를 만들 수 있을까요? 무엇을 넣어야 할까요?",
    "re": "사전에 있는 단어가 없습니다"
   },
   {
-   "t": "기록·발견 — 같은 단어를 두 번 넣을 때와 한 번 넣을 때 확률 변화를 표로 적으세요."
+   "t": "같은 단어 1번 vs 2번 — 확률이 어떻게 달라지나요? 표로 잡고 규칙을 네 말로 쓰세요."
   },
   {
-   "t": "적용 — 정상 문자가 스팸으로 막히는(거짓양성) 예를 하나 설계하고, 어떤 단어 때문인지 쓰세요."
+   "t": "내 문제 만들기 — 정상 문자가 스팸함에 갇히는 억울한 사례를 설계하고, 범인 단어를 지목하세요."
   }
  ],
  "3": [
   {
-   "t": "성장률을 움직여 「며칠 만에 두 배」(배가시간)가 변하는 것을 읽으세요."
+   "t": "1분 자유 탐색 — 성장률을 흔들어 보세요. 「며칠 만에 두 배」 숫자가 어떻게 움직이나요?"
   },
   {
-   "t": "배가시간을 2일 미만으로 만드세요 — 성장률이 얼마나 필요한가요?",
+   "t": "배가시간을 2일 아래로 줄이려면 성장률이 얼마나 필요할까요? 예상 값을 적고 시험하세요.",
    "re": "= 1\\.\\d\\d일"
   },
   {
-   "t": "로지스틱 곡선이 지수 곡선과 갈라지는 시점을 찾아 12일 뒤 두 값을 비교하세요."
+   "t": "지수 곡선과 로지스틱 곡선은 언제부터 갈라질까요? 갈라지는 시점을 찾아 12일 뒤를 비교하세요."
   },
   {
-   "t": "기록·발견 — 성장률 3가지에서 배가시간을 표로 적고, 공식과 맞는지 검산하세요."
+   "t": "성장률 3가지의 배가시간을 표로 잡으세요 — 어떤 규칙이 보이나요? 네 말로 쓰세요."
   },
   {
-   "t": "적용 — 포화 한계 K 를 절반으로 줄이면 곡선의 어디가 먼저 변할지 예측한 뒤 확인하세요."
+   "t": "예언 — 포화 한계 K 를 절반으로 줄이면 곡선 어디가 먼저 변할까요? 적고 나서 확인하세요."
   }
  ],
  "4": [
   {
-   "t": "네 슬라이더를 움직여 교점(손익분기점)이 따라 움직이는 것을 확인하세요."
+   "t": "1분 자유 탐색 — 슬라이더 넷을 마음대로. 교점은 무엇을 뜻하는 걸까요?"
   },
   {
-   "t": "분당 요금을 같게 맞춰 두 직선이 나란해지는 순간을 잡으세요 — 교점이 사라집니다.",
+   "t": "두 요금제가 영원히 안 만나게 할 수 있을까요? 어떤 조건이면 될지 예상하고 만들어 보세요.",
    "re": "평행"
   },
   {
-   "t": "기본료까지 같게 — 두 요금제를 완전히 겹치게 만드세요.",
+   "t": "두 요금제가 모든 시간에서 똑같아지게도 될까요? 시도해 보세요.",
    "re": "완전히 같습니다"
   },
   {
-   "t": "기록·발견 — 「해가 하나·없음·무수히 많음」 세 경우를 각각 만들어 조건을 표로 정리하세요."
+   "t": "해가 하나·없음·무수히 많음 — 세 경우의 조건을 표로 정리하고 규칙을 네 말로 쓰세요."
   },
   {
-   "t": "적용 — 교점이 정확히 300분에 오는 요금제 조합을 하나 설계하고 식으로 검산하세요."
+   "t": "내 문제 만들기 — 교점이 정확히 300분인 요금제 짝을 설계하고 식으로 검산하세요."
   }
  ],
  "5": [
   {
-   "t": "각도·거리를 움직여 건물 높이가 어떻게 변하는지 확인하세요."
+   "t": "1분 자유 탐색 — 각도·거리를 흔들어 보세요. 높이는 무엇 무엇에 달려 있나요?"
   },
   {
-   "t": "건물 높이를 100 m 이상으로 만드세요 — 각도와 거리를 어떻게 조합했나요?",
+   "t": "건물 높이 100 m 를 넘기는 조합은 하나뿐일까요? 서로 다른 두 가지 방법으로 만들어 보세요.",
    "re": "= [1-9]\\d\\d\\.\\d\\d m"
   },
   {
-   "t": "같은 건물을 가까이·멀리 두 곳에서 재어 높이가 같게 나오는지 확인하세요."
+   "t": "같은 건물을 가까이서 잰 값과 멀리서 잰 값 — 같을까요, 다를까요? 예상 후 판정하세요."
   },
   {
-   "t": "기록·발견 — 눈높이를 빼먹으면 측정값이 얼마나 어긋나는지 두 경우를 표로 적으세요."
+   "t": "눈높이를 빼먹으면 얼마나 어긋날까요? 두 경우를 표로 잡고 이유를 쓰세요."
   },
   {
-   "t": "적용 — 각이 45도일 때 높이와 거리 사이의 관계를 쓰고, 화면으로 검산하세요."
+   "t": "내 규칙 — 각이 45도면 높이와 거리 사이에 무슨 일이? 규칙을 쓰고 화면으로 검산하세요."
   }
  ],
  "6": [
   {
-   "t": "관계 세기를 움직여 점구름 모양과 상관계수가 함께 변하는 것을 보세요."
+   "t": "1분 자유 탐색 — 관계 세기를 끝에서 끝까지. 점구름과 숫자 r 은 어떻게 붙어 다니나요?"
   },
   {
-   "t": "강한 양의 상관 — 상관계수를 0.9 이상으로 만드세요.",
+   "t": "r 를 0.9 위로 올리려면 점구름이 어떤 모양이어야 할까요? 예상하고 만들어 보세요.",
    "re": "= 0\\.9\\d"
   },
   {
-   "t": "음의 상관 — 상관계수를 −0.5 아래로 내려 보세요.",
+   "t": "r 가 음수가 되는 세상은 어떤 모습일까요? −0.5 아래로 내려가 보세요.",
    "re": "= -0\\.[5-9]"
   },
   {
-   "t": "구석에 이상치를 하나 찍어 상관계수가 얼마나 무너지는지 기록하세요."
+   "t": "구석에 점 하나를 찍으면 r 가 얼마나 다칠까요? 예상 → 실험 → 기록."
   },
   {
-   "t": "적용 — 「상관이 높다 ≠ 원인이다」의 예를 하나 만들어 쓰세요."
+   "t": "내 문제 만들기 — 「상관은 높은데 원인은 아닌」 짝을 하나 지어내고 이유를 쓰세요."
   }
  ],
  "7": [
   {
-   "t": "현재 자료의 평균과 중앙값을 읽고 차이를 확인하세요."
+   "t": "1분 자유 탐색 — 연봉 슬라이더를 흔들어 보세요. 두 대푯값 중 누가 더 예민한가요?"
   },
   {
-   "t": "사장님 연봉을 크게 올려 평균이 끌려가는 순간을 만드세요.",
+   "t": "사장님 연봉만 크게 올리면 평균과 중앙값 중 누가 끌려갈까요? 예상하고 시험하세요.",
    "re": "크게 끌어올렸습니다"
   },
   {
-   "t": "연봉을 되돌려 평균과 중앙값이 도로 만나게 하세요.",
+   "t": "되돌리면 두 값은 다시 만날까요? 경계가 어디쯤인지 찾아보세요.",
    "re": "다시 비슷해졌"
   },
   {
-   "t": "기록·발견 — 연봉 3가지 시나리오에서 평균·중앙값을 표로 적고 어느 쪽이 「보통 직원」에 가까운지 쓰세요."
+   "t": "시나리오 3가지의 (평균, 중앙값)을 표로 — 「보통 직원」에 가까운 쪽은? 이유를 네 말로."
   },
   {
-   "t": "적용 — 뉴스에서 평균이 쓰이면 안 되는 사례를 하나 들고 중앙값으로 고쳐 쓰세요."
+   "t": "내 문제 만들기 — 평균이 거짓말을 하는 뉴스 문장을 하나 짓고, 바른 문장으로 고치세요."
   }
  ],
  "8": [
   {
-   "t": "자리 수를 하나씩 늘려 가짓수 막대(로그 눈금)가 얼마나 뛰는지 보세요."
+   "t": "1분 자유 탐색 — 자리 수와 문자 종류를 바꿔 보세요. 막대가 왜 저렇게 껑충 뛸까요?"
   },
   {
-   "t": "숫자만 4자리일 때 뚫는 시간을 읽고, 대소문자+숫자+기호 12자리와 비교하세요."
+   "t": "숫자만 4자리 vs 대소문자+숫자+기호 12자리 — 몇 배나 차이 날지 예상하고 확인하세요."
   },
   {
-   "t": "자리 수 하나 늘리기 vs 문자 종류 늘리기 — 어느 쪽이 더 센지 두 실험으로 판정하세요."
+   "t": "자리 하나 늘리기 vs 종류 늘리기 — 어느 쪽이 셀까요? 먼저 걸고, 실험으로 판정하세요."
   },
   {
-   "t": "기록·발견 — (문자 종류, 자리 수, 시간) 을 4줄 표로 적고 지수 규칙을 쓰세요."
+   "t": "(종류, 자리, 시간) 표 4줄 — 어떤 규칙이 숨어 있나요? 지수로 써 보세요."
   },
   {
-   "t": "적용 — 1000년 이상 버티는 가장 짧은 비밀번호 규칙을 설계하세요."
+   "t": "설계 도전 — 1000년 이상 버티는 가장 짧은 비밀번호 규칙을 만들고 근거를 대세요."
   }
  ],
  "9": [
   {
-   "t": "화면의 실험 확률과 이론 확률을 읽고, 「다시 뽑기」로 결과가 흔들리는 것을 확인하세요."
+   "t": "1분 자유 탐색 — 「다시 뽑기」를 몇 번. 같은 조건인데 왜 결과가 다를까요?"
   },
   {
-   "t": "횟수를 늘려 「적어도 1번」 나올 가능성을 절반 위로 끌어올리세요 — 몇 번부터인가요?",
+   "t": "0.5% 뽑기를 몇 번 해야 「적어도 1번」이 절반을 넘을까요? 먼저 숫자를 적고, 실험으로 찾으세요.",
    "re": "절반을 넘었습니다"
   },
   {
-   "t": "같은 시행을 여러 번 반복 — 시행마다 결과가 흔들리는 폭을 관찰하세요."
+   "t": "같은 조건 반복 — 결과의 흔들림 폭은 어느 정도인가요? 감으로 재보세요."
   },
   {
-   "t": "기록·발견 — 뽑기 횟수 3가지에서 「적어도 1번 나올 확률」을 표로 적고 규칙을 쓰세요."
+   "t": "(횟수, 적어도 1번 확률) 표 — 규칙을 찾아 네 말로 쓰세요. 200번의 진실은?"
   },
   {
-   "t": "적용 — 「이제 나올 때가 됐다」는 말이 왜 틀렸는지 실험 근거로 쓰세요."
+   "t": "판결문 쓰기 — 「이제 나올 때가 됐다」는 유죄인가요? 실험 증거로 판결하세요."
   }
  ],
  "10": [
   {
-   "t": "내 점수를 움직여 표준점수가 변하는 것을 읽으세요."
+   "t": "1분 자유 탐색 — 점수·평균·표준편차를 흔들어 보세요. z 는 무엇에 반응하나요?"
   },
   {
-   "t": "점수를 평균과 정확히 같게 만드세요.",
+   "t": "z 가 정확히 0 이 되는 자리는 어디일까요? 예상하고 만들어 보세요.",
    "re": "평균과 같습니다"
   },
   {
-   "t": "점수를 2 시그마 위로 올려 보세요 — 상위 몇 % 인가요?",
+   "t": "상위권의 기준 — z 를 2 시그마 위로 보내려면? 만들고, 그때 내 위치를 말해 보세요.",
    "re": "[2-9]\\.\\d\\dσ 위|[1-9]\\d\\.\\d\\dσ 위"
   },
   {
-   "t": "기록·발견 — 표준편차를 바꿀 때 같은 점수의 z 가 어떻게 변하는지 표로 적으세요."
+   "t": "같은 점수인데 표준편차만 바뀌면 z 는? 표로 잡고 규칙을 쓰세요."
   },
   {
-   "t": "적용 — 수학 85점(평균70·표준편차10)과 영어 80점(평균65·표준편차5) 중 어느 쪽이 잘 본 시험인지 z 로 판정하세요."
+   "t": "판정 — 수학 85점(평균70·편차10) vs 영어 80점(평균65·편차5), 어느 쪽이 더 잘 본 시험? z 로 재판하세요."
   }
  ],
  "11": [
   {
-   "t": "단리·복리 두 곡선이 갈라지는 지점을 관찰하세요."
+   "t": "1분 자유 탐색 — 이자율·기간을 흔들어 보세요. 두 곡선은 언제부터 벌어지나요?"
   },
   {
-   "t": "이자율을 조절해 「두 배 되는 햇수」를 8년 아래로 내리세요.",
+   "t": "두 배 되는 햇수를 8년 아래로 — 이자율이 얼마면 될까요? 예상하고 맞히세요.",
    "re": "= [1-7]\\.\\d\\d년"
   },
   {
-   "t": "72의 법칙 어림값과 정확값의 차이를 이자율 3곳에서 비교하세요."
+   "t": "72 를 이자율로 나눈 값과 정확값 — 얼마나 가까울까요? 세 곳에서 견줘 보세요."
   },
   {
-   "t": "기록·발견 — (이자율, 정확값, 72법칙값) 표를 만들고 왜 72인지 짐작을 쓰세요."
+   "t": "(이자율, 정확값, 72법칙) 표 — 왜 하필 72일까요? 짐작을 쓰세요."
   },
   {
-   "t": "적용 — 연 3% 적금이 두 배 되는 데 몇 년 걸릴지 계산한 뒤 화면으로 검산하세요."
+   "t": "내 계산 — 연 3% 적금이 두 배 되는 데 몇 년? 손으로 구하고 화면으로 검산하세요."
   }
  ],
  "12": [
   {
-   "t": "처음 화면(보통 눈금)에서 작은 값들이 왜 안 보이는지 확인하세요."
+   "t": "1분 자유 탐색 — 처음 화면에서 작은 값들은 어디에 숨어 있나요?"
   },
   {
-   "t": "눈금을 전환해 모든 값이 함께 보이는 화면을 만드세요.",
+   "t": "모든 값이 한눈에 보이게 만들 수 있을까요? 방법을 찾아보세요.",
    "re": "로그 눈금입니다"
   },
   {
-   "t": "한 칸의 뜻이 「+1」에서 「×10」으로 바뀐 것을 두 값으로 확인하세요."
+   "t": "눈금 한 칸의 뜻이 무엇으로 바뀌었나요? 두 값으로 검증하세요."
   },
   {
-   "t": "기록·발견 — 두 눈금에서 같은 자료의 막대 높이 비를 표로 적으세요."
+   "t": "두 눈금에서 같은 자료의 막대 비를 표로 — 무엇이 보존되고 무엇이 달라졌나요?"
   },
   {
-   "t": "적용 — 로그 눈금이 꼭 필요한 실제 자료(지진·소리·감염)를 하나 골라 이유를 쓰세요."
+   "t": "내 사례 — 로그 눈금이 꼭 필요한 실제 자료를 하나 골라 왜인지 쓰세요."
   }
  ],
  "13": [
   {
-   "t": "구간 폭 h 를 조금씩 줄여 할선의 기울기가 변하는 것을 보세요."
+   "t": "1분 자유 탐색 — h 를 줄였다 늘였다. 할선은 무엇을 향해 가고 있나요?"
   },
   {
-   "t": "h 를 충분히 줄여 할선이 접선과 하나가 되게 만드세요.",
+   "t": "h 를 계속 줄이면 할선의 운명은? 예상을 적고 끝까지 밀어붙이세요.",
    "re": "거의 겹쳤습니다"
   },
   {
-   "t": "다른 시각에서도 같은 실험 — 순간속도가 곳마다 다른 것을 확인하세요."
+   "t": "다른 시각에서도 같은 일이 벌어질까요? 순간속도는 시각마다 같은 값인가요?"
   },
   {
-   "t": "기록·발견 — h = 1, 0.1, 0.01 에서 평균속도를 표로 적고 어디로 다가가는지 쓰세요."
+   "t": "h = 1, 0.1, 0.01 의 평균속도 표 — 값들이 어디로 다가가나요? 네 말로."
   },
   {
-   "t": "적용 — 구간 단속(평균속도)과 순간 단속의 차이를 이 화면으로 설명하세요."
+   "t": "내 설명 — 구간 단속과 순간 단속의 차이를 이 화면 하나로 친구에게 설명해 보세요."
   }
  ],
  "14": [
   {
-   "t": "카드번호 검증기에 번호를 넣어 판정을 받아 보세요."
+   "t": "1분 자유 탐색 — 번호를 넣고 판정을 받아 보세요. 검증기는 무엇을 계산하는 걸까요?"
   },
   {
-   "t": "한 자리만 바꿔 오타를 만들어 검증기에 딱 걸리게 하세요.",
+   "t": "한 자리만 슬쩍 바꾸면 검증기가 알아챌까요? 예상하고 시험하세요.",
    "re": "잘못된 번호"
   },
   {
-   "t": "검산 숫자를 조절해 검증기를 통과하는 번호를 직접 만드세요.",
+   "t": "검증기를 통과하는 번호를 직접 만들 수 있나요? 마지막 숫자의 비밀을 찾으세요.",
    "re": "고쳐 유효한 번호"
   },
   {
-   "t": "기록·발견 — 어떤 자리를 바꾸면 잡히고 어떤 맞바꿈은 안 잡히는지 표로 적으세요."
+   "t": "어떤 실수는 잡히고 어떤 맞바꿈은 안 잡히나요? 표로 수집해 경계를 그으세요."
   },
   {
-   "t": "적용 — 2배 하는 자리가 왜 필요한지(이웃 맞바꿈 검출) 실험 근거로 쓰세요."
+   "t": "내 설명 — 2배 하는 자리가 왜 필요한지, 실험 증거로 논증하세요."
   }
  ],
  "15": [
   {
-   "t": "그래프를 클릭해 점을 몇 개 찍어 직선이 스스로 조정되는 것을 확인하세요."
+   "t": "1분 자유 탐색 — 아무 데나 점을 찍어 보세요. 직선은 누가 움직이는 걸까요?"
   },
   {
-   "t": "데이터를 지우고, 점 10개 이상을 거의 일렬로 찍어 결정계수 0.95 이상을 만드세요.",
+   "t": "결정계수를 0.95 위로 올리는 점 배치는? 데이터를 지우고 10개 이상으로 만들어 보세요.",
    "re": "데이터 1\\d개 · 잔차제곱합[\\s\\S]{0,120}R² = (0\\.9[5-9]|1\\.000)"
   },
   {
-   "t": "이상치를 하나 추가해 직선이 얼마나 끌려가는지 관찰하세요."
+   "t": "점 하나(이상치)로 직선을 얼마나 끌고 갈 수 있을까요? 최대한 당겨 보세요."
   },
   {
-   "t": "기록·발견 — 이상치 전과 후의 잔차제곱합·결정계수를 표로 적으세요."
+   "t": "이상치 전후의 SSE·R² 표 — 한 점의 힘을 숫자로 쓰세요."
   },
   {
-   "t": "적용 — 공부시간→성적 예측 직선이라면 이상치를 지워야 할까요? 근거를 쓰세요."
+   "t": "판단 — 공부시간→성적 직선이라면 그 점을 지워야 할까요? 근거를 쓰세요."
   }
  ],
  "16": [
   {
-   "t": "학습률을 작게 두고 공이 계곡 바닥으로 내려가는 것을 관찰하세요."
+   "t": "1분 자유 탐색 — 지형을 클릭해 공을 놓고 걸어 보세요. 공은 무엇을 따라가나요?"
   },
   {
-   "t": "기울기가 0 에 가까워지는 지점까지 진행하세요 — 왜 거기서 멈추나요?"
+   "t": "공이 스스로 멈추는 곳이 있을까요? 그곳의 기울기는 얼마일까요? 예상 후 확인."
   },
   {
-   "t": "학습률을 크게 올려 공을 골짜기 밖으로 튕겨 보세요.",
+   "t": "보폭(학습률)을 키우면 어떤 사고가 날까요? 일으켜 보세요.",
    "re": "발산!"
   },
   {
-   "t": "기록·발견 — 학습률 3가지에서 (걸음 수, 운명) 표를 만드세요."
+   "t": "학습률 3가지의 (걸음 수, 운명) 표 — 좋은 보폭의 조건을 네 말로."
   },
   {
-   "t": "적용 — 이동 규칙 x ← x − η·f′ 에서 마이너스의 뜻을 그림으로 쓰세요."
+   "t": "내 설명 — 이동 규칙의 마이너스 부호가 하는 일을 그림으로 설명하세요."
   }
  ],
  "17": [
   {
-   "t": "점을 조금 뿌려 원 안·밖 개수와 π 추정값이 나타나는 것을 확인하세요."
+   "t": "1분 자유 탐색 — 점을 조금 뿌려 보세요. 점으로 어떻게 π 가 나오는 걸까요?"
   },
   {
-   "t": "점을 1000개 넘게 뿌려 오차를 0.1 미만으로 줄이세요.",
+   "t": "점을 늘리면 추정값은 좋아질까요? 1000개 넘게 뿌려 오차 0.1 아래로 만들어 보세요.",
    "re": "(\\d{1,3},\\d{3}|\\d{4,})개 중 원 안[\\s\\S]*오차 0\\.0"
   },
   {
-   "t": "뿌릴 때마다 추정값이 달라지는 것을 3회 반복으로 확인하세요."
+   "t": "같은 개수라도 매번 값이 같을까요? 3회 반복으로 판정하세요."
   },
   {
-   "t": "기록·발견 — (점 수, 추정값, 오차) 를 표로 적고 규칙을 쓰세요."
+   "t": "(점 수, 추정값, 오차) 표 — 오차가 줄어드는 속도의 규칙을 찾아 쓰세요."
   },
   {
-   "t": "적용 — 점을 100배 뿌리면 오차가 몇 배쯤 줄어들지 예측한 뒤 실험으로 판정하세요."
+   "t": "예언 — 점을 100배로 하면 오차는 몇 배가 될까요? 걸고 나서 실험으로 판정하세요."
   }
  ],
  "18": [
   {
-   "t": "내 취향 슬라이더를 움직여 추천 영화가 바뀌는 것을 확인하세요."
+   "t": "1분 자유 탐색 — 취향 슬라이더를 움직여 보세요. 추천은 무엇을 근거로 바뀌나요?"
   },
   {
-   "t": "취향을 정반대로 바꿔 추천이 뒤집히는 조합을 찾으세요."
+   "t": "추천 1위를 뒤집을 수 있나요? 어떤 조합이 필요한지 찾아보세요."
   },
   {
-   "t": "두 취향 벡터의 사잇각이 가장 작아지는 경우를 만들어 보세요."
+   "t": "두 벡터의 사잇각이 가장 작아지는 순간 — 추천은 어떻게 되나요?"
   },
   {
-   "t": "기록·발견 — 취향 3조합에서 코사인 유사도를 표로 적으세요."
+   "t": "취향 3조합의 코사인 유사도 표 — 유사도가 재는 것과 못 재는 것을 나눠 쓰세요."
   },
   {
-   "t": "적용 — 유사도가 같아도 취향의 강도가 다를 수 있는 예를 만들어 쓰세요."
+   "t": "내 문제 만들기 — 유사도는 같은데 강도가 다른 두 사람을 설계해 보세요."
   }
  ],
  "19": [
   {
-   "t": "세 필터를 하나씩 적용해 결과 그림의 차이를 관찰하세요."
+   "t": "1분 자유 탐색 — 필터 셋을 하나씩 눌러 보세요. 그림은 어떻게 달라지나요?"
   },
   {
-   "t": "경계 검출 행렬의 값을 읽고, 왜 경계에서 값이 커지는지 픽셀 하나로 계산해 보세요."
+   "t": "경계 검출 행렬은 왜 경계에서만 크게 반응할까요? 픽셀 하나로 손계산해 검증하세요."
   },
   {
-   "t": "평균 필터가 픽셀을 어떻게 뭉개는지 성분곱을 따라가 보세요."
+   "t": "평균 필터는 그림을 어떻게 바꾸나요? 성분곱을 한 칸 따라가며 이유를 찾으세요."
   },
   {
-   "t": "기록·발견 — 필터 3종의 (행렬, 효과) 표를 만드세요."
+   "t": "필터 3종의 (행렬, 효과) 표 — 행렬 숫자와 효과의 관계를 네 말로."
   },
   {
-   "t": "적용 — 세로선만 강조하는 3×3 행렬을 설계하고 근거를 쓰세요."
+   "t": "설계 도전 — 세로선만 강조하는 3×3 행렬을 만들고, 왜 그렇게 되는지 쓰세요."
   }
  ],
  "20": [
   {
-   "t": "기본음만 켜고 소리를 들어 보세요 — 파형이 매끈합니다."
+   "t": "1분 자유 탐색 — 진폭들을 움직이고 소리를 들어 보세요. 눈과 귀 중 무엇이 먼저 차이를 아나요?"
   },
   {
-   "t": "2배음·3배음을 섞어 파형이 울퉁해지는 것을 눈과 귀로 확인하세요."
+   "t": "기본음 하나와 배음 섞인 소리 — 파형은 어떻게 다를까요? 예상하고 비교하세요."
   },
   {
-   "t": "배음 조합을 바꿔 「같은 높이, 다른 음색」 두 소리를 만드세요."
+   "t": "「같은 높이, 다른 음색」 두 소리를 만들 수 있나요? 조합을 찾으세요."
   },
   {
-   "t": "기록·발견 — 배음 조합 3가지의 (진폭, 파형 모양, 들리는 느낌) 표를 만드세요."
+   "t": "배음 조합 3가지의 (파형, 느낌) 표 — 음색의 정체를 네 말로."
   },
   {
-   "t": "적용 — 배음을 더해도 주기는 왜 변하지 않는지 근거를 쓰세요."
+   "t": "내 질문 — 배음을 더해도 변하지 않는 것은 무엇인가요? 왜일까요?"
   }
  ],
  "21": [
   {
-   "t": "네 함수를 차례로 전환하며 원함수·역함수 그래프를 관찰하세요 (무리함수까지)."
+   "t": "1분 자유 탐색 — 함수 넷을 전환해 보세요. 두 그래프 사이에 어떤 관계가 보이나요?"
   },
   {
-   "t": "대응점 연결선을 켜 (a,b) 가 (b,a) 로 옮겨 가는 것을 확인하세요."
+   "t": "점 (a, b) 는 역함수에서 어디로 갈까요? 연결선을 켜기 전에 예상하고 확인하세요."
   },
   {
-   "t": "원점 점대칭 토글과 비교 — y=x 대칭과 무엇이 다른지 찾으세요."
+   "t": "원점 점대칭과는 무엇이 다를까요? 토글을 켜고 차이를 잡아내세요."
   },
   {
-   "t": "기록·발견 — 함수 4종의 (원함수 정의역, 역함수 정의역) 표를 만드세요."
+   "t": "함수 4종의 (원함수 정의역, 역함수 정의역) 표 — 무엇이 서로 바뀌나요?"
   },
   {
-   "t": "적용 — 제한 없는 이차함수의 역이 왜 함수가 아닌지 화면 근거로 쓰세요."
+   "t": "내 설명 — 제한 없는 이차함수의 역은 왜 함수가 못 되나요? 화면 증거로 쓰세요."
   }
  ],
  "22": [
   {
-   "t": "기하급수의 항을 계속 쌓아 부분합 점이 쌓이는 것을 관찰하세요."
+   "t": "자유 탐색 — 항을 쌓아 보세요. 부분합 점들은 어디로 가고 있나요?"
   },
   {
-   "t": "L 과 ε 을 옮겨 어느 번째부터 끝까지 벗어나지 않는 상태를 만드세요 — 이것이 수렴의 정의입니다.",
+   "t": "이 급수의 도착지를 잡을 수 있나요? L 과 ε 띠를 옮겨 어느 번째부터 끝까지 안 벗어나는 상태를 만드세요.",
    "re": "부터 지금까지"
   },
   {
-   "t": "공비를 1보다 크게 — 합이 커지기만 하는 급수를 만드세요.",
+   "t": "합이 무한히 커지기만 하는 급수도 만들 수 있을까요? 공비로 시도하세요.",
    "re": "커서 발산"
   },
   {
-   "t": "조화급수로 전환 — 항은 0으로 가는데 합은 어떻게 되는지 확인하세요.",
+   "t": "항이 0으로 가는데도 합이 터지는 급수가 있을까요? 조화급수로 시험하세요.",
    "re": "합은 발산"
   },
   {
-   "t": "교대급수로 전환 — 합이 ln 2 로 조여드는 이유를 확인하고 기록하세요.",
+   "t": "교대급수의 도착지는 어디인가요? 상쇄의 리듬을 관찰하고 기록하세요.",
    "re": "번갈아 상쇄"
   }
  ],
  "23": [
   {
-   "t": "항을 5개 넘게 쌓아 다항식이 곡선에 달라붙는 것을 관찰하세요.",
+   "t": "자유 탐색 — 항을 쌓으며 다항식 곡선을 지켜보세요. 몇 항부터 sin 과 붙나요? 대여섯 항을 넘겨 보세요.",
    "re": "P[5-9]|P1\\d"
   },
   {
-   "t": "평가점 x 를 중심에서 멀리 끌어 일치 자리수가 무너지는 것을 확인하세요.",
+   "t": "중심에서 멀어지면 일치는 유지될까요? 평가점을 끌어 일치 자리수의 운명을 보세요.",
    "re": "소수 [0-2]자리까지 일치"
   },
   {
-   "t": "수렴반경 밖으로 나가 항을 늘려도 소용없는 영역을 확인하세요.",
+   "t": "아무리 항을 쌓아도 소용없는 영역이 존재할까요? 함수를 바꿔 찾아보세요.",
    "re": "바깥입니다"
   },
   {
-   "t": "기록·발견 — (항 수, 일치 자리수) 표를 두 위치에서 만드세요."
+   "t": "(항 수, 일치 자리수) 표를 두 위치에서 — 수렴반경 안팎의 차이를 네 말로."
   },
   {
-   "t": "적용 — 계산기가 sin 을 몇 항으로 계산하면 8자리 정확한지 실험으로 정하세요."
+   "t": "설계 — 계산기가 sin 을 8자리 정확히 만들려면 몇 항이 필요한가요? 실험으로 정하세요."
   }
  ],
  "24": [
   {
-   "t": "원판 수를 바꿔 계단 모양이 그릇에 다가가는 것을 관찰하세요."
+   "t": "1분 자유 탐색 — 원판 수를 바꿔 보세요. 계단은 무엇을 닮아 가나요?"
   },
   {
-   "t": "원판을 늘려 오차를 0.4% 미만으로 줄이세요.",
+   "t": "오차를 0.4% 아래로 — 원판이 몇 장이면 될까요? 예상하고 도달하세요.",
    "re": "오차 = 0\\.[0-3]\\d%"
   },
   {
-   "t": "원판 2배 → 오차가 대략 절반이 되는지 두 번 확인하세요."
+   "t": "원판을 2배로 하면 오차는 몇 배가 되나요? 두 번 시험해 규칙을 확인하세요."
   },
   {
-   "t": "기록·발견 — (원판 수, 부피 근사값, 오차) 표를 만드세요."
+   "t": "(원판 수, 근사값, 오차) 표 — 무한히 얇게 자르면 무슨 일이 벌어질까요?"
   },
   {
-   "t": "적용 — 원판의 합이 적분으로 넘어가는 이유를 자기 말로 쓰세요."
+   "t": "내 설명 — 원판의 합이 적분 기호로 넘어가는 이야기를 자기 말로 쓰세요."
   }
  ],
  "25": [
   {
-   "t": "두 소수 p·q 를 아무 값으로 두고 한 번 돌려 보세요 — 나눠 본 횟수가 곧 시간입니다."
+   "t": "1분 자유 탐색 — p·q 를 아무렇게나 놓고 돌려 보세요. 컴퓨터는 무엇을 세고 있나요?"
   },
   {
-   "t": "p·q 를 작게 두고 「나눠 본 횟수」를 읽어 두세요."
+   "t": "p·q 를 키우면 나눠 본 횟수는 어떻게 될까요? 예상하고 60 이상으로 올려 확인하세요."
   },
   {
-   "t": "p·q 를 모두 60 이상으로 — 횟수가 어떻게 치솟는지 잡으세요."
+   "t": "왜 √N 까지만 봐도 될까요? 표의 두 막대에서 증거를 찾으세요."
   },
   {
-   "t": "√N 까지만 보면 되는 이유를 표의 두 막대로 확인하세요."
+   "t": "(자릿수, 횟수) 기록 — 자리 하나에 몇 배씩 뛰나요? 규칙을 네 말로."
   },
   {
-   "t": "적용 — 자리 수가 하나 늘 때 뚫는 시간이 몇 배로 뛰는지 예측을 쓰고, 실험으로 확인하세요."
+   "t": "예언 — 자리 수가 하나 더 늘면 뚫는 시간은? 걸고 나서 확인하세요."
   }
  ],
  "26": [
   {
-   "t": "수직선에서 더하기·빼기 화살표를 한 번씩 놓아 이동 방향을 눈으로 확인하세요."
+   "t": "1분 자유 탐색 — 화살표를 이리저리 놓아 보세요. 더하기와 빼기는 어떻게 다르게 움직이나요?"
   },
   {
-   "t": "덧셈 화살표를 네 방향(+·−짝) 모두 관찰하세요."
+   "t": "(+)에 (−)를 더하면 어느 쪽으로 갈까요? 네 방향 짝을 모두 실험하세요."
   },
   {
-   "t": "뺄셈이 덧셈과 반대 방향이 되는 경우를 만드세요."
+   "t": "빼기가 더하기와 반대로 가는 경우를 만들어 보세요 — 항상 반대인가요?"
   },
   {
-   "t": "a−(−b) 가 오른쪽으로 가는 이유를 기록표에 남기세요."
+   "t": "a−(−b) 는 어느 쪽인가요? 실험 증거로 이유를 기록하세요."
   },
   {
-   "t": "적용 — 영하 7도에서 12도 오른 뒤 5도 내리면? 식을 쓰고 화살표로 검산하세요."
+   "t": "내 계산 — 영하 7도에서 12도 오르고 5도 내리면? 식을 쓰고 화살표로 검산하세요."
   }
  ],
  "27": [
   {
-   "t": "n 을 1→2→3 으로 바꾸며 개수가 얼마씩 늘어나는지 읽으세요."
+   "t": "1분 자유 탐색 — n 을 바꿔 보세요. 개수는 몇 씩 늘어나나요?"
   },
   {
-   "t": "n 을 1~5 로 바꾸며 성냥개비 수의 규칙을 보세요."
+   "t": "n 이 1 늘 때 성냥개비는 항상 같은 수만큼 늘까요? 표로 검증하세요."
   },
   {
-   "t": "세 식(3n+1 …)이 항상 같은 값임을 표로 확인하세요."
+   "t": "세 가지 식이 정말 늘 같은 값일까요? 어긋나는 n 을 찾아보세요 (없다면 왜?)."
   },
   {
-   "t": "n=100 일 때의 개수를 식으로 예측해 적으세요."
+   "t": "규칙 사냥 — 개수를 n 의 식으로 직접 만들어 쓰세요. 식이 여러 개인 이유는?"
   },
   {
-   "t": "적용 — 칸이 100개일 때의 개수를 식으로 먼저 구하고 화면 값과 맞춰 보세요."
+   "t": "예언 — 칸 100개면 몇 개? 식으로 먼저, 화면으로 검산."
   }
  ],
  "28": [
   {
-   "t": "양변에 같은 수를 한 번 더해 저울이 그대로 수평인 것을 확인하세요."
+   "t": "1분 자유 탐색 — 저울을 이리저리 조작해 보세요. 언제 수평이 깨지나요?"
   },
   {
-   "t": "양변에 같은 조작을 해 균형이 유지되는 것을 보세요."
+   "t": "양변에 같은 수를 더하면 균형은? 곱하면? 예상하고 시험하세요."
   },
   {
-   "t": "2x+3=11 을 x 만 남을 때까지 풀어내세요."
+   "t": "2x+3=11 — x 만 남기는 조작 순서를 스스로 설계해 풀어내세요."
   },
   {
-   "t": "한쪽만 건드려 균형이 깨지는 반례를 만들어 두세요."
+   "t": "균형이 깨지는 반례를 만들어 두세요 — 등식의 성질이 금지하는 것은?"
   },
   {
-   "t": "적용 — 3x+2=14 를 저울 조작만으로 풀고, 각 단계에서 무엇을 했는지 쓰세요."
+   "t": "내 풀이 — 3x+2=14 를 저울로 풀고, 매 단계 무엇을 했는지 쓰세요."
   }
  ],
  "29": [
   {
-   "t": "받침점(또는 x)을 움직여 다른 쪽 값이 어떻게 따라 변하는지 한 번 관찰하세요."
+   "t": "1분 자유 탐색 — x 를 움직여 보세요. 다른 값은 어떻게 따라오나요?"
   },
   {
-   "t": "정비례에서 y÷x 가 일정한 것을 확인하세요."
+   "t": "정비례에서 변하지 않는 것은 무엇일까요? y÷x 를 추적해 보세요."
   },
   {
-   "t": "반비례로 바꿔 x×y 가 일정한 것을 발견하세요."
+   "t": "반비례로 바꾸면 이번엔 무엇이 일정할까요? 예상 후 발견하세요."
   },
   {
-   "t": "두 관계의 그래프 모양 차이를 기록하세요."
+   "t": "두 관계의 그래프 모양 차이를 기록 — 어느 쪽이 원점을 지나나요? 왜?"
   },
   {
-   "t": "적용 — 무게 60 을 힘 15 로 들려면 거리 비를 어떻게 해야 할지 계산하고 확인하세요."
+   "t": "내 계산 — 무게 60 을 힘 15 로 들려면 거리 비를 어떻게? 계산 후 확인."
   }
  ],
  "30": [
   {
-   "t": "평행선 위 동위각 두 개의 값을 읽어 같은지 확인하세요."
+   "t": "1분 자유 탐색 — 선과 각을 움직여 보세요. 어떤 각끼리 붙어 다니나요?"
   },
   {
-   "t": "평행일 때 동위각이 같은 것을 관찰하세요."
+   "t": "평행할 때 동위각은 정말 늘 같을까요? 여러 각도에서 검증하세요."
   },
   {
-   "t": "평행을 깨서 각이 어긋나는 순간을 잡으세요."
+   "t": "평행을 깨는 순간 무엇이 무너지나요? 그 순간을 잡으세요."
   },
   {
-   "t": "엇각까지 같은 짝을 모두 찾아 정리하세요."
+   "t": "엇각·동측내각까지 — 같은 짝과 합이 180°인 짝을 나눠 표로 정리하세요."
   },
   {
-   "t": "적용 — 엇각·동측내각까지 세 쌍의 관계를 표로 정리하세요."
+   "t": "내 설명 — 세 쌍의 관계를 한 장 그림으로 정리해 친구에게 설명하세요."
   }
  ],
  "31": [
   {
-   "t": "SSS 조건으로 삼각형을 한 번 만들어 두 삼각형이 겹치는지 보세요."
+   "t": "1분 자유 탐색 — 세 변으로 삼각형을 만들어 보세요. 두 삼각형이 겹쳐질 때는 언제인가요?"
   },
   {
-   "t": "세 변(SSS)으로 합동인 삼각형을 만드세요."
+   "t": "SSS — 세 변이 같으면 모양도 반드시 같을까요? 검증하세요."
   },
   {
-   "t": "두 변과 끼이지 않은 각(SSA)의 반례를 만드세요."
+   "t": "SSA 는 왜 합동 조건이 못 될까요? 반례를 직접 제작하세요."
   },
   {
-   "t": "합동 조건이 세 가지뿐인 이유를 기록하세요."
+   "t": "조건이 셋(SSS·SAS·ASA)뿐인 이유 — 실험 증거를 모아 기록하세요."
   },
   {
-   "t": "적용 — 합동 조건이 SSS·SAS·ASA 셋뿐인 이유를 반례와 함께 쓰세요."
+   "t": "내 논증 — 반례와 함께 「되는 조건·안 되는 조건」을 정리해 쓰세요."
   }
  ],
  "32": [
   {
-   "t": "중심각을 움직여 호의 길이가 따라 변하는 것을 확인하세요."
+   "t": "1분 자유 탐색 — 중심각을 돌려 보세요. 무엇 무엇이 함께 변하나요?"
   },
   {
-   "t": "중심각을 바꾸며 호의 길이 변화를 보세요."
+   "t": "중심각을 2배로 하면 호의 길이는? 넓이는? 예상하고 검증하세요."
   },
   {
-   "t": "넓이도 중심각에 비례하는지 확인하세요."
+   "t": "원그래프 32% 조각의 각도를 계산으로 먼저 — 화면으로 명중시키세요."
   },
   {
-   "t": "원그래프 32% 조각의 각도를 계산해 맞히세요."
+   "t": "(중심각, 호, 넓이) 표 — 세 양의 관계를 네 말로 쓰세요."
   },
   {
-   "t": "적용 — 하루 24시간 중 수면 8시간의 원그래프 중심각을 계산하고 화면으로 검산하세요."
+   "t": "내 계산 — 수면 8시간의 중심각은? 계산 후 화면 검산."
   }
  ],
  "33": [
   {
-   "t": "자료에서 평균·중앙값·최빈값 세 값을 먼저 읽으세요."
+   "t": "1분 자유 탐색 — 자료를 훑어보세요. 세 대푯값은 각각 무엇을 대표하나요?"
   },
   {
-   "t": "평균·중앙값·최빈값을 나란히 읽으세요."
+   "t": "세 대푯값의 추천이 서로 갈리는 자료를 만들 수 있을까요? 시도하세요."
   },
   {
-   "t": "세 대푯값의 추천이 갈리는 자료를 만드세요."
+   "t": "신발 가게 주인이라면 셋 중 무엇을 볼까요? 자료로 논증하세요."
   },
   {
-   "t": "신발 가게가 최빈값을 쓰는 이유를 적으세요."
+   "t": "(자료, 평균, 중앙값, 최빈값) 표 — 각 대푯값이 강한 상황을 정리하세요."
   },
   {
-   "t": "적용 — 신발 가게 주인이라면 어느 대푯값으로 주문할지, 이유를 자료로 쓰세요."
+   "t": "내 문제 만들기 — 평균이 최악의 선택이 되는 자료를 설계해 보세요."
   }
  ],
  "34": [
   {
-   "t": "계급 폭을 한 번 바꿔 히스토그램 모양이 변하는 것을 보세요."
+   "t": "1분 자유 탐색 — 계급 폭을 바꿔 보세요. 같은 자료가 왜 다른 이야기를 하나요?"
   },
   {
-   "t": "계급 폭을 바꾸며 모양 변화를 관찰하세요."
+   "t": "폭 하나로 자료의 인상을 완전히 바꿀 수 있을까요? 극단을 찾아보세요."
   },
   {
-   "t": "같은 자료가 완전히 다르게 보이는 폭을 찾으세요."
+   "t": "「정직한 폭」의 기준을 스스로 제안해 보세요 — 무엇을 지켜야 하나요?"
   },
   {
-   "t": "정직한 폭의 기준을 제안해 기록하세요."
+   "t": "(폭, 봉우리 수, 인상) 표 — 폭이 감추는 것과 드러내는 것을 쓰세요."
   },
   {
-   "t": "적용 — 같은 자료가 다르게 보이는 「과장 폭」과 「정직한 폭」을 정해 근거를 쓰세요."
+   "t": "판정 — 과장 폭과 정직한 폭을 하나씩 정하고 근거를 대세요."
   }
  ],
  "35": [
   {
-   "t": "두 톱니 수를 아무 값으로 두고 다시 만날 때까지 돌려 보세요."
+   "t": "1분 자유 탐색 — 두 톱니를 돌려 보세요. 언제 처음 자리에서 다시 만나나요?"
   },
   {
-   "t": "톱니를 돌려 처음 자리로 돌아오는 때를 보세요."
+   "t": "만나는 시점을 두 수로 예언할 수 있을까요? 새 톱니 수로 시험하세요."
   },
   {
-   "t": "gcd × lcm = a × b 를 기록표에서 발견하세요."
+   "t": "gcd × lcm 과 a × b — 기록표에서 두 값을 비교해 보세요. 우연일까요?"
   },
   {
-   "t": "서로소인 두 수로 같은 규칙을 확인하세요."
+   "t": "서로소일 때는 무슨 일이? 예상하고 확인해 규칙을 완성하세요."
   },
   {
-   "t": "적용 — 최대공약수×최소공배수 = 두 수의 곱이 새 숫자 두 쌍에서도 성립하는지 확인하고 이유를 쓰세요."
+   "t": "내 검증 — 새 두 쌍으로 규칙이 유지되는지 판정하고 이유를 쓰세요."
   }
  ],
  "36": [
   {
-   "t": "세 변 길이로 삼각형 작도를 한 번 완성해 보세요."
+   "t": "1분 자유 탐색 — 세 변으로 작도해 보세요. 언제 삼각형이 완성되고 언제 실패하나요?"
   },
   {
-   "t": "되는 세 변으로 삼각형을 작도하세요."
+   "t": "안 되는 세 변의 공통점은 무엇일까요? 실패 사례를 모아 보세요."
   },
   {
-   "t": "안 되는 세 변(합이 부족)을 직접 찾으세요."
+   "t": "한 변을 고정하면 나머지 두 변의 허용 범위는? 경계를 실험으로 찾으세요."
   },
   {
-   "t": "한 변을 고정하고 되는 범위를 구해 적으세요."
+   "t": "(세 변, 성공 여부) 표 — 성공 조건을 부등식으로 써 보세요."
   },
   {
-   "t": "적용 — 한 변을 10으로 고정할 때 삼각형이 되는 나머지 두 변의 범위를 구하고 실험으로 확인하세요."
+   "t": "내 문제 — 한 변이 10일 때 되는 범위를 구하고 실험으로 검증하세요."
   }
  ],
  "37": [
   {
-   "t": "정삼각형 타일로 바닥을 한 번 채워 보세요."
+   "t": "1분 자유 탐색 — 타일로 바닥을 채워 보세요. 어떤 도형이 협조적인가요?"
   },
   {
-   "t": "정삼각형·정사각형으로 바닥을 채워 보세요."
+   "t": "정오각형은 왜 실패할까요? 꼭짓점에 모인 각도로 원인을 찾으세요."
   },
   {
-   "t": "정오각형이 안 되는 이유를 각도로 확인하세요."
+   "t": "두 종류를 섞으면 새 가능성이 열릴까요? 나만의 조합을 설계하세요."
   },
   {
-   "t": "두 종류를 섞은 타일을 설계해 보세요."
+   "t": "(도형, 한 각, 꼭짓점 합) 표 — 성공 조건을 각도로 쓰세요."
   },
   {
-   "t": "적용 — 두 종류 정다각형을 섞은 나만의 타일 설계를 만들고 꼭짓점 각도 합으로 증명하세요."
+   "t": "내 증명 — 내 타일 설계가 왜 되는지 꼭짓점 각도 합으로 증명하세요."
   }
  ],
  "38": [
   {
-   "t": "회전체 하나를 돌려 어떤 입체가 생기는지 확인하세요."
+   "t": "1분 자유 탐색 — 도형을 돌려 입체를 만들어 보세요. 단면에는 무엇이 숨어 있나요?"
   },
   {
-   "t": "회전체의 단면이 모두 원인 것을 확인하세요."
+   "t": "회전체의 단면은 항상 같은 모양일까요? 여러 입체로 검증하세요."
   },
   {
-   "t": "v − e + f = 2 를 세 입체에서 세어 보세요."
+   "t": "v − e + f 를 세 입체에서 세어 보세요 — 값이 우연히 같은 걸까요?"
   },
   {
-   "t": "공식이 깨질 만한 도형이 있을지 기록하세요."
+   "t": "공식이 깨질 것 같은 도형을 상상해 기록하세요 — 정말 깨질까요?"
   },
   {
-   "t": "적용 — 꼭짓점−모서리+면 을 세 입체에서 계산해 표로 만들고, 항상 2가 되는지 쓰세요."
+   "t": "내 표 — 세 입체의 (v, e, f) 표를 완성하고 발견을 한 줄로 쓰세요."
   }
  ],
  "39": [
   {
-   "t": "부피를 고정한 채 가로·세로를 움직여 겉넓이 변화를 보세요."
+   "t": "1분 자유 탐색 — 부피는 그대로 두고 모양을 바꿔 보세요. 겉넓이는 어떻게 반응하나요?"
   },
   {
-   "t": "부피를 고정하고 겉넓이 변화를 관찰하세요."
+   "t": "겉넓이가 가장 작은 모양은 무엇일까요? 예상하고 찾아내세요."
   },
   {
-   "t": "겉넓이가 가장 작은 모양을 찾아내세요."
+   "t": "왜 그 모양이 이길까요? 극단(아주 납작/아주 길쭉)과 비교해 보세요."
   },
   {
-   "t": "택배 상자의 이상적 비율을 제안하세요."
+   "t": "(가로:세로:높이, 겉넓이) 표 — 최소의 조건을 네 말로."
   },
   {
-   "t": "적용 — 부피 1000 상자의 겉넓이가 가장 작은 모양을 찾아 비율을 제안하세요."
+   "t": "제안서 — 부피 1000 택배 상자의 이상적 비율을 근거와 함께 제안하세요."
   }
  ],
  "40": [
   {
-   "t": "카드 몇 장을 줄기·잎 자리에 놓아 보세요."
+   "t": "1분 자유 탐색 — 카드를 자리에 놓아 보세요. 이 그림은 무엇을 지키고 있나요?"
   },
   {
-   "t": "카드를 넣어 줄기와 잎 그림을 완성하세요."
+   "t": "히스토그램과 겨루기 — 무엇을 잃고 무엇을 지키는지 비교하세요."
   },
   {
-   "t": "히스토그램과 견줘 무엇을 잃는지 확인하세요."
+   "t": "두 반을 등맞댄 그림으로 붙이면 무엇이 보이나요? 만들어 보세요."
   },
   {
-   "t": "두 반을 등맞댄 그림으로 비교해 보세요."
+   "t": "(그림, 지키는 정보, 잃는 정보) 표를 채우세요."
   },
   {
-   "t": "적용 — 히스토그램과 견줘 줄기와 잎 그림이 지켜 주는 정보가 무엇인지 쓰세요."
+   "t": "내 선택 — 원자료 보존이 중요한 상황을 하나 들고 이유를 쓰세요."
   }
  ],
  "41": [
   {
-   "t": "한 계급의 도수를 상대도수로 바꿔 읽어 보세요."
+   "t": "1분 자유 탐색 — 도수를 상대도수로 바꿔 보세요. 무엇이 새로 보이나요?"
   },
   {
-   "t": "도수를 상대도수로 바꿔 읽으세요."
+   "t": "상대도수를 다 더하면 얼마가 될까요? 예상하고 여러 자료로 검증하세요."
   },
   {
-   "t": "상대도수의 합이 언제나 1 인 것을 확인하세요."
+   "t": "크기가 다른 두 반 — 도수로 비교하면 왜 불공평한가요? 사례로 확인하세요."
   },
   {
-   "t": "크기가 다른 두 반을 비교해 판정하세요."
+   "t": "(반, 도수, 상대도수) 표 — 공정한 비교의 규칙을 쓰세요."
   },
   {
-   "t": "적용 — 크기가 다른 두 반 중 어느 쪽이 더 잘했는지 상대도수로 판정하고 근거를 쓰세요."
+   "t": "판정 — 두 반 중 어느 쪽이 잘했나요? 상대도수 증거로 판결하세요."
   }
  ],
  "42": [
   {
-   "t": "표본을 한 번 뽑아 표본평균을 읽으세요."
+   "t": "1분 자유 탐색 — 표본을 몇 번 뽑아 보세요. 값이 왜 매번 다를까요?"
   },
   {
-   "t": "표본 하나를 뽑아 평균을 읽으세요."
+   "t": "표본평균의 흔들림 폭은 어느 정도인가요? 여러 번 뽑아 재보세요."
   },
   {
-   "t": "여러 번 뽑아 흔들림 폭을 재세요."
+   "t": "표본을 키우면 폭은 어떻게 될까요? 예상 → 실험 → 판정."
   },
   {
-   "t": "표본을 키우면 폭이 좁아지는지 확인하세요."
+   "t": "(표본 크기, 흔들림 폭) 표 — 몇 명이면 믿을 만한가요? 기준을 제안하세요."
   },
   {
-   "t": "적용 — 표본 크기를 4배로 늘리면 흔들림 폭이 어떻게 되는지 예측하고 실험으로 확인하세요."
+   "t": "예언 — 크기를 4배로 하면 폭은? 걸고 나서 확인하세요."
   }
  ],
  "43": [
   {
-   "t": "동류항 타일을 같은 색끼리 한 번 모아 보세요."
+   "t": "1분 자유 탐색 — 타일을 이리저리 모아 보세요. 어떤 것끼리 묶이고 싶어 하나요?"
   },
   {
-   "t": "동류항 타일을 종류별로 분류하세요."
+   "t": "3x 와 2 는 왜 5로 못 묶일까요? 타일로 반례를 만들어 보세요."
   },
   {
-   "t": "3x 와 2 를 왜 못 묶는지 반례로 확인하세요."
+   "t": "괄호가 있는 식은 타일로 어떻게 풀리나요? 분배를 실험하세요."
   },
   {
-   "t": "분배법칙으로 괄호를 풀어 정리하세요."
+   "t": "(식, 타일 정리 결과) 표 — 묶이는 조건을 네 말로."
   },
   {
-   "t": "적용 — 2(3x+1)−(x−4) 를 타일로 정리하고 식 계산과 맞춰 보세요."
+   "t": "내 풀이 — 2(3x+1)−(x−4) 를 타일과 식 계산 두 길로 풀어 맞추세요."
   }
  ],
  "44": [
   {
-   "t": "그래프의 한 구간을 짚어 무슨 일이 벌어지는 구간인지 읽어 보세요."
+   "t": "1분 자유 탐색 — 그래프의 구간들을 짚어 보세요. 각 구간은 무슨 이야기인가요?"
   },
   {
-   "t": "이야기와 그래프를 짝지어 보세요."
+   "t": "이야기와 그래프를 짝지어 보세요 — 어긋나는 짝은 왜 어긋나나요?"
   },
   {
-   "t": "평평한 구간의 뜻을 판정하세요."
+   "t": "평평한 구간의 뜻은? 후보 해석 중 판정해 보세요."
   },
   {
-   "t": "내 하루를 거리-시간 그래프로 그려 보세요."
+   "t": "(구간, 기울기, 이야기) 표를 채우고 규칙을 쓰세요."
   },
   {
-   "t": "적용 — 내 하루를 시간-거리 그래프로 그리고 평평한 구간의 뜻을 쓰세요."
+   "t": "내 그래프 — 내 하루를 시간-거리 그래프로 그리고 친구가 읽게 해 보세요."
   }
  ],
  "45": [
   {
-   "t": "√2·√3·√5 세 막대의 근삿값을 화면에서 읽어 두세요."
+   "t": "1분 자유 탐색 — 막대들을 끌어 보세요. 길이들 사이에 어떤 관계가 있을 것 같나요?"
   },
   {
-   "t": "√3 막대를 끌어 √2 오른쪽 끝에 붙이고, √5 막대와 길이를 견주세요.",
+   "t": "√2+√3 은 √5 와 같을까요? 예상을 적고, 이어붙여 판정하세요.",
    "re": "한눈에 다릅니다"
   },
   {
-   "t": "화면의 (√2+√3)² 전개값이 5 가 아니라 얼마인지 확인하고, 어느 항 때문인지 짚으세요."
+   "t": "(√2+√3)² 은 5 가 아니라면 얼마인가요? 어느 항이 범인인지 찾으세요."
   },
   {
-   "t": "기록·발견 — 여러 (√a, √b) 조합을 표에 적고, 합·곱 중 어느 쪽이 근호를 통과하는지 정리하세요."
+   "t": "(√a, √b, 이어붙인 길이) 표 — 합·곱 중 근호를 통과하는 쪽을 가려내세요."
   },
   {
-   "t": "적용 — √8 = 2√2 가 참인지 제곱으로 판정하고, √a×√b = √(ab) 가 참인 이유를 쓰세요."
+   "t": "내 판정 — √8 과 2√2 는 같은가요? 제곱으로 재판하고 √a×√b 규칙을 쓰세요."
   }
  ],
  "46": [
   {
-   "t": "직각변 1 을 붙여 첫 빗변을 만들어 보세요.",
+   "t": "자유 탐색 — 직각변 1 을 붙이면 빗변은 얼마가 되나요? 첫 삼각형을 만들어 보세요.",
    "re": "√2 ≈ 1\\.414"
   },
   {
-   "t": "나선을 계속 키워 다섯 번째 제곱근까지 도달하세요.",
+   "t": "나선을 키우면 √ 들이 차례로 나올까요? 다섯 번째 제곱근까지 가 보세요.",
    "re": "√5 ≈ 2\\.236"
   },
   {
-   "t": "√2·√3·√5 를 컴퍼스로 수직선에 모두 눕히세요.",
+   "t": "√2·√3·√5 의 「정확한 자리」를 수직선에 눕혀 보세요 — 반올림과 무엇이 다른가요?",
    "re": "√2 · √3[^\\n]*√5"
   },
   {
-   "t": "기록·발견 — n 별로 빗변·근삿값·자연수 여부를 표로 적고, √4·√9 가 어디 앉는지 확인하세요."
+   "t": "(n, 빗변, 자연수 여부) 표 — √4·√9 는 어디에 앉나요? 왜?"
   },
   {
-   "t": "적용 — 나선을 √10 까지 키워 3 과 얼마나 떨어져 있는지 확인하세요.",
+   "t": "적용 — √10 까지 키워 3 에서 얼마나 떨어졌는지 확인하고 이유를 쓰세요.",
    "re": "√10 ≈ 3\\.162"
   }
  ],
  "47": [
   {
-   "t": "b 손잡이를 끌어 조각이 옮겨 붙는 과정을 관찰하세요 (b 를 2 이상으로).",
+   "t": "자유 탐색 — b 손잡이를 끌어 보세요. 조각은 어디로 이사 가나요? (b 를 2 이상으로)",
    "re": "10000 − (4|9|16|25|36|49|64|81)"
   },
   {
-   "t": "암산 도전 1 을 합차 공식으로 통과하세요.",
+   "t": "99×101 을 3초에 — 어떻게 가능할까요? 도전 1을 통과하며 비밀을 찾으세요.",
    "re": "도전 2/3"
   },
   {
-   "t": "남은 두 문제까지 3연속으로 잡아내세요.",
+   "t": "비밀을 손에 넣었다면 — 남은 두 문제로 3연속 암산에 도전하세요.",
    "re": "암산 3연승"
   },
   {
-   "t": "기록·발견 — b 별로 (100−b)(100+b) 표를 만들고 「10000 − 곱」이 무엇의 제곱인지 찾으세요."
+   "t": "(b, 곱, 10000−곱) 표 — 빠지는 양의 정체는 무엇인가요?"
   },
   {
-   "t": "적용 — 25×35 를 (30−5)(30+5) 로 암산하고 과정을 쓰세요."
+   "t": "전이 — 25×35 를 같은 기술로 암산하고 과정을 쓰세요."
   }
  ],
  "48": [
   {
-   "t": "「새 포물선」을 눌러 문제를 받고, 그래프가 x축과 만나는 자리를 눈으로 짚어 두세요."
+   "t": "자유 탐색 — 「새 포물선」을 받고 그래프를 훑어보세요. 근은 어디쯤일까요?"
   },
   {
-   "t": "두 마커를 끌어 두 근 위에 정확히 올리세요.",
+   "t": "눈으로 찍은 근이 진짜일까요? 두 마커를 올려 명중시키세요.",
    "re": "둘 다 명중"
   },
   {
-   "t": "「공식으로 검산」— 근의 공식이 계산한 정확한 값과 내 추측을 비교하세요.",
+   "t": "공식은 내 눈보다 정확할까요? 검산으로 비교하세요.",
    "re": "/ 2 = "
   },
   {
-   "t": "기록·발견 — 새 포물선 3개 이상에서 (근1, 근2, 합, 곱)을 표로 적고 계수와의 규칙을 찾으세요."
+   "t": "(근1, 근2, 합, 곱) 표 3줄 — 계수와의 숨은 규칙을 찾아 쓰세요."
   },
   {
-   "t": "적용 — x² − 6x + 2 = 0 의 두 근의 합을 공식 없이 말하고, 이유를 쓰세요."
+   "t": "내 답 — x²−6x+2=0 의 두 근의 합을 풀지 않고 말하고, 근거를 쓰세요."
   }
  ],
  "49": [
   {
-   "t": "수평선을 위로 끌어 D 를 16 이상으로 키우세요 — 두 교점이 벌어집니다.",
+   "t": "자유 탐색 — 수평선을 위아래로 끌어 보세요. 교점 개수가 어떻게 변하나요? 먼저 D 를 16 위로.",
    "re": "4k = (1[6-9]|2[0-2])\\."
   },
   {
-   "t": "선을 내려 포물선을 스치는 순간을 잡으세요 — 가까이 가면 자석처럼 붙습니다.",
+   "t": "포물선을 스치는 순간을 잡을 수 있나요? 천천히 내려 자석을 느껴 보세요.",
    "re": "중근"
   },
   {
-   "t": "더 내려 교점이 사라지는 영역까지 — D 의 부호를 확인하세요.",
+   "t": "교점이 사라지는 영역에선 D 가 어떻게 되나요? 확인하세요.",
    "re": "실근 없음"
   },
   {
-   "t": "기록·발견 — k 여러 값에서 (k, D, 부호, 교점 수) 표를 만드세요. k = −1 을 꼭 포함하세요."
+   "t": "(k, D, 부호, 교점 수) 표 — 풀기 전에 개수를 아는 방법을 네 말로."
   },
   {
-   "t": "적용 — x² + 4x + k = 0 의 해가 하나뿐이 되는 k 를 구하고, 화면의 원리로 설명하세요."
+   "t": "내 문제 — x²+4x+k=0 의 해가 하나뿐이려면 k 는? 화면 원리로 설명하세요."
   }
  ],
  "50": [
   {
-   "t": "처음 화면에서 x² 타일과 x 막대들이 왜 정사각형이 못 되는지 관찰하세요."
+   "t": "자유 탐색 — 처음 화면의 타일들을 보세요. 왜 정사각형이 못 되고 있나요?"
   },
   {
-   "t": "x 막대를 반씩 접어 배치하세요 — 무엇이 남나요?",
+   "t": "x 막대를 반씩 접으면 무엇이 남을까요? 배치해 보세요.",
    "re": "구멍이 남았습니다"
   },
   {
-   "t": "모서리를 채워 완전한 정사각형을 만드세요.",
+   "t": "남은 자리를 채우면 무슨 일이? 완전한 정사각형을 만들어 보세요.",
    "re": "정사각형 완성"
   },
   {
-   "t": "b 를 4 로 바꿔 접기→채우기를 다시 완주하세요.",
+   "t": "b 를 4 로 바꿔도 같은 이야기가 반복되나요? 다시 완주해 규칙을 확정하세요.",
    "re": "\\(x \\+ 2\\)²"
   },
   {
-   "t": "적용 — x² + bx + c = 0 을 문자 그대로 접어 근의 공식을 유도해 손으로 쓰세요."
+   "t": "대장정 — x²+bx+c=0 을 문자 그대로 접어 근의 공식까지 유도해 쓰세요."
   }
  ],
  "51": [
   {
-   "t": "꼭짓점을 끌며 식의 괄호 안과 상수항이 어떻게 변하는지 관찰하세요."
+   "t": "자유 탐색 — 꼭짓점을 끌어 보세요. 식의 어디가 따라 움직이나요?"
   },
   {
-   "t": "초록 점선 자리(목표)로 포물선을 배달하세요.",
+   "t": "목표 자리(초록 점선)로 포물선을 배달해 보세요 — 괄호 안 부호가 예상대로인가요?",
    "re": "배달 완료"
   },
   {
-   "t": "「새 목표」를 눌러 괄호가 (x + …) 가 되는 왼쪽 목표를 만나 성공시키세요.",
+   "t": "왼쪽 목표(괄호가 x+…)도 배달해 보세요 — 부호의 함정을 통과하세요.",
    "re": "꼭짓점 \\(-\\d"
   },
   {
-   "t": "기록·발견 — 목표식·p·q·이동 방향을 표로 적고 괄호 안 부호의 함정을 정리하세요."
+   "t": "(목표식, p, q, 방향) 표 — 「−p 인데 오른쪽」의 정체를 네 말로."
   },
   {
-   "t": "적용 — y = x² − 6x + 11 의 꼭짓점을 완전제곱식으로 구하고, 화면에 배달해 검산하세요."
+   "t": "내 검산 — y=x²−6x+11 의 꼭짓점을 손으로 구해 배달로 검증하세요."
   }
  ],
  "52": [
   {
-   "t": "모서리를 끌어 울타리 모양과 넓이가 변하는 것을 관찰하세요."
+   "t": "자유 탐색 — 모서리를 끌어 보세요. 울타리와 그래프 점이 어떻게 붙어 다니나요?"
   },
   {
-   "t": "넓이 그래프의 봉우리를 찾아 가장 넓은 울타리를 만드세요.",
+   "t": "가장 넓은 울타리는 어떤 모양일까요? 예상하고 봉우리를 찾으세요.",
    "re": "최대 발견"
   },
   {
-   "t": "봉우리 좌우 대칭 — w = 4.9 와 5.1 의 넓이가 같은지 확인하세요.",
+   "t": "w = 4.9 와 5.1 — 넓이가 같을까요? 예상 후 확인하세요.",
    "re": "24\\.99"
   },
   {
-   "t": "기록·발견 — w 별 넓이 표를 8줄 이상 만들고, 두 변이 같아질 때 무슨 일이 생기는지 쓰세요."
+   "t": "(w, 넓이) 표 8줄 — 두 변이 같아질 때 무슨 일이? 왜?"
   },
   {
-   "t": "적용 — 한 면이 벽이면(3면 울타리, 총 20m) 최대가 정사각형이 아님을 S = w(20−2w) 로 확인하세요."
+   "t": "반전 — 한 면이 벽이면 정답이 달라질까요? S = w(20−2w) 로 판정하세요."
   }
  ],
  "53": [
   {
-   "t": "(a+b)² 모드에서 a 손잡이를 끌며 네 조각의 넓이가 변하는 것을 관찰하세요."
+   "t": "자유 탐색 — a 손잡이를 끌어 보세요. 네 조각은 각각 무엇을 대표하나요?"
   },
   {
-   "t": "a 와 b 를 똑같이 5 로 만들어 보세요 — 조각들이 어떻게 되나요?",
+   "t": "a 와 b 가 똑같아지면 조각들은 어떻게 될까요? 만들어 보세요.",
    "re": "네 조각이 같아"
   },
   {
-   "t": "(a−b)² 모드에서 ①→②→③ 을 완주하세요 — 겹침이 어디서 생기고 무엇으로 갚나요?",
+   "t": "(a−b)² 모드 — 두 번 빼면 왜 사고가 나고, 무엇으로 수습하나요? ①→②→③ 완주.",
    "re": "2ab \\+ b² 완성"
   },
   {
-   "t": "기록·발견 — a 세 값에서 (a², 2ab, b², 합) 표를 만들고 2ab 의 「2」의 정체를 쓰세요."
+   "t": "(a², 2ab, b²) 표 — 2ab 의 「2」는 어디서 왔나요? 네 말로."
   },
   {
-   "t": "적용 — 21² 과 19² 을 곱셈공식 조각으로 암산하고 과정을 쓰세요."
+   "t": "전이 — 21² 과 19² 을 조각 그림으로 암산하고 과정을 쓰세요."
   }
  ],
  "54": [
   {
-   "t": "사분원의 점을 끌며 sin·cos 가 어떻게 커지고 작아지는지 관찰하세요."
+   "t": "자유 탐색 — 사분원의 점을 끌어 보세요. sin·cos 는 각각 무엇에 반응하나요?"
   },
   {
-   "t": "30° 자석에 붙여 정확한 값을 확인하세요.",
+   "t": "30° 에서 값이 유난히 깔끔한 이유가 있을까요? 자석에 붙여 근거 그림까지 확인하세요.",
    "re": "sin 30° = 1/2"
   },
   {
-   "t": "45° 로 — 두 값이 같아지는 이유를 「근거: 정사각형 반쪽」으로 확인하세요.",
+   "t": "45° 에선 왜 두 값이 같아질까요? 예상하고 확인하세요.",
    "re": "tan 45° = 1"
   },
   {
-   "t": "60° 로 — 30° 의 값들과 어떤 짝을 이루는지 확인하세요.",
+   "t": "60° 의 값들은 30° 와 어떤 짝을 이루나요? 발견을 기록하세요.",
    "re": "cos 60° = 1/2"
   },
   {
-   "t": "적용 — 세 특수각 각각에서 sin²θ + cos²θ 를 계산해 규칙을 찾고 이유를 쓰세요."
+   "t": "내 검증 — 세 특수각에서 sin²θ+cos²θ 를 계산해 보세요. 늘 같은 값이라면 왜?"
   }
  ],
  "55": [
   {
-   "t": "각 θ 를 바꾸며 sin 값이 어떻게 변하는지 관찰하세요."
+   "t": "자유 탐색 — 각을 바꿔 보세요. sin 은 어떻게 자라나요? 자라는 속도도 일정한가요?"
   },
   {
-   "t": "서로 다른 각 5개 이상을 표에 기록해 나만의 삼각비 표를 만드세요.",
+   "t": "나만의 삼각비 표를 만들어 보세요 — 서로 다른 각 5개 이상.",
    "re": "표 항목 [5-9]개|표 항목 1\\d개"
   },
   {
-   "t": "표의 이웃 두 칸을 직선으로 이어 sin 37° 를 추정해 판정을 통과하세요.",
+   "t": "표에 없는 sin 37° 를 표만으로 알아낼 수 있을까요? 추정해 판정을 통과하세요.",
    "re": "보간 성공"
   },
   {
-   "t": "기록·발견 — 이웃 칸과의 차 열을 보고, 각이 커질수록 증가폭이 어떻게 되는지 쓰세요."
+   "t": "이웃 칸의 차 — 각이 커질수록 어떻게 되나요? 이유를 사분원에서 찾으세요."
   },
   {
-   "t": "적용 — 내 표만으로 cos 53° 를 추정하는 방법을 쓰고 값을 구하세요."
+   "t": "전이 — 내 표만으로 cos 53° 를 알아내는 방법을 설계하고 값을 구하세요."
   }
  ],
  "56": [
   {
-   "t": "P 를 끌며 원주각의 값이 변하는지 지켜보세요."
+   "t": "자유 탐색 — P 를 원 위에서 끌어 보세요. 각은 변하나요, 안 변하나요?"
   },
   {
-   "t": "P 를 서로 다른 세 곳 이상으로 옮겨 각이 정말 안 변하는지 확정하세요.",
+   "t": "정말 어디서나 같은지 — 서로 다른 세 곳에서 확정해 보세요.",
    "re": "어디서나 같습니다"
   },
   {
-   "t": "A·B 를 끌어 마주보게(지름) 만들어 보세요 — 원주각이 몇 도가 되나요?",
+   "t": "A·B 를 지름으로 벌리면 원주각은 몇 도가 될까요? 예상 후 확인.",
    "re": "탈레스"
   },
   {
-   "t": "기록·발견 — 호 크기를 바꿔 (중심각, 원주각, 나눗셈) 표를 세 줄 이상 만드세요."
+   "t": "(중심각, 원주각) 표 — 나눗셈 열의 규칙을 찾아 네 말로."
   },
   {
-   "t": "적용 — 골대를 같은 각으로 보는 자리들이 왜 원을 이루는지 이 실험으로 설명하세요."
+   "t": "내 설명 — 골대가 같은 각으로 보이는 자리들이 왜 원인지 이 실험으로 설명하세요."
   }
  ],
  "57": [
   {
-   "t": "위성 P 를 끌며 접선 두 개와 가시 범위(붉은 호)가 변하는 것을 관찰하세요."
+   "t": "자유 탐색 — 위성을 끌어 보세요. 두 접선과 붉은 호는 어떻게 반응하나요?"
   },
   {
-   "t": "P 를 멀리 보내 가시 범위를 140° 이상으로 키우세요 — 180° 에 닿을 수 있나요?",
+   "t": "위성이 아무리 높아도 못 보는 영역이 있을까요? 가시 범위를 140° 위로 밀어 보세요.",
    "re": "가시 범위 1[4-7]\\d°"
   },
   {
-   "t": "검산 버튼으로 접선 길이의 공식을 확인하세요.",
+   "t": "접선 길이에 공식이 숨어 있을까요? 검산 버튼으로 확인하세요.",
    "re": "PA² 일치"
   },
   {
-   "t": "기록·발견 — P 위치 세 곳에서 (OP, PA, 가시 범위) 표를 만드세요."
+   "t": "(OP, PA, 가시 범위) 표 — 왜 180° 를 못 넘는지 네 말로."
   },
   {
-   "t": "적용 — 접선이 반지름과 직각인 이유를 「원에 스치기만 한다」로 설명해 쓰세요."
+   "t": "내 논증 — 접선이 반지름과 직각인 이유를 「스치기만 한다」로 쓰세요."
   }
  ],
  "58": [
   {
-   "t": "꼭짓점 A·B·C 를 원을 따라 끌며 두 대각합을 읽어 두세요."
+   "t": "자유 탐색 — 꼭짓점들을 원 위에서 끌어 보세요. 두 대각합에 무슨 일이?"
   },
   {
-   "t": "서로 다른 세 모양에서 대각합을 확정하세요.",
+   "t": "모양을 아무리 바꿔도 유지되는 값이 있나요? 세 모양에서 확정하세요.",
    "re": "내접 사각형의 약속"
   },
   {
-   "t": "D 를 원에서 떼어 내 보세요 — 합이 어떻게 되나요?",
+   "t": "D 를 원에서 떼면 그 약속은 어떻게 되나요? 예상 후 시험.",
    "re": "무너집니다"
   },
   {
-   "t": "기록·발견 — D 를 원 안·원 위·원 밖에 둔 세 경우의 대각합을 표로 만드세요."
+   "t": "(원 위/안/밖, 대각합) 표 — 조건과 결론의 관계를 네 말로."
   },
   {
-   "t": "적용 — 좌표 네 점이 한 원 위에 있는지 대각합으로 판정하는 절차를 쓰세요."
+   "t": "전이 — 네 점이 한 원 위에 있는지 판정하는 시험지를 설계하세요."
   }
  ],
  "59": [
   {
-   "t": "점 하나를 조금씩 끌며 상자·수염이 다시 그려지는 것을 관찰하세요."
+   "t": "자유 탐색 — 점 하나를 끌어 보세요. 상자의 어디가 움직이나요?"
   },
   {
-   "t": "점 하나를 멀리 끌어 수염 한계를 넘겨 자동 분리되는 순간을 잡으세요.",
+   "t": "점을 아주 멀리 보내면 상자그림은 어떻게 반응할까요? 한계를 넘겨 보세요.",
    "re": "수염 밖 이상치"
   },
   {
-   "t": "그 점을 다시 끌어와 분리가 풀리는 경계를 확인하세요.",
+   "t": "다시 데려오면 언제 용서받나요? 경계를 정확히 찾으세요.",
    "re": "다시 모두 수염 안"
   },
   {
-   "t": "기록·발견 — 그 과정에서 (움직인 값, 평균, 중앙값) 표를 만들고 누가 끌려갔는지 쓰세요."
+   "t": "(값, 평균, 중앙값) 표 — 누가 끌려가고 누가 버티나요? 왜?"
   },
   {
-   "t": "적용 — 1.5×IQR 규칙의 좋은 점과 한계를 한 가지씩 쓰세요."
+   "t": "평가 — 1.5×IQR 규칙의 장점과 한계를 하나씩 논하세요."
   }
  ],
  "60": [
   {
-   "t": "파란 점들의 산점도와 상관계수 r 을 읽어 두세요."
+   "t": "자유 탐색 — 산점도를 읽어 보세요. r 은 이 자료의 무엇을 요약하나요?"
   },
   {
-   "t": "구석을 클릭해 이상치를 넣어 r 을 크게 떨어뜨리세요.",
+   "t": "점 하나로 r 을 무너뜨릴 수 있을까요? 가장 파괴적인 자리를 찾으세요.",
    "re": "무너뜨렸"
   },
   {
-   "t": "「이상치를 제외하고 다시 계산」을 켜 원래 상관으로 되돌리세요.",
+   "t": "제외하면 원래대로 돌아올까요? 토글로 시험하세요.",
    "re": "회복"
   },
   {
-   "t": "기록·발견 — 이상치 위치를 바꿔 가며 (위치, r) 표를 만들고 가장 파괴적인 구석을 찾으세요."
+   "t": "(이상치 위치, r) 표 — 어느 구석이 왜 센가요? 평균과 이어 쓰세요."
   },
   {
-   "t": "적용 — 지워도 되는 점과 지우면 안 되는 점의 예를 하나씩 만들어 쓰세요."
+   "t": "윤리 문제 — 지워도 되는 점과 안 되는 점의 예를 하나씩 만들고 기준을 쓰세요."
   }
  ],
  "61": [
   {
-   "t": "표에서 2 의 배수를 걸러 보고 무엇이 남는지 한 번 보세요."
+   "t": "자유 탐색 — 2 의 배수를 걸러 보세요. 남은 수들에 어떤 특징이 보이나요?"
   },
   {
-   "t": "2·3 으로 걸러 새로 지워지는 수를 세세요."
+   "t": "3 까지 거르면 새로 지워지는 수는 몇 개일까요? 세어 보세요."
   },
   {
-   "t": "새로 지워지는 수가 0 이 되는 소수를 찾으세요.",
+   "t": "새로 지워지는 수가 0 이 되는 소수가 있을까요? 찾아내세요.",
    "re": "새로 지워지지 않습니다"
   },
   {
-   "t": "p² 부터 지워도 되는 이유를 보고서에 쓰세요."
+   "t": "p² 부터 지워도 되는 이유 — 실험 증거로 보고서에 쓰세요."
   },
   {
-   "t": "적용 — 97 이 소수인지 √97 까지의 소수로만 판정하고 이유를 쓰세요."
+   "t": "내 판정 — 97 이 소수인지 √97 까지만 보고 판정하고 이유를 쓰세요."
   }
  ],
  "62": [
   {
-   "t": "두 예보의 오차 부호를 먼저 읽어 두세요."
+   "t": "자유 탐색 — 예측 점을 끌어 보세요. 오차의 부호는 무엇을 말하나요?"
   },
   {
-   "t": "예측 점을 끌어 오차의 부호를 관찰하세요."
+   "t": "부호를 더하면 실력이 드러날까요? 예상하고 확인하세요."
   },
   {
-   "t": "부호 합이 0 인데 엉망인 예보를 만드세요.",
+   "t": "부호 합이 0 인데 형편없는 예보 — 만들 수 있나요? 도전하세요.",
    "re": "부호 합은 0 인데"
   },
   {
-   "t": "|오차| 합으로 다시 채점해 비교하세요."
+   "t": "|오차| 합으로 다시 채점 — 순위가 뒤집히나요? 표로 대조하세요."
   },
   {
-   "t": "적용 — 부호 합이 0 인데 엉망인 예보가 왜 위험한지 |오차| 합으로 설명하세요."
+   "t": "내 논증 — 부호 합 채점이 왜 위험한지 |오차| 증거로 쓰세요."
   }
  ],
  "63": [
   {
-   "t": "카드를 하나 넣어 기계가 값을 뱉는 것을 확인하세요."
+   "t": "자유 탐색 — 카드를 넣어 보세요. 기계는 카드로 무엇을 하나요?"
   },
   {
-   "t": "숫자 카드를 넣어 식의 값을 관찰하세요."
+   "t": "같은 카드인데 다른 식 — 값이 왜 달라질까요? 비교해 보세요."
   },
   {
-   "t": "함정 문제(2a 에 7)를 맞히세요.",
+   "t": "함정 문제(2a 에 7) — 27 일까요 14 일까요? 먼저 답을 정하고 판정받으세요.",
    "re": "2 × a = 14"
   },
   {
-   "t": "a² 과 2a 의 증가 방식 차이를 표로 남기세요."
+   "t": "a² 과 2a 의 자라는 방식 — 표로 대조하고 차이를 네 말로."
   },
   {
-   "t": "적용 — a=3 에서 a²+2a 와 3a² 중 큰 쪽을 예측하고 기계로 검산하세요."
+   "t": "내 예측 — a=3 에서 a²+2a vs 3a², 큰 쪽을 걸고 기계로 판정하세요."
   }
  ],
  "64": [
   {
-   "t": "물·소금 버튼을 한 번씩 눌러 농도가 움직이는 방향을 확인하세요."
+   "t": "자유 탐색 — 물·소금 버튼을 눌러 보세요. 농도는 각각 어느 쪽으로 움직이나요?"
   },
   {
-   "t": "물·소금 버튼이 농도에 주는 효과를 관찰하세요."
+   "t": "물만 계속 부으면 농도는 0 이 될 수 있을까요? 예상하고 관찰하세요."
   },
   {
-   "t": "목표 5% 에 정확히 맞추세요.",
+   "t": "목표 5% — 정확히 명중시키는 조작 순서를 스스로 찾으세요.",
    "re": "목표 5% 명중"
   },
   {
-   "t": "방정식 20/(200+x)=5/100 을 세워 검산하세요."
+   "t": "방정식 20/(200+x) = 5/100 — 내 조작과 같은 답을 주나요? 검산하세요."
   },
   {
-   "t": "적용 — 10% 소금물 300g 을 6% 로 만들 물의 양을 방정식으로 구해 조작으로 검산하세요."
+   "t": "내 문제 — 10% 300g 을 6% 로 만들 물의 양을 식으로 구해 조작으로 검증하세요."
   }
  ],
  "65": [
   {
-   "t": "호 두 개로 작도가 되는 과정을 한 번 관찰하세요."
+   "t": "자유 탐색 — 호 두 개로 작도를 지켜보세요. 이 선의 정체는 무엇일까요?"
   },
   {
-   "t": "컴퍼스를 벌려 두 호가 만나게 하세요."
+   "t": "컴퍼스를 벌려 두 호가 만나게 — 만나지 않으면 무엇이 문제인가요?"
   },
   {
-   "t": "P 를 양끝과 가운데 세 곳으로 끌어 두 거리가 늘 같은지 확인하세요."
+   "t": "P 를 선 위 어디에 둬도 PA = PB 일까요? 세 곳에서 시험하세요."
   },
   {
-   "t": "세 변 모두에 그어 외심까지 확장해 보세요."
+   "t": "세 변 모두에 그으면 세 선은 어디서 만날까요? 예상 후 확장하세요."
   },
   {
-   "t": "적용 — 세 점에서 같은 거리인 점(외심)을 두 수직이등분선으로 찾는 절차를 쓰세요."
+   "t": "전이 — 세 마을에서 같은 거리인 우물 자리 찾는 절차를 쓰세요."
   }
  ],
  "66": [
   {
-   "t": "컴퍼스 두 번으로 각이 갈리는 과정을 관찰하세요."
+   "t": "자유 탐색 — 컴퍼스 두 번의 작도를 지켜보세요. 무엇이 만들어지고 있나요?"
   },
   {
-   "t": "컴퍼스 두 번으로 이등분선을 완성하세요."
+   "t": "작도한 선이 정말 절반을 가르나요? 완성하고 재보세요."
   },
   {
-   "t": "각을 세 가지로 바꿔도 절반이 유지되는지 확인하세요."
+   "t": "각을 바꿔도 절반이 유지될까요? 세 각으로 시험하세요."
   },
   {
-   "t": "왜 절반인지 SSS 합동으로 쓰세요."
+   "t": "왜 정확히 절반인가요? 숨은 두 삼각형을 찾아 SSS 로 쓰세요."
   },
   {
-   "t": "적용 — 이 작도가 SSS 합동으로 정당화되는 근거를 쓰세요."
+   "t": "전이 — 각도기 없이 45°·22.5° 를 만드는 절차를 설계하세요."
   }
  ],
  "67": [
   {
-   "t": "조각 4개를 번갈아 붙인 모양을 먼저 관찰하세요."
+   "t": "자유 탐색 — 조각 4개를 붙인 모양을 보세요. 무엇을 닮아 가려는 걸까요?"
   },
   {
-   "t": "4조각을 번갈아 붙인 모양을 관찰하세요."
+   "t": "조각을 더 잘게 하면 어떤 모양에 가까워질까요? 64조각까지 밀어붙이세요."
   },
   {
-   "t": "64조각까지 잘라 직사각형 꼴로 만드세요.",
+   "t": "그 직사각형의 가로·세로는 각각 무엇인가요? 이름을 붙여 보세요.",
    "re": "거의 직사각형"
   },
   {
-   "t": "x=360 을 넣어 πr² 이 나오는지 확인하세요."
+   "t": "x = 360 을 넣으면 낯익은 공식이 나올까요? 확인하세요."
   },
   {
-   "t": "적용 — 반지름 6, 호 길이 5 인 부채꼴 넓이를 S=½rl 로 구하고 화면으로 확인하세요."
+   "t": "내 계산 — 반지름 6·호 5 부채꼴의 넓이를 새 공식으로 구해 검산하세요."
   }
  ],
  "68": [
   {
-   "t": "정삼각형 3개를 한 꼭짓점에 모아 보세요."
+   "t": "자유 탐색 — 정삼각형을 꼭짓점에 모아 보세요. 몇 장까지 접히나요?"
   },
   {
-   "t": "정삼각형 3장을 한 꼭짓점에 모으세요."
+   "t": "각의 합이 얼마를 넘으면 실패할까요? 경계를 찾으세요."
   },
   {
-   "t": "가능한 조합 5개를 전부 찾아내세요.",
+   "t": "가능한 조합은 모두 몇 개일까요? 전부 찾아내세요.",
    "re": "5 / 5"
   },
   {
-   "t": "정육각형 3장(벌집)이 경계인 이유를 쓰세요."
+   "t": "정육각형 3장이 실패하는 이유 — 벌집과 이어 쓰세요."
   },
   {
-   "t": "적용 — 정육각형으로 정다면체가 불가능한 이유를 꼭짓점 각의 합으로 쓰세요."
+   "t": "내 논증 — 정다면체가 5개뿐인 이유를 각의 합 부등식으로 정리하세요."
   }
  ],
  "69": [
   {
-   "t": "개수를 바꿔 가격 합계가 예산에 다가가는 것을 관찰하세요."
+   "t": "자유 탐색 — 간식을 담아 보세요. 게이지는 무엇을 감시하나요?"
   },
   {
-   "t": "간식을 담으며 예산 게이지를 관찰하세요."
+   "t": "예산을 넘기 직전의 최대 개수는? 예상하고 정확히 담으세요."
   },
   {
-   "t": "최대 개수(6개)를 정확히 담으세요.",
+   "t": "경계에서 무슨 일이 벌어지나요? 하나 더 담아 보세요.",
    "re": "최대입니다"
   },
   {
-   "t": "−2 곱하기에서 부등호를 바르게 뒤집으세요.",
+   "t": "−2 를 곱하는 순간 부등호는? 예상 후 조작으로 판정하세요.",
    "re": "부등호도 뒤집습니다"
   },
   {
-   "t": "적용 — 1500원 펜과 800원 지우개로 1만 원 예산 부등식을 세워 풀어 보세요."
+   "t": "내 문제 — 1500원 펜·800원 지우개로 1만 원 부등식을 세워 풀어 보세요."
   }
  ],
  "70": [
   {
-   "t": "번호 하나를 넣어 배정되는 사물함을 확인하세요."
+   "t": "자유 탐색 — 번호를 넣어 보세요. 사물함 배정에 규칙이 보이나요?"
   },
   {
-   "t": "m = 10 으로 배정해 규칙을 관찰하세요."
+   "t": "m = 10 일 때 같은 방에 모이는 번호들의 공통점은?"
   },
   {
-   "t": "m = 8 로 몰림 사고를 재현하세요.",
+   "t": "m = 8 로 바꾸면 사고가 날까요? 재현해 보세요.",
    "re": "몰림 발생"
   },
   {
-   "t": "m = 7 로 바꿔 골고루 퍼짐을 확인하세요."
+   "t": "m = 7 은 왜 평화로운가요? 소수와 이어 짐작을 쓰세요."
   },
   {
-   "t": "적용 — 같은 사물함에 배정되는 두 번호(충돌)를 만들어 보고 해시 충돌의 뜻을 쓰세요."
+   "t": "내 실험 — 같은 방에 배정되는 두 번호(충돌)를 만들어 뜻을 쓰세요."
   }
  ],
  "71": [
   {
-   "t": "1/4 같은 쉬운 분수부터 나눠 보세요."
+   "t": "자유 탐색 — 쉬운 분수부터 나눠 보세요. 소수는 언제 끝나고 언제 안 끝나나요?"
   },
   {
-   "t": "분모가 2·5 뿐인 분수를 골라 나눗셈을 끝까지 끌고 가세요.",
+   "t": "끝나는 분수들의 분모엔 공통점이 있을까요? 2·5 뿐인 분모로 끝까지 가 보세요.",
    "re": "나머지 0 — 나눗셈이 끝났"
   },
   {
-   "t": "1/7 을 골라 순환마디가 두 바퀴 이상 돌 때까지 나누세요.",
+   "t": "1/7 은 언제까지 돌까요? 순환이 확정되는 순간을 잡으세요.",
    "re": "순환 확정"
   },
   {
-   "t": "0.1+0.2 가 0.3 이 아닌 이유를 쓰세요."
+   "t": "나머지의 목록을 관찰 — 순환이 「반드시」 오는 이유를 네 말로."
   },
   {
-   "t": "적용 — 분모의 소인수만 보고 유한·순환을 예언하는 규칙을 쓰고 두 분수로 시험하세요."
+   "t": "예언 규칙 — 분모만 보고 유한·순환을 맞히는 규칙을 쓰고 두 분수로 시험하세요."
   }
  ],
  "72": [
   {
-   "t": "0.3 의 순환을 분수로 만드는 과정을 한 번 관찰하세요."
+   "t": "자유 탐색 — 0.3 의 순환이 분수가 되는 과정을 지켜보세요. 핵심 동작은 무엇인가요?"
   },
   {
-   "t": "×10 을 누르며 자릿수 이동을 관찰하세요."
+   "t": "×10 은 자릿수에 무슨 일을 하나요? 눌러서 관찰하세요."
   },
   {
-   "t": "0.24̄ 를 분수로 복원하세요.",
+   "t": "0.24̄ 도 같은 기술로 잡히나요? 복원해 보세요.",
    "re": "복원 완료"
   },
   {
-   "t": "혼순환 0.83̄ 에도 도전하세요."
+   "t": "혼순환 0.83̄ — 어디가 더 까다로운가요? 도전하고 기록하세요."
   },
   {
-   "t": "적용 — 0.7 의 순환(= 7/9)을 10배 빼기 법으로 복원해 검산하세요."
+   "t": "내 검산 — 0.7̄ = 7/9 을 10배 빼기로 복원해 확인하세요."
   }
  ],
  "73": [
   {
-   "t": "몇 번 접으면 두께가 얼마가 되는지 관찰하세요."
+   "t": "자유 탐색 — 접기를 반복해 보세요. 두께는 어떤 방식으로 자라나요?"
   },
   {
-   "t": "10번 접어 약 천 배가 되는 것을 확인하세요."
+   "t": "10번 접으면 몇 배쯤일까요? 예상을 적고 확인하세요."
   },
   {
-   "t": "달에 닿는 횟수를 찾아내세요.",
+   "t": "달까지 닿으려면 몇 번? 먼저 걸고, 실험으로 판정하세요.",
    "re": "달에 닿았습니다"
   },
   {
-   "t": "2ᵐ×2ⁿ=2ᵐ⁺ⁿ 을 접기로 설명해 쓰세요."
+   "t": "접기 m번 후 n번 — 지수에 무슨 일이? 규칙을 접기로 설명하세요."
   },
   {
-   "t": "적용 — 2¹⁰ × 2⁵ = 2¹⁵ 이 「접기 이어하기」와 같은 이유를 쓰세요."
+   "t": "내 설명 — 2¹⁰×2⁵ = 2¹⁵ 을 「이어 접기」 그림으로 쓰세요."
   }
  ],
  "74": [
   {
-   "t": "양변에 양수를 곱할 때 부등호가 유지되는 것을 먼저 확인하세요."
+   "t": "자유 탐색 — k 를 움직여 보세요. 두 수의 순서는 언제 안전한가요?"
   },
   {
-   "t": "양수 배에서 순서가 유지되는 것을 보세요."
+   "t": "양수 배에서는 순서가 늘 유지될까요? 여러 값으로 확인하세요."
   },
   {
-   "t": "k 를 음수로 끌어 뒤집힘을 잡으세요.",
+   "t": "k 가 음수로 넘어가는 순간 무슨 일이? 그 순간을 잡으세요.",
    "re": "순서가 뒤집혔습니다"
   },
   {
-   "t": "k = 0 에서 순서가 사라지는 것도 확인하세요.",
+   "t": "k = 0 은 어느 쪽인가요? 확인하고 세 구간을 정리하세요.",
    "re": "순서가 사라집니다"
   },
   {
-   "t": "적용 — −3x < 6 을 풀 때 부등호가 뒤집히는 단계를 수직선으로 설명하세요."
+   "t": "내 풀이 — −3x < 6 을 수직선 그림과 함께 풀어 쓰세요."
   }
  ],
  "75": [
   {
-   "t": "두 직선을 움직여 교점이 이동하는 것을 관찰하세요."
+   "t": "자유 탐색 — 두 직선을 움직여 보세요. 교점은 어디까지 달아날 수 있나요?"
   },
   {
-   "t": "두 직선의 기울기를 움직여 교점이 어디로 달아나는지 확인하세요."
+   "t": "교점을 화면 밖으로 쫓아내 보세요 — 완전히 없앨 수도 있을까요?"
   },
   {
-   "t": "평행을 만들어 해가 없는 경우를 만드세요.",
+   "t": "해가 없는 상태를 만들어 보세요 — 식으로는 무엇이 남나요?",
    "re": "평행, 해가 없습니다"
   },
   {
-   "t": "완전히 겹쳐 해가 무수히 많게 하세요.",
+   "t": "완전히 겹치면 해는 몇 개인가요? 만들어서 확인하세요.",
    "re": "무수히 많습니다"
   },
   {
-   "t": "적용 — 해가 없는 연립방정식을 하나 설계하고 그래프로 확인하세요."
+   "t": "내 문제 — 해가 없는 연립방정식을 설계하고 그래프로 검증하세요."
   }
  ],
  "76": [
   {
-   "t": "한 문자를 지우는 첫 단계를 관찰하세요."
+   "t": "자유 탐색 — 첫 단계를 지켜보세요. 무엇을 지우려는 걸까요?"
   },
   {
-   "t": "버튼으로 계수를 맞춰(정렬 ✓) 보세요."
+   "t": "계수를 맞추지 않고 더하면 어떻게 될까요? 시험해 보세요."
   },
   {
-   "t": "더하거나 빼서 한 문자를 지우세요.",
+   "t": "한 문자를 깨끗이 지워 보세요 — 어떤 준비가 필요했나요?",
    "re": "사라졌습니다"
   },
   {
-   "t": "다른 문자를 지우는 길로도 풀어 보세요."
+   "t": "다른 문자를 지우는 길로도 풀어 보세요 — 답은 같을까요?"
   },
   {
-   "t": "적용 — 소거할 문자의 계수를 맞추기 위해 몇 배를 곱할지 정하는 요령을 쓰세요."
+   "t": "내 요령 — 소거할 문자와 곱할 배수를 고르는 요령을 쓰세요."
   }
  ],
  "77": [
   {
-   "t": "절편 손잡이만 움직여 직선의 운동을 관찰하세요."
+   "t": "자유 탐색 — 두 손잡이를 마음대로. 직선의 두 가지 운동을 구분할 수 있나요?"
   },
   {
-   "t": "절편만 끌어 평행이동을 관찰하세요."
+   "t": "절편만 움직이면 직선은 어떤 운동을 하나요? 잔상으로 확인하세요."
   },
   {
-   "t": "기울기만 끌어 회전을 관찰하세요 — 축은 어디?"
+   "t": "기울기만 움직이면? 회전의 축이 어디인지 찾아내세요."
   },
   {
-   "t": "잔상을 켜고 두 운동을 한 화면에 담으세요."
+   "t": "두 운동을 한 화면에 — 서로 침범하지 않는 이유를 네 말로."
   },
   {
-   "t": "적용 — 요금제 직선 y = 0.5x + 3 을 두 손잡이로 정확히 만들고 각 계수의 뜻을 쓰세요."
+   "t": "내 조종 — y = 0.5x + 3 을 정확히 만들고 두 계수의 뜻을 쓰세요."
   }
  ],
  "78": [
   {
-   "t": "식 하나를 읽고 머릿속으로 그래프를 먼저 그려 보세요."
+   "t": "자유 탐색 — 식 하나를 읽고, 그래프를 머릿속으로 먼저 그려 보세요."
   },
   {
-   "re": "정답!"
+   "re": "정답!",
+   "t": "두 점만으로 그 직선을 정확히 놓을 수 있나요? 첫 문제를 명중시키세요."
   },
   {
-   "t": "새 문제 두 개를 더 연달아 맞히세요."
+   "t": "연속 도전 — 새 문제 두 개를 더. 점 두 개를 고르는 나만의 순서가 생겼나요?"
   },
   {
-   "t": "분수 기울기의 요령을 기록표에 쓰세요."
+   "t": "분수 기울기의 요령 — 오른쪽 몇, 위로 몇? 기록하세요."
   },
   {
-   "t": "적용 — y = −2x + 4 를 절편·계단 두 점으로 3초 안에 놓는 절차를 쓰세요."
+   "t": "내 절차 — y = −2x+4 를 3초에 놓는 절차를 써서 짝에게 시켜 보세요."
   }
  ],
  "79": [
   {
-   "t": "삼각형 꼭짓점을 움직여 모양을 바꿔 보세요."
+   "t": "자유 탐색 — 꼭짓점을 끌어 삼각형을 바꿔 보세요. 균형점은 어디쯤일까요?"
   },
   {
-   "t": "중선을 그려 한 점에서 만남을 확인하세요."
+   "t": "중선을 그리면 세 선이 정말 한 점에서 만날까요? 확인하세요."
   },
   {
-   "re": "명중!"
+   "re": "명중!",
+   "t": "균형점을 눈대중으로 명중시켜 보세요 — 몇 픽셀까지 접근했나요?"
   },
   {
-   "t": "2:1 눈금을 확인하고 좌표 평균과 잇으세요."
+   "t": "2:1 눈금과 좌표 평균 — 두 사실이 같은 말일까요? 표로 대조하세요."
   },
   {
-   "t": "적용 — 세 꼭짓점 좌표의 평균이 무게중심이 되는 이유를 중선 2:1 로 설명하세요."
+   "t": "내 설명 — 좌표 평균이 왜 균형점인지 중선 2:1 로 쓰세요."
   }
  ],
  "80": [
   {
-   "t": "꼭짓점을 끌며 다섯 판정이 켜지고 꺼지는 것을 관찰하세요."
+   "t": "자유 탐색 — 꼭짓점을 끌어 보세요. 다섯 판정 등이 따로 놀 때가 있나요?"
   },
   {
-   "t": "꼭짓점을 끌어 다섯 판정이 함께 꺼졌다 켜지는 것을 확인하세요."
+   "t": "다섯 판정이 늘 함께 켜지고 꺼진다면 — 그것이 뜻하는 바는?"
   },
   {
-   "t": "사다리꼴 함정(한 쌍만 평행)을 재현하세요.",
+   "t": "한 쌍만 평행한 함정(사다리꼴)을 재현해 보세요.",
    "re": "사다리꼴입니다"
   },
   {
-   "t": "대각선 조건 → SAS 증명을 손으로 쓰세요."
+   "t": "대각선 조건 하나로 전부가 따라오는 이유 — SAS 로 증명을 쓰세요."
   },
   {
-   "t": "적용 — 「한 쌍 평행 + 다른 쌍 길이 같음」이 왜 판정이 안 되는지 반례를 만들어 보세요."
+   "t": "반례 제작 — 「한 쌍 평행 + 다른 쌍 같음」이 실패하는 사각형을 만드세요."
   }
  ],
  "81": [
   {
-   "t": "축척을 바꿔 지도의 길이가 어떻게 변하는지 관찰하세요."
+   "t": "자유 탐색 — 축척 k 를 움직여 보세요. 길이와 넓이는 같은 속도로 变하나요?"
   },
   {
-   "t": "k 를 끌며 넓이 배율을 관찰하세요."
+   "t": "k = 2 일 때 타일은 몇 장이 될까요? 예상하고 확인하세요."
   },
   {
-   "t": "k = 2 에서 타일이 정확히 4장이 되게 하세요.",
+   "t": "길이 2배인데 넓이 4배 — 왜일까요? 그림에서 이유를 찾으세요.",
    "re": "×4\\.00"
   },
   {
-   "t": "지도 1:25000 의 1cm² 실제 넓이를 구하세요."
+   "t": "지도 1:25000 의 1cm² 는 실제 얼마? 계산해 기록하세요."
   },
   {
-   "t": "적용 — 1:25000 지도에서 4cm 인 두 지점의 실제 거리를 구하세요."
+   "t": "내 계산 — 지도에서 4cm 인 두 지점의 실제 거리를 구하세요."
   }
  ],
  "82": [
   {
-   "t": "중심에서 뻗는 선을 따라 도형이 커지는 것을 관찰하세요."
+   "t": "자유 탐색 — 중심 O 와 배율을 움직여 보세요. 대응점들은 어떤 길을 따라가나요?"
   },
   {
-   "t": "O 를 끌어 광선(대응점 연결선)을 관찰하세요."
+   "t": "광선(연결선)들은 모두 어디를 지나나요? 확인하세요."
   },
   {
-   "t": "k 를 음수로 — 뒤집힌 상을 만드세요.",
+   "t": "k 를 음수로 — 상이 어떻게 될까요? 예상 후 만들어 보세요.",
    "re": "반대편에 뒤집혀"
   },
   {
-   "t": "바늘구멍 사진기와 연결해 기록하세요."
+   "t": "바늘구멍 사진기가 뒤집히는 이유 — 이 화면과 이어 기록하세요."
   },
   {
-   "t": "적용 — 빔프로젝터 화면 크기가 거리와 어떻게 비례하는지 정리하세요."
+   "t": "내 정리 — 프로젝터 화면 크기와 거리의 관계를 표로 정리하세요."
   }
  ],
  "83": [
   {
-   "t": "TV 화면의 가로·세로·대각선 값을 먼저 읽으세요."
+   "t": "자유 탐색 — 가로·세로를 끌어 보세요. 세 넓이 막대는 무엇을 말하나요?"
   },
   {
-   "t": "가로·세로를 끌며 세 넓이 막대를 관찰하세요."
+   "t": "두 변을 알면 대각선을 계산만으로 알 수 있을까요? (12, 9)로 시험하세요."
   },
   {
-   "t": "(12, 9)로 맞춰 대각선 15 를 떨어뜨리세요.",
+   "t": "세 막대의 관계가 우연이 아니라면 — 식으로 써 보세요.",
    "re": "피타고라스 수입니다"
   },
   {
-   "t": "a+b(꺾어 가는 길)와 왜 다른지 쓰세요."
+   "t": "a+b(꺾어 가기)와 대각선(질러 가기) — 왜 다른가요? 기록하세요."
   },
   {
-   "t": "적용 — 화면비 16:9 인 55인치 TV 의 가로 길이를 구하세요."
+   "t": "내 계산 — 16:9 비율 55인치 TV 의 가로를 구하세요."
   }
  ],
  "84": [
   {
-   "t": "세 변을 바꿔 삼각형의 모양이 변하는 것을 관찰하세요."
+   "t": "자유 탐색 — 세 변을 바꿔 보세요. 판정은 무엇 무엇을 비교해 내려지나요?"
   },
   {
-   "t": "(6,8,10)으로 직각을 만드세요.",
+   "t": "재지 않고 직각을 만들 수 있나요? (6,8,10)으로 시험하세요.",
    "re": "직각삼각형"
   },
   {
-   "t": "c 를 줄여 예각으로 넘겨 보세요.",
+   "t": "c 만 줄이면 각은 어느 쪽으로 기우나요? 예상 후 확인.",
    "re": "예각삼각형"
   },
   {
-   "t": "c 를 늘려 둔각까지 — 경계가 어디인지 쓰세요.",
+   "t": "c 를 늘리면? 경계가 정확히 어디인지 세 변으로 쓰세요.",
    "re": "둔각삼각형"
   },
   {
-   "t": "적용 — (7, 24, 25) 세 변이 직각을 이루는지 재지 않고 판정하세요."
+   "t": "내 판정 — (7, 24, 25) 는 직각인가요? 계산만으로 판결하세요."
   }
  ],
  "85": [
   {
-   "t": "작은 수부터 c² = a² + b² 이 되는지 훑어보세요."
+   "t": "자유 탐색 — 격자 칸을 눌러 보세요. 어떤 (a, b)가 특별한가요?"
   },
   {
-   "re": "찾은 피타고라스 수 [1-9]"
+   "re": "찾은 피타고라스 수 [1-9]",
+   "t": "세 변이 모두 자연수인 직각삼각형 — 하나 찾아낼 수 있나요?"
   },
   {
-   "t": "원시(서로소) 세 쌍을 2개 이상 모으세요.",
+   "t": "배수 말고 「원시」 세 쌍 — 2개 이상 모아 보세요.",
    "re": "원시\\(서로소\\) [2-9]"
   },
   {
-   "t": "홀수 공식으로 다음 세 쌍을 예언해 시험하세요."
+   "t": "홀수 공식으로 다음 세 쌍을 예언하고 시험하세요 — 맞았나요?"
   },
   {
-   "t": "적용 — (3,4,5) 의 2배·3배가 모두 통하는 이유를 닮음으로 쓰세요."
+   "t": "내 논증 — (3,4,5)의 배수들이 전부 통하는 이유를 닮음으로 쓰세요."
   }
  ],
  "86": [
   {
-   "t": "메뉴 고르기에서 「또는」과 「그리고」 상황을 구분해 보세요."
+   "t": "자유 탐색 — 메뉴 상황들을 살펴보세요. 「또는」과 「그리고」는 무엇이 다른가요?"
   },
   {
-   "t": "「또는」 목록에서 5가지를 세세요.",
+   "t": "「또는」 상황의 가짓수 — 예상하고 목록으로 세어 보세요.",
    "re": "3 \\+ 2 = 5가지"
   },
   {
-   "t": "나무 그림의 가지 끝을 직접 세어 곱의 법칙과 맞는지 확인하세요."
+   "t": "「그리고」 상황 — 나무의 가지 끝을 세면 곱과 맞을까요? 검증하세요."
   },
   {
-   "t": "\"안 골라도 됨\" 포함 3×3=9 를 계산하세요."
+   "t": "「안 골라도 됨」이 끼면? 계산으로 예상하고 세어 보세요."
   },
   {
-   "t": "적용 — 상의 4·하의 3·신발 2 조합의 수를 곱의 법칙으로 구하세요."
+   "t": "내 계산 — 상의 4·하의 3·신발 2 의 조합 수를 구하고 나무로 검산하세요."
   }
  ],
  "87": [
   {
-   "t": "길이 2배가 넓이·부피에 주는 효과를 관찰하세요."
+   "t": "자유 탐색 — k 를 움직여 보세요. 게이지 세 개는 각각 무엇을 재나요?"
   },
   {
-   "t": "k = 2 에서 게이지 셋(2·4·8)을 읽으세요."
+   "t": "k = 2 에서 세 게이지 값을 예상해 보세요 — 맞았나요?"
   },
   {
-   "t": "k = 3 으로 부피 27배를 확인하세요.",
+   "t": "k = 3 이면 부피는 몇 배가 될까요? 걸고 나서 확인하세요.",
    "re": "×27\\.00"
   },
   {
-   "t": "거인이 불가능한 이유를 논증해 쓰세요."
+   "t": "거인이 실존할 수 없는 이유 — 단면적과 무게의 대결로 논증하세요."
   },
   {
-   "t": "적용 — 키가 2배인 거인의 몸무게가 8배인 이유와 다리 굵기 문제를 쓰세요."
+   "t": "내 계산 — 키 2배 거인의 몸무게와 다리 부담을 계산해 결론을 쓰세요."
   }
  ],
  "88": [
   {
-   "t": "「적어도 하나」를 직접 세는 어려움을 먼저 느껴 보세요."
+   "t": "자유 탐색 — 표를 훑어보세요. 「적어도 하나」에 해당하는 칸은 몇 개나 될까요?"
   },
   {
-   "t": "「적어도 하나」 7칸을 직접 골라 보세요.",
+   "t": "직접 골라 보세요 — 다 고르는 데 얼마나 걸리나요?",
    "re": "전부 골랐습니다"
   },
   {
-   "t": "여사건으로 뒤집어 두 길을 비교하세요.",
+   "t": "반대편(하나도 없음)에서 접근하면? 두 길의 수고를 비교하세요.",
    "re": "고를 것도"
   },
   {
-   "t": "동전 10개면 1 − 1/1024 — 식만 세워 보세요."
+   "t": "동전 10개라면 — 직접 세기가 가능할까요? 여사건 식만 세워 보세요."
   },
   {
-   "t": "적용 — 주사위 두 번에서 적어도 한 번 6 이 나올 확률을 여사건으로 구하세요."
+   "t": "내 계산 — 주사위 두 번, 적어도 한 번 6 — 지름길로 구하세요."
   }
  ],
  "89": [
   {
-   "t": "연속 실패 뒤의 성공 확률 표시를 관찰하세요."
+   "t": "자유 탐색 — 동전을 던져 보세요. 연속 기록 뒤에 무엇이 올 것 같나요?"
   },
   {
-   "t": "100회 이상 던져 기록을 쌓으세요."
+   "t": "100회 이상 쌓아 보세요 — 기록은 생각보다 자주 뭉치나요?"
   },
   {
-   "t": "앞면 3연속 직후 집계가 반반임을 확인하세요.",
+   "t": "앞면 3연속 「직후」만 모으면 — 다음은 정말 앞면 차례인가요? 집계로 판정하세요.",
    "re": "반반에 가깝습니다"
   },
   {
-   "t": "큰 수의 법칙과 무엇이 다른지 구분해 쓰세요."
+   "t": "큰 수의 법칙과는 무엇이 다른가요? 구분해 기록하세요."
   },
   {
-   "t": "적용 — 「이제 나올 때가 됐다」가 틀린 이유를 독립의 정의로 쓰세요."
+   "t": "판결문 — 「이제 나올 때가 됐다」에게 독립의 정의로 판결을 쓰세요."
   }
  ],
  "90": [
   {
-   "t": "조건을 걸기 전과 후의 전체 집단 크기를 비교하세요."
+   "t": "자유 탐색 — 조건 버튼들을 눌러 보세요. 화면의 무엇이 밝아지고 어두워지나요?"
   },
   {
-   "t": "조건 버튼을 눌러 분모(밝은 칸)가 24명보다 작아지는 것을 확인하세요.",
+   "t": "조건이 붙으면 분모는 어떻게 되나요? 24명보다 작아지는 순간을 만드세요.",
    "re": "분모\\(밝은 칸\\) = (1[0-9]|[1-9])명"
   },
   {
-   "t": "여학생 조건으로 5/10 을 만드세요.",
+   "t": "여학생 조건의 확률을 만들어 보세요 — 분자와 분모는 각각 몇?",
    "re": "P = 5 / 10"
   },
   {
-   "t": "P(A|B) ≠ P(B|A) 를 분모로 설명하세요."
+   "t": "P(A|B) 와 P(B|A) — 같은 값일까요? 분모로 판정해 쓰세요."
   },
   {
-   "t": "적용 — 양성 판정 ≠ 질병인 이유를 조건부확률의 분모로 설명하세요."
+   "t": "내 설명 — 양성 판정 ≠ 질병을 분모의 교체로 설명하세요."
   }
  ],
  "91": [
   {
-   "t": "두 원을 움직여 겹침이 변하는 것을 관찰하세요."
+   "t": "자유 탐색 — 두 원을 움직여 보세요. 겹침은 무엇을 나타내나요?"
   },
   {
-   "t": "두 원을 겹쳐 P(A∩B) 를 관찰하세요."
+   "t": "두 확률을 그냥 더하면 항상 맞을까요? 사고가 나는 상황을 만들어 보세요."
   },
   {
-   "t": "그냥 더한 값이 1 을 넘는 사고를 재현하세요.",
+   "t": "언제라면 그냥 더해도 될까요? 그 상태를 만들어 확정하세요.",
    "re": "1 을 넘었습니다"
   },
   {
-   "t": "두 원을 떼어(배반) 덧셈만으로 충분한 상태를 만드세요.",
+   "t": "(겹침, P(A)+P(B), 진짜 확률) 표 — 빼야 하는 양의 정체를 쓰세요.",
    "re": "그냥 더해도 됩니다"
   },
   {
-   "t": "적용 — 겹침이 없는(배반) 경우에만 그냥 더해도 되는 이유를 쓰세요."
+   "t": "내 문제 — 겹침을 깜빡해 1 이 넘는 가짜 문제를 만들어 친구에게 찾게 하세요."
   }
  ],
  "92": [
   {
-   "t": "표에 놓인 계수 1, −2, −5, 6 이 어떤 식의 것인지 읽어 두세요."
+   "t": "자유 탐색 — 계수 1, −2, −5, 6 과 k 를 보세요. 이 표는 무엇을 하려는 장치일까요?"
   },
   {
-   "t": "한 칸씩 세 번 진행해 조립을 끝내고, 마지막 칸의 뜻을 확인하세요.",
+   "t": "세 칸을 진행하면 마지막 칸엔 무엇이 남을까요? 완주하고 정체를 밝히세요.",
    "re": "조립 완료"
   },
   {
-   "t": "k 를 바꿔 나머지를 0 으로 만들어 보세요 — 그 순간 무엇을 얻나요?",
+   "t": "마지막 칸을 0 으로 만드는 k 가 있을까요? 찾으면 무엇을 얻나요?",
    "re": "는 인수!"
   },
   {
-   "t": "기록·발견 — k 를 −3~3 으로 바꾸며 (k, R, f(k)) 표를 채우고 두 열을 비교하세요."
+   "t": "(k, R, f(k)) 표 — 두 열이 늘 같다면, 그것은 우연일까요?"
   },
   {
-   "t": "적용 — f(2) 를 대입 대신 조립제법으로 구하는 이유(곱셈 횟수)를 쓰세요."
+   "t": "내 주장 — f(2) 를 대입 대신 이 표로 구하는 이점을 곱셈 횟수로 쓰세요."
   }
  ],
  "93": [
   {
-   "t": "a 를 끌며 f(a) 값이 실시간으로 변하는 것을 관찰하세요."
+   "t": "자유 탐색 — a 를 끌어 보세요. f(a) 는 그래프의 무엇을 읽고 있나요?"
   },
   {
-   "t": "아무 a 에서 「실제로 나눠 확인」— 대입값과 나머지를 비교하세요.",
+   "t": "나누지 않고 나머지를 알 수 있을까요? 「실제로 나눠 확인」과 대조하세요.",
    "re": "나머지정리!"
   },
   {
-   "t": "곡선이 x축을 지나는 자리를 잡아 첫 인수를 얻으세요.",
+   "t": "f(a) = 0 인 자리를 잡으면 무엇이 따라오나요? 첫 근을 찾으세요.",
    "re": "근 발견"
   },
   {
-   "t": "남은 근까지 모두 찾아 삼차식을 끝까지 분해하세요.",
+   "t": "남은 근까지 전부 — 삼차식은 결국 어떤 모습으로 무너지나요?",
    "re": "완전 인수분해"
   },
   {
-   "t": "적용 — 정수 근 후보가 왜 6 의 약수뿐인지 쓰고, ±1·±2·±3·±6 검사와 화면 결과를 맞추세요."
+   "t": "내 탐색 — 정수 근 후보가 6 의 약수뿐인 이유를 쓰고 전수 검사와 맞추세요."
   }
  ],
  "94": [
   {
-   "t": "z 를 끌어 여러 곳에 두고 화살표(원점→z)를 관찰하세요."
+   "t": "자유 탐색 — z 를 끌어 보세요. 화살표의 길이와 방향은 무엇을 나타내나요?"
   },
   {
-   "t": "「× i」 한 번 — 점이 어디로 갔는지 각도로 확인하세요.",
+   "t": "× i 한 번 — 점은 어디로 갈까요? 먼저 찍어 두고 눌러 확인하세요.",
    "re": "\\+90° 회전"
   },
   {
-   "t": "네 번 곱해 발자국이 한 바퀴 도는 것을 확인하세요.",
+   "t": "× i 를 반복하면 언젠가 제자리로 올까요? 몇 번 만인지 걸고 시험하세요.",
    "re": "i⁴ = 1"
   },
   {
-   "t": "「켤레 보기」— z̄ 의 위치와 z·z̄ 값의 특징을 확인하세요.",
+   "t": "켤레 z̄ 는 어디 있을까요? 예상 후 켜고, z·z̄ 의 특징도 잡으세요.",
    "re": "거울 대칭"
   },
   {
-   "t": "적용 — i²⁰²⁶ 을 나머지 계산으로 구하고, 회전 그림으로 근거를 쓰세요."
+   "t": "내 계산 — i²⁰²⁶ 을 나머지로 구하고 회전 그림으로 근거를 쓰세요."
   }
  ],
  "95": [
   {
-   "t": "b·c 를 움직여 두 근과 합·곱이 따라 변하는 것을 관찰하세요."
+   "t": "자유 탐색 — b·c 를 움직여 보세요. 두 근과 함께 변하는 값들을 추적하세요."
   },
   {
-   "t": "「수 맞히기 도전」— 합·곱만 보고 계수를 조절해 첫 문제를 잡으세요.",
+   "t": "합·곱만 듣고 두 수를 찾을 수 있을까요? 첫 문제에 도전하세요.",
    "re": "문제 해결!"
   },
   {
-   "t": "다음 문제(음수 섞임)까지 연달아 잡아내세요.",
+   "t": "음수가 섞여도 통할까요? 다음 문제까지 연달아 잡으세요.",
    "re": "2연승"
   },
   {
-   "t": "기록·발견 — 다섯 조합에서 (두 근, 합, 곱, −b, c) 표를 만들고 규칙을 쓰세요."
+   "t": "(두 근, 합, 곱, −b, c) 표 — 계수에 새겨진 정보를 네 말로."
   },
   {
-   "t": "적용 — 합 7 · 곱 12 인 두 수를 방정식 없이 말하고 화면으로 검산하세요."
+   "t": "내 답 — 합 7·곱 12 인 두 수를 방정식 없이 말하고 검산하세요."
   }
  ],
  "96": [
   {
-   "t": "곡선을 위아래로 끌며 산(극대)·골짜기(극소) 점을 관찰하세요."
+   "t": "자유 탐색 — 곡선을 위아래로 끌어 보세요. 실근의 개수가 언제 바뀌나요?"
   },
   {
-   "t": "x축을 세 번 건너는 상태를 만드세요.",
+   "t": "x축을 세 번 건너게 만들 수 있나요? 조건을 찾으세요.",
    "re": "실근 3개"
   },
   {
-   "t": "천천히 끌어 곡선이 x축을 스치는 순간을 자석으로 잡으세요.",
+   "t": "두 상태의 경계 — 스치는 순간을 자석으로 잡으세요.",
    "re": "접했습니다"
   },
   {
-   "t": "기록·발견 — k 여섯 값에서 (극대, 극소, 실근 수) 표를 만들고 부호 곱의 규칙을 쓰세요."
+   "t": "(k, 극대, 극소, 실근 수) 표 — 부호 곱의 규칙을 찾아 쓰세요."
   },
   {
-   "t": "적용 — x³ − 3x + k = 0 의 실근이 3개일 k 의 범위를 쓰고 화면으로 확인하세요."
+   "t": "내 답 — 실근이 셋이 되는 k 의 범위를 쓰고 화면으로 검증하세요."
   }
  ],
  "97": [
   {
-   "t": "처음 식 x² + 1 < 0 의 해가 왜 없는지 그래프에서 확인하세요."
+   "t": "자유 탐색 — 처음 식 x²+1 < 0 — 해가 있을까요? 그래프에서 이유를 찾으세요."
   },
   {
-   "t": "c 를 낮춰 해가 두 근 사이의 구간이 되게 만드세요.",
+   "t": "해가 「구간」이 되게 만들 수 있나요? c 를 조절해 보세요.",
    "re": "< x <"
   },
   {
-   "t": "부등호를 뒤집어 해가 바깥쪽 두 조각이 되게 하세요.",
+   "t": "부등호를 뒤집으면 해는 어디로 가나요? 예상 후 확인.",
    "re": "또는 x >"
   },
   {
-   "t": "기록·발견 — 네 가지 운명(사이·바깥·전부·없음)을 모두 만들어 (b, c, 부등호, 해) 표를 채우세요."
+   "t": "네 가지 운명(사이·바깥·전부·없음)을 모두 만들어 표로 채우세요."
   },
   {
-   "t": "적용 — x² − 2x − 3 < 0 을 손으로 풀고 화면으로 검산하세요."
+   "t": "내 풀이 — x²−2x−3 < 0 을 손으로 풀고 화면으로 검산하세요."
   }
  ],
  "98": [
   {
-   "t": "P 를 영역 안팎으로 끌며 조건 만족·위반이 갈리는 경계를 관찰하세요."
+   "t": "자유 탐색 — P 를 이리저리 끌어 보세요. 허용과 위반의 경계는 어떤 모양인가요?"
   },
   {
-   "t": "네 꼭짓점의 이익을 견주어 P 를 최적의 자리에 놓으세요.",
+   "t": "이익이 가장 큰 계획은 영역의 어디에 있을까요? 예상하고 찾으세요.",
    "re": "꼭짓점 명중"
   },
   {
-   "t": "이익선을 끌어 올려 영역을 떠나기 직전의 z 를 찾으세요.",
+   "t": "이익선을 밀어 올려 보세요 — 영역을 떠나기 직전, 어디에 걸려 있나요?",
    "re": "영역을 스칩니다"
   },
   {
-   "t": "목적함수를 바꾸고 다시 밀어 — 최적 꼭짓점이 옮겨 가는 것을 확인하세요.",
+   "t": "목적함수를 바꾸면 최적지도 바뀔까요? 예상 후 확인하세요.",
    "re": "\\(0, 4\\) 가 최대"
   },
   {
-   "t": "적용 — 답이 늘 꼭짓점에서 나오는 이유를 평행선 다발 그림으로 쓰세요."
+   "t": "내 설명 — 답이 늘 꼭짓점인 이유를 평행선 다발로 쓰세요."
   }
  ],
  "99": [
   {
-   "t": "넷 중 둘을 고르는 두 상황(회장·부회장 / 청소 짝)의 차이를 생각해 두세요."
+   "t": "자유 탐색 — 두 상황(회장·부회장 / 청소 짝)을 비교해 보세요. 무엇이 다르죠?"
   },
   {
-   "t": "회장·부회장 목록을 끝까지 쌓아 가짓수를 확인하세요.",
+   "t": "순서가 있는 목록은 몇 줄일까요? 예상하고 끝까지 쌓으세요.",
    "re": "순열 12가지"
   },
   {
-   "t": "청소 짝 목록으로 바꿔 — 두 수의 비가 왜 2! 인지 확인하세요.",
+   "t": "순서를 없애면 몇으로 줄어들까요? 비율까지 예상하고 확인하세요.",
    "re": "조합 6가지"
   },
   {
-   "t": "AABB 도전을 열어 나눗셈이 겹침을 지우는 것을 확인하세요.",
+   "t": "AABB 나열 — 24가 아니라면 왜일까요? 도전으로 확인하세요.",
    "re": "같은 것이 있는 순열: 6가지"
   },
   {
-   "t": "적용 — 5명 중 2명이면 순열·조합이 각각 몇인지 공식으로 구하고 규칙으로 검산하세요."
+   "t": "내 계산 — 5명 중 2명의 순열·조합을 공식으로 구하고 규칙으로 검산하세요."
   }
  ],
  "100": [
   {
-   "t": "파랑·초록 화살표를 끌며 도형 F 가 어떻게 따라 변하는지 관찰하세요."
+   "t": "자유 탐색 — 두 화살표를 마음대로 끌어 보세요. 도형 F 는 누구 말을 듣나요?"
   },
   {
-   "t": "「도전」을 열고 두 화살표만으로 붉은 유령에 도형을 겹치세요.",
+   "t": "90° 회전을 만들 수 있나요? 도전을 열고 유령에 겹치세요 — 어떤 행렬이 나왔나요?",
    "re": "회전 완성"
   },
   {
-   "t": "두 화살표를 한 직선 위에 겹쳐 보세요 — 도형에 무슨 일이 생기나요?",
+   "t": "도형을 납작하게 만들어 보세요 — 두 화살표가 어떤 상태일 때인가요?",
    "re": "납작하게 붕괴"
   },
   {
-   "t": "기록·발견 — 항등·확대·전단·회전 네 행렬의 |det| 표를 만들고 뜻을 쓰세요."
+   "t": "네 행렬의 |det| 표 — 이 숫자는 도형의 무엇을 재고 있나요?"
   },
   {
-   "t": "적용 — 180° 회전 행렬을 예측해 쓰고 화면에서 만들어 검산하세요."
+   "t": "내 예측 — 180° 회전 행렬을 먼저 쓰고 화면으로 검산하세요."
   }
  ],
  "101": [
   {
-   "t": "왼쪽 판에 변환 두 개를 쌓아 합성 결과를 관찰하세요."
+   "t": "자유 탐색 — 왼쪽 판에 변환 둘을 쌓아 보세요. 합성 행렬은 어떻게 만들어지나요?"
   },
   {
-   "t": "오른쪽 판에 같은 두 변환을 반대 순서로 — 두 도형을 비교하세요.",
+   "t": "순서를 바꾸면 결과도 바뀔까요? 오른쪽 판에 반대 순서로 걸고 비교하세요.",
    "re": "순서가 결과를 바꿉"
   },
   {
-   "t": "순서를 바꿔도 결과가 같은 짝을 찾아내세요.",
+   "t": "순서를 바꿔도 무사한 짝이 있을까요? 찾아내세요.",
    "re": "바꿔도 같습니다"
   },
   {
-   "t": "기록·발견 — 시도한 짝마다 (순서, 합성 행렬, 같은가) 표를 채우세요."
+   "t": "(순서, 합성 행렬, 같은가) 표 — 교환이 되는 조건을 짐작해 쓰세요."
   },
   {
-   "t": "적용 — 순서를 타는 일상 예(옷 입기 등) 둘을 행렬 곱과 이어 쓰세요."
+   "t": "내 사례 — 순서를 타는 일상 예 둘을 행렬 곱과 이어 쓰세요."
   }
  ],
  "102": [
   {
-   "t": "카드 4장을 이리저리 끌며 어디까지 버티는지 감을 잡으세요."
+   "t": "자유 탐색 — 카드 4장을 마음대로 끌어 보세요. 어디까지 버티고 언제 무너지나요?"
   },
   {
-   "t": "일부러 무너뜨려 보세요 — 몇 장째에서 무너졌다고 나오나요?",
+   "t": "일부러 무너뜨려 보세요 — 화면은 몇 장째가 문제라고 말하나요? 왜 그럴까요?",
    "re": "무게중심이 받침을 벗어났"
   },
   {
-   "t": "맨 위 카드를 통째로 책상 밖 허공에 띄우세요 (눈금 힌트를 켜도 좋습니다).",
+   "t": "맨 위 카드를 통째로 책상 밖 허공에 — 가능할까요? 방법을 찾으세요 (힌트 눈금 자유).",
    "re": "완전 돌출"
   },
   {
-   "t": "기록·발견 — 카드 수 2~8장에서 (최대 돌출, 이론 한계) 표를 채우고 ½(1+½+⅓+…) 규칙을 쓰세요."
+   "t": "(카드 수, 최대 돌출, 이론 한계) 표 — ½(1+½+⅓+…) 의 정체를 네 말로."
   },
   {
-   "t": "적용 — 돌출 2카드가 되려면 몇 장이 필요한지 이론 한계 식으로 추정하세요."
+   "t": "예언 — 돌출 2카드에 필요한 장수를 이론 한계로 추정하세요. 왜 이렇게 많죠?"
   }
  ],
  "103": [
   {
-   "t": "세 슬라이더를 움직여 색과 삼각형 위 점이 함께 변하는 것을 관찰하세요."
+   "t": "자유 탐색 — 세 슬라이더를 움직여 보세요. 삼각형 위의 점은 언제 가운데로 가나요?"
   },
   {
-   "t": "도전① — 16진 코드 #4B96C8 을 좌표로 해독해 그 색을 만드세요.",
+   "t": "#4B96C8 — 이 암호 같은 코드의 정체는? 좌표로 해독해 그 색을 재현하세요.",
    "re": "해독 성공"
   },
   {
-   "t": "도전② — 빨강과 파랑의 1:3 내분점 색을 찾아내세요.",
+   "t": "빨강과 파랑의 1:3 내분점은 무슨 색일까요? 예상하고 찾아내세요.",
    "re": "내분점 \\(1:3\\) 명중"
   },
   {
-   "t": "도전③ — 고정색과 섞어 회색을 만드세요 — 중점의 세 좌표를 같게!",
+   "t": "회색을 「합성으로」 만들 수 있나요? 중점의 좌표 조건을 찾으세요.",
    "re": "채도 0 도달"
   },
   {
-   "t": "적용 — 내가 좋아하는 색의 16진 코드를 10진 좌표로 환산하고, 어느 꼭짓점에 가까운지 삼각형에서 확인하세요."
+   "t": "내 색 — 좋아하는 색의 코드를 좌표로 환산하고 삼각형에서 위치를 설명하세요."
   }
  ]
 };
@@ -14772,7 +14633,7 @@ function open(L,i){
       <p class="plkcmp">⇵ 위에 남은 <b>내 설명</b>과 아래 <b>교과서의 설명</b>을 나란히 견줘 보세요 — 같은 말을 하고 있나요?</p>
       ${prinHTML}
     </div>` : prinHTML)
-    + `<b>수업 포인트</b> — ${L.note}<br><br><b>수학</b> ${L.m.join(' · ')} &nbsp;|&nbsp; <b>AI 연계</b> ${L.a.join(' · ')}`;
+    + `<details style='margin-top:10px'><summary style='cursor:pointer;color:#6B7280;font-size:12.5px'>👩‍🏫 교사용 수업 포인트 (학생은 먼저 탐구부터!)</summary><div style='margin-top:6px'><b>수업 포인트</b> — ${L.note}<br><br><b>수학</b> ${L.m.join(' · ')} &nbsp;|&nbsp; <b>AI 연계</b> ${L.a.join(' · ')}</div></details>`;
   if(lock){
     const pad=writePad($('#plkPad'), L.t+' — 내가 설명한 원리');
     const go=$('#plkGo'), nte=$('#plkN');
@@ -14944,7 +14805,7 @@ function regDemo(root){
     <div class="col"><div class="out" id="rout"></div>
     <div class="btns"><button class="b g" id="rclr">데이터 지우기</button>
     <button class="b g" id="rout2">이상치 하나 추가</button></div>
-    <div class="note" style="margin-top:14px">잔차(빨간 선분)의 <b>제곱합 SSE</b>가 최소가 되도록 직선이 자동 조정됩니다. 이것이 “학습”의 가장 단순한 형태입니다.</div>
+    <div class="note" style="margin-top:14px">직선은 무엇을 기준으로 「가장 좋은 자리」를 고르는 걸까요? 빨간 선분들을 단서로 추리해 보세요.</div>
     </div></div>`;
   const cv=$('#r1'),ctx=cv.getContext('2d'),W=380,H=300,P=32;
   let pts=[[1,2.4],[2,3.1],[3,4.3],[4,4.6],[5,6.1],[6,6.4],[7,7.8]];
@@ -15094,7 +14955,7 @@ function convDemo(root){
       <canvas id="v2" width="192" height="192"></canvas></div>
       <div class="col"><div style="font-size:13px;font-weight:700;margin-bottom:6px">적용 중인 행렬</div>
       <table class="t" id="ktab" style="max-width:210px"></table>
-      <div class="note" style="margin-top:12px">각 픽셀마다 주변 3×3 값에 행렬을 <b>성분별로 곱해 더한 값</b>을 새 밝기로 씁니다. CNN이 “특징을 추출한다”는 말의 실체입니다.</div></div>
+      <div class="note" style="margin-top:12px">필터 행렬의 숫자들이 그림을 어떻게 바꾸는 걸까요? 픽셀 하나에서 계산을 따라가 보세요.</div></div>
     </div>`;
   const N=16,img=[];
   for(let y=0;y<N;y++){img[y]=[];for(let x=0;x<N;x++){
