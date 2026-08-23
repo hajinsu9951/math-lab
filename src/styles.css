@@ -705,3 +705,13 @@ footer{padding:26px 0 40px;color:var(--ink3);font-size:12.5px;text-align:center}
 .plkcmp{margin:0 0 10px;font-size:12.8px;color:var(--ink2);background:var(--amber-s,#FFF7ED);
   border-left:3px solid var(--amber);border-radius:0 8px 8px 0;padding:8px 11px;line-height:1.6}
 
+
+/* 탐구 사다리 — 절차·손계산 줄 */
+.ldd{font-size:12px;color:#475569;margin-top:4px;line-height:1.55}
+.ldw{font-size:12px;color:#6D28D9;margin-top:3px;font-weight:700;line-height:1.55}
+
+/* 오늘의 문제 카드 */
+.probx{margin:0 0 14px;padding:14px 16px;background:#FFFBEB;border:2px solid #F59E0B;border-radius:12px}
+.probh{font-weight:900;color:#92400E;font-size:13px;margin-bottom:6px}
+.probs{margin:0 0 6px;font-size:13.5px;line-height:1.65;color:#374151}
+.probq{margin:0;font-size:14.5px;line-height:1.6;font-weight:800;color:#111827}
