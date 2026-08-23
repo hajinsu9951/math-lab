@@ -41,12 +41,13 @@ async function run(lab, name, steps) {
   await p.locator('#mX').click(); await p.waitForTimeout(90);
 }
 
-/* 01 GPS — k1 시작: S1 k=2 / S2 k=3·e0 / S3 e↑ */
+/* 01 GPS 수색 — A만 → A·C 교점 → B 세 원 명중 → 오차 → 보고서 */
 await run(1, 'GPS', [
-  () => set('gk', 2),
-  async () => { await set('gk', 3); await set('gn', 0); },
-  () => set('gn', 1.0),
-  clickManual, clickManual,
+  async () => { await clk('gcA'); await clickManual(); },
+  async () => { await clk('gcC'); await clickCv('g1', 26 + 32.8 * 1.48, 304 - 32.8 * 6.19); },
+  async () => { await clk('gcB'); await clickCv('g1', 26 + 32.8 * 4.82, 304 - 32.8 * 4.50); },
+  async () => { await set('gn', 0.5); await clickManual(); },
+  clickManual,
 ]);
 /* 07 대푯값 — 올렸다 되돌리기 */
 await run(7, '대푯값', [

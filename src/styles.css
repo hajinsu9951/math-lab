@@ -715,3 +715,9 @@ footer{padding:26px 0 40px;color:var(--ink3);font-size:12.5px;text-align:center}
 .probh{font-weight:900;color:#92400E;font-size:13px;margin-bottom:6px}
 .probs{margin:0 0 6px;font-size:13.5px;line-height:1.65;color:#374151}
 .probq{margin:0;font-size:14.5px;line-height:1.6;font-weight:800;color:#111827}
+
+/* 비차단 예상 메모판 */
+.pgmemo{margin:0 0 12px;padding:10px 14px;background:var(--card,#fff);border:1.5px dashed #7C3AED;border-radius:10px}
+.pgmemo summary{cursor:pointer;font-weight:800;color:#6D28D9;font-size:13px}
+.pgmemo ol{margin:8px 0 6px;padding-left:20px;font-size:12.5px;color:#374151;line-height:1.6}
+.pgmpad{min-height:120px}
