@@ -56,11 +56,13 @@ await run(7, '대푯값', [
   () => set('rpb', 4000),
   clickManual, clickManual,
 ]);
-/* 09 큰수 — 줄이기(200) → 늘리기 */
+/* 09 큰수 — 친구 판정(200) → 10% → 표 → 95% */
 await run(9, '큰수', [
   clickManual,
-  async () => { await set('lwn', 400); await clk('lwgo'); },
-  clickManual, clickManual, clickManual,
+  () => set('lwn', 200),
+  () => set('lwp', 10.0),
+  clickManual,
+  () => set('lwn', 30),
 ]);
 /* 14 룬 — 오타 → 고치기 */
 await run(14, '룬', [
@@ -69,8 +71,11 @@ await run(14, '룬', [
   () => p.evaluate(() => { const e = document.getElementById('ln'); e.value = '4539148803436467'; e.dispatchEvent(new Event('input', { bubbles: true })); const g = document.getElementById('lgo'); if (g) g.click(); }),
   clickManual, clickManual,
 ]);
-/* 15 회귀 — 지우고 11점 일렬 */
+/* 15 회귀 — 카페 데이터 → 이상치 → 표 → 직접 11점 */
 await run(15, '회귀', [
+  clickManual,
+  () => clk('rq'),
+  async () => { await clk('rout2'); await p.waitForTimeout(250); await clk('rout2'); },
   clickManual,
   async () => {
     await clk('rclr'); await p.waitForTimeout(150);
@@ -80,7 +85,6 @@ await run(15, '회귀', [
       await p.waitForTimeout(70);
     }
   },
-  clickManual, clickManual, clickManual,
 ]);
 /* 24 회전체 — 128장 + 2배 */
 await run(24, '회전체', [
