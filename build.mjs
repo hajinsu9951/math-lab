@@ -25,6 +25,7 @@ const out = [
   src('50-labs-spec.js'),
   src('55-catalog.js'),
   src('57-catalog-ui.js'),
+  src('58-grade-toggle.js'),
   src('60-engine.js'),
   src('70-design.js'),
   src('78-design-mini.js'),

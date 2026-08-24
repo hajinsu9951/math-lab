@@ -730,6 +730,18 @@ footer{padding:26px 0 40px;color:var(--ink3);font-size:12.5px;text-align:center}
 .pgmemo ol{margin:8px 0 6px;padding-left:20px;font-size:12.5px;color:#374151;line-height:1.6}
 .pgmpad{min-height:120px}
 
+/* 학년·과목 토글 */
+.gtbar{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+.gtog{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:999px;border:1.6px solid #D8DEE8;background:#fff;color:#374151;font:inherit;font-size:13.5px;font-weight:800;cursor:pointer;transition:.15s}
+.gtog:hover{border-color:#2563EB;color:#1D4ED8}
+.gtog span{display:inline-block;min-width:20px;padding:1px 6px;border-radius:999px;background:#EEF2F8;color:#6B7280;font-size:11.5px;font-weight:800}
+.gtog.on{background:#1D4ED8;border-color:#1D4ED8;color:#fff}
+.gtog.on span{background:rgba(255,255,255,.22);color:#fff}
+.gcnt{font-size:13px;font-weight:700;color:#6B7280;margin-left:6px}
+.ghead{margin:16px 0 10px;font-size:13.5px;color:#4B5563}
+.ghead b{color:#1D4ED8}
+@media (prefers-reduced-motion:reduce){.gtog{transition:none}}
+
 </style>
 </head>
 <body>
@@ -759,6 +771,11 @@ footer{padding:26px 0 40px;color:var(--ink3);font-size:12.5px;text-align:center}
     <span><span class="badge b-ext" id="nExt">확장 후보</span> &nbsp;같은 설계 절차로 담당 단원에 이식 가능</span>
   </div>
   <div class="grid" id="cards"></div>
+
+  <h3 class="sub2" style="margin-top:42px">학년·과목별로 모두 보기 <span class="gcnt" id="gAll"></span></h3>
+  <p class="sub">학년(과목)을 누르면 그 칸의 실험실이 펼쳐집니다. 카드의 <b>썸네일</b>은 그 실험실에서 무엇을 조작하게 되는지 미리 보여 줍니다.</p>
+  <div class="gtbar" id="gradebar"></div>
+  <div id="gradebody"></div>
 
   <h3 class="sub2" style="margin-top:44px" id="catTitle">확장 카탈로그</h3>
   <p class="sub">아래는 2022 개정 교육과정 <b>전 과목 전 단원</b>을 덮는 <b id="nCat1">전체 목록</b>입니다. 담당 과목을 눌러 좁혀 보세요.
@@ -19932,7 +19949,9 @@ const LABCAT = [
 {k:'h11',g:'공통수학1 · 행렬',b:'열과 행을 바꿔 읽어 기저 화살표와 도형이 따로 움직임'},
 {k:'h11',g:'공통수학1 · 행렬',b:'AB 와 BA 를 같은 코드로 계산해 늘 「같다」로 판정함'},
 {k:'cal2',g:'미적분Ⅱ · 급수 (RME 융합)',b:'무게중심을 카드 묶음이 아니라 낱장 기준으로 판정해 아무리 밀어도 안 무너짐'},
-{k:'h12',g:'공통수학2 · 평면좌표와 내분점 (STEAM 융합)',b:'내분점을 (A+B)/2 로 고정 계산해 1:3 을 골라도 중점 색이 나옴'}
+{k:'h12',g:'공통수학2 · 평면좌표와 내분점 (STEAM 융합)',b:'내분점을 (A+B)/2 로 고정 계산해 1:3 을 골라도 중점 색이 나옴'},
+{k:'m2',g:'중2 · 도형의 닮음 (종이접기 등분)',b:'접힌 선의 교점을 계산하지 않고 눈대중 좌표로 찍어 3등분 비가 2:1 이 아님'},
+{k:'alg',g:'대수 · 지수함수와 로그함수 (주사위 실험)',b:'매년 같은 수(1/6×100=16.7)를 빼서 지수 감소가 아니라 직선 감소가 됨'}
 ];
 
 /* ================= 확장 카탈로그 렌더 =================
@@ -19985,12 +20004,12 @@ function catCounts(ALL){
   const nTop  = top.length;
   const nCore = top.filter(l=>l.core).length;
   const set = (id, html)=>{ const e = document.getElementById(id); if(e) e.innerHTML = html; };
-  set('tabLab',  nTop + '종');
+  set('tabLab',  nLab + '종');
   set('tabCat',  nAll + '종');
   set('nCore',   '연수 편성 ' + nCore + '종');
   set('nExt',    '확장 후보 ' + (nTop - nCore) + '종');
   set('catTitle','확장 카탈로그 ' + nAll + '종 — 제작 완료 ' + nLab + '종 포함');
-  set('nLab1',   nTop + '종');
+  set('nLab1',   '대표 ' + nTop + '종');
   set('nCat1',   nAll + '종');
   set('nMade',   nLab + '종');
   if(typeof VLAB !== 'undefined') set('nVlab', Object.keys(VLAB).length + '종');
@@ -20035,6 +20054,62 @@ function catDraw(){
   catCounts(ALL);
 }
 catDraw();
+
+/* 학년·과목별 토글 — 전 실험실을 학년 칸에 접어 두고, 누르면 썸네일 카드로 펼친다.
+   분류는 LABCAT[i].k (카탈로그 과목 코드), 이름은 CAT_GROUPS 에서 가져온다. */
+(function(){
+  const bar = $('#gradebar'), body = $('#gradebody');
+  if(!bar || !body || typeof LABS === 'undefined') return;
+  const NAME = {};
+  if(typeof CAT_GROUPS !== 'undefined') CAT_GROUPS.forEach(g=>{ NAME[g.k]=g.n; });
+  const groups = {};
+  LABS.forEach((L,i)=>{
+    const k = (typeof LABCAT !== 'undefined' && LABCAT[i] && LABCAT[i].k) || 'etc';
+    (groups[k] = groups[k] || []).push({L:L, i:i});
+  });
+  const order = (typeof CAT_GROUPS !== 'undefined' ? CAT_GROUPS.map(g=>g.k) : []).filter(k=>groups[k]);
+  Object.keys(groups).forEach(k=>{ if(order.indexOf(k)<0) order.push(k); });
+  const allTag = $('#gAll'); if(allTag) allTag.textContent = '전체 ' + LABS.length + '종';
+  let openK = null;
+
+  function card(L, i){
+    const c = el('<div class="card">'
+      + '<div class="no">LAB ' + String(i+1).padStart(2,'0')
+      + ' <span class="badge ' + (L.core?'b-core':'b-ext') + '">' + (L.core?'연수 편성':'확장 후보') + '</span></div>'
+      + (THUMBS[i] || '')
+      + '<h3>' + L.t + '</h3>'
+      + '<div class="q">' + L.q + '</div>'
+      + '<div class="tags">' + L.m.slice(0,2).map(x=>'<span class="tag m">'+x+'</span>').join('')
+        + L.a.slice(0,1).map(x=>'<span class="tag a">'+x+'</span>').join('') + '</div>'
+      + '<div class="go">▶ 직접 조작해 보기</div></div>');
+    c.onclick = function(){ open(L, i); };
+    return c;
+  }
+  function render(){
+    bar.innerHTML = order.map(function(k){
+      return '<button class="gtog' + (openK===k?' on':'') + '" data-k="' + k + '">'
+        + (NAME[k] || '기타') + ' <span>' + groups[k].length + '</span></button>';
+    }).join('');
+    bar.querySelectorAll('[data-k]').forEach(function(b){
+      b.onclick = function(){ openK = (openK === b.dataset.k) ? null : b.dataset.k; render(); };
+    });
+    body.innerHTML = '';
+    const p = document.createElement('p');
+    p.className = 'ghead';
+    if(!openK){
+      p.innerHTML = '위 단추를 누르면 그 학년(과목)의 실험실이 <b>썸네일 카드</b>로 펼쳐집니다. 다시 누르면 접힙니다.';
+      body.appendChild(p); return;
+    }
+    const list = groups[openK].slice().sort(function(a,b){ return a.i-b.i; });
+    p.innerHTML = '<b>' + (NAME[openK]||'기타') + '</b> — 실험실 ' + list.length + '종 · 카드를 누르면 바로 조작할 수 있습니다.';
+    body.appendChild(p);
+    const g = document.createElement('div');
+    g.className = 'grid';
+    list.forEach(function(x){ g.appendChild(card(x.L, x.i)); });
+    body.appendChild(g);
+  }
+  render();
+})();
 
 /* ---------- 코드 생성 엔진 (레벨 1~7 누적) ---------- */
 function genLab(key, lv){

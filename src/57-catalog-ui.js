@@ -48,12 +48,12 @@ function catCounts(ALL){
   const nTop  = top.length;
   const nCore = top.filter(l=>l.core).length;
   const set = (id, html)=>{ const e = document.getElementById(id); if(e) e.innerHTML = html; };
-  set('tabLab',  nTop + '종');
+  set('tabLab',  nLab + '종');
   set('tabCat',  nAll + '종');
   set('nCore',   '연수 편성 ' + nCore + '종');
   set('nExt',    '확장 후보 ' + (nTop - nCore) + '종');
   set('catTitle','확장 카탈로그 ' + nAll + '종 — 제작 완료 ' + nLab + '종 포함');
-  set('nLab1',   nTop + '종');
+  set('nLab1',   '대표 ' + nTop + '종');
   set('nCat1',   nAll + '종');
   set('nMade',   nLab + '종');
   if(typeof VLAB !== 'undefined') set('nVlab', Object.keys(VLAB).length + '종');
