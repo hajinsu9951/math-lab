@@ -1,0 +1,365 @@
+/* ---------- LAB 257 선형변환 — 돌리고 늘이고 밀기 ---------- */
+function linTransDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="lt1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">회전·확대·전단은 모두 <b>행렬 하나</b>로 적힙니다.
+      이어서 걸면 행렬의 <b>곱</b>이 되는데, 곱은 순서를 탑니다.</div>
+    </div>
+    <div class="col">
+      ${slider('ltA','회전 각도',0,180,5,0,'°')}
+      ${slider('ltS','가로 확대',0.4,2.4,0.1,1,'배')}
+      ${slider('ltH','전단(밀기)',0,1.5,0.1,0,'')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="ltO"> 순서 뒤집기 (확대 → 회전)</label>
+      <div class="out" id="ltout"></div>
+    </div></div>`;
+  const cv=$('#lt1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const mul=(X,Y)=>[X[0]*Y[0]+X[1]*Y[2], X[0]*Y[1]+X[1]*Y[3], X[2]*Y[0]+X[3]*Y[2], X[2]*Y[1]+X[3]*Y[3]];
+  function draw(){
+    const a=+$('#ltA').value, sc=+$('#ltS').value, sh=+$('#ltH').value, rev=$('#ltO').checked;
+    $('#ltAv').textContent=a+'°'; $('#ltSv').textContent=sc.toFixed(1)+'배'; $('#ltHv').textContent=sh.toFixed(1);
+    const r=a*Math.PI/180;
+    const R=[Math.cos(r),-Math.sin(r),Math.sin(r),Math.cos(r)];
+    const S=[sc,0,0,1], Hh=[1,sh,0,1];
+    const M1=mul(mul(R,S),Hh), M2=mul(mul(S,R),Hh);      // 회전→확대 vs 확대→회전
+    const M=rev?M2:M1;
+    const diff=Math.max(...M1.map((v,i)=>Math.abs(v-M2[i])));
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=180,cy=180,u=40;
+    ctx.strokeStyle='#F3F4F6';
+    for(let k=-4;k<=4;k++){ ctx.beginPath(); ctx.moveTo(cx+k*u,10); ctx.lineTo(cx+k*u,H-14); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(10,cy+k*u); ctx.lineTo(W-10,cy+k*u); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.1;
+    ctx.beginPath(); ctx.moveTo(10,cy); ctx.lineTo(W-10,cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx,10); ctx.lineTo(cx,H-14); ctx.stroke();
+    const shape=[[0,0],[1.6,0],[1.6,1],[0.8,1.5],[0,1]];
+    const put=(m,fill,stroke,dash)=>{ ctx.beginPath();
+      shape.forEach((q,i)=>{ const X=cx+(m[0]*q[0]+m[1]*q[1])*u, Y=cy-(m[2]*q[0]+m[3]*q[1])*u;
+        i?ctx.lineTo(X,Y):ctx.moveTo(X,Y); });
+      ctx.closePath(); if(fill){ ctx.fillStyle=fill; ctx.fill(); }
+      ctx.strokeStyle=stroke; ctx.lineWidth=1.8;
+      ctx.setLineDash(dash||[]); ctx.stroke(); ctx.setLineDash([]); };
+    put([1,0,0,1],'rgba(156,163,175,.12)','#D1D5DB',[4,3]);
+    put(M,'rgba(37,99,235,.20)','#2563EB');
+    if(diff>0.01) put(rev?M1:M2,null,'#BE123C',[5,4]);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('회색 점선 = 원래 도형 · 파랑 = '+(rev?'확대 → 회전':'회전 → 확대'), 14, 22);
+    if(diff>0.01) ctx.fillText('붉은 점선 = 순서를 바꾼 결과', 14, 38);
+    $('#ltout').innerHTML =
+      `<span class="mono">지금 행렬 = [ ${M.map(v=>v.toFixed(2)).join(' , ')} ] · 행렬식 ${(M[0]*M[3]-M[1]*M[2]).toFixed(3)}</span><br>`
+      + `<span class="mono">두 순서의 최대 차이 = <b style="color:${diff>0.01?'#BE123C':'#0E9384'}">${diff.toFixed(3)}</b></span><br>`
+      + (sh>=0.5 ? `<b style="color:#B45309">전단은 세로줄을 그대로 두고 가로로만 밀어 넓이를 바꾸지 않습니다.</b><br>` : '')
+      + (diff>0.01 ? `<b style="color:#7C3AED">두 도형이 어긋납니다 — 돌리고 늘이는 것과 늘이고 도는 것은 다릅니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">합성변환은 행렬의 곱이고, 곱셈은 순서를 탑니다.</span>`;
+  }
+  ['ltA','ltS','ltH'].forEach(i=>$('#'+i).oninput=draw); $('#ltO').onchange=draw; draw();
+  inquiry(root,{ id:'lt', title:'선형변환 — 순서를 타는 곱',
+    q:['설정을 바꿔 가며 (행렬, 행렬식, 순서 차이) 를 여섯 줄 기록하세요.',
+       '순서를 바꿔도 결과가 같아지는 설정을 찾으세요.',
+       '전단이 넓이를 바꾸지 않는 까닭을 행렬식으로 설명하세요.'],
+    cols:['각도','확대','전단','행렬식','순서 차이'],
+    hint:'힌트 — 회전만이거나 확대가 1 배면 순서가 문제되지 않습니다.',
+    read:()=>{ const a=+$('#ltA').value,sc=+$('#ltS').value,sh=+$('#ltH').value,r=a*Math.PI/180;
+      const R=[Math.cos(r),-Math.sin(r),Math.sin(r),Math.cos(r)],S=[sc,0,0,1],Hh=[1,sh,0,1];
+      const m=(X,Y)=>[X[0]*Y[0]+X[1]*Y[2],X[0]*Y[1]+X[1]*Y[3],X[2]*Y[0]+X[3]*Y[2],X[2]*Y[1]+X[3]*Y[3]];
+      const M1=m(m(R,S),Hh),M2=m(m(S,R),Hh);
+      return [a+'°',sc.toFixed(1),sh.toFixed(1),(M1[0]*M1[3]-M1[1]*M1[2]).toFixed(3),
+        Math.max(...M1.map((v,i)=>Math.abs(v-M2[i]))).toFixed(3)]; } });
+}
+
+/* ---------- LAB 258 마르코프 연쇄 — 오래 지나면 어디에 머물까 ---------- */
+function markovDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="mk1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">각 열의 합이 1 인 전이행렬을 거듭 곱하면
+      처음 상태와 상관없이 <b>한 분포</b>로 모입니다. 그것이 고윳값 1 의 고유벡터입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('mkA','A → B 로 옮길 확률',0,100,5,30,'%')}
+      ${slider('mkB','B → A 로 옮길 확률',0,100,5,20,'%')}
+      ${slider('mkS','처음 A 의 비율',0,100,10,100,'%')}
+      ${slider('mkN','지난 단계 수',0,30,1,0,'단계')}
+      <div class="out" id="mkout"></div>
+    </div></div>`;
+  const cv=$('#mk1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const p=+$('#mkA').value/100, q=+$('#mkB').value/100;
+    const s0=+$('#mkS').value/100, n=+$('#mkN').value;
+    $('#mkAv').textContent=(p*100)+'%'; $('#mkBv').textContent=(q*100)+'%';
+    $('#mkSv').textContent=(s0*100)+'%'; $('#mkNv').textContent=n+'단계';
+    const path=[[s0,1-s0]];
+    for(let k=0;k<30;k++){ const [a,b]=path[path.length-1];
+      path.push([a*(1-p)+b*q, a*p+b*(1-q)]); }
+    const cur=path[n];
+    const star=(p+q)>0 ? [q/(p+q), p/(p+q)] : [s0,1-s0];
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('A 의 비율이 단계마다 어떻게 변하는가', 18, 20);
+    const x=(i)=>24+(W-48)*i/30, y=(v)=>250-v*180;
+    ctx.strokeStyle='#D1D5DB'; ctx.beginPath(); ctx.moveTo(24,250); ctx.lineTo(W-24,250); ctx.stroke();
+    if(p+q>0){ ctx.strokeStyle='#BE123C'; ctx.setLineDash([4,4]); ctx.lineWidth=1.4;
+      ctx.beginPath(); ctx.moveTo(24,y(star[0])); ctx.lineTo(W-24,y(star[0])); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#BE123C'; ctx.font='10px sans-serif';
+      ctx.fillText('정상상태 '+(star[0]*100).toFixed(1)+'%', W-118, y(star[0])-6); }
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2; ctx.beginPath();
+    path.forEach((v,i)=>{ i?ctx.lineTo(x(i),y(v[0])):ctx.moveTo(x(i),y(v[0])); }); ctx.stroke();
+    ctx.fillStyle='#0E9384'; ctx.beginPath(); ctx.arc(x(n),y(cur[0]),5,0,7); ctx.fill();
+    ctx.fillStyle='#374151'; ctx.font='10.5px sans-serif';
+    ctx.fillText('단계 '+n, x(n)-12, 266);
+    ctx.fillStyle='rgba(37,99,235,.6)'; ctx.fillRect(24,282,(W-48)*cur[0],16);
+    ctx.fillStyle='rgba(245,158,11,.6)'; ctx.fillRect(24+(W-48)*cur[0],282,(W-48)*cur[1],16);
+    ctx.fillStyle='#111827'; ctx.font='10px sans-serif';
+    ctx.fillText('A '+(cur[0]*100).toFixed(1)+'%', 30, 294);
+    ctx.fillText('B '+(cur[1]*100).toFixed(1)+'%', W-84, 294);
+    const gap=Math.abs(cur[0]-star[0]);
+    $('#mkout').innerHTML =
+      `<span class="mono">${n} 단계 뒤 A = <b style="color:#2563EB">${(cur[0]*100).toFixed(2)}</b> % · 정상상태 A = <b style="color:#BE123C">${(star[0]*100).toFixed(2)}</b> %</span><br>`
+      + `<span class="mono">둘의 차이 = <b>${(gap*100).toFixed(3)}</b> %p · 합 확인 ${(cur[0]+cur[1]).toFixed(4)}</span><br>`
+      + (n>=1 && gap>=0.002 && gap<0.2 ? `<b style="color:#B45309">아직 붉은 선에 닿지 않았습니다 — 차이가 매 단계 일정한 비율로 줄어듭니다.</b><br>` : '')
+      + (n>=1 && gap<0.002 ? `<b style="color:#7C3AED">처음 어디에서 출발했든 같은 곳에 닿았습니다 — 출발점의 기억이 사라졌습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">두 비율의 합은 언제나 1 입니다 — 전이행렬의 각 열의 합이 1 이기 때문입니다.</span>`;
+  }
+  ['mkA','mkB','mkS','mkN'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'mk', title:'마르코프 연쇄 — 기억이 사라지는 자리',
+    q:['처음 비율을 바꿔 가며 (처음, 20단계 뒤) 를 여섯 줄 기록하세요.',
+       '처음 값과 상관없이 같아지는지 확인하세요.',
+       '정상상태를 확률 p, q 로 나타내는 식을 세우세요.'],
+    cols:['처음 A','단계','지금 A','정상상태'],
+    hint:'힌트 — 정상상태는 변하지 않는 분포입니다: πP = π.',
+    read:()=>{ const p=+$('#mkA').value/100,q=+$('#mkB').value/100,s0=+$('#mkS').value/100,n=+$('#mkN').value;
+      let a=s0,b=1-s0;
+      for(let k=0;k<n;k++){ const na=a*(1-p)+b*q, nb=a*p+b*(1-q); a=na; b=nb; }
+      return [(s0*100).toFixed(0)+'%',n,(a*100).toFixed(2)+'%',(p+q?(q/(p+q)*100).toFixed(2):'—')+'%']; } });
+}
+
+/* ---------- LAB 259 그람-슈미트 — 기울어진 축을 직각으로 ---------- */
+function gramDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="gm1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">두 번째 벡터에서 <b>첫 번째 방향의 성분</b>을 덜어 내면
+      남는 것은 첫 번째와 직각입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('gmvx','v 의 x',-3,3,0.5,2,'')}
+      ${slider('gmvy','v 의 y',-3,3,0.5,2.5,'')}
+      ${slider('gmT','덜어 낼 비율',0,1.5,0.05,0,'')}
+      <div class="out" id="gmout"></div>
+    </div></div>`;
+  const cv=$('#gm1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const U=[3,0.5];
+  function draw(){
+    const vx=+$('#gmvx').value, vy=+$('#gmvy').value, t=+$('#gmT').value;
+    $('#gmvxv').textContent=vx.toFixed(1); $('#gmvyv').textContent=vy.toFixed(1);
+    $('#gmTv').textContent=t.toFixed(2);
+    const uu=U[0]*U[0]+U[1]*U[1];
+    const k=(vx*U[0]+vy*U[1])/uu;                  // 정확한 정사영 계수
+    const wx=vx-t*k*U[0], wy=vy-t*k*U[1];
+    const dot=wx*U[0]+wy*U[1];
+    const cosang=dot/(Math.hypot(wx,wy)*Math.hypot(U[0],U[1])||1);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=120,cy=210,u=44;
+    ctx.strokeStyle='#F3F4F6';
+    for(let m=-2;m<=6;m++){ ctx.beginPath(); ctx.moveTo(cx+m*u,10); ctx.lineTo(cx+m*u,H-14); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(10,cy-m*u); ctx.lineTo(W-10,cy-m*u); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.1;
+    ctx.beginPath(); ctx.moveTo(10,cy); ctx.lineTo(W-10,cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx,10); ctx.lineTo(cx,H-14); ctx.stroke();
+    const arrow=(x,y,col,lab,wd)=>{ if(!x&&!y) return;
+      ctx.strokeStyle=col; ctx.fillStyle=col; ctx.lineWidth=wd||2.4;
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+x*u,cy-y*u); ctx.stroke();
+      const A=Math.atan2(-y,x);
+      ctx.beginPath(); ctx.moveTo(cx+x*u,cy-y*u);
+      ctx.lineTo(cx+x*u-9*Math.cos(A-0.4),cy-y*u-9*Math.sin(A-0.4));
+      ctx.lineTo(cx+x*u-9*Math.cos(A+0.4),cy-y*u-9*Math.sin(A+0.4));
+      ctx.closePath(); ctx.fill();
+      ctx.font='11px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(lab, cx+x*u+6, cy-y*u-6); };
+    arrow(U[0],U[1],'#2563EB','u');
+    arrow(vx,vy,'#9CA3AF','v',1.8);
+    ctx.strokeStyle='#F59E0B'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+t*k*U[0]*u, cy-t*k*U[1]*u); ctx.stroke();
+    ctx.strokeStyle='#D1D5DB'; ctx.setLineDash([4,3]); ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(cx+vx*u,cy-vy*u); ctx.lineTo(cx+t*k*U[0]*u,cy-t*k*U[1]*u); ctx.stroke(); ctx.setLineDash([]);
+    arrow(wx,wy,'#0E9384','v − (덜어 낸 만큼)');
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('파랑 = u · 회색 = 원래 v · 주황 = 덜어 낸 성분 · 초록 = 남은 벡터', 14, 22);
+    ctx.fillText('정확한 비율은 (v·u)/(u·u) 를 그대로 쓸 때, 곧 1 입니다', 14, 38);
+    $('#gmout').innerHTML =
+      `<span class="mono">(v·u)/(u·u) = ${k.toFixed(4)} · 덜어 낸 비율 = ${t.toFixed(2)} · 남은 벡터 = ( ${wx.toFixed(2)} , ${wy.toFixed(2)} )</span><br>`
+      + `<span class="mono">남은 벡터와 u 의 내적 = <b style="color:${Math.abs(dot)<0.02?'#0E9384':'#BE123C'}">${dot.toFixed(4)}</b> · 사잇각 ${(Math.acos(Math.max(-1,Math.min(1,cosang)))*180/Math.PI).toFixed(1)}°</span><br>`
+      + (Math.abs(dot)<0.02 ? `<b style="color:#B45309">내적이 0 이 되었습니다 — 남은 벡터가 u 와 직각입니다.</b><br>` : '')
+      + (t>=1.3 ? `<b style="color:#7C3AED">너무 많이 덜어 냈습니다 — 반대쪽으로 기울어 다시 직각이 아닙니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">직교화는 「덜어 내기」 한 번으로 끝납니다 — 얼마나 덜어 낼지가 핵심입니다.</span>`;
+  }
+  ['gmvx','gmvy','gmT'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'gm', title:'그람-슈미트 — 얼마나 덜어 낼까',
+    q:['비율을 바꿔 가며 (비율, 내적, 사잇각) 을 여섯 줄 기록하세요.',
+       '내적이 0 이 되는 비율을 찾으세요.',
+       'v 를 바꿔도 그 비율이 늘 1 인 까닭을 설명하세요.'],
+    cols:['v','비율','내적','사잇각'],
+    hint:'힌트 — (v·u)/(u·u) 만큼 덜어 내면 정확히 직각이 됩니다.',
+    read:()=>{ const vx=+$('#gmvx').value,vy=+$('#gmvy').value,t=+$('#gmT').value;
+      const uu=U[0]*U[0]+U[1]*U[1], k=(vx*U[0]+vy*U[1])/uu;
+      const wx=vx-t*k*U[0], wy=vy-t*k*U[1], d=wx*U[0]+wy*U[1];
+      const c=d/(Math.hypot(wx,wy)*Math.hypot(U[0],U[1])||1);
+      return ['('+vx.toFixed(1)+','+vy.toFixed(1)+')',t.toFixed(2),d.toFixed(4),
+        (Math.acos(Math.max(-1,Math.min(1,c)))*180/Math.PI).toFixed(1)+'°']; } });
+}
+
+/* ---------- LAB 260 최소제곱 — 딱 맞는 답이 없을 때 ---------- */
+function lsqDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ls1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">점 셋을 모두 지나는 직선이 없을 때,
+      <b>오차 벡터가 열공간과 직각</b>이 되는 자리가 가장 가까운 답입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('lsA','기울기 a',-1,3,0.05,0.2,'')}
+      ${slider('lsB','절편 b',-2,4,0.1,3,'')}
+      ${slider('lsY','③ 점의 높이',0,8,0.5,5,'')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="lsBest">가장 가까운 직선 찾기</button></div>
+      <div class="out" id="lsout"></div>
+    </div></div>`;
+  const cv=$('#ls1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const S={best:false};
+  function pts(){ return [[1,2],[2,3],[3,+$('#lsY').value]]; }
+  function best(P){ const n=P.length;
+    const sx=P.reduce((s,q)=>s+q[0],0), sy=P.reduce((s,q)=>s+q[1],0);
+    const sxx=P.reduce((s,q)=>s+q[0]*q[0],0), sxy=P.reduce((s,q)=>s+q[0]*q[1],0);
+    const a=(n*sxy-sx*sy)/(n*sxx-sx*sx), b=(sy-a*sx)/n; return [a,b]; }
+  function draw(){
+    const P=pts();
+    let a=+$('#lsA').value, b=+$('#lsB').value;
+    if(S.best){ const [ba,bb]=best(P); a=ba; b=bb;
+      $('#lsA').value=Math.round(ba*20)/20; $('#lsB').value=Math.round(bb*10)/10; }
+    $('#lsAv').textContent=(+$('#lsA').value).toFixed(2);
+    $('#lsBv').textContent=(+$('#lsB').value).toFixed(1);
+    $('#lsYv').textContent=(+$('#lsY').value).toFixed(1);
+    const res=P.map(q=>q[1]-(a*q[0]+b));
+    const sse=res.reduce((s,r)=>s+r*r,0);
+    const [ba,bb]=best(P); const bs=P.map(q=>q[1]-(ba*q[0]+bb)).reduce((s,r)=>s+r*r,0);
+    const dotX=res.reduce((s,r,i)=>s+r*P[i][0],0), dot1=res.reduce((s,r)=>s+r,0);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const X=x=>40+x*76, Y=y=>276-y*30;
+    ctx.strokeStyle='#F3F4F6';
+    for(let k=0;k<=8;k++){ ctx.beginPath(); ctx.moveTo(40,Y(k)); ctx.lineTo(W-16,Y(k)); ctx.stroke(); }
+    for(let k=0;k<=4;k++){ ctx.beginPath(); ctx.moveTo(X(k),20); ctx.lineTo(X(k),276); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.1;
+    ctx.beginPath(); ctx.moveTo(40,276); ctx.lineTo(W-16,276); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(40,20); ctx.lineTo(40,276); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.2;
+    ctx.beginPath(); ctx.moveTo(X(0),Y(b)); ctx.lineTo(X(4),Y(a*4+b)); ctx.stroke();
+    P.forEach((q,i)=>{ ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.6;
+      ctx.beginPath(); ctx.moveTo(X(q[0]),Y(q[1])); ctx.lineTo(X(q[0]),Y(a*q[0]+b)); ctx.stroke();
+      ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(X(q[0]),Y(q[1]),5,0,7); ctx.fill();
+      ctx.fillStyle='#6B7280'; ctx.font='9.5px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('('+(i+1)+')', X(q[0]), Y(q[1])-10); });
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('붉은 선분 = 오차 · 파랑 = 지금 직선', 40, 16);
+    ctx.fillText('오차 제곱합 '+sse.toFixed(3)+' (가장 작은 값 '+bs.toFixed(3)+')', 40, 300);
+    $('#lsout').innerHTML =
+      `<span class="mono">오차 제곱합 = <b style="color:${sse-bs<0.02?'#0E9384':'#BE123C'}">${sse.toFixed(4)}</b> · 도달 가능한 최솟값 ${bs.toFixed(4)}</span><br>`
+      + `<span class="mono">오차와 x 의 내적 = <b>${dotX.toFixed(4)}</b> · 오차의 합 = <b>${dot1.toFixed(4)}</b></span><br>`
+      + (sse>=20 ? `<b style="color:#B45309">붉은 선분이 크게 벌어졌습니다 — 이 길이의 제곱을 모두 더한 값이 오차입니다.</b><br>` : '')
+      + (Math.abs(dotX)<0.05 && Math.abs(dot1)<0.05 ? `<span style="color:#B45309">두 내적이 모두 0 입니다 — 오차가 직선을 만드는 방향과 직각입니다.</span><br>` : '')
+      + (S.best ? `<b style="color:#7C3AED">가장 가까운 답은 「오차를 없애는 답」이 아니라 「오차를 수직으로 만드는 답」입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">해가 없어도 가장 가까운 답은 언제나 있습니다.</span>`;
+  }
+  $('#lsBest').onclick=()=>{ S.best=true; draw(); };
+  ['lsA','lsB'].forEach(i=>$('#'+i).oninput=()=>{ S.best=false; draw(); });
+  $('#lsY').oninput=()=>{ S.best=false; draw(); }; draw();
+  inquiry(root,{ id:'ls', title:'최소제곱 — 가장 가까운 답',
+    q:['a, b 를 바꿔 가며 (오차 제곱합, 두 내적) 을 여섯 줄 기록하세요.',
+       '오차 제곱합이 가장 작을 때 두 내적이 얼마인지 확인하세요.',
+       '「가장 가까움」과 「직각」이 같은 말이 되는 까닭을 설명하세요.'],
+    cols:['a','b','오차 제곱합','오차·x','오차 합'],
+    hint:'힌트 — 잔차가 열공간에 수직일 때 거리가 최소가 됩니다.',
+    read:()=>{ const P=pts(),a=+$('#lsA').value,b=+$('#lsB').value;
+      const r=P.map(q=>q[1]-(a*q[0]+b));
+      return [a.toFixed(2),b.toFixed(1),r.reduce((s,v)=>s+v*v,0).toFixed(4),
+        r.reduce((s,v,i)=>s+v*P[i][0],0).toFixed(3),r.reduce((s,v)=>s+v,0).toFixed(3)]; } });
+}
+
+/* ---------- LAB 261 주성분 — 자료가 가장 퍼진 방향 ---------- */
+function pcaDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="pc1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">자료를 어느 방향으로 내려 찍었을 때 <b>가장 넓게 퍼지는가</b>.
+      그 방향이 공분산행렬의 <b>고유벡터</b>입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('pcR','두 특징의 상관 정도',-0.9,0.9,0.1,0.5,'')}
+      ${slider('pcT','내려 찍을 방향',0,179,1,0,'°')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="pcBest">가장 퍼지는 방향 찾기</button></div>
+      <div class="out" id="pcout"></div>
+    </div></div>`;
+  const cv=$('#pc1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const S={best:false};
+  const BASE=[[-2.2,0.6],[-1.8,-1.4],[-1.4,1.8],[-1.0,-0.2],[-0.6,1.0],[-0.2,-2.2],
+              [0.2,2.2],[0.6,-1.0],[1.0,0.2],[1.4,-1.8],[1.8,1.4],[2.2,-0.6]];
+  function data(r){ return BASE.map(([x,y])=>[x, r*x + Math.sqrt(Math.max(0,1-r*r))*y]); }
+  function draw(){
+    const r=+$('#pcR').value;
+    const D=data(r);
+    const n=D.length;
+    const mx=D.reduce((s,q)=>s+q[0],0)/n, my=D.reduce((s,q)=>s+q[1],0)/n;
+    const sxx=D.reduce((s,q)=>s+(q[0]-mx)**2,0)/n;
+    const syy=D.reduce((s,q)=>s+(q[1]-my)**2,0)/n;
+    const sxy=D.reduce((s,q)=>s+(q[0]-mx)*(q[1]-my),0)/n;
+    const tr=sxx+syy, det=sxx*syy-sxy*sxy, disc=Math.sqrt(Math.max(0,tr*tr-4*det));
+    const l1=(tr+disc)/2, l2=(tr-disc)/2;
+    let ex,ey; if(Math.abs(sxy)>1e-9){ ex=sxy; ey=l1-sxx; } else { ex=sxx>=syy?1:0; ey=sxx>=syy?0:1; }
+    const nn=Math.hypot(ex,ey)||1; ex/=nn; ey/=nn;
+    let bestDeg=((Math.atan2(ey,ex)*180/Math.PI)%180+180)%180;
+    if(S.best){ $('#pcT').value=Math.round(bestDeg); }
+    const th=+$('#pcT').value;
+    $('#pcRv').textContent=r.toFixed(1); $('#pcTv').textContent=th+'°';
+    const dx=Math.cos(th*Math.PI/180), dy=Math.sin(th*Math.PI/180);
+    const proj=D.map(q=>(q[0]-mx)*dx+(q[1]-my)*dy);
+    const vr=proj.reduce((s,v)=>s+v*v,0)/n;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=170,cy=150,u=42;
+    ctx.strokeStyle='#F3F4F6';
+    for(let k=-4;k<=4;k++){ ctx.beginPath(); ctx.moveTo(cx+k*u,14); ctx.lineTo(cx+k*u,262); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(14,cy+k*u); ctx.lineTo(W-14,cy+k*u); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.1;
+    ctx.beginPath(); ctx.moveTo(14,cy); ctx.lineTo(W-14,cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx,14); ctx.lineTo(cx,262); ctx.stroke();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(cx-dx*150,cy+dy*150); ctx.lineTo(cx+dx*150,cy-dy*150); ctx.stroke();
+    D.forEach(q=>{ const px=cx+(q[0]-mx)*u, py=cy-(q[1]-my)*u;
+      const t=(q[0]-mx)*dx+(q[1]-my)*dy;
+      const qx=cx+t*dx*u, qy=cy-t*dy*u;
+      ctx.strokeStyle='rgba(156,163,175,.7)'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(qx,qy); ctx.stroke();
+      ctx.fillStyle='#2563EB'; ctx.beginPath(); ctx.arc(px,py,4,0,7); ctx.fill();
+      ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(qx,qy,3,0,7); ctx.fill(); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('파랑 = 자료 · 초록 = 내려 찍는 축 · 붉은 = 내려 찍힌 자리', 14, 24);
+    ctx.fillText('퍼진 정도(분산) = '+vr.toFixed(4)+'  ·  가장 큰 값 = '+l1.toFixed(4), 14, 282);
+    ctx.fillText('두 고윳값 : '+l1.toFixed(3)+' , '+l2.toFixed(3)+'  (합 = 전체 분산 '+tr.toFixed(3)+')', 14, 300);
+    $('#pcout').innerHTML =
+      `<span class="mono">방향 ${th}° 의 분산 = <b style="color:#0E9384">${vr.toFixed(4)}</b> · 가능한 최댓값 = <b>${l1.toFixed(4)}</b></span><br>`
+      + `<span class="mono">고윳값 ${l1.toFixed(3)} , ${l2.toFixed(3)} · 첫 축이 담는 비율 = <b>${(l1/tr*100).toFixed(1)}</b> %</span><br>`
+      + (l1/tr>=0.9 ? `<b style="color:#B45309">첫 축 하나가 전체 퍼짐의 ${(l1/tr*100).toFixed(0)} % 를 담고 있습니다 — 축을 줄여도 되는 자료입니다.</b><br>` : '')
+      + (l1-vr<0.004 ? `<b style="color:#7C3AED">더 퍼지게 하는 방향이 없습니다 — 여기가 첫 번째 주성분입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">두 고윳값의 합은 언제나 전체 분산과 같습니다.</span>`;
+  }
+  $('#pcBest').onclick=()=>{ S.best=true; draw(); S.best=true; };
+  $('#pcT').oninput=()=>{ S.best=false; draw(); };
+  $('#pcR').oninput=()=>{ S.best=false; draw(); }; draw();
+  inquiry(root,{ id:'pc', title:'주성분 — 가장 퍼지는 축',
+    q:['방향을 돌려 가며 (각도, 분산) 을 여섯 줄 기록하세요.',
+       '분산이 가장 커지는 각도를 찾으세요.',
+       '그 각도와 고유벡터의 관계를 설명하세요.'],
+    cols:['상관','각도','분산','최댓값','첫 축 비율'],
+    hint:'힌트 — 분산이 최대가 되는 방향이 가장 큰 고윳값의 고유벡터입니다.',
+    read:()=>{ const r=+$('#pcR').value, th=+$('#pcT').value, D=data(r), n=D.length;
+      const mx=D.reduce((s,q)=>s+q[0],0)/n, my=D.reduce((s,q)=>s+q[1],0)/n;
+      const sxx=D.reduce((s,q)=>s+(q[0]-mx)**2,0)/n, syy=D.reduce((s,q)=>s+(q[1]-my)**2,0)/n;
+      const sxy=D.reduce((s,q)=>s+(q[0]-mx)*(q[1]-my),0)/n;
+      const tr=sxx+syy, dd=Math.sqrt(Math.max(0,tr*tr-4*(sxx*syy-sxy*sxy))), l1=(tr+dd)/2;
+      const dx=Math.cos(th*Math.PI/180), dy=Math.sin(th*Math.PI/180);
+      const vr=D.reduce((s,q)=>s+((q[0]-mx)*dx+(q[1]-my)*dy)**2,0)/n;
+      return [r.toFixed(1),th+'°',vr.toFixed(4),l1.toFixed(4),(l1/tr*100).toFixed(1)+'%']; } });
+}

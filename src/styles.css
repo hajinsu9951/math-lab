@@ -141,6 +141,19 @@ p.sub{margin:0 0 22px;color:var(--ink3);font-size:14.5px}
   padding:2px 8px;border-radius:999px;letter-spacing:.3px}
 .txf{flex:1;min-width:0;overflow-x:auto;overflow-y:hidden;padding:2px 0}
 .txf math{font-size:17px}
+/* 행렬 — MathML 의 늘어나는 괄호는 전용 수학 글꼴이 있어야 제대로 그려진다.
+   단일 파일 원칙 때문에 글꼴을 들여올 수 없으므로 테두리로 괄호를 그린다. */
+.mtx{padding:.12em .18em}
+.mtx mtable{padding:.05em .34em}
+.mtx-pmatrix mtable{border-left:1.6px solid currentColor;border-right:1.6px solid currentColor;
+  border-radius:.62em/50%}
+.mtx-bmatrix mtable{border:1.6px solid currentColor;border-top-width:0;border-bottom-width:0;
+  box-shadow:inset .22em 0 0 -.18em currentColor, inset -.22em 0 0 -.18em currentColor}
+.mtx-vmatrix mtable{border-left:1.4px solid currentColor;border-right:1.4px solid currentColor}
+.mtx-Bmatrix mtable{border-left:1.6px solid currentColor;border-right:1.6px solid currentColor;
+  border-radius:.9em/50%}
+.mtx-cases mtable{border-left:1.6px solid currentColor;border-radius:.9em/50%;padding-left:.5em}
+.mtx mtd{padding:.08em .42em}
 .txwhy{margin-top:8px}
 .txwhy summary{cursor:pointer;font-size:12.5px;font-weight:700;color:var(--teal);
   list-style:none;display:inline-flex;align-items:center;gap:5px;

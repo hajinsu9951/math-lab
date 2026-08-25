@@ -1,0 +1,314 @@
+/* ---------- LAB 262 수렴판정 — 비를 보면 알 수 있다 ---------- */
+function ratioTestDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="rt1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">aₙ = n<sup>p</sup>·r<sup>n</sup> 을 더해 갑니다.
+      이웃한 두 항의 <b>비</b>가 1 보다 작으면 모이고, 크면 흩어집니다.</div>
+    </div>
+    <div class="col">
+      ${slider('rtR','밑 r',0.5,1.5,0.05,0.9,'')}
+      ${slider('rtP','n 의 거듭제곱 p',-2,2,1,0,'')}
+      ${slider('rtN','더한 항의 수',5,60,1,20,'항')}
+      <div class="out" id="rtout"></div>
+    </div></div>`;
+  const cv=$('#rt1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const r=+$('#rtR').value, p=+$('#rtP').value, N=+$('#rtN').value;
+    $('#rtRv').textContent=r.toFixed(2); $('#rtPv').textContent=p; $('#rtNv').textContent=N+'항';
+    const a=k=>Math.pow(k,p)*Math.pow(r,k);
+    const S=[]; let acc=0;
+    for(let k=1;k<=60;k++){ acc+=a(k); S.push(acc); }
+    const cur=S[N-1], ratio=a(N+1)/a(N), root=Math.pow(Math.abs(a(N)),1/N);
+    const shown=S.slice(0,N);
+    const mx=Math.max(...shown.map(Math.abs),1), mn=Math.min(...shown,0);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('부분합이 어디로 가는가', 18, 20);
+    const X=i=>24+(W-48)*i/Math.max(1,N-1), Y=v=>250-(v-mn)/(mx-mn||1)*200;
+    ctx.strokeStyle='#D1D5DB'; ctx.beginPath(); ctx.moveTo(24,250); ctx.lineTo(W-24,250); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2; ctx.beginPath();
+    shown.forEach((v,i)=>{ i?ctx.lineTo(X(i),Y(v)):ctx.moveTo(X(i),Y(v)); }); ctx.stroke();
+    ctx.fillStyle='#0E9384'; ctx.beginPath(); ctx.arc(X(N-1),Y(cur),5,0,7); ctx.fill();
+    // 항의 크기 막대
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif';
+    ctx.fillText('아래 = 각 항의 크기', 18, 272);
+    const am=Math.max(...Array.from({length:N},(_,i)=>Math.abs(a(i+1))),1e-9);
+    for(let i=0;i<N;i++){ const h=Math.abs(a(i+1))/am*36;
+      ctx.fillStyle='rgba(190,18,60,.55)';
+      ctx.fillRect(24+(W-56)*i/N, 318-h, Math.max(1,(W-56)/N-1), h); }
+    $('#rtout').innerHTML =
+      `<span class="mono">${N} 항까지의 합 = <b style="color:#2563EB">${cur.toExponential(4)}</b></span><br>`
+      + `<span class="mono">비 aₙ₊₁/aₙ = <b>${ratio.toFixed(4)}</b> · ⁿ√|aₙ| = <b>${root.toFixed(4)}</b> · 두 값 모두 r 로 갑니다</span><br>`
+      + (r<1 && N>=30 ? `<b style="color:#B45309">비가 1 보다 작아 항이 빠르게 작아집니다 — 부분합이 한 값에 멈춰 섭니다.</b><br>` : '')
+      + (Math.abs(r-1)<1e-9 ? `<b style="color:#7C3AED">비가 정확히 1 이면 판정법이 아무 말도 못 합니다 — p 를 바꾸면 결과가 갈립니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">비판정법과 근판정법은 r 을 볼 뿐, 경계 r = 1 에서는 둘 다 침묵합니다.</span>`;
+  }
+  ['rtR','rtP','rtN'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'rt', title:'수렴판정 — 비가 말해 주는 것',
+    q:['r 을 바꿔 가며 (비, 부분합) 을 여섯 줄 기록하세요.',
+       '수렴과 발산이 갈리는 r 을 찾으세요.',
+       'r = 1 일 때 p 에 따라 어떻게 달라지는지 조사하세요.'],
+    cols:['r','p','항 수','비','부분합'],
+    hint:'힌트 — 비가 1 보다 작으면 수렴, 크면 발산, 1 이면 판정 불가입니다.',
+    read:()=>{ const r=+$('#rtR').value,p=+$('#rtP').value,N=+$('#rtN').value;
+      const a=k=>Math.pow(k,p)*Math.pow(r,k); let s=0;
+      for(let k=1;k<=N;k++) s+=a(k);
+      return [r.toFixed(2),p,N,(a(N+1)/a(N)).toFixed(4),s.toExponential(3)]; } });
+}
+
+/* ---------- LAB 263 p-급수 — 항이 0 으로 가도 소용없을 때 ---------- */
+function pSeriesDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ps1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">1/n<sup>p</sup> 을 더합니다. 항은 언제나 0 으로 가는데,
+      합이 유한한지는 <b>넓이</b>가 알려 줍니다.</div>
+    </div>
+    <div class="col">
+      ${slider('psP','지수 p',0.5,3,0.1,1,'')}
+      ${slider('psN','더한 항의 수',10,600,10,50,'항')}
+      <div class="out" id="psout"></div>
+    </div></div>`;
+  const cv=$('#ps1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const p=+$('#psP').value, N=+$('#psN').value;
+    $('#psPv').textContent=p.toFixed(1); $('#psNv').textContent=N+'항';
+    let s=0; const pts=[];
+    for(let k=1;k<=N;k++){ s+=1/Math.pow(k,p); if(k%Math.max(1,Math.floor(N/120))===0) pts.push([k,s]); }
+    const integ = Math.abs(p-1)<1e-9 ? Math.log(N) : (Math.pow(N,1-p)-1)/(1-p);
+    const limit = p>1 ? 1/(p-1)+1 : Infinity;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('파랑 = 부분합 · 주황 점선 = 같은 구간의 적분값', 18, 20);
+    const mx=Math.max(s, isFinite(integ)?integ:0, 1)*1.08;
+    const X=k=>24+(W-48)*Math.log(k)/Math.log(N), Y=v=>256-v/mx*212;
+    ctx.strokeStyle='#D1D5DB'; ctx.beginPath(); ctx.moveTo(24,256); ctx.lineTo(W-24,256); ctx.stroke();
+    ctx.strokeStyle='#F59E0B'; ctx.setLineDash([4,3]); ctx.lineWidth=1.6; ctx.beginPath();
+    for(let i=1;i<=120;i++){ const k=Math.pow(N,i/120);
+      const v=Math.abs(p-1)<1e-9?Math.log(k):(Math.pow(k,1-p)-1)/(1-p);
+      i===1?ctx.moveTo(X(k),Y(v)):ctx.lineTo(X(k),Y(v)); }
+    ctx.stroke(); ctx.setLineDash([]);
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.2; ctx.beginPath();
+    pts.forEach((q,i)=>{ i?ctx.lineTo(X(q[0]),Y(q[1])):ctx.moveTo(X(q[0]),Y(q[1])); }); ctx.stroke();
+    if(isFinite(limit) && limit<mx){ ctx.strokeStyle='#BE123C'; ctx.setLineDash([5,4]); ctx.lineWidth=1.3;
+      ctx.beginPath(); ctx.moveTo(24,Y(limit)); ctx.lineTo(W-24,Y(limit)); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#BE123C'; ctx.font='10px sans-serif';
+      ctx.fillText('넘지 못하는 울타리', W-140, Y(limit)-5); }
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif';
+    ctx.fillText('가로축은 로그 눈금 (1 → '+N+')', 24, 276);
+    ctx.fillText('마지막 항의 크기 = '+(1/Math.pow(N,p)).toExponential(2), 24, 292);
+    $('#psout').innerHTML =
+      `<span class="mono">${N} 항까지 = <b style="color:#2563EB">${s.toFixed(5)}</b> · 적분값 = <b>${integ.toFixed(5)}</b></span><br>`
+      + `<span class="mono">마지막 항 = ${(1/Math.pow(N,p)).toExponential(3)} — 항은 언제나 0 으로 갑니다</span><br>`
+      + (p<=1.0001 && N>=300 ? `<b style="color:#B45309">항이 0 으로 가는데도 합은 계속 자랍니다 — 넓이가 무한하기 때문입니다.</b><br>` : '')
+      + (p>1.0001 ? `<b style="color:#7C3AED">넓이가 유한하니 합도 울타리를 넘지 못합니다 — 적분이 급수를 가둔 것입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">「항이 0 으로 간다」는 수렴의 필요조건일 뿐 충분조건이 아닙니다.</span>`;
+  }
+  ['psP','psN'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'ps', title:'p-급수 — 넓이로 가두기',
+    q:['p 를 바꿔 가며 (p, 부분합, 적분값) 을 여섯 줄 기록하세요.',
+       '수렴과 발산이 갈리는 p 를 찾으세요.',
+       '항이 0 으로 가는 것만으로는 왜 부족한지 설명하세요.'],
+    cols:['p','항 수','부분합','적분값'],
+    hint:'힌트 — ∫1/x^p dx 가 유한한지 따져 보세요.',
+    read:()=>{ const p=+$('#psP').value,N=+$('#psN').value; let s=0;
+      for(let k=1;k<=N;k++) s+=1/Math.pow(k,p);
+      const I=Math.abs(p-1)<1e-9?Math.log(N):(Math.pow(N,1-p)-1)/(1-p);
+      return [p.toFixed(1),N,s.toFixed(5),I.toFixed(5)]; } });
+}
+
+/* ---------- LAB 264 수렴반경 — 근사가 무너지는 자리 ---------- */
+function radiusDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="rd1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">1/(1−x) = 1 + x + x² + ⋯ 입니다.
+      항을 늘리면 언제나 좋아질까요? <b>반경 밖</b>에서는 그렇지 않습니다.</div>
+    </div>
+    <div class="col">
+      ${slider('rdX','x 의 값',-1.6,1.6,0.05,0.5,'')}
+      ${slider('rdN','항의 수',1,20,1,4,'항')}
+      <div class="out" id="rdout"></div>
+    </div></div>`;
+  const cv=$('#rd1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const x=+$('#rdX').value, N=+$('#rdN').value;
+    $('#rdXv').textContent=x.toFixed(2); $('#rdNv').textContent=N+'항';
+    const part=t=>{ let s=0; for(let k=0;k<N;k++) s+=Math.pow(t,k); return s; };
+    const truth=t=>1/(1-t);
+    const err=Math.abs(part(x)-truth(x));
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const X=t=>190+t*100, Y=v=>170-v*26;
+    ctx.strokeStyle='rgba(37,99,235,.07)'; ctx.fillStyle='rgba(37,99,235,.06)';
+    ctx.fillRect(X(-1),14,X(1)-X(-1),282);
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1.1;
+    ctx.beginPath(); ctx.moveTo(14,Y(0)); ctx.lineTo(W-14,Y(0)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(0),14); ctx.lineTo(X(0),296); ctx.stroke();
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.4; ctx.setLineDash([4,4]);
+    [-1,1].forEach(t=>{ ctx.beginPath(); ctx.moveTo(X(t),14); ctx.lineTo(X(t),296); ctx.stroke(); });
+    ctx.setLineDash([]);
+    const plot=(f,col,wd)=>{ ctx.strokeStyle=col; ctx.lineWidth=wd; ctx.beginPath(); let started=false;
+      for(let i=0;i<=340;i++){ const t=-1.7+3.4*i/340; const v=f(t);
+        if(!isFinite(v)||Math.abs(v)>6){ started=false; continue; }
+        const px=X(t),py=Y(v); started?ctx.lineTo(px,py):ctx.moveTo(px,py); started=true; }
+      ctx.stroke(); };
+    plot(truth,'#111827',2);
+    plot(part,'#2563EB',1.8);
+    ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(x),Y(Math.max(-6,Math.min(6,part(x)))),5,0,7); ctx.fill();
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(X(x),Y(Math.max(-6,Math.min(6,truth(x)))),4,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('검정 = 참값 1/(1−x) · 파랑 = '+N+'항까지의 합', 14, 24);
+    ctx.fillText('옅은 파랑 띠 = 수렴반경 |x| < 1', 14, 310);
+    $('#rdout').innerHTML =
+      `<span class="mono">x = ${x.toFixed(2)} · ${N} 항 합 = <b style="color:#2563EB">${part(x).toFixed(5)}</b> · 참값 = <b>${truth(x).toFixed(5)}</b></span><br>`
+      + `<span class="mono">오차 = <b style="color:${err<0.01?'#0E9384':'#BE123C'}">${err.toExponential(3)}</b></span><br>`
+      + (Math.abs(x)<1 && N>=12 && err<0.01 ? `<b style="color:#B45309">항을 늘릴수록 참값에 딱 붙습니다 — 반경 안이기 때문입니다.</b><br>` : '')
+      + (Math.abs(x)>=1 ? `<b style="color:#7C3AED">항을 늘릴수록 오히려 멀어집니다 — 반경 밖에서는 더할수록 나빠집니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">근사에는 언제나 「어디까지 통하는가」라는 범위가 붙습니다.</span>`;
+  }
+  ['rdX','rdN'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'rd', title:'수렴반경 — 통하는 범위',
+    q:['x 를 바꿔 가며 (x, 항 수, 오차) 를 여섯 줄 기록하세요.',
+       '항을 늘렸을 때 오차가 커지는 x 를 찾으세요.',
+       '반경의 경계가 되는 x 를 말하고 그 까닭을 쓰세요.'],
+    cols:['x','항 수','부분합','참값','오차'],
+    hint:'힌트 — 등비급수는 |공비| < 1 일 때만 수렴합니다.',
+    read:()=>{ const x=+$('#rdX').value,N=+$('#rdN').value; let s=0;
+      for(let k=0;k<N;k++) s+=Math.pow(x,k);
+      return [x.toFixed(2),N,s.toFixed(4),(1/(1-x)).toFixed(4),Math.abs(s-1/(1-x)).toExponential(2)]; } });
+}
+
+/* ---------- LAB 265 다변수 극한 — 어느 길로 가느냐에 따라 ---------- */
+function pathLimitDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="pl1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">f(x, y) = xy / (x² + y²) 에서 원점으로 다가갑니다.
+      직선 y = mx 를 따라가면 값이 <b>m 에만</b> 달려 있습니다.</div>
+    </div>
+    <div class="col">
+      ${slider('plM','다가가는 길의 기울기 m',-3,3,0.5,0,'')}
+      ${slider('plT','원점까지의 거리',0.02,1.5,0.02,1.2,'')}
+      <div class="out" id="plout"></div>
+    </div></div>`;
+  const cv=$('#pl1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const m=+$('#plM').value, t=+$('#plT').value;
+    $('#plMv').textContent=m.toFixed(1); $('#plTv').textContent=t.toFixed(2);
+    const dx=1/Math.hypot(1,m), dy=m/Math.hypot(1,m);
+    const x=t*dx, y=t*dy;
+    const v=(x*y)/(x*x+y*y||1e-12);
+    const v0=0, vLim=m/(1+m*m);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=130,cy=150,u=64;
+    // 등고선 대신 색으로 f 값 표현
+    const img=ctx.createImageData(200,200);
+    for(let py=0;py<200;py++) for(let px=0;px<200;px++){
+      const X=(px-100)/64, Y=(100-py)/64;
+      const f=(X*Y)/(X*X+Y*Y||1e-12);
+      const i=(py*200+px)*4, g=Math.max(-0.5,Math.min(0.5,f))+0.5;
+      img.data[i]=Math.round(255-90*g); img.data[i+1]=Math.round(240-60*Math.abs(g-0.5)*2);
+      img.data[i+2]=Math.round(180+120*g); img.data[i+3]=190; }
+    ctx.putImageData(img,cx-100,cy-100);
+    ctx.strokeStyle='#374151'; ctx.lineWidth=1;
+    ctx.strokeRect(cx-100,cy-100,200,200);
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+dx*100,cy-dy*100); ctx.stroke();
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(cx+x*u,cy-y*u,5,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('붉은 선 = 다가가는 길 · 점 = 지금 위치', 14, 20);
+    // 오른쪽: m 에 따른 극한값
+    const gx=250, gw=110;
+    ctx.strokeStyle='#D1D5DB'; ctx.beginPath(); ctx.moveTo(gx,250); ctx.lineTo(gx+gw,250); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(gx,60); ctx.lineTo(gx,250); ctx.stroke();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=1.8; ctx.beginPath();
+    for(let i=0;i<=120;i++){ const mm=-3+6*i/120, vv=mm/(1+mm*mm);
+      const px=gx+gw*(mm+3)/6, py=155-vv*180;
+      i?ctx.lineTo(px,py):ctx.moveTo(px,py); }
+    ctx.stroke();
+    ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(gx+gw*(m+3)/6,155-vLim*180,4,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif';
+    ctx.fillText('기울기 m 에 따른 값', gx-4, 46);
+    ctx.fillText('−3', gx-4, 264); ctx.fillText('3', gx+gw-6, 264);
+    $('#plout').innerHTML =
+      `<span class="mono">지금 위치 (${x.toFixed(3)}, ${y.toFixed(3)}) · f = <b style="color:#2563EB">${v.toFixed(4)}</b></span><br>`
+      + `<span class="mono">이 길을 따라간 값 = m/(1+m²) = <b>${vLim.toFixed(4)}</b> · 가로축 길(m = 0)의 값 = ${v0.toFixed(4)}</span><br>`
+      + (Math.abs(vLim-v0)>0.2 ? `<b style="color:#B45309">길을 바꾸었더니 다가가는 값이 달라졌습니다 — 극한이 없다는 뜻입니다.</b><br>` : '')
+      + (t<=0.1 && Math.abs(vLim)>0.2 ? `<b style="color:#7C3AED">아무리 가까이 가도 값이 꿈쩍하지 않습니다 — 가까움만으로는 정해지지 않습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">한 변수에서는 좌우 두 길뿐이지만, 두 변수에서는 길이 무한히 많습니다.</span>`;
+  }
+  ['plM','plT'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'pl', title:'다변수 극한 — 길이 무한히 많다',
+    q:['기울기를 바꿔 가며 (m, 다가가는 값) 을 여섯 줄 기록하세요.',
+       '값이 가장 커지는 m 과 가장 작아지는 m 을 찾으세요.',
+       '극한이 존재하려면 무엇이 필요한지 설명하세요.'],
+    cols:['m','거리','f 값','이 길의 값'],
+    hint:'힌트 — 모든 길에서 같은 값이어야 극한이 있습니다.',
+    read:()=>{ const m=+$('#plM').value,t=+$('#plT').value;
+      const dx=1/Math.hypot(1,m),dy=m/Math.hypot(1,m),x=t*dx,y=t*dy;
+      return [m.toFixed(1),t.toFixed(2),((x*y)/(x*x+y*y||1e-12)).toFixed(4),(m/(1+m*m)).toFixed(4)]; } });
+}
+
+/* ---------- LAB 266 등고선 — 촘촘한 곳이 가파른 곳 ---------- */
+function contourDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ct1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">지도의 등고선처럼, 같은 값을 잇는 선을 그립니다.
+      선이 <b>촘촘한 곳</b>이 가파른 곳입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('ctA','x² 의 계수 a',-2,3,0.5,1,'')}
+      ${slider('ctB','y² 의 계수 b',-2,3,0.5,1,'')}
+      ${slider('ctC','xy 의 계수 c',-3,3,0.5,0,'')}
+      ${slider('ctX','살펴볼 점의 x',-2,2,0.25,0.25,'')}
+      ${slider('ctY','살펴볼 점의 y',-2,2,0.25,0.25,'')}
+      <div class="out" id="ctout"></div>
+    </div></div>`;
+  const cv=$('#ct1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const a=+$('#ctA').value,b=+$('#ctB').value,c=+$('#ctC').value;
+    const px=+$('#ctX').value,py=+$('#ctY').value;
+    ['ctA','ctB','ctC','ctX','ctY'].forEach(i=>$('#'+i+'v').textContent=(+$('#'+i).value).toFixed(2));
+    const f=(x,y)=>a*x*x+b*y*y+c*x*y;
+    const gx=2*a*px+c*py, gy=2*b*py+c*px, gn=Math.hypot(gx,gy);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=190,cy=160,u=62;
+    const X=x=>cx+x*u, Y=y=>cy-y*u;
+    // 등고선: 격자를 훑으며 값이 레벨을 지나는 칸을 칠한다
+    const LV=[-8,-4,-2,-1,-0.5,0.5,1,2,4,8];
+    const S=2.6, step=S*2/150;
+    LV.forEach(lv=>{
+      ctx.strokeStyle = lv<0 ? 'rgba(190,18,60,.55)' : 'rgba(37,99,235,.55)';
+      ctx.lineWidth=1.2;
+      for(let i=0;i<150;i++) for(let j=0;j<150;j++){
+        const x0=-S+i*step, y0=-S+j*step, x1=x0+step, y1=y0+step;
+        const v00=f(x0,y0)-lv, v10=f(x1,y0)-lv, v01=f(x0,y1)-lv;
+        if(v00*v10<0){ ctx.beginPath(); ctx.moveTo(X(x0),Y(y0)); ctx.lineTo(X(x1),Y(y0)); ctx.stroke(); }
+        else if(v00*v01<0){ ctx.beginPath(); ctx.moveTo(X(x0),Y(y0)); ctx.lineTo(X(x0),Y(y1)); ctx.stroke(); }
+      } });
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(14,cy); ctx.lineTo(W-14,cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx,14); ctx.lineTo(cx,H-24); ctx.stroke();
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(X(px),Y(py),5,0,7); ctx.fill();
+    if(gn>1e-6){ ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.4;
+      const s=Math.min(52,gn*12)/gn;
+      ctx.beginPath(); ctx.moveTo(X(px),Y(py)); ctx.lineTo(X(px)+gx*s,Y(py)-gy*s); ctx.stroke(); }
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('파랑 = 양수 등고선 · 붉은 = 음수 등고선 · 초록 = 기울기 화살표', 14, 20);
+    ctx.fillText('f = '+a+'x² + '+b+'y² + '+c+'xy', 14, H-8);
+    $('#ctout').innerHTML =
+      `<span class="mono">점 (${px}, ${py}) 의 값 = <b>${f(px,py).toFixed(3)}</b> · 기울기 = ( ${gx.toFixed(2)} , ${gy.toFixed(2)} )</span><br>`
+      + `<span class="mono">기울기의 크기 = <b style="color:#0E9384">${gn.toFixed(3)}</b> — 등고선 간격이 좁을수록 큽니다</span><br>`
+      + (gn>=6 ? `<b style="color:#B45309">등고선이 촘촘한 자리에 왔습니다 — 화살표가 그만큼 길어졌습니다.</b><br>` : '')
+      + (a*b-c*c/4<0 ? `<b style="color:#7C3AED">등고선이 쌍곡선 모양입니다 — 한쪽으로는 오르고 다른 쪽으로는 내려갑니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">등고선을 읽는 것은 함수의 지형을 읽는 것입니다.</span>`;
+  }
+  ['ctA','ctB','ctC','ctX','ctY'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'ct', title:'등고선 — 지형을 읽는 법',
+    q:['점을 옮겨 가며 (위치, 기울기 크기) 를 여섯 줄 기록하세요.',
+       '등고선 간격과 기울기 크기의 관계를 쓰세요.',
+       '계수를 바꿔 등고선 모양이 달라지는 조건을 찾으세요.'],
+    cols:['a b c','점','값','기울기 크기'],
+    hint:'힌트 — ab − c²/4 의 부호가 모양을 가릅니다.',
+    read:()=>{ const a=+$('#ctA').value,b=+$('#ctB').value,c=+$('#ctC').value;
+      const px=+$('#ctX').value,py=+$('#ctY').value;
+      return [a+' '+b+' '+c,'('+px+','+py+')',(a*px*px+b*py*py+c*px*py).toFixed(3),
+        Math.hypot(2*a*px+c*py,2*b*py+c*px).toFixed(3)]; } });
+}

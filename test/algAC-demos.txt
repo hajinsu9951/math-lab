@@ -1,0 +1,346 @@
+/* ---------- LAB 252 가우스 소거법 — 컴퓨터가 푸는 순서 ---------- */
+function gaussDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="gs1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">행에 <b>수를 곱해 더하거나</b> 두 행을 <b>맞바꾸는</b> 조작만으로
+      해는 변하지 않습니다. 그 조작만으로 계단 모양을 만듭니다.</div>
+    </div>
+    <div class="col">
+      ${slider('gsK','소거 단계',0,4,1,0,'단계')}
+      ${slider('gsP','① 행의 첫 계수',0,4,1,2,'')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="gsSw"> 첫 계수가 0 이면 행 바꾸기</label>
+      <div class="out" id="gsout"></div>
+    </div></div>`;
+  const cv=$('#gs1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function steps(){
+    const p=+$('#gsP').value, sw=$('#gsSw').checked;
+    let M=[[p,1,-1,3],[1,3,2,13],[3,-1,1,4]].map(r=>r.slice());
+    const log=[['처음 상태',M.map(r=>r.slice())]];
+    if(Math.abs(M[0][0])<1e-9){
+      if(sw){ const t=M[0]; M[0]=M[1]; M[1]=t; log.push(['① 행의 첫 계수가 0 → 둘째 행과 맞바꿈',M.map(r=>r.slice())]); }
+      else { log.push(['① 행의 첫 계수가 0 인데 그대로 진행 — 여기서 무너집니다',M.map(r=>r.slice())]); return {log,broken:true}; }
+    }
+    for(let i=1;i<3;i++){ const f=M[i][0]/M[0][0];
+      M[i]=M[i].map((v,j)=>v-f*M[0][j]);
+      log.push([(i+1)+'행 − ('+f.toFixed(2)+') × 1행',M.map(r=>r.slice())]); }
+    if(Math.abs(M[1][1])>1e-9){ const f=M[2][1]/M[1][1];
+      M[2]=M[2].map((v,j)=>v-f*M[1][j]);
+      log.push(['3행 − ('+f.toFixed(2)+') × 2행 → 계단 완성',M.map(r=>r.slice())]); }
+    return {log,broken:false};
+  }
+  function draw(){
+    const k=+$('#gsK').value;
+    $('#gsKv').textContent=k+'단계'; $('#gsPv').textContent=$('#gsP').value;
+    const {log,broken}=steps();
+    const st=Math.min(k,log.length-1);
+    const M=log[st][1];
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('첨가행렬 (마지막 열이 상수항)', 20, 22);
+    ctx.fillStyle='#111827'; ctx.font='12px sans-serif';
+    ctx.fillText(log[st][0], 20, 40);
+    const x0=34,y0=62,cw=72,ch=40;
+    for(let i=0;i<3;i++) for(let j=0;j<4;j++){
+      const X=x0+j*cw, Y=y0+i*ch;
+      const lower = j<i;                                  // 계단 아래쪽
+      ctx.fillStyle = j===3 ? 'rgba(245,158,11,.14)'
+        : (lower ? (Math.abs(M[i][j])<1e-9?'rgba(14,147,132,.16)':'rgba(190,18,60,.14)') : '#FFF');
+      ctx.fillRect(X,Y,cw-6,ch-6);
+      ctx.strokeStyle='#E5E7EB'; ctx.strokeRect(X,Y,cw-6,ch-6);
+      ctx.fillStyle='#111827'; ctx.font='12.5px sans-serif'; ctx.textAlign='center';
+      const v=M[i][j]; ctx.fillText(Math.abs(v)<1e-9?'0':(Math.round(v*100)/100), X+(cw-6)/2, Y+ch/2+2); }
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif';
+    ctx.fillText('초록 = 0 이 된 자리 · 붉은 = 아직 남은 자리 · 주황 = 상수항', 20, y0+3*ch+16);
+    const zeros=[[1,0],[2,0],[2,1]].filter(([i,j])=>Math.abs(M[i][j])<1e-9).length;
+    ctx.fillText('계단 아래 0 의 개수 : '+zeros+' / 3', 20, y0+3*ch+32);
+    $('#gsout').innerHTML =
+      `<span class="mono">단계 ${st} / ${log.length-1} · 계단 아래 0 = <b style="color:${zeros===3?'#0E9384':'#BE123C'}">${zeros}</b> / 3</span><br>`
+      + (zeros===3 ? `<b style="color:#B45309">계단 모양이 완성되었습니다 — 아래에서 위로 차례로 값을 되짚어 갈 수 있습니다.</b><br>` : '')
+      + (broken ? `<b style="color:#7C3AED">첫 계수가 0 인데 행을 바꾸지 않아 그 줄부터 계산이 멈췄습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">행 조작은 해를 바꾸지 않습니다 — 그래서 마음대로 정리해도 됩니다.</span>`;
+  }
+  ['gsK','gsP'].forEach(i=>$('#'+i).oninput=draw); $('#gsSw').onchange=draw; draw();
+  inquiry(root,{ id:'gs', title:'가우스 소거법 — 계단으로 만들기',
+    q:['단계를 하나씩 올리며 (단계, 0 의 개수) 를 여섯 줄 기록하세요.',
+       '첫 계수를 0 으로 두었을 때 무슨 일이 생기는지 쓰세요.',
+       '행 조작이 해를 바꾸지 않는 까닭을 설명하세요.'],
+    cols:['단계','설명','계단 아래 0'],
+    hint:'힌트 — 피벗이 0 이면 반드시 행을 바꿔야 합니다.',
+    read:()=>{ const k=+$('#gsK').value,{log}=steps(),st=Math.min(k,log.length-1),M=log[st][1];
+      const z=[[1,0],[2,0],[2,1]].filter(([i,j])=>Math.abs(M[i][j])<1e-9).length;
+      return [st,log[st][0].slice(0,22),z+' / 3']; } });
+}
+
+/* ---------- LAB 253 생성 — 화살표 둘로 어디까지 갈 수 있나 ---------- */
+function spanDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sp1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">두 벡터에 실수를 곱해 더한 것을 모으면 <b>생성</b>이 됩니다.
+      두 벡터가 나란하면 아무리 더해도 <b>직선</b>을 벗어나지 못합니다.</div>
+    </div>
+    <div class="col">
+      ${slider('spux','u 의 x',-3,3,1,2,'')}
+      ${slider('spuy','u 의 y',-3,3,1,1,'')}
+      ${slider('spvx','v 의 x',-3,3,1,-1,'')}
+      ${slider('spvy','v 의 y',-3,3,1,2,'')}
+      ${slider('sps','u 에 곱할 수',-2,2,0.5,1,'')}
+      ${slider('spt','v 에 곱할 수',-2,2,0.5,0,'')}
+      <div class="out" id="spout"></div>
+    </div></div>`;
+  const cv=$('#sp1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const ux=+$('#spux').value,uy=+$('#spuy').value,vx=+$('#spvx').value,vy=+$('#spvy').value;
+    const a=+$('#sps').value,b=+$('#spt').value;
+    ['spux','spuy','spvx','spvy'].forEach(i=>$('#'+i+'v').textContent=$('#'+i).value);
+    $('#spsv').textContent=a; $('#sptv').textContent=b;
+    const det=ux*vy-uy*vx;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=190,cy=165,u=32;
+    ctx.strokeStyle='#EEF2F7';
+    for(let k=-5;k<=5;k++){ ctx.beginPath(); ctx.moveTo(cx+k*u,10); ctx.lineTo(cx+k*u,H-14); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(10,cy+k*u); ctx.lineTo(W-10,cy+k*u); ctx.stroke(); }
+    if(Math.abs(det)<1e-9){
+      if(ux||uy){ ctx.strokeStyle='rgba(190,18,60,.35)'; ctx.lineWidth=10;
+        ctx.beginPath(); ctx.moveTo(cx-ux*u*6,cy+uy*u*6); ctx.lineTo(cx+ux*u*6,cy-uy*u*6); ctx.stroke(); }
+    } else { ctx.fillStyle='rgba(37,99,235,.08)'; ctx.fillRect(10,10,W-20,H-24); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(10,cy); ctx.lineTo(W-10,cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx,10); ctx.lineTo(cx,H-14); ctx.stroke();
+    const arrow=(x,y,col,lab,wd)=>{ if(!x&&!y) return;
+      ctx.strokeStyle=col; ctx.fillStyle=col; ctx.lineWidth=wd||2.4;
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+x*u,cy-y*u); ctx.stroke();
+      const A=Math.atan2(-y,x);
+      ctx.beginPath(); ctx.moveTo(cx+x*u,cy-y*u);
+      ctx.lineTo(cx+x*u-9*Math.cos(A-0.4),cy-y*u-9*Math.sin(A-0.4));
+      ctx.lineTo(cx+x*u-9*Math.cos(A+0.4),cy-y*u-9*Math.sin(A+0.4));
+      ctx.closePath(); ctx.fill();
+      ctx.font='11px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(lab, cx+x*u+6, cy-y*u-6); };
+    arrow(ux,uy,'#2563EB','u'); arrow(vx,vy,'#0E9384','v');
+    arrow(a*ux+b*vx, a*uy+b*vy, '#BE123C','au + bv',3);
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText(Math.abs(det)<1e-9?'붉은 띠 = 갈 수 있는 곳 (직선뿐)':'옅은 파랑 = 갈 수 있는 곳 (평면 전체)', 14, 22);
+    $('#spout').innerHTML =
+      `<span class="mono">au + bv = ( ${(a*ux+b*vx).toFixed(1)} , ${(a*uy+b*vy).toFixed(1)} ) · uₓv_y − u_yvₓ = <b>${det}</b></span><br>`
+      + (Math.abs(det)<1e-9 ? `<b style="color:#B45309">두 화살표가 나란해서 아무리 더해도 한 직선을 벗어나지 못합니다.</b><br>` : '')
+      + (Math.abs(det)>1e-9 && Math.abs(a)>0 && Math.abs(b)>0 ? `<b style="color:#7C3AED">두 방향이 서로 다르니 계수 둘만으로 평면 어디든 갈 수 있습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">「몇 개의 방향이 필요한가」가 곧 차원입니다.</span>`;
+  }
+  ['spux','spuy','spvx','spvy','sps','spt'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'sp', title:'생성 — 갈 수 있는 곳의 크기',
+    q:['u, v 를 바꿔 가며 (판정값, 갈 수 있는 곳) 을 여섯 줄 기록하세요.',
+       '직선만 되는 경우의 조건을 쓰세요.',
+       '평면 전체를 덮으려면 몇 개의 방향이 필요한지 설명하세요.'],
+    cols:['u','v','uₓv_y − u_yvₓ','갈 수 있는 곳'],
+    hint:'힌트 — 두 벡터가 서로의 실수배이면 나란합니다.',
+    read:()=>{ const ux=+$('#spux').value,uy=+$('#spuy').value,vx=+$('#spvx').value,vy=+$('#spvy').value;
+      const d=ux*vy-uy*vx;
+      return ['('+ux+','+uy+')','('+vx+','+vy+')',d,Math.abs(d)<1e-9?'직선':'평면']; } });
+}
+
+/* ---------- LAB 254 부분공간 — 원점을 지나야 하는 이유 ---------- */
+function subspaceDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sb1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">부분공간이려면 <b>덧셈</b>과 <b>실수배</b>를 해도 밖으로 나가면 안 됩니다.
+      두 검사를 모두 통과해야 합니다.</div>
+    </div>
+    <div class="col">
+      ${slider('sbM','직선의 기울기',-2,2,0.5,1,'')}
+      ${slider('sbB','y 절편',-3,3,0.5,2,'')}
+      ${slider('sbP','고른 점의 x',-3,3,0.5,1,'')}
+      ${slider('sbC','그 점에 곱할 수',-2,3,0.5,1,'')}
+      <div class="out" id="sbout"></div>
+    </div></div>`;
+  const cv=$('#sb1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const m=+$('#sbM').value,b=+$('#sbB').value,px=+$('#sbP').value,c=+$('#sbC').value;
+    ['sbM','sbB','sbP','sbC'].forEach(i=>$('#'+i+'v').textContent=(+$('#'+i).value).toFixed(1));
+    const py=m*px+b, qx=c*px, qy=c*py;
+    const onLine=Math.abs(qy-(m*qx+b))<1e-9;
+    const sx=2*px, sy=2*py, sumOn=Math.abs(sy-(m*sx+b))<1e-9;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=190,cy=165,u=34;
+    ctx.strokeStyle='#EEF2F7';
+    for(let k=-5;k<=5;k++){ ctx.beginPath(); ctx.moveTo(cx+k*u,10); ctx.lineTo(cx+k*u,H-14); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(10,cy+k*u); ctx.lineTo(W-10,cy+k*u); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(10,cy); ctx.lineTo(W-10,cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx,10); ctx.lineTo(cx,H-14); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.2; ctx.beginPath();
+    ctx.moveTo(cx-6*u, cy-(m*(-6)+b)*u); ctx.lineTo(cx+6*u, cy-(m*6+b)*u); ctx.stroke();
+    const dot=(x,y,col,lab)=>{ ctx.fillStyle=col; ctx.beginPath(); ctx.arc(cx+x*u,cy-y*u,5,0,7); ctx.fill();
+      ctx.font='11px sans-serif'; ctx.textAlign='left'; ctx.fillText(lab, cx+x*u+7, cy-y*u-7); };
+    dot(px,py,'#0E9384','고른 점');
+    dot(qx,qy,onLine?'#0E9384':'#BE123C', c+' 배 한 점');
+    ctx.strokeStyle=onLine?'#0E9384':'#BE123C'; ctx.lineWidth=1.2; ctx.setLineDash([4,3]);
+    ctx.beginPath(); ctx.moveTo(cx+px*u,cy-py*u); ctx.lineTo(cx+qx*u,cy-qy*u); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(cx,cy,3.5,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('원점이 직선 위에 있는가 : '+(Math.abs(b)<1e-9?'예':'아니오'), 14, 22);
+    $('#sbout').innerHTML =
+      `<span class="mono">직선 y = ${m}x + ${b} · 고른 점 (${px}, ${py.toFixed(1)}) · ${c} 배 → (${qx.toFixed(1)}, ${qy.toFixed(1)})</span><br>`
+      + `<span class="mono">실수배 검사 <b style="color:${onLine?'#0E9384':'#BE123C'}">${onLine?'통과':'탈락'}</b> · 덧셈 검사 <b style="color:${sumOn?'#0E9384':'#BE123C'}">${sumOn?'통과':'탈락'}</b></span><br>`
+      + (Math.abs(b)<1e-9 ? `<b style="color:#B45309">절편이 0 이라 두 검사를 모두 통과합니다 — 원점을 지나는 직선이라야 합니다.</b><br>` : '')
+      + (Math.abs(b)>1e-9 && !onLine ? `<b style="color:#7C3AED">실수배를 했더니 직선 밖으로 튀어나갔습니다 — 덧셈만 보고 판정하면 놓칩니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">0 벡터를 품지 못하는 집합은 부분공간이 될 수 없습니다.</span>`;
+  }
+  ['sbM','sbB','sbP','sbC'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'sb', title:'부분공간 — 두 가지 검사',
+    q:['절편을 바꿔 가며 (절편, 실수배 검사, 덧셈 검사) 를 여섯 줄 기록하세요.',
+       '두 검사가 동시에 통과하는 조건을 쓰세요.',
+       '0 벡터를 품어야 하는 까닭을 실수배 0 으로 설명하세요.'],
+    cols:['기울기','절편','실수배','덧셈'],
+    hint:'힌트 — 0 을 곱하면 반드시 원점이 나옵니다.',
+    read:()=>{ const m=+$('#sbM').value,b=+$('#sbB').value,px=+$('#sbP').value,c=+$('#sbC').value;
+      const py=m*px+b,on=Math.abs(c*py-(m*(c*px)+b))<1e-9;
+      const so=Math.abs(2*py-(m*(2*px)+b))<1e-9;
+      return [m,b,on?'통과':'탈락',so?'통과':'탈락']; } });
+}
+
+/* ---------- LAB 255 일차독립과 차원 — 진짜 필요한 방향의 수 ---------- */
+function dimDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="dm1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">벡터를 늘린다고 차원이 늘지는 않습니다.
+      <b>이미 만들 수 있는 방향</b>은 아무리 더해도 새 차원이 되지 못합니다.</div>
+    </div>
+    <div class="col">
+      ${slider('dmN','넣은 벡터 개수',1,4,1,2,'개')}
+      ${slider('dm3','③ 벡터의 기울기 조절',-2,2,1,1,'')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="dm3P"> ③ 벡터를 ① 의 실수배로 두기</label>
+      <div class="out" id="dmout"></div>
+    </div></div>`;
+  const cv=$('#dm1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function vecs(){
+    const g=+$('#dm3').value, par=$('#dm3P').checked;
+    const V=[[2,1],[-1,2],[par?4:g,par?2:1],[1,-3]];
+    return V.slice(0,+$('#dmN').value);
+  }
+  function rank(V){
+    let r=0; const rows=V.map(v=>v.slice());
+    let used=[];
+    for(const v of rows){
+      let w=v.slice();
+      for(const b of used){ const d=(w[0]*b[0]+w[1]*b[1])/(b[0]*b[0]+b[1]*b[1]);
+        w=[w[0]-d*b[0], w[1]-d*b[1]]; }
+      if(Math.hypot(w[0],w[1])>1e-6){ used.push(w); r++; }
+    }
+    return r;
+  }
+  function draw(){
+    const V=vecs(), r=rank(V);
+    $('#dmNv').textContent=V.length+'개'; $('#dm3v').textContent=$('#dm3').value;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=190,cy=165,u=34;
+    ctx.strokeStyle='#EEF2F7';
+    for(let k=-5;k<=5;k++){ ctx.beginPath(); ctx.moveTo(cx+k*u,10); ctx.lineTo(cx+k*u,H-14); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(10,cy+k*u); ctx.lineTo(W-10,cy+k*u); ctx.stroke(); }
+    if(r>=2){ ctx.fillStyle='rgba(37,99,235,.07)'; ctx.fillRect(10,10,W-20,H-24); }
+    else if(r===1){ const v=V[0]; ctx.strokeStyle='rgba(190,18,60,.3)'; ctx.lineWidth=10;
+      ctx.beginPath(); ctx.moveTo(cx-v[0]*u*6,cy+v[1]*u*6); ctx.lineTo(cx+v[0]*u*6,cy-v[1]*u*6); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(10,cy); ctx.lineTo(W-10,cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx,10); ctx.lineTo(cx,H-14); ctx.stroke();
+    const COL=['#2563EB','#0E9384','#B45309','#7C3AED'];
+    V.forEach((v,i)=>{ ctx.strokeStyle=COL[i]; ctx.fillStyle=COL[i]; ctx.lineWidth=2.4;
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+v[0]*u,cy-v[1]*u); ctx.stroke();
+      const A=Math.atan2(-v[1],v[0]);
+      ctx.beginPath(); ctx.moveTo(cx+v[0]*u,cy-v[1]*u);
+      ctx.lineTo(cx+v[0]*u-9*Math.cos(A-0.4),cy-v[1]*u-9*Math.sin(A-0.4));
+      ctx.lineTo(cx+v[0]*u-9*Math.cos(A+0.4),cy-v[1]*u-9*Math.sin(A+0.4));
+      ctx.closePath(); ctx.fill();
+      ctx.font='11px sans-serif'; ctx.textAlign='left';
+      ctx.fillText('('+(i+1)+')', cx+v[0]*u+6, cy-v[1]*u-6); });
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('넣은 벡터 '+V.length+' 개 · 새 방향 '+r+' 개', 14, 22);
+    $('#dmout').innerHTML =
+      `<span class="mono">넣은 개수 = <b>${V.length}</b> · 실제 차원 = <b style="color:#0E9384">${r}</b></span><br>`
+      + (V.length>r ? `<b style="color:#B45309">개수는 늘었는데 차원은 그대로입니다 — 이미 만들 수 있는 방향을 또 넣은 것입니다.</b><br>` : '')
+      + (V.length>=4 && r===2 ? `<b style="color:#7C3AED">넷을 넣어도 여전히 2 입니다 — 평면에서는 차원이 2 를 넘지 못합니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">차원은 벡터의 수가 아니라 서로 만들 수 없는 방향의 수입니다.</span>`;
+  }
+  ['dmN','dm3'].forEach(i=>$('#'+i).oninput=draw); $('#dm3P').onchange=draw; draw();
+  inquiry(root,{ id:'dm', title:'차원 — 세는 것은 개수가 아니다',
+    q:['개수를 늘려 가며 (개수, 차원) 을 여섯 줄 기록하세요.',
+       '개수는 늘었는데 차원이 그대로인 경우를 찾으세요.',
+       '평면에서 차원이 3 이 될 수 없는 까닭을 설명하세요.'],
+    cols:['넣은 개수','③ 설정','차원'],
+    hint:'힌트 — 앞의 벡터들로 만들 수 있으면 새 차원이 아닙니다.',
+    read:()=>{ const V=vecs();
+      return [V.length,$('#dm3P').checked?'① 의 배수':'기울기 '+$('#dm3').value,rank(V)]; } });
+}
+
+/* ---------- LAB 256 기저와 좌표 — 같은 점, 다른 좌표 ---------- */
+function basisDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="bs2" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">점은 그대로인데 <b>자를 바꾸면</b> 좌표가 달라집니다.
+      좌표는 점의 성질이 아니라 <b>기저와 점의 관계</b>입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('b2px','점의 x (표준 좌표)',-4,4,1,3,'')}
+      ${slider('b2py','점의 y (표준 좌표)',-4,4,1,2,'')}
+      ${slider('b2ax','새 기저 e₁ 의 x',-3,3,1,1,'')}
+      ${slider('b2ay','새 기저 e₁ 의 y',-3,3,1,0,'')}
+      ${slider('b2bx','새 기저 e₂ 의 x',-3,3,1,0,'')}
+      ${slider('b2by','새 기저 e₂ 의 y',-3,3,1,1,'')}
+      <div class="out" id="b2out"></div>
+    </div></div>`;
+  const cv=$('#bs2'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const px=+$('#b2px').value,py=+$('#b2py').value;
+    const ax=+$('#b2ax').value,ay=+$('#b2ay').value,bx=+$('#b2bx').value,by=+$('#b2by').value;
+    ['b2px','b2py','b2ax','b2ay','b2bx','b2by'].forEach(i=>$('#'+i+'v').textContent=$('#'+i).value);
+    const det=ax*by-ay*bx;
+    const s=det?(px*by-py*bx)/det:NaN, t=det?(ax*py-ay*px)/det:NaN;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=190,cy=170,u=32;
+    ctx.strokeStyle='#F3F4F6';
+    for(let k=-5;k<=5;k++){ ctx.beginPath(); ctx.moveTo(cx+k*u,10); ctx.lineTo(cx+k*u,H-14); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(10,cy+k*u); ctx.lineTo(W-10,cy+k*u); ctx.stroke(); }
+    if(Math.abs(det)>1e-9){                       // 새 기저가 만드는 격자
+      ctx.strokeStyle='rgba(14,147,132,.35)'; ctx.lineWidth=1;
+      for(let k=-6;k<=6;k++){
+        ctx.beginPath();
+        ctx.moveTo(cx+(k*ax-6*bx)*u, cy-(k*ay-6*by)*u);
+        ctx.lineTo(cx+(k*ax+6*bx)*u, cy-(k*ay+6*by)*u); ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(cx+(-6*ax+k*bx)*u, cy-(-6*ay+k*by)*u);
+        ctx.lineTo(cx+( 6*ax+k*bx)*u, cy-( 6*ay+k*by)*u); ctx.stroke(); } }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(10,cy); ctx.lineTo(W-10,cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx,10); ctx.lineTo(cx,H-14); ctx.stroke();
+    const arrow=(x,y,col,lab)=>{ if(!x&&!y) return;
+      ctx.strokeStyle=col; ctx.fillStyle=col; ctx.lineWidth=2.4;
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+x*u,cy-y*u); ctx.stroke();
+      ctx.font='11px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(lab, cx+x*u+6, cy-y*u-6); };
+    arrow(ax,ay,'#0E9384','e₁'); arrow(bx,by,'#B45309','e₂');
+    ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(cx+px*u,cy-py*u,6,0,7); ctx.fill();
+    ctx.font='11px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('P', cx+px*u+8, cy-py*u-8);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('초록 격자 = 새 기저가 만드는 눈금', 14, 22);
+    $('#b2out').innerHTML =
+      `<span class="mono">표준 좌표 P = ( ${px} , ${py} ) — 점은 움직이지 않았습니다.</span><br>`
+      + `<span class="mono">새 좌표 = ( <b style="color:#0E9384">${isNaN(s)?'—':s.toFixed(3)}</b> , <b style="color:#B45309">${isNaN(t)?'—':t.toFixed(3)}</b> ) · 기저 판정값 ${det}</span><br>`
+      + (Math.abs(det)>1e-9 && (Math.abs(s-px)>1e-6||Math.abs(t-py)>1e-6) ? `<b style="color:#B45309">같은 점인데 좌표가 달라졌습니다 — 자를 바꾸면 읽는 값이 바뀝니다.</b><br>` : '')
+      + (Math.abs(det)<1e-9 ? `<b style="color:#7C3AED">두 기저가 나란해서 눈금이 되지 못합니다 — 좌표를 정할 수 없습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">좌표는 점이 가진 성질이 아니라, 어떤 자로 재었는지에 달린 값입니다.</span>`;
+  }
+  ['b2px','b2py','b2ax','b2ay','b2bx','b2by'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'b2', title:'기저와 좌표 — 자를 바꾸면',
+    q:['기저를 바꿔 가며 (표준 좌표, 새 좌표) 를 여섯 줄 기록하세요.',
+       '새 좌표가 표준 좌표와 같아지는 기저를 찾으세요.',
+       '좌표를 정할 수 없는 경우의 조건을 쓰세요.'],
+    cols:['P','e₁','e₂','새 좌표'],
+    hint:'힌트 — P = s·e₁ + t·e₂ 를 풀면 됩니다.',
+    read:()=>{ const px=+$('#b2px').value,py=+$('#b2py').value;
+      const ax=+$('#b2ax').value,ay=+$('#b2ay').value,bx=+$('#b2bx').value,by=+$('#b2by').value;
+      const d=ax*by-ay*bx;
+      return ['('+px+','+py+')','('+ax+','+ay+')','('+bx+','+by+')',
+        d?'('+((px*by-py*bx)/d).toFixed(2)+', '+((ax*py-ay*px)/d).toFixed(2)+')':'정할 수 없음']; } });
+}

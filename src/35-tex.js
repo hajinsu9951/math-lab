@@ -5,12 +5,16 @@
    글자 그대로 나오므로, 새 수식을 넣을 때는 반드시 화면에서 확인할 것.
 
    지원: \frac \sqrt(\sqrt[n]) ^ _ \sum(\munderover) \left \right \text
+         \begin{pmatrix|bmatrix|vmatrix|cases} (& 로 열, \\ 로 행) \bmod
          \bar \overline \vec \hat \pmod
          그리스문자 · 연산기호 · sin cos tan log ln 등 함수명 */
 
 const TEX_GREEK = {alpha:'α',beta:'β',gamma:'γ',delta:'δ',epsilon:'ε',varepsilon:'ε',
   theta:'θ',lambda:'λ',mu:'μ',pi:'π',rho:'ρ',sigma:'σ',tau:'τ',phi:'φ',omega:'ω',
-  Delta:'Δ',Sigma:'Σ',Omega:'Ω',Phi:'Φ',ell:'ℓ'};
+  Delta:'Δ',Sigma:'Σ',Omega:'Ω',Phi:'Φ',ell:'ℓ',
+  varphi:'φ',psi:'ψ',chi:'χ',eta:'η',nu:'ν',xi:'ξ',zeta:'ζ',kappa:'κ',
+  iota:'ι',vartheta:'ϑ',varrho:'ϱ',
+  Gamma:'Γ',Lambda:'Λ',Theta:'Θ',Pi:'Π',Psi:'Ψ',Xi:'Ξ'};
 const TEX_OPS = {cdot:'·',times:'×',div:'÷',pm:'±',mp:'∓',le:'≤',leq:'≤',ge:'≥',geq:'≥',
   ne:'≠',neq:'≠',approx:'≈',equiv:'≡',to:'→',rightarrow:'→',Rightarrow:'⇒',
   in:'∈',notin:'∉',mid:'∣',cap:'∩',cup:'∪',ldots:'…',cdots:'⋯',infty:'∞',
@@ -18,8 +22,14 @@ const TEX_OPS = {cdot:'·',times:'×',div:'÷',pm:'±',mp:'∓',le:'≤',leq:'�
   Leftrightarrow:'⇔',Longleftrightarrow:'⟺',leftrightarrow:'↔',mapsto:'↦',
   parallel:'∥',perp:'⊥',angle:'∠',triangle:'△',circ:'∘',
   varnothing:'∅',emptyset:'∅',subset:'⊂',subseteq:'⊆',supset:'⊃',supseteq:'⊇',
-  sim:'∼',cong:'≅',forall:'∀',exists:'∃',setminus:'∖',land:'∧',lor:'∨'};
-const TEX_FUNCS = ['sin','cos','tan','sec','csc','cot','log','ln','exp','max','min','arg','det','gcd','lcm'];
+  sim:'∼',cong:'≅',forall:'∀',exists:'∃',setminus:'∖',land:'∧',lor:'∨',
+  iff:'⇔',dots:'…',nRightarrow:'⇏',Longrightarrow:'⟹',longrightarrow:'⟶',
+  Longleftarrow:'⟸',longleftarrow:'⟵',uparrow:'↑',downarrow:'↓',
+  lceil:'⌈',rceil:'⌉',lfloor:'⌊',rfloor:'⌋',langle:'⟨',rangle:'⟩',
+  oplus:'⊕',otimes:'⊗',ast:'∗',star:'⋆',prime:'′',nabla:'∇',
+  simeq:'≃',ll:'≪',gg:'≫',subsetneq:'⊊',neg:'¬',top:'⊤',bot:'⊥'};
+const TEX_FUNCS = ['sin','cos','tan','sec','csc','cot','log','ln','exp','max','min','arg','det','gcd','lcm',
+  'sinh','cosh','tanh','arcsin','arccos','arctan','sup','inf','deg','dim','rank','tr'];
 const TEX_BB = {N:'ℕ',Z:'ℤ',Q:'ℚ',R:'ℝ',C:'ℂ',P:'ℙ'};
 
 function xe(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
@@ -28,7 +38,7 @@ function texTokens(s){
   const T=[]; let i=0;
   while(i<s.length){
     const c=s[i];
-    if(/\s/.test(c)){i++;continue;}
+    if(/\s/.test(c)){T.push({t:'sp',v:' '});i++;continue;}   // \text 안의 띄어쓰기를 살린다
     if(c==='\\'){ const m=/^\\([a-zA-Z]+|.)/.exec(s.slice(i)); T.push({t:'cmd',v:m[1]}); i+=m[0].length; continue; }
     if(c==='{'){T.push({t:'{'});i++;continue;}
     if(c==='}'){T.push({t:'}'});i++;continue;}
@@ -55,6 +65,7 @@ function texToMathML(src, block){
     if(t.t==='id'){ p++; return '<mi>'+t.v+'</mi>'; }
     if(t.t==='op'){ p++; return '<mo>'+xe(t.v)+'</mo>'; }
     if(t.t==='}'){ p++; return ''; }
+    if(t.t==='sp'){ p++; return ''; }
     if(t.t==='sc'){ p++; return ''; }              // 홀로 온 첨자 기호는 버린다
     /* cmd */
     const v = t.v; p++;
@@ -85,27 +96,41 @@ function texToMathML(src, block){
       return '';
     }
     if(v==='begin'){
-      // egin{cases} 행1 \ 행2 end{cases} — 왼 중괄호 + 세로 나열
-      if(T[p]&&T[p].t==='{'){ let d=1; p++;
-        while(p<T.length&&d){ if(T[p].t==='{')d++; if(T[p].t==='}')d--; p++; } }
-      const rows=[]; let cur=[];
+      /* \begin{pmatrix} a & b \\ c & d \end{pmatrix} 처럼 쓴다.
+         & 가 열을, \\ 가 행을 나눈다. cases 는 왼쪽 중괄호만 붙인다. */
+      let env='';
+      if(T[p]&&T[p].t==='{'){ p++;
+        while(p<T.length&&T[p].t!=='}'){ env+=(T[p].v||''); p++; }
+        if(T[p]) p++; }
+      const rows=[]; let cur=[], cell=[];
+      const endCell=()=>{ cur.push('<mtd>'+cell.join('')+'</mtd>'); cell=[]; };
       while(p<T.length){
         const q=T[p];
         if(q.t==='cmd'&&q.v==='end'){ p++;
           if(T[p]&&T[p].t==='{'){ let d=1; p++;
             while(p<T.length&&d){ if(T[p].t==='{')d++; if(T[p].t==='}')d--; p++; } }
           break; }
-        if(q.t==='cmd'&&q.v==='\\'){ p++; rows.push(cur); cur=[]; continue; }
+        if(q.t==='cmd'&&q.v==='\\'){ p++; endCell(); rows.push(cur); cur=[]; continue; }
+        if(q.t==='sp'){ p++; continue; }
+        if(q.t==='op'&&q.v==='&'){ p++; endCell(); continue; }
         if(q.t==='sc'){ const kind=q.v; p++; const sc2=atom();
-          const base=cur.pop()||'<mrow></mrow>';
-          cur.push((kind==='_'?'<msub>':'<msup>')+base+sc2+(kind==='_'?'</msub>':'</msup>'));
+          const base=cell.pop()||'<mrow></mrow>';
+          cell.push((kind==='_'?'<msub>':'<msup>')+base+sc2+(kind==='_'?'</msub>':'</msup>'));
           continue; }
-        cur.push(atom());
+        cell.push(atom());
       }
-      rows.push(cur);
-      return '<mrow><mo stretchy="true">{</mo><mtable columnalign="left">'
-        + rows.map(r=>'<mtr><mtd>'+r.join('')+'</mtd></mtr>').join('')
-        + '</mtable></mrow>';
+      endCell(); rows.push(cur);
+      const FENCE={pmatrix:['(',')'],bmatrix:['[',']'],Bmatrix:['{','}'],
+                   vmatrix:['|','|'],Vmatrix:['‖','‖'],matrix:['',''],
+                   cases:['{',''],aligned:['','','left'],array:['','']};
+      const f=FENCE[env]||['',''];
+      const align=f[2]||(env==='cases'||env==='aligned'?'left':'center');
+      const table='<mtable columnalign="'+align+'">'
+        + rows.map(r=>'<mtr>'+(r.length?r.join(''):'<mtd></mtd>')+'</mtr>').join('')
+        + '</mtable>';
+      /* 괄호는 글자로 찍지 않고 styles.css 의 테두리로 그린다 — 글꼴에 기대지 않는다 */
+      const cls = FENCE[env] ? 'mtx mtx-'+env : 'mtx';
+      return '<mrow class="'+cls+'">'+table+'</mrow>';
     }
     if(v==='sqrt'){
       if(T[p] && T[p].t==='op' && T[p].v==='['){
@@ -140,6 +165,7 @@ function texToMathML(src, block){
       if(ch==='.') return '';
       return '<mo stretchy="true">'+xe(ch)+'</mo>';
     }
+    if(v==='bmod'){ return '<mspace width="0.22em"/><mi mathvariant="normal">mod</mi><mspace width="0.22em"/>'; }
     if(v==='pmod'){ return '<mo>(</mo><mi>mod</mi><mspace width="0.25em"/>'+atom()+'<mo>)</mo>'; }
     if(v==='sum')  return '<mo movablelimits="false">&#x2211;</mo>';
     if(v==='prod') return '<mo movablelimits="false">&#x220F;</mo>';
@@ -159,6 +185,7 @@ function texToMathML(src, block){
     while(p<T.length){
       const t=T[p];
       if(stop==='}' && t.t==='}') break;
+      if(t.t==='sp'){ p++; continue; }
       if(t.t==='sc'){
         const kind=t.v; p++; const s=atom();
         const base = out.pop() || '<mrow></mrow>';
