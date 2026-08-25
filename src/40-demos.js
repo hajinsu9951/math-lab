@@ -6339,7 +6339,247 @@ const PRINS = [
   eq:'y = ax + b (b 도 학습 대상)',
   what:'「무엇을 배우는가」의 <b>목록을 늘리는</b> 실험입니다. 모형의 자유도가 성능을 바꿉니다.',
   probe:'절편을 0 으로 묶으면 어떤 기울기를 써도 자료 위를 지나가지 못합니다.',
-  link:'최소제곱 회귀(LAB 16)의 완성형이며, 경사하강법(LAB 17)을 두 변수로 확장합니다.'}
+  link:'최소제곱 회귀(LAB 16)의 완성형이며, 경사하강법(LAB 17)을 두 변수로 확장합니다.'},
+
+/* 202 실효이자율 */
+ {tex:[
+   {t:'\\text{실효이자율}=\\left(1+\\frac{r}{k}\\right)^{k}-1', s:'표시 이율 r 을 <b>k 번에 나눠</b> 붙인 결과입니다.'},
+   {t:'k=1 \\Rightarrow r,\\qquad k=12 \\Rightarrow \\left(1+\\tfrac{r}{12}\\right)^{12}-1', s:'같은 r 이라도 <b>횟수가 다르면</b> 결과가 다릅니다.'},
+   {t:'\\lim_{k\\to\\infty}\\left(1+\\frac rk\\right)^{k}=e^{r}', s:'아무리 자주 붙여도 <b>e^r − 1</b> 이 한계입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'값 비교', d:'연 12% 를 1·4·12·52 번 붙였을 때를 각각 계산하세요.'},
+   {lv:'심화',   t:'한계 확인', d:'k 를 크게 하며 e^r 에 다가가는 과정을 표로 만드세요.'},
+   {lv:'프로젝트', t:'금리 광고 검토', d:'실제 예금·대출 광고의 표시 이율과 실효 이율을 비교하세요.'}
+  ],
+  eq:'(1 + r/k)^k − 1',
+  what:'「연 12%」라는 <b>한마디의 애매함</b>을 수로 드러내는 실험입니다.',
+  probe:'횟수를 늘려도 붉은 점선(e^r − 1)을 넘지 못합니다 — 극한이 있습니다.',
+  link:'복리(LAB 11)의 정밀판이며, e(LAB 177)와 같은 극한을 씁니다.'},
+
+/* 203 누진세 */
+ {tex:[
+   {t:'\\text{세금}=\\sum_i (\\text{구간 } i \\text{ 의 금액})\\times(\\text{구간 } i \\text{ 의 세율})', s:'소득을 <b>조각으로 잘라</b> 각각 계산합니다.'},
+   {t:'\\text{한계세율}\\ne\\text{실효세율}', s:'마지막 1원의 세율과 <b>전체 평균 세율</b>은 다릅니다.'},
+   {t:'\\text{실효세율}=\\frac{\\text{총 세금}}{\\text{총 소득}}<\\text{한계세율}', s:'앞 구간의 낮은 세율이 섞여 <b>항상 더 낮습니다</b>.'}
+  ],
+  next:[
+   {lv:'바로',   t:'경계 계산', d:'경계 바로 위와 아래의 세금 차이를 계산하세요.'},
+   {lv:'심화',   t:'실효세율 그래프', d:'소득에 따른 실효세율의 그래프를 그리세요.'},
+   {lv:'프로젝트', t:'세율표 읽기', d:'실제 종합소득세율표로 자신의 예상 세금을 계산해 보세요.'}
+  ],
+  eq:'구간별로 잘라 더한다',
+  what:'가장 널리 퍼진 <b>세금 오해</b>를 막대 그림으로 정면에서 푸는 실험입니다.',
+  probe:'경계를 100만원 넘겨도 세금은 그 100만원에 대한 만큼만 늘어납니다.',
+  link:'구간별 정의(조각함수)의 실생활판이며, 일차함수(LAB 4)의 응용입니다.'},
+
+/* 204 교차환율 */
+ {tex:[
+   {t:'\\text{원/엔}=\\frac{\\text{원/달러}}{\\text{엔/달러}}', s:'두 환율에서 <b>세 번째 환율</b>이 나옵니다.'},
+   {t:'\\frac{1}{a}\\times b=\\frac{1}{a/b}', s:'두 번 바꾸는 것과 바로 바꾸는 것이 <b>수학적으로 같습니다</b>.'},
+   {t:'(1-f)^{2}<(1-f)', s:'차이의 정체는 환율이 아니라 <b>수수료를 몇 번 내느냐</b>입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'교차환율 계산', d:'주어진 두 환율로 원/엔 환율을 구하세요.'},
+   {lv:'심화',   t:'차익거래', d:'세 통화의 환율이 어긋나면 이익이 생기는 구조를 설명하세요.'},
+   {lv:'프로젝트', t:'여행 경비', d:'실제 환율과 수수료로 여행 경비를 계산해 비교하세요.'}
+  ],
+  eq:'교차환율 = 한 환율 ÷ 다른 환율',
+  what:'비와 비율의 <b>나눗셈 구조</b>가 그대로 환전이 되는 장면입니다.',
+  probe:'수수료를 0 으로 두면 두 길의 결과가 정확히 같아집니다.',
+  link:'비례(LAB 29)의 응용이며, 단위 환산과 같은 구조입니다.'},
+
+/* 205 물가와 실질가치 */
+ {tex:[
+   {t:'\\text{실질가치}=\\frac{\\text{명목금액}}{\\text{물가지수}}', s:'통장의 숫자가 아니라 <b>살 수 있는 양</b>을 봅니다.'},
+   {t:'\\frac{(1+r)^{n}}{(1+i)^{n}}=\\left(\\frac{1+r}{1+i}\\right)^{n}', s:'두 지수의 <b>비</b>가 실질 배율입니다.'},
+   {t:'r<i \\Rightarrow \\text{실질가치 감소}', s:'이자가 붙어도 <b>물가에 지면</b> 가난해집니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'실질 계산', d:'물가 3%, 이자 2%, 10년의 실질 가치를 계산하세요.'},
+   {lv:'심화',   t:'근사식 검토', d:'실질 ≈ 명목 − 물가 라는 근사의 오차를 확인하세요.'},
+   {lv:'프로젝트', t:'생활물가 조사', d:'10년 전과 지금의 물가를 조사해 체감 물가와 비교하세요.'}
+  ],
+  eq:'실질 = 명목 ÷ 물가지수',
+  what:'돈의 <b>진짜 크기</b>를 재는 실험입니다. 두 지수함수의 경쟁으로 보입니다.',
+  probe:'이자율과 물가 상승률이 같으면 초록 선이 완전히 수평이 됩니다.',
+  link:'지수 성장(LAB 11)의 응용이며, 두 지수의 비를 다룹니다.'},
+
+/* 206 현재가치 */
+ {tex:[
+   {t:'PV=\\frac{FV}{(1+r)^{n}}', s:'미래의 돈을 <b>지금 시점으로</b> 되돌립니다.'},
+   {t:'FV=PV(1+r)^{n}', s:'복리의 <b>반대 방향</b> — 같은 식을 뒤집은 것입니다.'},
+   {t:'\\frac{100}{(1+r)^{3}}=90 \\Rightarrow r\\approx 3.6\\%', s:'판단이 뒤집히는 <b>경계 할인율</b>을 방정식으로 구합니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'현재가치 계산', d:'할인율 5%, 3년 뒤 100만원의 현재가치를 구하세요.'},
+   {lv:'심화',   t:'경계 찾기', d:'지금 90만원과 같아지는 할인율을 방정식으로 구하세요.'},
+   {lv:'프로젝트', t:'투자 판단', d:'여러 시점의 현금 흐름을 현재가치로 모아 비교하는 표를 만드세요.'}
+  ],
+  eq:'PV = FV / (1 + r)ⁿ',
+  what:'시점이 다른 돈을 <b>같은 자리에 놓고</b> 견주는 실험입니다. 금융 판단의 기본기입니다.',
+  probe:'할인율을 낮추면 판단이 뒤집힙니다 — 기다림의 값어치가 달라지기 때문입니다.',
+  link:'적금(LAB 126)·대출(LAB 109)의 반대 방향 계산이며, 지수함수의 역이용입니다.'},
+
+/* 207 수요와 공급 */
+ {tex:[
+   {t:'Q_d=60-dP,\\qquad Q_s=4P', s:'가격에 따라 <b>사려는 양</b>과 <b>팔려는 양</b>이 정해집니다.'},
+   {t:'60-dP=4P \\Rightarrow P=\\frac{60}{d+4}', s:'두 일차식을 <b>연립</b>해 균형가격을 얻습니다.'},
+   {t:'Q_d>Q_s\\ (\\text{부족}),\\qquad Q_d<Q_s\\ (\\text{재고})', s:'균형을 벗어나면 <b>남거나 모자랍니다</b>.'}
+  ],
+  next:[
+   {lv:'바로',   t:'균형 계산', d:'d = 4 일 때의 균형가격과 균형수량을 구하세요.'},
+   {lv:'심화',   t:'곡선의 이동', d:'수요가 늘면 균형가격과 균형수량이 어떻게 변하는지 예측하고 확인하세요.'},
+   {lv:'프로젝트', t:'축제 가격 정하기', d:'학교 축제 물품의 수요를 조사해 가격을 제안하세요.'}
+  ],
+  eq:'Q_d = Q_s 인 가격 = 균형가격',
+  what:'가격이 <b>스스로 정해지는</b> 구조를 두 직선의 교점으로 보는 실험입니다.',
+  probe:'균형에서 벗어나면 부족이나 재고가 생기고, 그 압력이 가격을 되돌립니다.',
+  link:'연립방정식(LAB 4)의 실생활판이며, 가격 규제(LAB 209)의 바탕입니다.'},
+
+/* 208 가격탄력성 */
+ {tex:[
+   {t:'R(p)=p\\,Q(p)=p(60-sp)', s:'매출은 가격의 <b>이차함수</b>입니다.'},
+   {t:"R'(p)=0 \\Rightarrow p=\\frac{30}{s}", s:'꼭짓점에서 <b>매출이 최대</b>가 됩니다.'},
+   {t:'\\varepsilon=\\frac{sp}{Q}=1\\ \\text{인 자리}', s:'그 자리의 <b>탄력성이 정확히 1</b> 입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'최대 매출', d:'s = 3 일 때 매출이 최대인 가격과 그 매출을 구하세요.'},
+   {lv:'심화',   t:'탄력성 확인', d:'최대점에서 탄력성이 1 임을 계산으로 보이세요.'},
+   {lv:'프로젝트', t:'가격 실험', d:'실제 상품의 가격 변화와 판매량 자료로 탄력성을 추정하세요.'}
+  ],
+  eq:'탄력성 1 에서 매출 최대',
+  what:'「값을 올리면 더 번다」는 <b>흔한 오해</b>를 이차함수의 꼭짓점으로 바로잡습니다.',
+  probe:'매출 막대가 가운데에서 가장 높습니다 — 양 끝에서는 오히려 낮습니다.',
+  link:'이차함수의 최대(LAB 33)의 응용이며, 손익분기(LAB 211)와 짝을 이룹니다.'},
+
+/* 209 가격 상한 */
+ {tex:[
+   {t:'\\text{상한 } \\bar P<P^{*} \\Rightarrow \\text{효력 있음}', s:'균형보다 <b>낮을 때만</b> 규제가 작동합니다.'},
+   {t:'\\text{부족분}=Q_d(\\bar P)-Q_s(\\bar P)', s:'사려는 양이 팔려는 양을 넘는 <b>차이</b>입니다.'},
+   {t:'\\bar P>P^{*} \\Rightarrow \\text{거래는 } P^{*}\\text{에서}', s:'상한이 높으면 <b>아무 일도 하지 않습니다</b>.'}
+  ],
+  next:[
+   {lv:'바로',   t:'부족분 계산', d:'상한 4천원일 때의 부족분을 구하세요.'},
+   {lv:'심화',   t:'하한의 경우', d:'최저가격(하한)을 두면 무엇이 생기는지 같은 방법으로 분석하세요.'},
+   {lv:'프로젝트', t:'정책 평가', d:'실제 가격 규제 사례를 조사해 효과와 부작용을 정리하세요.'}
+  ],
+  eq:'상한 < 균형 ⟹ 부족분 발생',
+  what:'정책의 <b>의도와 결과</b>가 어긋나는 장면을 부등식으로 확인하는 실험입니다.',
+  probe:'상한을 균형 위로 올리면 주황 띠가 사라집니다 — 규제가 무력해집니다.',
+  link:'수요·공급(LAB 207)의 응용이며, 부등식의 실생활 해석입니다.'},
+
+/* 210 기회비용 */
+ {tex:[
+   {t:'\\text{기회비용}=\\left|\\frac{\\Delta(\\text{포기한 것})}{\\Delta(\\text{얻은 것})}\\right|', s:'곡선의 <b>기울기의 절댓값</b>입니다.'},
+   {t:'\\text{직선} \\Rightarrow \\text{기회비용 일정}', s:'어디서 옮기든 <b>같은 대가</b>를 치릅니다.'},
+   {t:'\\text{바깥으로 휜 곡선} \\Rightarrow \\text{기회비용 증가}', s:'한쪽으로 몰수록 <b>대가가 커집니다</b> — 특화의 한계입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'기회비용 계산', d:'비율 30% 와 90% 에서의 기회비용을 비교하세요.'},
+   {lv:'심화',   t:'비교우위', d:'두 사람의 기회비용을 비교해 누가 무엇을 맡아야 하는지 정하세요.'},
+   {lv:'프로젝트', t:'시간 배분', d:'자신의 하루 시간 배분을 생산가능곡선으로 그려 보세요.'}
+  ],
+  eq:'기회비용 = 곡선의 기울기',
+  what:'선택의 <b>대가</b>를 그래프의 기울기로 읽는 실험입니다. 경제학의 출발 개념입니다.',
+  probe:'곡선에서는 한쪽으로 갈수록 계단의 세로 길이가 급격히 길어집니다.',
+  link:'기울기(LAB 4)의 경제적 해석이며, 미분(LAB 132)의 사고와 같습니다.'},
+
+/* 211 손익분기점 */
+ {tex:[
+   {t:'\\text{총비용}=F+vQ,\\qquad \\text{총매출}=pQ', s:'두 <b>일차함수</b>의 경쟁입니다.'},
+   {t:'pQ=F+vQ \\Rightarrow Q=\\frac{F}{p-v}', s:'교점의 수량이 <b>손익분기 수량</b>입니다.'},
+   {t:'p-v\\le 0 \\Rightarrow \\text{해 없음}', s:'공헌이익이 0 이하면 <b>영원히 본전이 안 됩니다</b>.'}
+  ],
+  next:[
+   {lv:'바로',   t:'수량 계산', d:'고정비 60만원, 변동비 4천원, 가격 7천원의 손익분기 수량을 구하세요.'},
+   {lv:'심화',   t:'민감도 분석', d:'고정비와 변동비를 각각 두 배로 했을 때의 변화를 비교하세요.'},
+   {lv:'프로젝트', t:'창업 계획서', d:'가상의 가게를 설계해 손익분기 수량과 목표 매출을 계산하세요.'}
+  ],
+  eq:'Q = F / (p − v)',
+  what:'두 일차함수의 <b>교점</b>이 경영 판단이 되는 장면입니다.',
+  probe:'가격을 변동비 아래로 내리면 두 직선이 영영 만나지 않습니다.',
+  link:'일차함수의 교점(LAB 4)의 응용이며, 가격탄력성(LAB 208)과 함께 봅니다.'},
+
+/* 212 분산투자 */
+ {tex:[
+   {t:'E=w\\mu_A+(1-w)\\mu_B', s:'기대수익은 비율의 <b>일차식</b> — 직선입니다.'},
+   {t:'\\sigma^{2}=w^{2}\\sigma_A^{2}+(1-w)^{2}\\sigma_B^{2}+2w(1-w)\\rho\\sigma_A\\sigma_B', s:'흔들림은 <b>이차식</b> — 그래서 곡선이 휩니다.'},
+   {t:'\\rho=-1 \\Rightarrow \\sigma^{2}=(w\\sigma_A-(1-w)\\sigma_B)^{2}', s:'완전히 반대로 움직이면 <b>흔들림을 0 으로</b> 만들 수도 있습니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'최적 배분', d:'ρ = 0 일 때 흔들림이 가장 작은 배분을 계산하세요.'},
+   {lv:'심화',   t:'ρ = −1', d:'흔들림이 0 이 되는 배분을 식으로 구하세요.'},
+   {lv:'프로젝트', t:'자산 배분 설계', d:'실제 자산군의 수익·위험 자료로 배분안을 만들어 보세요.'}
+  ],
+  eq:'σ² 는 w 의 이차식',
+  what:'「나눠 담으라」는 말이 <b>이차함수의 최솟값</b> 문제임을 보이는 실험입니다.',
+  probe:'상관을 −1 로 두면 곡선이 왼쪽 벽에 바짝 붙습니다 — 흔들림이 거의 사라집니다.',
+  link:'분산(LAB 150)의 응용이며, 이차함수의 최솟값(LAB 33)을 씁니다.'},
+
+/* 213 위험 회피 */
+ {tex:[
+   {t:'E[X]\\ \\text{는 같아도}\\ E[u(X)]\\ \\text{는 다르다}', s:'기댓값과 <b>만족도의 기댓값</b>은 다른 수입니다.'},
+   {t:'u\\ \\text{가 위로 볼록} \\Rightarrow E[u(X)]<u(E[X])', s:'옌센 부등식 — <b>확실한 쪽이 낫습니다</b>.'},
+   {t:'\\text{확실성등가}=u^{-1}(E[u(X)])', s:'「이만큼 확실히 주면 도박과 같다」는 <b>금액</b>입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'만족도 계산', d:'폭 80 일 때 두 만족도를 손으로 계산하세요.'},
+   {lv:'심화',   t:'보험료 상한', d:'확실성등가로 낼 만한 보험료의 최대치를 구하세요.'},
+   {lv:'프로젝트', t:'투자 성향 조사', d:'친구들에게 같은 질문을 던져 위험 성향을 조사해 보세요.'}
+  ],
+  eq:'E[u(X)] < u(E[X])',
+  what:'「기댓값이 전부가 아니다」를 <b>곡선의 볼록성</b>으로 설명하는 실험입니다.',
+  probe:'두 점을 이은 붉은 직선이 늘 파란 곡선 아래에 놓입니다 — 그것이 위험 회피입니다.',
+  link:'기댓값(LAB 149)의 다음 단계이며, 보험료의 근거가 됩니다.'},
+
+/* 214 지니계수 */
+ {tex:[
+   {t:'\\text{지니}=\\frac{\\text{대각선과 곡선 사이 넓이}}{1/2}', s:'<b>넓이의 비</b>라서 0 과 1 사이의 수가 됩니다.'},
+   {t:'\\text{완전 평등} \\Rightarrow \\text{곡선}=\\text{대각선} \\Rightarrow 0', s:'모두 같은 몫이면 누적 곡선이 <b>직선</b>이 됩니다.'},
+   {t:'\\text{한 사람이 다 가짐} \\Rightarrow 1\\text{에 가까움}', s:'곡선이 <b>바닥을 기다가</b> 끝에서 치솟습니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'넓이 계산', d:'사다리꼴 공식으로 곡선 아래 넓이를 손으로 구하세요.'},
+   {lv:'심화',   t:'같은 지니, 다른 분배', d:'지니계수가 비슷한 서로 다른 분배를 만들어 보세요.'},
+   {lv:'프로젝트', t:'실제 자료', d:'여러 나라의 지니계수를 조사해 정책과 함께 비교하세요.'}
+  ],
+  eq:'지니 = (0.5 − 곡선 아래 넓이) ÷ 0.5',
+  what:'불평등이라는 <b>말</b>을 넓이라는 <b>수</b>로 바꾸는 실험입니다.',
+  probe:'완전 평등에서 곡선이 대각선과 정확히 겹쳐 붉은 영역이 사라집니다.',
+  link:'넓이 계산(LAB 137)의 응용이며, 자료 해석(LAB 41)과 이어집니다.'},
+
+/* 215 성장률 */
+ {tex:[
+   {t:'A_n=A_0(1+g)^{n}', s:'해마다 같은 비율이면 <b>지수함수</b>가 됩니다.'},
+   {t:'\\log A_n=\\log A_0+n\\log(1+g)', s:'로그를 취하면 <b>직선</b> — 로그 눈금을 쓰는 까닭입니다.'},
+   {t:'1+g_{\\text{실질}}=\\frac{1+g}{1+i}', s:'실질 성장률은 두 지수의 <b>비</b>로 정확히 계산합니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'배율 계산', d:'명목 5%, 20년의 배율을 구하세요.'},
+   {lv:'심화',   t:'근사의 오차', d:'g − i 근사와 정확한 값의 차이를 계산하세요.'},
+   {lv:'프로젝트', t:'장기 그래프', d:'실제 GDP 자료를 로그 눈금으로 그려 성장 추세를 읽으세요.'}
+  ],
+  eq:'로그 눈금에서 직선 = 일정한 성장률',
+  what:'경제 그래프를 <b>읽는 법</b>을 익히는 실험입니다. 로그 눈금의 뜻이 분명해집니다.',
+  probe:'위 그림은 휘는데 아래(로그) 그림은 곧게 뻗습니다 — 같은 자료입니다.',
+  link:'로그 스케일(LAB 12)의 응용이며, 복리(LAB 11)와 72의 법칙을 씁니다.'},
+
+/* 216 감가상각 */
+ {tex:[
+   {t:'\\text{정액법}: V_n=V_0\\left(1-\\frac{n}{N}\\right)', s:'해마다 <b>같은 금액</b>씩 — 등차수열, 직선입니다.'},
+   {t:'\\text{정률법}: V_n=V_0(1-r)^{n}', s:'해마다 <b>같은 비율</b>씩 — 등비수열, 곡선입니다.'},
+   {t:'V_n=\\tfrac12V_0 \\Rightarrow n=\\frac{\\log 0.5}{\\log(1-r)}', s:'절반이 되는 해는 <b>로그</b>로 구합니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'값 비교', d:'1년 뒤와 3년 뒤의 두 방식 값을 계산해 비교하세요.'},
+   {lv:'심화',   t:'절반의 해', d:'비율을 바꿔 가며 절반이 되는 해를 로그로 구하세요.'},
+   {lv:'프로젝트', t:'중고 시세 조사', d:'실제 중고차 시세를 모아 어느 방식에 가까운지 판정하세요.'}
+  ],
+  eq:'정액법 = 등차 · 정률법 = 등비',
+  what:'등차와 등비의 차이를 <b>값이 떨어지는 방식</b>으로 만나는 실험입니다.',
+  probe:'정률법 곡선은 0 에 다가가기만 할 뿐 결코 닿지 않습니다.',
+  link:'등차와 등비(LAB 123)의 실생활판이며, 로그(LAB 12)로 시점을 구합니다.'}
 ];
 
 /* ============ 10종 실험실 정의 ============ */
@@ -12752,6 +12992,929 @@ function biasLearnDemo(root){
       return [a.toFixed(2),b.toFixed(1),loss(a,b).toFixed(3),loss(bestA,0).toFixed(3),loss(abA,abB).toFixed(3)]; } });
 }
 
+
+/* ---------- LAB 202 연이율과 월이율 — 12로 나누면 될까 ---------- */
+function aprDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ap2" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">같은 「연 12%」라도 <b>얼마나 자주 이자를 붙이느냐</b>에 따라
+      1년 뒤 금액이 달라집니다.</div>
+    </div>
+    <div class="col">
+      ${slider('apR','표시된 연이율',1,24,1,12,'%')}
+      ${slider('apK','1년에 이자 붙는 횟수',1,52,1,4,'번')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="apDay">매주 붙이기 (52번)</button></div>
+      <div class="out" id="ap2out"></div>
+      <div class="note" style="margin-top:12px">실효이자율 = (1 + r/k)^k − 1.
+      횟수를 늘릴수록 커지지만 <b>e^r − 1 을 넘지는 못합니다</b>.</div>
+    </div></div>`;
+  const cv=$('#ap2'),ctx=cv.getContext('2d'),W=380,H=320,P=42;
+  function draw(){
+    const r=+$('#apR').value/100; let k=+$('#apK').value;
+    $('#apRv').textContent=(r*100).toFixed(0)+'%'; $('#apKv').textContent=k+'번';
+    const eff=Math.pow(1+r/k,k)-1, cap=Math.exp(r)-1;
+    const X=v=>P+(W-2*P)*Math.log(v)/Math.log(365), Y=v=>H-P-(H-2*P)*(v-r)/(cap-r+1e-9);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.setLineDash([5,4]); ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(P,Y(cap)); ctx.lineTo(W-P,Y(cap)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#BE123C'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('연속 복리의 한계 e^r − 1 = '+(cap*100).toFixed(3)+'%', P, Y(cap)-6);
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4; ctx.beginPath();
+    for(let i=0;i<=200;i++){ const kk=Math.pow(365,i/200), v=Math.pow(1+r/kk,kk)-1;
+      i?ctx.lineTo(X(kk),Y(v)):ctx.moveTo(X(kk),Y(v)); }
+    ctx.stroke();
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(X(k),Y(eff),5.4,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('가로 = 이자 붙는 횟수 (로그 눈금)', P, H-14);
+    [1,4,12,52,365].forEach(t=>{ ctx.textAlign='center'; ctx.fillText(t, X(t), H-P+15); });
+    const gap=(eff-r)*100;
+    $('#ap2out').innerHTML =
+      `<span class="mono">표시 연이율 ${(r*100).toFixed(0)}% · ${k}번 붙임 → 실효이자율 = (1 + ${(r).toFixed(2)}/${k})^${k} − 1 = <b style="color:#2563EB">${(eff*100).toFixed(4)}%</b></span><br>`
+      + `<span class="mono">표시와의 차이 <b>${gap.toFixed(4)}%p</b> · 100만원이면 ${(gap*10000/100).toFixed(0)}원 차이</span><br>`
+      + (k>=52 ? `<b style="color:#B45309">매주 붙여도 e^r − 1 = ${(cap*100).toFixed(3)}% 를 넘지 못합니다 — 한계가 있습니다.</b><br>` : '')
+      + (k===1 ? `<b style="color:#7C3AED">1년에 한 번만 붙이면 표시 이율과 실효이율이 같습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">「연 12% = 월 1%」는 이자를 한 번만 붙일 때만 맞습니다.</span>`;
+  }
+  $('#apDay').onclick=()=>{ $('#apK').value=52; draw(); };
+  ['apR','apK'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'ap2', title:'실효이자율 — 얼마나 자주 붙이나',
+    q:['횟수를 1, 4, 12, 52 로 바꾸며 실효이자율을 기록하세요.',
+       '횟수를 아무리 늘려도 넘지 못하는 값은 얼마인가요?',
+       '「연 12% = 월 1%」가 언제만 맞는 말인지 쓰세요.'],
+    cols:['연이율','횟수','실효이자율','차이(%p)','한계'],
+    hint:'힌트 — (1 + r/k)^k 는 k 가 커질수록 e^r 에 다가갑니다.',
+    read:()=>{ const r=+$('#apR').value/100,k=+$('#apK').value;
+      const eff=Math.pow(1+r/k,k)-1;
+      return [(r*100).toFixed(0)+'%',k,(eff*100).toFixed(4)+'%',((eff-r)*100).toFixed(4),
+        ((Math.exp(r)-1)*100).toFixed(3)+'%']; } });
+}
+
+/* ---------- LAB 203 누진세 — 구간이 오르면 전체가 오를까 ---------- */
+function taxBracketDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="tb1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">소득을 구간별로 잘라 <b>각 조각에 그 구간의 세율</b>을 매깁니다.
+      막대의 색이 구간, 높이가 세금입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('tbI','연소득',1000,12000,100,3000,'만원')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="tbJust">구간 경계 바로 아래로</button>
+        <button class="b g sm" id="tbOver">경계를 막 넘겨서</button>
+      </div>
+      <div class="out" id="tbout"></div>
+      <div class="note" style="margin-top:12px">한계세율 = 마지막 1원에 붙는 세율,
+      실효세율 = 전체 세금 ÷ 전체 소득. <b>둘은 다른 수</b>입니다.</div>
+    </div></div>`;
+  const cv=$('#tb1'),ctx=cv.getContext('2d'),W=380,H=330,P=40;
+  const BR=[[1400,0.06],[5000,0.15],[8800,0.24],[15000,0.35]];
+  const COL=['rgba(37,99,235,.4)','rgba(14,147,132,.45)','rgba(245,158,11,.5)','rgba(190,18,60,.45)'];
+  function calc(inc){ let lo=0, tax=0, parts=[];
+    for(const [hi,rate] of BR){ const amt=Math.max(0,Math.min(inc,hi)-lo);
+      if(amt>0){ parts.push([amt,rate]); tax+=amt*rate; } lo=hi; if(inc<=hi) break; }
+    return {tax:tax, parts:parts}; }
+  function draw(){
+    const inc=+$('#tbI').value; $('#tbIv').textContent=inc+'만원';
+    const r=calc(inc);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const X=v=>P+(W-2*P)*v/12000;
+    let acc=0;
+    r.parts.forEach((p,i)=>{ ctx.fillStyle=COL[i];
+      ctx.fillRect(X(acc),80,X(acc+p[0])-X(acc),44);
+      ctx.strokeStyle='#fff'; ctx.lineWidth=1; ctx.strokeRect(X(acc),80,X(acc+p[0])-X(acc),44);
+      ctx.fillStyle='#374151'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+      if(X(acc+p[0])-X(acc)>28) ctx.fillText((p[1]*100)+'%', (X(acc)+X(acc+p[0]))/2, 106);
+      const h=p[0]*p[1]*0.055;
+      ctx.fillStyle=COL[i]; ctx.fillRect(X(acc),260-h,X(acc+p[0])-X(acc),h);
+      ctx.strokeStyle='#fff'; ctx.strokeRect(X(acc),260-h,X(acc+p[0])-X(acc),h);
+      acc+=p[0]; });
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,260); ctx.lineTo(W-P,260); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('위 = 소득을 구간으로 자른 모습 (색 = 세율)', P, 68);
+    ctx.fillText('아래 = 구간마다 낸 세금', P, 278);
+    BR.forEach(([hi])=>{ if(hi<12000){ ctx.setLineDash([3,3]); ctx.strokeStyle='#C7D2E4';
+      ctx.beginPath(); ctx.moveTo(X(hi),70); ctx.lineTo(X(hi),268); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#9CA3AF'; ctx.font='9.5px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(hi, X(hi), 296); } });
+    const marg=r.parts.length?r.parts[r.parts.length-1][1]:0;
+    const eff=r.tax/inc;
+    $('#tbout').innerHTML =
+      `<span class="mono">세금 = ${r.parts.map(p=>p[0]+'×'+(p[1]*100)+'%').join(' + ')} = <b>${r.tax.toFixed(1)}만원</b></span><br>`
+      + `<span class="mono">한계세율 <b style="color:#BE123C">${(marg*100).toFixed(0)}%</b> · 실효세율 <b style="color:#0E9384">${(eff*100).toFixed(2)}%</b> — 두 값이 다릅니다</span><br>`
+      + (inc===5100 ? `<b style="color:#B45309">경계를 100만원 넘겼는데 세금은 15만원만 늘었습니다 — 넘은 부분에만 높은 세율이 붙습니다.</b><br>` : '')
+      + (inc===4900 ? `<b style="color:#7C3AED">아직 경계 아래 — 이 소득까지는 15% 구간의 세율만 적용됩니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">구간을 넘어도 전체 소득에 높은 세율이 붙지는 않습니다.</span>`;
+  }
+  $('#tbJust').onclick=()=>{ $('#tbI').value=4900; draw(); };
+  $('#tbOver').onclick=()=>{ $('#tbI').value=5100; draw(); };
+  $('#tbI').oninput=draw; draw();
+  inquiry(root,{ id:'tb', title:'누진세 — 한계세율과 실효세율',
+    q:['소득을 바꾸며 (소득, 세금, 한계세율, 실효세율) 을 여섯 줄 기록하세요.',
+       '경계 바로 아래와 바로 위의 세금 차이를 계산하세요.',
+       '「구간이 오르면 손해」라는 말이 왜 틀린지 설명하세요.'],
+    cols:['소득','세금','한계세율','실효세율','차이'],
+    hint:'힌트 — 넘은 부분에만 높은 세율이 붙습니다.',
+    read:()=>{ const inc=+$('#tbI').value, r=calc(inc);
+      const marg=r.parts.length?r.parts[r.parts.length-1][1]:0;
+      return [inc,r.tax.toFixed(1),(marg*100).toFixed(0)+'%',(r.tax/inc*100).toFixed(2)+'%',
+        ((marg-r.tax/inc)*100).toFixed(2)+'%p']; } });
+}
+
+/* ---------- LAB 204 환율과 교차환율 — 두 번 바꾸면 손해일까 ---------- */
+function fxDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="fx1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">원 → 달러 → 엔으로 <b>두 번 바꾸는 길</b>과
+      원 → 엔으로 <b>바로 바꾸는 길</b>을 견줍니다.</div>
+    </div>
+    <div class="col">
+      ${slider('fxA','원/달러',1200,1500,10,1350,'원')}
+      ${slider('fxB','엔/달러',120,170,1,150,'엔')}
+      ${slider('fxS','한 번 바꿀 때 수수료',0,2,0.1,0.5,'%')}
+      <div class="out" id="fxout"></div>
+      <div class="note" style="margin-top:12px">교차환율(원/엔) = (원/달러) ÷ (엔/달러).
+      수수료가 없으면 두 길의 결과가 <b>정확히 같습니다</b>.</div>
+    </div></div>`;
+  const cv=$('#fx1'),ctx=cv.getContext('2d'),W=380,H=320;
+  function draw(){
+    const kd=+$('#fxA').value, jd=+$('#fxB').value, fee=+$('#fxS').value/100;
+    $('#fxAv').textContent=kd+'원'; $('#fxBv').textContent=jd+'엔'; $('#fxSv').textContent=(fee*100).toFixed(1)+'%';
+    const KRW=1000000;
+    const usd=KRW/kd*(1-fee), jpyVia=usd*jd*(1-fee);
+    const cross=kd/jd, jpyDirect=KRW/cross*(1-fee);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const node=(x,y,label,val,col)=>{ ctx.fillStyle=col;
+      ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x-46,y-20,92,40,8) : ctx.rect(x-46,y-20,92,40);
+      ctx.fill();
+      ctx.fillStyle='#fff'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(label, x, y-3); ctx.font='10px sans-serif'; ctx.fillText(val, x, y+12); };
+    const arrow=(x1,y1,x2,y2,txt)=>{ ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.8;
+      ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+      ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(txt, (x1+x2)/2, (y1+y2)/2-6); };
+    node(64,60,'원','100만원','rgba(37,99,235,.8)');
+    node(190,60,'달러',usd.toFixed(2)+'$','rgba(14,147,132,.8)');
+    node(316,60,'엔',Math.round(jpyVia)+'¥','rgba(190,18,60,.8)');
+    arrow(110,60,144,60,'÷'+kd); arrow(236,60,270,60,'×'+jd);
+    node(64,200,'원','100만원','rgba(37,99,235,.8)');
+    node(316,200,'엔',Math.round(jpyDirect)+'¥','rgba(190,18,60,.8)');
+    arrow(110,200,270,200,'÷ 교차환율 '+cross.toFixed(4));
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('위 = 두 번 바꾸는 길 · 아래 = 바로 바꾸는 길', 20, 130);
+    ctx.fillText('교차환율 = 원/달러 ÷ 엔/달러 = '+kd+' ÷ '+jd, 20, 258);
+    const diff=jpyDirect-jpyVia;
+    $('#fxout').innerHTML =
+      `<span class="mono">두 번 바꾸면 <b>${Math.round(jpyVia)}엔</b> · 바로 바꾸면 <b>${Math.round(jpyDirect)}엔</b></span><br>`
+      + `<span class="mono">교차환율 = ${cross.toFixed(4)} 원/엔 · 차이 <b style="color:#BE123C">${Math.round(diff)}엔</b></span><br>`
+      + (fee===0 && Math.abs(diff)<1 ? `<b style="color:#B45309">수수료가 없으면 두 길의 결과가 같습니다 — 나눗셈의 순서만 바뀔 뿐입니다.</b><br>` : '')
+      + (fee>=0.01 ? `<b style="color:#7C3AED">수수료를 두 번 내니 두 번 바꾸는 길이 눈에 띄게 손해입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">손해의 정체는 환율이 아니라 「수수료를 몇 번 내느냐」입니다.</span>`;
+  }
+  ['fxA','fxB','fxS'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'fx', title:'교차환율 — 두 길의 비교',
+    q:['수수료를 0, 0.5, 1, 2% 로 바꾸며 두 길의 결과를 기록하세요.',
+       '수수료가 0 일 때 두 값이 같은 이유를 식으로 보이세요.',
+       '교차환율을 손으로 계산해 화면 값과 대조하세요.'],
+    cols:['원/달러','엔/달러','수수료','두 번','바로'],
+    hint:'힌트 — (1/a)×b 와 1/(a/b) 는 같은 값입니다.',
+    read:()=>{ const kd=+$('#fxA').value,jd=+$('#fxB').value,fee=+$('#fxS').value/100;
+      const via=1000000/kd*(1-fee)*jd*(1-fee), dir=1000000/(kd/jd)*(1-fee);
+      return [kd,jd,(fee*100).toFixed(1)+'%',Math.round(via),Math.round(dir)]; } });
+}
+
+/* ---------- LAB 205 물가지수와 실질가치 — 10년 전 만 원 ---------- */
+function cpiDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="cp1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">파랑은 <b>통장에 찍힌 금액</b>, 초록은 <b>그 돈으로 살 수 있는 양</b>입니다.
+      물가가 오르면 두 선이 갈라집니다.</div>
+    </div>
+    <div class="col">
+      ${slider('cpI','해마다 물가 상승률',0,8,0.5,3,'%')}
+      ${slider('cpR','예금 이자율',0,8,0.5,5,'%')}
+      ${slider('cpY','기간',1,30,1,10,'년')}
+      <div class="out" id="cpout"></div>
+      <div class="note" style="margin-top:12px">실질가치 = 명목금액 ÷ 물가지수.
+      <b>이자율이 물가 상승률보다 낮으면</b> 돈이 늘어도 살 수 있는 양은 줄어듭니다.</div>
+    </div></div>`;
+  const cv=$('#cp1'),ctx=cv.getContext('2d'),W=380,H=320,P=40;
+  function draw(){
+    const inf=+$('#cpI').value/100, r=+$('#cpR').value/100, n=+$('#cpY').value;
+    $('#cpIv').textContent=(inf*100).toFixed(1)+'%'; $('#cpRv').textContent=(r*100).toFixed(1)+'%'; $('#cpYv').textContent=n+'년';
+    const nom=t=>Math.pow(1+r,t), real=t=>Math.pow(1+r,t)/Math.pow(1+inf,t);
+    const mx=Math.max(nom(n),1.05)*1.1, mn=Math.min(real(n),0.95)*0.9;
+    const X=t=>P+(W-2*P)*t/n, Y=v=>H-P-(H-2*P)*(v-mn)/(mx-mn);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.setLineDash([4,4]); ctx.strokeStyle='#C7D2E4'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(P,Y(1)); ctx.lineTo(W-P,Y(1)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#9CA3AF'; ctx.font='10px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('처음 가치 (1.0)', P+2, Y(1)-5);
+    [[nom,'#2563EB'],[real,'#0E9384']].forEach(([f,col])=>{
+      ctx.strokeStyle=col; ctx.lineWidth=2.6; ctx.beginPath();
+      for(let i=0;i<=120;i++){ const t=n*i/120; i?ctx.lineTo(X(t),Y(f(t))):ctx.moveTo(X(t),Y(f(t))); }
+      ctx.stroke(); });
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('파랑 = 통장 금액 · 초록 = 실질 구매력', P, P-14);
+    ctx.textAlign='center'; ctx.fillText(n+'년', X(n), H-P+16);
+    const nv=nom(n), rv=real(n);
+    $('#cpout').innerHTML =
+      `<span class="mono">${n}년 뒤 통장 금액 = <b style="color:#2563EB">${(nv*10000).toFixed(0)}원</b> (처음 1만원)</span><br>`
+      + `<span class="mono">실질 가치 = ${(nv*10000).toFixed(0)} ÷ ${Math.pow(1+inf,n).toFixed(3)} = <b style="color:#0E9384">${(rv*10000).toFixed(0)}원</b></span><br>`
+      + (r<inf-1e-9 ? `<b style="color:#B45309">이자율이 물가 상승률보다 낮아 — 돈은 늘었는데 살 수 있는 양은 줄었습니다.</b><br>` : '')
+      + (Math.abs(r-inf)<1e-9 ? `<b style="color:#7C3AED">이자율과 물가 상승률이 같아 실질 가치가 그대로입니다 — 초록 선이 수평입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">중요한 것은 명목 이자율이 아니라 (이자율 − 물가 상승률) 입니다.</span>`;
+  }
+  ['cpI','cpR','cpY'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'cp', title:'실질가치 — 돈의 진짜 크기',
+    q:['물가 상승률과 이자율을 바꾸며 (명목, 실질) 을 여섯 줄 기록하세요.',
+       '실질 가치가 그대로인 조건을 식으로 쓰세요.',
+       '10년 전 만 원이 지금 얼마인지 계산해 보세요.'],
+    cols:['물가','이자','기간','명목','실질'],
+    hint:'힌트 — 실질 배율 = (1+r)ⁿ ÷ (1+i)ⁿ 입니다.',
+    read:()=>{ const inf=+$('#cpI').value/100,r=+$('#cpR').value/100,n=+$('#cpY').value;
+      return [(inf*100).toFixed(1)+'%',(r*100).toFixed(1)+'%',n,
+        (Math.pow(1+r,n)*10000).toFixed(0),(Math.pow(1+r,n)/Math.pow(1+inf,n)*10000).toFixed(0)]; } });
+}
+
+/* ---------- LAB 206 현재가치 — 1년 뒤 100만원은 지금 얼마 ---------- */
+function pvDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="pv2" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">막대는 <b>미래에 받을 돈을 지금 가치로 되돌린</b> 크기입니다.
+      멀리 있는 돈일수록 작아집니다.</div>
+    </div>
+    <div class="col">
+      ${slider('pvR','할인율 (연)',0,15,0.5,5,'%')}
+      ${slider('pvN','받는 시점',1,10,1,3,'년 뒤')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="pvCmp">지금 90만원과 견주기</button></div>
+      <div class="out" id="pv2out"></div>
+      <div class="note" style="margin-top:12px">현재가치 = 미래금액 ÷ (1 + r)ⁿ.
+      「지금 받을까, 나중에 받을까」를 <b>같은 시점으로 옮겨</b> 비교합니다.</div>
+    </div></div>`;
+  const cv=$('#pv2'),ctx=cv.getContext('2d'),W=380,H=320,P=40;
+  const S={ cmp:false };
+  function draw(){
+    const r=+$('#pvR').value/100, n=+$('#pvN').value;
+    $('#pvRv').textContent=(r*100).toFixed(1)+'%'; $('#pvNv').textContent=n+'년 뒤';
+    const F=1000000, pv=t=>F/Math.pow(1+r,t);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const bw=(W-2*P)/10, Y=v=>H-56-(H-120)*v/F;
+    for(let t=1;t<=10;t++){ const v=pv(t), h=Y(0)-Y(v);
+      ctx.fillStyle = t===n ? 'rgba(190,18,60,.55)' : 'rgba(37,99,235,.3)';
+      ctx.fillRect(P+(t-1)*bw+3, Y(v), bw-6, h);
+      ctx.fillStyle='#6B7280'; ctx.font='9.5px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(t, P+(t-1)*bw+bw/2, H-40); }
+    if(S.cmp){ ctx.setLineDash([5,4]); ctx.strokeStyle='#0E9384'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(P,Y(900000)); ctx.lineTo(W-P,Y(900000)); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#0E9384'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+      ctx.fillText('지금 받는 90만원', P+2, Y(900000)-6); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,Y(0)); ctx.lineTo(W-P,Y(0)); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('가로 = 몇 년 뒤에 받는가 · 세로 = 지금 가치', P, P-14);
+    const v=pv(n), better = v>900000;
+    $('#pv2out').innerHTML =
+      `<span class="mono">${n}년 뒤 100만원의 현재가치 = 1000000 ÷ (1+${r.toFixed(3)})^${n} = <b style="color:#BE123C">${Math.round(v).toLocaleString()}원</b></span><br>`
+      + `<span class="mono">깎인 금액 <b>${Math.round(F-v).toLocaleString()}원</b> · 할인율 ${(r*100).toFixed(1)}%</span><br>`
+      + (S.cmp && !better ? `<b style="color:#B45309">지금 받는 90만원이 더 낫습니다 — 기다리는 값이 깎임보다 작습니다.</b><br>` : '')
+      + (S.cmp && better ? `<b style="color:#7C3AED">기다렸다 받는 편이 낫습니다 — 현재가치가 90만원보다 큽니다.</b><br>` : '')
+      + (r===0 ? `할인율이 0 이면 시점이 달라도 가치가 같습니다.<br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">시점이 다른 돈은 같은 시점으로 옮겨야 비교할 수 있습니다.</span>`;
+  }
+  $('#pvCmp').onclick=()=>{ S.cmp=true; draw(); };
+  ['pvR','pvN'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'pv2', title:'현재가치 — 시점을 맞춰 비교하기',
+    q:['할인율과 시점을 바꾸며 현재가치를 여섯 줄 기록하세요.',
+       '지금 90만원과 같아지는 (할인율, 시점) 조합을 찾으세요.',
+       '할인율이 0 일 때 무슨 일이 생기는지 쓰세요.'],
+    cols:['할인율','시점','현재가치','깎인 금액','90만원과 비교'],
+    hint:'힌트 — 현재가치 = 미래금액 ÷ (1 + r)ⁿ 입니다.',
+    read:()=>{ const r=+$('#pvR').value/100,n=+$('#pvN').value, v=1000000/Math.pow(1+r,n);
+      return [(r*100).toFixed(1)+'%',n,Math.round(v),Math.round(1000000-v),v>900000?'기다림 유리':'지금이 유리']; } });
+}
+
+
+/* ---------- LAB 207 수요와 공급 — 가격은 어디서 정해지나 ---------- */
+function supplyDemandDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sd4" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">파랑은 <b>사려는 양</b>, 초록은 <b>팔려는 양</b>입니다.
+      가격을 옮기며 남거나 모자라는 양을 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('sdP','가격',1,19,0.5,8,'천원')}
+      ${slider('sdD','수요의 기울기 (가격에 얼마나 민감한가)',1,6,0.5,3,'')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="sdEq">균형가격으로</button></div>
+      <div class="out" id="sd4out"></div>
+      <div class="note" style="margin-top:12px">수요량 = 60 − d·P, 공급량 = 4·P.
+      두 값이 같아지는 가격이 <b>균형가격</b>입니다.</div>
+    </div></div>`;
+  const cv=$('#sd4'),ctx=cv.getContext('2d'),W=380,H=330,P0=46;
+  const sup=p=>4*p;
+  function draw(){
+    const p=+$('#sdP').value, d=+$('#sdD').value;
+    $('#sdPv').textContent=p.toFixed(1)+'천원'; $('#sdDv').textContent=d.toFixed(1);
+    const dem=q=>Math.max(0,60-d*q);
+    const eq=60/(d+4);
+    const X=q=>P0+(W-2*P0)*q/60, Y=pp=>H-P0-(H-2*P0)*pp/20;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P0,H-P0); ctx.lineTo(W-P0,H-P0); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(P0,H-P0); ctx.lineTo(P0,P0-14); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.6; ctx.beginPath();
+    ctx.moveTo(X(0),Y(60/d)); ctx.lineTo(X(60),Y(Math.max(0,(60-d*60)/1))); ctx.stroke();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.6; ctx.beginPath();
+    ctx.moveTo(X(0),Y(0)); ctx.lineTo(X(60),Y(15)); ctx.stroke();
+    ctx.setLineDash([5,4]); ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.8;
+    ctx.beginPath(); ctx.moveTo(P0,Y(p)); ctx.lineTo(W-P0,Y(p)); ctx.stroke(); ctx.setLineDash([]);
+    const qd=Math.max(0,(60-d*0)/1), demQ=Math.max(0,(60-0)/1);
+    const qDem=Math.max(0,(60-d*p)/1)/1, qSup=sup(p);
+    const qd2=Math.max(0,(60-d*p));
+    ctx.fillStyle='#2563EB'; ctx.beginPath(); ctx.arc(X(qd2/1*1),Y(p),5,0,7); ctx.fill();
+    ctx.fillStyle='#0E9384'; ctx.beginPath(); ctx.arc(X(qSup),Y(p),5,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('파랑 = 수요 · 초록 = 공급 · 붉은 점선 = 지금 가격', 20, 28);
+    ctx.fillText('가로 = 수량, 세로 = 가격', 20, H-14);
+    const gap=qd2-qSup;
+    $('#sd4out').innerHTML =
+      `<span class="mono">가격 ${p.toFixed(1)}천원 → 수요량 <b style="color:#2563EB">${qd2.toFixed(1)}</b> · 공급량 <b style="color:#0E9384">${qSup.toFixed(1)}</b></span><br>`
+      + `<span class="mono">균형가격 = 60 ÷ (${d.toFixed(1)} + 4) = <b>${eq.toFixed(3)}천원</b> · 지금 차이 ${gap.toFixed(1)}</span><br>`
+      + (Math.abs(gap)<0.6 ? `<b style="color:#B45309">사려는 양과 팔려는 양이 같아졌습니다 — 균형가격입니다.</b><br>` : '')
+      + (gap>6 ? `<b style="color:#7C3AED">가격이 낮아 사려는 사람이 훨씬 많습니다 — 물건이 모자랍니다(초과수요).</b><br>` : '')
+      + (gap<-6 ? `가격이 높아 팔려는 양이 남습니다 — 재고가 쌓입니다(초과공급).<br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">가격은 두 선이 만나는 곳으로 스스로 움직입니다.</span>`;
+  }
+  $('#sdEq').onclick=()=>{ const d=+$('#sdD').value; $('#sdP').value=(60/(d+4)).toFixed(1); draw(); };
+  ['sdP','sdD'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'sd4', title:'수요와 공급 — 균형가격',
+    q:['가격을 바꾸며 (가격, 수요량, 공급량, 차이) 를 여섯 줄 기록하세요.',
+       '초과수요와 초과공급이 생기는 가격 범위를 각각 쓰세요.',
+       '균형가격을 연립방정식으로 구해 화면 값과 대조하세요.'],
+    cols:['가격','수요량','공급량','차이','균형가격'],
+    hint:'힌트 — 60 − dP = 4P 를 풀면 P = 60/(d+4) 입니다.',
+    read:()=>{ const p=+$('#sdP').value,d=+$('#sdD').value;
+      const qd=Math.max(0,60-d*p), qs=4*p;
+      return [p.toFixed(1),qd.toFixed(1),qs.toFixed(1),(qd-qs).toFixed(1),(60/(d+4)).toFixed(3)]; } });
+}
+
+/* ---------- LAB 208 가격탄력성 — 값을 올리면 매출은 ---------- */
+function elasticityDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="el2" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">막대는 <b>매출(가격 × 판매량)</b>입니다.
+      값을 올린다고 매출이 늘지는 않습니다.</div>
+    </div>
+    <div class="col">
+      ${slider('elP','가격',1,14,0.5,4,'천원')}
+      ${slider('elS','손님의 민감도',1,6,0.5,3,'')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="elTop">매출이 가장 큰 가격으로</button></div>
+      <div class="out" id="el2out"></div>
+      <div class="note" style="margin-top:12px">탄력성 = (판매량 변화율) ÷ (가격 변화율).
+      <b>탄력성이 1 인 곳에서 매출이 최대</b>가 됩니다.</div>
+    </div></div>`;
+  const cv=$('#el2'),ctx=cv.getContext('2d'),W=380,H=330,P=44;
+  function draw(){
+    const p=+$('#elP').value, s=+$('#elS').value;
+    $('#elPv').textContent=p.toFixed(1)+'천원'; $('#elSv').textContent=s.toFixed(1);
+    const q=pp=>Math.max(0,60-s*pp), rev=pp=>pp*q(pp);
+    const best=30/s, mx=rev(best);
+    const X=pp=>P+(W-2*P)*pp/14, Y=v=>H-P-(H-2*P)*v/Math.max(mx*1.1,1);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    for(let i=1;i<=27;i++){ const pp=i*0.5, v=rev(pp);
+      ctx.fillStyle = Math.abs(pp-p)<0.26 ? 'rgba(190,18,60,.55)' : 'rgba(37,99,235,.28)';
+      ctx.fillRect(X(pp)-5, Y(v), 10, Y(0)-Y(v)); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,Y(0)); ctx.lineTo(W-P,Y(0)); ctx.stroke();
+    ctx.setLineDash([4,4]); ctx.strokeStyle='#0E9384'; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(X(best),Y(0)); ctx.lineTo(X(best),Y(mx)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#0E9384'; ctx.font='10.5px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('매출 최대', X(best), Y(mx)-8);
+    ctx.fillStyle='#6B7280'; ctx.textAlign='left';
+    ctx.fillText('가로 = 가격 · 세로 = 매출', P, P-14);
+    const qq=q(p), el = qq>0 ? (s*p)/qq : Infinity;
+    $('#el2out').innerHTML =
+      `<span class="mono">가격 ${p.toFixed(1)} → 판매량 ${qq.toFixed(1)} · 매출 <b style="color:#BE123C">${rev(p).toFixed(1)}</b></span><br>`
+      + `<span class="mono">탄력성 = (변화율의 비) = <b>${isFinite(el)?el.toFixed(3):'∞'}</b> · 매출 최대 가격 ${best.toFixed(2)}천원</span><br>`
+      + (Math.abs(el-1)<0.08 ? `<b style="color:#B45309">탄력성이 1 — 바로 이 가격에서 매출이 가장 큽니다.</b><br>` : '')
+      + (el>1.5 ? `<b style="color:#7C3AED">탄력성이 1 보다 큽니다 — 값을 올리면 매출이 오히려 줄어듭니다.</b><br>` : '')
+      + (el<0.7 ? `탄력성이 1 보다 작습니다 — 값을 올리면 매출이 늘어납니다.<br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">「값을 올리면 돈을 더 번다」는 탄력성이 작을 때만 맞습니다.</span>`;
+  }
+  $('#elTop').onclick=()=>{ const s=+$('#elS').value; $('#elP').value=(30/s).toFixed(1); draw(); };
+  ['elP','elS'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'el2', title:'가격탄력성 — 매출이 최대인 곳',
+    q:['가격을 바꾸며 (가격, 판매량, 매출, 탄력성) 을 여섯 줄 기록하세요.',
+       '탄력성이 1 인 가격과 매출 최대 가격이 같은지 확인하세요.',
+       '값을 올려서 매출이 늘어나는 구간을 찾으세요.'],
+    cols:['가격','판매량','매출','탄력성','최대 가격'],
+    hint:'힌트 — 매출은 가격의 이차함수이고 꼭짓점이 최대입니다.',
+    read:()=>{ const p=+$('#elP').value,s=+$('#elS').value, q=Math.max(0,60-s*p);
+      return [p.toFixed(1),q.toFixed(1),(p*q).toFixed(1),q>0?((s*p)/q).toFixed(3):'∞',(30/s).toFixed(2)]; } });
+}
+
+/* ---------- LAB 209 가격 규제 — 상한을 두면 무슨 일이 ---------- */
+function priceCapDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="pc2" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">균형가격 아래로 <b>상한</b>을 두면 어떤 일이 생기는지 봅니다.
+      주황 띠가 모자라는 양입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('pcCap','가격 상한',2,14,0.5,8.5,'천원')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="pcOff">규제 없애기 (균형가격)</button>
+        <button class="b g sm" id="pcHard">강한 규제 (4천원)</button>
+      </div>
+      <div class="out" id="pc2out"></div>
+      <div class="note" style="margin-top:12px">상한이 균형보다 <b>낮을 때만</b> 효력이 있습니다.
+      그때 초과수요(부족분)가 생깁니다.</div>
+    </div></div>`;
+  const cv=$('#pc2'),ctx=cv.getContext('2d'),W=380,H=330,P=46;
+  const dem=p=>Math.max(0,60-3*p), sup=p=>4*p, EQ=60/7;
+  function draw(){
+    const cap=+$('#pcCap').value; $('#pcCapv').textContent=cap.toFixed(1)+'천원';
+    const X=q=>P+(W-2*P)*q/60, Y=p=>H-P-(H-2*P)*p/20;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(P,P-14); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.6;
+    ctx.beginPath(); ctx.moveTo(X(60),Y(0)); ctx.lineTo(X(0),Y(20)); ctx.stroke();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.6;
+    ctx.beginPath(); ctx.moveTo(X(0),Y(0)); ctx.lineTo(X(60),Y(15)); ctx.stroke();
+    const eff = cap < EQ;
+    const qd=dem(cap), qs=sup(cap);
+    ctx.setLineDash([5,4]); ctx.strokeStyle='#BE123C'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(P,Y(cap)); ctx.lineTo(W-P,Y(cap)); ctx.stroke(); ctx.setLineDash([]);
+    if(eff){ ctx.fillStyle='rgba(245,158,11,.3)';
+      ctx.fillRect(X(qs),Y(cap)-9,X(qd)-X(qs),18);
+      ctx.strokeStyle='#F59E0B'; ctx.lineWidth=1.4; ctx.strokeRect(X(qs),Y(cap)-9,X(qd)-X(qs),18); }
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(X(60/7*3+0),Y(EQ),0,0,7); ctx.fill();
+    ctx.fillStyle='#374151'; ctx.beginPath(); ctx.arc(X(sup(EQ)),Y(EQ),5,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('파랑 = 수요 · 초록 = 공급 · 붉은 = 가격 상한', 20, 28);
+    ctx.fillText('검은 점 = 규제 없을 때의 균형점 ('+EQ.toFixed(2)+'천원)', 20, 44);
+    ctx.fillText('주황 띠 = 모자라는 양', 20, H-14);
+    $('#pc2out').innerHTML =
+      `<span class="mono">상한 ${cap.toFixed(1)}천원 · 균형가격 ${EQ.toFixed(2)}천원</span><br>`
+      + `<span class="mono">수요량 ${qd.toFixed(1)} · 공급량 ${qs.toFixed(1)} · 부족분 <b style="color:#B45309">${Math.max(0,qd-qs).toFixed(1)}</b></span><br>`
+      + (!eff ? `<b style="color:#7C3AED">상한이 균형가격보다 높아 아무 효력이 없습니다 — 가격은 균형에서 정해집니다.</b><br>` : '')
+      + (eff && qd-qs>=10 ? `<b style="color:#B45309">상한이 낮아 크게 모자랍니다 — 줄이 서고 웃돈이 붙습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">가격을 눌러도 사려는 양과 팔려는 양이 바뀌지는 않습니다.</span>`;
+  }
+  $('#pcOff').onclick=()=>{ $('#pcCap').value=14; draw(); };
+  $('#pcHard').onclick=()=>{ $('#pcCap').value=4; draw(); };
+  $('#pcCap').oninput=draw; draw();
+  inquiry(root,{ id:'pc2', title:'가격 상한 — 눌러도 남는 것',
+    q:['상한을 바꾸며 (상한, 수요량, 공급량, 부족분) 을 여섯 줄 기록하세요.',
+       '상한이 효력을 갖기 시작하는 가격을 찾으세요.',
+       '부족분이 생기면 현실에서 무슨 일이 벌어질지 쓰세요.'],
+    cols:['상한','수요량','공급량','부족분','효력'],
+    hint:'힌트 — 균형가격보다 높은 상한은 아무 일도 하지 않습니다.',
+    read:()=>{ const cap=+$('#pcCap').value, qd=Math.max(0,60-3*cap), qs=4*cap;
+      return [cap.toFixed(1),qd.toFixed(1),qs.toFixed(1),Math.max(0,qd-qs).toFixed(1),
+        cap<60/7?'있음':'없음']; } });
+}
+
+/* ---------- LAB 210 기회비용 — 하나를 고르면 하나를 잃는다 ---------- */
+function oppCostDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="oc1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">곡선 위의 점은 <b>가진 자원을 다 쓴</b> 조합입니다.
+      한쪽을 늘리려면 다른 쪽을 얼마나 포기해야 하나요?</div>
+    </div>
+    <div class="col">
+      ${slider('ocX','빵을 만드는 데 쓰는 비율',0,100,5,30,'%')}
+      <label class="ctl" style="margin-top:8px">생산 방식<select id="ocK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="curve">① 특화가 있는 경우 (곡선)</option>
+        <option value="line">② 어느 쪽이든 똑같은 경우 (직선)</option>
+      </select></label>
+      <div class="out" id="ocout"></div>
+      <div class="note" style="margin-top:12px">기회비용 = 포기한 것 중 <b>가장 큰 가치</b>.
+      곡선이 휘어 있으면 늘릴수록 기회비용이 커집니다.</div>
+    </div></div>`;
+  const cv=$('#oc1'),ctx=cv.getContext('2d'),W=380,H=330,P=48;
+  function draw(){
+    const t=+$('#ocX').value/100, k=$('#ocK').value;
+    $('#ocXv').textContent=(t*100).toFixed(0)+'%';
+    const f = k==='curve' ? (u=>[40*Math.sqrt(u), 30*Math.sqrt(1-u)]) : (u=>[40*u, 30*(1-u)]);
+    const X=x=>P+(W-2*P)*x/44, Y=y=>H-P-(H-2*P)*y/34;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(P,P-14); ctx.stroke();
+    ctx.fillStyle='rgba(37,99,235,.08)'; ctx.beginPath(); ctx.moveTo(X(0),Y(0));
+    for(let i=0;i<=100;i++){ const q=f(i/100); ctx.lineTo(X(q[0]),Y(q[1])); }
+    ctx.lineTo(X(0),Y(0)); ctx.fill();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.6; ctx.beginPath();
+    for(let i=0;i<=100;i++){ const q=f(i/100); i?ctx.lineTo(X(q[0]),Y(q[1])):ctx.moveTo(X(q[0]),Y(q[1])); }
+    ctx.stroke();
+    const cur=f(t), nxt=f(Math.min(1,t+0.1));
+    ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(cur[0]),Y(cur[1]),6,0,7); ctx.fill();
+    ctx.fillStyle='rgba(190,18,60,.35)'; ctx.beginPath(); ctx.arc(X(nxt[0]),Y(nxt[1]),5,0,7); ctx.fill();
+    ctx.setLineDash([3,3]); ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(X(cur[0]),Y(cur[1])); ctx.lineTo(X(nxt[0]),Y(cur[1])); ctx.lineTo(X(nxt[0]),Y(nxt[1])); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('가로 = 빵 · 세로 = 우유 · 파란 영역 = 만들 수 있는 조합', 18, 28);
+    ctx.fillText('붉은 점 = 지금 · 옅은 점 = 자원을 10%p 더 옮겼을 때', 18, H-14);
+    const dx=nxt[0]-cur[0], dy=cur[1]-nxt[1];
+    const oc = dx>1e-9 ? dy/dx : Infinity;
+    $('#ocout').innerHTML =
+      `<span class="mono">지금 조합 — 빵 ${cur[0].toFixed(1)} · 우유 ${cur[1].toFixed(1)}</span><br>`
+      + `<span class="mono">빵을 ${dx.toFixed(2)} 더 만들려면 우유를 ${dy.toFixed(2)} 포기 → 기회비용 <b style="color:#BE123C">${isFinite(oc)?oc.toFixed(3):'—'}</b></span><br>`
+      + (k==='curve' && t>=0.8 ? `<b style="color:#B45309">빵 쪽으로 많이 옮길수록 포기해야 할 우유가 급격히 늘어납니다 — 기회비용이 커집니다.</b><br>` : '')
+      + (k==='line' ? `<b style="color:#7C3AED">직선이면 어디서 옮기든 기회비용이 늘 같습니다 — 특화의 이득이 없습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">곡선의 기울기(의 절댓값)가 곧 기회비용입니다.</span>`;
+  }
+  $('#ocX').oninput=draw; $('#ocK').onchange=draw; draw();
+  inquiry(root,{ id:'oc', title:'기회비용과 생산가능곡선',
+    q:['비율을 바꾸며 (빵, 우유, 기회비용) 을 여섯 줄 기록하세요.',
+       '곡선일 때와 직선일 때 기회비용의 변화를 비교하세요.',
+       '곡선이 바깥으로 휘는 이유를 「특화」로 설명하세요.'],
+    cols:['비율','빵','우유','기회비용','모양'],
+    hint:'힌트 — 기회비용은 곡선의 기울기의 절댓값입니다.',
+    read:()=>{ const t=+$('#ocX').value/100,k=$('#ocK').value;
+      const f = k==='curve' ? (u=>[40*Math.sqrt(u),30*Math.sqrt(1-u)]) : (u=>[40*u,30*(1-u)]);
+      const c=f(t), n=f(Math.min(1,t+0.1)), dx=n[0]-c[0], dy=c[1]-n[1];
+      return [(t*100).toFixed(0)+'%',c[0].toFixed(1),c[1].toFixed(1),
+        dx>1e-9?(dy/dx).toFixed(3):'—',k==='curve'?'곡선':'직선']; } });
+}
+
+/* ---------- LAB 211 손익분기점 — 몇 개를 팔아야 본전인가 ---------- */
+function breakEvenDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="be2" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">파랑은 <b>총비용</b>, 초록은 <b>총매출</b>입니다.
+      두 선이 만나는 곳이 본전입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('beF','고정비 (임대료 등)',10,120,5,60,'만원')}
+      ${slider('beV','한 개당 변동비',1,9,0.5,4,'천원')}
+      ${slider('beP','판매 가격',2,14,0.5,7,'천원')}
+      <div class="out" id="be2out"></div>
+      <div class="note" style="margin-top:12px">손익분기 수량 = 고정비 ÷ (가격 − 변동비).
+      분모를 <b>공헌이익</b>이라 부릅니다 — 0 이하면 아무리 팔아도 본전이 안 됩니다.</div>
+    </div></div>`;
+  const cv=$('#be2'),ctx=cv.getContext('2d'),W=380,H=330,P=46;
+  function draw(){
+    const F=+$('#beF').value*10, v=+$('#beV').value, p=+$('#beP').value;
+    $('#beFv').textContent=(F/10)+'만원'; $('#beVv').textContent=v.toFixed(1)+'천원'; $('#bePv').textContent=p.toFixed(1)+'천원';
+    const cm=p-v, be = cm>0 ? F/cm : Infinity;
+    const maxQ=300, X=q=>P+(W-2*P)*q/maxQ, Y=v2=>H-P-(H-2*P)*v2/2600;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(P,P-14); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.6;
+    ctx.beginPath(); ctx.moveTo(X(0),Y(F)); ctx.lineTo(X(maxQ),Y(F+v*maxQ)); ctx.stroke();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.6;
+    ctx.beginPath(); ctx.moveTo(X(0),Y(0)); ctx.lineTo(X(maxQ),Y(p*maxQ)); ctx.stroke();
+    if(isFinite(be) && be<=maxQ){ ctx.fillStyle='#BE123C';
+      ctx.beginPath(); ctx.arc(X(be),Y(p*be),6,0,7); ctx.fill();
+      ctx.setLineDash([3,3]); ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.2;
+      ctx.beginPath(); ctx.moveTo(X(be),Y(0)); ctx.lineTo(X(be),Y(p*be)); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#BE123C'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(Math.ceil(be)+'개', X(be), H-P+16); }
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('파랑 = 총비용 (고정비 + 변동비) · 초록 = 총매출', 18, 28);
+    ctx.fillText('가로 = 판매 수량', 18, H-14);
+    $('#be2out').innerHTML =
+      `<span class="mono">공헌이익 = 가격 ${p.toFixed(1)} − 변동비 ${v.toFixed(1)} = <b>${cm.toFixed(1)}천원</b></span><br>`
+      + (cm>0 ? `<span class="mono">손익분기 수량 = ${(F/10)}만원 ÷ ${cm.toFixed(1)}천원 = <b style="color:#BE123C">${Math.ceil(be)}개</b></span><br>`
+              : `<span class="mono">공헌이익이 0 이하 — 손익분기점이 없습니다.</span><br>`)
+      + (cm<=0 ? `<b style="color:#B45309">한 개 팔 때마다 오히려 손해입니다 — 많이 팔수록 더 나빠집니다.</b><br>` : '')
+      + (cm>0 && be<=60 ? `<b style="color:#7C3AED">${Math.ceil(be)}개만 팔면 본전 — 공헌이익이 커서 문턱이 낮습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">고정비는 문턱의 높이, 공헌이익은 올라가는 속도입니다.</span>`;
+  }
+  ['beF','beV','beP'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'be2', title:'손익분기점 — 본전의 수량',
+    q:['세 값을 바꾸며 (고정비, 공헌이익, 손익분기 수량) 을 여섯 줄 기록하세요.',
+       '가격을 변동비 아래로 내리면 무슨 일이 생기나요?',
+       '고정비를 두 배로 하면 손익분기 수량은 몇 배가 되나요?'],
+    cols:['고정비','변동비','가격','공헌이익','손익분기'],
+    hint:'힌트 — 손익분기 수량 = 고정비 ÷ (가격 − 변동비) 입니다.',
+    read:()=>{ const F=+$('#beF').value,v=+$('#beV').value,p=+$('#beP').value,cm=p-v;
+      return [F,v.toFixed(1),p.toFixed(1),cm.toFixed(1),cm>0?Math.ceil(F*10/cm):'없음']; } });
+}
+
+
+/* ---------- LAB 212 분산투자 — 계란을 한 바구니에 담지 말라 ---------- */
+function diversifyDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="dv1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">두 자산에 나눠 담을 때 <b>기대수익</b>과 <b>흔들림</b>이
+      어떻게 변하는지 봅니다.</div>
+    </div>
+    <div class="col">
+      ${slider('dvW','A 에 담는 비율',0,100,5,100,'%')}
+      ${slider('dvC','두 자산이 함께 움직이는 정도',-100,100,10,0,'%')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="dvMin">흔들림이 가장 작은 배분으로</button></div>
+      <div class="out" id="dvout"></div>
+      <div class="note" style="margin-top:12px">σ² = w²σ_A² + (1−w)²σ_B² + 2w(1−w)ρσ_Aσ_B.
+      <b>함께 움직이지 않는 자산</b>을 섞을수록 흔들림이 줄어듭니다.</div>
+    </div></div>`;
+  const cv=$('#dv1'),ctx=cv.getContext('2d'),W=380,H=330,P=46;
+  const muA=0.08, muB=0.05, sA=0.20, sB=0.12;
+  function stat(w,rho){ const mu=w*muA+(1-w)*muB;
+    const v=w*w*sA*sA+(1-w)*(1-w)*sB*sB+2*w*(1-w)*rho*sA*sB;
+    return [mu, Math.sqrt(Math.max(0,v))]; }
+  function bestW(rho){ const num=sB*sB-rho*sA*sB, den=sA*sA+sB*sB-2*rho*sA*sB;
+    return Math.max(0,Math.min(1,num/den)); }
+  function draw(){
+    const w=+$('#dvW').value/100, rho=+$('#dvC').value/100;
+    $('#dvWv').textContent=(w*100).toFixed(0)+'%'; $('#dvCv').textContent=(rho*100).toFixed(0)+'%';
+    const X=s=>P+(W-2*P)*s/0.25, Y=m=>H-P-(H-2*P)*(m-0.03)/0.07;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(P,P-14); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.6; ctx.beginPath();
+    for(let i=0;i<=100;i++){ const ww=i/100, st=stat(ww,rho);
+      i?ctx.lineTo(X(st[1]),Y(st[0])):ctx.moveTo(X(st[1]),Y(st[0])); }
+    ctx.stroke();
+    const cur=stat(w,rho), bw=bestW(rho), bst=stat(bw,rho);
+    ctx.fillStyle='rgba(14,147,132,.55)'; ctx.beginPath(); ctx.arc(X(bst[1]),Y(bst[0]),5,0,7); ctx.fill();
+    ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(cur[1]),Y(cur[0]),6,0,7); ctx.fill();
+    [[stat(1,rho),'A'],[stat(0,rho),'B']].forEach(([st,nm])=>{
+      ctx.fillStyle='#374151'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(nm, X(st[1]), Y(st[0])-10); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('가로 = 흔들림(위험) · 세로 = 기대수익', P-30, P-16);
+    ctx.fillText('초록 점 = 흔들림이 가장 작은 배분', P-30, H-14);
+    $('#dvout').innerHTML =
+      `<span class="mono">A ${(w*100).toFixed(0)}% + B ${((1-w)*100).toFixed(0)}% → 기대수익 <b>${(cur[0]*100).toFixed(2)}%</b> · 흔들림 <b style="color:#BE123C">${(cur[1]*100).toFixed(2)}%</b></span><br>`
+      + `<span class="mono">가장 안정된 배분 = A ${(bw*100).toFixed(0)}% · 그때 흔들림 ${(bst[1]*100).toFixed(2)}%</span><br>`
+      + (Math.abs(w-bw)<0.03 ? `<b style="color:#B45309">흔들림이 가장 작은 배분입니다 — 한쪽에 몰 때보다 안정적입니다.</b><br>` : '')
+      + (rho<=-0.5 ? `<b style="color:#7C3AED">두 자산이 반대로 움직여 — 섞을수록 흔들림이 크게 줄어듭니다.</b><br>` : '')
+      + (w>=0.99 ? `A 에만 몰았습니다 — 기대수익은 높지만 흔들림도 가장 큽니다.<br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">기대수익은 비율의 일차식, 흔들림은 이차식입니다 — 그래서 곡선이 휩니다.</span>`;
+  }
+  $('#dvMin').onclick=()=>{ const rho=+$('#dvC').value/100; $('#dvW').value=Math.round(bestW(rho)*100/5)*5; draw(); };
+  ['dvW','dvC'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'dv', title:'분산투자 — 흔들림을 줄이는 배분',
+    q:['비율을 바꾸며 (비율, 기대수익, 흔들림) 을 여섯 줄 기록하세요.',
+       '상관을 −1 로 두고 흔들림이 가장 작은 배분을 찾으세요.',
+       '기대수익은 직선인데 흔들림은 왜 곡선인지 식으로 설명하세요.'],
+    cols:['A 비율','상관','기대수익','흔들림','최소 배분'],
+    hint:'힌트 — 분산 식에 w² 이 들어 있어 이차함수가 됩니다.',
+    read:()=>{ const w=+$('#dvW').value/100,rho=+$('#dvC').value/100,st=stat(w,rho);
+      return [(w*100).toFixed(0)+'%',(rho*100).toFixed(0)+'%',(st[0]*100).toFixed(2)+'%',
+        (st[1]*100).toFixed(2)+'%',(bestW(rho)*100).toFixed(0)+'%']; } });
+}
+
+/* ---------- LAB 213 위험 회피 — 기댓값이 같아도 다르다 ---------- */
+function riskAverseDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ra1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">기댓값이 <b>똑같은</b> 두 선택지입니다.
+      그런데 만족도(효용)로 보면 값이 달라집니다.</div>
+    </div>
+    <div class="col">
+      ${slider('raS','도박의 폭 (±)',0,90,5,20,'만원')}
+      ${slider('raK','만족도 곡선의 휨',0.3,1,0.05,0.5,'')}
+      <div class="out" id="raout"></div>
+      <div class="note" style="margin-top:12px">만족도 u(x) = x^k (k &lt; 1 이면 위로 볼록).
+      <b>볼록한 곡선</b>에서는 확실한 100만원이 도박보다 낫습니다.</div>
+    </div></div>`;
+  const cv=$('#ra1'),ctx=cv.getContext('2d'),W=380,H=330,P=44;
+  function draw(){
+    const sp=+$('#raS').value, k=+$('#raK').value;
+    $('#raSv').textContent='±'+sp+'만원'; $('#raKv').textContent=k.toFixed(2);
+    const lo=100-sp, hi=100+sp;
+    const u=x=>Math.pow(Math.max(0,x),k);
+    const uSure=u(100), uGam=(u(lo)+u(hi))/2;
+    const ce=Math.pow(uGam,1/k);
+    const X=x=>P+(W-2*P)*x/200, Y=v=>H-P-(H-2*P)*v/u(200);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(P,P-14); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.6; ctx.beginPath();
+    for(let i=0;i<=200;i++){ const x=200*i/200; i?ctx.lineTo(X(x),Y(u(x))):ctx.moveTo(X(x),Y(u(x))); }
+    ctx.stroke();
+    if(sp>0){ ctx.strokeStyle='#BE123C'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(X(lo),Y(u(lo))); ctx.lineTo(X(hi),Y(u(hi))); ctx.stroke();
+      [[lo,u(lo)],[hi,u(hi)]].forEach(([x,v])=>{ ctx.fillStyle='#BE123C';
+        ctx.beginPath(); ctx.arc(X(x),Y(v),4.4,0,7); ctx.fill(); }); }
+    ctx.fillStyle='#0E9384'; ctx.beginPath(); ctx.arc(X(100),Y(uSure),5.4,0,7); ctx.fill();
+    ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(100),Y(uGam),5.4,0,7); ctx.fill();
+    ctx.setLineDash([3,3]); ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(X(ce),Y(0)); ctx.lineTo(X(ce),Y(uGam)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('파란 곡선 = 만족도 u(x) · 붉은 직선 = 도박의 평균 만족도', P-20, P-16);
+    ctx.fillText('점선 = 확실성등가 (이만큼 확실히 주면 도박과 같다)', P-20, H-14);
+    const gap=uSure-uGam;
+    $('#raout').innerHTML =
+      `<span class="mono">확실한 100만원 · 도박 ${lo}만원/${hi}만원 (반반) — 기댓값은 둘 다 <b>100만원</b></span><br>`
+      + `<span class="mono">만족도: 확실 <b style="color:#0E9384">${uSure.toFixed(3)}</b> · 도박 <b style="color:#BE123C">${uGam.toFixed(3)}</b> · 확실성등가 ${ce.toFixed(1)}만원</span><br>`
+      + (sp===0 ? `<b style="color:#7C3AED">폭이 0 이라 도박이 아닙니다 — 두 선택지가 완전히 같습니다.</b><br>` : '')
+      + (sp>=60 && gap>0.01 ? `<b style="color:#B45309">기댓값이 같은데도 도박의 만족도가 낮습니다 — 사람들이 보험료를 내는 이유입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">곡선이 위로 볼록하면 「같은 기댓값이라도 확실한 쪽」이 낫습니다.</span>`;
+  }
+  ['raS','raK'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'ra', title:'위험 회피 — 기댓값만으로는 부족하다',
+    q:['도박의 폭을 키우며 (폭, 확실 만족도, 도박 만족도, 확실성등가) 를 여섯 줄 기록하세요.',
+       '기댓값이 같은데 왜 만족도가 다른지 곡선의 모양으로 설명하세요.',
+       '확실성등가와 100만원의 차이가 무엇을 뜻하는지 쓰세요.'],
+    cols:['폭','휨 k','확실 만족도','도박 만족도','확실성등가'],
+    hint:'힌트 — 위로 볼록한 곡선에서는 두 점을 이은 선분이 곡선 아래에 놓입니다.',
+    read:()=>{ const sp=+$('#raS').value,k=+$('#raK').value;
+      const u=x=>Math.pow(Math.max(0,x),k), ug=(u(100-sp)+u(100+sp))/2;
+      return [sp,k.toFixed(2),u(100).toFixed(3),ug.toFixed(3),Math.pow(ug,1/k).toFixed(1)]; } });
+}
+
+/* ---------- LAB 214 지니계수 — 불평등을 하나의 수로 ---------- */
+function giniDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="gi1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">가로는 <b>사람의 누적 비율</b>, 세로는 <b>소득의 누적 비율</b>입니다.
+      대각선에서 멀수록 불평등합니다.</div>
+    </div>
+    <div class="col">
+      ${slider('giK','상위 20%가 가져가는 몫',20,80,5,45,'%')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="giEq">완전 평등으로</button>
+        <button class="b g sm" id="giBad">매우 불평등하게</button>
+      </div>
+      <div class="out" id="giout"></div>
+      <div class="note" style="margin-top:12px">지니계수 = (대각선과 곡선 사이 넓이) ÷ (대각선 아래 삼각형 넓이).
+      <b>0 이면 완전 평등, 1 에 가까울수록 불평등</b>합니다.</div>
+    </div></div>`;
+  const cv=$('#gi1'),ctx=cv.getContext('2d'),W=380,H=330,P=48;
+  function draw(){
+    const top=+$('#giK').value/100; $('#giKv').textContent=(top*100).toFixed(0)+'%';
+    // 다섯 계층(각 20%)의 소득 몫: 상위 20% 가 top, 나머지를 등차로 배분
+    const e=(1-top)/4;
+    const shares=[e, e, e, e, top];
+    const cum=[0]; shares.forEach(v=>cum.push(cum[cum.length-1]+v));
+    const X=x=>P+(W-2*P)*x, Y=y=>H-P-(H-2*P)*y;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(190,18,60,.16)'; ctx.beginPath(); ctx.moveTo(X(0),Y(0));
+    for(let i=0;i<=5;i++) ctx.lineTo(X(i/5),Y(cum[i]));
+    ctx.lineTo(X(1),Y(1)); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(X(0),Y(0)); ctx.lineTo(X(1),Y(1)); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.8; ctx.beginPath();
+    for(let i=0;i<=5;i++){ i?ctx.lineTo(X(i/5),Y(cum[i])):ctx.moveTo(X(i/5),Y(cum[i])); }
+    ctx.stroke();
+    for(let i=0;i<=5;i++){ ctx.fillStyle='#2563EB'; ctx.beginPath(); ctx.arc(X(i/5),Y(cum[i]),3.4,0,7); ctx.fill(); }
+    ctx.strokeStyle='#C7D2E4'; ctx.lineWidth=1; ctx.strokeRect(X(0),Y(1),X(1)-X(0),Y(0)-Y(1));
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('회색 대각선 = 완전 평등 · 파란 곡선 = 실제 분배', P-32, P-16);
+    ctx.fillText('붉은 영역이 넓을수록 불평등', P-32, H-14);
+    let area=0; for(let i=0;i<5;i++) area+=(cum[i]+cum[i+1])/2*0.2;
+    const gini=(0.5-area)/0.5;
+    $('#giout').innerHTML =
+      `<span class="mono">계층별 몫 = ${shares.map(v=>(v*100).toFixed(1)+'%').join(' · ')}</span><br>`
+      + `<span class="mono">곡선 아래 넓이 ${area.toFixed(4)} · 지니계수 = (0.5 − ${area.toFixed(4)}) ÷ 0.5 = <b style="color:#BE123C">${gini.toFixed(4)}</b></span><br>`
+      + (gini<0.02 ? `<b style="color:#B45309">곡선이 대각선과 겹쳤습니다 — 지니계수 0, 완전 평등입니다.</b><br>` : '')
+      + (gini>=0.45 ? `<b style="color:#7C3AED">붉은 영역이 크게 벌어졌습니다 — 매우 불평등한 분배입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">지니계수는 넓이의 비 — 그래서 0 과 1 사이의 수가 됩니다.</span>`;
+  }
+  $('#giEq').onclick=()=>{ $('#giK').value=20; draw(); };
+  $('#giBad').onclick=()=>{ $('#giK').value=80; draw(); };
+  $('#giK').oninput=draw; draw();
+  inquiry(root,{ id:'gi', title:'지니계수 — 불평등의 수치화',
+    q:['상위 20%의 몫을 바꾸며 (몫, 곡선 아래 넓이, 지니계수) 를 여섯 줄 기록하세요.',
+       '지니계수가 0 이 되는 경우를 만들고 그 뜻을 쓰세요.',
+       '지니계수가 넓이의 비이므로 0 과 1 사이임을 설명하세요.'],
+    cols:['상위 20% 몫','곡선 아래 넓이','지니계수','판정','평등도'],
+    hint:'힌트 — 대각선 아래 삼각형의 넓이는 0.5 입니다.',
+    read:()=>{ const top=+$('#giK').value/100, e=(1-top)/4;
+      const shares=[e,e,e,e,top];
+      const cum=[0]; shares.forEach(v=>cum.push(cum[cum.length-1]+v));
+      let area=0; for(let i=0;i<5;i++) area+=(cum[i]+cum[i+1])/2*0.2;
+      const g=(0.5-area)/0.5;
+      return [(top*100).toFixed(0)+'%',area.toFixed(4),g.toFixed(4),
+        g<0.02?'완전 평등':(g>=0.45?'매우 불평등':'보통'),(1-g).toFixed(3)]; } });
+}
+
+/* ---------- LAB 215 성장률 — 명목과 실질, 그리고 복리 ---------- */
+function growthDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="gr1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">해마다 같은 <b>비율</b>로 자라면 그림이 어떤 모양이 되나요?
+      아래는 같은 자료를 로그 눈금으로 본 것입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('grG','명목 성장률',0,12,0.5,3,'%')}
+      ${slider('grI','물가 상승률',0,12,0.5,2,'%')}
+      ${slider('grY','기간',5,40,1,20,'년')}
+      <div class="out" id="grout"></div>
+      <div class="note" style="margin-top:12px">실질 성장률 ≈ 명목 − 물가.
+      해마다 같은 비율이면 <b>로그 눈금에서 직선</b>이 됩니다.</div>
+    </div></div>`;
+  const cv=$('#gr1'),ctx=cv.getContext('2d'),W=380,H=330,P=44;
+  function draw(){
+    const g=+$('#grG').value/100, i=+$('#grI').value/100, n=+$('#grY').value;
+    $('#grGv').textContent=(g*100).toFixed(1)+'%'; $('#grIv').textContent=(i*100).toFixed(1)+'%'; $('#grYv').textContent=n+'년';
+    const nom=t=>Math.pow(1+g,t), rel=t=>Math.pow((1+g)/(1+i),t);
+    const mx=Math.max(nom(n),1.2);
+    const X=t=>P+(W-2*P)*t/n;
+    const Y1=v=>168-118*(v-1)/(mx-1+1e-9);
+    const Y2=v=>H-40-100*Math.log(v)/Math.log(Math.max(mx,1.01));
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    [[Y1,'보통 눈금',34],[Y2,'로그 눈금',196]].forEach(([Yf,label,ly])=>{
+      ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(P,Yf(1)); ctx.lineTo(W-P,Yf(1)); ctx.stroke();
+      ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4; ctx.beginPath();
+      for(let k=0;k<=120;k++){ const t=n*k/120; k?ctx.lineTo(X(t),Yf(nom(t))):ctx.moveTo(X(t),Yf(nom(t))); }
+      ctx.stroke();
+      ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.2; ctx.beginPath();
+      for(let k=0;k<=120;k++){ const t=n*k/120; k?ctx.lineTo(X(t),Yf(rel(t))):ctx.moveTo(X(t),Yf(rel(t))); }
+      ctx.stroke();
+      ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(label, P, ly); });
+    ctx.fillStyle='#6B7280'; ctx.fillText('파랑 = 명목 · 초록 = 실질', P+80, 34);
+    const rg=(1+g)/(1+i)-1;
+    const dbl = g>0 ? Math.log(2)/Math.log(1+g) : Infinity;
+    $('#grout').innerHTML =
+      `<span class="mono">${n}년 뒤 명목 <b style="color:#2563EB">${nom(n).toFixed(3)}배</b> · 실질 <b style="color:#0E9384">${rel(n).toFixed(3)}배</b></span><br>`
+      + `<span class="mono">실질 성장률 = (1+${g.toFixed(3)})/(1+${i.toFixed(3)}) − 1 = <b>${(rg*100).toFixed(3)}%</b> · 근사값 ${( (g-i)*100 ).toFixed(1)}%</span><br>`
+      + (isFinite(dbl) && Math.abs(dbl-72/(g*100))<1.2 && g>=0.04 ? `<b style="color:#B45309">두 배가 되는 데 ${dbl.toFixed(1)}년 — 72 ÷ ${(g*100).toFixed(1)} 과 거의 같습니다.</b><br>` : '')
+      + (Math.abs(g-i)<1e-9 ? `<b style="color:#7C3AED">명목과 물가가 같아 실질 성장이 0 입니다 — 초록 선이 수평입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">아래 로그 눈금에서 직선이면 「해마다 같은 비율」이라는 뜻입니다.</span>`;
+  }
+  ['grG','grI','grY'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'gr', title:'성장률 — 명목·실질·복리',
+    q:['성장률을 바꾸며 (명목 배율, 실질 배율, 실질 성장률) 을 여섯 줄 기록하세요.',
+       '실질 성장률의 정확한 값과 (명목 − 물가) 근사값을 비교하세요.',
+       '로그 눈금에서 직선이 되는 이유를 설명하세요.'],
+    cols:['명목','물가','기간','명목 배율','실질 배율'],
+    hint:'힌트 — 로그를 취하면 지수가 곱셈에서 덧셈으로 바뀝니다.',
+    read:()=>{ const g=+$('#grG').value/100,i=+$('#grI').value/100,n=+$('#grY').value;
+      return [(g*100).toFixed(1)+'%',(i*100).toFixed(1)+'%',n,
+        Math.pow(1+g,n).toFixed(3),Math.pow((1+g)/(1+i),n).toFixed(3)]; } });
+}
+
+/* ---------- LAB 216 감가상각 — 중고차 값은 어떻게 떨어지나 ---------- */
+function depreciationDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="dp1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">같은 값에서 시작해도 <b>깎는 방식</b>에 따라
+      해마다의 값이 크게 달라집니다.</div>
+    </div>
+    <div class="col">
+      ${slider('dpP','새 물건의 값',1000,5000,100,3000,'만원')}
+      ${slider('dpR','정률법의 비율',10,40,5,25,'%')}
+      ${slider('dpN','쓰는 기간',3,12,1,8,'년')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="dpMid">절반이 되는 해 찾기</button></div>
+      <div class="out" id="dpout"></div>
+      <div class="note" style="margin-top:12px">정액법: 해마다 <b>같은 금액</b>씩 (직선).
+      정률법: 해마다 <b>같은 비율</b>씩 (지수). 처음에는 정률법이 훨씬 빨리 떨어집니다.</div>
+    </div></div>`;
+  const cv=$('#dp1'),ctx=cv.getContext('2d'),W=380,H=330,P=48;
+  function draw(){
+    const p=+$('#dpP').value, r=+$('#dpR').value/100, n=+$('#dpN').value;
+    $('#dpPv').textContent=p+'만원'; $('#dpRv').textContent=(r*100).toFixed(0)+'%'; $('#dpNv').textContent=n+'년';
+    const lin=t=>Math.max(0,p*(1-t/n)), geo=t=>p*Math.pow(1-r,t);
+    const X=t=>P+(W-2*P)*t/n, Y=v=>H-P-(H-2*P)*v/p;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(P,P-14); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.6;
+    ctx.beginPath(); ctx.moveTo(X(0),Y(p)); ctx.lineTo(X(n),Y(0)); ctx.stroke();
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2.6; ctx.beginPath();
+    for(let k=0;k<=120;k++){ const t=n*k/120; k?ctx.lineTo(X(t),Y(geo(t))):ctx.moveTo(X(t),Y(geo(t))); }
+    ctx.stroke();
+    for(let t=0;t<=n;t++){ ctx.fillStyle='rgba(37,99,235,.6)';
+      ctx.beginPath(); ctx.arc(X(t),Y(lin(t)),3,0,7); ctx.fill();
+      ctx.fillStyle='rgba(190,18,60,.7)';
+      ctx.beginPath(); ctx.arc(X(t),Y(geo(t)),3,0,7); ctx.fill(); }
+    ctx.setLineDash([4,4]); ctx.strokeStyle='#C7D2E4'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(P,Y(p/2)); ctx.lineTo(W-P,Y(p/2)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#9CA3AF'; ctx.font='10px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('절반 값', P+2, Y(p/2)-6);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('파랑 = 정액법(직선) · 붉은 = 정률법(곡선)', P-30, P-16);
+    ctx.fillText('가로 = 햇수', P-30, H-14);
+    const half=Math.log(0.5)/Math.log(1-r);
+    const y1lin=lin(1), y1geo=geo(1);
+    $('#dpout').innerHTML =
+      `<span class="mono">1년 뒤 — 정액법 <b style="color:#2563EB">${y1lin.toFixed(0)}만원</b> · 정률법 <b style="color:#BE123C">${y1geo.toFixed(0)}만원</b> (차이 ${Math.abs(y1lin-y1geo).toFixed(0)}만원)</span><br>`
+      + `<span class="mono">정률법이 절반이 되는 해 = log0.5 / log(1−${r.toFixed(2)}) = <b>${half.toFixed(2)}년</b></span><br>`
+      + (half<=n && Math.abs(half-Math.round(half))<0.15 ? `<b style="color:#B45309">약 ${Math.round(half)}년째에 값이 절반이 됩니다 — 로그로 구한 자리입니다.</b><br>` : '')
+      + (r>=0.35 ? `<b style="color:#7C3AED">비율이 커서 첫해에만 ${(r*100).toFixed(0)}% 가 날아갑니다 — 새 물건일수록 손해가 큽니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">정률법은 끝에 가서도 0 이 되지 않습니다 — 지수함수의 성질입니다.</span>`;
+  }
+  $('#dpMid').onclick=()=>{ $('#dpR').value=30; $('#dpN').value=8; draw(); };
+  ['dpP','dpR','dpN'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'dp', title:'감가상각 — 두 가지 깎는 방식',
+    q:['비율을 바꾸며 (1년 뒤 두 값, 절반이 되는 해) 를 여섯 줄 기록하세요.',
+       '정률법이 정확히 0 이 되는 해가 있나요? 왜 그런가요?',
+       '중고차를 살 때 몇 년 된 차가 유리한지 곡선으로 설명하세요.'],
+    cols:['새 값','비율','기간','1년 뒤 정액','1년 뒤 정률'],
+    hint:'힌트 — 정률법은 등비수열, 정액법은 등차수열입니다.',
+    read:()=>{ const p=+$('#dpP').value,r=+$('#dpR').value/100,n=+$('#dpN').value;
+      return [p,(r*100).toFixed(0)+'%',n,(p*(1-1/n)).toFixed(0),(p*(1-r)).toFixed(0)]; } });
+}
+
 const LABS=[
 {n:1,core:1,t:'“여기 어디지?” GPS 위치 추정',q:'스마트폰은 내가 어디 있는지 어떻게 알까?',
  m:['좌표평면·두 점 사이의 거리','원의 방정식','연립방정식'],a:['위치기반서비스(LBS)','센서 융합·오차 보정'],
@@ -13558,7 +14721,67 @@ const LABS=[
 {n:201,core:0,t:'“절편까지 배운다” 기울기만으로는 부족할 때',q:'원점을 지나야만 한다면?',
  m:['일차함수','절편','손실 비교'],a:['회귀 모형','기준선 설정'],
  note:'자료가 원점을 지나지 않으면 절편이 반드시 필요합니다. 절편은 「아무것도 없을 때의 기본값」입니다.',
- build:biasLearnDemo}
+ build:biasLearnDemo},
+{n:202,core:0,t:'“연 12%는 월 1%와 같을까” 실효이자율',q:'이자를 자주 붙이면 무엇이 달라질까?',
+ m:['복리','실효이자율','극한'],a:['예금 비교','대출 금리 광고'],
+ note:'(1 + r/k)^k − 1 이 실효이자율입니다. 횟수를 늘릴수록 커지지만 e^r − 1 을 넘지 못합니다.',
+ build:aprDemo},
+{n:203,core:0,t:'“구간이 오르면 손해일까” 누진세',q:'경계를 넘으면 전체 소득에 높은 세율이 붙을까?',
+ m:['구간별 계산','한계세율','실효세율'],a:['연말정산','정책 이해'],
+ note:'소득을 구간으로 잘라 각 조각에 그 구간의 세율을 매깁니다. 경계를 넘어도 넘은 부분에만 높은 세율이 붙습니다.',
+ build:taxBracketDemo},
+{n:204,core:0,t:'“두 번 바꾸면 손해일까” 환율과 교차환율',q:'손해의 정체는 무엇일까?',
+ m:['비와 비율','나눗셈','교차환율'],a:['해외 결제','여행 환전'],
+ note:'교차환율 = (원/달러) ÷ (엔/달러). 수수료가 없으면 두 길의 결과가 정확히 같습니다.',
+ build:fxDemo},
+{n:205,core:0,t:'“10년 전 만 원은 지금 얼마” 물가와 실질가치',q:'통장 잔고가 늘면 부자가 될까?',
+ m:['지수','물가지수','실질가치'],a:['저축 계획','임금 협상'],
+ note:'실질가치 = 명목금액 ÷ 물가지수. 이자율이 물가 상승률보다 낮으면 살 수 있는 양은 줄어듭니다.',
+ build:cpiDemo},
+{n:206,core:0,t:'“지금 90만원 vs 3년 뒤 100만원” 현재가치',q:'시점이 다른 돈을 어떻게 비교할까?',
+ m:['현재가치','할인율','거듭제곱'],a:['투자 판단','보상금 선택'],
+ note:'현재가치 = 미래금액 ÷ (1+r)ⁿ. 시점이 다른 돈은 같은 시점으로 옮겨야 비교할 수 있습니다.',
+ build:pvDemo},
+{n:207,core:0,t:'“가격은 어디서 정해지나” 수요와 공급',q:'남거나 모자라면 무슨 일이 생길까?',
+ m:['연립방정식','일차함수','균형'],a:['시장 가격','재고 관리'],
+ note:'수요량과 공급량이 같아지는 가격이 균형가격입니다. 두 일차함수의 교점을 구하는 문제입니다.',
+ build:supplyDemandDemo},
+{n:208,core:0,t:'“값을 올리면 더 벌까” 가격탄력성',q:'매출이 가장 큰 가격은 어디일까?',
+ m:['탄력성','이차함수의 최대','변화율'],a:['가격 정책','매출 최적화'],
+ note:'매출은 가격의 이차함수이고 꼭짓점에서 최대입니다. 그 자리의 탄력성이 정확히 1 입니다.',
+ build:elasticityDemo},
+{n:209,core:0,t:'“가격을 누르면 어떻게 될까” 가격 상한',q:'싸게 만들면 모두에게 좋을까?',
+ m:['부등식','초과수요','시장 균형'],a:['가격 규제','정책 평가'],
+ note:'상한이 균형가격보다 낮을 때만 효력이 있고, 그때 부족분이 생깁니다. 가격을 눌러도 수요와 공급은 바뀌지 않습니다.',
+ build:priceCapDemo},
+{n:210,core:0,t:'“하나를 고르면 하나를 잃는다” 기회비용',q:'포기한 것의 값은 얼마일까?',
+ m:['기회비용','생산가능곡선','기울기'],a:['자원 배분','진로 선택'],
+ note:'곡선의 기울기의 절댓값이 기회비용입니다. 곡선이 휘어 있으면 한쪽으로 몰수록 기회비용이 커집니다.',
+ build:oppCostDemo},
+{n:211,core:0,t:'“몇 개를 팔아야 본전일까” 손익분기점',q:'고정비와 변동비는 어떻게 다를까?',
+ m:['일차함수의 교점','손익분기','공헌이익'],a:['창업 계획','원가 관리'],
+ note:'손익분기 수량 = 고정비 ÷ (가격 − 변동비). 공헌이익이 0 이하면 아무리 팔아도 본전이 되지 않습니다.',
+ build:breakEvenDemo},
+{n:212,core:0,t:'“한 바구니에 담지 말라” 분산투자',q:'나눠 담으면 무엇이 좋아질까?',
+ m:['분산','이차함수','상관'],a:['자산 배분','위험 관리'],
+ note:'기대수익은 비율의 일차식, 흔들림은 이차식입니다. 함께 움직이지 않는 자산을 섞을수록 흔들림이 줄어듭니다.',
+ build:diversifyDemo},
+{n:213,core:0,t:'“기댓값이 같은데 왜 다를까” 위험 회피',q:'확실한 100만원과 도박, 어느 쪽?',
+ m:['기댓값','효용','볼록성'],a:['보험','투자 성향'],
+ note:'만족도 곡선이 위로 볼록하면 기댓값이 같아도 확실한 쪽이 낫습니다. 사람들이 보험료를 내는 이유입니다.',
+ build:riskAverseDemo},
+{n:214,core:0,t:'“불평등을 하나의 수로” 지니계수',q:'얼마나 고르게 나뉘었는지 어떻게 잴까?',
+ m:['넓이의 비','누적 비율','로렌츠 곡선'],a:['소득 분배','정책 지표'],
+ note:'대각선과 곡선 사이 넓이를 삼각형 넓이로 나눕니다. 0 이면 완전 평등, 1 에 가까울수록 불평등합니다.',
+ build:giniDemo},
+{n:215,core:0,t:'“명목과 실질, 그리고 두 배가 되는 해” 성장률',q:'로그 눈금에서 직선이면 무슨 뜻일까?',
+ m:['지수 성장','로그 눈금','실질 성장률'],a:['경제 지표','장기 계획'],
+ note:'해마다 같은 비율이면 로그 눈금에서 직선이 됩니다. 실질 성장률은 두 지수의 비로 정확히 계산합니다.',
+ build:growthDemo},
+{n:216,core:0,t:'“중고차 값은 어떻게 떨어질까” 감가상각',q:'같은 금액씩일까, 같은 비율씩일까?',
+ m:['등차수열','등비수열','로그'],a:['자산 평가','중고 거래'],
+ note:'정액법은 직선(등차), 정률법은 곡선(등비)입니다. 정률법은 아무리 지나도 정확히 0 이 되지 않습니다.',
+ build:depreciationDemo}
 ];
 
 /* ---------- LAB 21 y = x 대칭의 발견 (역함수) ---------- */
@@ -20421,7 +21644,110 @@ const THUMBS = [
    <circle cx="34" cy="42" r="3.6" fill="${TC.blue}"/><circle cx="54" cy="34" r="3.6" fill="${TC.blue}"/>
    <circle cx="74" cy="26" r="3.6" fill="${TC.blue}"/>
    <text x="14" y="46" font-size="9" font-weight="800" fill="${TC.rose}">b</text>`,
-   '원점을 지나는 직선과 절편이 있는 직선을 비교한 그림')
+   '원점을 지나는 직선과 절편이 있는 직선을 비교한 그림'),
+
+ svg(`<path d="M20 66 C42 50 62 40 100 34" stroke="${TC.blue}" stroke-width="2.4" fill="none"/>
+   <line x1="20" y1="30" x2="100" y2="30" stroke="${TC.rose}" stroke-width="1.6" stroke-dasharray="4 3"/>
+   <text x="60" y="22" font-size="8" font-weight="800" fill="${TC.rose}" text-anchor="middle">e^r − 1 한계</text>
+   <text x="60" y="80" font-size="8" font-weight="800" fill="${TC.ink3}" text-anchor="middle">붙이는 횟수</text>`,
+   '이자 붙이는 횟수에 따른 실효이자율 곡선 그림'),
+
+ svg(`<rect x="18" y="34" width="20" height="18" fill="${TC.blue}" opacity=".4"/>
+   <rect x="40" y="34" width="30" height="18" fill="${TC.teal}" opacity=".45"/>
+   <rect x="72" y="34" width="30" height="18" fill="#F59E0B" opacity=".5"/>
+   <rect x="18" y="58" width="20" height="6" fill="${TC.blue}" opacity=".4"/>
+   <rect x="40" y="58" width="30" height="14" fill="${TC.teal}" opacity=".45"/>
+   <rect x="72" y="58" width="30" height="22" fill="#F59E0B" opacity=".5"/>
+   <text x="60" y="26" font-size="8" font-weight="800" fill="${TC.ink3}" text-anchor="middle">구간별 세율</text>`,
+   '소득을 구간으로 잘라 세율을 매긴 그림'),
+
+ svg(`<rect x="14" y="24" width="28" height="18" rx="4" fill="${TC.blue}" opacity=".6"/>
+   <rect x="48" y="24" width="28" height="18" rx="4" fill="${TC.teal}" opacity=".6"/>
+   <rect x="82" y="24" width="28" height="18" rx="4" fill="${TC.rose}" opacity=".6"/>
+   <rect x="14" y="58" width="28" height="18" rx="4" fill="${TC.blue}" opacity=".6"/>
+   <rect x="82" y="58" width="28" height="18" rx="4" fill="${TC.rose}" opacity=".6"/>
+   <line x1="44" y1="67" x2="80" y2="67" stroke="${TC.ink3}" stroke-width="1.4"/>
+   <text x="60" y="52" font-size="8" font-weight="800" fill="${TC.ink3}" text-anchor="middle">두 길</text>`,
+   '두 번 바꾸는 길과 바로 바꾸는 길을 비교한 그림'),
+
+ svg(`<path d="M20 62 C42 54 62 46 100 30" stroke="${TC.blue}" stroke-width="2.4" fill="none"/>
+   <path d="M20 62 C42 62 62 64 100 68" stroke="${TC.teal}" stroke-width="2.4" fill="none"/>
+   <line x1="20" y1="62" x2="100" y2="62" stroke="${TC.ink3}" stroke-width="1" stroke-dasharray="3 3"/>
+   <text x="60" y="84" font-size="8" font-weight="800" fill="${TC.ink3}" text-anchor="middle">명목 vs 실질</text>`,
+   '명목 금액과 실질 구매력이 갈라지는 그림'),
+
+ svg(`<rect x="22" y="24" width="12" height="46" fill="${TC.blue}" opacity=".4"/>
+   <rect x="38" y="32" width="12" height="38" fill="${TC.blue}" opacity=".35"/>
+   <rect x="54" y="40" width="12" height="30" fill="${TC.rose}" opacity=".5"/>
+   <rect x="70" y="47" width="12" height="23" fill="${TC.blue}" opacity=".3"/>
+   <rect x="86" y="53" width="12" height="17" fill="${TC.blue}" opacity=".25"/>
+   <text x="60" y="84" font-size="8" font-weight="800" fill="${TC.ink3}" text-anchor="middle">멀수록 작다</text>`,
+   '미래의 돈을 현재가치로 줄여 그린 막대 그림'),
+
+ svg(`<line x1="20" y1="20" x2="96" y2="72" stroke="${TC.blue}" stroke-width="2.4"/>
+   <line x1="20" y1="72" x2="96" y2="20" stroke="${TC.teal}" stroke-width="2.4"/>
+   <circle cx="58" cy="46" r="5" fill="${TC.rose}"/>
+   <text x="60" y="86" font-size="8" font-weight="800" fill="${TC.ink3}" text-anchor="middle">균형점</text>`,
+   '수요 곡선과 공급 곡선이 만나는 그림'),
+
+ svg(`<rect x="22" y="56" width="10" height="14" fill="${TC.blue}" opacity=".3"/>
+   <rect x="36" y="40" width="10" height="30" fill="${TC.blue}" opacity=".3"/>
+   <rect x="50" y="28" width="10" height="42" fill="${TC.rose}" opacity=".5"/>
+   <rect x="64" y="38" width="10" height="32" fill="${TC.blue}" opacity=".3"/>
+   <rect x="78" y="54" width="10" height="16" fill="${TC.blue}" opacity=".3"/>
+   <text x="60" y="84" font-size="8" font-weight="800" fill="${TC.ink3}" text-anchor="middle">매출의 봉우리</text>`,
+   '가격에 따른 매출이 가운데에서 가장 높은 그림'),
+
+ svg(`<line x1="20" y1="22" x2="96" y2="70" stroke="${TC.blue}" stroke-width="2.2"/>
+   <line x1="20" y1="70" x2="96" y2="22" stroke="${TC.teal}" stroke-width="2.2"/>
+   <line x1="16" y1="58" x2="102" y2="58" stroke="${TC.rose}" stroke-width="2" stroke-dasharray="4 3"/>
+   <rect x="44" y="52" width="34" height="12" fill="#F59E0B" opacity=".45"/>
+   <text x="60" y="86" font-size="8" font-weight="800" fill="${TC.ink3}" text-anchor="middle">부족분</text>`,
+   '가격 상한 아래에서 생긴 부족분을 표시한 그림'),
+
+ svg(`<path d="M22 74 C22 34 52 22 96 22" stroke="${TC.blue}" stroke-width="2.6" fill="none"/>
+   <circle cx="46" cy="34" r="4.6" fill="${TC.rose}"/>
+   <line x1="46" y1="34" x2="66" y2="34" stroke="${TC.rose}" stroke-width="1.4" stroke-dasharray="3 3"/>
+   <line x1="66" y1="34" x2="66" y2="26" stroke="${TC.rose}" stroke-width="1.4" stroke-dasharray="3 3"/>
+   <text x="60" y="86" font-size="8" font-weight="800" fill="${TC.ink3}" text-anchor="middle">포기한 만큼</text>`,
+   '생산가능곡선 위에서 기회비용을 표시한 그림'),
+
+ svg(`<line x1="20" y1="52" x2="100" y2="26" stroke="${TC.blue}" stroke-width="2.4"/>
+   <line x1="20" y1="72" x2="100" y2="16" stroke="${TC.teal}" stroke-width="2.4"/>
+   <circle cx="64" cy="38" r="5" fill="${TC.rose}"/>
+   <line x1="64" y1="38" x2="64" y2="76" stroke="${TC.rose}" stroke-width="1.2" stroke-dasharray="3 3"/>
+   <text x="60" y="88" font-size="8" font-weight="800" fill="${TC.ink3}" text-anchor="middle">본전</text>`,
+   '총비용과 총매출이 만나는 손익분기 그림'),
+
+ svg(`<path d="M30 70 C40 44 62 34 96 24" stroke="${TC.blue}" stroke-width="2.4" fill="none"/>
+   <circle cx="42" cy="52" r="4.6" fill="${TC.teal}"/>
+   <circle cx="96" cy="24" r="4" fill="${TC.rose}"/>
+   <text x="60" y="86" font-size="8" font-weight="800" fill="${TC.ink3}" text-anchor="middle">위험 ↔ 수익</text>`,
+   '위험과 수익의 곡선 위 최소 위험 점 그림'),
+
+ svg(`<path d="M20 74 C40 34 66 24 100 20" stroke="${TC.blue}" stroke-width="2.6" fill="none"/>
+   <line x1="34" y1="58" x2="88" y2="24" stroke="${TC.rose}" stroke-width="2"/>
+   <circle cx="60" cy="32" r="4" fill="${TC.teal}"/>
+   <circle cx="60" cy="41" r="4" fill="${TC.rose}"/>
+   <text x="60" y="88" font-size="8" font-weight="800" fill="${TC.ink3}" text-anchor="middle">확실 vs 도박</text>`,
+   '볼록한 효용곡선과 도박의 평균 만족도 그림'),
+
+ svg(`<line x1="24" y1="72" x2="96" y2="20" stroke="#9CA3AF" stroke-width="1.6"/>
+   <path d="M24 72 C48 68 70 56 96 20" stroke="${TC.blue}" stroke-width="2.4" fill="none"/>
+   <path d="M24 72 C48 68 70 56 96 20 L24 72 Z" fill="${TC.rose}" opacity=".18"/>
+   <text x="60" y="88" font-size="8" font-weight="800" fill="${TC.ink3}" text-anchor="middle">로렌츠 곡선</text>`,
+   '대각선과 로렌츠 곡선 사이를 칠한 그림'),
+
+ svg(`<path d="M20 66 C44 60 66 42 100 16" stroke="${TC.blue}" stroke-width="2.4" fill="none"/>
+   <line x1="20" y1="78" x2="100" y2="46" stroke="${TC.teal}" stroke-width="2.2"/>
+   <text x="60" y="94" font-size="8" font-weight="800" fill="${TC.ink3}" text-anchor="middle">로그면 직선</text>`,
+   '지수 성장과 로그 눈금의 직선을 겹친 그림'),
+
+ svg(`<line x1="24" y1="24" x2="96" y2="72" stroke="${TC.blue}" stroke-width="2.4"/>
+   <path d="M24 24 C40 56 60 66 96 70" stroke="${TC.rose}" stroke-width="2.4" fill="none"/>
+   <line x1="20" y1="48" x2="100" y2="48" stroke="${TC.ink3}" stroke-width="1" stroke-dasharray="3 3"/>
+   <text x="60" y="88" font-size="8" font-weight="800" fill="${TC.ink3}" text-anchor="middle">정액 vs 정률</text>`,
+   '정액법 직선과 정률법 곡선을 비교한 그림')
 ];
 
 /* 상단 카드는 20종만 — 나머지 실험실은 아래 확장 카탈로그의 제 과목 자리에서 연다.
@@ -25323,6 +26649,351 @@ const MISSIONS={
   {
    "t": "심화 — 절편의 뜻: 이 자료에서 b 는 「기온이 0도일 때의 판매량」입니다. 절편이 음수로 나오면 현실에서 무엇을 뜻하는지, 그리고 그럴 때 모형을 어떻게 다뤄야 하는지 논하세요."
   }
+ ],
+ "202": [
+  {
+   "t": "1분 자유 탐색 — 붙이는 횟수를 늘려 보세요. 곡선이 어디까지 올라가나요?"
+  },
+  {
+   "t": "오늘의 문제 — 「매주 붙이기」를 누르세요. 실효이자율이 표시 이율보다 얼마나 큰가요?",
+   "re": "를 넘지 못합니다",
+   "do": "① 버튼 누르기 ② 실효이자율 값 읽기 ③ 붉은 점선과의 간격 확인",
+   "hand": "(1 + 0.12/52)^52 − 1 을 계산해 화면 값과 대조"
+  },
+  {
+   "t": "한 번만 붙이면 — 횟수를 1 로 내려 보세요. 두 이율이 어떻게 되나요?",
+   "re": "표시 이율과 실효이율이 같습니다",
+   "do": "① 횟수를 1 로 ② 두 값 비교 ③ 차이 칸 확인",
+   "hand": "k = 1 일 때 (1 + r/1)¹ − 1 = r 임을 확인"
+  },
+  {
+   "t": "(연이율, 횟수, 실효이자율, 차이) 를 여섯 줄 기록하세요."
+  },
+  {
+   "t": "심화 — 한계가 있는 이유: (1 + r/k)^k 가 k → ∞ 에서 e^r 로 수렴함을 수치로 확인하고, 이것이 LAB 11(복리)에서 만난 e 와 같은 수임을 설명하세요."
+  }
+ ],
+ "203": [
+  {
+   "t": "1분 자유 탐색 — 소득을 움직여 보세요. 색 막대가 몇 개까지 늘어나나요?"
+  },
+  {
+   "t": "오늘의 문제 — 「경계를 막 넘겨서」를 누르세요. 세금이 얼마나 늘었나요?",
+   "re": "세금은 15만원만 늘었습니다",
+   "do": "① 버튼 누르기 ② 세금 값 확인 ③ 경계 아래 값과 비교",
+   "hand": "5100 − 5000 = 100 만원에 24% 가 붙는 것을 계산"
+  },
+  {
+   "t": "경계 아래 — 「구간 경계 바로 아래로」를 누르세요. 세율이 어떻게 적용되나요?",
+   "re": "15% 구간의 세율만 적용",
+   "do": "① 버튼 누르기 ② 색 막대의 개수 확인 ③ 세금 값 비교",
+   "hand": "1400 까지 6%, 나머지에 15% 를 적용해 계산"
+  },
+  {
+   "t": "(소득, 세금, 한계세율, 실효세율) 을 여섯 줄 기록하세요 — 두 세율이 같은 적이 있나요?"
+  },
+  {
+   "t": "심화 — 오해 바로잡기: 「구간을 넘으면 손해」라는 말이 왜 틀린지 계산으로 반박하는 짧은 글을 쓰고, 실효세율이 한계세율보다 항상 낮은 이유를 설명하세요."
+  }
+ ],
+ "204": [
+  {
+   "t": "1분 자유 탐색 — 두 환율을 움직여 보세요. 아래 교차환율이 어떻게 따라 변하나요?"
+  },
+  {
+   "t": "오늘의 문제 — 수수료를 0 으로 내려 보세요. 두 길의 결과가 같은가요?",
+   "re": "나눗셈의 순서만 바뀔 뿐입니다",
+   "do": "① 수수료를 0.0 으로 ② 두 결과 값 비교 ③ 차이 칸 확인",
+   "hand": "(1/a)×b 와 1/(a/b) 가 같은 값임을 식으로 보이기"
+  },
+  {
+   "t": "수수료를 물리면 — 수수료를 2% 로 올려 보세요. 어느 길이 손해인가요?",
+   "re": "두 번 바꾸는 길이 눈에 띄게 손해",
+   "do": "① 수수료를 2.0 으로 ② 두 결과 비교 ③ 차이 금액 확인",
+   "hand": "(1 − 0.02)² 와 (1 − 0.02) 를 비교"
+  },
+  {
+   "t": "(원/달러, 엔/달러, 수수료, 두 길의 결과) 를 여섯 줄 기록하세요."
+  },
+  {
+   "t": "심화 — 손해의 정체: 두 번 바꾸는 손해가 환율 때문이 아니라 수수료를 두 번 내기 때문임을 정리하고, 실제 은행의 환전 수수료를 조사해 여행 경비를 계산해 보세요."
+  }
+ ],
+ "205": [
+  {
+   "t": "1분 자유 탐색 — 물가 상승률과 이자율을 움직여 보세요. 두 선이 언제 갈라지나요?"
+  },
+  {
+   "t": "오늘의 문제 — 이자율을 물가 상승률보다 낮게(2%) 하세요. 실질 가치가 어떻게 되나요?",
+   "re": "살 수 있는 양은 줄었습니다",
+   "do": "① 이자율을 2.0% 로 ② 초록 선의 방향 확인 ③ 실질 값 읽기",
+   "hand": "(1.02)¹⁰ ÷ (1.03)¹⁰ 을 계산해 1 보다 작은지 확인"
+  },
+  {
+   "t": "딱 맞추면 — 이자율을 물가 상승률과 같게(3%) 하세요. 초록 선이 어떤 모양인가요?",
+   "re": "초록 선이 수평입니다",
+   "do": "① 이자율을 3.0% 로 ② 초록 선의 기울기 확인 ③ 실질 값 확인",
+   "hand": "r = i 일 때 실질 배율이 1 임을 식으로 보이기"
+  },
+  {
+   "t": "(물가, 이자, 기간, 명목, 실질) 을 여섯 줄 기록하세요."
+  },
+  {
+   "t": "심화 — 실질 금리: 「실질 금리 ≈ 명목 금리 − 물가 상승률」이라는 근사가 언제 잘 맞고 언제 어긋나는지 계산으로 확인하고, 임금 인상률 협상에 어떤 함의가 있는지 쓰세요."
+  }
+ ],
+ "206": [
+  {
+   "t": "1분 자유 탐색 — 할인율과 시점을 움직여 보세요. 막대의 높이가 어떻게 변하나요?"
+  },
+  {
+   "t": "오늘의 문제 — 「지금 90만원과 견주기」를 누르세요 (할인율 5%, 3년 뒤). 어느 쪽이 유리한가요?",
+   "re": "지금 받는 90만원이 더 낫습니다",
+   "do": "① 버튼 누르기 ② 초록 점선과 붉은 막대의 높이 비교 ③ 현재가치 값 읽기",
+   "hand": "1000000 ÷ 1.05³ 을 계산해 90만원과 비교"
+  },
+  {
+   "t": "할인율을 낮추면 — 할인율을 1% 로 내려 보세요. 판단이 뒤집히나요?",
+   "re": "기다렸다 받는 편이 낫습니다",
+   "do": "① 할인율을 1.0% 로 ② 현재가치 값 확인 ③ 초록 점선과 비교",
+   "hand": "1000000 ÷ 1.01³ 을 계산해 90만원과 비교"
+  },
+  {
+   "t": "(할인율, 시점, 현재가치, 판단) 을 여섯 줄 기록하세요 — 판단이 뒤집히는 경계를 찾으세요."
+  },
+  {
+   "t": "심화 — 경계 구하기: 3년 뒤 100만원의 현재가치가 정확히 90만원이 되는 할인율을 방정식으로 풀고, 그 값이 왜 「기다림의 값어치」인지 설명하세요."
+  }
+ ],
+ "207": [
+  {
+   "t": "1분 자유 탐색 — 가격을 위아래로 옮겨 보세요. 두 점이 어떻게 벌어지나요?"
+  },
+  {
+   "t": "오늘의 문제 — 「균형가격으로」를 누르세요. 두 양이 같아지나요?",
+   "re": "사려는 양과 팔려는 양이 같아졌습니다",
+   "do": "① 버튼 누르기 ② 두 수량 값 비교 ③ 차이 칸 확인",
+   "hand": "60 − 3P = 4P 를 풀어 P 를 구하기"
+  },
+  {
+   "t": "값을 크게 내리면 — 가격을 4천원으로 내려 보세요. 무슨 일이 생기나요?",
+   "re": "물건이 모자랍니다",
+   "do": "① 가격을 4.0 으로 ② 수요량과 공급량 비교 ③ 차이의 부호 확인",
+   "hand": "P = 4 에서 두 식의 값을 각각 계산"
+  },
+  {
+   "t": "(가격, 수요량, 공급량, 차이) 를 여섯 줄 기록하세요 — 차이가 0 이 되는 가격은?"
+  },
+  {
+   "t": "심화 — 곡선이 움직이면: 유행이 돌아 같은 가격에서도 사려는 사람이 늘면 수요 곡선이 오른쪽으로 옮겨갑니다. 그때 균형가격과 균형수량이 어떻게 변하는지 예측하고 슬라이더로 확인하세요."
+  }
+ ],
+ "208": [
+  {
+   "t": "1분 자유 탐색 — 가격을 옮겨 보세요. 매출 막대가 어디서 가장 높나요?"
+  },
+  {
+   "t": "오늘의 문제 — 「매출이 가장 큰 가격으로」를 누르세요. 그때 탄력성은 얼마인가요?",
+   "re": "바로 이 가격에서 매출이 가장 큽니다",
+   "do": "① 버튼 누르기 ② 탄력성 값 확인 ③ 초록 점선과 막대의 높이 비교",
+   "hand": "매출 R(p) = p(60 − 3p) 를 미분해 최대점을 구하기"
+  },
+  {
+   "t": "너무 비싸게 — 가격을 13천원까지 올려 보세요. 매출이 어떻게 되나요?",
+   "re": "값을 올리면 매출이 오히려 줄어듭니다",
+   "do": "① 가격을 13.0 으로 ② 탄력성 값 확인 ③ 매출 막대의 높이 확인",
+   "hand": "p = 13 에서 판매량과 매출을 계산해 최대와 비교"
+  },
+  {
+   "t": "(가격, 판매량, 매출, 탄력성) 을 여섯 줄 기록하세요."
+  },
+  {
+   "t": "심화 — 탄력성이 1 인 자리: 매출이 최대인 점에서 탄력성이 정확히 1 임을 미분으로 보이고, 생필품(탄력성 작음)과 사치품(탄력성 큼)의 가격 정책이 왜 달라지는지 설명하세요."
+  }
+ ],
+ "209": [
+  {
+   "t": "1분 자유 탐색 — 상한을 위아래로 옮겨 보세요. 주황 띠가 언제 나타나나요?"
+  },
+  {
+   "t": "오늘의 문제 — 「강한 규제 (4천원)」를 누르세요. 얼마나 모자라나요?",
+   "re": "줄이 서고 웃돈이 붙습니다",
+   "do": "① 버튼 누르기 ② 주황 띠의 길이 확인 ③ 부족분 값 읽기",
+   "hand": "P = 4 에서 수요량과 공급량을 각각 계산해 차를 구하기"
+  },
+  {
+   "t": "상한을 높이면 — 「규제 없애기」를 누르세요. 상한이 효력을 갖나요?",
+   "re": "아무 효력이 없습니다",
+   "do": "① 버튼 누르기 ② 주황 띠가 사라지는지 확인 ③ 판정 문구 읽기",
+   "hand": "상한이 균형가격보다 높을 때 실제 거래 가격이 어디서 정해지는지 쓰기"
+  },
+  {
+   "t": "(상한, 수요량, 공급량, 부족분) 을 여섯 줄 기록하세요 — 효력이 생기는 경계는?"
+  },
+  {
+   "t": "심화 — 정책의 두 얼굴: 가격 상한이 「사는 사람에게 유리」한 면과 「물량이 모자라 못 사는 사람이 생기는」 면을 함께 정리하고, 배분 방식(선착순·추첨·배급)의 장단점을 비교하세요."
+  }
+ ],
+ "210": [
+  {
+   "t": "1분 자유 탐색 — 비율을 옮겨 보세요. 붉은 점이 곡선 위 어디로 가나요?"
+  },
+  {
+   "t": "오늘의 문제 — 비율을 90% 까지 올려 보세요. 포기해야 하는 우유가 어떻게 되나요?",
+   "re": "포기해야 할 우유가 급격히 늘어납니다",
+   "do": "① 비율을 90% 로 ② 점선 계단의 세로 길이 확인 ③ 기회비용 값 읽기",
+   "hand": "비율 30% 일 때와 90% 일 때의 기회비용을 각각 계산해 비교"
+  },
+  {
+   "t": "직선이라면 — 생산 방식을 ②(직선)로 바꾸세요. 기회비용이 어떻게 변하나요?",
+   "re": "특화의 이득이 없습니다",
+   "do": "① 방식 ② 선택 ② 비율을 여러 값으로 옮기며 기회비용 확인 ③ 값이 일정한지 보기",
+   "hand": "직선의 기울기가 일정함을 확인하고 그 뜻을 쓰기"
+  },
+  {
+   "t": "(비율, 빵, 우유, 기회비용) 을 여섯 줄 기록하세요."
+  },
+  {
+   "t": "심화 — 곡선이 휘는 까닭: 자원마다 잘하는 일이 다르기 때문에 한쪽으로 몰수록 효율이 떨어집니다. 이를 「비교우위」와 연결해 설명하고, 두 나라의 교역이 왜 서로에게 이득이 되는지 논하세요."
+  }
+ ],
+ "211": [
+  {
+   "t": "1분 자유 탐색 — 세 값을 움직여 보세요. 두 직선의 교점이 어디로 가나요?"
+  },
+  {
+   "t": "오늘의 문제 — 판매 가격을 변동비 아래(3천원)로 내려 보세요. 본전이 되나요?",
+   "re": "많이 팔수록 더 나빠집니다",
+   "do": "① 가격을 3.0 으로 ② 공헌이익의 부호 확인 ③ 두 직선이 만나는지 보기",
+   "hand": "공헌이익 = 가격 − 변동비 를 계산해 부호를 확인"
+  },
+  {
+   "t": "값을 올리면 — 가격을 14천원까지 올려 보세요. 본전 수량이 얼마나 줄어드나요?",
+   "re": "공헌이익이 커서 문턱이 낮습니다",
+   "do": "① 가격을 14.0 으로 ② 손익분기 수량 확인 ③ 처음 값과 비교",
+   "hand": "600 ÷ (14 − 4) 을 계산"
+  },
+  {
+   "t": "(고정비, 변동비, 가격, 공헌이익, 손익분기 수량) 을 여섯 줄 기록하세요."
+  },
+  {
+   "t": "심화 — 두 비용의 성격: 고정비를 두 배로 하면 손익분기 수량이 두 배가 되지만, 변동비를 두 배로 하면 그렇지 않습니다. 그 이유를 식으로 설명하고, 창업 계획서에 어떻게 반영할지 쓰세요."
+  }
+ ],
+ "212": [
+  {
+   "t": "1분 자유 탐색 — 비율을 옮겨 보세요. 붉은 점이 곡선 위 어디로 가나요?"
+  },
+  {
+   "t": "오늘의 문제 — 「흔들림이 가장 작은 배분으로」를 누르세요. A 를 몇 % 담나요?",
+   "re": "한쪽에 몰 때보다 안정적입니다",
+   "do": "① 버튼 누르기 ② 흔들림 값 확인 ③ A 100% 일 때와 비교",
+   "hand": "분산 식을 w 로 미분해 0 으로 두고 최적 w 를 구하기"
+  },
+  {
+   "t": "반대로 움직이면 — 상관을 −100% 로 내려 보세요. 흔들림이 얼마나 줄어드나요?",
+   "re": "섞을수록 흔들림이 크게 줄어듭니다",
+   "do": "① 상관을 −100% 로 ② 곡선의 모양 확인 ③ 최소 흔들림 값 읽기",
+   "hand": "ρ = −1 일 때 분산이 완전제곱꼴이 됨을 확인"
+  },
+  {
+   "t": "(비율, 상관, 기대수익, 흔들림) 을 여섯 줄 기록하세요."
+  },
+  {
+   "t": "심화 — 왜 곡선인가: 기대수익은 w 의 일차식인데 흔들림은 w 의 이차식입니다. 그래서 「수익은 조금만 줄이고 위험은 크게 줄이는」 구간이 생깁니다. 그 구간을 그래프에서 찾아 표시하세요."
+  }
+ ],
+ "213": [
+  {
+   "t": "1분 자유 탐색 — 도박의 폭을 키워 보세요. 붉은 직선이 곡선에서 얼마나 멀어지나요?"
+  },
+  {
+   "t": "오늘의 문제 — 폭을 80만원으로 키우세요. 두 만족도가 얼마나 벌어지나요?",
+   "re": "기댓값이 같은데도 도박의 만족도가 낮습니다",
+   "do": "① 폭을 80 으로 ② 두 점의 높이 비교 ③ 확실성등가 값 읽기",
+   "hand": "u(20) 과 u(180) 의 평균을 계산해 u(100) 과 비교"
+  },
+  {
+   "t": "도박이 아니라면 — 폭을 0 으로 되돌리세요. 두 선택지가 어떻게 되나요?",
+   "re": "두 선택지가 완전히 같습니다",
+   "do": "① 폭을 0 으로 ② 붉은 직선이 사라지는지 확인 ③ 두 만족도 비교",
+   "hand": "폭이 0 일 때 도박의 만족도가 u(100) 과 같아짐을 확인"
+  },
+  {
+   "t": "(폭, 확실 만족도, 도박 만족도, 확실성등가) 를 여섯 줄 기록하세요."
+  },
+  {
+   "t": "심화 — 보험료의 상한: 확실성등가와 100만원의 차이가 「이만큼까지는 보험료로 낼 만하다」는 뜻입니다. 그 금액을 계산하고, 곡선의 휨 k 를 바꾸면 어떻게 달라지는지 정리하세요."
+  }
+ ],
+ "214": [
+  {
+   "t": "1분 자유 탐색 — 상위 20%의 몫을 옮겨 보세요. 붉은 영역이 어떻게 변하나요?"
+  },
+  {
+   "t": "오늘의 문제 — 「매우 불평등하게」를 누르세요. 지니계수가 얼마인가요?",
+   "re": "매우 불평등한 분배입니다",
+   "do": "① 버튼 누르기 ② 붉은 영역의 크기 확인 ③ 지니계수 값 읽기",
+   "hand": "곡선 아래 넓이를 사다리꼴로 계산해 (0.5 − 넓이)/0.5 를 구하기"
+  },
+  {
+   "t": "완전 평등 — 「완전 평등으로」를 누르세요. 곡선이 어떻게 되나요?",
+   "re": "지니계수 0, 완전 평등",
+   "do": "① 버튼 누르기 ② 곡선과 대각선의 위치 비교 ③ 지니계수 값 확인",
+   "hand": "모든 계층의 몫이 같을 때 누적 곡선이 직선이 되는 이유를 쓰기"
+  },
+  {
+   "t": "(상위 20% 몫, 곡선 아래 넓이, 지니계수) 를 여섯 줄 기록하세요."
+  },
+  {
+   "t": "심화 — 지표의 한계: 지니계수가 같아도 분배 모양이 다를 수 있습니다. 지니계수가 비슷한 서로 다른 두 분배를 만들어 보이고, 그래서 어떤 지표를 함께 봐야 하는지 제안하세요."
+  }
+ ],
+ "215": [
+  {
+   "t": "1분 자유 탐색 — 성장률을 옮겨 보세요. 위 그림과 아래 그림의 모양이 어떻게 다른가요?"
+  },
+  {
+   "t": "오늘의 문제 — 명목 성장률을 8% 로 올리세요. 두 배가 되는 데 몇 년 걸리나요?",
+   "re": "과 거의 같습니다",
+   "do": "① 명목 성장률을 8.0% 로 ② 두 배가 되는 해 확인 ③ 72 ÷ 8 과 비교",
+   "hand": "log2 / log(1.08) 을 계산해 72의 법칙과 대조"
+  },
+  {
+   "t": "물가가 따라오면 — 물가 상승률도 8% 로 올리세요. 실질 성장은 어떻게 되나요?",
+   "re": "초록 선이 수평입니다",
+   "do": "① 물가 상승률을 8.0% 로 ② 초록 선의 기울기 확인 ③ 실질 배율 값 읽기",
+   "hand": "(1+g)/(1+i) 가 1 이 되는 조건을 쓰기"
+  },
+  {
+   "t": "(명목, 물가, 명목 배율, 실질 배율) 을 여섯 줄 기록하세요."
+  },
+  {
+   "t": "심화 — 로그 눈금의 뜻: 지수함수가 로그 눈금에서 직선이 되는 이유를 log 를 취해 설명하고, 실제 경제·인구 그래프에서 로그 눈금을 쓰는 까닭을 정리하세요."
+  }
+ ],
+ "216": [
+  {
+   "t": "1분 자유 탐색 — 비율과 기간을 옮겨 보세요. 두 선이 어떻게 갈라지나요?"
+  },
+  {
+   "t": "오늘의 문제 — 「절반이 되는 해 찾기」를 누르세요. 몇 년째에 절반이 되나요?",
+   "re": "로그로 구한 자리입니다",
+   "do": "① 버튼 누르기 ② 절반 선과 붉은 곡선이 만나는 곳 확인 ③ 계산값 읽기",
+   "hand": "log 0.5 / log 0.7 을 계산"
+  },
+  {
+   "t": "많이 깎으면 — 비율을 40% 로 올려 보세요. 첫해에 얼마나 떨어지나요?",
+   "re": "새 물건일수록 손해가 큽니다",
+   "do": "① 비율을 40% 로 ② 첫해 두 값 비교 ③ 곡선의 처음 기울기 확인",
+   "hand": "1년 뒤 정액법과 정률법의 값을 각각 계산해 차를 구하기"
+  },
+  {
+   "t": "(비율, 1년 뒤 두 값, 절반이 되는 해) 를 여섯 줄 기록하세요."
+  },
+  {
+   "t": "심화 — 0 이 되지 않는 이유: 정률법은 등비수열이라 아무리 시간이 지나도 0 이 되지 않습니다. 이를 극한으로 설명하고, 회계에서 「잔존가치」를 따로 정하는 까닭을 조사하세요."
+  }
  ]
 };
 
@@ -25446,7 +27117,7 @@ const PREDICT = {
 }};
 
 /* 카탈로그의 「제작 완료」 카드가 부른다 — 번호만 주면 그 실험실이 열린다 */
-const PROBLEMS={"1":{"sit":"구조 상황실 — 조난자의 휴대폰이 기지국까지의 거리를 알려 왔습니다: A까지 4.7 km, B까지 4.5 km, C까지 4.1 km (지도 1칸 = 1 km).","ask":"조난자는 지도 위 어디에 있을까? 기지국이 2곳뿐이라면 위치를 하나로 정할 수 있을까?"},"2":{"sit":"어제 온 문자 2통 — 「[Web발신] 무료 쿠폰 지급, 지금 클릭」은 스팸함으로, 「엄마: 무료할 때 전화해」는 정상함으로 갔습니다.","ask":"폰은 두 문자를 무슨 계산으로 갈랐을까? 「무료」가 든 엄마 문자는 왜 살아남았을까?"},"3":{"sit":"어떤 쇼츠 영상이 첫날 5천 뷰 → 3일 만에 4만 뷰가 되었습니다. 제작자는 \"일주일이면 100만\"이라고 주장합니다.","ask":"이 주장은 타당할까? 「며칠마다 2배」 규칙이면 언제 100만을 넘고, 그 성장은 언제까지 계속될 수 있을까?"},"4":{"sit":"A요금제: 기본 15,000원 + 분당 45원. B요금제: 기본 30,000원 + 분당 5원. 나는 한 달에 약 350분 통화합니다.","ask":"나는 어느 요금제가 유리할까? 몇 분부터 B가 이기게 될까?"},"5":{"sit":"우리 학교 본관까지 발걸음으로 50m. 그 자리에서 옥상 끝을 올려본 각이 40°였습니다 (내 눈높이 1.6m).","ask":"본관의 높이는 몇 m일까? 올라가 보지 않고 확실히 말할 수 있을까?"},"6":{"sit":"우리 반 12명의 하루 공부 시간과 수학 점수를 조사했더니 점들이 오른쪽 위로 흐릿하게 몰려 있습니다.","ask":"「공부 시간이 길수록 점수가 높다」— 이 흐릿한 경향을 숫자 하나로 잴 수 있을까?"},"7":{"sit":"구인 광고: 「평균 연봉 9,440만 원!」 — 입사해 보니 직원 9명은 3,200~4,600만 원, 사장만 6억이었습니다.","ask":"광고는 거짓말을 한 걸까? 「보통 직원」의 연봉을 대표하는 수는 무엇이어야 할까?"},"8":{"sit":"내 비밀번호는 숫자 4자리입니다. 해커 프로그램은 1초에 1억 개를 시도할 수 있다고 합니다.","ask":"내 비밀번호는 몇 초 만에 뚫릴까? 1000년 이상 버티게 만들려면 무엇을 바꿔야 할까?"},"9":{"sit":"뽑기 기계: 당첨 확률 0.5%. 친구가 \"200번 뽑으면 1번은 무조건 나오지\"라며 20만 원을 쓰려 합니다.","ask":"200번 뽑으면 정말 당첨될까? 「무조건」에 가까워지려면 몇 번이 필요할까?"},"10":{"sit":"수학·영어 두 시험 모두 78점. 반 평균은 둘 다 70점인데, 표준편차가 수학은 5점·영어는 25점입니다.","ask":"같은 78점인데 두 시험에서의 「내 위치」도 같을까? 어느 쪽이 더 대단한 점수일까?"},"11":{"sit":"세뱃돈 100만 원을 연 6% 복리 통장에 넣었습니다. 아빠는 \"12년이면 두 배\"라고 합니다.","ask":"정말 12년이면 두 배가 될까? 두 배 시점을 빨리 어림하는 방법이 있을까?"},"12":{"sit":"지진 규모 6·7·8 은 한 칸씩 차이지만, 방출 에너지는 대략 6만·200만·6300만 단위로 뜁니다. 막대그래프를 그리면 규모 6 이 아예 안 보입니다.","ask":"수만 배 차이 나는 값들을 한 그래프에 정직하게 담을 수 있을까? 눈금이란 무엇일까?"},"13":{"sit":"자율주행 시험차가 출발 t초 후 s(t) = 2t² + 3t (m) 지점을 지납니다. 구간단속 카메라가 잰 1초~3초 사이 평균속도는 11 m/s — 그런데 3초 순간의 속도계는 15 m/s를 가리켰습니다.","ask":"평균 11만 보고 「과속 아님」이라 말할 수 있을까? 순간의 속도는 어떻게 재는 걸까?"},"14":{"sit":"온라인 결제 중 카드번호를 한 자리 잘못 눌렀는데, 사이트가 결제 전에 「번호를 확인하세요」라고 즉시 알려 줍니다.","ask":"서버에 묻지도 않고 오타를 어떻게 알았을까? 카드번호 마지막 자리의 정체는?"},"15":{"sit":"카페 사장이 (기온, 아이스 판매량) 12일 치를 모았습니다. 내일 기온이 30°C라는 예보를 보고 재료를 준비하려 합니다.","ask":"점 12개로 내일 판매량을 예측하는 「가장 좋은 직선」은 어떻게 정할까?"},"16":{"sit":"안개 낀 골짜기에서 조난 — 보이는 건 발밑 경사뿐입니다. AI 도 이렇게 「기울기만 보고」 최적값을 찾는다고 합니다.","ask":"전체 지형을 못 보는데 가장 낮은 곳에 도착할 수 있을까? 보폭이 크면 무슨 일이 생길까?"},"17":{"sit":"원주율을 모른다고 상상합시다. 정사각형 안에 사분원을 그리고, 눈 감고 점을 마구 찍을 수 있습니다.","ask":"점 찍기만으로 π 를 몇 자리까지 알아낼 수 있을까? 점이 몇 개나 필요할까?"},"18":{"sit":"OTT 서비스가 나에게 「액션 9·로맨스 2」인 영화를 추천했습니다. 내 시청 기록은 액션 8·로맨스 3에 가깝습니다.","ask":"서비스는 나와 영화의 「취향 방향」을 무엇으로 비교했을까? 취향의 세기가 달라도 방향이 같으면 추천될까?"},"19":{"sit":"사진 앱의 「샤픈」 버튼 한 번에 흐릿한 글자가 또렷해졌습니다. 앱 속에는 3×3 숫자판 하나가 들어 있다고 합니다.","ask":"숫자 9개가 어떻게 사진을 바꾸는 걸까? 경계만 골라 강조하는 숫자판은 어떤 모양일까?"},"20":{"sit":"피아노와 기타가 같은 도(약 262Hz)를 냈는데 소리는 전혀 다릅니다. 파형을 보니 둘 다 1초에 262번 반복입니다.","ask":"높이가 같은데 음색은 왜 다를까? 파형의 무엇이 「악기다움」을 만들까?"},"21":{"sit":"y = 2x−3 은 「x를 넣으면 y가 나오는 기계」입니다. 거꾸로 y=7 이 나왔을 때 x 를 묻는 기계도 필요합니다.","ask":"거꾸로 기계의 그래프는 원래 기계와 어떤 관계일까? 아무 함수나 거꾸로 기계를 가질 수 있을까?"},"22":{"sit":"1/2 + 1/4 + 1/8 + 1/16 + … — 항은 끝없이 이어지는데 「합은 1」이라고 말합니다.","ask":"무한히 더하는데 합이 유한하다는 게 무슨 뜻일까? 어떤 무한합은 왜 터질까?"},"23":{"sit":"계산기에 sin 37° 를 누르면 0.6018… 이 즉시 나옵니다. 계산기 안에 삼각비 표가 통째로 들어 있는 걸까요?","ask":"계산기는 sin 을 무엇으로 계산할까? 다항식이 sin 을 흉내 낼 수 있을까?"},"24":{"sit":"와인잔에 물을 반쯤 따랐습니다. 잔의 옆모습 곡선은 알고 있지만 부피 공식은 없는 모양입니다.","ask":"공식이 없는 그릇의 부피를 어떻게 잴까? 「썰어서 더하기」는 얼마나 정확할까?"},"25":{"sit":"인터넷 결제의 자물쇠는 「83 × 89 = 7,387」은 클릭 두 번이면 끝나지만, 「7,387 = ? × ?」는 한참 걸린다는 사실 위에 서 있다고 합니다.","ask":"곱하기는 쉬운데 되돌리기는 왜 오래 걸릴까? 자릿수가 늘면 얼마나 더 힘들어질까?"},"26":{"sit":"새벽 기온 영하 5도. 낮에 8도 올랐다가 밤에 6도 내려갔습니다.","ask":"지금 기온은 몇 도일까? 「내려갔다」는 셈을 수직선 위의 움직임으로 그릴 수 있을까?"},"27":{"sit":"성냥개비로 정사각형을 한 줄로 이어 붙입니다: 1칸에 4개, 2칸에 7개, 3칸에 10개….","ask":"100칸이면 성냥개비가 몇 개 필요할까? 세지 않고 아는 방법이 있을까?"},"28":{"sit":"양팔저울 왼쪽에 「?가 든 주머니 2개와 3g 추」, 오른쪽에 「11g 추」 — 저울은 수평입니다.","ask":"주머니 하나의 무게를 알아내려면 저울에 어떤 조작까지 허용될까?"},"29":{"sit":"지렛대로 바위를 듭니다. 받침점에서 2 m 떨어진 곳을 누르면 힘 12가 필요했습니다. 4 m로 물러나 누르면 힘은 6이면 됩니다.","ask":"무게와 거리 사이에 어떤 거래가 성립할까? 곱일까, 합일까?"},"30":{"sit":"기찻길 두 레일은 평행인데, 사진 속에서는 한 점에서 만나 보입니다. 건널목의 비스듬한 차단기가 두 레일과 만드는 각이 보입니다.","ask":"평행선을 자르는 직선이 만드는 여덟 각 사이에는 어떤 약속이 있을까? 평행이 깨지면?"},"31":{"sit":"철탑·다리·자전거 프레임 — 큰 구조물은 온통 삼각형입니다. 사각형 프레임은 손으로도 찌그러집니다.","ask":"삼각형은 왜 안 찌그러질까? 세 변이 같으면 모양까지 같아질까?"},"32":{"sit":"하루 24시간 중 잠 8시간, 학교 7시간, 학원 3시간… 원그래프로 그리려니 「잠」 조각의 각도가 필요합니다.","ask":"8시간짜리 조각의 중심각은 몇 도여야 공정할까? 호의 길이·넓이도 같은 비율일까?"},"33":{"sit":"신발 가게 하루 판매: 250(1) 255(2) 260(5) 265(3) 270(1). 사장은 내일 「가장 잘 나갈 치수」를 더 들여놓으려 합니다.","ask":"사장에게 필요한 대푯값은 평균·중앙값·최빈값 중 무엇일까?"},"34":{"sit":"같은 키 자료로 A신문은 「고른 분포」, B신문은 「양극화!」 히스토그램을 실었습니다. 자료는 동일합니다.","ask":"같은 자료가 어떻게 다른 이야기를 하게 됐을까? 계급 폭은 어떻게 골라야 정직할까?"},"35":{"sit":"톱니 12개와 18개 두 기어가 맞물려 돕니다. 지금 맞닿은 두 이빨에 페인트 점을 찍었습니다.","ask":"두 점이 다시 만나는 것은 각각 몇 바퀴 돈 뒤일까? 두 수의 무엇이 그 답을 쥐고 있을까?"},"36":{"sit":"변 6cm·8cm·15cm 막대 세 개를 받았습니다. 목수는 보자마자 \"삼각형 안 나온다\"고 합니다.","ask":"만들어 보지 않고 어떻게 알았을까? 되는 세 변의 조건은 무엇일까?"},"37":{"sit":"화장실 바닥은 정사각형 타일, 벌집은 정육각형 — 그런데 정오각형 타일 바닥은 본 적이 없습니다.","ask":"정오각형은 왜 바닥이 되지 못할까? 빈틈없이 깔리는 정다각형의 조건은?"},"38":{"sit":"3D 프린터는 어떤 모양이든 얇은 층으로 썰어 쌓습니다. 축구공 같은 다면체에는 꼭짓점·모서리·면이 셀 수 있게 있습니다.","ask":"꼭짓점·모서리·면 사이에 모든 다면체가 지키는 약속이 있을까?"},"39":{"sit":"부피 1000cm³ 물건을 넣을 택배 상자를 주문 제작합니다. 종이값은 겉넓이에 비례합니다.","ask":"같은 부피인데 종이가 가장 적게 드는 상자는 어떤 모양일까?"},"40":{"sit":"우리 반 수학 점수 원자료가 필요한데, 히스토그램만 남아 있으면 「78점이 몇 명인지」는 알 수 없습니다.","ask":"자료를 정리하면서도 원래 값을 잃지 않는 그림이 있을까?"},"41":{"sit":"1반(28명)은 수학 90점 이상이 7명, 2반(35명)은 8명입니다. 2반 담임은 \"우리가 더 많다\"고 자랑합니다.","ask":"사람 수 비교는 공정할까? 크기가 다른 두 집단은 무엇으로 비교해야 할까?"},"42":{"sit":"전교생 800명의 등교 시간이 궁금하지만 전부 물을 수는 없습니다. 30명만 뽑아 물었더니 평균 25분이 나왔습니다.","ask":"30명의 답을 800명의 답이라고 말해도 될까? 뽑을 때마다 값이 다르면 어떡하지?"},"43":{"sit":"3x + 2 + 2x − 5 — 친구는 \"몽땅 더해서 2x\"라고 우깁니다.","ask":"식에서 「더해도 되는 것」과 「안 되는 것」의 경계는 무엇일까?"},"44":{"sit":"동생의 등굣길 그래프: 처음엔 가파르게, 중간에 수평, 다시 완만하게 올라 학교에 도착했습니다.","ask":"수평 구간에서 동생에게 무슨 일이 있었던 걸까? 그래프의 기울기는 무엇을 말할까?"},"45":{"sit":"한 변이 √2 인 정사각형과 √3 인 정사각형의 변을 이어 붙였습니다. 친구는 \"√5 막대와 같다\"고 합니다.","ask":"√2 + √3 = √5 일까? 자로 재지 않고도 판정할 수 있을까?"},"46":{"sit":"수직선 위에 「√2 의 정확한 위치」를 표시해야 합니다. 1.414는 어디까지나 반올림입니다.","ask":"무리수의 정확한 자리를 자와 컴퍼스만으로 짚을 수 있을까?"},"47":{"sit":"암산 대회 문제: 99×101. 옆 친구가 3초 만에 \"9999\"라고 외쳤습니다.","ask":"무슨 계산을 했길래 3초일까? 98×102, 95×105에도 통하는 기술일까?"},"48":{"sit":"y = x²−2x−3 의 그래프가 x축과 만나는 자리가 두 곳 보입니다. 눈대중으로는 −1과 3 근처입니다.","ask":"눈대중을 「정확한 값」으로 바꿔 주는 장치가 있을까?"},"49":{"sit":"게임 캐릭터가 포물선 y=x²−2x 궤적으로 점프합니다. 높이 k 에 수평 장애물이 있습니다.","ask":"부딪히는지(2번·1번·0번) 점프하기 전에 계산만으로 알 수 있을까?"},"50":{"sit":"x² + 6x = 7 — 인수분해가 바로 안 보입니다. 옛 수학자들은 이 식을 「타일 퍼즐」로 풀었다고 합니다.","ask":"기역자 타일을 정사각형으로 만들면 방정식이 풀린다는데, 무엇을 채워야 할까?"},"51":{"sit":"물로켓이 y=x² 포물선을 그리며 날았습니다. 다음 발사대는 오른쪽 3m, 위 2m 지점입니다.","ask":"같은 모양 포물선을 그 자리로 「배달」하는 식은 어떻게 쓸까? 괄호 안 부호는 왜 반대로 보일까?"},"52":{"sit":"울타리 재료가 딱 20m. 벽 없이 네 변을 모두 둘러 텃밭을 만듭니다.","ask":"가장 넓은 텃밭은 어떤 모양일까? 직사각형이면 충분할까?"},"53":{"sit":"가로 (a+b), 세로 (a+b)인 정사각형 땅을 네 구역으로 나눠 씁니다: 꽃밭 a², 채소밭 둘, 창고 b².","ask":"(a+b)² 을 전개한 식의 항 하나하나는 땅의 어느 조각일까? (a−b)² 은 어떤 그림이 될까?"},"54":{"sit":"삼각비 표를 보면 sin 30°=0.5 는 딱 떨어지는데 sin 31°=0.5150… 은 지저분합니다.","ask":"30°·45°·60° 만 값이 깔끔한 이유가 있을까? 그 값들은 어디서 태어났을까?"},"55":{"sit":"1594년 항해사는 계산기 없이 삼각비 표 한 장으로 배의 위치를 구했습니다. 표에는 5° 간격 값뿐입니다.","ask":"표에 없는 sin 37° 는 어떻게 구했을까? 이웃 값으로 어림하는 방법이 통할까?"},"56":{"sit":"축구장 골대를 정면·측면·대각선 어디서 봐도 「같은 각」으로 보이는 자리들이 있다고 코치가 말합니다.","ask":"그런 자리들이 정말 있을까? 있다면 어떤 도형을 이룰까?"},"57":{"sit":"통신위성이 고도를 높이면 지구의 더 넓은 면이 보입니다. 위성 회사는 \"3대면 전 지구 커버\"라고 광고합니다.","ask":"위성 하나는 지구의 몇 %까지 볼 수 있을까? 무한히 높이면 절반을 넘길 수 있을까?"},"58":{"sit":"네 유적지가 「같은 원형 성벽 위에 있었다」는 가설이 나왔습니다. 좌표만 남아 있습니다.","ask":"네 점이 한 원 위에 있는지 판정하는 시험이 있을까? 각도만으로 가능할까?"},"59":{"sit":"체력장 오래매달리기 기록(초): 12,14,15,16,17,18,18,19,20,21,22,24,26 — 한 명이 재측정에서 55초를 냈습니다.","ask":"55초는 「특별한 기록」일까 「의심스러운 기록」일까? 기준을 수로 정할 수 있을까?"},"60":{"sit":"「하루 수면시간과 성적」 조사에서 r=0.81 이 나왔는데, 기자가 자료에 축구선수(수면 10시간·성적 최하) 한 명을 추가했습니다.","ask":"한 명 때문에 결론이 뒤집힐 수 있을까? 그 한 명을 빼도 되는 걸까?"},"61":{"sit":"1부터 120까지에서 소수만 골라내야 합니다. 一一이 나눠 보기엔 너무 많습니다.","ask":"가장 적은 수고로 소수를 전부 남기는 방법은? 몇으로 거르는 것까지가 「필요한 일」일까?"},"62":{"sit":"두 기상캐스터의 5일 예보 오차: A는 +3,−3,+3,−3,0 / B는 +1,0,−1,+1,−1. 부호까지 더하면 둘 다 합계 0입니다.","ask":"합계 0이면 둘 다 만점일까? 실력 차이를 드러내는 공정한 채점은?"},"63":{"sit":"자판기 식 「2a」에 a=7 동전을 넣었더니 어떤 기계는 14를, 고장 기계는 27을 뱉었습니다.","ask":"고장 기계는 무엇을 잘못 읽었을까? 식의 「생략된 약속」은 무엇일까?"},"64":{"sit":"소금 20g에 물 180g을 부어 소금물 200g을 만들었습니다(농도 10%). 레시피는 5%를 요구합니다.","ask":"무엇을 얼마나 더하거나 빼야 정확히 5%가 될까? 물만 부으면 될까?"},"65":{"sit":"두 마을 A·B 사이에 공동 우물을 파려고 합니다 — 두 마을에서 정확히 같은 거리에.","ask":"같은 거리인 지점은 하나뿐일까? 그 지점들을 자와 컴퍼스로 찾을 수 있을까?"},"66":{"sit":"각도기 없이 케이크의 조각 각을 정확히 반으로 나눠야 합니다. 가진 것은 컴퍼스와 자뿐.","ask":"컴퍼스 몇 번이면 어떤 각이든 정확히 절반이 될까? 「정확히」를 어떻게 믿을까?"},"67":{"sit":"피자 반지름 12cm 조각의 호가 9cm입니다. 라벨에는 넓이가 없고, 원 전체 공식만 압니다.","ask":"조각(부채꼴)만의 넓이를 구하는 지름길이 있을까? 잘라 붙이면 무엇이 보일까?"},"68":{"sit":"주사위(정6), 4면체 주사위(d4), 20면체 주사위(d20)는 팔지만 「정7면체 주사위」는 어디에도 없습니다.","ask":"정다면체는 왜 다섯뿐일까? 일곱 번째를 만들 수는 없을까?"},"69":{"sit":"용돈 5,000원, 간식은 개당 800원. 계산대 앞에서 몇 개까지 담을지 정해야 합니다.","ask":"「살 수 있는 개수 전부」를 한 번에 표현할 수 있을까? 답이 하나가 아니라면?"},"70":{"sit":"새 학기 사물함 배정: 학번을 10으로 나눈 나머지 번호 방을 씁니다. 학번 23과 133은 같은 방입니다.","ask":"이 배정은 공평할까? 방 개수를 바꾸면 몰림이 생기거나 사라질까?"},"71":{"sit":"계산기에서 1/8 = 0.125 로 끝나는데 1/7 = 0.142857142857… 은 끝나지 않습니다.","ask":"끝나는 분수와 도는 분수의 갈림길은 분수의 어디에 있을까? 컴퓨터의 0.1+0.2≠0.3 과도 관련 있을까?"},"72":{"sit":"0.242424… 라는 무한소수를 친구는 \"분수로는 절대 못 쓴다\"고 합니다.","ask":"끝없는 소수를 유한한 분수로 붙잡을 수 있을까? 어떤 기술이 꼬리를 지울까?"},"73":{"sit":"두께 0.1mm 종이를 42번 접으면 달(38만 km)에 닿는다는 이야기가 있습니다.","ask":"믿기 힘든 이 주장, 계산으로 판정하면 참일까? 접기가 왜 이렇게 무서운 걸까?"},"74":{"sit":"용돈 협상: 「내 용돈 x는 동생의 2배 이상」— 양변에 −1을 곱해 정리하던 형이 갑자기 동생보다 적어졌습니다.","ask":"음수를 곱하면 부등호에 무슨 일이 일어날까? 등호와 무엇이 다를까?"},"75":{"sit":"문구점 A: 연필 2자루+지우개 1개 = 1,700원. 문구점 B의 전단: 연필 4자루+지우개 2개 = 3,400원.","ask":"두 정보로 연필값을 알아낼 수 있을까? 정보가 「두 개처럼 보이지만 하나」일 수도 있을까?"},"76":{"sit":"x+y=8, x−y=2 — 학원 형은 \"두 식을 그냥 더해 봐\"라고 힌트만 주고 갔습니다.","ask":"식끼리 더한다는 게 무슨 뜻일까? 더하면 왜 문제가 쉬워질까?"},"77":{"sit":"통신사 요금 그래프에서 「기본료 인상」과 「분당 요금 인상」은 직선을 다르게 움직인다고 합니다.","ask":"두 인상은 그래프에서 각각 어떤 운동일까? 서로 흉내 낼 수 있을까?"},"78":{"sit":"칠판의 식 y = (2/3)x + 1 — 선생님이 \"점 두 개면 끝\"이라며 분필 두 번으로 그래프를 그렸습니다.","ask":"어떤 두 점을 고르면 가장 빠르고 정확할까? 분수 기울기도 두 점으로 될까?"},"79":{"sit":"모둠 과제: 삼각형 합판을 손가락 하나로 수평 받치기. 아무 데나 받치면 기울어 떨어집니다.","ask":"받침점은 삼각형의 어디여야 할까? 그 점을 계산으로 찾을 수 있을까?"},"80":{"sit":"접이식 빨래건조대는 아무리 접었다 펴도 각 칸이 평행사변형을 유지합니다.","ask":"변형되는 내내 「평행사변형임」을 보증하는 조건은 무엇일까? 조건 하나면 충분할까?"},"81":{"sit":"1:25000 지도에서 학교와 집 사이가 4cm입니다. 내일 걸어가 볼 계획입니다.","ask":"실제 거리와 걸리는 시간은? 지도를 2배 확대 인쇄하면 축척은 어떻게 될까?"},"82":{"sit":"수업 시간에 빔프로젝터를 뒤로 밀었더니 화면이 훌쩍 커졌습니다.","ask":"거리와 화면 크기 사이의 규칙은? 프로젝터·그림자·바늘구멍 사진기는 같은 원리일까?"},"83":{"sit":"전자매장에서 「55인치」 TV를 재 보니 가로는 122cm뿐입니다. 55인치(140cm)가 아닌 것 같습니다.","ask":"55인치는 어디 길이일까? 가로·세로에서 대각선을 계산할 수 있을까?"},"84":{"sit":"공사장 목수가 줄자 하나로 「이 모서리 직각 맞네」라고 합니다. 각도기는 쓰지 않았습니다.","ask":"세 변 길이만으로 직각을 판정할 수 있을까? 직각이 아니면 무엇이 어긋날까?"},"85":{"sit":"고대 이집트 측량사는 매듭 12개짜리 밧줄로 완벽한 직각을 만들었습니다 — 3·4·5 간격이었다고 합니다.","ask":"세 변이 모두 자연수인 직각삼각형은 (3,4,5)뿐일까? 규칙적으로 더 찾을 수 있을까?"},"86":{"sit":"분식집 세트: 김밥 3종 중 하나 「그리고」 음료 2종 중 하나. 옆 가게는 김밥 3종 「또는」 라면 2종 중 하나만.","ask":"두 가게의 선택 가짓수는 각각 몇일까? 「그리고」와 「또는」은 셈을 어떻게 바꿀까?"},"87":{"sit":"2배 크기 피규어의 가격이 8배라 항의했더니, 사장님이 \"재료(부피)가 정말 8배\"라고 답했습니다.","ask":"길이 2배에 부피 8배 — 사실일까? 겉넓이(도색비)는 몇 배일까?"},"88":{"sit":"동전 3개를 던져 「적어도 하나 앞면」이면 이기는 게임 — 이길 확률을 묻자 친구는 8칸 표를 꺼냅니다.","ask":"8칸을 다 세는 것 말고 지름길이 있을까? 「적어도」의 반대말은 무엇일까?"},"89":{"sit":"룰렛에서 빨강이 5번 연속 나왔습니다. 옆 사람이 \"이제 검정 차례\"라며 판돈을 올립니다.","ask":"5연속 다음엔 정말 반대가 나올 「차례」일까? 동전·룰렛에게 기억이 있을까?"},"90":{"sit":"우리 반 24명 중 안경 5명. 「여학생 중에서」라고 조건을 붙이는 순간 분모가 달라진다고 합니다.","ask":"조건이 붙으면 확률의 무엇이 바뀔까? P(안경|여학생)과 P(여학생|안경)은 같을까?"},"91":{"sit":"트럼프에서 「하트(13장) 또는 그림카드(12장)」를 뽑을 확률 — 친구는 13+12=25장이라 우깁니다.","ask":"그냥 더한 25는 왜 틀릴까? 언제는 그냥 더해도 될까?"},"92":{"sit":"x³−2x²−5x+6 을 (x−1)로 나누라는 문제 — 세로셈은 지저분하고 시간도 오래 걸립니다.","ask":"계수 1,−2,−5,6 만 갖고 나눗셈을 끝내는 지름길이 있을까? 마지막 칸의 정체는?"},"93":{"sit":"f(x)=x³−4x²+x+6 을 (x−2)로 나눈 나머지가 급히 필요합니다. 나눌 시간은 없습니다.","ask":"나누지 않고 나머지를 아는 방법이 있을까? 나머지가 0이면 무엇을 얻을까?"},"94":{"sit":"게임 캐릭터를 시계 반대로 90° 돌리는 코드에 복소수 곱 「×i」 한 줄만 있다고 합니다.","ask":"수를 곱했는데 회전이 된다니 — i 는 평면에서 무슨 일을 하는 걸까?"},"95":{"sit":"문제: 「합이 5, 곱이 6인 두 수는?」 — 친구는 방정식도 안 세우고 \"2랑 3\"이라 답했습니다.","ask":"합·곱 정보만으로 두 수를 찾는 장치가 있을까? 계수와 근은 어떤 거래를 할까?"},"96":{"sit":"x³−3x+k=0 — k 값에 따라 해가 1개였다가 3개였다가 합니다.","ask":"몇 개인지 풀기 전에 알 수 있을까? 그래프의 산과 골짜기가 답을 쥐고 있을까?"},"97":{"sit":"놀이기구 안전 규정: 「탑승 게이지 x 가 x²−4x+3 < 0 을 만족하는 구간만 허용」이라 적혀 있습니다.","ask":"허용 구간은 어디부터 어디까지일까? 부등식의 해가 「구간」이 되는 이유는?"},"98":{"sit":"빵집 하루 생산: 오븐 한도 x+y≤6, 반죽 한도 x+2y≤8. 빵 이익 3, 케이크 이익 2입니다.","ask":"무엇을 몇 개 만들면 이익이 최대일까? 후보가 무한한데 다 따져야 할까?"},"99":{"sit":"학급 임원 선거(회장·부회장)와 청소 당번 짝 뽑기 — 둘 다 「4명 중 2명」이지만 느낌이 다릅니다.","ask":"두 뽑기의 가짓수는 같을까 다를까? 다르다면 정확히 몇 배 차이일까?"},"100":{"sit":"사진 앱의 「90° 회전」 버튼 뒤에는 숫자 4개짜리 표 [0 −1; 1 0] 하나가 있다고 합니다.","ask":"숫자 4개가 어떻게 사진 전체를 돌릴까? 내가 그 표를 직접 만들 수 있을까?"},"101":{"sit":"사진을 「회전 후 가로 늘리기」한 것과 「가로 늘리기 후 회전」한 것이 서로 다르게 나왔습니다.","ask":"같은 두 작업인데 순서만 바꿨는데 왜 다를까? 순서를 바꿔도 괜찮은 짝이 있을까?"},"102":{"sit":"책상 끝에 카드 4장 — 친구가 \"맨 위 카드를 통째로 책상 밖 허공에 띄울 수 있다\"고 내기를 겁니다.","ask":"받침 없이 허공에? 가능하다면 어떤 배치일까, 그리고 카드가 늘면 얼마나 더 나갈 수 있을까?"},"103":{"sit":"그림판에서 색을 고르니 코드 #4B96C8 이 떴습니다. 친구 폰에 이 색을 정확히 전달해야 합니다.","ask":"글자와 숫자가 섞인 이 코드의 정체는? 두 색을 「반씩 섞은」 색도 코드로 예측할 수 있을까?"},"104":{"sit":"색종이를 반으로 접어 2등분은 누구나 합니다. 그런데 3등분은? 게다가 「자와 컴퍼스로는 임의의 각을 3등분할 수 없다」가 수학의 오래된 정리입니다.","ask":"접기만으로 선분을 정확히 3등분·5등분할 수 있을까? 작도로 불가능한 각 3등분도 접기로는 가능할까?"},"105":{"sit":"새 마을로 매년 세대의 1/6 이 이주합니다. 지금 100세대가 살고, 손에는 주사위 100개가 있습니다 (1이 나오면 그 세대는 이주).","ask":"10년 뒤 몇 세대가 남을까? 10세대 이하로 줄어드는 해는 언제일까?"},"106":{"sit":"시험지에 sin 150° 를 구하라는 문제가 나왔습니다. 그런데 배운 것은 직각삼각형의 삼각비뿐 — 150°짜리 직각삼각형은 그릴 수 없습니다.","ask":"sin 150° 는 얼마일까? 90°를 넘는 각의 삼각비는 무엇으로 정의해야 할까?"},"107":{"sit":"대전의 일출 시각은 1월 7시 42분, 6월 5시 16분, 12월 7시 33분 — 1년을 주기로 물결칩니다.","ask":"열두 달의 일출을 식 하나로 쓸 수 있을까? 그 식으로 하지의 일출을 예측할 수 있을까?"},"108":{"sit":"강 건너 나무까지의 거리를 재야 합니다. 강은 건널 수 없고, 이쪽 기슭에서 잰 것은 기선 AB = 50 m 와 두 각 ∠A = 63°, ∠B = 55° 뿐입니다.","ask":"이 세 정보만으로 나무까지의 거리를 확정할 수 있을까?"},"109":{"sit":"학자금 1,200만 원을 연 6%로 빌려 24개월에 나눠 갚기로 했습니다. 은행 앱에는 「월 상환액」이 한 줄로 떠 있습니다.","ask":"이 금액은 어떤 계산에서 나왔을까? 기간을 늘리면 무엇이 이득이고 무엇이 손해일까?"},"110":{"sit":"초등학생 가우스는 「1부터 100까지 더하라」는 벌 문제를 몇 초 만에 5050 이라 답했다고 합니다.","ask":"하나씩 더하지 않고 답을 아는 방법은 무엇일까? 그 방법은 왜 늘 옳을까?"},"111":{"sit":"「모든 자연수 n 에 대하여 성립한다」를 증명해야 합니다. 그런데 자연수는 무한히 많아 하나씩 확인할 수가 없습니다.","ask":"무한히 많은 경우를 유한한 논증으로 덮으려면 무엇과 무엇을 보이면 될까?"},"112":{"sit":"연 6% 복리 통장에 목돈을 넣었습니다. 은행 앱은 「원금의 3배가 되면 알림」을 걸 수 있다고 합니다.","ask":"몇 해 뒤에 세 배가 될까? 지수 자리에 갇힌 x 를 어떻게 꺼낼 수 있을까?"},"113":{"sit":"계산기에는 log(상용로그) 단추만 있습니다. 그런데 문제는 log₂ 100 을 구하라고 합니다.","ask":"밑이 2인 로그를 밑 10짜리 계산기로 구할 수 있을까? 밑을 바꿔도 값은 그대로일까?"},"114":{"sit":"계산기에 log 0 을 넣으면 오류가 뜹니다. 음수를 넣어도 마찬가지입니다.","ask":"로그가 받아 주는 수는 왜 양수뿐일까? 지수함수와 로그함수는 어떤 사이일까?"},"115":{"sit":"2¹⁰⁰ 을 계산기에 넣으면 1.2676506e+30 처럼 뭉뚱그려 나옵니다. 정확한 값은 화면에 다 담기지도 않습니다.","ask":"이 수는 몇 자리일까? 맨 앞자리 숫자는 무엇일까?"},"116":{"sit":"식 y = 2^(x−3) + 2 의 그래프를 그리랬는데, 기준 곡선 y = 2^x 만 머리에 떠오릅니다.","ask":"괄호 안의 −3 과 뒤의 +2 는 그래프를 각각 어떻게 움직일까? 점근선은 어디로 갈까?"},"117":{"sit":"식 y = 2 sin(2x − π/2) + 1 의 그래프를 그리랬는데, 계수가 네 개나 붙어 있어 어디부터 손대야 할지 모르겠습니다.","ask":"네 계수는 각각 그래프의 무엇을 맡을까? 하나를 바꾸면 나머지도 흔들릴까?"},"118":{"sit":"관람차가 한 바퀴 도는 데 12분 걸립니다. 「높이가 정확히 절반인 순간」에 사진을 찍으려 합니다.","ask":"sin x = 0.5 를 만족하는 x 는 몇 개일까? 하루 종일 돌면 그런 순간은 몇 번 올까?"},"119":{"sit":"스피커 두 개가 같은 음을 내는데 하나는 sin, 하나는 cos 형태로 3 : 4 세기로 흔들립니다.","ask":"두 소리가 겹치면 얼마나 크게 들릴까? 합쳐진 파형도 여전히 사인 곡선일까?"},"120":{"sit":"땅 문서에는 삼각형 밭의 세 변 13 m, 14 m, 15 m 만 적혀 있습니다. 각도는 어디에도 없습니다.","ask":"각을 하나도 모르는데 넓이를 구할 수 있을까?"},"121":{"sit":"신시사이저의 사각파 소리는 사인파와 전혀 다르게 「각지게」 들립니다. 그런데 안에는 사인 발생기밖에 없다고 합니다.","ask":"각진 파형을 사인들만으로 만들 수 있을까? 어떤 비율로 섞어야 할까?"},"122":{"sit":"학교 강당의 첫 줄은 12석, 뒤로 갈수록 한 줄에 2석씩 늘어납니다. 모두 15줄입니다.","ask":"강당 전체 좌석은 몇 석일까? 한 줄씩 세지 않고 알 수 있을까?"},"123":{"sit":"저축 방식 둘 — A는 매달 10만원씩 더하고, B는 매달 5%씩 불립니다. 시작은 둘 다 100만원이고, 3년(36개월)을 봅니다.","ask":"지금은 A가 앞서는데, 3년 안에 B가 이길까? 이긴다면 몇 개월째일까?"},"124":{"sit":"학급 봉사 시간을 매일 기록했더니 막대그래프가 들쭉날쭉합니다. 담임은 「지금까지 총 몇 시간인지」를 묻습니다.","ask":"매일의 값에서 누적 총합으로 어떻게 넘어갈까? 누적선의 기울기는 무엇을 뜻할까?"},"125":{"sit":"토끼 한 쌍이 매달 새끼 한 쌍을 낳고, 태어난 쌍도 두 달 뒤부터 낳습니다. (피보나치의 토끼 문제)","ask":"몇 달 뒤 토끼는 몇 쌍이 될까? 다음 달 수를 지금 수로 말할 수 있을까?"},"126":{"sit":"매달 20만원씩 12개월 동안 연 3% 적금에 넣기로 했습니다. 은행은 「만기 금액」을 한 줄로 알려 줍니다.","ask":"같은 20만원인데 왜 첫 달과 마지막 달의 값이 다를까? 만기 금액은 어떻게 계산될까?"},"127":{"sit":"주차장 요금은 1시간마다 2000원씩 올라갑니다. 1시간 59분에 나가면 4000원, 2시간 1분에 나가면 6000원입니다.","ask":"2시간에 한없이 가까이 다가가면 요금은 얼마에 가까워질까? 왼쪽에서 갈 때와 오른쪽에서 갈 때가 같을까?"},"128":{"sit":"(x²−4)/(x−2) 에 x = 2 를 넣었더니 계산기가 오류를 냅니다. 그런데 x = 1.999 나 2.001 을 넣으면 값이 잘 나옵니다.","ask":"x 를 2 에 한없이 가까이 하면 값은 어디로 모일까? 그리고 왜 대입만으로는 알 수 없을까?"},"129":{"sit":"센서가 기록한 그래프 세 개가 모두 x = 2 에서 끊겨 있습니다. 담당자는 \"값 하나만 채우면 되지 않냐\"고 합니다.","ask":"세 끊김 중 값 하나를 채워 이을 수 있는 것은 무엇일까? 나머지는 왜 안 될까?"},"130":{"sit":"x³ − x − 1 = 0 의 근을 구하려는데 인수분해가 되지 않습니다. 계산기도 정확한 식을 주지 못합니다.","ask":"근이 어느 구간에 있는지 부호만으로 알아내고, 소수 둘째 자리까지 좁힐 수 있을까?"},"131":{"sit":"\"0 < x < 4 에서 가장 큰 값을 찾아라\"는 문제를 풀던 학생이 \"가장 큰 값이 없다\"며 손을 듭니다.","ask":"왜 최댓값이 없을까? 어떤 조건을 붙여야 가장 큰 값이 반드시 있다고 말할 수 있을까?"},"132":{"sit":"AI 가 쓰는 ReLU 함수는 y = |x| 처럼 원점에서 뾰족하게 꺾여 있습니다. 학습은 기울기로 하는데, 그 점의 기울기가 문제입니다.","ask":"이어져 있는데도 기울기를 하나로 정할 수 없는 점이 있을까? 있다면 왜 그럴까?"},"133":{"sit":"3D 그래픽에서 빛이 어떻게 반사될지는 표면이 바라보는 방향, 곧 법선으로 정합니다.","ask":"곡선 위 한 점에서 접선과 법선의 기울기는 각각 얼마일까? 둘은 어떤 관계일까?"},"134":{"sit":"롤러코스터 설계도가 y = x³ + bx 꼴입니다. b 를 바꾸면 봉우리와 골짜기가 생겼다 사라집니다.","ask":"b 가 어떤 값일 때 봉우리와 골짜기가 사라질까? 그 경계는 어디일까?"},"135":{"sit":"30cm × 30cm 도화지의 네 모서리를 정사각형으로 잘라 접어 뚜껑 없는 상자를 만듭니다.","ask":"몇 cm 를 잘라야 부피가 가장 클까? 많이 자를수록 좋을까?"},"136":{"sit":"엘리베이터의 위치를 초마다 기록했습니다. 관리자는 \"언제 가장 빨랐고 언제 방향이 바뀌었나\"를 묻습니다.","ask":"위치 그래프만 보고 속도와 가속도를 읽을 수 있을까? 되돌아서는 지점은 그래프에서 어떻게 드러날까?"},"137":{"sit":"y = x² 아래, 0 부터 1 까지의 넓이를 구하려는데 삼각형도 사각형도 아닙니다.","ask":"직사각형을 쌓아 재면 얼마나 정확할까? 개수를 늘리면 어디로 모일까?"},"138":{"sit":"어떤 학생이 \"적분은 미분의 반대\"라고 외웠습니다. 왜 반대인지는 설명하지 못합니다.","ask":"0 부터 x 까지의 넓이를 함수로 보면, 그 함수의 기울기는 무엇일까?"},"139":{"sit":"드론의 속도를 초마다 기록했습니다. 중간에 방향을 바꿔 돌아왔습니다.","ask":"지금 출발점에서 얼마나 떨어져 있을까? 그리고 총 몇 m 를 날았을까? 두 답은 같을까?"},"140":{"sit":"y = x² 와 y = ax 사이의 넓이를 구하라는 문제에서, 한 번에 적분한 학생의 답이 너무 작게 나왔습니다.","ask":"왜 작게 나왔을까? 구간의 어디를 어떻게 처리해야 할까?"},"141":{"sit":"도자기 그릇의 단면 곡선을 알고 있습니다. 이 그릇에 물이 얼마나 들어갈지 알고 싶습니다.","ask":"곡선을 돌려 만든 입체의 부피를 어떻게 잴까? 얇게 자르면 무엇이 보일까?"},"142":{"sit":"동아리 10명 중 3명을 뽑아 대표단을 만듭니다. 순서는 상관없습니다.","ask":"뽑는 방법은 몇 가지일까? 하나씩 세지 않고 알 수 있을까?"},"143":{"sit":"똑같이 생긴 사탕 5개를 세 사람에게 나눠 줍니다. 한 개도 못 받는 사람이 있어도 됩니다.","ask":"나누는 방법은 몇 가지일까? 사탕이 모두 같은데 어떻게 셀까?"},"144":{"sit":"(x + 2)⁵ 를 전개하라는 문제인데, 필요한 것은 x² 의 계수 하나뿐입니다.","ask":"전부 전개하지 않고 그 계수만 뽑아낼 수 있을까?"},"145":{"sit":"한 학생이 \"두 사건이 배반이면 서로 영향이 없으니 독립\"이라고 답했습니다.","ask":"이 말이 맞을까? 배반과 독립은 정말 같은 뜻일까?"},"146":{"sit":"친구와 6시부터 7시 사이에 만나기로 했습니다. 먼저 온 사람은 10분만 기다리고 갑니다.","ask":"두 사람이 만날 확률은 얼마일까? 경우가 무한히 많은데 어떻게 셀까?"},"147":{"sit":"정확도 99% 라는 검사에서 양성이 나왔습니다. 그런데 의사는 \"1만 명 중 10명만 걸리는 병\"이라며 재검사를 권합니다.","ask":"양성인데 왜 바로 확진이 아닐까? 실제로 병일 확률은 얼마일까?"},"148":{"sit":"\"아침을 먹으면 지각이 줄어든다\"는 주장을 확인하려고 100명을 조사해 2×2 표를 만들었습니다.","ask":"두 항목이 정말 서로 영향을 줄까? 우연히 이런 표가 나올 수도 있지 않을까?"},"149":{"sit":"사고가 날 확률이 2%, 사고가 나면 손해가 500만원인 상황에서 보험 상품을 설계합니다.","ask":"보험료를 얼마로 정해야 회사가 유지될까? 그 아래로 받으면 어떻게 될까?"},"150":{"sit":"두 반의 수학 평균이 똑같이 70점입니다. 담임은 \"그럼 두 반은 같은 반\"이라고 말합니다.","ask":"평균이 같으면 정말 같은 반일까? 무엇을 더 봐야 할까?"},"151":{"sit":"동전을 100번 던졌더니 앞면이 60번 나왔습니다. 친구는 \"그냥 우연\"이라고 합니다.","ask":"이 정도 치우침은 얼마나 드문 일일까? 우연이라고 넘겨도 될까?"},"152":{"sit":"이항분포로 계산하려니 C(200, 120) 같은 수가 나와 계산기가 버티지 못합니다.","ask":"막대 대신 매끄러운 곡선으로 바꿔 계산해도 될까? 된다면 언제부터 될까?"},"153":{"sit":"모의고사 성적표에 \"평균 60점, 표준편차 10점\"이라고만 적혀 있습니다.","ask":"40점과 80점 사이에는 몇 %가 들어 있을까? 평균과 표준편차가 달라지면 그 비율도 달라질까?"},"154":{"sit":"하루 이용 시간 자료는 짧은 쪽에 몰려 있고 긴 쪽에 꼬리가 있는, 전혀 종 모양이 아닌 분포입니다.","ask":"이런 자료에서 뽑은 표본평균도 제멋대로일까? 표본을 키우면 무엇이 달라질까?"},"155":{"sit":"뉴스가 \"지지율 52%, 95% 신뢰수준에 오차범위 ±3.1%p\" 라고 보도했습니다.","ask":"「95% 신뢰」는 정확히 무슨 뜻일까? 참값이 그 구간에 있을 확률이 95%라는 말과 같을까?"},"156":{"sit":"조사 기관이 \"표본을 두 배로 늘리면 오차도 절반이 됩니다\"라고 견적을 냈습니다.","ask":"정말 그럴까? 오차를 절반으로 줄이려면 표본을 몇 배로 해야 할까?"},"157":{"sit":"위성 방송 안테나는 하나같이 오목한 접시 모양이고, 수신기가 접시 앞 허공에 매달려 있습니다.","ask":"왜 하필 그 모양일까? 수신기는 왜 저 자리에 있어야 할까?"},"158":{"sit":"케플러는 화성의 궤도가 원이 아니라는 사실을 알아냈습니다. 두 압정과 실로 그 모양을 그릴 수 있습니다.","ask":"이 방법으로 그린 곡선은 어떤 성질을 가질까? 원은 이 곡선의 무엇일까?"},"159":{"sit":"쌍곡선을 그리면 두 직선에 한없이 가까워지는 것처럼 보입니다. 어떤 학생은 \"결국 만난다\"고 말합니다.","ask":"정말 만날까? 간격이 0 이 되는 지점이 있을까?"},"160":{"sit":"두 마이크에 총성이 도착한 시간이 3ms 차이 났습니다. 경찰은 이것만으로 위치를 좁히려 합니다.","ask":"시간 차 하나로 어디까지 알 수 있을까? 정확한 지점을 찍으려면 무엇이 더 필요할까?"},"161":{"sit":"원 x² + y² = 4 에 기울기가 정해진 직선을 슬며시 붙여 봅니다. 교점이 둘이었다가 하나가 되고 이내 사라집니다.","ask":"딱 한 점에서 만나는 순간의 조건은 무엇일까? 식으로 어떻게 쓸까?"},"162":{"sit":"폭 8m 인 강을 건너려는데 물살이 하류로 밀어냅니다. 뱃머리를 건너편 정면으로 두었더니 아래로 떠내려갔습니다.","ask":"건너편 바로 맞은편에 닿으려면 뱃머리를 어느 쪽으로 얼마나 틀어야 할까?"},"163":{"sit":"두 드론의 이동 방향이 (2, 1) 과 (4, 2) 로 기록되었습니다. 관제사는 \"같은 방향이냐\"고 묻습니다.","ask":"두 화살표가 나란한지 성분만 보고 판정할 수 있을까?"},"164":{"sit":"교차로 도면에서 두 도로의 방향이 (4, 1) 과 (2, 4) 로 주어졌습니다. 각도기는 없습니다.","ask":"두 도로가 이루는 각을 계산만으로 구할 수 있을까? 직각인지도 알 수 있을까?"},"165":{"sit":"5m 짜리 막대를 세울수록 바닥의 그림자가 짧아집니다. 한 학생이 \"각이 두 배면 그림자도 절반\"이라고 말합니다.","ask":"정말 그럴까? 그림자 길이는 각과 어떤 관계일까?"},"166":{"sit":"태양광 패널을 기울여 설치하면 지면이 받는 그림자 넓이가 줄어듭니다.","ask":"넓이는 cos 을 몇 번 곱해야 할까? 길이가 줄었으니 두 번일까?"},"167":{"sit":"깃대를 바닥에 수직으로 세웠습니다. 바닥에는 직선 하나가 그어져 있고, 그 직선 위 한 점 A 로 줄을 당깁니다.","ask":"줄(PA)이 그 직선과 수직이 되는 것은 언제일까? 무엇을 확인하면 알 수 있을까?"},"168":{"sit":"드론이 동쪽 3m, 북쪽 2m, 높이 4m 지점에 떠 있습니다. 관제탑은 원점에 있습니다.","ask":"관제탑에서 드론까지의 직선 거리는 얼마일까? 평면의 거리 공식으로 될까?"},"169":{"sit":"CT 촬영은 몸을 얇게 잘라 단면을 봅니다. 공 모양 물체를 여러 높이에서 자르면 단면이 달라집니다.","ask":"자른 단면은 언제나 원일까? 높이에 따라 크기는 어떻게 변할까?"},"170":{"sit":"교과서에는 타원·포물선·쌍곡선이 따로따로 나옵니다. 그런데 이름은 모두 「원뿔곡선」입니다.","ask":"세 곡선이 정말 한 뿌리에서 나올까? 무엇이 그 셋을 가를까?"},"171":{"sit":"드론 A 와 B 사이를 3 : 1 로 나누는 자리에 세 번째 드론을 띄우라는 지시가 내려왔습니다.","ask":"그 자리의 좌표는 어떻게 구할까? 3 이 A 쪽일까 B 쪽일까?"},"172":{"sit":"네 수열을 컴퓨터로 200항까지 계산해 점으로 찍었습니다. 어떤 것은 한 줄에 붙고 어떤 것은 흩어집니다.","ask":"어떤 수열이 「모인다」고 할 수 있을까? 그 판단의 기준은 무엇일까?"},"173":{"sit":"등비수열 rⁿ 에서 r 을 조금씩 바꾸자 어떤 값에서는 0 으로, 어떤 값에서는 폭발합니다.","ask":"수렴과 발산이 갈리는 경계는 정확히 어디일까? r = 1 과 r = −1 은 각각 어느 쪽일까?"},"174":{"sit":"1 + 1/2 + 1/3 + … 을 계산기로 300항까지 더했습니다. 항은 분명히 0 으로 가는데 합은 계속 커집니다.","ask":"항이 0 으로 가는데 왜 합이 모이지 않을까? 1/n² 은 왜 다를까?"},"175":{"sit":"\"0.999… 는 1보다 아주 조금 작다\"는 말과 \"정확히 1이다\"는 말이 맞섭니다.","ask":"누구 말이 맞을까? 무한등비급수로 답을 낼 수 있을까?"},"176":{"sit":"계산기를 도(°) 모드로 두고 sin x / x 를 계산했더니 0.01745 라는 낯선 수가 나왔습니다.","ask":"라디안으로 두면 1 인데 왜 도로는 다를까? 그 0.01745 의 정체는 무엇일까?"},"177":{"sit":"지수함수 aˣ 를 미분하면 다시 지수함수가 나옵니다. 그런데 밑에 따라 도함수가 원래보다 위에 있기도, 아래에 있기도 합니다.","ask":"두 곡선이 정확히 포개지는 밑은 얼마일까? 그 수의 정체는 무엇일까?"},"178":{"sit":"sin x 를 계속 미분해 보라는 과제를 받았습니다. 한 번, 두 번, 세 번… 계속 새로운 함수가 나올까요?","ask":"몇 번 미분하면 원래 함수로 돌아올까? 미분은 그래프에 무슨 일을 하는 걸까?"},"179":{"sit":"sin(3x) 의 도함수를 cos(3x) 라고 쓴 답안이 있습니다. 그래프의 기울기를 재 보니 값이 맞지 않습니다.","ask":"무엇이 빠졌을까? 안쪽 함수는 어디에 반영되어야 할까?"},"180":{"sit":"원 x² + y² = 4 위의 점에서 접선을 구하려는데, y 에 대해 풀면 부호가 둘로 갈려 번거롭습니다.","ask":"y 로 풀지 않고 접선의 기울기를 구할 수 있을까? 아예 y 로 풀 수 없는 곡선은?"},"181":{"sit":"성장 곡선에서 \"언제부터 증가세가 꺾였나\"를 묻습니다. 최댓값이 아니라 휘는 방향이 바뀌는 지점입니다.","ask":"f″ = 0 인 점을 모두 변곡점이라고 해도 될까? 반례가 있을까?"},"182":{"sit":"∫f(2x)dx 를 계산하며 u = 2x 로 두고 구간만 [0, 2] 로 바꿨습니다. 답이 정확히 두 배가 나왔습니다.","ask":"무엇을 빠뜨렸을까? 변수를 바꿀 때 함께 바꿔야 하는 것은 몇 가지일까?"},"183":{"sit":"∫x eˣ dx 를 부분적분으로 풀려는데, u 를 무엇으로 잡느냐에 따라 결과가 딴판입니다.","ask":"u 를 고르는 기준은 무엇일까? 잘못 고르면 어떻게 될까?"},"184":{"sit":"일정한 속력으로 원을 도는 위성이 있습니다. \"속력이 안 변하니 가속도는 0\"이라는 말이 나옵니다.","ask":"정말 가속도가 0 일까? 가속도는 무엇의 변화일까?"},"185":{"sit":"구불구불한 산길의 길이를 지도에서 재려 합니다. 자로는 직선밖에 잴 수 없습니다.","ask":"곡선의 길이를 어떻게 구할까? 잘게 나누면 무엇이 보일까?"},"186":{"sit":"감염병 예측 모형은 \"지금 감염자 수에 비례해 늘어난다\" 같은 변화율의 규칙으로 세워집니다.","ask":"규칙 하나만으로 미래 곡선이 정해질까? 무엇이 더 있어야 할까?"},"187":{"sit":"1958년 퍼셉트론이 발표되자 사람들은 곧 사람처럼 생각하는 기계가 나오리라 기대했습니다. 그러나 1969년, XOR 이라는 간단한 문제 앞에서 멈췄습니다.","ask":"AND 와 OR 은 되는데 XOR 은 왜 안 될까? 무엇이 한계였을까?"},"188":{"sit":"어떤 질병 진단 AI 가 \"정확도 95%\"라고 광고합니다. 그런데 그 병에 걸린 사람은 1000명 중 30명뿐입니다.","ask":"이 정확도는 믿을 만할까? 아무 판단도 안 하는 모형의 정확도는 얼마일까?"},"189":{"sit":"AI 에게 \"이 영화 정말 재미있다\"를 이해시키려면 먼저 숫자로 바꿔야 합니다.","ask":"문장을 어떻게 벡터로 바꿀까? 바꾸는 순간 무엇이 사라질까?"},"190":{"sit":"영화 리뷰 100편에서 키워드를 뽑았더니 1등이 \"영화\"였습니다. 모든 리뷰에 들어 있는 단어입니다.","ask":"흔한 단어를 어떻게 걸러낼까? 좋은 키워드의 조건은 무엇일까?"},"191":{"sit":"리뷰 두 편이 얼마나 비슷한지 판정해 비슷한 취향의 사람을 묶으려 합니다.","ask":"두 문장의 닮은 정도를 집합으로 잴 수 있을까? 그 값의 범위는?"},"192":{"sit":"사진 앱의 「밝기」와 「대비」 슬라이더는 안에서 무슨 일을 하고 있을까요. 사진은 결국 숫자 표입니다.","ask":"밝기와 대비는 각각 행렬의 어떤 연산일까? 너무 세게 밀면 왜 사진이 망가질까?"},"193":{"sit":"컬러 사진을 흑백으로 바꾸는 코드를 보니 (R + G + B)/3 이 아니라 이상한 계수가 붙어 있습니다.","ask":"왜 단순 평균이 아닐까? 세 계수의 크기 순서는 무엇을 뜻할까?"},"194":{"sit":"세로로 찍은 사진을 가로로 바꾸려고 행과 열을 맞바꿨더니, 회전이 아니라 뒤집힌 그림이 나왔습니다.","ask":"전치와 회전은 어떻게 다를까? 회전을 만들려면 무엇을 더 해야 할까?"},"195":{"sit":"게임에서 캐릭터를 돌리고 늘이는 일은 모두 좌표에 행렬을 곱하는 것으로 처리합니다.","ask":"네 수 (a, b, c, d) 가 도형을 어떻게 바꿀까? 되돌릴 수 없는 변환도 있을까?"},"196":{"sit":"손으로 쓴 글씨는 사람마다 조금씩 다릅니다. 그래도 컴퓨터는 T 인지 L 인지 알아냅니다.","ask":"흐트러진 글씨를 어떻게 가장 가까운 본보기로 이어 줄까? 「가깝다」를 어떻게 잴까?"},"197":{"sit":"신경망 그림을 보면 동그라미와 선이 잔뜩 있습니다. 그 안에서 실제로 일어나는 계산은 무엇일까요.","ask":"입력 3개에서 출력 2개를 만드는 계산을 식 하나로 쓸 수 있을까?"},"198":{"sit":"자료에 직선을 맞추려는데 \"이게 제일 좋다\"는 근거가 필요합니다. 눈대중으로는 설득할 수 없습니다.","ask":"「좋은 직선」을 하나의 수로 나타낼 수 있을까? 그 수는 어떤 모양의 함수일까?"},"199":{"sit":"자료 하나가 실수로 크게 잘못 기록되었습니다. 그런데 그 하나 때문에 추세선이 통째로 기울어집니다.","ask":"오차를 재는 방법을 바꾸면 결과가 달라질까? 어느 쪽이 더 튼튼할까?"},"200":{"sit":"AI 를 학습시키는데 손실이 줄기는커녕 점점 커집니다. 코드는 맞는 것 같습니다.","ask":"무엇이 문제일까? 보폭을 크게 하면 빨리 내려갈 것 같은데 왜 아닐까?"},"201":{"sit":"기온이 0도일 때도 아이스티가 어느 정도는 팔립니다. 그런데 모형이 원점을 지나도록 강제되어 있습니다.","ask":"기울기만 배우면 무엇이 부족할까? 절편은 무엇을 뜻할까?"}};
+const PROBLEMS={"1":{"sit":"구조 상황실 — 조난자의 휴대폰이 기지국까지의 거리를 알려 왔습니다: A까지 4.7 km, B까지 4.5 km, C까지 4.1 km (지도 1칸 = 1 km).","ask":"조난자는 지도 위 어디에 있을까? 기지국이 2곳뿐이라면 위치를 하나로 정할 수 있을까?"},"2":{"sit":"어제 온 문자 2통 — 「[Web발신] 무료 쿠폰 지급, 지금 클릭」은 스팸함으로, 「엄마: 무료할 때 전화해」는 정상함으로 갔습니다.","ask":"폰은 두 문자를 무슨 계산으로 갈랐을까? 「무료」가 든 엄마 문자는 왜 살아남았을까?"},"3":{"sit":"어떤 쇼츠 영상이 첫날 5천 뷰 → 3일 만에 4만 뷰가 되었습니다. 제작자는 \"일주일이면 100만\"이라고 주장합니다.","ask":"이 주장은 타당할까? 「며칠마다 2배」 규칙이면 언제 100만을 넘고, 그 성장은 언제까지 계속될 수 있을까?"},"4":{"sit":"A요금제: 기본 15,000원 + 분당 45원. B요금제: 기본 30,000원 + 분당 5원. 나는 한 달에 약 350분 통화합니다.","ask":"나는 어느 요금제가 유리할까? 몇 분부터 B가 이기게 될까?"},"5":{"sit":"우리 학교 본관까지 발걸음으로 50m. 그 자리에서 옥상 끝을 올려본 각이 40°였습니다 (내 눈높이 1.6m).","ask":"본관의 높이는 몇 m일까? 올라가 보지 않고 확실히 말할 수 있을까?"},"6":{"sit":"우리 반 12명의 하루 공부 시간과 수학 점수를 조사했더니 점들이 오른쪽 위로 흐릿하게 몰려 있습니다.","ask":"「공부 시간이 길수록 점수가 높다」— 이 흐릿한 경향을 숫자 하나로 잴 수 있을까?"},"7":{"sit":"구인 광고: 「평균 연봉 9,440만 원!」 — 입사해 보니 직원 9명은 3,200~4,600만 원, 사장만 6억이었습니다.","ask":"광고는 거짓말을 한 걸까? 「보통 직원」의 연봉을 대표하는 수는 무엇이어야 할까?"},"8":{"sit":"내 비밀번호는 숫자 4자리입니다. 해커 프로그램은 1초에 1억 개를 시도할 수 있다고 합니다.","ask":"내 비밀번호는 몇 초 만에 뚫릴까? 1000년 이상 버티게 만들려면 무엇을 바꿔야 할까?"},"9":{"sit":"뽑기 기계: 당첨 확률 0.5%. 친구가 \"200번 뽑으면 1번은 무조건 나오지\"라며 20만 원을 쓰려 합니다.","ask":"200번 뽑으면 정말 당첨될까? 「무조건」에 가까워지려면 몇 번이 필요할까?"},"10":{"sit":"수학·영어 두 시험 모두 78점. 반 평균은 둘 다 70점인데, 표준편차가 수학은 5점·영어는 25점입니다.","ask":"같은 78점인데 두 시험에서의 「내 위치」도 같을까? 어느 쪽이 더 대단한 점수일까?"},"11":{"sit":"세뱃돈 100만 원을 연 6% 복리 통장에 넣었습니다. 아빠는 \"12년이면 두 배\"라고 합니다.","ask":"정말 12년이면 두 배가 될까? 두 배 시점을 빨리 어림하는 방법이 있을까?"},"12":{"sit":"지진 규모 6·7·8 은 한 칸씩 차이지만, 방출 에너지는 대략 6만·200만·6300만 단위로 뜁니다. 막대그래프를 그리면 규모 6 이 아예 안 보입니다.","ask":"수만 배 차이 나는 값들을 한 그래프에 정직하게 담을 수 있을까? 눈금이란 무엇일까?"},"13":{"sit":"자율주행 시험차가 출발 t초 후 s(t) = 2t² + 3t (m) 지점을 지납니다. 구간단속 카메라가 잰 1초~3초 사이 평균속도는 11 m/s — 그런데 3초 순간의 속도계는 15 m/s를 가리켰습니다.","ask":"평균 11만 보고 「과속 아님」이라 말할 수 있을까? 순간의 속도는 어떻게 재는 걸까?"},"14":{"sit":"온라인 결제 중 카드번호를 한 자리 잘못 눌렀는데, 사이트가 결제 전에 「번호를 확인하세요」라고 즉시 알려 줍니다.","ask":"서버에 묻지도 않고 오타를 어떻게 알았을까? 카드번호 마지막 자리의 정체는?"},"15":{"sit":"카페 사장이 (기온, 아이스 판매량) 12일 치를 모았습니다. 내일 기온이 30°C라는 예보를 보고 재료를 준비하려 합니다.","ask":"점 12개로 내일 판매량을 예측하는 「가장 좋은 직선」은 어떻게 정할까?"},"16":{"sit":"안개 낀 골짜기에서 조난 — 보이는 건 발밑 경사뿐입니다. AI 도 이렇게 「기울기만 보고」 최적값을 찾는다고 합니다.","ask":"전체 지형을 못 보는데 가장 낮은 곳에 도착할 수 있을까? 보폭이 크면 무슨 일이 생길까?"},"17":{"sit":"원주율을 모른다고 상상합시다. 정사각형 안에 사분원을 그리고, 눈 감고 점을 마구 찍을 수 있습니다.","ask":"점 찍기만으로 π 를 몇 자리까지 알아낼 수 있을까? 점이 몇 개나 필요할까?"},"18":{"sit":"OTT 서비스가 나에게 「액션 9·로맨스 2」인 영화를 추천했습니다. 내 시청 기록은 액션 8·로맨스 3에 가깝습니다.","ask":"서비스는 나와 영화의 「취향 방향」을 무엇으로 비교했을까? 취향의 세기가 달라도 방향이 같으면 추천될까?"},"19":{"sit":"사진 앱의 「샤픈」 버튼 한 번에 흐릿한 글자가 또렷해졌습니다. 앱 속에는 3×3 숫자판 하나가 들어 있다고 합니다.","ask":"숫자 9개가 어떻게 사진을 바꾸는 걸까? 경계만 골라 강조하는 숫자판은 어떤 모양일까?"},"20":{"sit":"피아노와 기타가 같은 도(약 262Hz)를 냈는데 소리는 전혀 다릅니다. 파형을 보니 둘 다 1초에 262번 반복입니다.","ask":"높이가 같은데 음색은 왜 다를까? 파형의 무엇이 「악기다움」을 만들까?"},"21":{"sit":"y = 2x−3 은 「x를 넣으면 y가 나오는 기계」입니다. 거꾸로 y=7 이 나왔을 때 x 를 묻는 기계도 필요합니다.","ask":"거꾸로 기계의 그래프는 원래 기계와 어떤 관계일까? 아무 함수나 거꾸로 기계를 가질 수 있을까?"},"22":{"sit":"1/2 + 1/4 + 1/8 + 1/16 + … — 항은 끝없이 이어지는데 「합은 1」이라고 말합니다.","ask":"무한히 더하는데 합이 유한하다는 게 무슨 뜻일까? 어떤 무한합은 왜 터질까?"},"23":{"sit":"계산기에 sin 37° 를 누르면 0.6018… 이 즉시 나옵니다. 계산기 안에 삼각비 표가 통째로 들어 있는 걸까요?","ask":"계산기는 sin 을 무엇으로 계산할까? 다항식이 sin 을 흉내 낼 수 있을까?"},"24":{"sit":"와인잔에 물을 반쯤 따랐습니다. 잔의 옆모습 곡선은 알고 있지만 부피 공식은 없는 모양입니다.","ask":"공식이 없는 그릇의 부피를 어떻게 잴까? 「썰어서 더하기」는 얼마나 정확할까?"},"25":{"sit":"인터넷 결제의 자물쇠는 「83 × 89 = 7,387」은 클릭 두 번이면 끝나지만, 「7,387 = ? × ?」는 한참 걸린다는 사실 위에 서 있다고 합니다.","ask":"곱하기는 쉬운데 되돌리기는 왜 오래 걸릴까? 자릿수가 늘면 얼마나 더 힘들어질까?"},"26":{"sit":"새벽 기온 영하 5도. 낮에 8도 올랐다가 밤에 6도 내려갔습니다.","ask":"지금 기온은 몇 도일까? 「내려갔다」는 셈을 수직선 위의 움직임으로 그릴 수 있을까?"},"27":{"sit":"성냥개비로 정사각형을 한 줄로 이어 붙입니다: 1칸에 4개, 2칸에 7개, 3칸에 10개….","ask":"100칸이면 성냥개비가 몇 개 필요할까? 세지 않고 아는 방법이 있을까?"},"28":{"sit":"양팔저울 왼쪽에 「?가 든 주머니 2개와 3g 추」, 오른쪽에 「11g 추」 — 저울은 수평입니다.","ask":"주머니 하나의 무게를 알아내려면 저울에 어떤 조작까지 허용될까?"},"29":{"sit":"지렛대로 바위를 듭니다. 받침점에서 2 m 떨어진 곳을 누르면 힘 12가 필요했습니다. 4 m로 물러나 누르면 힘은 6이면 됩니다.","ask":"무게와 거리 사이에 어떤 거래가 성립할까? 곱일까, 합일까?"},"30":{"sit":"기찻길 두 레일은 평행인데, 사진 속에서는 한 점에서 만나 보입니다. 건널목의 비스듬한 차단기가 두 레일과 만드는 각이 보입니다.","ask":"평행선을 자르는 직선이 만드는 여덟 각 사이에는 어떤 약속이 있을까? 평행이 깨지면?"},"31":{"sit":"철탑·다리·자전거 프레임 — 큰 구조물은 온통 삼각형입니다. 사각형 프레임은 손으로도 찌그러집니다.","ask":"삼각형은 왜 안 찌그러질까? 세 변이 같으면 모양까지 같아질까?"},"32":{"sit":"하루 24시간 중 잠 8시간, 학교 7시간, 학원 3시간… 원그래프로 그리려니 「잠」 조각의 각도가 필요합니다.","ask":"8시간짜리 조각의 중심각은 몇 도여야 공정할까? 호의 길이·넓이도 같은 비율일까?"},"33":{"sit":"신발 가게 하루 판매: 250(1) 255(2) 260(5) 265(3) 270(1). 사장은 내일 「가장 잘 나갈 치수」를 더 들여놓으려 합니다.","ask":"사장에게 필요한 대푯값은 평균·중앙값·최빈값 중 무엇일까?"},"34":{"sit":"같은 키 자료로 A신문은 「고른 분포」, B신문은 「양극화!」 히스토그램을 실었습니다. 자료는 동일합니다.","ask":"같은 자료가 어떻게 다른 이야기를 하게 됐을까? 계급 폭은 어떻게 골라야 정직할까?"},"35":{"sit":"톱니 12개와 18개 두 기어가 맞물려 돕니다. 지금 맞닿은 두 이빨에 페인트 점을 찍었습니다.","ask":"두 점이 다시 만나는 것은 각각 몇 바퀴 돈 뒤일까? 두 수의 무엇이 그 답을 쥐고 있을까?"},"36":{"sit":"변 6cm·8cm·15cm 막대 세 개를 받았습니다. 목수는 보자마자 \"삼각형 안 나온다\"고 합니다.","ask":"만들어 보지 않고 어떻게 알았을까? 되는 세 변의 조건은 무엇일까?"},"37":{"sit":"화장실 바닥은 정사각형 타일, 벌집은 정육각형 — 그런데 정오각형 타일 바닥은 본 적이 없습니다.","ask":"정오각형은 왜 바닥이 되지 못할까? 빈틈없이 깔리는 정다각형의 조건은?"},"38":{"sit":"3D 프린터는 어떤 모양이든 얇은 층으로 썰어 쌓습니다. 축구공 같은 다면체에는 꼭짓점·모서리·면이 셀 수 있게 있습니다.","ask":"꼭짓점·모서리·면 사이에 모든 다면체가 지키는 약속이 있을까?"},"39":{"sit":"부피 1000cm³ 물건을 넣을 택배 상자를 주문 제작합니다. 종이값은 겉넓이에 비례합니다.","ask":"같은 부피인데 종이가 가장 적게 드는 상자는 어떤 모양일까?"},"40":{"sit":"우리 반 수학 점수 원자료가 필요한데, 히스토그램만 남아 있으면 「78점이 몇 명인지」는 알 수 없습니다.","ask":"자료를 정리하면서도 원래 값을 잃지 않는 그림이 있을까?"},"41":{"sit":"1반(28명)은 수학 90점 이상이 7명, 2반(35명)은 8명입니다. 2반 담임은 \"우리가 더 많다\"고 자랑합니다.","ask":"사람 수 비교는 공정할까? 크기가 다른 두 집단은 무엇으로 비교해야 할까?"},"42":{"sit":"전교생 800명의 등교 시간이 궁금하지만 전부 물을 수는 없습니다. 30명만 뽑아 물었더니 평균 25분이 나왔습니다.","ask":"30명의 답을 800명의 답이라고 말해도 될까? 뽑을 때마다 값이 다르면 어떡하지?"},"43":{"sit":"3x + 2 + 2x − 5 — 친구는 \"몽땅 더해서 2x\"라고 우깁니다.","ask":"식에서 「더해도 되는 것」과 「안 되는 것」의 경계는 무엇일까?"},"44":{"sit":"동생의 등굣길 그래프: 처음엔 가파르게, 중간에 수평, 다시 완만하게 올라 학교에 도착했습니다.","ask":"수평 구간에서 동생에게 무슨 일이 있었던 걸까? 그래프의 기울기는 무엇을 말할까?"},"45":{"sit":"한 변이 √2 인 정사각형과 √3 인 정사각형의 변을 이어 붙였습니다. 친구는 \"√5 막대와 같다\"고 합니다.","ask":"√2 + √3 = √5 일까? 자로 재지 않고도 판정할 수 있을까?"},"46":{"sit":"수직선 위에 「√2 의 정확한 위치」를 표시해야 합니다. 1.414는 어디까지나 반올림입니다.","ask":"무리수의 정확한 자리를 자와 컴퍼스만으로 짚을 수 있을까?"},"47":{"sit":"암산 대회 문제: 99×101. 옆 친구가 3초 만에 \"9999\"라고 외쳤습니다.","ask":"무슨 계산을 했길래 3초일까? 98×102, 95×105에도 통하는 기술일까?"},"48":{"sit":"y = x²−2x−3 의 그래프가 x축과 만나는 자리가 두 곳 보입니다. 눈대중으로는 −1과 3 근처입니다.","ask":"눈대중을 「정확한 값」으로 바꿔 주는 장치가 있을까?"},"49":{"sit":"게임 캐릭터가 포물선 y=x²−2x 궤적으로 점프합니다. 높이 k 에 수평 장애물이 있습니다.","ask":"부딪히는지(2번·1번·0번) 점프하기 전에 계산만으로 알 수 있을까?"},"50":{"sit":"x² + 6x = 7 — 인수분해가 바로 안 보입니다. 옛 수학자들은 이 식을 「타일 퍼즐」로 풀었다고 합니다.","ask":"기역자 타일을 정사각형으로 만들면 방정식이 풀린다는데, 무엇을 채워야 할까?"},"51":{"sit":"물로켓이 y=x² 포물선을 그리며 날았습니다. 다음 발사대는 오른쪽 3m, 위 2m 지점입니다.","ask":"같은 모양 포물선을 그 자리로 「배달」하는 식은 어떻게 쓸까? 괄호 안 부호는 왜 반대로 보일까?"},"52":{"sit":"울타리 재료가 딱 20m. 벽 없이 네 변을 모두 둘러 텃밭을 만듭니다.","ask":"가장 넓은 텃밭은 어떤 모양일까? 직사각형이면 충분할까?"},"53":{"sit":"가로 (a+b), 세로 (a+b)인 정사각형 땅을 네 구역으로 나눠 씁니다: 꽃밭 a², 채소밭 둘, 창고 b².","ask":"(a+b)² 을 전개한 식의 항 하나하나는 땅의 어느 조각일까? (a−b)² 은 어떤 그림이 될까?"},"54":{"sit":"삼각비 표를 보면 sin 30°=0.5 는 딱 떨어지는데 sin 31°=0.5150… 은 지저분합니다.","ask":"30°·45°·60° 만 값이 깔끔한 이유가 있을까? 그 값들은 어디서 태어났을까?"},"55":{"sit":"1594년 항해사는 계산기 없이 삼각비 표 한 장으로 배의 위치를 구했습니다. 표에는 5° 간격 값뿐입니다.","ask":"표에 없는 sin 37° 는 어떻게 구했을까? 이웃 값으로 어림하는 방법이 통할까?"},"56":{"sit":"축구장 골대를 정면·측면·대각선 어디서 봐도 「같은 각」으로 보이는 자리들이 있다고 코치가 말합니다.","ask":"그런 자리들이 정말 있을까? 있다면 어떤 도형을 이룰까?"},"57":{"sit":"통신위성이 고도를 높이면 지구의 더 넓은 면이 보입니다. 위성 회사는 \"3대면 전 지구 커버\"라고 광고합니다.","ask":"위성 하나는 지구의 몇 %까지 볼 수 있을까? 무한히 높이면 절반을 넘길 수 있을까?"},"58":{"sit":"네 유적지가 「같은 원형 성벽 위에 있었다」는 가설이 나왔습니다. 좌표만 남아 있습니다.","ask":"네 점이 한 원 위에 있는지 판정하는 시험이 있을까? 각도만으로 가능할까?"},"59":{"sit":"체력장 오래매달리기 기록(초): 12,14,15,16,17,18,18,19,20,21,22,24,26 — 한 명이 재측정에서 55초를 냈습니다.","ask":"55초는 「특별한 기록」일까 「의심스러운 기록」일까? 기준을 수로 정할 수 있을까?"},"60":{"sit":"「하루 수면시간과 성적」 조사에서 r=0.81 이 나왔는데, 기자가 자료에 축구선수(수면 10시간·성적 최하) 한 명을 추가했습니다.","ask":"한 명 때문에 결론이 뒤집힐 수 있을까? 그 한 명을 빼도 되는 걸까?"},"61":{"sit":"1부터 120까지에서 소수만 골라내야 합니다. 一一이 나눠 보기엔 너무 많습니다.","ask":"가장 적은 수고로 소수를 전부 남기는 방법은? 몇으로 거르는 것까지가 「필요한 일」일까?"},"62":{"sit":"두 기상캐스터의 5일 예보 오차: A는 +3,−3,+3,−3,0 / B는 +1,0,−1,+1,−1. 부호까지 더하면 둘 다 합계 0입니다.","ask":"합계 0이면 둘 다 만점일까? 실력 차이를 드러내는 공정한 채점은?"},"63":{"sit":"자판기 식 「2a」에 a=7 동전을 넣었더니 어떤 기계는 14를, 고장 기계는 27을 뱉었습니다.","ask":"고장 기계는 무엇을 잘못 읽었을까? 식의 「생략된 약속」은 무엇일까?"},"64":{"sit":"소금 20g에 물 180g을 부어 소금물 200g을 만들었습니다(농도 10%). 레시피는 5%를 요구합니다.","ask":"무엇을 얼마나 더하거나 빼야 정확히 5%가 될까? 물만 부으면 될까?"},"65":{"sit":"두 마을 A·B 사이에 공동 우물을 파려고 합니다 — 두 마을에서 정확히 같은 거리에.","ask":"같은 거리인 지점은 하나뿐일까? 그 지점들을 자와 컴퍼스로 찾을 수 있을까?"},"66":{"sit":"각도기 없이 케이크의 조각 각을 정확히 반으로 나눠야 합니다. 가진 것은 컴퍼스와 자뿐.","ask":"컴퍼스 몇 번이면 어떤 각이든 정확히 절반이 될까? 「정확히」를 어떻게 믿을까?"},"67":{"sit":"피자 반지름 12cm 조각의 호가 9cm입니다. 라벨에는 넓이가 없고, 원 전체 공식만 압니다.","ask":"조각(부채꼴)만의 넓이를 구하는 지름길이 있을까? 잘라 붙이면 무엇이 보일까?"},"68":{"sit":"주사위(정6), 4면체 주사위(d4), 20면체 주사위(d20)는 팔지만 「정7면체 주사위」는 어디에도 없습니다.","ask":"정다면체는 왜 다섯뿐일까? 일곱 번째를 만들 수는 없을까?"},"69":{"sit":"용돈 5,000원, 간식은 개당 800원. 계산대 앞에서 몇 개까지 담을지 정해야 합니다.","ask":"「살 수 있는 개수 전부」를 한 번에 표현할 수 있을까? 답이 하나가 아니라면?"},"70":{"sit":"새 학기 사물함 배정: 학번을 10으로 나눈 나머지 번호 방을 씁니다. 학번 23과 133은 같은 방입니다.","ask":"이 배정은 공평할까? 방 개수를 바꾸면 몰림이 생기거나 사라질까?"},"71":{"sit":"계산기에서 1/8 = 0.125 로 끝나는데 1/7 = 0.142857142857… 은 끝나지 않습니다.","ask":"끝나는 분수와 도는 분수의 갈림길은 분수의 어디에 있을까? 컴퓨터의 0.1+0.2≠0.3 과도 관련 있을까?"},"72":{"sit":"0.242424… 라는 무한소수를 친구는 \"분수로는 절대 못 쓴다\"고 합니다.","ask":"끝없는 소수를 유한한 분수로 붙잡을 수 있을까? 어떤 기술이 꼬리를 지울까?"},"73":{"sit":"두께 0.1mm 종이를 42번 접으면 달(38만 km)에 닿는다는 이야기가 있습니다.","ask":"믿기 힘든 이 주장, 계산으로 판정하면 참일까? 접기가 왜 이렇게 무서운 걸까?"},"74":{"sit":"용돈 협상: 「내 용돈 x는 동생의 2배 이상」— 양변에 −1을 곱해 정리하던 형이 갑자기 동생보다 적어졌습니다.","ask":"음수를 곱하면 부등호에 무슨 일이 일어날까? 등호와 무엇이 다를까?"},"75":{"sit":"문구점 A: 연필 2자루+지우개 1개 = 1,700원. 문구점 B의 전단: 연필 4자루+지우개 2개 = 3,400원.","ask":"두 정보로 연필값을 알아낼 수 있을까? 정보가 「두 개처럼 보이지만 하나」일 수도 있을까?"},"76":{"sit":"x+y=8, x−y=2 — 학원 형은 \"두 식을 그냥 더해 봐\"라고 힌트만 주고 갔습니다.","ask":"식끼리 더한다는 게 무슨 뜻일까? 더하면 왜 문제가 쉬워질까?"},"77":{"sit":"통신사 요금 그래프에서 「기본료 인상」과 「분당 요금 인상」은 직선을 다르게 움직인다고 합니다.","ask":"두 인상은 그래프에서 각각 어떤 운동일까? 서로 흉내 낼 수 있을까?"},"78":{"sit":"칠판의 식 y = (2/3)x + 1 — 선생님이 \"점 두 개면 끝\"이라며 분필 두 번으로 그래프를 그렸습니다.","ask":"어떤 두 점을 고르면 가장 빠르고 정확할까? 분수 기울기도 두 점으로 될까?"},"79":{"sit":"모둠 과제: 삼각형 합판을 손가락 하나로 수평 받치기. 아무 데나 받치면 기울어 떨어집니다.","ask":"받침점은 삼각형의 어디여야 할까? 그 점을 계산으로 찾을 수 있을까?"},"80":{"sit":"접이식 빨래건조대는 아무리 접었다 펴도 각 칸이 평행사변형을 유지합니다.","ask":"변형되는 내내 「평행사변형임」을 보증하는 조건은 무엇일까? 조건 하나면 충분할까?"},"81":{"sit":"1:25000 지도에서 학교와 집 사이가 4cm입니다. 내일 걸어가 볼 계획입니다.","ask":"실제 거리와 걸리는 시간은? 지도를 2배 확대 인쇄하면 축척은 어떻게 될까?"},"82":{"sit":"수업 시간에 빔프로젝터를 뒤로 밀었더니 화면이 훌쩍 커졌습니다.","ask":"거리와 화면 크기 사이의 규칙은? 프로젝터·그림자·바늘구멍 사진기는 같은 원리일까?"},"83":{"sit":"전자매장에서 「55인치」 TV를 재 보니 가로는 122cm뿐입니다. 55인치(140cm)가 아닌 것 같습니다.","ask":"55인치는 어디 길이일까? 가로·세로에서 대각선을 계산할 수 있을까?"},"84":{"sit":"공사장 목수가 줄자 하나로 「이 모서리 직각 맞네」라고 합니다. 각도기는 쓰지 않았습니다.","ask":"세 변 길이만으로 직각을 판정할 수 있을까? 직각이 아니면 무엇이 어긋날까?"},"85":{"sit":"고대 이집트 측량사는 매듭 12개짜리 밧줄로 완벽한 직각을 만들었습니다 — 3·4·5 간격이었다고 합니다.","ask":"세 변이 모두 자연수인 직각삼각형은 (3,4,5)뿐일까? 규칙적으로 더 찾을 수 있을까?"},"86":{"sit":"분식집 세트: 김밥 3종 중 하나 「그리고」 음료 2종 중 하나. 옆 가게는 김밥 3종 「또는」 라면 2종 중 하나만.","ask":"두 가게의 선택 가짓수는 각각 몇일까? 「그리고」와 「또는」은 셈을 어떻게 바꿀까?"},"87":{"sit":"2배 크기 피규어의 가격이 8배라 항의했더니, 사장님이 \"재료(부피)가 정말 8배\"라고 답했습니다.","ask":"길이 2배에 부피 8배 — 사실일까? 겉넓이(도색비)는 몇 배일까?"},"88":{"sit":"동전 3개를 던져 「적어도 하나 앞면」이면 이기는 게임 — 이길 확률을 묻자 친구는 8칸 표를 꺼냅니다.","ask":"8칸을 다 세는 것 말고 지름길이 있을까? 「적어도」의 반대말은 무엇일까?"},"89":{"sit":"룰렛에서 빨강이 5번 연속 나왔습니다. 옆 사람이 \"이제 검정 차례\"라며 판돈을 올립니다.","ask":"5연속 다음엔 정말 반대가 나올 「차례」일까? 동전·룰렛에게 기억이 있을까?"},"90":{"sit":"우리 반 24명 중 안경 5명. 「여학생 중에서」라고 조건을 붙이는 순간 분모가 달라진다고 합니다.","ask":"조건이 붙으면 확률의 무엇이 바뀔까? P(안경|여학생)과 P(여학생|안경)은 같을까?"},"91":{"sit":"트럼프에서 「하트(13장) 또는 그림카드(12장)」를 뽑을 확률 — 친구는 13+12=25장이라 우깁니다.","ask":"그냥 더한 25는 왜 틀릴까? 언제는 그냥 더해도 될까?"},"92":{"sit":"x³−2x²−5x+6 을 (x−1)로 나누라는 문제 — 세로셈은 지저분하고 시간도 오래 걸립니다.","ask":"계수 1,−2,−5,6 만 갖고 나눗셈을 끝내는 지름길이 있을까? 마지막 칸의 정체는?"},"93":{"sit":"f(x)=x³−4x²+x+6 을 (x−2)로 나눈 나머지가 급히 필요합니다. 나눌 시간은 없습니다.","ask":"나누지 않고 나머지를 아는 방법이 있을까? 나머지가 0이면 무엇을 얻을까?"},"94":{"sit":"게임 캐릭터를 시계 반대로 90° 돌리는 코드에 복소수 곱 「×i」 한 줄만 있다고 합니다.","ask":"수를 곱했는데 회전이 된다니 — i 는 평면에서 무슨 일을 하는 걸까?"},"95":{"sit":"문제: 「합이 5, 곱이 6인 두 수는?」 — 친구는 방정식도 안 세우고 \"2랑 3\"이라 답했습니다.","ask":"합·곱 정보만으로 두 수를 찾는 장치가 있을까? 계수와 근은 어떤 거래를 할까?"},"96":{"sit":"x³−3x+k=0 — k 값에 따라 해가 1개였다가 3개였다가 합니다.","ask":"몇 개인지 풀기 전에 알 수 있을까? 그래프의 산과 골짜기가 답을 쥐고 있을까?"},"97":{"sit":"놀이기구 안전 규정: 「탑승 게이지 x 가 x²−4x+3 < 0 을 만족하는 구간만 허용」이라 적혀 있습니다.","ask":"허용 구간은 어디부터 어디까지일까? 부등식의 해가 「구간」이 되는 이유는?"},"98":{"sit":"빵집 하루 생산: 오븐 한도 x+y≤6, 반죽 한도 x+2y≤8. 빵 이익 3, 케이크 이익 2입니다.","ask":"무엇을 몇 개 만들면 이익이 최대일까? 후보가 무한한데 다 따져야 할까?"},"99":{"sit":"학급 임원 선거(회장·부회장)와 청소 당번 짝 뽑기 — 둘 다 「4명 중 2명」이지만 느낌이 다릅니다.","ask":"두 뽑기의 가짓수는 같을까 다를까? 다르다면 정확히 몇 배 차이일까?"},"100":{"sit":"사진 앱의 「90° 회전」 버튼 뒤에는 숫자 4개짜리 표 [0 −1; 1 0] 하나가 있다고 합니다.","ask":"숫자 4개가 어떻게 사진 전체를 돌릴까? 내가 그 표를 직접 만들 수 있을까?"},"101":{"sit":"사진을 「회전 후 가로 늘리기」한 것과 「가로 늘리기 후 회전」한 것이 서로 다르게 나왔습니다.","ask":"같은 두 작업인데 순서만 바꿨는데 왜 다를까? 순서를 바꿔도 괜찮은 짝이 있을까?"},"102":{"sit":"책상 끝에 카드 4장 — 친구가 \"맨 위 카드를 통째로 책상 밖 허공에 띄울 수 있다\"고 내기를 겁니다.","ask":"받침 없이 허공에? 가능하다면 어떤 배치일까, 그리고 카드가 늘면 얼마나 더 나갈 수 있을까?"},"103":{"sit":"그림판에서 색을 고르니 코드 #4B96C8 이 떴습니다. 친구 폰에 이 색을 정확히 전달해야 합니다.","ask":"글자와 숫자가 섞인 이 코드의 정체는? 두 색을 「반씩 섞은」 색도 코드로 예측할 수 있을까?"},"104":{"sit":"색종이를 반으로 접어 2등분은 누구나 합니다. 그런데 3등분은? 게다가 「자와 컴퍼스로는 임의의 각을 3등분할 수 없다」가 수학의 오래된 정리입니다.","ask":"접기만으로 선분을 정확히 3등분·5등분할 수 있을까? 작도로 불가능한 각 3등분도 접기로는 가능할까?"},"105":{"sit":"새 마을로 매년 세대의 1/6 이 이주합니다. 지금 100세대가 살고, 손에는 주사위 100개가 있습니다 (1이 나오면 그 세대는 이주).","ask":"10년 뒤 몇 세대가 남을까? 10세대 이하로 줄어드는 해는 언제일까?"},"106":{"sit":"시험지에 sin 150° 를 구하라는 문제가 나왔습니다. 그런데 배운 것은 직각삼각형의 삼각비뿐 — 150°짜리 직각삼각형은 그릴 수 없습니다.","ask":"sin 150° 는 얼마일까? 90°를 넘는 각의 삼각비는 무엇으로 정의해야 할까?"},"107":{"sit":"대전의 일출 시각은 1월 7시 42분, 6월 5시 16분, 12월 7시 33분 — 1년을 주기로 물결칩니다.","ask":"열두 달의 일출을 식 하나로 쓸 수 있을까? 그 식으로 하지의 일출을 예측할 수 있을까?"},"108":{"sit":"강 건너 나무까지의 거리를 재야 합니다. 강은 건널 수 없고, 이쪽 기슭에서 잰 것은 기선 AB = 50 m 와 두 각 ∠A = 63°, ∠B = 55° 뿐입니다.","ask":"이 세 정보만으로 나무까지의 거리를 확정할 수 있을까?"},"109":{"sit":"학자금 1,200만 원을 연 6%로 빌려 24개월에 나눠 갚기로 했습니다. 은행 앱에는 「월 상환액」이 한 줄로 떠 있습니다.","ask":"이 금액은 어떤 계산에서 나왔을까? 기간을 늘리면 무엇이 이득이고 무엇이 손해일까?"},"110":{"sit":"초등학생 가우스는 「1부터 100까지 더하라」는 벌 문제를 몇 초 만에 5050 이라 답했다고 합니다.","ask":"하나씩 더하지 않고 답을 아는 방법은 무엇일까? 그 방법은 왜 늘 옳을까?"},"111":{"sit":"「모든 자연수 n 에 대하여 성립한다」를 증명해야 합니다. 그런데 자연수는 무한히 많아 하나씩 확인할 수가 없습니다.","ask":"무한히 많은 경우를 유한한 논증으로 덮으려면 무엇과 무엇을 보이면 될까?"},"112":{"sit":"연 6% 복리 통장에 목돈을 넣었습니다. 은행 앱은 「원금의 3배가 되면 알림」을 걸 수 있다고 합니다.","ask":"몇 해 뒤에 세 배가 될까? 지수 자리에 갇힌 x 를 어떻게 꺼낼 수 있을까?"},"113":{"sit":"계산기에는 log(상용로그) 단추만 있습니다. 그런데 문제는 log₂ 100 을 구하라고 합니다.","ask":"밑이 2인 로그를 밑 10짜리 계산기로 구할 수 있을까? 밑을 바꿔도 값은 그대로일까?"},"114":{"sit":"계산기에 log 0 을 넣으면 오류가 뜹니다. 음수를 넣어도 마찬가지입니다.","ask":"로그가 받아 주는 수는 왜 양수뿐일까? 지수함수와 로그함수는 어떤 사이일까?"},"115":{"sit":"2¹⁰⁰ 을 계산기에 넣으면 1.2676506e+30 처럼 뭉뚱그려 나옵니다. 정확한 값은 화면에 다 담기지도 않습니다.","ask":"이 수는 몇 자리일까? 맨 앞자리 숫자는 무엇일까?"},"116":{"sit":"식 y = 2^(x−3) + 2 의 그래프를 그리랬는데, 기준 곡선 y = 2^x 만 머리에 떠오릅니다.","ask":"괄호 안의 −3 과 뒤의 +2 는 그래프를 각각 어떻게 움직일까? 점근선은 어디로 갈까?"},"117":{"sit":"식 y = 2 sin(2x − π/2) + 1 의 그래프를 그리랬는데, 계수가 네 개나 붙어 있어 어디부터 손대야 할지 모르겠습니다.","ask":"네 계수는 각각 그래프의 무엇을 맡을까? 하나를 바꾸면 나머지도 흔들릴까?"},"118":{"sit":"관람차가 한 바퀴 도는 데 12분 걸립니다. 「높이가 정확히 절반인 순간」에 사진을 찍으려 합니다.","ask":"sin x = 0.5 를 만족하는 x 는 몇 개일까? 하루 종일 돌면 그런 순간은 몇 번 올까?"},"119":{"sit":"스피커 두 개가 같은 음을 내는데 하나는 sin, 하나는 cos 형태로 3 : 4 세기로 흔들립니다.","ask":"두 소리가 겹치면 얼마나 크게 들릴까? 합쳐진 파형도 여전히 사인 곡선일까?"},"120":{"sit":"땅 문서에는 삼각형 밭의 세 변 13 m, 14 m, 15 m 만 적혀 있습니다. 각도는 어디에도 없습니다.","ask":"각을 하나도 모르는데 넓이를 구할 수 있을까?"},"121":{"sit":"신시사이저의 사각파 소리는 사인파와 전혀 다르게 「각지게」 들립니다. 그런데 안에는 사인 발생기밖에 없다고 합니다.","ask":"각진 파형을 사인들만으로 만들 수 있을까? 어떤 비율로 섞어야 할까?"},"122":{"sit":"학교 강당의 첫 줄은 12석, 뒤로 갈수록 한 줄에 2석씩 늘어납니다. 모두 15줄입니다.","ask":"강당 전체 좌석은 몇 석일까? 한 줄씩 세지 않고 알 수 있을까?"},"123":{"sit":"저축 방식 둘 — A는 매달 10만원씩 더하고, B는 매달 5%씩 불립니다. 시작은 둘 다 100만원이고, 3년(36개월)을 봅니다.","ask":"지금은 A가 앞서는데, 3년 안에 B가 이길까? 이긴다면 몇 개월째일까?"},"124":{"sit":"학급 봉사 시간을 매일 기록했더니 막대그래프가 들쭉날쭉합니다. 담임은 「지금까지 총 몇 시간인지」를 묻습니다.","ask":"매일의 값에서 누적 총합으로 어떻게 넘어갈까? 누적선의 기울기는 무엇을 뜻할까?"},"125":{"sit":"토끼 한 쌍이 매달 새끼 한 쌍을 낳고, 태어난 쌍도 두 달 뒤부터 낳습니다. (피보나치의 토끼 문제)","ask":"몇 달 뒤 토끼는 몇 쌍이 될까? 다음 달 수를 지금 수로 말할 수 있을까?"},"126":{"sit":"매달 20만원씩 12개월 동안 연 3% 적금에 넣기로 했습니다. 은행은 「만기 금액」을 한 줄로 알려 줍니다.","ask":"같은 20만원인데 왜 첫 달과 마지막 달의 값이 다를까? 만기 금액은 어떻게 계산될까?"},"127":{"sit":"주차장 요금은 1시간마다 2000원씩 올라갑니다. 1시간 59분에 나가면 4000원, 2시간 1분에 나가면 6000원입니다.","ask":"2시간에 한없이 가까이 다가가면 요금은 얼마에 가까워질까? 왼쪽에서 갈 때와 오른쪽에서 갈 때가 같을까?"},"128":{"sit":"(x²−4)/(x−2) 에 x = 2 를 넣었더니 계산기가 오류를 냅니다. 그런데 x = 1.999 나 2.001 을 넣으면 값이 잘 나옵니다.","ask":"x 를 2 에 한없이 가까이 하면 값은 어디로 모일까? 그리고 왜 대입만으로는 알 수 없을까?"},"129":{"sit":"센서가 기록한 그래프 세 개가 모두 x = 2 에서 끊겨 있습니다. 담당자는 \"값 하나만 채우면 되지 않냐\"고 합니다.","ask":"세 끊김 중 값 하나를 채워 이을 수 있는 것은 무엇일까? 나머지는 왜 안 될까?"},"130":{"sit":"x³ − x − 1 = 0 의 근을 구하려는데 인수분해가 되지 않습니다. 계산기도 정확한 식을 주지 못합니다.","ask":"근이 어느 구간에 있는지 부호만으로 알아내고, 소수 둘째 자리까지 좁힐 수 있을까?"},"131":{"sit":"\"0 < x < 4 에서 가장 큰 값을 찾아라\"는 문제를 풀던 학생이 \"가장 큰 값이 없다\"며 손을 듭니다.","ask":"왜 최댓값이 없을까? 어떤 조건을 붙여야 가장 큰 값이 반드시 있다고 말할 수 있을까?"},"132":{"sit":"AI 가 쓰는 ReLU 함수는 y = |x| 처럼 원점에서 뾰족하게 꺾여 있습니다. 학습은 기울기로 하는데, 그 점의 기울기가 문제입니다.","ask":"이어져 있는데도 기울기를 하나로 정할 수 없는 점이 있을까? 있다면 왜 그럴까?"},"133":{"sit":"3D 그래픽에서 빛이 어떻게 반사될지는 표면이 바라보는 방향, 곧 법선으로 정합니다.","ask":"곡선 위 한 점에서 접선과 법선의 기울기는 각각 얼마일까? 둘은 어떤 관계일까?"},"134":{"sit":"롤러코스터 설계도가 y = x³ + bx 꼴입니다. b 를 바꾸면 봉우리와 골짜기가 생겼다 사라집니다.","ask":"b 가 어떤 값일 때 봉우리와 골짜기가 사라질까? 그 경계는 어디일까?"},"135":{"sit":"30cm × 30cm 도화지의 네 모서리를 정사각형으로 잘라 접어 뚜껑 없는 상자를 만듭니다.","ask":"몇 cm 를 잘라야 부피가 가장 클까? 많이 자를수록 좋을까?"},"136":{"sit":"엘리베이터의 위치를 초마다 기록했습니다. 관리자는 \"언제 가장 빨랐고 언제 방향이 바뀌었나\"를 묻습니다.","ask":"위치 그래프만 보고 속도와 가속도를 읽을 수 있을까? 되돌아서는 지점은 그래프에서 어떻게 드러날까?"},"137":{"sit":"y = x² 아래, 0 부터 1 까지의 넓이를 구하려는데 삼각형도 사각형도 아닙니다.","ask":"직사각형을 쌓아 재면 얼마나 정확할까? 개수를 늘리면 어디로 모일까?"},"138":{"sit":"어떤 학생이 \"적분은 미분의 반대\"라고 외웠습니다. 왜 반대인지는 설명하지 못합니다.","ask":"0 부터 x 까지의 넓이를 함수로 보면, 그 함수의 기울기는 무엇일까?"},"139":{"sit":"드론의 속도를 초마다 기록했습니다. 중간에 방향을 바꿔 돌아왔습니다.","ask":"지금 출발점에서 얼마나 떨어져 있을까? 그리고 총 몇 m 를 날았을까? 두 답은 같을까?"},"140":{"sit":"y = x² 와 y = ax 사이의 넓이를 구하라는 문제에서, 한 번에 적분한 학생의 답이 너무 작게 나왔습니다.","ask":"왜 작게 나왔을까? 구간의 어디를 어떻게 처리해야 할까?"},"141":{"sit":"도자기 그릇의 단면 곡선을 알고 있습니다. 이 그릇에 물이 얼마나 들어갈지 알고 싶습니다.","ask":"곡선을 돌려 만든 입체의 부피를 어떻게 잴까? 얇게 자르면 무엇이 보일까?"},"142":{"sit":"동아리 10명 중 3명을 뽑아 대표단을 만듭니다. 순서는 상관없습니다.","ask":"뽑는 방법은 몇 가지일까? 하나씩 세지 않고 알 수 있을까?"},"143":{"sit":"똑같이 생긴 사탕 5개를 세 사람에게 나눠 줍니다. 한 개도 못 받는 사람이 있어도 됩니다.","ask":"나누는 방법은 몇 가지일까? 사탕이 모두 같은데 어떻게 셀까?"},"144":{"sit":"(x + 2)⁵ 를 전개하라는 문제인데, 필요한 것은 x² 의 계수 하나뿐입니다.","ask":"전부 전개하지 않고 그 계수만 뽑아낼 수 있을까?"},"145":{"sit":"한 학생이 \"두 사건이 배반이면 서로 영향이 없으니 독립\"이라고 답했습니다.","ask":"이 말이 맞을까? 배반과 독립은 정말 같은 뜻일까?"},"146":{"sit":"친구와 6시부터 7시 사이에 만나기로 했습니다. 먼저 온 사람은 10분만 기다리고 갑니다.","ask":"두 사람이 만날 확률은 얼마일까? 경우가 무한히 많은데 어떻게 셀까?"},"147":{"sit":"정확도 99% 라는 검사에서 양성이 나왔습니다. 그런데 의사는 \"1만 명 중 10명만 걸리는 병\"이라며 재검사를 권합니다.","ask":"양성인데 왜 바로 확진이 아닐까? 실제로 병일 확률은 얼마일까?"},"148":{"sit":"\"아침을 먹으면 지각이 줄어든다\"는 주장을 확인하려고 100명을 조사해 2×2 표를 만들었습니다.","ask":"두 항목이 정말 서로 영향을 줄까? 우연히 이런 표가 나올 수도 있지 않을까?"},"149":{"sit":"사고가 날 확률이 2%, 사고가 나면 손해가 500만원인 상황에서 보험 상품을 설계합니다.","ask":"보험료를 얼마로 정해야 회사가 유지될까? 그 아래로 받으면 어떻게 될까?"},"150":{"sit":"두 반의 수학 평균이 똑같이 70점입니다. 담임은 \"그럼 두 반은 같은 반\"이라고 말합니다.","ask":"평균이 같으면 정말 같은 반일까? 무엇을 더 봐야 할까?"},"151":{"sit":"동전을 100번 던졌더니 앞면이 60번 나왔습니다. 친구는 \"그냥 우연\"이라고 합니다.","ask":"이 정도 치우침은 얼마나 드문 일일까? 우연이라고 넘겨도 될까?"},"152":{"sit":"이항분포로 계산하려니 C(200, 120) 같은 수가 나와 계산기가 버티지 못합니다.","ask":"막대 대신 매끄러운 곡선으로 바꿔 계산해도 될까? 된다면 언제부터 될까?"},"153":{"sit":"모의고사 성적표에 \"평균 60점, 표준편차 10점\"이라고만 적혀 있습니다.","ask":"40점과 80점 사이에는 몇 %가 들어 있을까? 평균과 표준편차가 달라지면 그 비율도 달라질까?"},"154":{"sit":"하루 이용 시간 자료는 짧은 쪽에 몰려 있고 긴 쪽에 꼬리가 있는, 전혀 종 모양이 아닌 분포입니다.","ask":"이런 자료에서 뽑은 표본평균도 제멋대로일까? 표본을 키우면 무엇이 달라질까?"},"155":{"sit":"뉴스가 \"지지율 52%, 95% 신뢰수준에 오차범위 ±3.1%p\" 라고 보도했습니다.","ask":"「95% 신뢰」는 정확히 무슨 뜻일까? 참값이 그 구간에 있을 확률이 95%라는 말과 같을까?"},"156":{"sit":"조사 기관이 \"표본을 두 배로 늘리면 오차도 절반이 됩니다\"라고 견적을 냈습니다.","ask":"정말 그럴까? 오차를 절반으로 줄이려면 표본을 몇 배로 해야 할까?"},"157":{"sit":"위성 방송 안테나는 하나같이 오목한 접시 모양이고, 수신기가 접시 앞 허공에 매달려 있습니다.","ask":"왜 하필 그 모양일까? 수신기는 왜 저 자리에 있어야 할까?"},"158":{"sit":"케플러는 화성의 궤도가 원이 아니라는 사실을 알아냈습니다. 두 압정과 실로 그 모양을 그릴 수 있습니다.","ask":"이 방법으로 그린 곡선은 어떤 성질을 가질까? 원은 이 곡선의 무엇일까?"},"159":{"sit":"쌍곡선을 그리면 두 직선에 한없이 가까워지는 것처럼 보입니다. 어떤 학생은 \"결국 만난다\"고 말합니다.","ask":"정말 만날까? 간격이 0 이 되는 지점이 있을까?"},"160":{"sit":"두 마이크에 총성이 도착한 시간이 3ms 차이 났습니다. 경찰은 이것만으로 위치를 좁히려 합니다.","ask":"시간 차 하나로 어디까지 알 수 있을까? 정확한 지점을 찍으려면 무엇이 더 필요할까?"},"161":{"sit":"원 x² + y² = 4 에 기울기가 정해진 직선을 슬며시 붙여 봅니다. 교점이 둘이었다가 하나가 되고 이내 사라집니다.","ask":"딱 한 점에서 만나는 순간의 조건은 무엇일까? 식으로 어떻게 쓸까?"},"162":{"sit":"폭 8m 인 강을 건너려는데 물살이 하류로 밀어냅니다. 뱃머리를 건너편 정면으로 두었더니 아래로 떠내려갔습니다.","ask":"건너편 바로 맞은편에 닿으려면 뱃머리를 어느 쪽으로 얼마나 틀어야 할까?"},"163":{"sit":"두 드론의 이동 방향이 (2, 1) 과 (4, 2) 로 기록되었습니다. 관제사는 \"같은 방향이냐\"고 묻습니다.","ask":"두 화살표가 나란한지 성분만 보고 판정할 수 있을까?"},"164":{"sit":"교차로 도면에서 두 도로의 방향이 (4, 1) 과 (2, 4) 로 주어졌습니다. 각도기는 없습니다.","ask":"두 도로가 이루는 각을 계산만으로 구할 수 있을까? 직각인지도 알 수 있을까?"},"165":{"sit":"5m 짜리 막대를 세울수록 바닥의 그림자가 짧아집니다. 한 학생이 \"각이 두 배면 그림자도 절반\"이라고 말합니다.","ask":"정말 그럴까? 그림자 길이는 각과 어떤 관계일까?"},"166":{"sit":"태양광 패널을 기울여 설치하면 지면이 받는 그림자 넓이가 줄어듭니다.","ask":"넓이는 cos 을 몇 번 곱해야 할까? 길이가 줄었으니 두 번일까?"},"167":{"sit":"깃대를 바닥에 수직으로 세웠습니다. 바닥에는 직선 하나가 그어져 있고, 그 직선 위 한 점 A 로 줄을 당깁니다.","ask":"줄(PA)이 그 직선과 수직이 되는 것은 언제일까? 무엇을 확인하면 알 수 있을까?"},"168":{"sit":"드론이 동쪽 3m, 북쪽 2m, 높이 4m 지점에 떠 있습니다. 관제탑은 원점에 있습니다.","ask":"관제탑에서 드론까지의 직선 거리는 얼마일까? 평면의 거리 공식으로 될까?"},"169":{"sit":"CT 촬영은 몸을 얇게 잘라 단면을 봅니다. 공 모양 물체를 여러 높이에서 자르면 단면이 달라집니다.","ask":"자른 단면은 언제나 원일까? 높이에 따라 크기는 어떻게 변할까?"},"170":{"sit":"교과서에는 타원·포물선·쌍곡선이 따로따로 나옵니다. 그런데 이름은 모두 「원뿔곡선」입니다.","ask":"세 곡선이 정말 한 뿌리에서 나올까? 무엇이 그 셋을 가를까?"},"171":{"sit":"드론 A 와 B 사이를 3 : 1 로 나누는 자리에 세 번째 드론을 띄우라는 지시가 내려왔습니다.","ask":"그 자리의 좌표는 어떻게 구할까? 3 이 A 쪽일까 B 쪽일까?"},"172":{"sit":"네 수열을 컴퓨터로 200항까지 계산해 점으로 찍었습니다. 어떤 것은 한 줄에 붙고 어떤 것은 흩어집니다.","ask":"어떤 수열이 「모인다」고 할 수 있을까? 그 판단의 기준은 무엇일까?"},"173":{"sit":"등비수열 rⁿ 에서 r 을 조금씩 바꾸자 어떤 값에서는 0 으로, 어떤 값에서는 폭발합니다.","ask":"수렴과 발산이 갈리는 경계는 정확히 어디일까? r = 1 과 r = −1 은 각각 어느 쪽일까?"},"174":{"sit":"1 + 1/2 + 1/3 + … 을 계산기로 300항까지 더했습니다. 항은 분명히 0 으로 가는데 합은 계속 커집니다.","ask":"항이 0 으로 가는데 왜 합이 모이지 않을까? 1/n² 은 왜 다를까?"},"175":{"sit":"\"0.999… 는 1보다 아주 조금 작다\"는 말과 \"정확히 1이다\"는 말이 맞섭니다.","ask":"누구 말이 맞을까? 무한등비급수로 답을 낼 수 있을까?"},"176":{"sit":"계산기를 도(°) 모드로 두고 sin x / x 를 계산했더니 0.01745 라는 낯선 수가 나왔습니다.","ask":"라디안으로 두면 1 인데 왜 도로는 다를까? 그 0.01745 의 정체는 무엇일까?"},"177":{"sit":"지수함수 aˣ 를 미분하면 다시 지수함수가 나옵니다. 그런데 밑에 따라 도함수가 원래보다 위에 있기도, 아래에 있기도 합니다.","ask":"두 곡선이 정확히 포개지는 밑은 얼마일까? 그 수의 정체는 무엇일까?"},"178":{"sit":"sin x 를 계속 미분해 보라는 과제를 받았습니다. 한 번, 두 번, 세 번… 계속 새로운 함수가 나올까요?","ask":"몇 번 미분하면 원래 함수로 돌아올까? 미분은 그래프에 무슨 일을 하는 걸까?"},"179":{"sit":"sin(3x) 의 도함수를 cos(3x) 라고 쓴 답안이 있습니다. 그래프의 기울기를 재 보니 값이 맞지 않습니다.","ask":"무엇이 빠졌을까? 안쪽 함수는 어디에 반영되어야 할까?"},"180":{"sit":"원 x² + y² = 4 위의 점에서 접선을 구하려는데, y 에 대해 풀면 부호가 둘로 갈려 번거롭습니다.","ask":"y 로 풀지 않고 접선의 기울기를 구할 수 있을까? 아예 y 로 풀 수 없는 곡선은?"},"181":{"sit":"성장 곡선에서 \"언제부터 증가세가 꺾였나\"를 묻습니다. 최댓값이 아니라 휘는 방향이 바뀌는 지점입니다.","ask":"f″ = 0 인 점을 모두 변곡점이라고 해도 될까? 반례가 있을까?"},"182":{"sit":"∫f(2x)dx 를 계산하며 u = 2x 로 두고 구간만 [0, 2] 로 바꿨습니다. 답이 정확히 두 배가 나왔습니다.","ask":"무엇을 빠뜨렸을까? 변수를 바꿀 때 함께 바꿔야 하는 것은 몇 가지일까?"},"183":{"sit":"∫x eˣ dx 를 부분적분으로 풀려는데, u 를 무엇으로 잡느냐에 따라 결과가 딴판입니다.","ask":"u 를 고르는 기준은 무엇일까? 잘못 고르면 어떻게 될까?"},"184":{"sit":"일정한 속력으로 원을 도는 위성이 있습니다. \"속력이 안 변하니 가속도는 0\"이라는 말이 나옵니다.","ask":"정말 가속도가 0 일까? 가속도는 무엇의 변화일까?"},"185":{"sit":"구불구불한 산길의 길이를 지도에서 재려 합니다. 자로는 직선밖에 잴 수 없습니다.","ask":"곡선의 길이를 어떻게 구할까? 잘게 나누면 무엇이 보일까?"},"186":{"sit":"감염병 예측 모형은 \"지금 감염자 수에 비례해 늘어난다\" 같은 변화율의 규칙으로 세워집니다.","ask":"규칙 하나만으로 미래 곡선이 정해질까? 무엇이 더 있어야 할까?"},"187":{"sit":"1958년 퍼셉트론이 발표되자 사람들은 곧 사람처럼 생각하는 기계가 나오리라 기대했습니다. 그러나 1969년, XOR 이라는 간단한 문제 앞에서 멈췄습니다.","ask":"AND 와 OR 은 되는데 XOR 은 왜 안 될까? 무엇이 한계였을까?"},"188":{"sit":"어떤 질병 진단 AI 가 \"정확도 95%\"라고 광고합니다. 그런데 그 병에 걸린 사람은 1000명 중 30명뿐입니다.","ask":"이 정확도는 믿을 만할까? 아무 판단도 안 하는 모형의 정확도는 얼마일까?"},"189":{"sit":"AI 에게 \"이 영화 정말 재미있다\"를 이해시키려면 먼저 숫자로 바꿔야 합니다.","ask":"문장을 어떻게 벡터로 바꿀까? 바꾸는 순간 무엇이 사라질까?"},"190":{"sit":"영화 리뷰 100편에서 키워드를 뽑았더니 1등이 \"영화\"였습니다. 모든 리뷰에 들어 있는 단어입니다.","ask":"흔한 단어를 어떻게 걸러낼까? 좋은 키워드의 조건은 무엇일까?"},"191":{"sit":"리뷰 두 편이 얼마나 비슷한지 판정해 비슷한 취향의 사람을 묶으려 합니다.","ask":"두 문장의 닮은 정도를 집합으로 잴 수 있을까? 그 값의 범위는?"},"192":{"sit":"사진 앱의 「밝기」와 「대비」 슬라이더는 안에서 무슨 일을 하고 있을까요. 사진은 결국 숫자 표입니다.","ask":"밝기와 대비는 각각 행렬의 어떤 연산일까? 너무 세게 밀면 왜 사진이 망가질까?"},"193":{"sit":"컬러 사진을 흑백으로 바꾸는 코드를 보니 (R + G + B)/3 이 아니라 이상한 계수가 붙어 있습니다.","ask":"왜 단순 평균이 아닐까? 세 계수의 크기 순서는 무엇을 뜻할까?"},"194":{"sit":"세로로 찍은 사진을 가로로 바꾸려고 행과 열을 맞바꿨더니, 회전이 아니라 뒤집힌 그림이 나왔습니다.","ask":"전치와 회전은 어떻게 다를까? 회전을 만들려면 무엇을 더 해야 할까?"},"195":{"sit":"게임에서 캐릭터를 돌리고 늘이는 일은 모두 좌표에 행렬을 곱하는 것으로 처리합니다.","ask":"네 수 (a, b, c, d) 가 도형을 어떻게 바꿀까? 되돌릴 수 없는 변환도 있을까?"},"196":{"sit":"손으로 쓴 글씨는 사람마다 조금씩 다릅니다. 그래도 컴퓨터는 T 인지 L 인지 알아냅니다.","ask":"흐트러진 글씨를 어떻게 가장 가까운 본보기로 이어 줄까? 「가깝다」를 어떻게 잴까?"},"197":{"sit":"신경망 그림을 보면 동그라미와 선이 잔뜩 있습니다. 그 안에서 실제로 일어나는 계산은 무엇일까요.","ask":"입력 3개에서 출력 2개를 만드는 계산을 식 하나로 쓸 수 있을까?"},"198":{"sit":"자료에 직선을 맞추려는데 \"이게 제일 좋다\"는 근거가 필요합니다. 눈대중으로는 설득할 수 없습니다.","ask":"「좋은 직선」을 하나의 수로 나타낼 수 있을까? 그 수는 어떤 모양의 함수일까?"},"199":{"sit":"자료 하나가 실수로 크게 잘못 기록되었습니다. 그런데 그 하나 때문에 추세선이 통째로 기울어집니다.","ask":"오차를 재는 방법을 바꾸면 결과가 달라질까? 어느 쪽이 더 튼튼할까?"},"200":{"sit":"AI 를 학습시키는데 손실이 줄기는커녕 점점 커집니다. 코드는 맞는 것 같습니다.","ask":"무엇이 문제일까? 보폭을 크게 하면 빨리 내려갈 것 같은데 왜 아닐까?"},"201":{"sit":"기온이 0도일 때도 아이스티가 어느 정도는 팔립니다. 그런데 모형이 원점을 지나도록 강제되어 있습니다.","ask":"기울기만 배우면 무엇이 부족할까? 절편은 무엇을 뜻할까?"},"202":{"sit":"두 은행이 모두 \"연 12%\"라고 광고합니다. 그런데 한 곳은 1년에 한 번, 다른 곳은 분기마다 이자를 붙입니다.","ask":"두 예금의 1년 뒤 금액이 같을까? 자주 붙일수록 끝없이 커질까?"},"203":{"sit":"\"연봉이 5000만원을 넘으면 세율이 15%에서 24%로 뛰니까 차라리 안 넘는 게 낫다\"는 말이 돕니다.","ask":"정말 그럴까? 경계를 100만원 넘기면 세금이 얼마나 늘까?"},"204":{"sit":"엔화가 필요한데 은행에 원-엔 직거래가 없어서 원 → 달러 → 엔으로 두 번 바꾸라고 합니다.","ask":"두 번 바꾸면 손해일까? 손해라면 그 정체는 환율일까, 다른 무엇일까?"},"205":{"sit":"10년 전 만 원으로 사던 것을 지금은 만 삼천 원을 줘야 삽니다. 그동안 예금 이자도 붙었습니다.","ask":"통장 잔고는 늘었는데 실제로 부자가 된 걸까? 무엇을 비교해야 할까?"},"206":{"sit":"지금 90만원을 받을지, 3년 뒤 100만원을 받을지 고르라고 합니다.","ask":"어느 쪽이 유리할까? 시점이 다른 두 금액을 어떻게 견줄까?"},"207":{"sit":"학교 축제에서 팔 물건의 값을 정해야 합니다. 비싸면 안 팔리고 싸면 금방 동납니다.","ask":"사려는 양과 팔려는 양이 딱 맞는 가격이 있을까? 어떻게 찾을까?"},"208":{"sit":"분식집 사장님이 \"값을 올리면 매출이 오르겠지\" 하며 가격을 계속 올렸는데 매출이 줄었습니다.","ask":"값을 올리면 정말 더 벌까? 매출이 가장 큰 가격은 어디일까?"},"209":{"sit":"\"마스크 값이 너무 비싸니 상한을 정하자\"는 정책이 나왔습니다.","ask":"가격을 누르면 모두가 싸게 살 수 있을까? 다른 일이 생기지는 않을까?"},"210":{"sit":"같은 시간과 재료로 빵을 더 만들면 우유를 덜 만들어야 합니다.","ask":"빵을 하나 더 만들 때 포기하는 우유의 양은 늘 같을까? 그것을 무엇이라 부를까?"},"211":{"sit":"작은 가게를 열려는데 임대료는 매달 고정으로 나가고, 재료비는 파는 만큼 나갑니다.","ask":"몇 개를 팔아야 본전일까? 값을 잘못 매기면 어떤 일이 벌어질까?"},"212":{"sit":"수익률이 높은 자산 A 에만 돈을 몰았더니 값이 크게 출렁여 잠을 못 잤습니다.","ask":"나눠 담으면 흔들림이 줄어들까? 어떤 자산과 섞어야 가장 안정될까?"},"213":{"sit":"\"확실한 100만원\"과 \"반반 확률로 20만원 또는 180만원\" 중 고르라고 합니다. 기댓값은 둘 다 100만원입니다.","ask":"기댓값이 같은데 왜 대부분 확실한 쪽을 고를까? 그것을 수로 나타낼 수 있을까?"},"214":{"sit":"\"우리나라의 지니계수는 0.33\"이라는 기사를 봤습니다. 그 수가 무엇을 뜻하는지 모르겠습니다.","ask":"불평등을 어떻게 하나의 수로 만들까? 0 과 1 은 각각 무슨 뜻일까?"},"215":{"sit":"경제 기사에 \"명목 성장률 5%, 물가 상승률 2%\"라고 나옵니다. 그래프는 로그 눈금이라 직선입니다.","ask":"실제로 얼마나 자란 걸까? 로그 눈금에서 직선이면 무슨 뜻일까?"},"216":{"sit":"새 차를 사자마자 값이 뚝 떨어진다고 합니다. 회계에서는 값을 깎는 방법이 여럿입니다.","ask":"해마다 같은 금액씩 깎을까, 같은 비율씩 깎을까? 어느 쪽이 현실에 가까울까?"}};
 
 function openLab(i){ if(LABS[i]) open(LABS[i], i); }
 

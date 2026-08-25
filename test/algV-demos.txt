@@ -1,0 +1,320 @@
+/* ---------- LAB 217 단위 환산 사슬 — 곱할까 나눌까 ---------- */
+function unitChainDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="uc1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">단위를 <b>분수처럼</b> 놓고 약분합니다.
+      약분되어 남는 단위가 곧 답의 단위입니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">바꿀 값<select id="ucK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="speed">① 72 km/h → m/s</option>
+        <option value="flow">② 3 L/분 → mL/초</option>
+        <option value="dens">③ 2.5 g/cm³ → kg/m³</option>
+      </select></label>
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="ucStep">한 단계 진행</button>
+        <button class="b g sm" id="ucFlip">거꾸로 곱해 보기</button>
+        <button class="b g sm" id="ucRst">처음으로</button>
+      </div>
+      <div class="out" id="ucout"></div>
+      <div class="note" style="margin-top:12px">환산인자는 <b>1 과 같은 분수</b>입니다
+      (1000 m / 1 km = 1). 그래서 값이 아니라 <b>단위만</b> 바뀝니다.</div>
+    </div></div>`;
+  const cv=$('#uc1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const K={ speed:{v:72,u:'km/h',steps:[['1000 m','1 km'],['1 h','3600 s']],ans:20,au:'m/s'},
+            flow:{v:3,u:'L/분',steps:[['1000 mL','1 L'],['1 분','60 초']],ans:50,au:'mL/초'},
+            dens:{v:2.5,u:'g/cm³',steps:[['1 kg','1000 g'],['1000000 cm³','1 m³']],ans:2500,au:'kg/m³'} };
+  const S={ step:0, flip:false };
+  function draw(){
+    const C=K[$('#ucK').value];
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#374151'; ctx.font='15px sans-serif'; ctx.textAlign='left';
+    ctx.fillText(C.v+' '+C.u, 24, 58);
+    let x=24+ctx.measureText(C.v+' '+C.u).width+12;
+    let val=C.v;
+    for(let i=0;i<S.step;i++){
+      const st = S.flip ? [C.steps[i][1],C.steps[i][0]] : C.steps[i];
+      ctx.strokeStyle='#C7D2E4'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(x+6,54); ctx.lineTo(x+6,74); ctx.stroke();
+      ctx.font='12px sans-serif'; ctx.fillStyle='#374151'; ctx.textAlign='center';
+      const wdt=Math.max(ctx.measureText(st[0]).width, ctx.measureText(st[1]).width)+16;
+      ctx.fillText('×', x-4, 62);
+      ctx.fillText(st[0], x+16+wdt/2, 50);
+      ctx.strokeStyle='#374151'; ctx.beginPath();
+      ctx.moveTo(x+16,58); ctx.lineTo(x+16+wdt,58); ctx.stroke();
+      ctx.fillText(st[1], x+16+wdt/2, 74);
+      x += wdt+28;
+      const a=parseFloat(st[0]), b=parseFloat(st[1]);
+      val = val*a/b;
+    }
+    ctx.textAlign='left'; ctx.font='10.5px sans-serif'; ctx.fillStyle='#6B7280';
+    ctx.fillText('환산인자는 값이 1 인 분수 — 곱해도 크기는 그대로입니다', 24, 110);
+    ctx.font='14px sans-serif'; ctx.fillStyle='#111827';
+    ctx.fillText('= ' + (Math.abs(val)>=1000?val.toFixed(0):val.toFixed(4)) + ' ' + (S.step===C.steps.length ? C.au : '(진행 중)'), 24, 150);
+    for(let i=0;i<C.steps.length;i++){
+      ctx.fillStyle = i<S.step ? 'rgba(14,147,132,.5)' : '#E5E7EB';
+      ctx.fillRect(24+i*54, 186, 46, 12); }
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('진행 '+S.step+' / '+C.steps.length+' 단계', 24, 216);
+    ctx.fillText('정답: '+C.ans+' '+C.au, 24, 240);
+    const done = S.step===C.steps.length;
+    const ok = done && Math.abs(val-C.ans)/C.ans < 1e-6;
+    $('#ucout').innerHTML =
+      `<span class="mono">지금 값 = <b>${Math.abs(val)>=1000?val.toFixed(0):val.toFixed(4)}</b> · 남은 단계 ${C.steps.length-S.step}</span><br>`
+      + (done ? `<span class="mono">최종 단위 = ${C.au} · 정답 ${C.ans}</span><br>` : '')
+      + (ok ? `<b style="color:#B45309">단위가 모두 약분되어 ${C.au} 만 남았습니다 — 값도 정확히 맞습니다.</b><br>` : '')
+      + (done && !ok ? `<b style="color:#7C3AED">거꾸로 곱해서 값이 어긋났습니다 — 환산인자의 위아래를 바꾸면 답이 뒤집힙니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">「곱할까 나눌까」는 단위를 보고 정합니다 — 약분되는 쪽이 맞습니다.</span>`;
+  }
+  $('#ucStep').onclick=()=>{ const C=K[$('#ucK').value]; if(S.step<C.steps.length) S.step++; draw(); };
+  $('#ucFlip').onclick=()=>{ S.flip=true; S.step=K[$('#ucK').value].steps.length; draw(); };
+  $('#ucRst').onclick=()=>{ S.step=0; S.flip=false; draw(); };
+  $('#ucK').onchange=()=>{ S.step=0; S.flip=false; draw(); }; draw();
+  inquiry(root,{ id:'uc', title:'단위 환산 — 약분되는 쪽이 맞다',
+    q:['세 문제를 각각 끝까지 진행해 (처음 값, 최종 값, 단위) 를 기록하세요.',
+       '거꾸로 곱하면 답이 몇 배로 어긋나는지 확인하세요.',
+       '환산인자가 왜 1 과 같은 분수인지 설명하세요.'],
+    cols:['문제','단계','값','단위','정답'],
+    hint:'힌트 — 없애고 싶은 단위가 분모에 오도록 인자를 놓습니다.',
+    read:()=>{ const C=K[$('#ucK').value]; let v=C.v;
+      for(let i=0;i<S.step;i++){ const st=S.flip?[C.steps[i][1],C.steps[i][0]]:C.steps[i];
+        v=v*parseFloat(st[0])/parseFloat(st[1]); }
+      return [C.u+'→'+C.au,S.step,Math.abs(v)>=1000?v.toFixed(0):v.toFixed(4),
+        S.step===C.steps.length?C.au:'진행 중',C.ans]; } });
+}
+
+/* ---------- LAB 218 축척과 도면 — 길이는 몇 배, 넓이는 몇 배 ---------- */
+function scaleDrawDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sc2" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">도면 위의 길이를 <b>실제 길이</b>로 바꿉니다.
+      길이와 넓이가 같은 배율로 커지지 않는다는 점을 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('scS','축척 1 : N',20,200,10,100,'')}
+      ${slider('scL','도면에서 잰 가로',2,14,0.5,6,'cm')}
+      ${slider('scW','도면에서 잰 세로',2,10,0.5,4,'cm')}
+      <div class="out" id="sc2out"></div>
+      <div class="note" style="margin-top:12px">길이는 N 배, 넓이는 <b>N² 배</b>, 부피는 N³ 배.
+      축척 1:50 이면 넓이는 2500 배입니다.</div>
+    </div></div>`;
+  const cv=$('#sc2'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const N=+$('#scS').value, L=+$('#scL').value, Wd=+$('#scW').value;
+    $('#scSv').textContent='1 : '+N; $('#scLv').textContent=L.toFixed(1)+'cm'; $('#scWv').textContent=Wd.toFixed(1)+'cm';
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const px=18*L, py=18*Wd;
+    ctx.fillStyle='rgba(37,99,235,.14)'; ctx.fillRect(40,60,px,py);
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2; ctx.strokeRect(40,60,px,py);
+    ctx.fillStyle='#374151'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(L.toFixed(1)+'cm', 40+px/2, 54);
+    ctx.save(); ctx.translate(30,60+py/2); ctx.rotate(-Math.PI/2);
+    ctx.fillText(Wd.toFixed(1)+'cm', 0, 0); ctx.restore();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('도면 (축척 1 : '+N+')', 40, 40);
+    const rl=L*N/100, rw=Wd*N/100;
+    ctx.fillText('실제 — 가로 '+rl.toFixed(2)+' m · 세로 '+rw.toFixed(2)+' m', 40, 60+py+34);
+    ctx.fillText('도면 넓이 '+(L*Wd).toFixed(1)+' cm² → 실제 넓이 '+(rl*rw).toFixed(2)+' m²', 40, 60+py+54);
+    const bars=[['길이',N],['넓이',N*N]];
+    bars.forEach((b,i)=>{ const w=Math.min(300,Math.log10(b[1])*80);
+      ctx.fillStyle = i===0 ? 'rgba(37,99,235,.4)' : 'rgba(190,18,60,.45)';
+      ctx.fillRect(40, 250+i*30, w, 20);
+      ctx.fillStyle='#374151'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(b[0]+' × '+b[1].toLocaleString(), 46, 264+i*30); });
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif';
+    ctx.fillText('(막대는 로그 눈금)', 40, 316);
+    $('#sc2out').innerHTML =
+      `<span class="mono">도면 ${L.toFixed(1)} × ${Wd.toFixed(1)} cm → 실제 <b>${rl.toFixed(2)} × ${rw.toFixed(2)} m</b></span><br>`
+      + `<span class="mono">길이 배율 <b>${N}</b> 배 · 넓이 배율 <b style="color:#BE123C">${(N*N).toLocaleString()}</b> 배</span><br>`
+      + (N===50 ? `<b style="color:#B45309">축척 1:50 — 길이는 50배지만 넓이는 2,500배입니다.</b><br>` : '')
+      + (N>=150 ? `<b style="color:#7C3AED">축척이 커지자 넓이 배율이 만 단위를 넘었습니다 — 제곱의 힘입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">도면에서 1cm² 를 잘못 읽으면 실제로는 N² cm² 만큼 틀립니다.</span>`;
+  }
+  ['scS','scL','scW'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'sc2', title:'축척 — 길이와 넓이의 배율',
+    q:['축척을 바꾸며 (축척, 실제 길이, 실제 넓이) 를 여섯 줄 기록하세요.',
+       '길이 배율과 넓이 배율의 관계를 식으로 쓰세요.',
+       '도면에서 1mm 를 잘못 읽으면 실제로 몇 cm 가 틀리는지 계산하세요.'],
+    cols:['축척','도면 가로','실제 가로','도면 넓이','실제 넓이'],
+    hint:'힌트 — 길이가 N 배면 넓이는 N² 배입니다.',
+    read:()=>{ const N=+$('#scS').value,L=+$('#scL').value,Wd=+$('#scW').value;
+      return ['1:'+N,L.toFixed(1)+'cm',(L*N/100).toFixed(2)+'m',(L*Wd).toFixed(1)+'cm²',
+        (L*Wd*N*N/10000).toFixed(2)+'m²']; } });
+}
+
+/* ---------- LAB 219 할인의 함정 — 30% 할인 두 번은 60% 할인일까 ---------- */
+function discountDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="di1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">막대의 길이가 <b>남은 가격</b>입니다.
+      두 번 깎는 것과 한 번에 깎는 것을 견줘 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('diA','첫 번째 할인',0,50,5,30,'%')}
+      ${slider('diB','두 번째 할인',0,50,5,0,'%')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="diSame">같은 효과의 한 번 할인 계산</button></div>
+      <div class="out" id="diout"></div>
+      <div class="note" style="margin-top:12px">두 번 깎기 = (1−a)(1−b) 를 곱하는 것.
+      <b>할인율은 더해지지 않습니다</b> — 두 번째는 이미 깎인 값에 붙기 때문입니다.</div>
+    </div></div>`;
+  const cv=$('#di1'),ctx=cv.getContext('2d'),W=380,H=320;
+  const S={ show:false };
+  function draw(){
+    const a=+$('#diA').value/100, b=+$('#diB').value/100;
+    $('#diAv').textContent=(a*100).toFixed(0)+'%'; $('#diBv').textContent=(b*100).toFixed(0)+'%';
+    const P0=100000, p1=P0*(1-a), p2=p1*(1-b), naive=P0*(1-a-b);
+    const eff=1-(1-a)*(1-b);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const rows=[['원래 가격',P0,'rgba(107,114,128,.35)'],
+                ['첫 할인 뒤',p1,'rgba(37,99,235,.4)'],
+                ['두 번째까지',p2,'rgba(14,147,132,.5)'],
+                ['«더해서» 계산하면',Math.max(0,naive),'rgba(190,18,60,.45)']];
+    rows.forEach((r,i)=>{ const y=54+i*56, w=300*r[1]/P0;
+      ctx.fillStyle=r[2]; ctx.fillRect(40,y,w,30);
+      ctx.strokeStyle='#C7D2E4'; ctx.lineWidth=1; ctx.strokeRect(40,y,300,30);
+      ctx.fillStyle='#374151'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(r[0], 40, y-6);
+      ctx.fillText(Math.round(r[1]).toLocaleString()+'원', 46+Math.max(w,40), y+20); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('붉은 막대가 초록보다 짧으면 «더하기»가 과하게 깎은 것입니다', 40, H-12);
+    $('#diout').innerHTML =
+      `<span class="mono">${(a*100).toFixed(0)}% 뒤 ${Math.round(p1).toLocaleString()}원 → 다시 ${(b*100).toFixed(0)}% 뒤 <b style="color:#0E9384">${Math.round(p2).toLocaleString()}원</b></span><br>`
+      + `<span class="mono">실제 할인율 = 1 − (1−${a.toFixed(2)})(1−${b.toFixed(2)}) = <b style="color:#BE123C">${(eff*100).toFixed(1)}%</b> · 단순히 더하면 ${((a+b)*100).toFixed(0)}%</span><br>`
+      + (a>0 && b>0 && Math.abs(eff-(a+b))>0.005 ? `<b style="color:#B45309">두 할인율을 더한 값보다 실제는 ${((a+b-eff)*100).toFixed(1)}%p 적게 깎였습니다.</b><br>` : '')
+      + (S.show ? `<b style="color:#7C3AED">같은 효과의 한 번 할인은 ${(eff*100).toFixed(1)}% — 곱셈으로 구합니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">할인은 더하기가 아니라 곱하기입니다.</span>`;
+  }
+  $('#diSame').onclick=()=>{ S.show=true; draw(); };
+  ['diA','diB'].forEach(i=>$('#'+i).oninput=()=>{ S.show=false; draw(); }); draw();
+  inquiry(root,{ id:'di', title:'할인율은 더해지지 않는다',
+    q:['두 할인율을 바꾸며 (실제 할인율, 단순 합) 을 여섯 줄 기록하세요.',
+       '두 값의 차이가 가장 큰 조합을 찾으세요.',
+       '「30% 두 번 = 60%」가 왜 틀린지 곱셈으로 설명하세요.'],
+    cols:['첫 할인','둘째 할인','최종 가격','실제 할인율','단순 합'],
+    hint:'힌트 — 남는 비율끼리 곱합니다: (1−a)(1−b).',
+    read:()=>{ const a=+$('#diA').value/100,b=+$('#diB').value/100;
+      return [(a*100).toFixed(0)+'%',(b*100).toFixed(0)+'%',Math.round(100000*(1-a)*(1-b)).toLocaleString(),
+        ((1-(1-a)*(1-b))*100).toFixed(1)+'%',((a+b)*100).toFixed(0)+'%']; } });
+}
+
+/* ---------- LAB 220 재료 소요량 — 손실률을 어디에 곱할까 ---------- */
+function materialDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="mt1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">완성품 100개를 만들려면 재료를 몇 개 넣어야 할까요?
+      <b>나누기와 곱하기</b>의 차이를 봅니다.</div>
+    </div>
+    <div class="col">
+      ${slider('mtN','필요한 완성품',50,300,10,100,'개')}
+      ${slider('mtL','손실률',0,40,1,20,'%')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="mtWrong">«곱해서» 계산해 보기</button></div>
+      <div class="out" id="mtout"></div>
+      <div class="note" style="margin-top:12px">투입량 = 필요량 ÷ (1 − 손실률).
+      손실률을 <b>곱하면</b> 늘 모자랍니다.</div>
+    </div></div>`;
+  const cv=$('#mt1'),ctx=cv.getContext('2d'),W=380,H=320;
+  const S={ wrong:false };
+  function draw(){
+    const need=+$('#mtN').value, loss=+$('#mtL').value/100;
+    $('#mtNv').textContent=need+'개'; $('#mtLv').textContent=(loss*100).toFixed(0)+'%';
+    const right=need/(1-loss), wrong=need*(1+loss);
+    const okOut=Math.round(right*(1-loss)), wrOut=Math.round(wrong*(1-loss));
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const mx=Math.max(right,wrong,need)*1.05;
+    const bar=(y,label,v,out,col)=>{
+      ctx.fillStyle=col; ctx.fillRect(40,y,300*v/mx,26);
+      ctx.fillStyle='rgba(14,147,132,.55)'; ctx.fillRect(40,y+30,300*out/mx,14);
+      ctx.strokeStyle='#C7D2E4'; ctx.lineWidth=1; ctx.strokeRect(40,y,300,26);
+      ctx.fillStyle='#374151'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(label, 40, y-6);
+      ctx.fillText('투입 '+Math.ceil(v)+'개 → 완성 '+out+'개', 44, y+55); };
+    bar(58,'올바른 계산: 필요량 ÷ (1 − 손실률)',right,okOut,'rgba(37,99,235,.4)');
+    if(S.wrong) bar(178,'잘못된 계산: 필요량 × (1 + 손실률)',wrong,wrOut,'rgba(190,18,60,.45)');
+    ctx.setLineDash([4,4]); ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(40+300*need/mx,50); ctx.lineTo(40+300*need/mx,H-30); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#BE123C'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('목표 '+need+'개', 40+300*need/mx+4, H-34);
+    ctx.fillStyle='#6B7280';
+    ctx.fillText('초록 막대 = 실제로 완성되는 개수', 40, H-12);
+    $('#mtout').innerHTML =
+      `<span class="mono">올바른 투입 = ${need} ÷ (1 − ${loss.toFixed(2)}) = <b style="color:#2563EB">${Math.ceil(right)}개</b> → 완성 ${okOut}개</span><br>`
+      + (S.wrong ? `<span class="mono">곱해서 계산 = ${need} × (1 + ${loss.toFixed(2)}) = <b style="color:#BE123C">${Math.ceil(wrong)}개</b> → 완성 ${wrOut}개</span><br>` : '')
+      + (S.wrong && wrOut<need ? `<b style="color:#B45309">곱해서 계산하면 완성품이 ${need-wrOut}개 모자랍니다 — 나누기가 맞습니다.</b><br>` : '')
+      + (loss>=35 ? `<b style="color:#7C3AED">손실률이 커질수록 두 방법의 차이가 급격히 벌어집니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">「몇 % 버려진다」는 남는 비율로 나누는 문제입니다.</span>`;
+  }
+  $('#mtWrong').onclick=()=>{ S.wrong=true; draw(); };
+  ['mtN','mtL'].forEach(i=>$('#'+i).oninput=()=>{ S.wrong=false; draw(); }); draw();
+  inquiry(root,{ id:'mt', title:'재료 소요량 — 나눌까 곱할까',
+    q:['손실률을 바꾸며 (올바른 투입, 잘못된 투입, 모자란 개수) 를 여섯 줄 기록하세요.',
+       '두 방법의 차이가 손실률에 따라 어떻게 커지는지 쓰세요.',
+       '왜 나누기가 맞는지 식으로 유도하세요.'],
+    cols:['필요량','손실률','올바른 투입','잘못된 투입','차이'],
+    hint:'힌트 — 투입 x 에서 x(1−손실률) 이 완성됩니다.',
+    read:()=>{ const n=+$('#mtN').value,l=+$('#mtL').value/100;
+      return [n,(l*100).toFixed(0)+'%',Math.ceil(n/(1-l)),Math.ceil(n*(1+l)),
+        Math.ceil(n/(1-l))-Math.ceil(n*(1+l))]; } });
+}
+
+/* ---------- LAB 221 유효숫자 — 재는 순간 오차가 따라온다 ---------- */
+function sigFigDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sf1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">자의 눈금이 굵을수록 <b>모르는 자리</b>가 커집니다.
+      그 오차가 계산 결과에 어떻게 번지는지 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('sfP','자의 최소 눈금',1,3,1,2,'')}
+      ${slider('sfA','가로 (재려는 참값)',10,30,0.01,12.34,'cm')}
+      ${slider('sfB','세로 (재려는 참값)',5,20,0.01,7.89,'cm')}
+      <div class="out" id="sfout"></div>
+      <div class="note" style="margin-top:12px">곱셈에서는 <b>유효숫자가 적은 쪽</b>에 맞춥니다.
+      측정값으로 계산한 넓이에 소수 넷째 자리까지 쓰는 것은 뜻이 없습니다.</div>
+    </div></div>`;
+  const cv=$('#sf1'),ctx=cv.getContext('2d'),W=380,H=320;
+  const STEP=[1,0.1,0.01];
+  function draw(){
+    const p=+$('#sfP').value, a=+$('#sfA').value, b=+$('#sfB').value;
+    const st=STEP[p-1];
+    $('#sfPv').textContent=st+'cm'; $('#sfAv').textContent=a.toFixed(2)+'cm'; $('#sfBv').textContent=b.toFixed(2)+'cm';
+    const ra=Math.round(a/st)*st, rb=Math.round(b/st)*st;
+    const dec = p===1?0:(p===2?1:2);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(24,80); ctx.lineTo(356,80); ctx.stroke();
+    const per=(356-24)/32;
+    for(let v=0;v<=32;v+=st>=1?1:(st>=0.1?0.5:0.25)){
+      const x=24+per*v, big = Math.abs(v-Math.round(v))<1e-9;
+      ctx.strokeStyle= big?'#374151':'#C7D2E4'; ctx.lineWidth= big?1.4:0.8;
+      ctx.beginPath(); ctx.moveTo(x,80); ctx.lineTo(x,big?66:73); ctx.stroke(); }
+    ctx.fillStyle='#2563EB'; ctx.beginPath(); ctx.arc(24+per*a,80,5,0,7); ctx.fill();
+    ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(24+per*ra,92,5,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('파랑 = 참값 · 붉은 = 눈금으로 읽은 값', 24, 116);
+    const area=ra*rb, exact=a*b;
+    const rel=(Math.abs(area-exact)/exact*100);
+    ctx.fillStyle='#374151'; ctx.font='13px sans-serif';
+    ctx.fillText('읽은 값: '+ra.toFixed(dec)+' cm × '+rb.toFixed(dec)+' cm', 24, 158);
+    ctx.fillText('넓이(그대로) = '+area.toFixed(4)+' cm²', 24, 188);
+    ctx.fillText('넓이(유효숫자 맞춤) = '+area.toPrecision(Math.max(2,p+1))+' cm²', 24, 218);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('참값으로 계산한 넓이 = '+exact.toFixed(4)+' cm²', 24, 248);
+    $('#sfout').innerHTML =
+      `<span class="mono">눈금 ${st}cm 로 읽으면 ${ra.toFixed(dec)} × ${rb.toFixed(dec)} = <b>${area.toFixed(4)}</b> cm²</span><br>`
+      + `<span class="mono">참값 넓이 ${exact.toFixed(4)} · 상대오차 <b style="color:#BE123C">${rel.toFixed(2)}%</b></span><br>`
+      + (p===1 && rel>1 ? `<b style="color:#B45309">눈금이 굵어 오차가 1%를 넘었습니다 — 넓이는 오차가 두 배로 번집니다.</b><br>` : '')
+      + (p===3 ? `<b style="color:#7C3AED">눈금이 가늘어져 오차가 크게 줄었습니다 — 유효숫자가 늘어난 것입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">계산기가 주는 소수 여덟 자리는 대부분 「모르는 자리」입니다.</span>`;
+  }
+  ['sfP','sfA','sfB'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'sf', title:'유효숫자 — 아는 자리까지만',
+    q:['눈금을 바꾸며 (읽은 값, 넓이, 상대오차) 를 여섯 줄 기록하세요.',
+       '길이의 상대오차와 넓이의 상대오차를 비교하세요.',
+       '곱셈에서 유효숫자를 어느 쪽에 맞춰야 하는지 쓰세요.'],
+    cols:['눈금','읽은 가로','읽은 세로','넓이','상대오차'],
+    hint:'힌트 — 넓이의 상대오차는 길이의 상대오차의 약 두 배입니다.',
+    read:()=>{ const p=+$('#sfP').value,a=+$('#sfA').value,b=+$('#sfB').value;
+      const st=[1,0.1,0.01][p-1], ra=Math.round(a/st)*st, rb=Math.round(b/st)*st;
+      return [st+'cm',ra.toFixed(2),rb.toFixed(2),(ra*rb).toFixed(4),
+        (Math.abs(ra*rb-a*b)/(a*b)*100).toFixed(2)+'%']; } });
+}

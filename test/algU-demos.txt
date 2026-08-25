@@ -1,0 +1,311 @@
+/* ---------- LAB 212 분산투자 — 계란을 한 바구니에 담지 말라 ---------- */
+function diversifyDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="dv1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">두 자산에 나눠 담을 때 <b>기대수익</b>과 <b>흔들림</b>이
+      어떻게 변하는지 봅니다.</div>
+    </div>
+    <div class="col">
+      ${slider('dvW','A 에 담는 비율',0,100,5,100,'%')}
+      ${slider('dvC','두 자산이 함께 움직이는 정도',-100,100,10,0,'%')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="dvMin">흔들림이 가장 작은 배분으로</button></div>
+      <div class="out" id="dvout"></div>
+      <div class="note" style="margin-top:12px">σ² = w²σ_A² + (1−w)²σ_B² + 2w(1−w)ρσ_Aσ_B.
+      <b>함께 움직이지 않는 자산</b>을 섞을수록 흔들림이 줄어듭니다.</div>
+    </div></div>`;
+  const cv=$('#dv1'),ctx=cv.getContext('2d'),W=380,H=330,P=46;
+  const muA=0.08, muB=0.05, sA=0.20, sB=0.12;
+  function stat(w,rho){ const mu=w*muA+(1-w)*muB;
+    const v=w*w*sA*sA+(1-w)*(1-w)*sB*sB+2*w*(1-w)*rho*sA*sB;
+    return [mu, Math.sqrt(Math.max(0,v))]; }
+  function bestW(rho){ const num=sB*sB-rho*sA*sB, den=sA*sA+sB*sB-2*rho*sA*sB;
+    return Math.max(0,Math.min(1,num/den)); }
+  function draw(){
+    const w=+$('#dvW').value/100, rho=+$('#dvC').value/100;
+    $('#dvWv').textContent=(w*100).toFixed(0)+'%'; $('#dvCv').textContent=(rho*100).toFixed(0)+'%';
+    const X=s=>P+(W-2*P)*s/0.25, Y=m=>H-P-(H-2*P)*(m-0.03)/0.07;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(P,P-14); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.6; ctx.beginPath();
+    for(let i=0;i<=100;i++){ const ww=i/100, st=stat(ww,rho);
+      i?ctx.lineTo(X(st[1]),Y(st[0])):ctx.moveTo(X(st[1]),Y(st[0])); }
+    ctx.stroke();
+    const cur=stat(w,rho), bw=bestW(rho), bst=stat(bw,rho);
+    ctx.fillStyle='rgba(14,147,132,.55)'; ctx.beginPath(); ctx.arc(X(bst[1]),Y(bst[0]),5,0,7); ctx.fill();
+    ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(cur[1]),Y(cur[0]),6,0,7); ctx.fill();
+    [[stat(1,rho),'A'],[stat(0,rho),'B']].forEach(([st,nm])=>{
+      ctx.fillStyle='#374151'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(nm, X(st[1]), Y(st[0])-10); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('가로 = 흔들림(위험) · 세로 = 기대수익', P-30, P-16);
+    ctx.fillText('초록 점 = 흔들림이 가장 작은 배분', P-30, H-14);
+    $('#dvout').innerHTML =
+      `<span class="mono">A ${(w*100).toFixed(0)}% + B ${((1-w)*100).toFixed(0)}% → 기대수익 <b>${(cur[0]*100).toFixed(2)}%</b> · 흔들림 <b style="color:#BE123C">${(cur[1]*100).toFixed(2)}%</b></span><br>`
+      + `<span class="mono">가장 안정된 배분 = A ${(bw*100).toFixed(0)}% · 그때 흔들림 ${(bst[1]*100).toFixed(2)}%</span><br>`
+      + (Math.abs(w-bw)<0.03 ? `<b style="color:#B45309">흔들림이 가장 작은 배분입니다 — 한쪽에 몰 때보다 안정적입니다.</b><br>` : '')
+      + (rho<=-0.5 ? `<b style="color:#7C3AED">두 자산이 반대로 움직여 — 섞을수록 흔들림이 크게 줄어듭니다.</b><br>` : '')
+      + (w>=0.99 ? `A 에만 몰았습니다 — 기대수익은 높지만 흔들림도 가장 큽니다.<br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">기대수익은 비율의 일차식, 흔들림은 이차식입니다 — 그래서 곡선이 휩니다.</span>`;
+  }
+  $('#dvMin').onclick=()=>{ const rho=+$('#dvC').value/100; $('#dvW').value=Math.round(bestW(rho)*100/5)*5; draw(); };
+  ['dvW','dvC'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'dv', title:'분산투자 — 흔들림을 줄이는 배분',
+    q:['비율을 바꾸며 (비율, 기대수익, 흔들림) 을 여섯 줄 기록하세요.',
+       '상관을 −1 로 두고 흔들림이 가장 작은 배분을 찾으세요.',
+       '기대수익은 직선인데 흔들림은 왜 곡선인지 식으로 설명하세요.'],
+    cols:['A 비율','상관','기대수익','흔들림','최소 배분'],
+    hint:'힌트 — 분산 식에 w² 이 들어 있어 이차함수가 됩니다.',
+    read:()=>{ const w=+$('#dvW').value/100,rho=+$('#dvC').value/100,st=stat(w,rho);
+      return [(w*100).toFixed(0)+'%',(rho*100).toFixed(0)+'%',(st[0]*100).toFixed(2)+'%',
+        (st[1]*100).toFixed(2)+'%',(bestW(rho)*100).toFixed(0)+'%']; } });
+}
+
+/* ---------- LAB 213 위험 회피 — 기댓값이 같아도 다르다 ---------- */
+function riskAverseDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ra1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">기댓값이 <b>똑같은</b> 두 선택지입니다.
+      그런데 만족도(효용)로 보면 값이 달라집니다.</div>
+    </div>
+    <div class="col">
+      ${slider('raS','도박의 폭 (±)',0,90,5,20,'만원')}
+      ${slider('raK','만족도 곡선의 휨',0.3,1,0.05,0.5,'')}
+      <div class="out" id="raout"></div>
+      <div class="note" style="margin-top:12px">만족도 u(x) = x^k (k &lt; 1 이면 위로 볼록).
+      <b>볼록한 곡선</b>에서는 확실한 100만원이 도박보다 낫습니다.</div>
+    </div></div>`;
+  const cv=$('#ra1'),ctx=cv.getContext('2d'),W=380,H=330,P=44;
+  function draw(){
+    const sp=+$('#raS').value, k=+$('#raK').value;
+    $('#raSv').textContent='±'+sp+'만원'; $('#raKv').textContent=k.toFixed(2);
+    const lo=100-sp, hi=100+sp;
+    const u=x=>Math.pow(Math.max(0,x),k);
+    const uSure=u(100), uGam=(u(lo)+u(hi))/2;
+    const ce=Math.pow(uGam,1/k);
+    const X=x=>P+(W-2*P)*x/200, Y=v=>H-P-(H-2*P)*v/u(200);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(P,P-14); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.6; ctx.beginPath();
+    for(let i=0;i<=200;i++){ const x=200*i/200; i?ctx.lineTo(X(x),Y(u(x))):ctx.moveTo(X(x),Y(u(x))); }
+    ctx.stroke();
+    if(sp>0){ ctx.strokeStyle='#BE123C'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(X(lo),Y(u(lo))); ctx.lineTo(X(hi),Y(u(hi))); ctx.stroke();
+      [[lo,u(lo)],[hi,u(hi)]].forEach(([x,v])=>{ ctx.fillStyle='#BE123C';
+        ctx.beginPath(); ctx.arc(X(x),Y(v),4.4,0,7); ctx.fill(); }); }
+    ctx.fillStyle='#0E9384'; ctx.beginPath(); ctx.arc(X(100),Y(uSure),5.4,0,7); ctx.fill();
+    ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(100),Y(uGam),5.4,0,7); ctx.fill();
+    ctx.setLineDash([3,3]); ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(X(ce),Y(0)); ctx.lineTo(X(ce),Y(uGam)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('파란 곡선 = 만족도 u(x) · 붉은 직선 = 도박의 평균 만족도', P-20, P-16);
+    ctx.fillText('점선 = 확실성등가 (이만큼 확실히 주면 도박과 같다)', P-20, H-14);
+    const gap=uSure-uGam;
+    $('#raout').innerHTML =
+      `<span class="mono">확실한 100만원 · 도박 ${lo}만원/${hi}만원 (반반) — 기댓값은 둘 다 <b>100만원</b></span><br>`
+      + `<span class="mono">만족도: 확실 <b style="color:#0E9384">${uSure.toFixed(3)}</b> · 도박 <b style="color:#BE123C">${uGam.toFixed(3)}</b> · 확실성등가 ${ce.toFixed(1)}만원</span><br>`
+      + (sp===0 ? `<b style="color:#7C3AED">폭이 0 이라 도박이 아닙니다 — 두 선택지가 완전히 같습니다.</b><br>` : '')
+      + (sp>=60 && gap>0.01 ? `<b style="color:#B45309">기댓값이 같은데도 도박의 만족도가 낮습니다 — 사람들이 보험료를 내는 이유입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">곡선이 위로 볼록하면 「같은 기댓값이라도 확실한 쪽」이 낫습니다.</span>`;
+  }
+  ['raS','raK'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'ra', title:'위험 회피 — 기댓값만으로는 부족하다',
+    q:['도박의 폭을 키우며 (폭, 확실 만족도, 도박 만족도, 확실성등가) 를 여섯 줄 기록하세요.',
+       '기댓값이 같은데 왜 만족도가 다른지 곡선의 모양으로 설명하세요.',
+       '확실성등가와 100만원의 차이가 무엇을 뜻하는지 쓰세요.'],
+    cols:['폭','휨 k','확실 만족도','도박 만족도','확실성등가'],
+    hint:'힌트 — 위로 볼록한 곡선에서는 두 점을 이은 선분이 곡선 아래에 놓입니다.',
+    read:()=>{ const sp=+$('#raS').value,k=+$('#raK').value;
+      const u=x=>Math.pow(Math.max(0,x),k), ug=(u(100-sp)+u(100+sp))/2;
+      return [sp,k.toFixed(2),u(100).toFixed(3),ug.toFixed(3),Math.pow(ug,1/k).toFixed(1)]; } });
+}
+
+/* ---------- LAB 214 지니계수 — 불평등을 하나의 수로 ---------- */
+function giniDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="gi1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">가로는 <b>사람의 누적 비율</b>, 세로는 <b>소득의 누적 비율</b>입니다.
+      대각선에서 멀수록 불평등합니다.</div>
+    </div>
+    <div class="col">
+      ${slider('giK','상위 20%가 가져가는 몫',20,80,5,45,'%')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="giEq">완전 평등으로</button>
+        <button class="b g sm" id="giBad">매우 불평등하게</button>
+      </div>
+      <div class="out" id="giout"></div>
+      <div class="note" style="margin-top:12px">지니계수 = (대각선과 곡선 사이 넓이) ÷ (대각선 아래 삼각형 넓이).
+      <b>0 이면 완전 평등, 1 에 가까울수록 불평등</b>합니다.</div>
+    </div></div>`;
+  const cv=$('#gi1'),ctx=cv.getContext('2d'),W=380,H=330,P=48;
+  function draw(){
+    const top=+$('#giK').value/100; $('#giKv').textContent=(top*100).toFixed(0)+'%';
+    // 다섯 계층(각 20%)의 소득 몫: 상위 20% 가 top, 나머지를 등차로 배분
+    const e=(1-top)/4;
+    const shares=[e, e, e, e, top];
+    const cum=[0]; shares.forEach(v=>cum.push(cum[cum.length-1]+v));
+    const X=x=>P+(W-2*P)*x, Y=y=>H-P-(H-2*P)*y;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(190,18,60,.16)'; ctx.beginPath(); ctx.moveTo(X(0),Y(0));
+    for(let i=0;i<=5;i++) ctx.lineTo(X(i/5),Y(cum[i]));
+    ctx.lineTo(X(1),Y(1)); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(X(0),Y(0)); ctx.lineTo(X(1),Y(1)); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.8; ctx.beginPath();
+    for(let i=0;i<=5;i++){ i?ctx.lineTo(X(i/5),Y(cum[i])):ctx.moveTo(X(i/5),Y(cum[i])); }
+    ctx.stroke();
+    for(let i=0;i<=5;i++){ ctx.fillStyle='#2563EB'; ctx.beginPath(); ctx.arc(X(i/5),Y(cum[i]),3.4,0,7); ctx.fill(); }
+    ctx.strokeStyle='#C7D2E4'; ctx.lineWidth=1; ctx.strokeRect(X(0),Y(1),X(1)-X(0),Y(0)-Y(1));
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('회색 대각선 = 완전 평등 · 파란 곡선 = 실제 분배', P-32, P-16);
+    ctx.fillText('붉은 영역이 넓을수록 불평등', P-32, H-14);
+    let area=0; for(let i=0;i<5;i++) area+=(cum[i]+cum[i+1])/2*0.2;
+    const gini=(0.5-area)/0.5;
+    $('#giout').innerHTML =
+      `<span class="mono">계층별 몫 = ${shares.map(v=>(v*100).toFixed(1)+'%').join(' · ')}</span><br>`
+      + `<span class="mono">곡선 아래 넓이 ${area.toFixed(4)} · 지니계수 = (0.5 − ${area.toFixed(4)}) ÷ 0.5 = <b style="color:#BE123C">${gini.toFixed(4)}</b></span><br>`
+      + (gini<0.02 ? `<b style="color:#B45309">곡선이 대각선과 겹쳤습니다 — 지니계수 0, 완전 평등입니다.</b><br>` : '')
+      + (gini>=0.45 ? `<b style="color:#7C3AED">붉은 영역이 크게 벌어졌습니다 — 매우 불평등한 분배입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">지니계수는 넓이의 비 — 그래서 0 과 1 사이의 수가 됩니다.</span>`;
+  }
+  $('#giEq').onclick=()=>{ $('#giK').value=20; draw(); };
+  $('#giBad').onclick=()=>{ $('#giK').value=80; draw(); };
+  $('#giK').oninput=draw; draw();
+  inquiry(root,{ id:'gi', title:'지니계수 — 불평등의 수치화',
+    q:['상위 20%의 몫을 바꾸며 (몫, 곡선 아래 넓이, 지니계수) 를 여섯 줄 기록하세요.',
+       '지니계수가 0 이 되는 경우를 만들고 그 뜻을 쓰세요.',
+       '지니계수가 넓이의 비이므로 0 과 1 사이임을 설명하세요.'],
+    cols:['상위 20% 몫','곡선 아래 넓이','지니계수','판정','평등도'],
+    hint:'힌트 — 대각선 아래 삼각형의 넓이는 0.5 입니다.',
+    read:()=>{ const top=+$('#giK').value/100, e=(1-top)/4;
+      const shares=[e,e,e,e,top];
+      const cum=[0]; shares.forEach(v=>cum.push(cum[cum.length-1]+v));
+      let area=0; for(let i=0;i<5;i++) area+=(cum[i]+cum[i+1])/2*0.2;
+      const g=(0.5-area)/0.5;
+      return [(top*100).toFixed(0)+'%',area.toFixed(4),g.toFixed(4),
+        g<0.02?'완전 평등':(g>=0.45?'매우 불평등':'보통'),(1-g).toFixed(3)]; } });
+}
+
+/* ---------- LAB 215 성장률 — 명목과 실질, 그리고 복리 ---------- */
+function growthDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="gr1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">해마다 같은 <b>비율</b>로 자라면 그림이 어떤 모양이 되나요?
+      아래는 같은 자료를 로그 눈금으로 본 것입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('grG','명목 성장률',0,12,0.5,3,'%')}
+      ${slider('grI','물가 상승률',0,12,0.5,2,'%')}
+      ${slider('grY','기간',5,40,1,20,'년')}
+      <div class="out" id="grout"></div>
+      <div class="note" style="margin-top:12px">실질 성장률 ≈ 명목 − 물가.
+      해마다 같은 비율이면 <b>로그 눈금에서 직선</b>이 됩니다.</div>
+    </div></div>`;
+  const cv=$('#gr1'),ctx=cv.getContext('2d'),W=380,H=330,P=44;
+  function draw(){
+    const g=+$('#grG').value/100, i=+$('#grI').value/100, n=+$('#grY').value;
+    $('#grGv').textContent=(g*100).toFixed(1)+'%'; $('#grIv').textContent=(i*100).toFixed(1)+'%'; $('#grYv').textContent=n+'년';
+    const nom=t=>Math.pow(1+g,t), rel=t=>Math.pow((1+g)/(1+i),t);
+    const mx=Math.max(nom(n),1.2);
+    const X=t=>P+(W-2*P)*t/n;
+    const Y1=v=>168-118*(v-1)/(mx-1+1e-9);
+    const Y2=v=>H-40-100*Math.log(v)/Math.log(Math.max(mx,1.01));
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    [[Y1,'보통 눈금',34],[Y2,'로그 눈금',196]].forEach(([Yf,label,ly])=>{
+      ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(P,Yf(1)); ctx.lineTo(W-P,Yf(1)); ctx.stroke();
+      ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4; ctx.beginPath();
+      for(let k=0;k<=120;k++){ const t=n*k/120; k?ctx.lineTo(X(t),Yf(nom(t))):ctx.moveTo(X(t),Yf(nom(t))); }
+      ctx.stroke();
+      ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.2; ctx.beginPath();
+      for(let k=0;k<=120;k++){ const t=n*k/120; k?ctx.lineTo(X(t),Yf(rel(t))):ctx.moveTo(X(t),Yf(rel(t))); }
+      ctx.stroke();
+      ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(label, P, ly); });
+    ctx.fillStyle='#6B7280'; ctx.fillText('파랑 = 명목 · 초록 = 실질', P+80, 34);
+    const rg=(1+g)/(1+i)-1;
+    const dbl = g>0 ? Math.log(2)/Math.log(1+g) : Infinity;
+    $('#grout').innerHTML =
+      `<span class="mono">${n}년 뒤 명목 <b style="color:#2563EB">${nom(n).toFixed(3)}배</b> · 실질 <b style="color:#0E9384">${rel(n).toFixed(3)}배</b></span><br>`
+      + `<span class="mono">실질 성장률 = (1+${g.toFixed(3)})/(1+${i.toFixed(3)}) − 1 = <b>${(rg*100).toFixed(3)}%</b> · 근사값 ${( (g-i)*100 ).toFixed(1)}%</span><br>`
+      + (isFinite(dbl) && Math.abs(dbl-72/(g*100))<1.2 && g>=0.04 ? `<b style="color:#B45309">두 배가 되는 데 ${dbl.toFixed(1)}년 — 72 ÷ ${(g*100).toFixed(1)} 과 거의 같습니다.</b><br>` : '')
+      + (Math.abs(g-i)<1e-9 ? `<b style="color:#7C3AED">명목과 물가가 같아 실질 성장이 0 입니다 — 초록 선이 수평입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">아래 로그 눈금에서 직선이면 「해마다 같은 비율」이라는 뜻입니다.</span>`;
+  }
+  ['grG','grI','grY'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'gr', title:'성장률 — 명목·실질·복리',
+    q:['성장률을 바꾸며 (명목 배율, 실질 배율, 실질 성장률) 을 여섯 줄 기록하세요.',
+       '실질 성장률의 정확한 값과 (명목 − 물가) 근사값을 비교하세요.',
+       '로그 눈금에서 직선이 되는 이유를 설명하세요.'],
+    cols:['명목','물가','기간','명목 배율','실질 배율'],
+    hint:'힌트 — 로그를 취하면 지수가 곱셈에서 덧셈으로 바뀝니다.',
+    read:()=>{ const g=+$('#grG').value/100,i=+$('#grI').value/100,n=+$('#grY').value;
+      return [(g*100).toFixed(1)+'%',(i*100).toFixed(1)+'%',n,
+        Math.pow(1+g,n).toFixed(3),Math.pow((1+g)/(1+i),n).toFixed(3)]; } });
+}
+
+/* ---------- LAB 216 감가상각 — 중고차 값은 어떻게 떨어지나 ---------- */
+function depreciationDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="dp1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">같은 값에서 시작해도 <b>깎는 방식</b>에 따라
+      해마다의 값이 크게 달라집니다.</div>
+    </div>
+    <div class="col">
+      ${slider('dpP','새 물건의 값',1000,5000,100,3000,'만원')}
+      ${slider('dpR','정률법의 비율',10,40,5,25,'%')}
+      ${slider('dpN','쓰는 기간',3,12,1,8,'년')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="dpMid">절반이 되는 해 찾기</button></div>
+      <div class="out" id="dpout"></div>
+      <div class="note" style="margin-top:12px">정액법: 해마다 <b>같은 금액</b>씩 (직선).
+      정률법: 해마다 <b>같은 비율</b>씩 (지수). 처음에는 정률법이 훨씬 빨리 떨어집니다.</div>
+    </div></div>`;
+  const cv=$('#dp1'),ctx=cv.getContext('2d'),W=380,H=330,P=48;
+  function draw(){
+    const p=+$('#dpP').value, r=+$('#dpR').value/100, n=+$('#dpN').value;
+    $('#dpPv').textContent=p+'만원'; $('#dpRv').textContent=(r*100).toFixed(0)+'%'; $('#dpNv').textContent=n+'년';
+    const lin=t=>Math.max(0,p*(1-t/n)), geo=t=>p*Math.pow(1-r,t);
+    const X=t=>P+(W-2*P)*t/n, Y=v=>H-P-(H-2*P)*v/p;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(P,P-14); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.6;
+    ctx.beginPath(); ctx.moveTo(X(0),Y(p)); ctx.lineTo(X(n),Y(0)); ctx.stroke();
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2.6; ctx.beginPath();
+    for(let k=0;k<=120;k++){ const t=n*k/120; k?ctx.lineTo(X(t),Y(geo(t))):ctx.moveTo(X(t),Y(geo(t))); }
+    ctx.stroke();
+    for(let t=0;t<=n;t++){ ctx.fillStyle='rgba(37,99,235,.6)';
+      ctx.beginPath(); ctx.arc(X(t),Y(lin(t)),3,0,7); ctx.fill();
+      ctx.fillStyle='rgba(190,18,60,.7)';
+      ctx.beginPath(); ctx.arc(X(t),Y(geo(t)),3,0,7); ctx.fill(); }
+    ctx.setLineDash([4,4]); ctx.strokeStyle='#C7D2E4'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(P,Y(p/2)); ctx.lineTo(W-P,Y(p/2)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#9CA3AF'; ctx.font='10px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('절반 값', P+2, Y(p/2)-6);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('파랑 = 정액법(직선) · 붉은 = 정률법(곡선)', P-30, P-16);
+    ctx.fillText('가로 = 햇수', P-30, H-14);
+    const half=Math.log(0.5)/Math.log(1-r);
+    const y1lin=lin(1), y1geo=geo(1);
+    $('#dpout').innerHTML =
+      `<span class="mono">1년 뒤 — 정액법 <b style="color:#2563EB">${y1lin.toFixed(0)}만원</b> · 정률법 <b style="color:#BE123C">${y1geo.toFixed(0)}만원</b> (차이 ${Math.abs(y1lin-y1geo).toFixed(0)}만원)</span><br>`
+      + `<span class="mono">정률법이 절반이 되는 해 = log0.5 / log(1−${r.toFixed(2)}) = <b>${half.toFixed(2)}년</b></span><br>`
+      + (half<=n && Math.abs(half-Math.round(half))<0.15 ? `<b style="color:#B45309">약 ${Math.round(half)}년째에 값이 절반이 됩니다 — 로그로 구한 자리입니다.</b><br>` : '')
+      + (r>=0.35 ? `<b style="color:#7C3AED">비율이 커서 첫해에만 ${(r*100).toFixed(0)}% 가 날아갑니다 — 새 물건일수록 손해가 큽니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">정률법은 끝에 가서도 0 이 되지 않습니다 — 지수함수의 성질입니다.</span>`;
+  }
+  $('#dpMid').onclick=()=>{ $('#dpR').value=30; $('#dpN').value=8; draw(); };
+  ['dpP','dpR','dpN'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'dp', title:'감가상각 — 두 가지 깎는 방식',
+    q:['비율을 바꾸며 (1년 뒤 두 값, 절반이 되는 해) 를 여섯 줄 기록하세요.',
+       '정률법이 정확히 0 이 되는 해가 있나요? 왜 그런가요?',
+       '중고차를 살 때 몇 년 된 차가 유리한지 곡선으로 설명하세요.'],
+    cols:['새 값','비율','기간','1년 뒤 정액','1년 뒤 정률'],
+    hint:'힌트 — 정률법은 등비수열, 정액법은 등차수열입니다.',
+    read:()=>{ const p=+$('#dpP').value,r=+$('#dpR').value/100,n=+$('#dpN').value;
+      return [p,(r*100).toFixed(0)+'%',n,(p*(1-1/n)).toFixed(0),(p*(1-r)).toFixed(0)]; } });
+}
