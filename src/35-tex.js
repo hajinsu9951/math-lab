@@ -27,7 +27,12 @@ const TEX_OPS = {cdot:'·',times:'×',div:'÷',pm:'±',mp:'∓',le:'≤',leq:'�
   Longleftarrow:'⟸',longleftarrow:'⟵',uparrow:'↑',downarrow:'↓',
   lceil:'⌈',rceil:'⌉',lfloor:'⌊',rfloor:'⌋',langle:'⟨',rangle:'⟩',
   oplus:'⊕',otimes:'⊗',ast:'∗',star:'⋆',prime:'′',nabla:'∇',
-  simeq:'≃',ll:'≪',gg:'≫',subsetneq:'⊊',neg:'¬',top:'⊤',bot:'⊥'};
+  simeq:'≃',ll:'≪',gg:'≫',subsetneq:'⊊',neg:'¬',top:'⊤',bot:'⊥',
+  Leftarrow:'⇐',leftarrow:'←',nLeftarrow:'⇍',nleftrightarrow:'↮',
+  vdash:'⊢',nvdash:'⊬',models:'⊨',vDash:'⊨',
+  oint:'∮',iint:'∬',iiint:'∭',bigcup:'⋃',bigcap:'⋂',
+  supsetneq:'⊋',nsubseteq:'⊈',sqrt2:'√',degree:'°',odot:'⊙',ominus:'⊖',
+  succ:'≻',prec:'≺',lesssim:'≲',gtrsim:'≳',asymp:'≍',doteq:'≐'};
 const TEX_FUNCS = ['sin','cos','tan','sec','csc','cot','log','ln','exp','max','min','arg','det','gcd','lcm',
   'sinh','cosh','tanh','arcsin','arccos','arctan','sup','inf','deg','dim','rank','tr'];
 const TEX_BB = {N:'ℕ',Z:'ℤ',Q:'ℚ',R:'ℝ',C:'ℂ',P:'ℙ'};
@@ -165,8 +170,10 @@ function texToMathML(src, block){
       if(ch==='.') return '';
       return '<mo stretchy="true">'+xe(ch)+'</mo>';
     }
+    if(v==='binom'||v==='dbinom'||v==='tbinom'){ const a=atom(), b=atom();
+      return '<mo>(</mo><mfrac linethickness="0">'+a+b+'</mfrac><mo>)</mo>'; }
     if(v==='bmod'){ return '<mspace width="0.22em"/><mi mathvariant="normal">mod</mi><mspace width="0.22em"/>'; }
-    if(v==='pmod'){ return '<mo>(</mo><mi>mod</mi><mspace width="0.25em"/>'+atom()+'<mo>)</mo>'; }
+    if(v==='pmod'){ return '<mo>(</mo><mi mathvariant="normal">mod</mi><mspace width="0.25em"/>'+atom()+'<mo>)</mo>'; }
     if(v==='sum')  return '<mo movablelimits="false">&#x2211;</mo>';
     if(v==='prod') return '<mo movablelimits="false">&#x220F;</mo>';
     if(v===','||v===':'||v===';') return '<mspace width="0.25em"/>';
