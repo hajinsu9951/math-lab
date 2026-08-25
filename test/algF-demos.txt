@@ -1,0 +1,307 @@
+/* ---------- LAB 137 구분구적법 — 직사각형으로 곡선 아래를 메우다 ---------- */
+function riemannDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="rm1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">직사각형 개수를 늘리면 <b>폭이 함께 줄어야</b> 합니다.
+      개수만 늘리고 폭을 그대로 두면 넓이가 계속 커져 버립니다.</div>
+    </div>
+    <div class="col">
+      ${slider('rmN','직사각형 개수 n',2,200,1,4,'개')}
+      <label class="ctl" style="margin-top:8px">높이를 어디서 잴까<select id="rmM" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="left">왼쪽 끝</option>
+        <option value="right">오른쪽 끝</option>
+        <option value="mid">가운데</option>
+      </select></label>
+      <div class="out" id="rmout"></div>
+      <div class="note" style="margin-top:12px">y = x² 를 0 부터 1 까지. 참값은 1/3 = 0.3333… 입니다.
+      n 을 키우며 <b>어디서 재든 같은 값</b>으로 모이는지 보세요.</div>
+    </div></div>`;
+  const cv=$('#rm1'),ctx=cv.getContext('2d'),W=380,H=300,P=36;
+  const f=x=>x*x;
+  function draw(){
+    const n=+$('#rmN').value, mode=$('#rmM').value;
+    $('#rmNv').textContent=n+'개';
+    const X=x=>P+(W-2*P)*x, Y=y=>H-P-(H-2*P)*y;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const dx=1/n; let sum=0;
+    for(let i=0;i<n;i++){
+      const xl=i*dx, xr=(i+1)*dx, xs= mode==='left'?xl:(mode==='right'?xr:(xl+xr)/2);
+      const h=f(xs); sum+=h*dx;
+      ctx.fillStyle='rgba(37,99,235,.24)'; ctx.fillRect(X(xl),Y(h),X(xr)-X(xl),Y(0)-Y(h));
+      if(n<=40){ ctx.strokeStyle='#2563EB'; ctx.lineWidth=0.7; ctx.strokeRect(X(xl),Y(h),X(xr)-X(xl),Y(0)-Y(h)); }
+    }
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2.4; ctx.beginPath();
+    for(let px=0;px<=300;px++){ const x=px/300; px?ctx.lineTo(X(x),Y(f(x))):ctx.moveTo(X(x),Y(f(x))); }
+    ctx.stroke();
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,Y(0)); ctx.lineTo(W-P,Y(0)); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('y = x² · 구간 [0, 1] · 폭 Δx = 1/n', P, P-14);
+    const err=Math.abs(sum-1/3);
+    $('#rmout').innerHTML =
+      `<span class="mono">Δx = 1/${n} = ${dx.toFixed(5)} · 합 = <b>${sum.toFixed(5)}</b></span><br>`
+      + `<span class="mono">참값 1/3 = 0.33333 · 오차 = <b>${err.toFixed(5)}</b></span><br>`
+      + (err<0.001 ? `<b style="color:#B45309">오차가 0.001 아래 — 참값 1/3 에 충분히 다가갔습니다.</b><br>` : '')
+      + (mode==='mid' && n<=8 ? `<b style="color:#7C3AED">가운데에서 재면 적은 개수로도 오차가 작습니다 — 위아래 오차가 서로 상쇄됩니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">개수를 늘리면 폭이 줄어 전체 합은 한 값으로 모입니다.</span>`;
+  }
+  $('#rmN').oninput=draw; $('#rmM').onchange=draw; draw();
+  inquiry(root,{ id:'rm', title:'구분구적법 — 쌓아서 재는 넓이',
+    q:['n = 4, 10, 50, 200 에서 (합, 오차) 를 기록하세요.',
+       '왼쪽·오른쪽·가운데 세 방식의 오차를 같은 n 에서 비교하세요.',
+       '「n 을 늘린다」와 「폭을 줄인다」가 왜 함께 가야 하는지 쓰세요.'],
+    cols:['n','재는 위치','Δx','합','오차'],
+    hint:'힌트 — 왼쪽 끝은 늘 참값보다 작고, 오른쪽 끝은 늘 큽니다.',
+    read:()=>{ const n=+$('#rmN').value, mode=$('#rmM').value, dx=1/n; let sum=0;
+      for(let i=0;i<n;i++){ const xl=i*dx,xr=(i+1)*dx,xs=mode==='left'?xl:(mode==='right'?xr:(xl+xr)/2); sum+=f(xs)*dx; }
+      return [n,{left:'왼쪽',right:'오른쪽',mid:'가운데'}[mode],dx.toFixed(5),sum.toFixed(5),Math.abs(sum-1/3).toFixed(5)]; } });
+}
+
+/* ---------- LAB 138 미적분의 기본정리 — 넓이를 미분하면 높이 ---------- */
+function ftcDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ft1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">위는 f(t), 아래는 <b>0 부터 x 까지의 넓이</b> A(x) 입니다.
+      A 의 기울기가 f 의 높이와 같은지 확인하세요.</div>
+    </div>
+    <div class="col">
+      ${slider('ftX','오른쪽 끝 x',0.2,4,0.1,1,'')}
+      <label class="ctl" style="margin-top:8px">f(t) 고르기<select id="ftK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="lin">① f(t) = t</option>
+        <option value="const">② f(t) = 2 (일정)</option>
+        <option value="sq">③ f(t) = t²</option>
+      </select></label>
+      <div class="out" id="ftout"></div>
+      <div class="note" style="margin-top:12px">A′(x) = f(x) — <b>넓이를 미분하면 높이</b>입니다.
+      이 한 줄이 미분과 적분을 잇습니다.</div>
+    </div></div>`;
+  const cv=$('#ft1'),ctx=cv.getContext('2d'),W=380,H=330,P=34;
+  const K={ lin:{f:t=>t, A:x=>x*x/2, fs:'t', As:'x²/2'},
+            const:{f:()=>2, A:x=>2*x, fs:'2', As:'2x'},
+            sq:{f:t=>t*t, A:x=>x*x*x/3, fs:'t²', As:'x³/3'} };
+  function draw(){
+    const x=+$('#ftX').value, k=$('#ftK').value, C=K[k];
+    $('#ftXv').textContent=x.toFixed(1);
+    const X=t=>P+(W-2*P)*t/4, Yu=y=>150-24*y, Yd=y=>H-P-16*y;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,Yu(0)); ctx.lineTo(W-P,Yu(0)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(P,Yd(0)); ctx.lineTo(W-P,Yd(0)); ctx.stroke();
+    ctx.fillStyle='rgba(37,99,235,.20)'; ctx.beginPath(); ctx.moveTo(X(0),Yu(0));
+    for(let px=0;px<=200;px++){ const t=x*px/200; ctx.lineTo(X(t),Yu(C.f(t))); }
+    ctx.lineTo(X(x),Yu(0)); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4; ctx.beginPath();
+    for(let px=0;px<=300;px++){ const t=4*px/300; px?ctx.lineTo(X(t),Yu(C.f(t))):ctx.moveTo(X(t),Yu(C.f(t))); }
+    ctx.stroke();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.4; ctx.beginPath();
+    for(let px=0;px<=300;px++){ const t=4*px/300; px?ctx.lineTo(X(t),Yd(C.A(t))):ctx.moveTo(X(t),Yd(C.A(t))); }
+    ctx.stroke();
+    const m=C.f(x);
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2; ctx.beginPath();
+    ctx.moveTo(X(x-0.9),Yd(C.A(x)-0.9*m)); ctx.lineTo(X(x+0.9),Yd(C.A(x)+0.9*m)); ctx.stroke();
+    ctx.fillStyle='#0E9384'; ctx.beginPath(); ctx.arc(X(x),Yd(C.A(x)),4.2,0,7); ctx.fill();
+    ctx.fillStyle='#2563EB'; ctx.beginPath(); ctx.arc(X(x),Yu(C.f(x)),4.2,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('f(t) = '+C.fs+' — 파란 넓이가 A(x)', P, 32);
+    ctx.fillText('A(x) = '+C.As+' — 붉은 직선이 그 접선', P, 208);
+    const num=(C.A(x+0.001)-C.A(x-0.001))/0.002;
+    $('#ftout').innerHTML =
+      `<span class="mono">넓이 A(${x.toFixed(1)}) = <b style="color:#0E9384">${C.A(x).toFixed(4)}</b></span><br>`
+      + `<span class="mono">A 의 기울기 ≈ <b style="color:#BE123C">${num.toFixed(4)}</b> · 높이 f(${x.toFixed(1)}) = <b style="color:#2563EB">${m.toFixed(4)}</b></span><br>`
+      + (Math.abs(num-m)<0.01 ? `<b style="color:#B45309">두 값이 같습니다 — 넓이를 미분하면 높이가 나옵니다.</b><br>` : '')
+      + (k==='const' ? `<b style="color:#7C3AED">높이가 일정하면 넓이는 직선으로 자랍니다 — 기울기가 늘 2 입니다.</b><br>` : '')
+      + (k==='sq' ? `<b style="color:#0E9384">넓이가 세제곱으로 자랍니다 — A(x) = x³/3 입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">x 를 옮기며 두 값이 계속 같은지 확인하세요.</span>`;
+  }
+  $('#ftX').oninput=draw; $('#ftK').onchange=draw; draw();
+  inquiry(root,{ id:'ft', title:'미적분의 기본정리 — 넓이의 기울기',
+    q:['세 f(t) 각각에서 (x, A(x), A 의 기울기, f(x)) 를 기록하세요.',
+       'A 의 기울기와 f 의 높이가 늘 같은지 확인하고 예외를 찾아보세요.',
+       'A(x) 를 손으로 적분해 구하고 화면 값과 맞는지 대조하세요.'],
+    cols:['f(t)','x','A(x)','A′(x)','f(x)'],
+    hint:'힌트 — 높이가 일정하면 넓이는 직선, 높이가 자라면 넓이는 곡선입니다.',
+    read:()=>{ const x=+$('#ftX').value, C=K[$('#ftK').value];
+      return [C.fs,x.toFixed(1),C.A(x).toFixed(4),((C.A(x+0.001)-C.A(x-0.001))/0.002).toFixed(4),C.f(x).toFixed(4)]; } });
+}
+
+/* ---------- LAB 139 정적분과 누적 — 속도 그래프의 넓이 ---------- */
+function accumDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ac1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">속도 그래프의 넓이가 곧 <b>이동</b>입니다.
+      축 아래(음수) 구간은 되돌아온 것이므로 <b>빼야</b> 합니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">운동 고르기<select id="acK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="fwd">① 계속 앞으로 (v ≥ 0)</option>
+        <option value="back">② 갔다가 되돌아오기 (v 가 음수로)</option>
+      </select></label>
+      ${slider('acT','끝 시각 t',1,8,0.5,4,'초')}
+      <div class="ctl" style="margin-top:8px"><label><input type="checkbox" id="acAbs"> 음수 구간도 그냥 더하기(잘못된 방법)</label></div>
+      <div class="out" id="acout"></div>
+      <div class="note" style="margin-top:12px">변위 = ∫v dt, 이동 거리 = ∫|v| dt.
+      두 값이 갈리는 순간이 <b>속도가 음수가 되는 때</b>입니다.</div>
+    </div></div>`;
+  const cv=$('#ac1'),ctx=cv.getContext('2d'),W=380,H=300,P=36;
+  const V={ fwd:t=>1+0.5*t, back:t=>4-t };
+  function draw(){
+    const k=$('#acK').value, T=+$('#acT').value, wrong=$('#acAbs').checked;
+    $('#acTv').textContent=T.toFixed(1)+'초';
+    const v=V[k];
+    const X=t=>P+(W-2*P)*t/8, Y=y=>H/2-20*y;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const N=400; let disp=0, dist=0;
+    for(let i=0;i<N;i++){ const t=T*i/N, dt=T/N; disp+=v(t)*dt; dist+=Math.abs(v(t))*dt; }
+    for(let i=0;i<N;i++){ const t=T*i/N, val=v(t);
+      ctx.fillStyle = val>=0 ? 'rgba(37,99,235,.22)' : 'rgba(190,18,60,.22)';
+      ctx.fillRect(X(t), val>=0?Y(val):Y(0), X(T/N)-X(0)+0.8, Math.abs(Y(val)-Y(0))); }
+    ctx.strokeStyle='#111827'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,Y(0)); ctx.lineTo(W-P,Y(0)); ctx.stroke();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.4; ctx.beginPath();
+    for(let px=0;px<=300;px++){ const t=8*px/300; px?ctx.lineTo(X(t),Y(v(t))):ctx.moveTo(X(t),Y(v(t))); }
+    ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('파랑 = 앞으로 간 넓이, 붉은 = 되돌아온 넓이', P, P-14);
+    const neg = dist-disp > 0.01;
+    $('#acout').innerHTML =
+      `<span class="mono">변위 ∫v dt = <b style="color:#2563EB">${disp.toFixed(3)}</b></span><br>`
+      + `<span class="mono">이동 거리 ∫|v| dt = <b style="color:#BE123C">${dist.toFixed(3)}</b></span><br>`
+      + (neg ? `<b style="color:#B45309">두 값이 갈라졌습니다 — 되돌아온 구간이 생겼습니다.</b><br>`
+             : `아직 두 값이 같습니다 — 계속 한 방향으로만 갔습니다.<br>`)
+      + (wrong && neg ? `<b style="color:#7C3AED">부호를 무시하고 더하면 ${dist.toFixed(3)} — 실제 위치 변화보다 크게 나옵니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">넓이에 부호를 살릴지 말지가 두 물음(어디에 있나 / 얼마나 움직였나)을 가릅니다.</span>`;
+  }
+  $('#acK').onchange=draw; $('#acT').oninput=draw; $('#acAbs').onchange=draw; draw();
+  inquiry(root,{ id:'ac', title:'정적분과 누적 — 부호 있는 넓이',
+    q:['②(되돌아오기)에서 끝 시각을 늘리며 (변위, 이동 거리) 를 다섯 줄 기록하세요.',
+       '두 값이 갈라지기 시작하는 시각을 찾고 그 이유를 쓰세요.',
+       '「어디에 있나」와 「얼마나 움직였나」를 각각 어느 적분으로 구하는지 정리하세요.'],
+    cols:['운동','끝 시각','변위','이동 거리','차이'],
+    hint:'힌트 — v(t) = 4 − t 는 t = 4 부터 음수가 됩니다.',
+    read:()=>{ const k=$('#acK').value,T=+$('#acT').value,v=V[k],N=400; let d=0,s=0;
+      for(let i=0;i<N;i++){ const t=T*i/N,dt=T/N; d+=v(t)*dt; s+=Math.abs(v(t))*dt; }
+      return [k==='fwd'?'앞으로':'왕복',T.toFixed(1),d.toFixed(3),s.toFixed(3),(s-d).toFixed(3)]; } });
+}
+
+/* ---------- LAB 140 두 곡선 사이의 넓이 — 위아래가 바뀌는 자리 ---------- */
+function betweenDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="bt1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">두 그래프가 <b>교차하는 자리</b>에서 위아래가 바뀝니다.
+      나누지 않고 한 번에 적분하면 넓이가 서로 상쇄됩니다.</div>
+    </div>
+    <div class="col">
+      ${slider('btA','직선 y = ax 의 a',-1,3,0.1,1,'')}
+      ${slider('btL','적분 구간의 왼쪽 끝',-2,0,0.1,0,'')}
+      ${slider('btR','적분 구간의 오른쪽 끝',0.5,3,0.1,1,'')}
+      <div class="ctl" style="margin-top:8px"><label><input type="checkbox" id="btSplit"> 교점에서 나누어 계산</label></div>
+      <div class="out" id="btout"></div>
+      <div class="note" style="margin-top:12px">넓이 = ∫|위 − 아래| dx.
+      절댓값을 살리려면 <b>교점에서 구간을 끊어야</b> 합니다.</div>
+    </div></div>`;
+  const cv=$('#bt1'),ctx=cv.getContext('2d'),W=380,H=300,P=34;
+  function draw(){
+    const a=+$('#btA').value, L=+$('#btL').value, R=+$('#btR').value, split=$('#btSplit').checked;
+    $('#btAv').textContent=a.toFixed(1); $('#btLv').textContent=L.toFixed(1); $('#btRv').textContent=R.toFixed(1);
+    const f=x=>x*x, g=x=>a*x;
+    const X=x=>W/2+70*x, Y=y=>H-P-52*y;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,Y(0)); ctx.lineTo(W-P,Y(0)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(0),P-14); ctx.lineTo(X(0),H-P); ctx.stroke();
+    const N=300; let signed=0, absArea=0;
+    for(let i=0;i<N;i++){ const x=L+(R-L)*i/N, dx=(R-L)/N, d=g(x)-f(x);
+      signed+=d*dx; absArea+=Math.abs(d)*dx;
+      ctx.fillStyle = d>=0 ? 'rgba(14,147,132,.22)' : 'rgba(190,18,60,.20)';
+      const y1=Y(f(x)), y2=Y(g(x));
+      ctx.fillRect(X(x), Math.min(y1,y2), Math.max(1.4,X(dx)-X(0)), Math.abs(y2-y1)); }
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.2; ctx.beginPath();
+    for(let px=0;px<=300;px++){ const x=-2.4+5.2*px/300; px?ctx.lineTo(X(x),Y(f(x))):ctx.moveTo(X(x),Y(f(x))); }
+    ctx.stroke();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.2; ctx.beginPath();
+    ctx.moveTo(X(-2.4),Y(g(-2.4))); ctx.lineTo(X(2.8),Y(g(2.8))); ctx.stroke();
+    [0,a].forEach(r=>{ if(r>=L-0.001&&r<=R+0.001){ ctx.fillStyle='#111827';
+      ctx.beginPath(); ctx.arc(X(r),Y(f(r)),3.6,0,7); ctx.fill(); } });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('초록 = 직선이 위, 붉은 = 포물선이 위', P, P-18);
+    const crossInside = (0>L+0.001&&0<R-0.001)||(a>L+0.001&&a<R-0.001);
+    const mixed = Math.abs(absArea-Math.abs(signed))>0.01;
+    $('#btout').innerHTML =
+      `<span class="mono">교점 x = 0 과 x = ${a.toFixed(1)} · 구간 [${L.toFixed(1)}, ${R.toFixed(1)}]</span><br>`
+      + `<span class="mono">그냥 적분 ∫(직선 − 포물선) = <b>${signed.toFixed(4)}</b></span><br>`
+      + `<span class="mono">실제 넓이 ∫|직선 − 포물선| = <b style="color:#0E9384">${absArea.toFixed(4)}</b></span><br>`
+      + (mixed ? `<b style="color:#B45309">위아래가 뒤바뀐 구간이 섞여 — 두 값이 다릅니다 (상쇄가 일어났습니다).</b><br>` : '')
+      + (split && mixed ? `<b style="color:#7C3AED">교점에서 끊어 각각 계산하면 실제 넓이 ${absArea.toFixed(4)} 를 얻습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">구간을 옮겨 두 값이 같아지는 경우도 만들어 보세요.</span>`;
+  }
+  ['btA','btL','btR'].forEach(i=>$('#'+i).oninput=draw); $('#btSplit').onchange=draw; draw();
+  inquiry(root,{ id:'bt', title:'두 곡선 사이 — 상쇄를 막는 법',
+    q:['구간을 옮기며 (그냥 적분, 실제 넓이) 를 다섯 줄 기록하세요.',
+       '두 값이 달라지는 구간의 공통점은 무엇인가요?',
+       '교점을 먼저 구해야 하는 이유를 한 문장으로 쓰세요.'],
+    cols:['a','왼쪽','오른쪽','그냥 적분','실제 넓이'],
+    hint:'힌트 — 교점은 x² = ax 를 풀어 x = 0 과 x = a 입니다.',
+    read:()=>{ const a=+$('#btA').value,L=+$('#btL').value,R=+$('#btR').value,N=300; let s=0,ab=0;
+      for(let i=0;i<N;i++){ const x=L+(R-L)*i/N,dx=(R-L)/N,d=a*x-x*x; s+=d*dx; ab+=Math.abs(d)*dx; }
+      return [a.toFixed(1),L.toFixed(1),R.toFixed(1),s.toFixed(4),ab.toFixed(4)]; } });
+}
+
+/* ---------- LAB 141 회전체의 부피 — 그릇을 원판으로 자르다 ---------- */
+function solidDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sd3" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">곡선을 축 둘레로 돌리면 그릇이 됩니다.
+      얇은 <b>원판</b>으로 잘라 πr²·Δx 를 더하는 것이 부피입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('slN','원판 개수',3,120,1,6,'개')}
+      ${slider('slH','그릇 높이 (0 부터 h 까지)',1,4,0.1,2,'')}
+      <label class="ctl" style="margin-top:8px">단면 반지름 r(x)<select id="slK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="lin">① r = x (원뿔)</option>
+        <option value="sqrt">② r = √x (포물선 그릇)</option>
+        <option value="one">③ r = 1 (원기둥)</option>
+      </select></label>
+      <div class="out" id="slout"></div>
+      <div class="note" style="margin-top:12px">V = π∫r(x)² dx.
+      <b>반지름을 제곱한 뒤</b> 더해야 합니다 — 더한 뒤 제곱하면 틀립니다.</div>
+    </div></div>`;
+  const cv=$('#sd3'),ctx=cv.getContext('2d'),W=380,H=300,P=34;
+  const R={ sqrt:{r:x=>Math.sqrt(x), s:'√x', V:h=>Math.PI*h*h/2, es:'πh²/2'},
+            lin:{r:x=>x, s:'x', V:h=>Math.PI*h*h*h/3, es:'πh³/3'},
+            one:{r:()=>1, s:'1', V:h=>Math.PI*h, es:'πh'} };
+  function draw(){
+    const n=+$('#slN').value, h=+$('#slH').value, k=$('#slK').value, C=R[k];
+    $('#slNv').textContent=n+'개'; $('#slHv').textContent=h.toFixed(1);
+    const X=x=>P+(W-2*P)*x/4.2, Y=y=>H/2-46*y;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,Y(0)); ctx.lineTo(W-P,Y(0)); ctx.stroke();
+    const dx=h/n; let sum=0;
+    for(let i=0;i<n;i++){ const xm=(i+0.5)*dx, r=C.r(xm); sum+=Math.PI*r*r*dx;
+      ctx.fillStyle='rgba(37,99,235,.18)'; ctx.fillRect(X(i*dx),Y(r),X(dx)-X(0),Y(-r)-Y(r));
+      if(n<=30){ ctx.strokeStyle='#2563EB'; ctx.lineWidth=0.7; ctx.strokeRect(X(i*dx),Y(r),X(dx)-X(0),Y(-r)-Y(r)); } }
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2.2;
+    [1,-1].forEach(sgn=>{ ctx.beginPath();
+      for(let px=0;px<=240;px++){ const x=4.2*px/240, y=sgn*C.r(x);
+        px?ctx.lineTo(X(x),Y(y)):ctx.moveTo(X(x),Y(y)); } ctx.stroke(); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('r(x) = '+C.s+' · 원판 두께 Δx = '+dx.toFixed(3), P, P-14);
+    const exact=C.V(h), err=Math.abs(sum-exact);
+    $('#slout').innerHTML =
+      `<span class="mono">원판 합 Σπr²Δx = <b>${sum.toFixed(4)}</b></span><br>`
+      + `<span class="mono">정확한 값 V = ${C.es} = <b style="color:#0E9384">${exact.toFixed(4)}</b> · 오차 ${err.toFixed(4)}</span><br>`
+      + (err<0.005 ? `<b style="color:#B45309">오차가 0.005 아래 — 원판 합이 참값에 닿았습니다.</b><br>` : '')
+      + (k==='one' ? `<b style="color:#7C3AED">반지름이 일정하면 원기둥 — 부피가 높이에 정비례합니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">개수를 늘릴수록 계단 모양이 매끄러운 그릇에 가까워집니다.</span>`;
+  }
+  ['slN','slH'].forEach(i=>$('#'+i).oninput=draw); $('#slK').onchange=draw; draw();
+  inquiry(root,{ id:'sl', title:'회전체의 부피 — 원판으로 자르기',
+    q:['세 모양 각각에서 원판 개수를 늘리며 (합, 정확한 값, 오차) 를 기록하세요.',
+       '높이를 두 배로 하면 부피는 몇 배가 되나요? 모양마다 다른가요?',
+       'V = π∫r² dx 를 손으로 계산해 화면의 정확한 값과 대조하세요.'],
+    cols:['모양','n','높이','원판 합','오차'],
+    hint:'힌트 — 원뿔은 h³ 에, 원기둥은 h 에 비례합니다.',
+    read:()=>{ const n=+$('#slN').value,h=+$('#slH').value,C=R[$('#slK').value],dx=h/n; let sum=0;
+      for(let i=0;i<n;i++){ const r=C.r((i+0.5)*dx); sum+=Math.PI*r*r*dx; }
+      return [C.s,n,h.toFixed(1),sum.toFixed(4),Math.abs(sum-C.V(h)).toFixed(4)]; } });
+}

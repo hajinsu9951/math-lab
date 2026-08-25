@@ -1,0 +1,18 @@
+import fs from 'node:fs';
+const s = fs.readFileSync('src/40-demos.js', 'utf8');
+const nLabs = (s.match(/\{n:\d+,core:/g) || []).length;
+const nThumb = (s.match(/ svg\(`/g) || []).length;
+const nPrins = (s.match(/tex:\[/g) || []).length;
+const i0 = s.indexOf('const MISSIONS=');
+const mm = s.slice(i0).match(/^const MISSIONS=\{[\s\S]*?\n\};/);
+const M = new Function('return ' + mm[0].slice('const MISSIONS='.length, -1))();
+const nMiss = Object.keys(M).length;
+const cat = fs.readFileSync('src/55-catalog.js', 'utf8');
+const nCat = (cat.slice(cat.indexOf('const LABCAT')).match(/\{k:/g) || []).length;
+console.log(`LABS ${nLabs} | THUMBS ${nThumb} | PRINS ${nPrins} | MISSIONS ${nMiss} | LABCAT ${nCat}`);
+const short = Object.entries(M).filter(([, v]) => v.length !== 5).map(([k, v]) => k + '(' + v.length + ')');
+if (short.length) console.log('5단계가 아닌 실험실:', short.join(', '));
+const noRe = Object.entries(M).filter(([, v]) => v.filter(x => x.re).length < 2).map(([k]) => k);
+if (noRe.length) console.log('자동확인 2단계 미만:', noRe.join(', '));
+if (new Set([nLabs, nThumb, nPrins, nCat]).size !== 1) throw new Error('계층 불일치');
+console.log('계층 정합 OK');

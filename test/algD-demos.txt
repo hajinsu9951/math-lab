@@ -1,0 +1,363 @@
+/* ---------- LAB 127 좌극한·우극한 — 주차 요금의 정각 ---------- */
+function lrLimDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ll1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">x = 2 에 <b>왼쪽에서</b> 다가갈 때와 <b>오른쪽에서</b> 다가갈 때를
+      각각 따라가 보세요. 두 값이 늘 같지는 않습니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">상황 고르기<select id="llK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="cont">① 이어진 그래프 — 기온 곡선</option>
+        <option value="park">② 계단 — 주차 요금 (1시간마다 2000원)</option>
+        <option value="hole">③ 구멍 — (x²−4)/(x−2)</option>
+      </select></label>
+      ${slider('llH','x = 2 에서 떨어진 거리 h',1,60,1,40,'')}
+      <div class="out" id="llout"></div>
+      <div class="note" style="margin-top:12px">극한은 <b>「그 점의 값」이 아니라 「다가가는 값」</b>입니다.
+      좌극한과 우극한이 같을 때만 극한이 있다고 말합니다.</div>
+    </div></div>`;
+  const cv=$('#ll1'),ctx=cv.getContext('2d'),W=380,H=300,P=40;
+  const f={ cont:x=>1.2*x+1.6, park:x=>2*(Math.floor(x)+1), hole:x=>x+2 };
+  const hval=i=>Math.pow(10,-(i/20));
+  function draw(){
+    const k=$('#llK').value, hi=+$('#llH').value, h=hval(hi);
+    $('#llHv').textContent=h.toFixed(4);
+    const X=x=>P+(W-2*P)*(x-0)/4, Y=y=>H-P-(H-2*P)*(y-0)/8;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1;
+    for(let g=0;g<=4;g++){ ctx.beginPath(); ctx.moveTo(X(g),P-6); ctx.lineTo(X(g),H-P); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF'; ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+    for(let g=0;g<=4;g++) ctx.fillText(g, X(g), H-P+14);
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.2;
+    if(k==='park'){
+      for(let s=0;s<4;s++){ const y=f.park(s+0.5);
+        ctx.beginPath(); ctx.moveTo(X(s),Y(y)); ctx.lineTo(X(s+1)-1,Y(y)); ctx.stroke();
+        ctx.fillStyle='#2563EB'; ctx.beginPath(); ctx.arc(X(s),Y(y),3.2,0,7); ctx.fill();
+        ctx.fillStyle='#fff'; ctx.strokeStyle='#2563EB'; ctx.lineWidth=1.6;
+        ctx.beginPath(); ctx.arc(X(s+1)-1,Y(y),3.2,0,7); ctx.fill(); ctx.stroke();
+        ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.2; }
+    }else{
+      ctx.beginPath();
+      for(let px=0;px<=300;px++){ const x=px/300*4; if(k==='hole'&&Math.abs(x-2)<0.02) continue;
+        const y=f[k](x); px?ctx.lineTo(X(x),Y(y)):ctx.moveTo(X(x),Y(y)); }
+      ctx.stroke();
+      if(k==='hole'){ ctx.fillStyle='#fff'; ctx.strokeStyle='#2563EB'; ctx.lineWidth=1.8;
+        ctx.beginPath(); ctx.arc(X(2),Y(4),4.2,0,7); ctx.fill(); ctx.stroke(); }
+    }
+    const L=k==='park'?f.park(2-h):f[k](2-h), R=k==='park'?f.park(2+h):f[k](2+h);
+    ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(2-h),Y(L),4.4,0,7); ctx.fill();
+    ctx.fillStyle='#0E9384'; ctx.beginPath(); ctx.arc(X(2+h),Y(R),4.4,0,7); ctx.fill();
+    ctx.setLineDash([4,4]); ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(X(2),P-6); ctx.lineTo(X(2),H-P); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('붉은 = 왼쪽에서, 초록 = 오른쪽에서', P, P-16);
+    const e=1e-7;
+    const LL=k==='park'?f.park(2-e):f[k](2-e), RR=k==='park'?f.park(2+e):f[k](2+e);
+    const same=Math.abs(LL-RR)<1e-4;
+    const fv = k==='park' ? f.park(2) : (k==='hole' ? null : f.cont(2));
+    $('#llout').innerHTML =
+      `<span class="mono">f(2−h) = <b style="color:#BE123C">${L.toFixed(4)}</b> &nbsp; (h = ${h.toFixed(4)})</span><br>`
+      + `<span class="mono">f(2+h) = <b style="color:#0E9384">${R.toFixed(4)}</b></span><br>`
+      + `<span class="mono">f(2) = <b>${fv===null?'정의되지 않음':fv.toFixed(2)}</b></span><br>`
+      + (!same ? `<b style="color:#B45309">좌극한 ≠ 우극한 — 이 점에서 극한은 없습니다.</b><br>`
+               : (fv===null ? `<b style="color:#7C3AED">좌우가 같아 극한은 ${LL.toFixed(2)} — 그런데 함숫값이 없는 구멍입니다.</b><br>`
+                            : `좌우가 같아 극한이 있고, 함숫값과도 같습니다 — 연속입니다.<br>`))
+      + `<span style="color:#6B7280;font-size:12.5px">h 를 줄일수록 두 점이 x = 2 로 다가갑니다. 도착하지는 않습니다.</span>`;
+  }
+  $('#llK').onchange=draw; $('#llH').oninput=draw; draw();
+  inquiry(root,{ id:'ll', title:'좌극한과 우극한 — 다가가는 값',
+    q:['세 상황 각각에서 (좌극한, 우극한, f(2)) 를 기록하세요.',
+       '극한이 있는데 함숫값과 다른 경우는 어느 것이었나요?',
+       '「극한이 있다」의 조건을 좌·우 두 값으로 한 문장으로 쓰세요.'],
+    cols:['상황','h','좌극한','우극한','f(2)','극한 있나'],
+    hint:'힌트 — 계단에서는 h 를 아무리 줄여도 두 값의 차이가 그대로 남습니다.',
+    read:()=>{ const k=$('#llK').value,h=hval(+$('#llH').value);
+      const L=k==='park'?f.park(2-h):f[k](2-h), R=k==='park'?f.park(2+h):f[k](2+h);
+      const e=1e-7, LL=k==='park'?f.park(2-e):f[k](2-e), RR=k==='park'?f.park(2+e):f[k](2+e);
+      return [{cont:'이어진',park:'계단',hole:'구멍'}[k],h.toFixed(4),L.toFixed(3),R.toFixed(3),
+        k==='hole'?'없음':(k==='park'?f.park(2):f.cont(2)).toFixed(2), Math.abs(LL-RR)<1e-4?'있음':'없음']; } });
+}
+
+/* ---------- LAB 128 0/0 꼴 — 계산기가 오류를 내는 자리 ---------- */
+function zeroDivDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="z01" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">표의 x 가 a 에 다가갈 때 값이 어디로 모이는지 보세요.
+      <b>a 를 대입하면 0/0</b> 이지만, 다가가는 값은 정해져 있습니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">식 고르기<select id="zdK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="B">① (x−1)/(x²−1),  x → 1</option>
+        <option value="A">② (x²−4)/(x−2),  x → 2</option>
+        <option value="C">③ (√(x+4)−2)/x,  x → 0</option>
+      </select></label>
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="zdSub">a 를 그대로 대입</button>
+        <button class="b g sm" id="zdFac">약분·유리화해 보기</button>
+      </div>
+      <div class="out" id="zdout"></div>
+      <div class="note" style="margin-top:12px">0/0 은 <b>부정형</b>입니다 — 답이 없는 게 아니라
+      「이 꼴만으로는 정할 수 없다」는 뜻입니다. 식을 고쳐야 값이 드러납니다.</div>
+    </div></div>`;
+  const cv=$('#z01'),ctx=cv.getContext('2d'),W=380,H=300,P=38;
+  const K={ A:{a:2,L:4, f:x=>(x*x-4)/(x-2), s:'(x²−4)/(x−2)', red:'x + 2', how:'분자를 (x−2)(x+2) 로 인수분해해 약분'},
+            B:{a:1,L:0.5,f:x=>(x-1)/(x*x-1), s:'(x−1)/(x²−1)', red:'1/(x + 1)', how:'분모를 (x−1)(x+1) 로 인수분해해 약분'},
+            C:{a:0,L:0.25,f:x=>(Math.sqrt(x+4)-2)/x, s:'(√(x+4)−2)/x', red:'1/(√(x+4) + 2)', how:'분자를 유리화(켤레를 곱하기)'} };
+  const S={ sub:false, fac:false };
+  function draw(){
+    const k=$('#zdK').value, C=K[k], a=C.a;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const x0=a-1.6, x1=a+1.6, y0=C.L-1.4, y1=C.L+1.4;
+    const X=x=>P+(W-2*P)*(x-x0)/(x1-x0), Y=y=>H-P-(H-2*P)*(y-y0)/(y1-y0);
+    ctx.strokeStyle='#E5E7EB'; ctx.beginPath(); ctx.moveTo(P,Y(C.L)); ctx.lineTo(W-P,Y(C.L)); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.2; ctx.beginPath();
+    let started=false;
+    for(let px=0;px<=320;px++){ const x=x0+(x1-x0)*px/320; if(Math.abs(x-a)<0.012){ started=false; continue; }
+      const y=C.f(x); if(!isFinite(y)) { started=false; continue; }
+      if(started) ctx.lineTo(X(x),Y(y)); else { ctx.moveTo(X(x),Y(y)); started=true; } }
+    ctx.stroke();
+    ctx.fillStyle='#fff'; ctx.strokeStyle='#2563EB'; ctx.lineWidth=1.8;
+    ctx.beginPath(); ctx.arc(X(a),Y(C.L),4.4,0,7); ctx.fill(); ctx.stroke();
+    [0.5,0.1,0.02].forEach(d=>{
+      ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(a-d),Y(C.f(a-d)),3.4,0,7); ctx.fill();
+      ctx.fillStyle='#0E9384'; ctx.beginPath(); ctx.arc(X(a+d),Y(C.f(a+d)),3.4,0,7); ctx.fill(); });
+    ctx.setLineDash([4,4]); ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(X(a),P-6); ctx.lineTo(X(a),H-P); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('x = '+a+' 만 비어 있습니다', P, P-16);
+    let rows='';
+    [0.1,0.01,0.001].forEach(d=>{ rows += `<span class="mono">x = ${(a-d).toFixed(3)} → ${C.f(a-d).toFixed(5)}`
+      + ` &nbsp;|&nbsp; x = ${(a+d).toFixed(3)} → ${C.f(a+d).toFixed(5)}</span><br>`; });
+    $('#zdout').innerHTML =
+      `<span class="mono">f(x) = ${C.s},  x → ${a}</span><br>` + rows
+      + (S.sub ? `<b style="color:#B45309">그대로 대입하면 0 ÷ 0 — 값이 정해지지 않는 부정형입니다.</b><br>` : '')
+      + (S.fac ? `<b style="color:#7C3AED">식을 고치면 ${C.red} — 구멍 하나만 남고 값이 보입니다 (${C.how}).</b><br>` : '')
+      + `양쪽에서 <b style="color:#2563EB">${C.L}</b> 로 다가갑니다.<br>`
+      + `<span style="color:#6B7280;font-size:12.5px">표의 두 열이 같은 수로 좁혀지면 그것이 극한값입니다.</span>`;
+  }
+  $('#zdK').onchange=()=>{ S.sub=false; S.fac=false; draw(); };
+  $('#zdSub').onclick=()=>{ S.sub=true; draw(); };
+  $('#zdFac').onclick=()=>{ S.fac=true; draw(); };
+  draw();
+  inquiry(root,{ id:'zd', title:'0/0 꼴 — 대입 말고 다가가기',
+    q:['세 식 각각에서 x = a±0.001 의 값을 기록하고 극한값을 적으세요.',
+       '왜 「대입」이 아니라 「다가가기」여야 하는지 한 문장으로 쓰세요.',
+       '각 식을 손으로 고쳐(인수분해·유리화) 극한값이 표와 맞는지 확인하세요.'],
+    cols:['식','a','왼쪽 값','오른쪽 값','극한값'],
+    hint:'힌트 — 0/0 은 「모른다」가 아니라 「이 모양으로는 아직 모른다」입니다.',
+    read:()=>{ const C=K[$('#zdK').value];
+      return [C.s, C.a, C.f(C.a-0.001).toFixed(5), C.f(C.a+0.001).toFixed(5), C.L]; } });
+}
+
+/* ---------- LAB 129 불연속의 세 종류 — 어떤 끊김은 고칠 수 있다 ---------- */
+function discontDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="dc1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">끊긴 자리를 <b>한 점만 고쳐서</b> 이을 수 있는지 보세요.
+      고칠 수 있는 끊김과 그렇지 않은 끊김이 있습니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">끊김 고르기<select id="dcK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="jump">① 점프 — 배송비가 뛰는 지점</option>
+        <option value="hole">② 구멍 — 한 점만 빠진 그래프</option>
+        <option value="inf">③ 무한 — 1/(x−2)²</option>
+      </select></label>
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="dcFix">그 점의 값을 고쳐 보기</button></div>
+      <div class="out" id="dcout"></div>
+      <div class="note" style="margin-top:12px">연속의 세 조건 — ① f(a) 가 있고 ② 극한이 있고 ③ 둘이 같아야 합니다.
+      어느 조건이 깨졌는지가 끊김의 <b>종류</b>를 정합니다.</div>
+    </div></div>`;
+  const cv=$('#dc1'),ctx=cv.getContext('2d'),W=380,H=300,P=38;
+  const S={ fix:false };
+  function draw(){
+    const k=$('#dcK').value;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const X=x=>P+(W-2*P)*x/4, Y=y=>H-P-(H-2*P)*y/8;
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+    for(let g=0;g<=4;g++) ctx.fillText(g, X(g), H-P+14);
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.2;
+    const gL=k==='jump'?2.6:4, gR=k==='jump'?5.4:4;
+    if(k==='inf'){
+      [[0.05,1.95],[2.05,3.95]].forEach(seg=>{ ctx.beginPath();
+        for(let px=0;px<=160;px++){ const x=seg[0]+(seg[1]-seg[0])*px/160, y=Math.min(1/((x-2)*(x-2)),7.6);
+          px?ctx.lineTo(X(x),Y(y)):ctx.moveTo(X(x),Y(y)); } ctx.stroke(); });
+    }else{
+      ctx.beginPath(); ctx.moveTo(X(0.1),Y(k==='jump'?2.6:4-0));
+      for(let px=0;px<=150;px++){ const x=0.1+(1.98-0.1)*px/150, y=k==='jump'?2.6:(x+2);
+        px?ctx.lineTo(X(x),Y(y)):ctx.moveTo(X(x),Y(y)); } ctx.stroke();
+      ctx.beginPath();
+      for(let px=0;px<=150;px++){ const x=2.02+(3.9-2.02)*px/150, y=k==='jump'?5.4:(x+2);
+        px?ctx.lineTo(X(x),Y(y)):ctx.moveTo(X(x),Y(y)); } ctx.stroke();
+      ctx.fillStyle='#fff'; ctx.strokeStyle='#2563EB'; ctx.lineWidth=1.8;
+      ctx.beginPath(); ctx.arc(X(2),Y(gL),4.4,0,7); ctx.fill(); ctx.stroke();
+      if(k==='jump'){ ctx.beginPath(); ctx.arc(X(2),Y(gR),4.4,0,7); ctx.fill(); ctx.stroke(); }
+    }
+    if(S.fix){ ctx.fillStyle='#BE123C';
+      const yv = k==='inf' ? 7.4 : (k==='hole' ? 4 : 4);
+      ctx.beginPath(); ctx.arc(X(2),Y(yv),4.6,0,7); ctx.fill();
+      ctx.font='10px sans-serif'; ctx.textAlign='left'; ctx.fillText('고쳐 넣은 값', X(2)+8, Y(yv)-4); }
+    ctx.setLineDash([4,4]); ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(X(2),P-6); ctx.lineTo(X(2),H-P); ctx.stroke(); ctx.setLineDash([]);
+    const T={ jump:{L:'2.6',R:'5.4',lim:'없음(좌우가 다름)',name:'점프 불연속',
+                fix:'좌우 값이 애초에 다르므로, 어떤 값을 넣어도 한쪽은 여전히 끊깁니다.'},
+              hole:{L:'4',R:'4',lim:'4',name:'제거 가능한 불연속',
+                fix:'극한값 4 를 그 점의 값으로 정하면 그래프가 완전히 이어집니다.'},
+              inf:{L:'+∞',R:'+∞',lim:'없음(발산)',name:'무한 불연속',
+                fix:'값이 무한히 커지므로 유한한 어떤 수를 넣어도 이을 수 없습니다.'} }[k];
+    $('#dcout').innerHTML =
+      `<span class="mono">좌극한 = ${T.L} · 우극한 = ${T.R} · 극한 = ${T.lim}</span><br>`
+      + `종류 — <b style="color:#2563EB">${T.name}</b><br>`
+      + (k==='hole' ? `<b style="color:#7C3AED">한 점만 고치면 이어집니다 — 고칠 수 있는 끊김입니다.</b><br>` : '')
+      + (k==='inf' ? `<b style="color:#B45309">값이 무한대로 치솟아 — 어떤 값을 넣어도 이을 수 없습니다.</b><br>` : '')
+      + (S.fix ? `고쳐 넣기 결과 — ${T.fix}<br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">연속의 세 조건 중 무엇이 깨졌는지 말해 보세요.</span>`;
+  }
+  $('#dcK').onchange=()=>{ S.fix=false; draw(); };
+  $('#dcFix').onclick=()=>{ S.fix=true; draw(); };
+  draw();
+  inquiry(root,{ id:'dc', title:'불연속의 종류 — 고칠 수 있는 끊김',
+    q:['세 끊김 각각에서 (좌극한, 우극한, 극한, 종류) 를 기록하세요.',
+       '연속의 세 조건 중 각각 어느 것이 깨졌는지 적으세요.',
+       '「값 하나를 고쳐 이을 수 있다」의 조건을 극한으로 표현하세요.'],
+    cols:['끊김','좌극한','우극한','극한','종류'],
+    hint:'힌트 — 극한이 있어야 고칠 수 있습니다. 극한이 없으면 손쓸 방법이 없습니다.',
+    read:()=>{ const k=$('#dcK').value;
+      const T={jump:['점프','2.6','5.4','없음','점프 불연속'],hole:['구멍','4','4','4','제거 가능'],
+               inf:['무한','+∞','+∞','없음','무한 불연속']}[k]; return T; } });
+}
+
+/* ---------- LAB 130 사잇값 정리 — 부호만으로 근을 좁힌다 ---------- */
+function ivtDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="iv1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">양 끝의 <b>부호가 다르면</b> 그 사이 어딘가에서 반드시 0 을 지납니다.
+      값을 몰라도 <b>있다</b>는 것은 알 수 있습니다.</div>
+    </div>
+    <div class="col">
+      ${slider('ivA','왼쪽 끝 a',-2,3,0.1,0,'')}
+      ${slider('ivB','오른쪽 끝 b',-1,4,0.1,1,'')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="ivHalf">구간을 반으로 자르기</button>
+        <button class="b g sm" id="ivReset">처음으로</button>
+      </div>
+      <div class="out" id="ivout"></div>
+      <div class="note" style="margin-top:12px">f(x) = x³ − x − 1 은 연속입니다.
+      연속이라는 전제가 있어야 <b>중간값</b>을 반드시 지난다고 말할 수 있습니다.</div>
+    </div></div>`;
+  const cv=$('#iv1'),ctx=cv.getContext('2d'),W=380,H=300,P=38;
+  const f=x=>x*x*x-x-1;
+  const S={ a:0, b:1, cuts:0 };
+  function draw(){
+    const a=S.a, b=S.b;
+    $('#ivAv').textContent=a.toFixed(2); $('#ivBv').textContent=b.toFixed(2);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const X=x=>P+(W-2*P)*(x+2)/6, Y=y=>H/2-(H/2-P)*y/6;
+    ctx.strokeStyle='#E5E7EB'; ctx.beginPath(); ctx.moveTo(P,Y(0)); ctx.lineTo(W-P,Y(0)); ctx.stroke();
+    ctx.fillStyle='rgba(37,99,235,.07)'; ctx.fillRect(X(Math.min(a,b)),P-6,Math.abs(X(b)-X(a)),H-P-(P-6));
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.2; ctx.beginPath();
+    for(let px=0;px<=320;px++){ const x=-2+6*px/320, y=Math.max(-6,Math.min(6,f(x)));
+      px?ctx.lineTo(X(x),Y(y)):ctx.moveTo(X(x),Y(y)); }
+    ctx.stroke();
+    const fa=f(a), fb=f(b);
+    ctx.fillStyle=fa<0?'#BE123C':'#0E9384'; ctx.beginPath(); ctx.arc(X(a),Y(Math.max(-6,Math.min(6,fa))),4.6,0,7); ctx.fill();
+    ctx.fillStyle=fb<0?'#BE123C':'#0E9384'; ctx.beginPath(); ctx.arc(X(b),Y(Math.max(-6,Math.min(6,fb))),4.6,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('붉은 = 음수, 초록 = 양수', P, P-16);
+    ctx.fillText('f(x) = x³ − x − 1', P, H-14);
+    const diff=fa*fb<0, w=Math.abs(b-a), mid=(a+b)/2;
+    const dig = w<0.005 ? 3 : (w<0.05 ? 2 : (w<0.5 ? 1 : 0));
+    $('#ivout').innerHTML =
+      `<span class="mono">f(${a.toFixed(3)}) = <b style="color:${fa<0?'#BE123C':'#0E9384'}">${fa.toFixed(4)}</b>`
+      + ` &nbsp; f(${b.toFixed(3)}) = <b style="color:${fb<0?'#BE123C':'#0E9384'}">${fb.toFixed(4)}</b></span><br>`
+      + `<span class="mono">구간 폭 = ${w.toFixed(4)} · 자른 횟수 ${S.cuts}회</span><br>`
+      + (diff ? `<b style="color:#7C3AED">부호가 달라 — 이 구간 안에 근이 반드시 있습니다.</b><br>`
+              : `부호가 같아 — 이 구간만으로는 근이 있는지 알 수 없습니다.<br>`)
+      + (diff && w<0.01 ? `<b style="color:#B45309">근을 소수 둘째 자리까지 확정 — 근 ≈ ${mid.toFixed(2)}</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">한 번 자를 때마다 구간 폭이 절반이 됩니다 — ${dig} 자리까지 좁혀졌습니다.</span>`;
+  }
+  $('#ivHalf').onclick=()=>{
+    const mid=(S.a+S.b)/2;
+    if(f(S.a)*f(mid)<=0) S.b=mid; else S.a=mid;
+    S.cuts++; draw(); };
+  $('#ivReset').onclick=()=>{ $('#ivA').value=0; $('#ivB').value=1; S.a=0; S.b=1; S.cuts=0; draw(); };
+  ['ivA','ivB'].forEach(i=>$('#'+i).oninput=()=>{ S.a=+$('#ivA').value; S.b=+$('#ivB').value; S.cuts=0; draw(); }); draw();
+  inquiry(root,{ id:'iv', title:'사잇값 정리 — 부호가 알려 주는 근',
+    q:['부호가 다른 구간을 찾고, 반으로 자르기를 8번 이상 눌러 근을 좁히세요.',
+       '(자른 횟수, 구간 폭, 중점) 을 표로 남기세요 — 폭은 어떤 규칙으로 줄어드나요?',
+       '이 방법이 통하려면 함수에 어떤 성질이 필요한지 쓰세요.'],
+    cols:['a','b','f(a) 부호','f(b) 부호','폭','중점'],
+    hint:'힌트 — [1, 2] 에서 시작해 보세요. f(1) = −1, f(2) = 5 입니다.',
+    read:()=>{ const a=S.a,b=S.b;
+      return [a.toFixed(4),b.toFixed(4),f(a)<0?'−':'+',f(b)<0?'−':'+',Math.abs(b-a).toFixed(4),((a+b)/2).toFixed(4)]; } });
+}
+
+/* ---------- LAB 131 최대·최소 정리 — 닫아야 보장된다 ---------- */
+function evtDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ev1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">같은 함수라도 <b>구간을 어떻게 잡느냐</b>에 따라
+      최댓값이 있기도, 없기도 합니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">구간 <select id="evI" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="cl">① 닫힌구간 [0, 4] — 양 끝 포함</option>
+        <option value="op">② 열린구간 (0, 4) — 양 끝 제외</option>
+      </select></label>
+      <label class="ctl" style="margin-top:8px">함수 <select id="evF" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="cont">③ 이어진 함수</option>
+        <option value="jump">④ 중간에 끊긴 함수</option>
+      </select></label>
+      <div class="out" id="evout"></div>
+      <div class="note" style="margin-top:12px">최대·최소 정리 — <b>닫힌구간에서 연속</b>이면
+      최댓값과 최솟값이 반드시 있습니다. 두 조건 중 하나만 빠져도 보장이 사라집니다.</div>
+    </div></div>`;
+  const cv=$('#ev1'),ctx=cv.getContext('2d'),W=380,H=300,P=38;
+  function g(x,kind){ return kind==='jump' ? (x<2 ? 1+1.4*x : 1+1.4*x-2.6) : 1+1.4*x; }
+  function draw(){
+    const iv=$('#evI').value, kind=$('#evF').value;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const X=x=>P+(W-2*P)*x/4, Y=y=>H-P-(H-2*P)*y/7.2;
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+    for(let q=0;q<=4;q++) ctx.fillText(q, X(q), H-P+14);
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4;
+    const segs = kind==='jump' ? [[0,1.98],[2,4]] : [[0,4]];
+    segs.forEach(sg=>{ ctx.beginPath();
+      for(let px=0;px<=180;px++){ const x=sg[0]+(sg[1]-sg[0])*px/180, y=g(x,kind);
+        px?ctx.lineTo(X(x),Y(y)):ctx.moveTo(X(x),Y(y)); } ctx.stroke(); });
+    const mark=(x,y,filled)=>{ ctx.lineWidth=1.8; ctx.strokeStyle='#BE123C';
+      if(filled){ ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(x),Y(y),4.6,0,7); ctx.fill(); }
+      else { ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(X(x),Y(y),4.6,0,7); ctx.fill(); ctx.stroke(); } };
+    mark(0,g(0,kind), iv==='cl'); mark(4,g(4,kind), iv==='cl');
+    if(kind==='jump'){ ctx.fillStyle='#fff'; ctx.strokeStyle='#2563EB'; ctx.lineWidth=1.8;
+      ctx.beginPath(); ctx.arc(X(2),Y(g(1.999,'jump')),4.2,0,7); ctx.fill(); ctx.stroke(); }
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText(iv==='cl'?'속 찬 점 = 포함되는 끝점':'빈 점 = 포함되지 않는 끝점', P, P-16);
+    const sup=g(4,kind), inf=g(0,kind);
+    const hasMax = iv==='cl' && kind==='cont' ? true : (iv==='cl' && kind==='jump' ? true : false);
+    let msg;
+    if(iv==='cl' && kind==='cont') msg = `닫힌구간 + 연속 — 최댓값 ${sup.toFixed(1)}, 최솟값 ${inf.toFixed(1)} 이 <b>반드시</b> 있습니다.`;
+    else if(iv==='op') msg = `<b style="color:#B45309">열린구간이라 — 최댓값이 없습니다 (${sup.toFixed(1)} 에 다가가지만 도달하지 못함).</b>`;
+    else msg = `<b style="color:#7C3AED">끊긴 함수라 — 왼쪽 조각의 최댓값이 없습니다 (x = 2 직전에 다가가지만 그 값을 갖지 못함).</b>`;
+    $('#evout').innerHTML =
+      `<span class="mono">구간 ${iv==='cl'?'[0, 4] 닫힘':'(0, 4) 열림'} · 함수 ${kind==='cont'?'연속':'x = 2 에서 끊김'}</span><br>`
+      + `<span class="mono">양 끝 값 f(0) = ${inf.toFixed(1)}, f(4) = ${sup.toFixed(1)}</span><br>`
+      + msg + `<br>`
+      + `<span style="color:#6B7280;font-size:12.5px">「가장 큰 값이 있다」와 「값이 위로 막혀 있다」는 서로 다른 말입니다.</span>`;
+  }
+  ['evI','evF'].forEach(i=>$('#'+i).onchange=draw); draw();
+  inquiry(root,{ id:'ev', title:'최대·최소 정리 — 두 조건이 다 필요하다',
+    q:['네 조합(닫힘·열림 × 연속·끊김) 을 모두 만들어 최댓값의 존재 여부를 기록하세요.',
+       '최댓값이 없는데도 「값이 위로 막혀 있는」 경우를 설명하세요.',
+       '최적화 문제에서 왜 구간을 닫아 주는지 한 문장으로 쓰세요.'],
+    cols:['구간','함수','최댓값','최솟값','보장되나'],
+    hint:'힌트 — 열린구간에서는 「끝에 다가가지만 도달하지 못하는」 것이 핵심입니다.',
+    read:()=>{ const iv=$('#evI').value, kind=$('#evF').value;
+      const ok = iv==='cl' && kind==='cont';
+      return [iv==='cl'?'닫힘':'열림', kind==='cont'?'연속':'끊김',
+        ok?g(4,kind).toFixed(1):'없음', ok?g(0,kind).toFixed(1):'없음', ok?'보장':'보장 안 됨']; } });
+}
