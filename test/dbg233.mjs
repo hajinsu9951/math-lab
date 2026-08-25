@@ -1,0 +1,15 @@
+import { chromium } from 'playwright';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+const ROOT = dirname(fileURLToPath(import.meta.url));
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: 1300, height: 1300 } });
+await p.goto('file://' + join(ROOT, 'dist', 'index.html'));
+await p.evaluate(() => openLab(232));
+await p.waitForTimeout(500);
+const sig = ['빈틈도 겹침도 없이', '한 종류로는 채울 수 없습니다'];
+const txt = await p.evaluate(() => document.body.innerText);
+sig.forEach(s => console.log(JSON.stringify(s), '→', txt.includes(s) ? '★화면에 이미 있음' : '없음'));
+console.log('--- 화면 글 ---');
+console.log(txt.slice(0, 2600));
+await b.close();

@@ -88,7 +88,7 @@ function tessellationDemo(root){
   root.innerHTML=`<div class="row"><div class="col">
       <canvas id="ts1" width="380" height="330"></canvas>
       <div class="note" style="margin-top:8px">한 꼭짓점에 모인 각의 합이 <b>정확히 360°</b> 여야
-      빈틈도 겹침도 없이 채워집니다.</div>
+      평면이 고르게 이어집니다. 모자라면 빈 곳이, 넘치면 포개진 곳이 생깁니다.</div>
     </div>
     <div class="col">
       <label class="ctl">정다각형 고르기<select id="tsK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">

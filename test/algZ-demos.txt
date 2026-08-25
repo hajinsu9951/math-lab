@@ -1,0 +1,307 @@
+/* ---------- LAB 237 대칭과 문양 — 단청에 숨은 회전과 거울 ---------- */
+function symmetryDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sy1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">모티프 하나를 <b>360°/n</b> 씩 돌려 붙이면 n 겹 문양이 됩니다.
+      거울선을 더하면 겹치는 방법이 몇 가지로 늘어날까요?</div>
+    </div>
+    <div class="col">
+      ${slider('syN','회전 차수 n',2,12,1,4,'겹')}
+      ${slider('syA','모티프 기울기',0,60,5,20,'°')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="syM"> 거울선(반사 대칭) 더하기</label>
+      <div class="out" id="syout"></div>
+    </div></div>`;
+  const cv=$('#sy1'),ctx=cv.getContext('2d'),W=380,H=330,cx=190,cy=160;
+  function motif(ctx,tilt,col){
+    ctx.save(); ctx.rotate(tilt*Math.PI/180);
+    ctx.fillStyle=col; ctx.beginPath();
+    ctx.moveTo(0,-14); ctx.quadraticCurveTo(30,-52,74,-30);
+    ctx.quadraticCurveTo(46,-6,0,-14); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='#1E3A8A'; ctx.lineWidth=1.1; ctx.stroke();
+    ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(58,-30,4.5,0,7); ctx.fill();
+    ctx.restore();
+  }
+  function draw(){
+    const n=+$('#syN').value, tilt=+$('#syA').value, mir=$('#syM').checked;
+    $('#syNv').textContent=n+'겹'; $('#syAv').textContent=tilt+'°';
+    const step=360/n;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E5E7EB'; ctx.beginPath(); ctx.arc(cx,cy,110,0,7); ctx.stroke();
+    if(mir){ ctx.strokeStyle='#F59E0B'; ctx.setLineDash([5,4]); ctx.lineWidth=1.2;
+      for(let i=0;i<n;i++){ const a=(i*step/2)*Math.PI/180;
+        ctx.beginPath(); ctx.moveTo(cx-124*Math.cos(a),cy-124*Math.sin(a));
+        ctx.lineTo(cx+124*Math.cos(a),cy+124*Math.sin(a)); ctx.stroke(); }
+      ctx.setLineDash([]); }
+    for(let i=0;i<n;i++){
+      ctx.save(); ctx.translate(cx,cy); ctx.rotate(i*step*Math.PI/180);
+      motif(ctx,tilt,'rgba(37,99,235,'+(0.28+0.03*i)+')');
+      if(mir){ ctx.scale(1,-1); motif(ctx,tilt,'rgba(14,147,132,.28)'); }
+      ctx.restore(); }
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(cx,cy,3.5,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('회전각 360 ÷ '+n+' = '+step.toFixed(1)+'°', 20, 26);
+    ctx.fillText(mir?'주황 점선 = 거울선 '+n+'개':'거울선 없음 — 회전만', 20, H-16);
+    const tot=mir?2*n:n;
+    $('#syout').innerHTML =
+      `<span class="mono">회전각 = 360 ÷ ${n} = <b>${step.toFixed(2)}°</b></span><br>`
+      + `<span class="mono">제자리로 돌아오게 하는 방법 = <b style="color:#0E9384">${tot}</b> 가지 ${mir?'(회전 '+n+' + 반사 '+n+')':'(회전만)'}</span><br>`
+      + (n===6 ? `<b style="color:#B45309">여섯 겹 — 60° 마다 같은 그림이 되는 단청의 기본 짜임입니다.</b><br>` : '')
+      + (mir ? `<b style="color:#7C3AED">거울선까지 세면 방법이 2n 가지 — 이것이 이면군 D<sub>n</sub> 입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">문양의 아름다움은 「몇 가지 방법으로 제자리에 겹치는가」로 잴 수 있습니다.</span>`;
+  }
+  ['syN','syA'].forEach(i=>$('#'+i).oninput=draw); $('#syM').onchange=draw; draw();
+  inquiry(root,{ id:'sy', title:'대칭과 문양 — 겹치는 방법의 수',
+    q:['차수 n 을 바꿔 가며 (회전각, 대칭의 수) 를 여섯 줄 기록하세요.',
+       '거울선을 더하면 대칭의 수가 어떻게 달라지는지 규칙을 쓰세요.',
+       '주변의 문양(태극·창살·보도블록) 하나를 골라 n 과 거울선 유무를 판정하세요.'],
+    cols:['차수 n','회전각','거울선','대칭의 수'],
+    hint:'힌트 — 회전만이면 n 가지, 거울선까지면 2n 가지입니다.',
+    read:()=>{ const n=+$('#syN').value,m=$('#syM').checked;
+      return [n,(360/n).toFixed(2)+'°',m?'있음':'없음',m?2*n:n]; } });
+}
+
+/* ---------- LAB 238 지도 투영법 — 그린란드는 왜 그렇게 클까 ---------- */
+function mercatorDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="mc1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">메르카토르 지도는 위도 φ 에서 가로를 <b>1/cos φ</b> 배로 늘립니다.
+      모양을 지키려면 세로도 같은 배로 늘려야 하므로 넓이는 그 <b>제곱</b>이 됩니다.</div>
+    </div>
+    <div class="col">
+      ${slider('mcLat','나라가 놓인 위도',0,80,5,10,'°')}
+      ${slider('mcAr','나라의 실제 넓이',10,300,10,100,'만 km²')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="mcTrue">실제 넓이끼리 견주기</button></div>
+      <div class="out" id="mcout"></div>
+    </div></div>`;
+  const cv=$('#mc1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const S={cmp:false};
+  function draw(){
+    const la=+$('#mcLat').value, ar=+$('#mcAr').value;
+    $('#mcLatv').textContent=la+'°'; $('#mcArv').textContent=ar+'만 km²';
+    const k=1/Math.cos(la*Math.PI/180);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    // 메르카토르 위도선
+    const my=p=>Math.log(Math.tan(Math.PI/4+p*Math.PI/360));
+    const top=my(84), sy=v=>300-260*(my(v)/top);
+    ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1;
+    for(let v=0;v<=80;v+=10){ const y=sy(v);
+      ctx.beginPath(); ctx.moveTo(20,y); ctx.lineTo(W-20,y); ctx.stroke();
+      ctx.fillStyle='#9CA3AF'; ctx.font='9.5px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(v+'°', W-38, y-3); }
+    // 실제로 같은 크기인 나라 두 개: 적도와 선택 위도
+    const side=Math.sqrt(ar)*4.2;
+    ctx.fillStyle='rgba(14,147,132,.35)'; ctx.strokeStyle='#0E9384'; ctx.lineWidth=1.4;
+    ctx.fillRect(46,sy(0)-side,side,side); ctx.strokeRect(46,sy(0)-side,side,side);
+    const w2=S.cmp?side:side*k, h2=S.cmp?side:side*k;
+    ctx.fillStyle='rgba(190,18,60,.32)'; ctx.strokeStyle='#BE123C';
+    ctx.fillRect(210,sy(la)-h2,w2,h2); ctx.strokeRect(210,sy(la)-h2,w2,h2);
+    ctx.fillStyle='#374151'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('적도 부근 (위도 0°)', 46, sy(0)+14);
+    ctx.fillText('위도 '+la+'° 의 나라', 210, sy(la)+14);
+    ctx.fillText(S.cmp?'지금은 실제 넓이로 견주는 중':'지금은 지도에 보이는 크기', 20, 20);
+    const areaK=k*k;
+    $('#mcout').innerHTML =
+      `<span class="mono">가로 확대 = 1 / cos ${la}° = <b>${k.toFixed(3)}</b> 배 · 넓이 확대 = <b style="color:#BE123C">${areaK.toFixed(2)}</b> 배</span><br>`
+      + `<span class="mono">실제 ${ar} 만 km² → 지도 위에서는 <b>${(ar*areaK).toFixed(0)}</b> 만 km² 처럼 보임</span><br>`
+      + (areaK>=8 ? `<b style="color:#B45309">넓이가 여덟 배 넘게 부풀었습니다 — 그린란드가 아프리카만 해 보이는 까닭입니다.</b><br>` : '')
+      + (S.cmp ? `<b style="color:#7C3AED">실제 넓이는 같습니다 — 지도에서 큰 것과 땅에서 큰 것은 다릅니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">둥근 것을 평면에 펴면 각·넓이·거리 가운데 반드시 무언가를 잃습니다.</span>`;
+  }
+  $('#mcTrue').onclick=()=>{ S.cmp=true; draw(); };
+  ['mcLat','mcAr'].forEach(i=>$('#'+i).oninput=()=>{ S.cmp=false; draw(); }); draw();
+  inquiry(root,{ id:'mc', title:'지도 투영법 — 잃는 것과 지키는 것',
+    q:['위도를 0°부터 80°까지 바꾸며 (가로 확대, 넓이 확대) 를 여섯 줄 기록하세요.',
+       '넓이 확대가 2배·4배·8배가 되는 위도를 각각 찾으세요.',
+       '한국(약 37°)과 그린란드(약 72°)의 왜곡을 비교해 설명하세요.'],
+    cols:['위도','1/cos φ','넓이 배율','실제','지도에서'],
+    hint:'힌트 — 넓이 배율은 가로 배율의 제곱입니다.',
+    read:()=>{ const la=+$('#mcLat').value,ar=+$('#mcAr').value,k=1/Math.cos(la*Math.PI/180);
+      return [la+'°',k.toFixed(3),(k*k).toFixed(2),ar,(ar*k*k).toFixed(0)]; } });
+}
+
+/* ---------- LAB 239 건축의 곡선 — 현수선과 포물선은 다른 곡선 ---------- */
+function chainCurveDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="cc1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">줄이 제 무게로 늘어지면 <b>현수선</b> y = a·cosh(x/a),
+      바닥판이 매달리면 <b>포물선</b> 입니다. 눈으로는 잘 구별되지 않습니다.</div>
+    </div>
+    <div class="col">
+      ${slider('ccA','줄의 팽팽함 a',12,120,2,80,'')}
+      ${slider('ccW','기둥 사이 폭',60,180,5,120,'m')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="ccP"> 같은 처짐의 포물선 겹쳐 보기</label>
+      <div class="out" id="ccout"></div>
+    </div></div>`;
+  const cv=$('#cc1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const a=+$('#ccA').value, w=+$('#ccW').value, cmp=$('#ccP').checked;
+    $('#ccAv').textContent=a; $('#ccWv').textContent=w+'m';
+    const half=w/2;
+    const cat=x=>a*Math.cosh(x/a)-a;             // 가운데가 0, 위로 올라가는 형태
+    const sag=cat(half);                          // 기둥 끝에서의 높이차 = 처짐
+    const par=x=>sag*(x/half)*(x/half);           // 양 끝에서 값이 같은 포물선
+    let gap=0, gx=0;
+    for(let i=0;i<=200;i++){ const x=-half+2*half*i/200; const d=Math.abs(cat(x)-par(x));
+      if(d>gap){ gap=d; gx=x; } }
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const sc=Math.min(300/w, 190/Math.max(sag,1));
+    const X=x=>190+x*sc, Y=y=>260-y*sc;
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=3;
+    ctx.beginPath(); ctx.moveTo(X(-half),Y(sag)); ctx.lineTo(X(-half),Y(sag)+46); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(half),Y(sag)); ctx.lineTo(X(half),Y(sag)+46); ctx.stroke();
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(X(-half),Y(sag)+46); ctx.lineTo(X(half),Y(sag)+46); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4; ctx.beginPath();
+    for(let i=0;i<=200;i++){ const x=-half+2*half*i/200;
+      i?ctx.lineTo(X(x),Y(cat(x))):ctx.moveTo(X(x),Y(cat(x))); } ctx.stroke();
+    if(cmp){ ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.8; ctx.setLineDash([5,4]); ctx.beginPath();
+      for(let i=0;i<=200;i++){ const x=-half+2*half*i/200;
+        i?ctx.lineTo(X(x),Y(par(x))):ctx.moveTo(X(x),Y(par(x))); } ctx.stroke(); ctx.setLineDash([]);
+      ctx.strokeStyle='#7C3AED'; ctx.lineWidth=1.6;
+      ctx.beginPath(); ctx.moveTo(X(gx),Y(cat(gx))); ctx.lineTo(X(gx),Y(par(gx))); ctx.stroke(); }
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('파랑 = 현수선'+(cmp?' · 붉은 점선 = 포물선 · 보라 = 가장 벌어진 곳':''), 20, 22);
+    ctx.fillText('처짐 '+sag.toFixed(1)+' m · 폭 '+w+' m', 20, H-14);
+    $('#ccout').innerHTML =
+      `<span class="mono">a = ${a} · 폭 ${w} m · 처짐 = a·cosh(${half}/a) − a = <b>${sag.toFixed(2)}</b> m</span><br>`
+      + (cmp ? `<span class="mono">두 곡선의 최대 차이 = <b style="color:#7C3AED">${gap.toFixed(3)}</b> m (x = ${gx.toFixed(1)} m 부근)</span><br>` : '')
+      + (cmp && gap>=1.2 ? `<b style="color:#B45309">헐겁게 늘어뜨릴수록 두 곡선이 눈에 띄게 벌어집니다 — 같은 곡선이 아닙니다.</b><br>` : '')
+      + (cmp && gap<0.10 ? `<b style="color:#7C3AED">팽팽하게 당기면 두 곡선이 거의 포개집니다 — 오래도록 같은 것으로 여겨진 까닭입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">줄만 매달리면 현수선, 무거운 바닥판을 고르게 매달면 포물선입니다.</span>`;
+  }
+  ['ccA','ccW'].forEach(i=>$('#'+i).oninput=draw); $('#ccP').onchange=draw; draw();
+  inquiry(root,{ id:'cc', title:'현수선과 포물선 — 눈으로는 못 가르는 차이',
+    q:['a 를 바꿔 가며 (처짐, 최대 차이) 를 여섯 줄 기록하세요.',
+       '차이가 커지는 쪽과 작아지는 쪽의 조건을 쓰세요.',
+       '왜 케이블만 있는 다리와 바닥판이 매달린 다리의 곡선이 다른지 설명하세요.'],
+    cols:['a','폭','처짐','최대 차이'],
+    hint:'힌트 — cosh(t) = 1 + t²/2 + t⁴/24 + … 의 앞 두 항이 포물선입니다.',
+    read:()=>{ const a=+$('#ccA').value,w=+$('#ccW').value,half=w/2;
+      const cat=x=>a*Math.cosh(x/a)-a, sag=cat(half), par=x=>sag*(x/half)*(x/half);
+      let g=0; for(let i=0;i<=200;i++){ const x=-half+2*half*i/200; g=Math.max(g,Math.abs(cat(x)-par(x))); }
+      return [a,w+'m',sag.toFixed(2),g.toFixed(3)]; } });
+}
+
+/* ---------- LAB 240 종이의 비 — 잘라도 모양이 그대로인 단 하나의 비 ---------- */
+function paperRatioDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="pr1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">긴 변을 반으로 자르면 비는 r 에서 <b>2/r</b> 로 바뀝니다.
+      자르기 전과 뒤가 같아지려면 r 이 얼마여야 할까요?</div>
+    </div>
+    <div class="col">
+      ${slider('prR','종이의 가로세로 비 r',1.10,1.90,0.01,1.50,'')}
+      ${slider('prN','A0 에서 몇 번 잘랐나',0,8,1,0,'번')}
+      <div class="out" id="prout"></div>
+    </div></div>`;
+  const cv=$('#pr1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const r=+$('#prR').value, n=+$('#prN').value;
+    $('#prRv').textContent=r.toFixed(2); $('#prNv').textContent=n+'번';
+    const r2=2/r, diff=Math.abs(r-r2);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    // 왼쪽 = 자르기 전, 오른쪽 = 자른 반쪽 (같은 넓이 기준으로 그린다)
+    const A=150*150;
+    const h1=Math.sqrt(A*r), w1=A/h1;
+    ctx.fillStyle='rgba(37,99,235,.16)'; ctx.strokeStyle='#2563EB'; ctx.lineWidth=1.5;
+    ctx.fillRect(26,250-h1,w1,h1); ctx.strokeRect(26,250-h1,w1,h1);
+    ctx.strokeStyle='#BE123C'; ctx.setLineDash([5,4]);
+    ctx.beginPath(); ctx.moveTo(26,250-h1/2); ctx.lineTo(26+w1,250-h1/2); ctx.stroke(); ctx.setLineDash([]);
+    const h2=Math.sqrt(A*r2), w2=A/h2;
+    ctx.fillStyle='rgba(14,147,132,.18)'; ctx.strokeStyle='#0E9384';
+    ctx.fillRect(216,250-h2,w2,h2); ctx.strokeRect(216,250-h2,w2,h2);
+    ctx.fillStyle='#374151'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('자르기 전 r = '+r.toFixed(3), 26, 268);
+    ctx.fillText('자른 뒤 2/r = '+r2.toFixed(3), 216, 268);
+    ctx.fillStyle='#6B7280';
+    ctx.fillText('넓이를 같게 맞춰 그렸습니다 — 모양만 견주세요', 26, 22);
+    ctx.fillText('A'+n+' 의 넓이 = A0 의 1/'+Math.pow(2,n)+' ( ≈ '+(100/Math.pow(2,n)).toFixed(2)+'% )', 26, 300);
+    $('#prout').innerHTML =
+      `<span class="mono">r = ${r.toFixed(3)} → 반으로 자르면 2/r = <b>${r2.toFixed(3)}</b> · 차이 <b>${diff.toFixed(3)}</b></span><br>`
+      + `<span class="mono">A${n} 의 넓이 = A0 × (1/2)<sup>${n}</sup> = <b>${(100/Math.pow(2,n)).toFixed(3)}</b> %</span><br>`
+      + (diff<0.02 ? `<b style="color:#B45309">잘라도 비가 그대로입니다 — r² = 2, 곧 r = √2 하나뿐입니다.</b><br>` : '')
+      + (n>=4 ? `<b style="color:#7C3AED">네 번 자르면 넓이는 열여섯 분의 일 — 넓이는 반씩 줄어도 모양은 그대로입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">A4 를 확대·축소해도 여백이 생기지 않는 이유가 이 한 줄에 있습니다.</span>`;
+  }
+  ['prR','prN'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'pr', title:'종이의 비 — r² = 2 를 찾아서',
+    q:['r 을 바꿔 가며 (r, 2/r, 차이) 를 여섯 줄 기록하세요.',
+       '차이가 0 이 되는 r 을 소수 셋째 자리까지 찾으세요.',
+       'r = 2/r 를 풀어 √2 임을 보이고, A4 의 실제 치수(210×297)로 확인하세요.'],
+    cols:['r','2/r','차이','A n','넓이 %'],
+    hint:'힌트 — 양변에 r 을 곱하면 r² = 2 입니다.',
+    read:()=>{ const r=+$('#prR').value,n=+$('#prN').value;
+      return [r.toFixed(3),(2/r).toFixed(3),Math.abs(r-2/r).toFixed(3),'A'+n,(100/Math.pow(2,n)).toFixed(3)]; } });
+}
+
+/* ---------- LAB 241 달력과 요일 — 나머지가 정하는 하루 ---------- */
+function weekdayDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="wd1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">요일은 <b>7 로 나눈 나머지</b>가 정합니다.
+      한 해는 365 = 7×52 + <b>1</b> 이라 해마다 하루씩 밀립니다.</div>
+    </div>
+    <div class="col">
+      ${slider('wdY','연도',2020,2040,1,2026,'년')}
+      ${slider('wdM','월',1,12,1,3,'월')}
+      ${slider('wdD','일',1,31,1,10,'일')}
+      ${slider('wdK','며칠 뒤',0,120,1,0,'일')}
+      <div class="out" id="wdout"></div>
+    </div></div>`;
+  const cv=$('#wd1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const NAME=['일','월','화','수','목','금','토'];
+  const leap=y=>(y%4===0&&y%100!==0)||y%400===0;
+  const dim=(y,m)=>[31,leap(y)?29:28,31,30,31,30,31,31,30,31,30,31][m-1];
+  function dow(y,m,d){ let Y=y,M=m; if(M<3){M+=12;Y--;}
+    const K=Y%100,J=Math.floor(Y/100);
+    const h=(d+Math.floor(13*(M+1)/5)+K+Math.floor(K/4)+Math.floor(J/4)+5*J)%7;
+    return (h+6)%7; }                                    // 0 = 일요일
+  function draw(){
+    const y=+$('#wdY').value, m=+$('#wdM').value, k=+$('#wdK').value;
+    const d=Math.min(+$('#wdD').value, dim(y,m));
+    $('#wdYv').textContent=y+'년'; $('#wdMv').textContent=m+'월';
+    $('#wdDv').textContent=d+'일'; $('#wdKv').textContent=k+'일';
+    const w0=dow(y,m,d), w1=(w0+k)%7;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const first=dow(y,m,1), last=dim(y,m), CW=48, CH=36, x0=22, y0=64;
+    ctx.font='11px sans-serif'; ctx.textAlign='center';
+    for(let i=0;i<7;i++){ ctx.fillStyle=i===0?'#BE123C':(i===6?'#2563EB':'#6B7280');
+      ctx.fillText(NAME[i], x0+CW*i+CW/2, y0-10); }
+    for(let day=1;day<=last;day++){
+      const idx=first+day-1, r=Math.floor(idx/7), c=idx%7;
+      const X=x0+CW*c, Y=y0+CH*r;
+      if(day===d){ ctx.fillStyle='rgba(37,99,235,.22)'; ctx.fillRect(X+2,Y+2,CW-4,CH-4);
+        ctx.strokeStyle='#2563EB'; ctx.lineWidth=1.6; ctx.strokeRect(X+2,Y+2,CW-4,CH-4); }
+      if(k>0 && day===d+k && d+k<=last){ ctx.fillStyle='rgba(14,147,132,.22)'; ctx.fillRect(X+2,Y+2,CW-4,CH-4);
+        ctx.strokeStyle='#0E9384'; ctx.lineWidth=1.6; ctx.strokeRect(X+2,Y+2,CW-4,CH-4); }
+      ctx.fillStyle=c===0?'#BE123C':(c===6?'#2563EB':'#374151');
+      ctx.font='11.5px sans-serif'; ctx.fillText(day, X+CW/2, Y+CH/2+4); }
+    ctx.textAlign='left'; ctx.fillStyle='#111827'; ctx.font='13px sans-serif';
+    ctx.fillText(y+'년 '+m+'월'+(leap(y)?'  (윤년)':''), 22, 34);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('파랑 = 고른 날 · 초록 = '+k+'일 뒤', 22, 50);
+    $('#wdout').innerHTML =
+      `<span class="mono">${y}년 ${m}월 ${d}일 = <b style="color:#2563EB">${NAME[w0]}요일</b></span><br>`
+      + `<span class="mono">${k}일 뒤 → ${k} = 7 × ${Math.floor(k/7)} + <b>${k%7}</b> → <b style="color:#0E9384">${NAME[w1]}요일</b></span><br>`
+      + (k>0 && k%7===0 ? `<b style="color:#B45309">나머지가 0 이라 요일이 제자리로 돌아왔습니다 — 7 의 배수는 요일을 바꾸지 못합니다.</b><br>` : '')
+      + (leap(y) ? `<b style="color:#7C3AED">윤년은 366 = 7 × 52 + 2 — 다음 해 같은 날은 이틀 밀립니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">달력 계산은 결국 7 로 나눈 나머지를 따라가는 일입니다.</span>`;
+  }
+  ['wdY','wdM','wdD','wdK'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'wd', title:'요일 — 7 로 나눈 나머지',
+    q:['며칠 뒤를 바꿔 가며 (나머지, 요일) 을 여섯 줄 기록하세요.',
+       '나머지와 요일 사이의 규칙을 한 문장으로 쓰세요.',
+       '내 생일이 내년·내후년에는 무슨 요일인지 계산하고, 윤년이 끼면 왜 달라지는지 설명하세요.'],
+    cols:['날짜','요일','며칠 뒤','7로 나눈 나머지','그날 요일'],
+    hint:'힌트 — 요일은 며칠 뒤를 7 로 나눈 나머지만큼 밀립니다.',
+    read:()=>{ const y=+$('#wdY').value,m=+$('#wdM').value,k=+$('#wdK').value;
+      const dm=[31,((y%4===0&&y%100!==0)||y%400===0)?29:28,31,30,31,30,31,31,30,31,30,31][m-1];
+      const d=Math.min(+$('#wdD').value,dm);
+      let Y=y,M=m; if(M<3){M+=12;Y--;}
+      const K=Y%100,J=Math.floor(Y/100);
+      const w0=((d+Math.floor(13*(M+1)/5)+K+Math.floor(K/4)+Math.floor(J/4)+5*J)%7+6)%7;
+      const N=['일','월','화','수','목','금','토'];
+      return [y+'.'+m+'.'+d,N[w0]+'요일',k+'일',k%7,N[(w0+k)%7]+'요일']; } });
+}

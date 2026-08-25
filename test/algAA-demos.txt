@@ -1,0 +1,347 @@
+/* ---------- LAB 242 진법 — 60 이 아직 살아 있는 곳 ---------- */
+function baseDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="bs1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">어떤 수를 <b>b 진법</b>으로 쓴다는 것은
+      b 로 나눈 몫과 나머지를 끝까지 되풀이한다는 뜻입니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">진법 고르기<select id="bsB" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="2">2 진법 (컴퓨터)</option>
+        <option value="8">8 진법</option>
+        <option value="16">16 진법 (색·주소)</option>
+        <option value="60">60 진법 (시간·각도)</option>
+      </select></label>
+      ${slider('bsN','바꿀 수',1,3600,1,754,'')}
+      <div class="out" id="bsout"></div>
+    </div></div>`;
+  const cv=$('#bs1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const DG='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  function conv(n,b){ const d=[]; let q=n, steps=[];
+    while(q>0){ const r=q%b; steps.push([q,b,Math.floor(q/b),r]); d.unshift(r); q=Math.floor(q/b); }
+    if(!d.length){ d.push(0); }
+    return {d,steps}; }
+  function show(d,b){ return b<=36 ? d.map(v=>DG[v]).join('') : d.map(v=>String(v).padStart(2,'0')).join(' : '); }
+  function draw(){
+    const b=+$('#bsB').value, n=+$('#bsN').value;
+    $('#bsNv').textContent=n;
+    const {d,steps}=conv(n,b);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('나누고 나머지를 적는 과정 (아래에서 위로 읽습니다)', 20, 22);
+    const rows=steps.slice(0,11);
+    rows.forEach((r,i)=>{ const y=46+i*22;
+      ctx.fillStyle='#374151'; ctx.font='11.5px sans-serif';
+      ctx.fillText(r[0]+' ÷ '+r[1]+' = '+r[2]+' … 나머지', 24, y);
+      ctx.fillStyle='#BE123C'; ctx.font='bold 12px sans-serif';
+      ctx.fillText(b<=36?DG[r[3]]:String(r[3]), 246, y); });
+    if(steps.length>11){ ctx.fillStyle='#9CA3AF'; ctx.fillText('… 아래 '+(steps.length-11)+'줄 생략', 24, 46+11*22); }
+    // 자릿값 막대
+    const base=H-58;
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('자릿값', 24, base-6);
+    d.forEach((v,i)=>{ const pw=Math.pow(b,d.length-1-i), x=24+i*Math.min(40,320/d.length);
+      ctx.fillStyle='rgba(37,99,235,.7)';
+      ctx.fillRect(x,base,Math.min(34,300/d.length),18);
+      ctx.fillStyle='#fff'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(b<=36?DG[v]:String(v), x+Math.min(17,150/d.length), base+13);
+      ctx.fillStyle='#6B7280'; ctx.textAlign='left';
+      if(d.length<=8) ctx.fillText(b+'^'+(d.length-1-i), x, base+32); });
+    ctx.textAlign='left';
+    const hh=Math.floor(n/3600), mm=Math.floor(n%3600/60), ss=n%60;
+    $('#bsout').innerHTML =
+      `<span class="mono">${n} <sub>(10)</sub> = <b style="color:#2563EB">${show(d,b)}</b> <sub>(${b})</sub> · ${d.length} 자리</span><br>`
+      + `<span class="mono">자릿값 전개 = ${d.map((v,i)=>v+'×'+b+'^'+(d.length-1-i)).slice(0,6).join(' + ')}${d.length>6?' + …':''}</span><br>`
+      + (b===60 ? `<b style="color:#B45309">${n} 초 = ${hh}시간 ${mm}분 ${ss}초 — 육십진법의 자릿값이 그대로 시·분·초입니다.</b><br>` : '')
+      + (b===2 && d.length>=11 ? `<b style="color:#7C3AED">2 진법으로 ${d.length} 자리 — 자릿수는 밑이 작을수록 빠르게 늘어납니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">밑이 클수록 자릿수는 짧아지고, 대신 기호가 더 많이 필요합니다.</span>`;
+  }
+  $('#bsB').onchange=draw; $('#bsN').oninput=draw; draw();
+  inquiry(root,{ id:'bs', title:'진법 — 자릿값이라는 약속',
+    q:['같은 수를 네 진법으로 바꿔 (표기, 자릿수) 를 여섯 줄 기록하세요.',
+       '밑과 자릿수 사이의 관계를 한 문장으로 쓰세요.',
+       '왜 컴퓨터는 2 를, 시계는 60 을 쓰는지 각각의 이유를 설명하세요.'],
+    cols:['수','밑','표기','자릿수'],
+    hint:'힌트 — 자릿수는 대략 log(수) ÷ log(밑) 입니다.',
+    read:()=>{ const b=+$('#bsB').value,n=+$('#bsN').value,{d}=conv(n,b);
+      return [n,b,show(d,b),d.length]; } });
+}
+
+/* ---------- LAB 243 마방진 — 합이 같아지는 빡빡한 조건 ---------- */
+function magicDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="mg1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">1 부터 n² 까지를 한 번씩 써서 모든 줄의 합이 같아지면 마방진입니다.
+      전체 합이 정해져 있으니 <b>한 줄의 합도 정해집니다</b>.</div>
+    </div>
+    <div class="col">
+      ${slider('mgN','한 변의 칸 수 n',3,7,1,4,'칸')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="mgSwap">두 수 맞바꿔 보기</button>
+        <button class="b t sm" id="mgReset">되돌리기</button></div>
+      <div class="out" id="mgout"></div>
+    </div></div>`;
+  const cv=$('#mg1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const S={swap:false};
+  function build(n){
+    const g=Array.from({length:n},()=>Array(n).fill(0));
+    if(n%2===1){ let r=0,c=Math.floor(n/2);                    // 시암 구성법
+      for(let v=1;v<=n*n;v++){ g[r][c]=v;
+        const r2=(r-1+n)%n, c2=(c+1)%n;
+        if(g[r2][c2]){ r=(r+1)%n; } else { r=r2; c=c2; } } }
+    else { let v=1; for(let i=0;i<n;i++) for(let j=0;j<n;j++) g[i][j]=v++; }  // 짝수는 그냥 차례대로
+    if(S.swap && n>=3){ const t=g[0][0]; g[0][0]=g[n-1][n-1]; g[n-1][n-1]=t; }
+    return g;
+  }
+  function draw(){
+    const n=+$('#mgN').value; $('#mgNv').textContent=n+'칸';
+    const g=build(n), target=n*(n*n+1)/2;
+    const rows=g.map(r=>r.reduce((s,v)=>s+v,0));
+    const cols=Array.from({length:n},(_,j)=>g.reduce((s,r)=>s+r[j],0));
+    const d1=g.reduce((s,r,i)=>s+r[i],0), d2=g.reduce((s,r,i)=>s+r[n-1-i],0);
+    const all=[...rows,...cols,d1,d2];
+    const okAll=all.every(v=>v===target);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cell=Math.min(46,238/n), x0=26, y0=48;
+    ctx.font=(cell>34?'13px':'11px')+' sans-serif'; ctx.textAlign='center';
+    for(let i=0;i<n;i++) for(let j=0;j<n;j++){
+      const X=x0+j*cell, Y=y0+i*cell;
+      ctx.fillStyle=(i===j||i+j===n-1)?'rgba(37,99,235,.10)':'#FFF';
+      ctx.fillRect(X,Y,cell,cell);
+      ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1; ctx.strokeRect(X,Y,cell,cell);
+      ctx.fillStyle='#111827'; ctx.fillText(g[i][j], X+cell/2, Y+cell/2+4); }
+    ctx.font='10.5px sans-serif';
+    for(let i=0;i<n;i++){ ctx.fillStyle=rows[i]===target?'#0E9384':'#BE123C';
+      ctx.textAlign='left'; ctx.fillText(rows[i], x0+n*cell+8, y0+i*cell+cell/2+4); }
+    for(let j=0;j<n;j++){ ctx.fillStyle=cols[j]===target?'#0E9384':'#BE123C';
+      ctx.textAlign='center'; ctx.fillText(cols[j], x0+j*cell+cell/2, y0+n*cell+14); }
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280';
+    ctx.fillText('한 줄의 합이 되어야 하는 값 = n(n²+1)/2 = '+target, 24, 26);
+    ctx.fillStyle=okAll?'#0E9384':'#BE123C';
+    ctx.fillText(okAll?'모든 줄이 같습니다':'어긋난 줄이 있습니다 (붉은 수)', 24, H-14);
+    $('#mgout').innerHTML =
+      `<span class="mono">1 + 2 + … + ${n*n} = <b>${n*n*(n*n+1)/2}</b> · 이것을 ${n} 줄로 나누면 한 줄 = <b style="color:#0E9384">${target}</b></span><br>`
+      + `<span class="mono">지금 맞는 줄 = <b>${all.filter(v=>v===target).length}</b> / ${all.length}</span><br>`
+      + (n%2===1 && !S.swap ? `<b style="color:#B45309">홀수 칸은 한 가지 이동 규칙만으로 완성됩니다 — 오른쪽 위로 한 칸씩입니다.</b><br>` : '')
+      + (S.swap ? `<b style="color:#7C3AED">두 수를 맞바꿨을 뿐인데 여러 줄이 한꺼번에 어긋납니다 — 그만큼 빡빡한 조건입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">짝수 칸은 차례대로 채우는 것만으로는 완성되지 않습니다.</span>`;
+  }
+  $('#mgSwap').onclick=()=>{ S.swap=true; draw(); };
+  $('#mgReset').onclick=()=>{ S.swap=false; draw(); };
+  $('#mgN').oninput=()=>{ S.swap=false; draw(); }; draw();
+  inquiry(root,{ id:'mg', title:'마방진 — 한 줄의 합은 왜 정해지는가',
+    q:['n 을 바꿔 가며 (전체 합, 한 줄의 합) 을 여섯 줄 기록하세요.',
+       'n(n²+1)/2 라는 식이 어디서 나오는지 설명하세요.',
+       '맞바꾸기를 했을 때 어긋나는 줄이 몇 개인지 세고 이유를 쓰세요.'],
+    cols:['n','전체 합','한 줄 합','맞는 줄'],
+    hint:'힌트 — 전체 합 n²(n²+1)/2 를 n 줄로 나눕니다.',
+    read:()=>{ const n=+$('#mgN').value,g=build(n),t=n*(n*n+1)/2;
+      const rows=g.map(r=>r.reduce((s,v)=>s+v,0));
+      const cols=Array.from({length:n},(_,j)=>g.reduce((s,r)=>s+r[j],0));
+      const all=[...rows,...cols];
+      return [n,n*n*(n*n+1)/2,t,all.filter(v=>v===t).length+' / '+all.length]; } });
+}
+
+/* ---------- LAB 244 원주율 — 안팎에서 조여 오는 수 ---------- */
+function piPolyDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="pi1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">원에 <b>내접</b>·<b>외접</b>하는 정다각형의 둘레를 지름으로 나누면
+      참값 π 가 그 사이에 갇힙니다.</div>
+    </div>
+    <div class="col">
+      ${slider('piN','정다각형의 변의 수',3,96,1,6,'각형')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="piO"> 외접 다각형도 함께 보기</label>
+      <div class="out" id="piout"></div>
+    </div></div>`;
+  const cv=$('#pi1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const n=+$('#piN').value, out=$('#piO').checked;
+    $('#piNv').textContent=n+'각형';
+    const th=Math.PI/n, lo=n*Math.sin(th), hi=n*Math.tan(th), band=hi-lo;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=150, cy=160, R=104;
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=1.8; ctx.beginPath();
+    for(let i=0;i<=n;i++){ const a=-Math.PI/2+2*Math.PI*i/n;
+      i?ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a)):ctx.moveTo(cx+R*Math.cos(a),cy+R*Math.sin(a)); }
+    ctx.stroke();
+    if(out){ const Ro=R/Math.cos(th);
+      ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.5; ctx.setLineDash([4,3]); ctx.beginPath();
+      for(let i=0;i<=n;i++){ const a=-Math.PI/2+Math.PI/n+2*Math.PI*i/n;
+        i?ctx.lineTo(cx+Ro*Math.cos(a),cy+Ro*Math.sin(a)):ctx.moveTo(cx+Ro*Math.cos(a),cy+Ro*Math.sin(a)); }
+      ctx.stroke(); ctx.setLineDash([]); }
+    // 오른쪽 수직선: π 를 감싸는 구간
+    const bx=306, by=v=>250-(v-3.10)*3600;
+    ctx.strokeStyle='#D1D5DB'; ctx.beginPath(); ctx.moveTo(bx,60); ctx.lineTo(bx,268); ctx.stroke();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=1.6; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(bx-22,by(Math.PI)); ctx.lineTo(bx+22,by(Math.PI)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#0E9384'; ctx.font='10px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('π', bx+26, by(Math.PI)+4);
+    const y1=Math.max(60,Math.min(268,by(lo))), y2=Math.max(60,Math.min(268,by(hi)));
+    ctx.fillStyle='rgba(37,99,235,.25)'; ctx.fillRect(bx-10,y2,20,Math.max(1,y1-y2));
+    ctx.fillStyle='#2563EB'; ctx.fillText('안쪽', bx+26, y1+4);
+    if(out){ ctx.fillStyle='#BE123C'; ctx.fillText('바깥쪽', bx+26, y2+4); }
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('파랑 = 내접'+(out?' · 붉은 점선 = 외접':''), 20, 24);
+    $('#piout').innerHTML =
+      `<span class="mono">내접 둘레 ÷ 지름 = ${n}·sin(180°/${n}) = <b style="color:#2563EB">${lo.toFixed(6)}</b></span><br>`
+      + (out ? `<span class="mono">외접 둘레 ÷ 지름 = ${n}·tan(180°/${n}) = <b style="color:#BE123C">${hi.toFixed(6)}</b> · 구간 폭 <b>${band.toFixed(6)}</b></span><br>` : '')
+      + (out && band<0.002 ? `<b style="color:#B45309">소수 둘째 자리까지 값이 확정됩니다 — 아르키메데스가 96각형에서 멈춘 까닭입니다.</b><br>` : '')
+      + (out ? `<b style="color:#7C3AED">안팎에서 함께 조이면 참값이 그 사이에 있다고 확신할 수 있습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">변을 늘릴수록 두 값이 같은 곳으로 다가갑니다 — 이것이 극한의 원형입니다.</span>`;
+  }
+  $('#piN').oninput=draw; $('#piO').onchange=draw; draw();
+  inquiry(root,{ id:'pi', title:'원주율 — 조여서 가두기',
+    q:['변의 수를 바꿔 가며 (내접, 외접, 구간 폭) 을 여섯 줄 기록하세요.',
+       '구간 폭이 절반이 되려면 변의 수를 몇 배로 해야 하는지 찾으세요.',
+       '두 값이 같은 곳으로 다가간다는 사실을 극한의 말로 설명하세요.'],
+    cols:['변의 수','내접','외접','구간 폭'],
+    hint:'힌트 — n·sin(180°/n) < π < n·tan(180°/n) 입니다.',
+    read:()=>{ const n=+$('#piN').value,th=Math.PI/n;
+      return [n,(n*Math.sin(th)).toFixed(6),(n*Math.tan(th)).toFixed(6),(n*Math.tan(th)-n*Math.sin(th)).toFixed(6)]; } });
+}
+
+/* ---------- LAB 245 의석 배분 — 늘렸는데 줄어드는 역설 ---------- */
+function apportionDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ap1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">인구에 비례해 의석을 나누면 대개 소수가 나옵니다.
+      <b>정수로 만드는 방법</b>을 무엇으로 고르느냐에 따라 결과가 달라집니다.</div>
+    </div>
+    <div class="col">
+      ${slider('apA','가 지역 인구',10,120,10,60,'만')}
+      ${slider('apB','나 지역 인구',10,120,10,60,'만')}
+      ${slider('apC','다 지역 인구',10,120,10,20,'만')}
+      ${slider('apS','전체 의석 수',5,20,1,13,'석')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="apDh">나눗셈식(동트)으로 배분</button>
+        <button class="b t sm" id="apHa">최대잉여식으로 되돌리기</button></div>
+      <div class="out" id="apout"></div>
+    </div></div>`;
+  const cv=$('#ap1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const S={dh:false};
+  const hare=(p,s)=>{ const T=p.reduce((a,b)=>a+b,0);
+    const q=p.map(v=>v*s/T), f=q.map(Math.floor);
+    let left=s-f.reduce((a,b)=>a+b,0);
+    const idx=q.map((v,i)=>[v-f[i],i]).sort((x,y)=>y[0]-x[0]);
+    const out=f.slice(); for(let i=0;i<left;i++) out[idx[i][1]]++;
+    return {out,q}; };
+  const dhondt=(p,s)=>{ const out=p.map(()=>0);
+    for(let k=0;k<s;k++){ let bi=0,bv=-1;
+      p.forEach((v,i)=>{ const x=v/(out[i]+1); if(x>bv){ bv=x; bi=i; } });
+      out[bi]++; }
+    return out; };
+  function draw(){
+    const p=[+$('#apA').value,+$('#apB').value,+$('#apC').value], s=+$('#apS').value;
+    $('#apAv').textContent=p[0]+'만'; $('#apBv').textContent=p[1]+'만';
+    $('#apCv').textContent=p[2]+'만'; $('#apSv').textContent=s+'석';
+    const now=S.dh?dhondt(p,s):hare(p,s).out;
+    const nxt=S.dh?dhondt(p,s+1):hare(p,s+1).out;
+    const q=hare(p,s).q;
+    const lost=now.map((v,i)=>nxt[i]<v).map((b,i)=>b?i:-1).filter(i=>i>=0);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const NM=['가','나','다'];
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('왼쪽 = 의석 '+s+'석일 때 · 오른쪽 = '+(s+1)+'석일 때', 20, 22);
+    const bw=26, y0=250;
+    for(let i=0;i<3;i++){
+      const x=42+i*104;
+      ctx.fillStyle='rgba(37,99,235,.65)'; ctx.fillRect(x,y0-now[i]*11,bw,now[i]*11);
+      ctx.fillStyle=lost.includes(i)?'rgba(190,18,60,.7)':'rgba(14,147,132,.6)';
+      ctx.fillRect(x+bw+8,y0-nxt[i]*11,bw,nxt[i]*11);
+      ctx.fillStyle='#111827'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(now[i], x+bw/2, y0-now[i]*11-5);
+      ctx.fillText(nxt[i], x+bw+8+bw/2, y0-nxt[i]*11-5);
+      ctx.fillStyle='#374151'; ctx.fillText(NM[i]+' 지역', x+bw+4, y0+16);
+      ctx.fillStyle='#9CA3AF'; ctx.font='9.5px sans-serif';
+      ctx.fillText('몫 '+q[i].toFixed(3), x+bw+4, y0+30); }
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText(S.dh?'나눗셈식(동트)으로 배분하는 중':'최대잉여식(헤어)으로 배분하는 중', 20, H-14);
+    $('#apout').innerHTML =
+      `<span class="mono">정확한 몫 = ${q.map(v=>v.toFixed(3)).join(' · ')} (합 ${s})</span><br>`
+      + `<span class="mono">${s}석 배분 = <b>${now.join(' · ')}</b> → ${s+1}석 배분 = <b>${nxt.join(' · ')}</b></span><br>`
+      + (!S.dh && lost.length ? `<b style="color:#B45309">전체 의석을 하나 늘렸는데 ${lost.map(i=>NM[i]).join('·')} 지역의 몫이 오히려 줄었습니다 — 알라바마 역설입니다.</b><br>` : '')
+      + (S.dh ? `<b style="color:#7C3AED">나눗셈식으로 바꾸면 늘렸는데 줄어드는 일이 생기지 않습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">「공정하게 나눈다」는 말에도 여러 뜻이 있습니다 — 어떤 방법도 모든 조건을 다 만족시키지는 못합니다.</span>`;
+  }
+  $('#apDh').onclick=()=>{ S.dh=true; draw(); };
+  $('#apHa').onclick=()=>{ S.dh=false; draw(); };
+  ['apA','apB','apC','apS'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'ap', title:'의석 배분 — 공정함의 여러 뜻',
+    q:['의석 수를 5 부터 20 까지 바꾸며 (배분, 다음 배분) 을 여섯 줄 기록하세요.',
+       '늘렸는데 줄어드는 의석 수를 모두 찾으세요.',
+       '두 배분 방식의 차이를 한 문단으로 정리하세요.'],
+    cols:['의석','가','나','다','역설'],
+    hint:'힌트 — 소수 부분이 큰 순서로 남은 의석을 주는 방식이 최대잉여식입니다.',
+    read:()=>{ const p=[+$('#apA').value,+$('#apB').value,+$('#apC').value],s=+$('#apS').value;
+      const now=S.dh?dhondt(p,s):hare(p,s).out, nxt=S.dh?dhondt(p,s+1):hare(p,s+1).out;
+      return [s,now[0],now[1],now[2],now.some((v,i)=>nxt[i]<v)?'있음':'없음']; } });
+}
+
+/* ---------- LAB 246 암호 — 빈도가 열어 준 문 ---------- */
+function cipherDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="cp1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">글자를 일정하게 밀어 쓰는 <b>시저 암호</b>는
+      글자마다 나오는 횟수가 그대로 남습니다.</div>
+    </div>
+    <div class="col">
+      ${slider('cpK','첫 글자의 이동값 k',0,25,1,3,'칸')}
+      ${slider('cpL','열쇠 글자 수',1,6,1,1,'글자')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="cpBreak">빈도로 깨 보기</button>
+        <button class="b t sm" id="cpHide">되돌리기</button></div>
+      <div class="out" id="cpout"></div>
+    </div></div>`;
+  const cv=$('#cp1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const PT='the frequency of the letter e is the highest in english and that fact alone can break a simple cipher';
+  const A='abcdefghijklmnopqrstuvwxyz';
+  const S={brk:false};
+  function enc(k,L){ let out='', j=0;
+    for(const ch of PT){ const i=A.indexOf(ch);
+      if(i<0){ out+=ch; continue; }
+      const sh=(k+7*(j%L))%26; out+=A[(i+sh)%26]; j++; }
+    return out; }
+  function freq(t){ const f=Array(26).fill(0);
+    for(const ch of t){ const i=A.indexOf(ch); if(i>=0) f[i]++; } return f; }
+  function draw(){
+    const k=+$('#cpK').value, L=+$('#cpL').value;
+    $('#cpKv').textContent=k+'칸'; $('#cpLv').textContent=L+'글자';
+    const ct=enc(k,L), f=freq(ct), mx=Math.max(...f), tot=f.reduce((a,b)=>a+b,0);
+    const top=f.indexOf(mx), guess=(top-4+26)%26;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#374151'; ctx.font='10.5px monospace'; ctx.textAlign='left';
+    const wrap=(t,n)=>t.match(new RegExp('.{1,'+n+'}','g'))||[];
+    wrap(ct,44).slice(0,4).forEach((line,i)=>ctx.fillText(line,18,26+i*15));
+    ctx.font='10.5px sans-serif'; ctx.fillStyle='#6B7280';
+    ctx.fillText('암호문의 글자 빈도', 18, 104);
+    const bw=12.4, base=250;
+    for(let i=0;i<26;i++){ const h=mx?f[i]/mx*118:0;
+      ctx.fillStyle=(S.brk&&i===top)?'#BE123C':'rgba(37,99,235,.65)';
+      ctx.fillRect(18+i*bw, base-h, bw-3, h);
+      ctx.fillStyle='#9CA3AF'; ctx.font='9px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(A[i], 18+i*bw+(bw-3)/2, base+11); }
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('가장 높은 막대 = '+A[top]+' ('+f[top]+'회 / '+tot+'글자)', 18, base+30);
+    const flat=mx/ (tot/26);
+    ctx.fillText('가장 높은 막대가 평균의 '+flat.toFixed(2)+'배', 18, base+46);
+    $('#cpout').innerHTML =
+      `<span class="mono">열쇠 = ${Array.from({length:L},(_,j)=>(k+7*j)%26).join(', ')} · ${L===1?'시저 암호':'비즈네르 암호'}</span><br>`
+      + (S.brk ? `<span class="mono">가장 잦은 글자 <b>${A[top]}</b> 를 e 로 놓으면 이동값은 <b style="color:#BE123C">${guess}</b> — 실제 k 는 ${k}</span><br>` : '')
+      + (S.brk && L===1 ? `<b style="color:#B45309">막대 하나만 보고 열쇠가 드러났습니다 — 한 칸씩 미는 암호는 이렇게 무너집니다.</b><br>` : '')
+      + (L>=3 ? `<b style="color:#7C3AED">열쇠를 여러 글자로 늘리자 막대가 고르게 펴집니다 — 최빈 글자만으로는 잡히지 않습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">암호의 안전함은 열쇠의 가짓수와 통계적 흔적, 둘 다에 달려 있습니다.</span>`;
+  }
+  $('#cpBreak').onclick=()=>{ S.brk=true; draw(); };
+  $('#cpHide').onclick=()=>{ S.brk=false; draw(); };
+  ['cpK','cpL'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'cp', title:'암호 — 흔적을 지우는 법',
+    q:['이동값을 바꿔 가며 (최빈 글자, 추정 이동값) 을 여섯 줄 기록하세요.',
+       '열쇠 글자 수를 늘리면 막대 모양이 어떻게 달라지는지 쓰세요.',
+       '왜 열쇠의 가짓수만으로는 안전을 말할 수 없는지 설명하세요.'],
+    cols:['이동값','열쇠 글자 수','최빈 글자','추정 이동값','평균 대비'],
+    hint:'힌트 — 영어에서 가장 잦은 글자는 e 입니다.',
+    read:()=>{ const k=+$('#cpK').value,L=+$('#cpL').value,ct=enc(k,L),f=freq(ct);
+      const mx=Math.max(...f),top=f.indexOf(mx),tot=f.reduce((a,b)=>a+b,0);
+      return [k,L,A[top],(top-4+26)%26,(mx/(tot/26)).toFixed(2)+'배']; } });
+}

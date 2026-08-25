@@ -1,0 +1,340 @@
+/* ---------- LAB 247 역행렬과 연립방정식 — 행렬식이 0 일 때 ---------- */
+function inverseSolveDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="iv1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">연립방정식은 두 직선의 만남입니다.
+      <b>ad − bc = 0</b> 이면 역행렬이 없고, 그때 두 직선은 평행하거나 아예 같습니다.</div>
+    </div>
+    <div class="col">
+      ${slider('iva','a  (ax + by = e)',-4,4,1,2,'')}
+      ${slider('ivb','b',-4,4,1,1,'')}
+      ${slider('ivc','c  (cx + dy = f)',-4,4,1,1,'')}
+      ${slider('ivd','d',-4,4,1,3,'')}
+      ${slider('ive','e',-10,10,1,5,'')}
+      ${slider('ivf','f',-10,10,1,6,'')}
+      <div class="out" id="ivout"></div>
+    </div></div>`;
+  const cv=$('#iv1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const a=+$('#iva').value,b=+$('#ivb').value,c=+$('#ivc').value,d=+$('#ivd').value;
+    const e=+$('#ive').value,f=+$('#ivf').value;
+    ['iva','ivb','ivc','ivd','ive','ivf'].forEach(i=>$('#'+i+'v').textContent=$('#'+i).value);
+    const det=a*d-b*c;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=190, cy=165, u=26;
+    ctx.strokeStyle='#EEF2F7'; ctx.lineWidth=1;
+    for(let k=-6;k<=6;k++){ ctx.beginPath(); ctx.moveTo(cx+k*u,10); ctx.lineTo(cx+k*u,H-24); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(14,cy+k*u); ctx.lineTo(W-14,cy+k*u); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(14,cy); ctx.lineTo(W-14,cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx,10); ctx.lineTo(cx,H-24); ctx.stroke();
+    const line=(p,q,r,col)=>{ if(p===0&&q===0) return;
+      ctx.strokeStyle=col; ctx.lineWidth=2; ctx.beginPath();
+      if(Math.abs(q)>1e-9){ const y1=(r-p*(-7))/q, y2=(r-p*7)/q;
+        ctx.moveTo(cx-7*u,cy-y1*u); ctx.lineTo(cx+7*u,cy-y2*u); }
+      else { const x=r/p; ctx.moveTo(cx+x*u,10); ctx.lineTo(cx+x*u,H-24); }
+      ctx.stroke(); };
+    line(a,b,e,'#2563EB'); line(c,d,f,'#BE123C');
+    let kind='한 점', sx=0, sy=0;
+    if(Math.abs(det)<1e-9){
+      const same=Math.abs(a*f-c*e)<1e-9 && Math.abs(b*f-d*e)<1e-9;
+      kind = same ? '무수히 많음' : '없음';
+    } else { sx=(e*d-b*f)/det; sy=(a*f-e*c)/det;
+      ctx.fillStyle='#0E9384'; ctx.beginPath(); ctx.arc(cx+sx*u,cy-sy*u,5,0,7); ctx.fill();
+      ctx.fillStyle='#0E9384'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+      ctx.fillText('('+sx.toFixed(2)+', '+sy.toFixed(2)+')', cx+sx*u+8, cy-sy*u-8); }
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('파랑 = 첫째 식 · 붉은 = 둘째 식', 16, 20);
+    ctx.fillText('해 : '+kind, 16, H-8);
+    $('#ivout').innerHTML =
+      `<span class="mono">ad − bc = ${a}·${d} − ${b}·${c} = <b style="color:${Math.abs(det)<1e-9?'#BE123C':'#0E9384'}">${det}</b></span><br>`
+      + (Math.abs(det)>1e-9 ? `<span class="mono">해 = ( ${sx.toFixed(3)} , ${sy.toFixed(3)} ) — 역행렬로 한 번에 구해집니다.</span><br>` : '')
+      + (Math.abs(det)<1e-9 && kind==='없음' ? `<b style="color:#B45309">역행렬이 없어 해가 하나도 없습니다 — 두 직선이 나란히 비켜 갑니다.</b><br>` : '')
+      + (kind==='무수히 많음' ? `<b style="color:#7C3AED">두 식이 같은 직선이 되어 해가 끝없이 많습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">「풀 수 있는가」는 계수만 보고도 판정할 수 있습니다.</span>`;
+  }
+  ['iva','ivb','ivc','ivd','ive','ivf'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'iv', title:'역행렬 — 풀리는가를 먼저 묻기',
+    q:['계수를 바꿔 가며 (ad − bc, 해의 개수) 를 여섯 줄 기록하세요.',
+       '행렬식이 0 인데 해가 있는 경우와 없는 경우의 차이를 쓰세요.',
+       '해가 하나로 정해질 조건을 계수의 말로 정리하세요.'],
+    cols:['a b','c d','ad − bc','해'],
+    hint:'힌트 — 행렬식이 0 이면 두 행이 서로의 상수배입니다.',
+    read:()=>{ const a=+$('#iva').value,b=+$('#ivb').value,c=+$('#ivc').value,d=+$('#ivd').value;
+      const e=+$('#ive').value,f=+$('#ivf').value,det=a*d-b*c;
+      const kind=Math.abs(det)>1e-9?'한 점':((Math.abs(a*f-c*e)<1e-9&&Math.abs(b*f-d*e)<1e-9)?'무수히':'없음');
+      return [a+' '+b,c+' '+d,det,kind]; } });
+}
+
+/* ---------- LAB 248 행렬식 — 넓이가 몇 배로 변하는가 ---------- */
+function detAreaDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="da1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">단위정사각형이 옮겨 간 평행사변형의 넓이가 <b>|ad − bc|</b> 입니다.
+      부호는 <b>방향</b>이 뒤집혔는지를 말해 줍니다.</div>
+    </div>
+    <div class="col">
+      ${slider('daa','a  (첫 열의 x)',-2,2,0.1,1,'')}
+      ${slider('dac','c  (첫 열의 y)',-2,2,0.1,0.2,'')}
+      ${slider('dab','b  (둘째 열의 x)',-2,2,0.1,0.5,'')}
+      ${slider('dad','d  (둘째 열의 y)',-2,2,0.1,1,'')}
+      <div class="out" id="daout"></div>
+    </div></div>`;
+  const cv=$('#da1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const a=+$('#daa').value,c=+$('#dac').value,b=+$('#dab').value,d=+$('#dad').value;
+    ['daa','dac','dab','dad'].forEach(i=>$('#'+i+'v').textContent=(+$('#'+i).value).toFixed(1));
+    const det=a*d-b*c;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=170, cy=200, u=62;
+    ctx.strokeStyle='#EEF2F7';
+    for(let k=-2;k<=3;k++){ ctx.beginPath(); ctx.moveTo(cx+k*u,20); ctx.lineTo(cx+k*u,H-20); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(20,cy-k*u); ctx.lineTo(W-20,cy-k*u); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(20,cy); ctx.lineTo(W-20,cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx,20); ctx.lineTo(cx,H-20); ctx.stroke();
+    // 원래 단위정사각형
+    ctx.strokeStyle='#D1D5DB'; ctx.setLineDash([4,3]); ctx.lineWidth=1.4;
+    ctx.strokeRect(cx,cy-u,u,u); ctx.setLineDash([]);
+    // 옮겨 간 평행사변형
+    const P=[[0,0],[a,c],[a+b,c+d],[b,d]];
+    ctx.fillStyle=det>=0?'rgba(37,99,235,.20)':'rgba(190,18,60,.20)';
+    ctx.strokeStyle=det>=0?'#2563EB':'#BE123C'; ctx.lineWidth=2;
+    ctx.beginPath(); P.forEach((p,i)=>{ const X=cx+p[0]*u, Y=cy-p[1]*u; i?ctx.lineTo(X,Y):ctx.moveTo(X,Y); });
+    ctx.closePath(); ctx.fill(); ctx.stroke();
+    const arrow=(vx,vy,col,lab)=>{ ctx.strokeStyle=col; ctx.fillStyle=col; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+vx*u,cy-vy*u); ctx.stroke();
+      ctx.font='11px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(lab, cx+vx*u+5, cy-vy*u-5); };
+    arrow(a,c,'#0E9384','첫 열'); arrow(b,d,'#B45309','둘째 열');
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('점선 = 원래 단위정사각형 (넓이 1)', 20, 30);
+    $('#daout').innerHTML =
+      `<span class="mono">ad − bc = ${a.toFixed(1)}·${d.toFixed(1)} − ${b.toFixed(1)}·${c.toFixed(1)} = <b>${det.toFixed(3)}</b> · 넓이 = <b style="color:#0E9384">${Math.abs(det).toFixed(3)}</b></span><br>`
+      + `<span class="mono">넓이 1 이던 정사각형이 <b>${Math.abs(det).toFixed(3)}</b> 배가 되었습니다.</span><br>`
+      + (det<-0.02 ? `<b style="color:#B45309">부호가 음수 — 두 열의 앞뒤가 바뀌어 방향이 뒤집혔습니다.</b><br>` : '')
+      + (Math.abs(det)<0.05 ? `<b style="color:#7C3AED">넓이가 0 에 눌렸습니다 — 평면 전체가 하나의 직선으로 찌그러집니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">행렬식은 「그 변환이 넓이를 몇 배로 바꾸는가」라는 한 개의 수입니다.</span>`;
+  }
+  ['daa','dac','dab','dad'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'da', title:'행렬식 — 넓이 배율이라는 뜻',
+    q:['성분을 바꿔 가며 (행렬식, 넓이) 를 여섯 줄 기록하세요.',
+       '부호가 음수가 되는 경우의 공통점을 쓰세요.',
+       '행렬식이 0 이 되는 조건을 두 열의 관계로 설명하세요.'],
+    cols:['a c','b d','ad − bc','넓이'],
+    hint:'힌트 — 두 열이 나란하면 평행사변형이 납작해집니다.',
+    read:()=>{ const a=+$('#daa').value,c=+$('#dac').value,b=+$('#dab').value,d=+$('#dad').value;
+      return [a.toFixed(1)+' '+c.toFixed(1),b.toFixed(1)+' '+d.toFixed(1),(a*d-b*c).toFixed(3),Math.abs(a*d-b*c).toFixed(3)]; } });
+}
+
+/* ---------- LAB 249 고유벡터 — 방향이 변하지 않는 축 ---------- */
+function eigenDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="eg1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">대부분의 벡터는 변환을 거치면 <b>방향까지</b> 바뀝니다.
+      방향이 그대로인 벡터가 있다면 그것이 <b>고유벡터</b>입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('ega','a',-3,4,1,2,'')}
+      ${slider('egb','b',-3,4,1,1,'')}
+      ${slider('egc','c',-3,4,1,1,'')}
+      ${slider('egd','d',-3,4,1,3,'')}
+      ${slider('egT','벡터의 방향',0,179,1,10,'°')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="egShow">고유 방향 표시</button></div>
+      <div class="out" id="egout"></div>
+    </div></div>`;
+  const cv=$('#eg1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const S={show:false};
+  function draw(){
+    const a=+$('#ega').value,b=+$('#egb').value,c=+$('#egc').value,d=+$('#egd').value;
+    const th=+$('#egT').value;
+    ['ega','egb','egc','egd'].forEach(i=>$('#'+i+'v').textContent=$('#'+i).value);
+    $('#egTv').textContent=th+'°';
+    const r=th*Math.PI/180, vx=Math.cos(r), vy=Math.sin(r);
+    const wx=a*vx+b*vy, wy=c*vx+d*vy;
+    const cross=vx*wy-vy*wx, nw=Math.hypot(wx,wy);
+    const sinAng=nw>1e-9?Math.abs(cross)/nw:1;
+    const tr=a+d, de=a*d-b*c, disc=tr*tr-4*de;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=190, cy=170, u=34;
+    ctx.strokeStyle='#EEF2F7';
+    for(let k=-5;k<=5;k++){ ctx.beginPath(); ctx.moveTo(cx+k*u,14); ctx.lineTo(cx+k*u,H-20); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(14,cy+k*u); ctx.lineTo(W-14,cy+k*u); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(14,cy); ctx.lineTo(W-14,cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx,14); ctx.lineTo(cx,H-20); ctx.stroke();
+    if(S.show && disc>=0){ const l1=(tr+Math.sqrt(disc))/2, l2=(tr-Math.sqrt(disc))/2;
+      [l1,l2].forEach((lm,i)=>{ let ex,ey;
+        if(Math.abs(b)>1e-9){ ex=b; ey=lm-a; } else if(Math.abs(c)>1e-9){ ex=lm-d; ey=c; } else { ex=i?0:1; ey=i?1:0; }
+        const n=Math.hypot(ex,ey)||1; ex/=n; ey/=n;
+        ctx.strokeStyle=i?'#F59E0B':'#7C3AED'; ctx.lineWidth=1.4; ctx.setLineDash([5,4]);
+        ctx.beginPath(); ctx.moveTo(cx-ex*160,cy+ey*160); ctx.lineTo(cx+ex*160,cy-ey*160); ctx.stroke();
+        ctx.setLineDash([]); }); }
+    const arrow=(x,y,col,lab)=>{ ctx.strokeStyle=col; ctx.fillStyle=col; ctx.lineWidth=2.4;
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+x*u,cy-y*u); ctx.stroke();
+      const A=Math.atan2(-y,x);
+      ctx.beginPath(); ctx.moveTo(cx+x*u,cy-y*u);
+      ctx.lineTo(cx+x*u-9*Math.cos(A-0.4),cy-y*u-9*Math.sin(A-0.4));
+      ctx.lineTo(cx+x*u-9*Math.cos(A+0.4),cy-y*u-9*Math.sin(A+0.4));
+      ctx.closePath(); ctx.fill();
+      ctx.font='11px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(lab, cx+x*u+6, cy-y*u-6); };
+    arrow(vx*1.6,vy*1.6,'#2563EB','v'); arrow(wx,wy,'#BE123C','Av');
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('파랑 = 넣은 벡터 v · 붉은 = 변환된 Av'+(S.show?' · 점선 = 고유 방향':''), 14, 22);
+    const lam = sinAng<0.03 ? (vx*wx+vy*wy) : null;
+    $('#egout').innerHTML =
+      `<span class="mono">Av = ( ${wx.toFixed(3)} , ${wy.toFixed(3)} ) · v 와 이루는 각의 sin = <b>${sinAng.toFixed(4)}</b></span><br>`
+      + `<span class="mono">특성방정식 λ² − ${tr}λ + ${de} = 0 · 판별식 <b>${disc}</b></span><br>`
+      + (sinAng<0.03 ? `<b style="color:#B45309">방향이 그대로입니다 — 길이만 ${lam.toFixed(3)} 배로 바뀌었습니다.</b><br>` : '')
+      + (S.show ? `<b style="color:#7C3AED">점선 위의 벡터는 무엇을 넣어도 그 선 위에 남습니다 — 변환이 붙잡아 두는 축입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">λ 는 그 축에서 길이가 몇 배가 되는지를 말하는 수입니다.</span>`;
+  }
+  $('#egShow').onclick=()=>{ S.show=true; draw(); };
+  ['ega','egb','egc','egd','egT'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'eg', title:'고유벡터 — 붙잡혀 있는 방향',
+    q:['방향을 돌려 가며 (각, sin 값) 을 여섯 줄 기록하세요.',
+       'sin 이 0 이 되는 각을 모두 찾으세요.',
+       '그 각에서 길이가 몇 배가 되는지 재고 특성방정식의 해와 견주세요.'],
+    cols:['각','Av','sin','배율'],
+    hint:'힌트 — 방향이 같으면 v 와 Av 의 외적이 0 입니다.',
+    read:()=>{ const a=+$('#ega').value,b=+$('#egb').value,c=+$('#egc').value,d=+$('#egd').value;
+      const th=+$('#egT').value,r=th*Math.PI/180,vx=Math.cos(r),vy=Math.sin(r);
+      const wx=a*vx+b*vy, wy=c*vx+d*vy, nw=Math.hypot(wx,wy);
+      const sn=nw>1e-9?Math.abs(vx*wy-vy*wx)/nw:1;
+      return [th+'°','('+wx.toFixed(2)+', '+wy.toFixed(2)+')',sn.toFixed(4),(vx*wx+vy*wy).toFixed(3)]; } });
+}
+
+/* ---------- LAB 250 대각화 — 거듭제곱을 수의 거듭제곱으로 ---------- */
+function matPowDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="mp1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">A 를 n 번 곱하는 대신 <b>고윳값을 n 제곱</b>하면 됩니다.
+      큰 고윳값 쪽이 갈수록 판을 지배합니다.</div>
+    </div>
+    <div class="col">
+      ${slider('mpa','a',0,3,1,2,'')}
+      ${slider('mpb','b',0,3,1,1,'')}
+      ${slider('mpc','c',0,3,1,1,'')}
+      ${slider('mpd','d',0,3,1,1,'')}
+      ${slider('mpN','거듭제곱 n',1,14,1,2,'제곱')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="mpDiag">대각화로 계산해 보기</button></div>
+      <div class="out" id="mpout"></div>
+    </div></div>`;
+  const cv=$('#mp1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const S={dg:false};
+  const mul=(X,Y)=>[X[0]*Y[0]+X[1]*Y[2], X[0]*Y[1]+X[1]*Y[3], X[2]*Y[0]+X[3]*Y[2], X[2]*Y[1]+X[3]*Y[3]];
+  function draw(){
+    const a=+$('#mpa').value,b=+$('#mpb').value,c=+$('#mpc').value,d=+$('#mpd').value,n=+$('#mpN').value;
+    ['mpa','mpb','mpc','mpd'].forEach(i=>$('#'+i+'v').textContent=$('#'+i).value);
+    $('#mpNv').textContent=n+'제곱';
+    let M=[1,0,0,1]; const A=[a,b,c,d]; const hist=[];
+    for(let k=1;k<=n;k++){ M=mul(M,A); hist.push(M.slice()); }
+    const tr=a+d, de=a*d-b*c, disc=tr*tr-4*de;
+    const l1=disc>=0?(tr+Math.sqrt(disc))/2:NaN, l2=disc>=0?(tr-Math.sqrt(disc))/2:NaN;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('성분이 커지는 모습 (세로는 로그 눈금)', 18, 20);
+    const mx=Math.max(...hist.map(m=>Math.max(...m.map(Math.abs))),1);
+    const ly=v=>264-Math.log(Math.max(v,1e-6)+1)/Math.log(mx+1)*214;
+    ctx.strokeStyle='#D1D5DB'; ctx.beginPath(); ctx.moveTo(30,264); ctx.lineTo(W-16,264); ctx.stroke();
+    const COL=['#2563EB','#0E9384','#B45309','#BE123C'];
+    for(let s=0;s<4;s++){ ctx.strokeStyle=COL[s]; ctx.lineWidth=1.8; ctx.beginPath();
+      hist.forEach((m,i)=>{ const X=30+(W-52)*i/Math.max(1,n-1), Y=ly(Math.abs(m[s]));
+        i?ctx.lineTo(X,Y):ctx.moveTo(X,Y); }); ctx.stroke(); }
+    if(disc>=0){ ctx.strokeStyle='#7C3AED'; ctx.setLineDash([4,4]); ctx.lineWidth=1.4; ctx.beginPath();
+      hist.forEach((m,i)=>{ const X=30+(W-52)*i/Math.max(1,n-1), Y=ly(Math.abs(Math.pow(l1,i+1)));
+        i?ctx.lineTo(X,Y):ctx.moveTo(X,Y); }); ctx.stroke(); ctx.setLineDash([]); }
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif';
+    ctx.fillText('네 색 = A의 네 성분 · 보라 점선 = 큰 고윳값의 거듭제곱', 18, H-30);
+    ctx.fillText('n = '+n, 18, H-14);
+    const ratio=Math.abs(M[0])>1e-9?Math.abs(M[1]/M[0]):0;
+    $('#mpout').innerHTML =
+      `<span class="mono">A<sup>${n}</sup> = [ ${M.map(v=>v.toFixed(0)).join(' , ')} ]</span><br>`
+      + `<span class="mono">고윳값 λ₁ = <b>${isNaN(l1)?'복소':l1.toFixed(4)}</b> · λ₂ = <b>${isNaN(l2)?'복소':l2.toFixed(4)}</b></span><br>`
+      + (n>=8 && disc>0 ? `<b style="color:#B45309">성분들이 모두 큰 쪽 고윳값의 비율로 굳어 갑니다 — 작은 쪽은 묻혀 사라집니다.</b><br>` : '')
+      + (S.dg && disc>0 ? `<b style="color:#7C3AED">P D<sup>n</sup> P⁻¹ — 행렬의 거듭제곱이 수 두 개의 거듭제곱으로 바뀝니다. λ₁<sup>${n}</sup> = ${Math.pow(l1,n).toFixed(2)}</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">n 이 커질수록 계산은 어려워지는데, 고윳값을 알면 오히려 쉬워집니다.</span>`;
+  }
+  $('#mpDiag').onclick=()=>{ S.dg=true; draw(); };
+  ['mpa','mpb','mpc','mpd','mpN'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'mp', title:'대각화 — 거듭제곱이 쉬워지는 자리',
+    q:['n 을 키워 가며 (성분, λ₁ⁿ) 을 여섯 줄 기록하세요.',
+       '성분의 비가 어떤 값으로 다가가는지 찾으세요.',
+       '그 값과 고유벡터의 관계를 설명하세요.'],
+    cols:['n','A^n 첫 행','λ₁','λ₁^n'],
+    hint:'힌트 — 큰 고윳값의 고유벡터 방향이 살아남습니다.',
+    read:()=>{ const a=+$('#mpa').value,b=+$('#mpb').value,c=+$('#mpc').value,d=+$('#mpd').value,n=+$('#mpN').value;
+      let M=[1,0,0,1]; const A=[a,b,c,d];
+      for(let k=1;k<=n;k++) M=mul(M,A);
+      const tr=a+d,de=a*d-b*c,disc=tr*tr-4*de,l1=(tr+Math.sqrt(Math.max(disc,0)))/2;
+      return [n,M[0].toFixed(0)+' '+M[1].toFixed(0),l1.toFixed(4),Math.pow(l1,n).toFixed(2)]; } });
+}
+
+/* ---------- LAB 251 피보나치의 행렬 표현 — 무리수가 정수를 낳는다 ---------- */
+function fibMatDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="fb1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">점화식 F(n+1) = F(n) + F(n−1) 을 행렬 한 개로 적으면
+      <b>[[1,1],[1,0]]</b> 의 거듭제곱이 됩니다.</div>
+    </div>
+    <div class="col">
+      ${slider('fbN','n',1,20,1,3,'')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="fbBinet">비네 공식과 견주기</button>
+        <button class="b t sm" id="fbHide">닫기</button></div>
+      <div class="out" id="fbout"></div>
+    </div></div>`;
+  const cv=$('#fb1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const S={bi:false};
+  const mul=(X,Y)=>[X[0]*Y[0]+X[1]*Y[2], X[0]*Y[1]+X[1]*Y[3], X[2]*Y[0]+X[3]*Y[2], X[2]*Y[1]+X[3]*Y[3]];
+  const PHI=(1+Math.sqrt(5))/2, PSI=(1-Math.sqrt(5))/2;
+  function draw(){
+    const n=+$('#fbN').value; $('#fbNv').textContent=n;
+    let M=[1,0,0,1]; const A=[1,1,1,0];
+    for(let k=1;k<=n;k++) M=mul(M,A);
+    const F=k=>{ let x=0,y=1; for(let i=1;i<=k;i++){ const t=x+y; x=y; y=t; } return x; };
+    const binet=(Math.pow(PHI,n)-Math.pow(PSI,n))/Math.sqrt(5);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('[[1,1],[1,0]] 을 n 번 곱한 결과', 18, 20);
+    const bx=40, by=44, cw=118, ch=42;
+    const LB=['F(n+1)','F(n)','F(n)','F(n−1)'];
+    for(let i=0;i<2;i++) for(let j=0;j<2;j++){ const k=i*2+j;
+      ctx.fillStyle=k===1||k===2?'rgba(37,99,235,.14)':'rgba(14,147,132,.12)';
+      ctx.fillRect(bx+j*cw,by+i*ch,cw-6,ch-6);
+      ctx.strokeStyle='#D1D5DB'; ctx.strokeRect(bx+j*cw,by+i*ch,cw-6,ch-6);
+      ctx.fillStyle='#111827'; ctx.font='bold 14px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(M[k], bx+j*cw+(cw-6)/2, by+i*ch+20);
+      ctx.fillStyle='#6B7280'; ctx.font='9.5px sans-serif';
+      ctx.fillText(LB[k], bx+j*cw+(cw-6)/2, by+i*ch+33); }
+    // 수열 막대
+    const base=280, mxv=F(Math.max(n,1)+1)||1;
+    ctx.textAlign='center';
+    for(let i=1;i<=Math.min(n+1,14);i++){ const v=F(i), h=v/mxv*120;
+      const x=24+(i-1)*25;
+      ctx.fillStyle=i===n?'#BE123C':'rgba(37,99,235,.6)';
+      ctx.fillRect(x,base-h,18,h);
+      ctx.fillStyle='#9CA3AF'; ctx.font='9px sans-serif';
+      ctx.fillText(i, x+9, base+11); }
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif';
+    ctx.fillText('아래 = 피보나치 수열 (붉은 막대가 F(n))', 18, H-10);
+    $('#fbout').innerHTML =
+      `<span class="mono">F(${n}) = <b style="color:#2563EB">${M[1]}</b> · F(${n+1}) = <b>${M[0]}</b> · F(${n-1}) = <b>${M[3]}</b></span><br>`
+      + (n>=10 ? `<b style="color:#B45309">행렬의 네 칸이 이웃한 세 피보나치 수로 정확히 채워집니다 — 점화식이 곱셈 한 번이 되었습니다.</b><br>` : '')
+      + (S.bi ? `<span class="mono">비네 공식 = (φ<sup>${n}</sup> − ψ<sup>${n}</sup>)/√5 = <b style="color:#7C3AED">${binet.toFixed(6)}</b></span><br><b style="color:#7C3AED">√5 만 잔뜩 들어 있는 식이 언제나 정수를 내놓습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">같은 수열을 행렬로도, 무리수로도 쓸 수 있습니다.</span>`;
+  }
+  $('#fbBinet').onclick=()=>{ S.bi=true; draw(); };
+  $('#fbHide').onclick=()=>{ S.bi=false; draw(); };
+  $('#fbN').oninput=draw; draw();
+  inquiry(root,{ id:'fb', title:'피보나치 — 행렬과 무리수, 두 얼굴',
+    q:['n 을 바꿔 가며 (F(n), 비네 값) 을 여섯 줄 기록하세요.',
+       '행렬의 네 칸에 어떤 수가 오는지 규칙을 쓰세요.',
+       'ψⁿ 이 매우 작아지는 것을 이용해 F(n) 을 어림하는 법을 설명하세요.'],
+    cols:['n','F(n)','F(n+1)','비네 값'],
+    hint:'힌트 — |ψ| ≈ 0.618 이라 n 이 커지면 거의 0 입니다.',
+    read:()=>{ const n=+$('#fbN').value; let M=[1,0,0,1]; const A=[1,1,1,0];
+      for(let k=1;k<=n;k++) M=mul(M,A);
+      const bi=(Math.pow(PHI,n)-Math.pow(PSI,n))/Math.sqrt(5);
+      return [n,M[1],M[0],bi.toFixed(6)]; } });
+}
