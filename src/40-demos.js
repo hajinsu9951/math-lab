@@ -35946,7 +35946,9 @@ const MISSIONS={
  "46": [
   {
    "t": "자유 탐색 — 직각변 1 을 붙이면 빗변은 얼마가 되나요? 첫 삼각형을 만들어 보세요.",
-   "re": "√2 ≈ 1\\.414"
+   "re": "√2 ≈ 1\\.414",
+   "do": "① 직각변 1 을 붙이기 ② 빗변의 길이 읽기 ③ 수직선에 눕은 자리 보기",
+   "hand": "1² + 1² 을 계산해 빗변의 제곱과 맞춰 보기"
   },
   {
    "t": "나선을 키우면 √ 들이 차례로 나올까요? 다섯 번째 제곱근까지 가 보세요.",
@@ -35965,13 +35967,17 @@ const MISSIONS={
   },
   {
    "t": "적용 — √10 까지 키워 3 에서 얼마나 떨어졌는지 확인하고 이유를 쓰세요.",
-   "re": "√10 ≈ 3\\.162"
+   "re": "√10 ≈ 3\\.162",
+   "do": "① 나선을 √10 까지 키우기 ② 3 과의 거리 재기 ③ 수직선에서 확인",
+   "hand": "3² = 9 와 10 을 견주어 √10 이 3 보다 큰 까닭 적기"
   }
  ],
  "47": [
   {
    "t": "자유 탐색 — b 손잡이를 끌어 보세요. 조각은 어디로 이사 가나요? (b 를 2 이상으로)",
-   "re": "10000 − (4|9|16|25|36|49|64|81)"
+   "re": "10000 − (4|9|16|25|36|49|64|81)",
+   "do": "① b 손잡이를 2 이상으로 끌기 ② 옮겨 간 조각의 자리 보기 ③ 남은 넓이 읽기",
+   "hand": "100² − b² 를 (100 − b)(100 + b) 로 적어 확인"
   },
   {
    "t": "99×101 을 3초에 — 어떻게 가능할까요? 도전 1을 통과하며 비밀을 찾으세요.",
@@ -36018,7 +36024,9 @@ const MISSIONS={
  "49": [
   {
    "t": "자유 탐색 — 수평선을 위아래로 끌어 보세요. 교점 개수가 어떻게 변하나요? 먼저 D 를 16 위로.",
-   "re": "4k = (1[6-9]|2[0-2])\\."
+   "re": "4k = (1[6-9]|2[0-2])\\.",
+   "do": "① 수평선을 D = 16 위로 끌기 ② 교점의 개수 세기 ③ 판별식 값 읽기",
+   "hand": "b² − 4ac 를 계산해 부호를 확인"
   },
   {
    "t": "포물선을 스치는 순간을 잡을 수 있나요? 천천히 내려 자석을 느껴 보세요.",
@@ -36057,7 +36065,9 @@ const MISSIONS={
   },
   {
    "t": "b 를 4 로 바꿔도 같은 이야기가 반복되나요? 다시 완주해 규칙을 확정하세요.",
-   "re": "\\(x \\+ 2\\)²"
+   "re": "\\(x \\+ 2\\)²",
+   "do": "① b 를 4 로 바꾸기 ② 채워 넣은 정사각형 보기 ③ 완전제곱 꼴 읽기",
+   "hand": "(b/2)² 을 계산해 채운 넓이와 맞춰 보기"
   },
   {
    "t": "대장정 — x²+bx+c=0 을 문자 그대로 접어 근의 공식까지 유도해 쓰세요."
@@ -36150,7 +36160,9 @@ const MISSIONS={
   },
   {
    "t": "60° 의 값들은 30° 와 어떤 짝을 이루나요? 발견을 기록하세요.",
-   "re": "cos 60° = 1/2"
+   "re": "cos 60° = 1/2",
+   "do": "① 각을 60° 로 맞추기 ② 밑변의 길이 읽기 ③ 30° 일 때와 견주기",
+   "hand": "정삼각형을 반으로 잘라 세 변의 비를 적어 보기"
   },
   {
    "t": "내 검증 — 세 특수각에서 sin²θ+cos²θ 를 계산해 보세요. 늘 같은 값이라면 왜?"
@@ -36504,7 +36516,9 @@ const MISSIONS={
   },
   {
    "t": "−2 를 곱하는 순간 부등호는? 예상 후 조작으로 판정하세요.",
-   "re": "부등호도 뒤집습니다"
+   "re": "부등호도 뒤집습니다",
+   "do": "① 양변에 −2 를 곱하기 ② 수직선에서 칠한 쪽 보기 ③ 부등호의 방향 읽기",
+   "hand": "3 < 5 의 양변에 −2 를 곱해 직접 확인"
   },
   {
    "t": "내 문제 — 1500원 펜·800원 지우개로 1만 원 부등식을 세워 풀어 보세요."
@@ -36625,7 +36639,9 @@ const MISSIONS={
   },
   {
    "t": "k = 0 은 어느 쪽인가요? 확인하고 세 구간을 정리하세요.",
-   "re": "순서가 사라집니다"
+   "re": "순서가 사라집니다",
+   "do": "① k 를 0 으로 맞추기 ② 양변의 값 견주기 ③ 세 구간으로 정리",
+   "hand": "3 < 5 의 양변에 0 을 곱하면 무엇이 남는지 적기"
   },
   {
    "t": "내 풀이 — −3x < 6 을 수직선 그림과 함께 풀어 쓰세요."
@@ -36648,7 +36664,9 @@ const MISSIONS={
   },
   {
    "t": "완전히 겹치면 해는 몇 개인가요? 만들어서 확인하세요.",
-   "re": "무수히 많습니다"
+   "re": "무수히 많습니다",
+   "do": "① 두 직선을 완전히 겹치게 맞추기 ② 교점 표시 보기 ③ 해의 개수 읽기",
+   "hand": "두 식을 소거해 0 = 0 이 되는 것을 확인"
   },
   {
    "t": "내 문제 — 해가 없는 연립방정식을 설계하고 그래프로 검증하세요."
@@ -36868,7 +36886,9 @@ const MISSIONS={
   },
   {
    "t": "c 를 늘리면? 경계가 정확히 어디인지 세 변으로 쓰세요.",
-   "re": "둔각삼각형"
+   "re": "둔각삼각형",
+   "do": "① c 를 늘리기 ② 판정이 바뀌는 자리 찾기 ③ 세 변의 값 읽기",
+   "hand": "a² + b² 와 c² 을 견주어 경계가 되는 c 를 구하기"
   },
   {
    "t": "내 판정 — (7, 24, 25) 는 직각인가요? 계산만으로 판결하세요."
@@ -37029,7 +37049,9 @@ const MISSIONS={
   },
   {
    "t": "(겹침, P(A)+P(B), 진짜 확률) 표 — 빼야 하는 양의 정체를 쓰세요.",
-   "re": "그냥 더해도 됩니다"
+   "re": "그냥 더해도 됩니다",
+   "do": "① 겹침을 0 으로 맞추기 ② 두 값을 견주기 ③ 판정 읽기",
+   "hand": "P(A) + P(B) − P(A∩B) 에서 겹침이 0 일 때를 적어 보기"
   },
   {
    "t": "내 문제 — 겹침을 깜빡해 1 이 넘는 가짜 문제를 만들어 친구에게 찾게 하세요."
@@ -37079,7 +37101,9 @@ const MISSIONS={
   },
   {
    "t": "남은 근까지 전부 — 삼차식은 결국 어떤 모습으로 무너지나요?",
-   "re": "완전 인수분해"
+   "re": "완전 인수분해",
+   "do": "① 남은 근까지 모두 찾기 ② 인수의 개수 세기 ③ 쪼개진 꼴 읽기",
+   "hand": "세 일차식의 곱으로 적고 전개해 원래 식과 맞춰 보기"
   },
   {
    "t": "심화 — 정수 근 사냥의 원리: 세 근(−1, 2, 3)이 모두 상수항 6 의 약수인 것은 우연일까요? f(x)=(x−p)(x−q)(x−r) 전개에서 상수항이 −pqr 임을 보이고, 정수 근 후보를 6 의 약수로 좁히는 전략을 x³−7x+6 에 적용해 종이로 전수 검사하세요."
@@ -37103,7 +37127,9 @@ const MISSIONS={
   },
   {
    "t": "켤레 z̄ 는 어디 있을까요? 예상 후 켜고, z·z̄ 의 특징도 잡으세요.",
-   "re": "거울 대칭"
+   "re": "거울 대칭",
+   "do": "① 켤레 z̄ 를 켜기 ② 두 점의 자리 견주기 ③ z·z̄ 의 값 읽기",
+   "hand": "(a + bi)(a − bi) 를 전개해 실수가 되는 것을 확인"
   },
   {
    "t": "심화 — i 의 달력: i²⁰²⁶ 을 나머지 계산(2026 ÷ 4)으로 구하고 회전 그림으로 근거를 쓰세요. 이어서 (1+i) 를 두 번 곱하면 무엇이 되는지 화면으로 실험하고, ×(1+i) 가 「45° 회전 + √2배 확대」임을 길이로 검증하세요."
@@ -37205,7 +37231,9 @@ const MISSIONS={
   },
   {
    "t": "목적함수를 바꾸면 최적지도 바뀔까요? 예상 후 확인하세요.",
-   "re": "\\(0, 4\\) 가 최대"
+   "re": "\\(0, 4\\) 가 최대",
+   "do": "① 목적함수를 바꾸기 ② 등고선의 기울기 보기 ③ 최적 꼭짓점 읽기",
+   "hand": "네 꼭짓점의 값을 모두 계산해 가장 큰 것을 고르기"
   },
   {
    "t": "심화 — 답은 왜 늘 꼭짓점인가: 이익선(평행선 다발)이 영역을 떠나는 마지막 순간이 모서리일 수밖에 없는 이유를 그림 논증으로 쓰세요. 제약이 하나 늘어 오각형 영역이 되면 후보는 몇 곳이 되나요? 실제 급식 식단·공장 생산에서 이 수학이 쓰이는 곳을 한 가지 조사하세요."
@@ -37229,7 +37257,9 @@ const MISSIONS={
   },
   {
    "t": "AABB 나열 — 24가 아니라면 왜일까요? 도전으로 확인하세요.",
-   "re": "같은 것이 있는 순열: 6가지"
+   "re": "같은 것이 있는 순열: 6가지",
+   "do": "① AABB 로 맞추기 ② 실제로 나열된 경우를 세기 ③ 값 읽기",
+   "hand": "4! 를 2!·2! 로 나누어 6 이 되는지 확인"
   },
   {
    "t": "심화 — 공식의 탄생: 5명 중 2명의 순열(₅P₂)과 조합(₅C₂)을 공식으로 구하고, 「조합 하나가 순열 2! 줄을 대표한다」는 오늘의 규칙으로 검산하세요. 우리 반 자리 바꾸기·조 편성에서 순열·조합이 갈리는 실제 상황을 하나씩 들어 계산까지 완성하세요."
@@ -37325,7 +37355,9 @@ const MISSIONS={
   },
   {
    "t": "회색을 「합성으로」 만들 수 있나요? 중점의 좌표 조건을 찾으세요.",
-   "re": "채도 0 도달"
+   "re": "채도 0 도달",
+   "do": "① 두 점을 마주 보게 놓기 ② 중점의 자리 보기 ③ 채도 값 읽기",
+   "hand": "두 점의 좌표를 더해 2 로 나눈 값이 원점이 되는 조건 적기"
   },
   {
    "t": "내 색 — 좋아하는 색의 코드를 좌표로 환산하고 삼각형에서 위치를 설명하세요."
@@ -43699,3 +43731,162 @@ function waveDemo(root){
   $('#wstop').onclick=audioStop;
   draw();
 }
+
+
+/* LAB 1~24 탐구 보고서 */
+const INQ24 = [
+{fn:"gpsDemo", id:"gps", title:"세 신호가 만나는 한 점",
+  q:["원을 하나씩 켜 가며 (켠 원의 수, 가능한 위치의 개수) 를 적으세요.","세 원을 모두 켜고 마커를 옮겨 세 차이가 모두 0 에 가까운 자리를 찾으세요.","오차를 0.5 로 올리면 그 자리가 어떻게 달라지는지 쓰세요."], cols:["마커 x","마커 y","A 차","B 차","C 차","오차"], hint:"힌트 — 세 차이가 모두 0 에 가까울수록 참된 위치입니다.",
+  read:()=>{ const T=(document.getElementById('gout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [g(/마커 \(([-\d.]+),/), g(/마커 \([-\d.]+, ([-\d.]+)\)/),
+        g(/A: .*?차 ([+-][\d.]+)/), g(/B: .*?차 ([+-][\d.]+)/), g(/C: .*?차 ([+-][\d.]+)/), v('gn')]; }},
+{fn:"bayesDemo", id:"bay", title:"단어가 쌓여 확률이 뒤집히는 순간",
+  q:["두 문자를 각각 불러와 (문자, 스팸 확률, 판정) 을 적으세요.","단어를 하나씩 지워 가며 확률이 어떻게 변하는지 기록하세요.","어느 단어가 판정을 뒤집는 결정적 증거였는지 쓰세요."], cols:["판정 대상","스팸 확률","판정"], hint:"힌트 — 확률들의 곱이 어느 쪽으로 기우는지 보세요.",
+  read:()=>{ const T=(document.getElementById('bout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [g(/판정 대상: 「(.+?)」/, '아직 없음'), g(/스팸 확률 ([\d.]+%)/), g(/→ (.+?)로 이동/, '—')]; }},
+{fn:"spreadDemo", id:"spr", title:"지수와 로지스틱이 갈라지는 자리",
+  q:["r 을 바꿔 가며 (r, 배가시간, 7일 뒤 예측) 을 여섯 줄 적으세요.","두 모형의 7일 뒤 값이 언제부터 크게 벌어지는지 찾으세요.","제작자의 100만 주장이 어느 모형에 기댄 것인지 쓰세요."], cols:["r","K","N₀","배가시간","지수 7일","로지스틱 7일"], hint:"힌트 — 포화 한계 K 에 가까워질수록 두 모형이 갈라집니다.",
+  read:()=>{ const T=(document.getElementById('sout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [v('sr'), v('sk'), v('sn'), g(/배가시간 = .*?= ([\d.]+)일/),
+        g(/지수 ([\d.]+)만/), g(/로지스틱 ([\d.]+)만/)]; }},
+{fn:"planDemo", id:"pln", title:"두 요금제가 뒤집히는 분기점",
+  q:["네 값을 바꿔 가며 (기본료 차, 분당 요금 차, 손익분기) 를 적으세요.","손익분기가 화면 밖으로 나가는 조건을 찾으세요.","내 사용량에서 어느 쪽이 이득인지 근거와 함께 쓰세요."], cols:["A 기본료","A 분당","B 기본료","B 분당","손익분기(분)"], hint:"힌트 — 기본료의 차를 분당 요금의 차로 나눠 보세요.",
+  read:()=>{ const T=(document.getElementById('plout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [v('pa'), v('pb'), v('pc'), v('pd'), g(/교점이 ([\d,]+)분/, g(/(\d+)분에서 두 요금이 같아/))]; }},
+{fn:"trigDemo", id:"trg", title:"각 하나로 높이를 재다",
+  q:["거리 d 를 바꿔 가며 (d, θ, 높이) 를 여섯 줄 적으세요.","θ 가 같을 때 d 와 높이가 어떤 관계인지 쓰세요.","눈높이를 빼먹으면 얼마나 틀리는지 확인하세요."], cols:["θ","거리 d","눈높이","건물 높이"], hint:"힌트 — 높이 = d·tanθ + 눈높이 입니다.",
+  read:()=>{ const T=(document.getElementById('tgout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [v('tth'), v('tds'), v('teh'), g(/건물 높이 = .*?= ([\d.]+) m/)]; }},
+{fn:"corrDemo", id:"cor", title:"흩어질수록 r 은 어디로 가나",
+  q:["잡음을 키워 가며 (관계의 세기, 잡음, r) 을 여섯 줄 적으세요.","r 이 0 에 가까워지는 조건을 찾으세요.","관계가 있는데도 r 이 작게 나오는 경우가 있는지 쓰세요."], cols:["관계의 세기","잡음","r","자료 수"], hint:"힌트 — r 은 반드시 −1 과 1 사이입니다.",
+  read:()=>{ const T=(document.getElementById('crout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [v('crs'), v('crn'), g(/= ([-\d.]+) →/), g(/자료 (\d+)개/)]; }},
+{fn:"repDemo", id:"rep", title:"한 사람이 평균을 끌고 간다",
+  q:["사장님 연봉을 올려 가며 (연봉, 평균, 중앙값) 을 여섯 줄 적으세요.","평균과 중앙값의 차이가 언제 커지는지 찾으세요.","평균보다 적게 받는 사람 수가 어떻게 변하는지 쓰세요."], cols:["사장님 연봉","평균","중앙값","평균 이하 인원"], hint:"힌트 — 중앙값은 한 사람이 아무리 커도 잘 움직이지 않습니다.",
+  read:()=>{ const T=(document.getElementById('rpout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [v('rpb'), g(/평균 ([\d,]+)만원/), g(/중앙값 ([\d,]+)만원/), g(/= (\d+)명/)]; }},
+{fn:"pwDemo", id:"pw", title:"한 자리 늘리면 몇 배가 되나",
+  q:["자리 수를 하나씩 늘려 가며 (자리 수, 경우의 수, 걸리는 시간) 을 적으세요.","문자 종류를 바꾸면 무엇이 달라지는지 쓰세요.","안전해지는 최소 자리 수를 근거와 함께 정하세요."], cols:["자리 수","초당 시도","전체 경우의 수","걸리는 시간"], hint:"힌트 — 밑이 문자 종류, 지수가 자리 수입니다.",
+  read:()=>{ const T=(document.getElementById('pwout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [v('pwn'), v('pws'), g(/전체 경우의 수 = (\S+)개/), g(/시도 시 → (\S+)/)]; }},
+{fn:"lawDemo", id:"law", title:"0.5% 를 200번 뽑으면",
+  q:["n 을 바꿔 가며 (p, n, 적어도 한 번 나올 확률) 을 여섯 줄 적으세요.","그 확률이 50% 를 넘는 n 을 찾으세요.","실제로 뽑은 결과가 이론과 얼마나 다른지 쓰세요."], cols:["확률 p","횟수 n","실제 당첨","적어도 한 번"], hint:"힌트 — 1 − (1−p)ⁿ 을 계산해 보세요.",
+  read:()=>{ const T=(document.getElementById('lwout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [v('lwp'), v('lwn'), g(/당첨 (\d+)회/), g(/= ([\d.]+%)$/, g(/= ([\d.]+)%/))]; }},
+{fn:"zDemo", id:"z", title:"같은 점수, 다른 등급",
+  q:["표준편차를 바꿔 가며 (점수, 평균, 표준편차, z, 상위 %) 를 적으세요.","점수는 그대로인데 등급이 달라지는 까닭을 쓰세요.","수학과 영어 중 어느 쪽이 더 잘한 것인지 근거를 드세요."], cols:["점수","평균","표준편차","z","상위 %"], hint:"힌트 — z 는 평균에서 표준편차 몇 개만큼 떨어졌는지입니다.",
+  read:()=>{ const T=(document.getElementById('zout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [v('zx'), v('zm'), v('zs'), g(/= ([-\d.]+)$/, g(/= ([-\d.]+) 상위/)), g(/상위 ([\d.]+)%/)]; }},
+{fn:"cmpDemo", id:"cmp", title:"72 로 나눈 어림이 왜 맞나",
+  q:["이자율을 바꿔 가며 (이자율, 두 배 햇수, 72 어림값) 을 여섯 줄 적으세요.","어림값이 잘 맞는 이자율 구간을 찾으세요.","단리와 복리의 차이가 언제부터 커지는지 쓰세요."], cols:["이자율","기간","단리","복리","두 배 햇수"], hint:"힌트 — log2 / log(1+r) 과 72/(100r) 을 견주세요.",
+  read:()=>{ const T=(document.getElementById('cmout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [v('cmr'), v('cmy'), g(/단리 ([\d,]+)만원/), g(/복리 ([\d,]+)만원/), g(/= ([\d.]+)년/)]; }},
+{fn:"logDemo", id:"lg", title:"로그 눈금이 살려 내는 것",
+  q:["자료를 바꿔 가며 (자료, 배율, 자릿수 차이) 를 적으세요.","보통 눈금에서 작은 값들이 어떻게 보이는지 쓰세요.","로그 눈금으로 바꾸면 무엇이 보이게 되는지 쓰세요."], cols:["자료","배율","log 배율","눈금"], hint:"힌트 — log₁₀(배율) 이 곧 자릿수 차이입니다.",
+  read:()=>{ const T=(document.getElementById('lgout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [g(/^(.+?) \(/, '—'), g(/배율 = (\S+)배/), g(/log₁₀\(배율\) = ([\d.]+)/), g(/(보통 눈금|로그 눈금)/)]; }},
+{fn:"velDemo", id:"vel", title:"h 를 줄이면 무엇에 다가가나",
+  q:["h 를 반씩 줄여 가며 (h, 평균속도, 순간속도, 차이) 를 여섯 줄 적으세요.","차이가 0 에 다가가는 모습을 쓰세요.","h 를 0 으로 둘 수 없는 까닭을 쓰세요."], cols:["t","h","평균속도","순간속도","차이"], hint:"힌트 — 평균속도의 극한이 순간속도입니다.",
+  read:()=>{ const T=(document.getElementById('vlout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [v('vlt'), v('vlh'), g(/평균속도 = .*?= ([\d.]+)/), g(/순간속도.*= ([\d.]+)/), g(/차이 ([\d.]+)/)]; }},
+{fn:"luhnDemo", id:"lu", title:"한 자리만 틀려도 걸리는 까닭",
+  q:["여러 번호로 (합계, 판정) 을 적으세요.","한 자리를 일부러 틀리면 합계가 얼마나 달라지는지 기록하세요.","10 으로 나눈 나머지가 검사에 쓰이는 까닭을 쓰세요."], cols:["합계","판정"], hint:"힌트 — 한 자리가 바뀌면 합계도 반드시 바뀝니다.",
+  read:()=>{ const T=(document.getElementById('lout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [g(/합계 = (\d+)/), g(/(✔ 유효한 번호|✘[^·]*)/, '—')]; }},
+{fn:"regDemo", id:"reg", title:"점 하나가 직선을 끌고 간다",
+  q:["점을 더해 가며 (데이터 수, 기울기, 절편, R²) 을 적으세요.","이상치를 하나 넣으면 직선이 얼마나 움직이는지 기록하세요.","R² 이 무엇을 뜻하는지 한 문장으로 쓰세요."], cols:["데이터 수","기울기","절편","SSE","R²"], hint:"힌트 — 잔차제곱합을 가장 작게 하는 직선입니다.",
+  read:()=>{ const T=(document.getElementById('rout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [g(/데이터 (\d+)개/), g(/ŷ = ([-\d.]+)x/), g(/x ([+-] [\d.]+)/, g(/x \+ ([\d.]+)/)),
+        g(/SSE = ([\d.]+)/), g(/R² = ([\d.]+)/)]; }},
+{fn:"gdDemo", id:"gd", title:"학습률이 크면 왜 튕겨 나가나",
+  q:["학습률을 바꿔 가며 (학습률, 20걸음 뒤 x, f) 를 여섯 줄 적으세요.","너무 큰 학습률에서 무슨 일이 생기는지 쓰세요.","기울기가 0 에 가까워질 때 걸음이 어떻게 되는지 쓰세요."], cols:["학습률","현재 x","f","기울기"], hint:"힌트 — 다음 x = 현재 x − 학습률 × 기울기 입니다.",
+  read:()=>{ const T=(document.getElementById('dout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [v('dlr'), g(/x0 = ([-\d.]+)/), g(/f = ([-\d.]+)/), g(/기울기 f′ = ([-\d.]+)/)]; }},
+{fn:"mcDemo", id:"mc", title:"점을 늘리면 얼마나 정확해지나",
+  q:["점을 늘려 가며 (점 수, π 추정, 오차) 를 여섯 줄 적으세요.","점을 100배 늘리면 오차가 몇 배로 줄어드는지 확인하세요.","같은 점 수에서도 값이 달라지는 까닭을 쓰세요."], cols:["점 수","원 안","π 추정","오차"], hint:"힌트 — 오차는 대략 1/√n 으로 줄어듭니다.",
+  read:()=>{ const T=(document.getElementById('mout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [g(/전체 (\d+)개/), g(/원 안 (\d+)개/), g(/π ≈ ([\d.]+)/), g(/오차 ([\d.]+)/)]; }},
+{fn:"cosDemo", id:"cos", title:"취향을 각으로 재기",
+  q:["두 선호도를 바꿔 가며 (액션, 로맨스, 추천된 사람) 을 여섯 줄 적으세요.","추천이 바뀌는 경계를 찾으세요.","크기가 아니라 방향으로 재는 까닭을 쓰세요."], cols:["액션 선호","로맨스 선호","민준","지훈","서연","추천"], hint:"힌트 — 사잇각이 작을수록 취향이 가깝습니다.",
+  read:()=>{ const T=(document.getElementById('cout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [v('ca'), v('cr'), g(/민준 ([\d.]+)/), g(/지훈 ([\d.]+)/), g(/서연 ([\d.]+)/), g(/→ (\S+)님/)]; }},
+{fn:"convDemo", id:"cnv", title:"커널이 무엇을 끄집어내나",
+  q:["네 커널을 모두 골라 (커널, 강조되는 것) 을 적으세요.","가운데 값이 클 때와 작을 때의 차이를 쓰세요.","커널의 아홉 수를 모두 더하면 무엇이 달라지는지 확인하세요."], cols:["고른 커널","커널의 아홉 수"], hint:"힌트 — 아홉 수의 합이 1 이면 밝기가 그대로 남습니다.",
+  read:()=>{ const on=document.querySelector('#kchips .chip.on');
+      const tb=[...document.querySelectorAll('table')].filter(x=>!/^iqT/.test(x.id)).pop();
+      return [ on ? (on.dataset.k || on.textContent.trim()) : '—',
+        tb ? tb.innerText.replace(/\s+/g,' ').trim().slice(0,40) : '—' ]; }},
+{fn:"waveDemo", id:"wav", title:"배음을 섞어 음색 만들기",
+  q:["진폭을 바꿔 가며 (네 진폭, 파형의 모양) 을 여섯 줄 적으세요.","기본음만 남기면 어떤 소리가 나는지 쓰세요.","같은 높이인데 음색이 달라지는 까닭을 쓰세요."], cols:["기본음","2배음","3배음","5배음"], hint:"힌트 — 진동수가 같아도 섞임이 다르면 파형이 달라집니다.",
+  read:()=>{ const T=(document.getElementById('wout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [v('w1a'), v('w2a'), v('w3a'), v('w5a')]; }},
+{fn:"symDemo", id:"sym", title:"y = x 에 비친 짝",
+  q:["x 를 바꿔 가며 (원함수 위의 점, 역함수 위의 점) 을 여섯 줄 적으세요.","두 좌표가 어떤 관계인지 쓰세요.","원함수의 치역과 역함수의 정의역을 견주세요."], cols:["x","원함수 점","역함수 점"], hint:"힌트 — (a, b) 가 있으면 (b, a) 가 있습니다.",
+  read:()=>{ const T=(document.getElementById('syout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [v('sya'), g(/원함수 위의 점 (\([-\d., ]+\))/), g(/역함수 위의 점 (\([-\d., ]+\))/)]; }},
+{fn:"seriesDemo", id:"ser", title:"항을 쌓으면 어디에 멈추나",
+  q:["항을 늘려 가며 (항 수, 부분합, 참값과의 차이) 를 여섯 줄 적으세요.","ε 안에 들어가는 첫 항 번호 N 을 찾으세요.","ε 을 줄이면 N 이 어떻게 되는지 쓰세요."], cols:["항 수","부분합","참값과의 차이","ε","N"], hint:"힌트 — N 은 ε 에 따라 달라집니다.",
+  read:()=>{ const T=(document.getElementById('seout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [g(/(\d+)항까지/), g(/= ([\d.]+) \|/, g(/S\d+ = ([\d.]+)/)),
+        g(/\| = ([\d.]+)/, g(/− L\| = ([\d.]+)/)), g(/ε = ([\d.]+)/), g(/N = (\d+)/)]; }},
+{fn:"taylorDemo", id:"tay", title:"항을 쌓아 곡선을 따라가기",
+  q:["항을 늘려 가며 (항 수, 근사값, 오차) 를 여섯 줄 적으세요.","x 를 멀리 두면 같은 항 수에서 오차가 어떻게 되는지 쓰세요.","수렴반경 밖에서 무슨 일이 생기는지 확인하세요."], cols:["항 수","원래 값 f","근사값 P","오차"], hint:"힌트 — 오차는 다음 항의 크기와 비슷합니다.",
+  read:()=>{ const T=(document.getElementById('tyout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [g(/(\d+)항까지/), g(/f = ([-\d.]+)/), g(/P\d+ = ([-\d.]+)/), g(/오차 = (\S+)/)]; }},
+{fn:"revolveDemo", id:"rev", title:"원판을 늘리면 부피에 다가간다",
+  q:["원판 수를 두 배씩 늘려 가며 (원판 수, 근사 부피, 오차) 를 여섯 줄 적으세요.","원판을 두 배로 하면 오차가 몇 배로 줄어드는지 확인하세요.","네 모양에서 각각 오차가 어떻게 다른지 쓰세요."], cols:["원판 수","근사 부피","정확한 부피","오차 %"], hint:"힌트 — 원판의 두께가 곧 Δy 입니다.",
+  read:()=>{ const T=(document.getElementById('rvout')||{innerText:''}).innerText.replace(/\s+/g,' ');
+      const g=(re,d)=>{const m=T.match(re);return m?m[1]:(d===undefined?'—':d);};
+      const v=(id,f)=>{const e=document.getElementById(id);return e?(f?f(e.value):e.value):'—';};
+      return [g(/원판 (\d+)장/), g(/Σπr²Δy = ([\d.]+)/), g(/∫πr²dy = ([\d.]+)/), g(/오차 = ([\d.]+)%/)]; }}
+];
+INQ24.forEach(sp => {
+  const L = LABS.find(x => x.build && x.build.name === sp.fn);
+  if (!L) return;
+  const orig = L.build;
+  L.build = function (root) { orig(root); inquiry(root, sp); };
+});
