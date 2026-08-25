@@ -42,7 +42,7 @@ function seqLimitDemo(root){
       `<span class="mono">a₁ = ${vals[0].toFixed(4)} · a${n} = <b>${last.toFixed(6)}</b></span><br>`
       + (C.L!==null ? `<span class="mono">극한 L = ${C.L} · |a${n} − L| = <b>${gap.toFixed(6)}</b></span><br>`
                     : `<span class="mono">한 값으로 모이지 않습니다.</span><br>`)
-      + (gap!==null && gap<0.005 ? `<b style="color:#B45309">차이가 0.005 아래 — 붉은 선에 사실상 붙었습니다. 수렴합니다.</b><br>` : '')
+      + (gap!==null && gap<0.03 ? `<b style="color:#B45309">차이가 0.03 아래 — 붉은 선에 사실상 붙었습니다. 수렴합니다.</b><br>` : '')
       + (k==='alt' ? `<b style="color:#7C3AED">두 값 사이를 오갈 뿐입니다 — 진동하며 발산합니다.</b><br>` : '')
       + (k==='lin' ? `항이 한없이 커집니다 — 양의 무한대로 발산합니다.<br>` : '')
       + `<span style="color:#6B7280;font-size:12.5px">「가까워진다」를 차이의 크기로 재는 것이 극한의 정의입니다.</span>`;
@@ -67,7 +67,7 @@ function gpConvDemo(root){
       경계가 어디인지 찾아보세요.</div>
     </div>
     <div class="col">
-      ${slider('gcR','공비 r',-1.5,1.5,0.05,0.5,'')}
+      ${slider('gcR','공비 r',-1.5,1.5,0.05,0.95,'')}
       ${slider('gcN','항의 개수 n',5,60,1,20,'항')}
       <div class="out" id="gcout"></div>
       <div class="note" style="margin-top:12px">|r| &lt; 1 이면 0 으로 수렴, r = 1 이면 1 로 수렴,
@@ -129,7 +129,7 @@ function seriesPartDemo(root){
         <option value="harm">② 1 + 1/2 + 1/3 + … (조화급수)</option>
         <option value="sq">③ 1 + 1/4 + 1/9 + … (1/n²)</option>
       </select></label>
-      ${slider('spN','더하는 항의 수',1,300,1,8,'항')}
+      ${slider('spN','더하는 항의 수',1,300,1,3,'항')}
       <div class="out" id="sp2out"></div>
       <div class="note" style="margin-top:12px">항이 0 으로 가는 것은 <b>필요조건일 뿐</b>입니다.
       조화급수는 항이 0 으로 가는데도 합이 한없이 커집니다.</div>
@@ -188,8 +188,8 @@ function repeatDecDemo(root){
     </div>
     <div class="col">
       <label class="ctl">순환소수 고르기<select id="rdK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
-        <option value="p3">① 0.333… (첫 항 0.3, 공비 0.1)</option>
-        <option value="p9">② 0.999… (첫 항 0.9, 공비 0.1)</option>
+        <option value="p9">① 0.999… (첫 항 0.9, 공비 0.1)</option>
+        <option value="p3">② 0.333… (첫 항 0.3, 공비 0.1)</option>
         <option value="p12">③ 0.121212… (첫 항 0.12, 공비 0.01)</option>
       </select></label>
       ${slider('rdN','자릿수',1,16,1,3,'자리')}
@@ -249,7 +249,7 @@ function sincLimitDemo(root){
       각이 작아질수록 둘의 비가 어떻게 되나요?</div>
     </div>
     <div class="col">
-      ${slider('snX','각 x (라디안)',1,80,1,40,'')}
+      ${slider('snX','각 x (라디안)',1,80,1,10,'')}
       <label class="ctl" style="margin-top:8px">각의 단위<select id="snU" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
         <option value="rad">라디안</option>
         <option value="deg">도(°)</option>

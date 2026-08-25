@@ -1,0 +1,320 @@
+/* ---------- LAB 187 퍼셉트론과 XOR의 벽 — 직선 하나로 가를 수 있나 ---------- */
+function perceptronDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="pc1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">가중치와 문턱값을 바꾸면 <b>판단 경계(직선)</b>가 움직입니다.
+      네 점을 모두 맞게 가를 수 있는지 해 보세요.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">문제 고르기<select id="pcK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="and">① AND — 둘 다 1일 때만 1</option>
+        <option value="or">② OR — 하나라도 1이면 1</option>
+        <option value="xor">③ XOR — 서로 다를 때만 1</option>
+      </select></label>
+      ${slider('pcW1','가중치 w₁',-2,2,0.1,0.5,'')}
+      ${slider('pcW2','가중치 w₂',-2,2,0.1,0.5,'')}
+      ${slider('pcT','문턱값 θ',-2,2,0.1,0.2,'')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="pcAuto">이 문제에 맞는 값 찾아 주기</button></div>
+      <div class="out" id="pcout"></div>
+      <div class="note" style="margin-top:12px">퍼셉트론의 판단은 <b>w₁x₁ + w₂x₂ ≥ θ</b> 라는 부등식 하나입니다.
+      경계는 직선 — 그래서 못 가르는 문제가 생깁니다.</div>
+    </div></div>`;
+  const cv=$('#pc1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const TARGET={ and:[0,0,0,1], or:[0,1,1,1], xor:[0,1,1,0] };
+  const PTS=[[0,0],[0,1],[1,0],[1,1]];
+  function draw(){
+    const k=$('#pcK').value, w1=+$('#pcW1').value, w2=+$('#pcW2').value, th=+$('#pcT').value;
+    $('#pcW1v').textContent=w1.toFixed(1); $('#pcW2v').textContent=w2.toFixed(1); $('#pcTv').textContent=th.toFixed(1);
+    const X=x=>70+200*x, Y=y=>250-200*y;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1;
+    ctx.strokeRect(X(0),Y(1),200,200);
+    // 경계선 w1 x + w2 y = th
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2.4;
+    if(Math.abs(w2)>1e-6){ const y0=(th-w1*(-0.3))/w2, y1=(th-w1*1.3)/w2;
+      ctx.beginPath(); ctx.moveTo(X(-0.3),Y(y0)); ctx.lineTo(X(1.3),Y(y1)); ctx.stroke(); }
+    else if(Math.abs(w1)>1e-6){ const x0=th/w1;
+      ctx.beginPath(); ctx.moveTo(X(x0),Y(-0.3)); ctx.lineTo(X(x0),Y(1.3)); ctx.stroke(); }
+    let right=0;
+    PTS.forEach((p,i)=>{ const s=w1*p[0]+w2*p[1], out=s>=th?1:0, want=TARGET[k][i];
+      const ok = out===want;
+      if(ok) right++;
+      ctx.fillStyle = want===1 ? 'rgba(37,99,235,.85)' : 'rgba(107,114,128,.55)';
+      ctx.beginPath(); ctx.arc(X(p[0]),Y(p[1]),11,0,7); ctx.fill();
+      ctx.fillStyle='#fff'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(want, X(p[0]), Y(p[1])+4);
+      if(!ok){ ctx.strokeStyle='#BE123C'; ctx.lineWidth=2.6;
+        ctx.beginPath(); ctx.arc(X(p[0]),Y(p[1]),15,0,7); ctx.stroke(); } });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('파랑 = 정답 1 · 회색 = 정답 0 · 붉은 테두리 = 틀린 점', 20, 300);
+    ctx.fillText('붉은 직선 = 판단 경계 w₁x₁ + w₂x₂ = θ', 20, 318);
+    $('#pcout').innerHTML =
+      `<span class="mono">경계: ${w1.toFixed(1)}x₁ + ${w2.toFixed(1)}x₂ = ${th.toFixed(1)}</span><br>`
+      + `<span class="mono">네 점 중 맞힌 개수 = <b style="color:${right===4?'#0E9384':'#BE123C'}">${right}</b> / 4</span><br>`
+      + (right===4 && k!=='xor' ? `<b style="color:#B45309">직선 하나로 네 점을 모두 갈랐습니다 — 퍼셉트론이 풀 수 있는 문제입니다.</b><br>` : '')
+      + (k==='xor' && right<4 ? `<b style="color:#7C3AED">XOR 은 아무리 옮겨도 4개를 못 맞춥니다 — 한 직선으로는 가를 수 없습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">이 벽을 넘으려면 층을 하나 더 쌓아야 합니다 — 다층 신경망의 출발점입니다.</span>`;
+  }
+  $('#pcAuto').onclick=()=>{ const k=$('#pcK').value;
+    if(k==='and'){ $('#pcW1').value=1; $('#pcW2').value=1; $('#pcT').value=1.5; }
+    else if(k==='or'){ $('#pcW1').value=1; $('#pcW2').value=1; $('#pcT').value=0.5; }
+    else { $('#pcW1').value=1; $('#pcW2').value=-1; $('#pcT').value=0.5; }
+    draw(); };
+  $('#pcK').onchange=draw; ['pcW1','pcW2','pcT'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'pc', title:'퍼셉트론 — 직선 하나의 판단',
+    q:['AND, OR 에서 네 점을 모두 맞히는 (w₁, w₂, θ) 를 각각 찾아 기록하세요.',
+       'XOR 에서 최대 몇 개까지 맞힐 수 있나요? 왜 4개가 안 되나요?',
+       '판단 경계가 왜 직선인지 부등식으로 설명하세요.'],
+    cols:['문제','w₁','w₂','θ','맞힌 수'],
+    hint:'힌트 — AND 는 θ 를 크게, OR 는 작게 잡습니다.',
+    read:()=>{ const k=$('#pcK').value,w1=+$('#pcW1').value,w2=+$('#pcW2').value,th=+$('#pcT').value;
+      let r=0; PTS.forEach((p,i)=>{ if(((w1*p[0]+w2*p[1])>=th?1:0)===TARGET[k][i]) r++; });
+      return [k.toUpperCase(),w1.toFixed(1),w2.toFixed(1),th.toFixed(1),r]; } });
+}
+
+/* ---------- LAB 188 정확도 95%의 함정 — 무엇을 재고 있나 ---------- */
+function accTrapDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="at1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">1000명 중 실제 환자는 소수입니다.
+      「모두 정상이라고 답하는」 게으른 모형의 정확도를 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('atP','실제 양성 비율',1,30,1,3,'%')}
+      ${slider('atR','모형이 잡아내는 비율 (재현율)',0,100,5,60,'%')}
+      ${slider('atF','모형이 잘못 양성이라 하는 비율',0,20,1,0,'%')}
+      <div class="out" id="atout"></div>
+      <div class="note" style="margin-top:12px">정확도 = 맞힌 수 ÷ 전체.
+      드문 일을 다룰 때는 <b>정밀도와 재현율</b>을 함께 봐야 합니다.</div>
+    </div></div>`;
+  const cv=$('#at1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const p=+$('#atP').value/100, rec=+$('#atR').value/100, fpr=+$('#atF').value/100;
+    $('#atPv').textContent=(p*100).toFixed(0)+'%'; $('#atRv').textContent=(rec*100).toFixed(0)+'%'; $('#atFv').textContent=(fpr*100).toFixed(0)+'%';
+    const N=1000, pos=Math.round(N*p), neg=N-pos;
+    const tp=Math.round(pos*rec), fn=pos-tp, fp=Math.round(neg*fpr), tn=neg-fp;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cols=40, rows=25, cw=8.4, ch=10.6, L=20, T=18;
+    for(let c=0;c<N;c++){
+      const px=L+(c%cols)*cw, py=T+Math.floor(c/cols)*ch;
+      let col;
+      if(c<tp) col='rgba(14,147,132,.85)';           // 진짜 양성 (잡음)
+      else if(c<pos) col='rgba(190,18,60,.8)';       // 놓친 환자
+      else if(c<pos+fp) col='rgba(245,158,11,.7)';   // 가짜 양성
+      else col='#EDF0F4';
+      ctx.fillStyle=col; ctx.fillRect(px,py,cw-1.2,ch-1.4); }
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('초록 = 잡아낸 환자 · 붉은 = 놓친 환자 · 주황 = 잘못 양성', L, H-24);
+    ctx.fillText('회색 = 정상으로 옳게 판정', L, H-8);
+    const acc=(tp+tn)/N, prec = (tp+fp)>0 ? tp/(tp+fp) : 0;
+    $('#atout').innerHTML =
+      `<span class="mono">실제 환자 ${pos}명 · 잡아냄 ${tp} · 놓침 <b style="color:#BE123C">${fn}</b> · 잘못 양성 ${fp}</span><br>`
+      + `<span class="mono">정확도 = <b>${(acc*100).toFixed(1)}%</b> · 재현율 = ${(rec*100).toFixed(0)}% · 정밀도 = ${(prec*100).toFixed(1)}%</span><br>`
+      + (rec===0 && fpr===0 ? `<b style="color:#B45309">한 명도 못 잡았는데 정확도가 ${(acc*100).toFixed(1)}% — 정확도만 보면 속습니다.</b><br>` : '')
+      + (rec>=0.9 && fpr<=0.05 ? `<b style="color:#7C3AED">놓친 환자가 거의 없고 오경보도 적습니다 — 쓸 만한 모형입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">드문 사건일수록 정확도는 쉽게 높아집니다 — 무엇을 재는지 봐야 합니다.</span>`;
+  }
+  ['atP','atR','atF'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'at', title:'정확도의 함정 — 무엇을 재는가',
+    q:['양성 비율을 바꾸며 「전부 정상」 모형의 정확도를 여섯 줄 기록하세요.',
+       '정확도가 높은데 쓸모없는 모형의 예를 설명하세요.',
+       '정밀도와 재현율 중 어느 쪽이 더 중요한 상황을 각각 하나씩 드세요.'],
+    cols:['양성 비율','재현율','오경보율','정확도','정밀도'],
+    hint:'힌트 — 드문 사건에서는 「전부 아니라고」 답해도 정확도가 높습니다.',
+    read:()=>{ const p=+$('#atP').value/100,rec=+$('#atR').value/100,fpr=+$('#atF').value/100;
+      const pos=Math.round(1000*p), neg=1000-pos, tp=Math.round(pos*rec), fp=Math.round(neg*fpr);
+      return [(p*100).toFixed(0)+'%',(rec*100).toFixed(0)+'%',(fpr*100).toFixed(0)+'%',
+        (((tp+(neg-fp))/1000)*100).toFixed(1)+'%',(tp+fp)>0?((tp/(tp+fp))*100).toFixed(1)+'%':'—']; } });
+}
+
+/* ---------- LAB 189 텍스트를 벡터로 — 원-핫과 빈도수 ---------- */
+function textVecDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="tx1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">문장을 <b>단어집합의 순서</b>에 맞춰 숫자로 늘어놓습니다.
+      이렇게 해야 컴퓨터가 계산할 수 있습니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">문장 고르기<select id="txS" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="0">① 이 영화 정말 재미있다</option>
+        <option value="1">② 이 영화 정말 정말 지루하다</option>
+        <option value="2">③ 재미있다 재미있다 최고</option>
+      </select></label>
+      <label class="ctl" style="margin-top:8px">표현 방식<select id="txM" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="onehot">원-핫 (있으면 1, 없으면 0)</option>
+        <option value="count">빈도수 (몇 번 나왔나)</option>
+      </select></label>
+      <div class="out" id="txout"></div>
+      <div class="note" style="margin-top:12px">단어집합 = {이, 영화, 정말, 재미있다, 지루하다, 최고}.
+      <b>순서를 정해 두어야</b> 문장마다 같은 자리를 비교할 수 있습니다.</div>
+    </div></div>`;
+  const cv=$('#tx1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const VOCAB=['이','영화','정말','재미있다','지루하다','최고'];
+  const SENT=[['이','영화','정말','재미있다'],['이','영화','정말','정말','지루하다'],['재미있다','재미있다','최고']];
+  function draw(){
+    const si=+$('#txS').value, mode=$('#txM').value;
+    const words=SENT[si];
+    const cnt=VOCAB.map(v=>words.filter(w=>w===v).length);
+    const vec = mode==='onehot' ? cnt.map(c=>c>0?1:0) : cnt;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#374151'; ctx.font='13px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('문장: ' + words.join(' '), 20, 30);
+    VOCAB.forEach((v,i)=>{ const y=64+i*40;
+      ctx.fillStyle='#6B7280'; ctx.font='12px sans-serif'; ctx.textAlign='right';
+      ctx.fillText(v, 92, y+16);
+      const w = vec[i]*44;
+      ctx.fillStyle = vec[i]>0 ? 'rgba(37,99,235,.45)' : '#EDF0F4';
+      ctx.fillRect(100, y, Math.max(w,6), 24);
+      ctx.strokeStyle='#C7D2E4'; ctx.lineWidth=1; ctx.strokeRect(100,y,Math.max(w,6),24);
+      ctx.fillStyle='#111827'; ctx.font='bold 12px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(vec[i], 100+Math.max(w,6)+8, y+17); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('막대 길이 = 그 자리의 값', 20, H-14);
+    const rep = mode==='onehot' ? '원-핫' : '빈도수';
+    const lost = mode==='onehot' && cnt.some(c=>c>1);
+    $('#txout').innerHTML =
+      `<span class="mono">단어집합 순서 = (${VOCAB.join(', ')})</span><br>`
+      + `<span class="mono">${rep} 벡터 = <b style="color:#2563EB">(${vec.join(', ')})</b> · 크기 ${Math.hypot(...vec).toFixed(3)}</span><br>`
+      + (lost ? `<b style="color:#B45309">같은 단어가 여러 번 나왔는데 1 로만 적혀 횟수 정보가 사라졌습니다.</b><br>` : '')
+      + (mode==='count' && cnt.some(c=>c>1) ? `<b style="color:#7C3AED">빈도수로 두니 반복이 값에 남습니다 — 강조를 표현할 수 있습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">어느 쪽도 「단어의 순서」는 담지 못합니다 — 그것이 이 표현의 한계입니다.</span>`;
+  }
+  ['txS','txM'].forEach(i=>$('#'+i).onchange=draw); draw();
+  inquiry(root,{ id:'tx', title:'텍스트를 벡터로',
+    q:['세 문장을 두 방식으로 각각 벡터로 적어 여섯 줄 기록하세요.',
+       '원-핫과 빈도수의 차이가 드러나는 문장을 찾으세요.',
+       '두 방식 모두 담지 못하는 정보가 무엇인지 쓰세요.'],
+    cols:['문장','방식','벡터','크기','0 이 아닌 자리'],
+    hint:'힌트 — 단어집합의 순서를 고정해야 자리끼리 비교할 수 있습니다.',
+    read:()=>{ const si=+$('#txS').value, mode=$('#txM').value, words=SENT[si];
+      const cnt=VOCAB.map(v=>words.filter(w=>w===v).length);
+      const vec = mode==='onehot'?cnt.map(c=>c>0?1:0):cnt;
+      return ['문장'+(si+1),mode==='onehot'?'원-핫':'빈도수','('+vec.join(', ')+')',
+        Math.hypot(...vec).toFixed(3),vec.filter(v=>v>0).length]; } });
+}
+
+/* ---------- LAB 190 TF-IDF — 흔한 단어를 깎아내기 ---------- */
+function tfidfDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="tf1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">막대는 각 단어의 <b>중요도 점수</b>입니다.
+      모든 문서에 나오는 단어는 점수가 깎입니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">점수 방식<select id="tfM" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="tfidf">① TF × IDF</option>
+        <option value="tf">② 빈도수만 (TF)</option>
+      </select></label>
+      ${slider('tfD','이 단어가 나온 문서 수 (「영화」)',1,10,1,3,'개')}
+      <div class="out" id="tfout"></div>
+      <div class="note" style="margin-top:12px">IDF = log(전체 문서 수 ÷ 그 단어가 나온 문서 수).
+      <b>어디에나 있는 단어일수록</b> 0 에 가까워집니다.</div>
+    </div></div>`;
+  const cv=$('#tf1'),ctx=cv.getContext('2d'),W=380,H=330,P=40;
+  const N=10;
+  const WORDS=[{w:'영화',tf:5,df:10},{w:'재미있다',tf:3,df:3},{w:'연출',tf:2,df:2},{w:'배우',tf:4,df:6},{w:'각본',tf:1,df:1}];
+  function draw(){
+    const mode=$('#tfM').value, df0=+$('#tfD').value;
+    $('#tfDv').textContent=df0+'개';
+    const list=WORDS.map((o,i)=>{ const df = i===0 ? df0 : o.df;
+      const idf=Math.log(N/df); return {w:o.w, tf:o.tf, df:df, idf:idf, score: mode==='tf'?o.tf:o.tf*idf}; });
+    const mx=Math.max(...list.map(o=>o.score),0.001);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    list.forEach((o,i)=>{ const y=48+i*52;
+      ctx.fillStyle='#374151'; ctx.font='12px sans-serif'; ctx.textAlign='right';
+      ctx.fillText(o.w, 88, y+16);
+      const w=(W-140)*o.score/mx;
+      ctx.fillStyle = i===0 ? 'rgba(190,18,60,.45)' : 'rgba(37,99,235,.4)';
+      ctx.fillRect(96, y, Math.max(w,3), 24);
+      ctx.fillStyle='#111827'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(o.score.toFixed(2), 96+Math.max(w,3)+7, y+17);
+      ctx.fillStyle='#9CA3AF'; ctx.font='10px sans-serif';
+      ctx.fillText('문서 '+o.df+'/'+N, 96, y+38); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText(mode==='tf'?'빈도수만 쓴 점수':'TF × IDF 점수', 20, 28);
+    const top=list.reduce((a,b)=>a.score>=b.score?a:b);
+    const movie=list[0];
+    $('#tfout').innerHTML =
+      `<span class="mono">「영화」 — TF ${movie.tf} · 문서 ${movie.df}/${N} · IDF = log(${N}/${movie.df}) = <b>${movie.idf.toFixed(3)}</b></span><br>`
+      + `<span class="mono">점수 = <b style="color:#BE123C">${movie.score.toFixed(3)}</b> · 가장 높은 단어 = <b>${top.w}</b></span><br>`
+      + (mode==='tf' ? `<b style="color:#B45309">빈도수만 보면 가장 흔한 「영화」가 1등 — 정작 아무 정보도 주지 못하는 단어입니다.</b><br>` : '')
+      + (mode==='tfidf' && movie.df>=9 ? `<b style="color:#7C3AED">모든 문서에 있는 단어라 IDF 가 0 에 가까워 점수가 깎였습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">「그 문서에만 자주 나오는 단어」가 특징을 잘 나타냅니다.</span>`;
+  }
+  $('#tfM').onchange=draw; $('#tfD').oninput=draw; draw();
+  inquiry(root,{ id:'tf', title:'TF-IDF — 중요한 단어 고르기',
+    q:['두 방식에서 1등 단어가 어떻게 달라지는지 기록하세요.',
+       '「영화」가 나온 문서 수를 줄이면 점수가 어떻게 변하나요?',
+       'IDF 에 로그를 쓰는 이유를 값의 변화로 설명하세요.'],
+    cols:['방식','영화 TF','영화 DF','IDF','1등 단어'],
+    hint:'힌트 — 문서 10개 모두에 나오면 log(10/10) = 0 입니다.',
+    read:()=>{ const mode=$('#tfM').value, df0=+$('#tfD').value;
+      const list=WORDS.map((o,i)=>{ const df=i===0?df0:o.df, idf=Math.log(10/df);
+        return {w:o.w, score: mode==='tf'?o.tf:o.tf*idf}; });
+      const top=list.reduce((a,b)=>a.score>=b.score?a:b);
+      return [mode==='tf'?'TF':'TF-IDF',5,df0,Math.log(10/df0).toFixed(3),top.w]; } });
+}
+
+/* ---------- LAB 191 자카드 유사도 — 겹치는 만큼 비슷한가 ---------- */
+function jaccardDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="jc1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">두 리뷰의 단어집합이 얼마나 <b>겹치는지</b> 봅니다.
+      겹친 개수를 전체 개수로 나눈 값이 자카드 유사도입니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">리뷰 A<select id="jcA" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="0">① 재미있다 최고 배우 좋다</option>
+        <option value="1">② 지루하다 아쉽다 시간 아깝다</option>
+      </select></label>
+      <label class="ctl" style="margin-top:8px">리뷰 B<select id="jcB" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="2">③ 배우 좋다 연출 좋다</option>
+        <option value="0">④ 재미있다 최고 배우 좋다</option>
+        <option value="1">⑤ 지루하다 아쉽다 시간 아깝다</option>
+      </select></label>
+      <div class="out" id="jcout"></div>
+      <div class="note" style="margin-top:12px">J(A, B) = |A ∩ B| ÷ |A ∪ B|.
+      <b>0 이면 전혀 안 겹치고 1 이면 같은 집합</b>입니다.</div>
+    </div></div>`;
+  const cv=$('#jc1'),ctx=cv.getContext('2d'),W=380,H=320;
+  const R=[['재미있다','최고','배우','좋다'],['지루하다','아쉽다','시간','아깝다'],['배우','좋다','연출','좋다']];
+  function draw(){
+    const a=[...new Set(R[+$('#jcA').value])], b=[...new Set(R[+$('#jcB').value])];
+    const inter=a.filter(w=>b.includes(w)), uni=[...new Set([...a,...b])];
+    const J=inter.length/uni.length;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.globalAlpha=.28;
+    ctx.fillStyle='#2563EB'; ctx.beginPath(); ctx.arc(148,140,88,0,7); ctx.fill();
+    ctx.fillStyle='#0E9384'; ctx.beginPath(); ctx.arc(232,140,88,0,7); ctx.fill();
+    ctx.globalAlpha=1;
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=1.6; ctx.beginPath(); ctx.arc(148,140,88,0,7); ctx.stroke();
+    ctx.strokeStyle='#0E9384'; ctx.beginPath(); ctx.arc(232,140,88,0,7); ctx.stroke();
+    ctx.font='12px sans-serif'; ctx.textAlign='center'; ctx.fillStyle='#374151';
+    const onlyA=a.filter(w=>!b.includes(w)), onlyB=b.filter(w=>!a.includes(w));
+    onlyA.forEach((w,i)=>ctx.fillText(w, 108, 116+i*22));
+    onlyB.forEach((w,i)=>ctx.fillText(w, 272, 116+i*22));
+    ctx.fillStyle='#BE123C';
+    inter.forEach((w,i)=>ctx.fillText(w, 190, 116+i*22));
+    ctx.fillStyle='#6B7280'; ctx.font='11px sans-serif';
+    ctx.fillText('A', 100, 44); ctx.fillText('B', 280, 44);
+    ctx.textAlign='left'; ctx.font='10.5px sans-serif';
+    ctx.fillText('붉은 글자 = 두 리뷰에 함께 나온 단어', 20, H-14);
+    $('#jcout').innerHTML =
+      `<span class="mono">A ∩ B = {${inter.join(', ')||'없음'}} (${inter.length}개) · A ∪ B = ${uni.length}개</span><br>`
+      + `<span class="mono">J(A, B) = ${inter.length} / ${uni.length} = <b style="color:#BE123C">${J.toFixed(3)}</b></span><br>`
+      + (J===1 ? `<b style="color:#B45309">두 집합이 완전히 같습니다 — 유사도가 1 입니다.</b><br>` : '')
+      + (J===0 ? `<b style="color:#7C3AED">겹치는 단어가 하나도 없습니다 — 유사도가 0 입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">집합으로 보면 「몇 번 나왔는가」는 지워집니다 — 그 점이 장점이자 한계입니다.</span>`;
+  }
+  ['jcA','jcB'].forEach(i=>$('#'+i).onchange=draw); draw();
+  inquiry(root,{ id:'jc', title:'자카드 유사도 — 집합의 겹침',
+    q:['가능한 조합마다 (교집합 크기, 합집합 크기, J) 를 기록하세요.',
+       'J 가 0 과 1 이 되는 경우를 각각 만들어 보세요.',
+       '「좋다」가 두 번 나온 것이 값에 반영되나요? 그 까닭은?'],
+    cols:['A','B','∩','∪','J'],
+    hint:'힌트 — 집합에서는 같은 원소를 한 번만 셉니다.',
+    read:()=>{ const a=[...new Set(R[+$('#jcA').value])], b=[...new Set(R[+$('#jcB').value])];
+      const inter=a.filter(w=>b.includes(w)), uni=[...new Set([...a,...b])];
+      return ['A'+(+$('#jcA').value+1),'B'+(+$('#jcB').value+1),inter.length,uni.length,
+        (inter.length/uni.length).toFixed(3)]; } });
+}

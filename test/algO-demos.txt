@@ -1,0 +1,327 @@
+/* ---------- LAB 182 치환적분 — 변수를 바꾸면 넓이도 바뀌나 ---------- */
+function substIntDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="si1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">위는 원래 변수 x, 아래는 <b>바꾼 변수 u</b> 로 본 같은 넓이입니다.
+      모양은 달라도 넓이는 같습니다 — 단, 조건이 있습니다.</div>
+    </div>
+    <div class="col">
+      ${slider('siK','안쪽 함수 u = kx 의 k',1,5,0.5,2,'')}
+      ${slider('siB','적분 구간의 오른쪽 끝 b',0.5,3,0.1,1,'')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="siNaive">구간만 바꿔 계산</button>
+        <button class="b g sm" id="siDx">du = k·dx 를 반영하기</button>
+      </div>
+      <div class="out" id="siout"></div>
+      <div class="note" style="margin-top:12px">∫f(kx)dx 에서 u = kx 로 두면 <b>dx = du/k</b>.
+      구간도 함께 바뀌고, 1/k 를 빠뜨리면 넓이가 k 배 어긋납니다.</div>
+    </div></div>`;
+  const cv=$('#si1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const S={ tried:false, fix:false };
+  function draw(){
+    const k=+$('#siK').value, b=+$('#siB').value;
+    $('#siKv').textContent=k.toFixed(1); $('#siBv').textContent=b.toFixed(1);
+    const f=x=>Math.cos(k*x)*0.5+0.7;
+    const exact=(Math.sin(k*b)/k)*0.5+0.7*b;
+    const wrong=(Math.sin(k*b))*0.5+0.7*b*k;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const draw1=(X,Y,fn,x0,x1,col,label,yBase)=>{
+      ctx.fillStyle=col+'.22)'; ctx.beginPath(); ctx.moveTo(X(x0),Y(0));
+      for(let i=0;i<=160;i++){ const x=x0+(x1-x0)*i/160; ctx.lineTo(X(x),Y(fn(x))); }
+      ctx.lineTo(X(x1),Y(0)); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle=col+'1)'; ctx.lineWidth=2.2; ctx.beginPath();
+      for(let i=0;i<=200;i++){ const x=x0+(x1-x0)*i/200; i?ctx.lineTo(X(x),Y(fn(x))):ctx.moveTo(X(x),Y(fn(x))); }
+      ctx.stroke();
+      ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(24,Y(0)); ctx.lineTo(W-24,Y(0)); ctx.stroke();
+      ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(label, 24, yBase); };
+    draw1(x=>34+300*x/3, y=>140-70*y, f, 0, b, 'rgba(37,99,235,', 'x 로 본 그림 — 구간 [0, '+b.toFixed(1)+']', 26);
+    draw1(u=>34+300*u/(3*k), y=>300-70*y, u=>Math.cos(u)*0.5+0.7, 0, k*b, 'rgba(14,147,132,', 'u = '+k.toFixed(1)+'x 로 본 그림 — 구간 [0, '+(k*b).toFixed(1)+']', 186);
+    const shown = S.fix ? exact : wrong;
+    $('#siout').innerHTML =
+      `<span class="mono">∫₀^${b.toFixed(1)} f(${k.toFixed(1)}x) dx · u = ${k.toFixed(1)}x → 구간 [0, ${(k*b).toFixed(1)}]</span><br>`
+      + `<span class="mono">참값 = <b style="color:#0E9384">${exact.toFixed(5)}</b> · dx 를 그대로 du 로 바꾼 값 = <b style="color:#BE123C">${wrong.toFixed(5)}</b></span><br>`
+      + (S.tried && !S.fix ? `<b style="color:#B45309">구간만 바꾸고 du = ${k.toFixed(1)}·dx 를 반영하지 않아 ${k.toFixed(1)} 배 어긋납니다.</b><br>` : '')
+      + (S.fix ? `<b style="color:#7C3AED">1/${k.toFixed(1)} 을 곱해 주니 두 넓이가 정확히 같아졌습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">변수를 바꿀 때는 「식·구간·미분소」 셋을 모두 바꿔야 합니다.</span>`;
+  }
+  $('#siNaive').onclick=()=>{ S.tried=true; S.fix=false; draw(); };
+  $('#siDx').onclick=()=>{ S.fix=true; draw(); };
+  ['siK','siB'].forEach(i=>$('#'+i).oninput=()=>{ S.tried=false; S.fix=false; draw(); }); draw();
+  inquiry(root,{ id:'si', title:'치환적분 — 세 가지를 함께 바꾼다',
+    q:['k 를 바꾸며 (k, 참값, 미분소를 빠뜨린 값, 비) 를 여섯 줄 기록하세요.',
+       '두 값의 비가 무엇과 같은지 찾으세요.',
+       '치환할 때 반드시 함께 바꿔야 하는 세 가지를 정리하세요.'],
+    cols:['k','b','새 구간','참값','빠뜨린 값'],
+    hint:'힌트 — dx = du/k 입니다. 빠뜨리면 정확히 k 배가 됩니다.',
+    read:()=>{ const k=+$('#siK').value,b=+$('#siB').value;
+      const ex=(Math.sin(k*b)/k)*0.5+0.7*b, wr=(Math.sin(k*b))*0.5+0.7*b*k;
+      return [k.toFixed(1),b.toFixed(1),'[0, '+(k*b).toFixed(1)+']',ex.toFixed(5),wr.toFixed(5)]; } });
+}
+
+/* ---------- LAB 183 부분적분 — 곱을 나누어 넘기기 ---------- */
+function byPartsDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="bp1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">막대는 각 단계에서 <b>남은 적분의 어려움</b>을 나타냅니다.
+      u 를 무엇으로 잡느냐에 따라 쉬워지기도, 더 어려워지기도 합니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">u 를 무엇으로 둘까<select id="bpK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="none">아직 고르지 않음</option>
+        <option value="good">u = x, dv = eˣdx  (좋은 선택)</option>
+        <option value="bad">u = eˣ, dv = x dx  (나쁜 선택)</option>
+      </select></label>
+      ${slider('bpB','적분 구간의 오른쪽 끝',0.5,3,0.1,1,'')}
+      <div class="out" id="bpout"></div>
+      <div class="note" style="margin-top:12px">∫u dv = uv − ∫v du.
+      <b>미분하면 단순해지는 쪽</b>을 u 로 잡는 것이 요령입니다.</div>
+    </div></div>`;
+  const cv=$('#bp1'),ctx=cv.getContext('2d'),W=380,H=320,P=36;
+  function draw(){
+    const k=$('#bpK').value, b=+$('#bpB').value;
+    $('#bpBv').textContent=b.toFixed(1);
+    const exact=(b-1)*Math.exp(b)+1;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const X=x=>P+(W-2*P)*x/3.2, Y=y=>H-70-6.5*y;
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,Y(0)); ctx.lineTo(W-P,Y(0)); ctx.stroke();
+    ctx.fillStyle='rgba(37,99,235,.22)'; ctx.beginPath(); ctx.moveTo(X(0),Y(0));
+    for(let i=0;i<=160;i++){ const x=b*i/160; ctx.lineTo(X(x),Y(x*Math.exp(x))); }
+    ctx.lineTo(X(b),Y(0)); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4; ctx.beginPath();
+    for(let i=0;i<=200;i++){ const x=3.2*i/200; i?ctx.lineTo(X(x),Y(x*Math.exp(x))):ctx.moveTo(X(x),Y(x*Math.exp(x))); }
+    ctx.stroke();
+    const bars = k==='good' ? [['x·eˣ',3],['남은 ∫eˣdx',1]] :
+                 k==='bad'  ? [['x·eˣ',3],['남은 ∫(x²/2)eˣdx',5]] : [['x·eˣ',3]];
+    bars.forEach((bb,i)=>{ const h=bb[1]*16, x0=P+i*120;
+      ctx.fillStyle = i===0 ? 'rgba(107,114,128,.35)' : (bb[1]<3 ? 'rgba(14,147,132,.5)' : 'rgba(190,18,60,.5)');
+      ctx.fillRect(x0, 100-h, 84, h);
+      ctx.fillStyle='#374151'; ctx.font='10px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(bb[0], x0, 114); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('막대 높이 = 남은 적분의 어려움', P, 28);
+    ctx.fillText('아래 파란 넓이 = ∫₀^'+b.toFixed(1)+' x eˣ dx', P, H-16);
+    $('#bpout').innerHTML =
+      `<span class="mono">∫₀^${b.toFixed(1)} x eˣ dx = [(x−1)eˣ]₀^${b.toFixed(1)} = <b style="color:#2563EB">${exact.toFixed(5)}</b></span><br>`
+      + (k==='good' ? `<span class="mono">u = x → du = dx · dv = eˣdx → v = eˣ</span><br>`
+          + `<b style="color:#B45309">남은 적분이 ∫eˣdx 로 단순해졌습니다 — 미분하면 사라지는 쪽을 u 로 잡은 덕입니다.</b><br>` : '')
+      + (k==='bad' ? `<span class="mono">u = eˣ → du = eˣdx · dv = x dx → v = x²/2</span><br>`
+          + `<b style="color:#7C3AED">남은 적분이 오히려 더 어려워졌습니다 — u 선택이 잘못되었습니다.</b><br>` : '')
+      + (k==='none' ? `u 를 무엇으로 둘지 골라 보세요.<br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">「미분하면 단순해지는 쪽」을 u 로 — 그것이 전부입니다.</span>`;
+  }
+  $('#bpK').onchange=draw; $('#bpB').oninput=draw; draw();
+  inquiry(root,{ id:'bp', title:'부분적분 — u 를 고르는 눈',
+    q:['두 선택에서 남은 적분이 어떻게 달라지는지 기록하세요.',
+       '구간을 바꾸며 정적분 값을 세 줄 기록하세요.',
+       '「미분하면 단순해지는 쪽을 u 로」라는 요령을 세 가지 예로 확인하세요.'],
+    cols:['u 선택','남은 적분','난이도','구간','정적분'],
+    hint:'힌트 — 다항식은 미분하면 차수가 낮아집니다. 지수함수는 그대로입니다.',
+    read:()=>{ const k=$('#bpK').value,b=+$('#bpB').value;
+      return [k==='good'?'u = x':(k==='bad'?'u = eˣ':'미선택'),
+        k==='good'?'∫eˣdx':(k==='bad'?'∫(x²/2)eˣdx':'—'),
+        k==='good'?'쉬움':(k==='bad'?'어려움':'—'), '[0, '+b.toFixed(1)+']',
+        ((b-1)*Math.exp(b)+1).toFixed(5)]; } });
+}
+
+/* ---------- LAB 184 속도·가속도 벡터 — 곡선 위를 달리는 점 ---------- */
+function motionVecDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="mv1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">곡선을 따라 움직이는 점의 <b>속도(초록)</b>와 <b>가속도(붉은)</b>입니다.
+      두 화살표의 방향 관계를 보세요.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">운동 고르기<select id="mvK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="para">① 포물선 운동 (던진 공)</option>
+        <option value="circ">② 등속 원운동</option>
+      </select></label>
+      ${slider('mvT','시각 t',0,628,4,120,'')}
+      <div class="out" id="mvout"></div>
+      <div class="note" style="margin-top:12px">속도 = (x′, y′), 가속도 = (x″, y″).
+      <b>속력이 일정해도 가속도는 0 이 아닙니다</b> — 방향이 바뀌기 때문입니다.</div>
+    </div></div>`;
+  const cv=$('#mv1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const k=$('#mvK').value, t=+$('#mvT').value/100;
+    $('#mvTv').textContent=t.toFixed(2);
+    let pos,vel,acc,X,Y,path;
+    if(k==='circ'){
+      X=x=>W/2+52*x; Y=y=>170-52*y;
+      pos=[2*Math.cos(t),2*Math.sin(t)]; vel=[-2*Math.sin(t),2*Math.cos(t)]; acc=[-2*Math.cos(t),-2*Math.sin(t)];
+      path=u=>[2*Math.cos(u),2*Math.sin(u)];
+    } else {
+      X=x=>40+42*x; Y=y=>270-42*y;
+      pos=[3*t, 6*t-4.9*t*t/2]; vel=[3, 6-4.9*t]; acc=[0,-4.9];
+      path=u=>[3*u, 6*u-4.9*u*u/2];
+    }
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(10,Y(0)); ctx.lineTo(W-10,Y(0)); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2; ctx.beginPath();
+    for(let i=0;i<=200;i++){ const u=(k==='circ'?6.3:2.5)*i/200, q=path(u);
+      i?ctx.lineTo(X(q[0]),Y(q[1])):ctx.moveTo(X(q[0]),Y(q[1])); }
+    ctx.stroke();
+    const arrow=(from,v,col,sc)=>{ const to=[from[0]+v[0]*sc, from[1]+v[1]*sc];
+      ctx.strokeStyle=col; ctx.fillStyle=col; ctx.lineWidth=2.6;
+      ctx.beginPath(); ctx.moveTo(X(from[0]),Y(from[1])); ctx.lineTo(X(to[0]),Y(to[1])); ctx.stroke();
+      const ang=Math.atan2(Y(to[1])-Y(from[1]),X(to[0])-X(from[0]));
+      ctx.beginPath(); ctx.moveTo(X(to[0]),Y(to[1]));
+      ctx.lineTo(X(to[0])-9*Math.cos(ang-0.4),Y(to[1])-9*Math.sin(ang-0.4));
+      ctx.lineTo(X(to[0])-9*Math.cos(ang+0.4),Y(to[1])-9*Math.sin(ang+0.4));
+      ctx.closePath(); ctx.fill(); };
+    arrow(pos,vel,'#0E9384',0.5); arrow(pos,acc,'#BE123C',0.5);
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(X(pos[0]),Y(pos[1]),5,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('초록 = 속도 · 붉은 = 가속도', 12, H-12);
+    const sp=Math.hypot(vel[0],vel[1]), am=Math.hypot(acc[0],acc[1]);
+    const dot=vel[0]*acc[0]+vel[1]*acc[1];
+    $('#mvout').innerHTML =
+      `<span class="mono">위치 (${pos[0].toFixed(2)}, ${pos[1].toFixed(2)}) · 속도 (${vel[0].toFixed(2)}, ${vel[1].toFixed(2)}) · 가속도 (${acc[0].toFixed(2)}, ${acc[1].toFixed(2)})</span><br>`
+      + `<span class="mono">속력 |v| = <b>${sp.toFixed(3)}</b> · |a| = ${am.toFixed(3)} · v·a = <b>${dot.toFixed(3)}</b></span><br>`
+      + (k==='circ' && Math.abs(dot)<1e-6 ? `<b style="color:#B45309">속력이 일정한데 가속도가 0 이 아닙니다 — 두 화살표가 수직입니다.</b><br>` : '')
+      + (k==='para' && vel[1]<0 ? `<b style="color:#7C3AED">떨어지는 중인데도 가속도는 그대로 아래쪽 — 크기와 방향이 내내 일정합니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">가속도는 「빨라지는 정도」가 아니라 「속도 벡터의 변화」입니다.</span>`;
+  }
+  $('#mvK').onchange=draw; $('#mvT').oninput=draw; draw();
+  inquiry(root,{ id:'mv', title:'속도·가속도 벡터',
+    q:['원운동에서 t 를 바꾸며 (속력, v·a) 를 여섯 줄 기록하세요 — 값이 변하나요?',
+       '속력이 일정한데 가속도가 0 이 아닌 이유를 쓰세요.',
+       '포물선 운동에서 가속도의 방향과 크기를 확인하세요.'],
+    cols:['운동','t','속력','|a|','v·a'],
+    hint:'힌트 — 속도의 크기가 변하지 않아도 방향이 변하면 가속도가 있습니다.',
+    read:()=>{ const k=$('#mvK').value,t=+$('#mvT').value/100;
+      const v = k==='circ'?[-2*Math.sin(t),2*Math.cos(t)]:[3,6-4.9*t];
+      const a = k==='circ'?[-2*Math.cos(t),-2*Math.sin(t)]:[0,-4.9];
+      return [k==='circ'?'원운동':'포물선',t.toFixed(2),Math.hypot(v[0],v[1]).toFixed(3),
+        Math.hypot(a[0],a[1]).toFixed(3),(v[0]*a[0]+v[1]*a[1]).toFixed(3)]; } });
+}
+
+/* ---------- LAB 185 곡선의 길이 — 잘게 이어 붙이기 ---------- */
+function arcLenDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="al1" width="380" height="310"></canvas>
+      <div class="note" style="margin-top:8px">곡선을 <b>선분으로 잘게 이어</b> 길이를 잽니다.
+      조각을 늘릴수록 어떤 값에 다가가나요?</div>
+    </div>
+    <div class="col">
+      ${slider('alN','조각 수',2,200,1,8,'개')}
+      ${slider('alB','오른쪽 끝 b',0.5,3,0.1,2,'')}
+      <div class="out" id="alout"></div>
+      <div class="note" style="margin-top:12px">L = ∫√(1 + (y′)²) dx.
+      가로 조각 Δx 와 세로 조각 Δy 로 만든 <b>작은 빗변</b>을 모두 더한 것입니다.</div>
+    </div></div>`;
+  const cv=$('#al1'),ctx=cv.getContext('2d'),W=380,H=310,P=36;
+  const f=x=>0.5*x*x, fp=x=>x;
+  function exact(b){ // ∫0^b √(1+x²) dx
+    return 0.5*(b*Math.sqrt(1+b*b)+Math.log(b+Math.sqrt(1+b*b))); }
+  function draw(){
+    const n=+$('#alN').value, b=+$('#alB').value;
+    $('#alNv').textContent=n+'개'; $('#alBv').textContent=b.toFixed(1);
+    const X=x=>P+(W-2*P)*x/3.2, Y=y=>H-P-(H-2*P)*y/5;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,Y(0)); ctx.lineTo(W-P,Y(0)); ctx.stroke();
+    ctx.strokeStyle='rgba(37,99,235,.35)'; ctx.lineWidth=2.6; ctx.beginPath();
+    for(let i=0;i<=200;i++){ const x=3.2*i/200; i?ctx.lineTo(X(x),Y(f(x))):ctx.moveTo(X(x),Y(f(x))); }
+    ctx.stroke();
+    let L=0; const dx=b/n;
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2; ctx.beginPath();
+    for(let i=0;i<n;i++){ const x0=i*dx, x1=(i+1)*dx;
+      L+=Math.hypot(dx, f(x1)-f(x0));
+      i?ctx.lineTo(X(x1),Y(f(x1))):(ctx.moveTo(X(x0),Y(f(x0))),ctx.lineTo(X(x1),Y(f(x1)))); }
+    ctx.stroke();
+    if(n<=24){ for(let i=0;i<=n;i++){ const x=i*dx;
+      ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(x),Y(f(x)),2.8,0,7); ctx.fill(); } }
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('y = 0.5x² · 붉은 꺾은선 = '+n+'조각으로 잰 길이', P, P-12);
+    const E=exact(b), err=Math.abs(L-E);
+    $('#alout').innerHTML =
+      `<span class="mono">조각 길이의 합 = <b style="color:#BE123C">${L.toFixed(6)}</b> · Δx = ${dx.toFixed(4)}</span><br>`
+      + `<span class="mono">정확한 값 ∫√(1 + x²)dx = <b style="color:#0E9384">${E.toFixed(6)}</b> · 오차 <b>${err.toFixed(6)}</b></span><br>`
+      + (err<0.0005 ? `<b style="color:#B45309">오차가 0.0005 아래 — 꺾은선이 곡선을 사실상 대신합니다.</b><br>` : '')
+      + (n<=4 ? `<b style="color:#7C3AED">조각이 적어 꺾은선이 곡선 안쪽을 가로질러 길이가 짧게 나옵니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">작은 빗변 √(Δx² + Δy²) 를 모두 더한 것이 곡선의 길이입니다.</span>`;
+  }
+  ['alN','alB'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'al', title:'곡선의 길이 — 빗변의 합',
+    q:['조각 수를 늘리며 (n, 합, 오차) 를 여섯 줄 기록하세요.',
+       '조각이 적을 때 길이가 짧게 나오는 이유를 그림으로 설명하세요.',
+       '√(Δx² + Δy²) 에서 ∫√(1 + (y′)²)dx 가 나오는 과정을 쓰세요.'],
+    cols:['n','b','Δx','합','오차'],
+    hint:'힌트 — Δy = y′·Δx 로 바꾸면 Δx 를 묶어낼 수 있습니다.',
+    read:()=>{ const n=+$('#alN').value,b=+$('#alB').value,dx=b/n; let L=0;
+      for(let i=0;i<n;i++){ const x0=i*dx,x1=(i+1)*dx; L+=Math.hypot(dx,f(x1)-f(x0)); }
+      return [n,b.toFixed(1),dx.toFixed(4),L.toFixed(6),Math.abs(L-exact(b)).toFixed(6)]; } });
+}
+
+/* ---------- LAB 186 미분방정식 맛보기 — 변화율이 정해 주는 미래 ---------- */
+function diffEqDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="de1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">회색 짧은 선들이 <b>기울기장</b>입니다. 각 지점에서
+      「어느 쪽으로 가야 하는지」를 알려 줍니다. 그 흐름을 따라간 것이 해입니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">변화의 규칙<select id="deK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="lin">① y′ = 0.6  (일정하게 증가)</option>
+        <option value="exp">② y′ = 0.6y  (자기 크기에 비례)</option>
+        <option value="log">③ y′ = 0.6y(1 − y/4)  (한계가 있는 성장)</option>
+      </select></label>
+      ${slider('deY','출발 값 y(0)',0.2,4,0.1,0.5,'')}
+      <div class="out" id="deout"></div>
+      <div class="note" style="margin-top:12px">미분방정식은 <b>변화율의 규칙</b>입니다.
+      같은 규칙이라도 출발점이 다르면 다른 곡선이 그려집니다.</div>
+    </div></div>`;
+  const cv=$('#de1'),ctx=cv.getContext('2d'),W=380,H=320,P=36;
+  const F={ lin:(y)=>0.6, exp:(y)=>0.6*y, log:(y)=>0.6*y*(1-y/4) };
+  function draw(){
+    const k=$('#deK').value, y0=+$('#deY').value;
+    $('#deYv').textContent=y0.toFixed(1);
+    const g=F[k];
+    const X=t=>P+(W-2*P)*t/6, Y=y=>H-P-(H-2*P)*y/5;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    for(let i=0;i<=11;i++) for(let j=0;j<=9;j++){
+      const t=i*6/11, y=0.2+j*4.6/9, m=g(y);
+      const len=12, ang=Math.atan2(-m*(H-2*P)/5, (W-2*P)/6);
+      ctx.strokeStyle='rgba(107,114,128,.45)'; ctx.lineWidth=1.2;
+      ctx.beginPath();
+      ctx.moveTo(X(t)-len/2*Math.cos(ang), Y(y)-len/2*Math.sin(ang));
+      ctx.lineTo(X(t)+len/2*Math.cos(ang), Y(y)+len/2*Math.sin(ang));
+      ctx.stroke(); }
+    let y=y0; const dt=0.01; const pts=[[0,y0]];
+    for(let t=0;t<6;t+=dt){ y+=g(y)*dt; pts.push([t+dt,y]); }
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.8; ctx.beginPath();
+    pts.forEach((q,i)=>{ if(q[1]>5.2) return; i?ctx.lineTo(X(q[0]),Y(q[1])):ctx.moveTo(X(q[0]),Y(q[1])); });
+    ctx.stroke();
+    if(k==='log'){ ctx.setLineDash([5,4]); ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.6;
+      ctx.beginPath(); ctx.moveTo(P,Y(4)); ctx.lineTo(W-P,Y(4)); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#BE123C'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+      ctx.fillText('한계 4', W-P-40, Y(4)-6); }
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('가로 = 시간 t · 세로 = y', P, P-12);
+    const yEnd=pts[pts.length-1][1];
+    const sol = k==='lin' ? 'y = '+y0.toFixed(1)+' + 0.6t' : (k==='exp' ? 'y = '+y0.toFixed(1)+'e^{0.6t}' : '로지스틱 곡선');
+    $('#deout').innerHTML =
+      `<span class="mono">규칙 y′ = ${k==='lin'?'0.6':(k==='exp'?'0.6y':'0.6y(1 − y/4)')} · y(0) = ${y0.toFixed(1)}</span><br>`
+      + `<span class="mono">t = 6 에서 y ≈ <b>${yEnd>1e4?yEnd.toExponential(2):yEnd.toFixed(4)}</b> · 해의 꼴 — ${sol}</span><br>`
+      + (k==='exp' && yEnd>15 ? `<b style="color:#B45309">자기 크기에 비례해 커지니 폭발적으로 자랍니다 — 지수함수가 해입니다.</b><br>` : '')
+      + (k==='log' ? `<b style="color:#7C3AED">한계 4 에 다가가며 성장이 스스로 꺾입니다 — S 자 곡선입니다.</b><br>` : '')
+      + (k==='lin' ? `기울기가 어디서나 같아 직선이 됩니다.<br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">규칙이 같아도 출발점이 다르면 다른 곡선 — 초기조건이 하나를 고릅니다.</span>`;
+  }
+  $('#deK').onchange=draw; $('#deY').oninput=draw; draw();
+  inquiry(root,{ id:'de', title:'미분방정식 — 변화율이 그리는 곡선',
+    q:['세 규칙 각각에서 출발 값을 바꿔 가며 t = 6 의 값을 기록하세요.',
+       '같은 규칙에서 출발점이 다르면 곡선이 어떻게 달라지나요?',
+       '지수 성장과 한계 있는 성장의 차이를 식과 그림으로 설명하세요.'],
+    cols:['규칙','y(0)','t=6 의 y','해의 꼴','한계'],
+    hint:'힌트 — 기울기장의 짧은 선을 이으면 그것이 곧 해의 곡선입니다.',
+    read:()=>{ const k=$('#deK').value,y0=+$('#deY').value,g=F[k];
+      let y=y0; for(let t=0;t<6;t+=0.01) y+=g(y)*0.01;
+      return [k==='lin'?"y′=0.6":(k==='exp'?"y′=0.6y":"로지스틱"),y0.toFixed(1),
+        y>1e4?y.toExponential(2):y.toFixed(4), k==='exp'?'지수함수':(k==='log'?'S 자':'직선'),
+        k==='log'?'4':'없음']; } });
+}

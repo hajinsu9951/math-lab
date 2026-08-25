@@ -1,0 +1,316 @@
+/* ---------- LAB 177 e 는 어디서 오나 — 지수함수의 미분 ---------- */
+function expDerivDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ed1" width="380" height="310"></canvas>
+      <div class="note" style="margin-top:8px">파란 곡선이 aˣ, 초록 곡선이 그 <b>도함수</b>입니다.
+      두 곡선이 정확히 겹치는 밑 a 를 찾아보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('edA','밑 a',1.5,4,0.01,2,'')}
+      ${slider('edX','접점의 x',-1,2,0.1,0,'')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="edE">두 곡선이 겹치는 a 찾기</button></div>
+      <div class="out" id="edout"></div>
+      <div class="note" style="margin-top:12px">(aˣ)′ = aˣ·ln a — 미분해도 <b>모양은 그대로</b>이고
+      상수 ln a 만 붙습니다. 그 상수가 1 이 되는 밑이 e 입니다.</div>
+    </div></div>`;
+  const cv=$('#ed1'),ctx=cv.getContext('2d'),W=380,H=310,P=34;
+  function draw(){
+    const a=+$('#edA').value, x0=+$('#edX').value;
+    $('#edAv').textContent=a.toFixed(2); $('#edXv').textContent=x0.toFixed(1);
+    const f=x=>Math.pow(a,x), d=x=>Math.pow(a,x)*Math.log(a);
+    const X=x=>P+(W-2*P)*(x+1.4)/3.8, Y=y=>H-P-(H-2*P)*y/8;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,Y(0)); ctx.lineTo(W-P,Y(0)); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.6; ctx.beginPath();
+    for(let i=0;i<=300;i++){ const x=-1.4+3.8*i/300, y=Math.min(8,f(x)); i?ctx.lineTo(X(x),Y(y)):ctx.moveTo(X(x),Y(y)); }
+    ctx.stroke();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.2; ctx.setLineDash([6,4]); ctx.beginPath();
+    for(let i=0;i<=300;i++){ const x=-1.4+3.8*i/300, y=Math.min(8,d(x)); i?ctx.lineTo(X(x),Y(y)):ctx.moveTo(X(x),Y(y)); }
+    ctx.stroke(); ctx.setLineDash([]);
+    const m=d(x0), y0=f(x0);
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(X(x0-1),Y(y0-m)); ctx.lineTo(X(x0+1),Y(y0+m)); ctx.stroke();
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(X(x0),Y(y0),4.4,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('실선 = aˣ · 점선 = 도함수 · 붉은 = 접선', P, P-12);
+    const ln=Math.log(a), gap=Math.abs(ln-1);
+    $('#edout').innerHTML =
+      `<span class="mono">a = ${a.toFixed(2)} · ln a = <b>${ln.toFixed(5)}</b></span><br>`
+      + `<span class="mono">f(${x0.toFixed(1)}) = ${y0.toFixed(4)} · f′(${x0.toFixed(1)}) = ${m.toFixed(4)} = f × ln a</span><br>`
+      + (gap<0.004 ? `<b style="color:#B45309">ln a 가 1 — 두 곡선이 포개졌습니다. 이 밑이 자연상수 e 입니다.</b><br>` : '')
+      + (a<=1.8 ? `<b style="color:#7C3AED">밑이 작아 도함수가 원래 곡선보다 아래에 있습니다 (ln a < 1).</b><br>` : '')
+      + (a>=3.2 ? `밑이 커서 도함수가 원래 곡선보다 위에 있습니다 (ln a > 1).<br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">미분해도 모양이 같은 함수 — 그 성질이 e 를 정의합니다.</span>`;
+  }
+  $('#edE').onclick=()=>{ $('#edA').value=Math.E.toFixed(2); draw(); };
+  ['edA','edX'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'ed', title:'지수함수의 미분 — e 의 정체',
+    q:['a 를 바꾸며 (a, ln a, f′/f) 를 여섯 줄 기록하세요.',
+       'f′/f 가 늘 같은 값인 이유를 식으로 설명하세요.',
+       '두 곡선이 포개지는 a 를 소수 둘째 자리까지 찾으세요.'],
+    cols:['a','ln a','x','f(x)','f′(x)'],
+    hint:'힌트 — (aˣ)′ = aˣ ln a 이므로 f′/f 는 x 와 무관합니다.',
+    read:()=>{ const a=+$('#edA').value,x=+$('#edX').value;
+      return [a.toFixed(2),Math.log(a).toFixed(5),x.toFixed(1),Math.pow(a,x).toFixed(4),
+        (Math.pow(a,x)*Math.log(a)).toFixed(4)]; } });
+}
+
+/* ---------- LAB 178 삼각함수의 미분 — 네 번 돌면 제자리 ---------- */
+function trigDerivDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="tv1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">미분할 때마다 그래프가 <b>왼쪽으로 90°씩</b> 밀립니다.
+      네 번 미분하면 어떻게 되나요?</div>
+    </div>
+    <div class="col">
+      ${slider('tvN','미분 횟수',0,4,1,0,'번')}
+      ${slider('tvX','접점의 x',0,628,1,100,'')}
+      <div class="out" id="tvout"></div>
+      <div class="note" style="margin-top:12px">(sin x)′ = cos x, (cos x)′ = −sin x.
+      네 번 미분하면 <b>원래대로</b> 돌아옵니다 — 주기 4 의 순환입니다.</div>
+    </div></div>`;
+  const cv=$('#tv1'),ctx=cv.getContext('2d'),W=380,H=320,P=34;
+  const NAMES=['sin x','cos x','−sin x','−cos x','sin x'];
+  function draw(){
+    const n=+$('#tvN').value, xi=+$('#tvX').value/100;
+    $('#tvNv').textContent=n+'번'; $('#tvXv').textContent=xi.toFixed(2);
+    const f=(x,k)=>Math.sin(x+k*Math.PI/2);
+    const X=x=>P+(W-2*P)*x/6.4, Y=y=>H/2-72*y;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,Y(0)); ctx.lineTo(W-P,Y(0)); ctx.stroke();
+    ctx.strokeStyle='rgba(37,99,235,.25)'; ctx.lineWidth=1.8; ctx.beginPath();
+    for(let i=0;i<=320;i++){ const x=6.4*i/320; i?ctx.lineTo(X(x),Y(f(x,0))):ctx.moveTo(X(x),Y(f(x,0))); }
+    ctx.stroke();
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2.6; ctx.beginPath();
+    for(let i=0;i<=320;i++){ const x=6.4*i/320; i?ctx.lineTo(X(x),Y(f(x,n))):ctx.moveTo(X(x),Y(f(x,n))); }
+    ctx.stroke();
+    const y0=f(xi,n), m=f(xi,n+1);
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(X(xi-0.9),Y(y0-0.9*m)); ctx.lineTo(X(xi+0.9),Y(y0+0.9*m)); ctx.stroke();
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(X(xi),Y(y0),4.4,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('연한 파랑 = 원래 sin x · 붉은 = '+NAMES[n]+' · 초록 = 접선', P, P-12);
+    const num=(f(xi+0.0005,n)-f(xi-0.0005,n))/0.001;
+    $('#tvout').innerHTML =
+      `<span class="mono">${n}번 미분 → <b style="color:#BE123C">${NAMES[n]}</b></span><br>`
+      + `<span class="mono">x = ${xi.toFixed(2)} 에서 값 ${y0.toFixed(4)} · 접선 기울기 ${m.toFixed(4)}</span><br>`
+      + `<span class="mono">수치미분으로 잰 기울기 ${num.toFixed(4)} — 다음 단계의 값과 같습니다.</span><br>`
+      + (n===4 ? `<b style="color:#B45309">네 번 미분하니 처음으로 돌아왔습니다 — 연한 파랑과 완전히 포개집니다.</b><br>` : '')
+      + (n===2 ? `<b style="color:#7C3AED">두 번 미분하면 부호가 뒤집힙니다 — 위아래로 뒤집힌 모양입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">미분 한 번이 곧 그래프를 왼쪽으로 90° 미는 일입니다.</span>`;
+  }
+  ['tvN','tvX'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'tv', title:'삼각함수의 미분 — 네 번의 순환',
+    q:['미분 횟수 0~4 에서 (이름, 값, 기울기) 를 다섯 줄 기록하세요.',
+       '두 번 미분한 결과가 원래와 어떤 관계인지 쓰세요.',
+       '수치미분 값과 다음 단계의 값이 같은지 확인하세요.'],
+    cols:['미분 횟수','이름','x','값','기울기'],
+    hint:'힌트 — 미분 한 번은 그래프를 왼쪽으로 90° 미는 것과 같습니다.',
+    read:()=>{ const n=+$('#tvN').value,x=+$('#tvX').value/100;
+      return [n,NAMES[n],x.toFixed(2),Math.sin(x+n*Math.PI/2).toFixed(4),
+        Math.sin(x+(n+1)*Math.PI/2).toFixed(4)]; } });
+}
+
+/* ---------- LAB 179 합성함수의 미분 — 사슬처럼 이어 붙이기 ---------- */
+function chainRuleDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="cr1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">안쪽 함수의 변화가 바깥 함수를 <b>얼마나 흔드는지</b> 봅니다.
+      두 기울기가 곱해집니다.</div>
+    </div>
+    <div class="col">
+      ${slider('crK','안쪽 함수 sin(kx) 의 k',1,6,0.5,1,'')}
+      ${slider('crX','x 위치',0,314,1,60,'')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="crNum">수치미분과 대조</button></div>
+      <div class="out" id="crout"></div>
+      <div class="note" style="margin-top:12px">{f(g(x))}′ = f′(g(x))·g′(x).
+      안쪽을 k 배 빠르게 하면 <b>기울기도 k 배</b>가 됩니다.</div>
+    </div></div>`;
+  const cv=$('#cr1'),ctx=cv.getContext('2d'),W=380,H=320,P=34;
+  const S={ num:false };
+  function draw(){
+    const k=+$('#crK').value, xi=+$('#crX').value/100;
+    $('#crKv').textContent=k.toFixed(1); $('#crXv').textContent=xi.toFixed(2);
+    const f=x=>Math.sin(k*x), d=x=>k*Math.cos(k*x);
+    const X=x=>P+(W-2*P)*x/3.2, Y=y=>H/2-64*y;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,Y(0)); ctx.lineTo(W-P,Y(0)); ctx.stroke();
+    ctx.strokeStyle='rgba(37,99,235,.25)'; ctx.lineWidth=1.6; ctx.beginPath();
+    for(let i=0;i<=320;i++){ const x=3.2*i/320; i?ctx.lineTo(X(x),Y(Math.sin(x))):ctx.moveTo(X(x),Y(Math.sin(x))); }
+    ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.6; ctx.beginPath();
+    for(let i=0;i<=320;i++){ const x=3.2*i/320; i?ctx.lineTo(X(x),Y(f(x))):ctx.moveTo(X(x),Y(f(x))); }
+    ctx.stroke();
+    const m=d(xi), y0=f(xi);
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2.2;
+    ctx.beginPath(); ctx.moveTo(X(xi-0.35),Y(y0-0.35*m)); ctx.lineTo(X(xi+0.35),Y(y0+0.35*m)); ctx.stroke();
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(X(xi),Y(y0),4.4,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('연한 파랑 = sin x · 진한 파랑 = sin('+k.toFixed(1)+'x)', P, P-12);
+    const num=(f(xi+0.0005)-f(xi-0.0005))/0.001;
+    $('#crout').innerHTML =
+      `<span class="mono">바깥 f′(u) = cos(u) = ${Math.cos(k*xi).toFixed(4)} · 안쪽 g′(x) = <b>${k.toFixed(1)}</b></span><br>`
+      + `<span class="mono">곱 = <b style="color:#BE123C">${m.toFixed(4)}</b> (= f′(g(x))·g′(x))</span><br>`
+      + (S.num ? `<span class="mono">수치미분 = ${num.toFixed(4)} · 차이 ${Math.abs(num-m).toExponential(2)}</span><br>` : '')
+      + (S.num && Math.abs(num-m)<1e-4 ? `<b style="color:#B45309">공식과 수치미분이 일치합니다 — 사슬 규칙이 맞습니다.</b><br>` : '')
+      + (k>=4 ? `<b style="color:#7C3AED">안쪽이 ${k.toFixed(1)} 배 빨라져 기울기도 그만큼 커졌습니다 — 곱해지는 자리입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">안쪽을 잊고 cos(kx) 만 쓰면 k 배만큼 틀립니다.</span>`;
+  }
+  $('#crNum').onclick=()=>{ S.num=true; draw(); };
+  ['crK','crX'].forEach(i=>$('#'+i).oninput=()=>{ S.num=false; draw(); }); draw();
+  inquiry(root,{ id:'cr', title:'사슬 규칙 — 기울기의 곱',
+    q:['k 를 바꾸며 (k, 바깥 기울기, 안쪽 기울기, 곱) 을 여섯 줄 기록하세요.',
+       '안쪽 미분을 빠뜨리면 값이 몇 배 어긋나나요?',
+       '수치미분과 공식이 일치하는지 확인하세요.'],
+    cols:['k','x','f′(g)','g′','곱'],
+    hint:'힌트 — 안쪽이 k 배 빨라지면 전체 기울기도 k 배가 됩니다.',
+    read:()=>{ const k=+$('#crK').value,x=+$('#crX').value/100;
+      return [k.toFixed(1),x.toFixed(2),Math.cos(k*x).toFixed(4),k.toFixed(1),(k*Math.cos(k*x)).toFixed(4)]; } });
+}
+
+/* ---------- LAB 180 음함수와 매개변수 — y 를 못 풀 때 ---------- */
+function implicitDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="im1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">y 에 대해 풀 수 없는 곡선에서도 <b>접선의 기울기</b>는 구할 수 있습니다.
+      점을 옮겨 보세요.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">곡선 고르기<select id="imK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="cir">① 원 x² + y² = 4 (음함수)</option>
+        <option value="ast">② 사이클로이드 (매개변수)</option>
+      </select></label>
+      ${slider('imT','점의 위치 (매개변수 t)',0,628,2,80,'')}
+      <div class="out" id="imout"></div>
+      <div class="note" style="margin-top:12px">음함수: 양변을 x 로 미분해 dy/dx 를 풉니다.
+      매개변수: <b>dy/dx = (dy/dt)/(dx/dt)</b>.</div>
+    </div></div>`;
+  const cv=$('#im1'),ctx=cv.getContext('2d'),W=380,H=320;
+  function draw(){
+    const k=$('#imK').value, t=+$('#imT').value/100;
+    $('#imTv').textContent=t.toFixed(2);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    let px,py,m,formula,extra='';
+    if(k==='cir'){
+      const X=x=>W/2+62*x, Y=y=>H/2-62*y;
+      ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(10,Y(0)); ctx.lineTo(W-10,Y(0)); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(X(0),10); ctx.lineTo(X(0),H-10); ctx.stroke();
+      ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.6;
+      ctx.beginPath(); ctx.arc(X(0),Y(0),124,0,7); ctx.stroke();
+      px=2*Math.cos(t); py=2*Math.sin(t);
+      m = Math.abs(py)<1e-6 ? Infinity : -px/py;
+      formula='dy/dx = −x/y';
+      ctx.strokeStyle='#BE123C'; ctx.lineWidth=2.2;
+      if(isFinite(m)){ ctx.beginPath(); ctx.moveTo(X(px-1.2),Y(py-1.2*m)); ctx.lineTo(X(px+1.2),Y(py+1.2*m)); ctx.stroke(); }
+      else { ctx.beginPath(); ctx.moveTo(X(px),Y(-2.4)); ctx.lineTo(X(px),Y(2.4)); ctx.stroke(); }
+      ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(X(px),Y(py),5,0,7); ctx.fill();
+      ctx.strokeStyle='rgba(14,147,132,.7)'; ctx.lineWidth=1.6;
+      ctx.beginPath(); ctx.moveTo(X(0),Y(0)); ctx.lineTo(X(px),Y(py)); ctx.stroke();
+      extra = `<span class="mono">반지름 방향 기울기 ${(py/px).toFixed(3)} × 접선 기울기 ${isFinite(m)?m.toFixed(3):'∞'} = ${isFinite(m)?(-1).toFixed(0):'—'}</span><br>`;
+    } else {
+      const X=x=>30+52*x, Y=y=>H-80-52*y;
+      ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(10,Y(0)); ctx.lineTo(W-10,Y(0)); ctx.stroke();
+      ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.6; ctx.beginPath();
+      for(let i=0;i<=300;i++){ const u=6.4*i/300, x=u-Math.sin(u), y=1-Math.cos(u);
+        i?ctx.lineTo(X(x),Y(y)):ctx.moveTo(X(x),Y(y)); }
+      ctx.stroke();
+      px=t-Math.sin(t); py=1-Math.cos(t);
+      const dx=1-Math.cos(t), dy=Math.sin(t);
+      m = Math.abs(dx)<1e-6 ? Infinity : dy/dx;
+      formula='dy/dx = (dy/dt)/(dx/dt) = sin t /(1 − cos t)';
+      ctx.strokeStyle='#BE123C'; ctx.lineWidth=2.2;
+      if(isFinite(m)){ ctx.beginPath(); ctx.moveTo(X(px-1),Y(py-m)); ctx.lineTo(X(px+1),Y(py+m)); ctx.stroke(); }
+      ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(X(px),Y(py),5,0,7); ctx.fill();
+      extra = `<span class="mono">dx/dt = ${dx.toFixed(4)} · dy/dt = ${dy.toFixed(4)}</span><br>`;
+    }
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('붉은 = 접선', 12, H-12);
+    $('#imout').innerHTML =
+      `<span class="mono">점 (${px.toFixed(3)}, ${py.toFixed(3)}) · ${formula}</span><br>`
+      + extra
+      + `<span class="mono">접선 기울기 = <b style="color:#BE123C">${isFinite(m)?m.toFixed(4):'수직 (정의되지 않음)'}</b></span><br>`
+      + (k==='cir' && !isFinite(m) ? `<b style="color:#B45309">y = 0 인 자리라 dy/dx 를 쓸 수 없습니다 — 접선이 수직입니다.</b><br>` : '')
+      + (k==='ast' ? `<b style="color:#7C3AED">y 로 풀 수 없는 곡선인데도 매개변수 미분으로 기울기가 나옵니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">원에서는 접선이 반지름과 수직 — 두 기울기의 곱이 −1 입니다.</span>`;
+  }
+  $('#imK').onchange=draw; $('#imT').oninput=draw; draw();
+  inquiry(root,{ id:'im', title:'음함수·매개변수 미분',
+    q:['원 위의 점을 옮기며 (x, y, 접선 기울기, 반지름 기울기의 곱) 을 여섯 줄 기록하세요.',
+       'y = 0 인 자리에서 무슨 일이 생기나요?',
+       '사이클로이드에서 dy/dx 를 매개변수로 구하는 과정을 쓰세요.'],
+    cols:['곡선','t','x','y','기울기'],
+    hint:'힌트 — 원은 양변을 x 로 미분하면 2x + 2y·y′ = 0 입니다.',
+    read:()=>{ const k=$('#imK').value,t=+$('#imT').value/100;
+      if(k==='cir'){ const x=2*Math.cos(t),y=2*Math.sin(t);
+        return ['원',t.toFixed(2),x.toFixed(3),y.toFixed(3),Math.abs(y)<1e-6?'수직':(-x/y).toFixed(4)]; }
+      const x=t-Math.sin(t), y=1-Math.cos(t), dx=1-Math.cos(t), dy=Math.sin(t);
+      return ['사이클로이드',t.toFixed(2),x.toFixed(3),y.toFixed(3),Math.abs(dx)<1e-6?'수직':(dy/dx).toFixed(4)]; } });
+}
+
+/* ---------- LAB 181 변곡점 — 휘는 방향이 바뀌는 자리 ---------- */
+function inflectDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="if1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">위는 f, 가운데는 f′, 아래는 f″ 입니다.
+      <b>f″ 이 부호를 바꾸는 자리</b>와 곡선이 휘는 방향을 맞춰 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('ifB','f(x) = x⁴ + bx³ + x 의 b',-3,3,0.25,1.5,'')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="ifMark">변곡점 표시</button>
+        <button class="b g sm" id="ifZero">b 를 0 으로</button>
+      </div>
+      <div class="out" id="ifout"></div>
+      <div class="note" style="margin-top:12px">f″ &gt; 0 이면 아래로 볼록, f″ &lt; 0 이면 위로 볼록.
+      <b>f″ = 0 이고 부호가 바뀌는</b> 점이 변곡점입니다.</div>
+    </div></div>`;
+  const cv=$('#if1'),ctx=cv.getContext('2d'),W=380,H=330,P=28;
+  const S={ mark:false };
+  function draw(){
+    const b=+$('#ifB').value; $('#ifBv').textContent=b.toFixed(2);
+    const f=x=>x*x*x*x+b*x*x*x+x, d1=x=>4*x*x*x+3*b*x*x+1, d2=x=>12*x*x+6*b*x;
+    const X=x=>W/2+62*x, Yu=y=>76-14*Math.max(-5,Math.min(5,y)),
+      Ym=y=>190-11*Math.max(-8,Math.min(8,y)), Yd=y=>282-9*Math.max(-10,Math.min(10,y));
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    [[Yu,'f'],[Ym,"f′"],[Yd,"f″"]].forEach(([Yf,nm])=>{
+      ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(P,Yf(0)); ctx.lineTo(W-P,Yf(0)); ctx.stroke();
+      ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(nm, P, Yf(0)-42); });
+    const curve=(fn,Yf,col)=>{ ctx.strokeStyle=col; ctx.lineWidth=2.2; ctx.beginPath();
+      for(let i=0;i<=300;i++){ const x=-2.2+4.4*i/300; i?ctx.lineTo(X(x),Yf(fn(x))):ctx.moveTo(X(x),Yf(fn(x))); }
+      ctx.stroke(); };
+    curve(f,Yu,'#2563EB'); curve(d1,Ym,'#0E9384'); curve(d2,Yd,'#BE123C');
+    const roots = b===0 ? [0] : [0, -b/2];
+    if(S.mark){ roots.forEach(r=>{ if(Math.abs(r)>2.2) return;
+      ctx.setLineDash([4,4]); ctx.strokeStyle='rgba(190,18,60,.7)'; ctx.lineWidth=1.2;
+      ctx.beginPath(); ctx.moveTo(X(r),36); ctx.lineTo(X(r),H-8); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(r),Yu(f(r)),4.4,0,7); ctx.fill(); }); }
+    const cnt = b===0 ? 1 : 2;
+    const changes = b===0 ? 0 : 2;
+    $('#ifout').innerHTML =
+      `<span class="mono">f″(x) = 12x² + ${(6*b).toFixed(1)}x = 6x(2x + ${b.toFixed(2)})</span><br>`
+      + `<span class="mono">f″ = 0 인 x = ${roots.map(r=>r.toFixed(3)).join(', ')}</span><br>`
+      + (changes===2 ? `<b style="color:#B45309">두 곳에서 부호가 바뀝니다 — 변곡점이 두 개입니다.</b><br>`
+                     : `<b style="color:#7C3AED">x = 0 에서 f″ 이 0 이지만 부호가 바뀌지 않습니다 — 변곡점이 아닙니다.</b><br>`)
+      + (S.mark && changes===2 ? `표시한 자리에서 위 곡선의 휘는 방향이 실제로 뒤집힙니다.<br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">「f″ = 0」은 후보일 뿐 — 부호가 바뀌어야 변곡점입니다.</span>`;
+  }
+  $('#ifMark').onclick=()=>{ S.mark=true; draw(); };
+  $('#ifZero').onclick=()=>{ $('#ifB').value=0; S.mark=false; draw(); };
+  $('#ifB').oninput=()=>{ S.mark=false; draw(); }; draw();
+  inquiry(root,{ id:'if', title:'변곡점 — 휘는 방향의 전환',
+    q:['b 를 바꾸며 (b, f″ = 0 인 x, 변곡점 개수) 를 여섯 줄 기록하세요.',
+       'b = 0 일 때 f″ = 0 인데도 변곡점이 아닌 이유를 쓰세요.',
+       '아래로 볼록·위로 볼록 구간을 f″ 의 부호로 나누어 표로 만드세요.'],
+    cols:['b','f″=0 인 x','부호 변화','변곡점 수','볼록 구간'],
+    hint:'힌트 — f″ = 6x(2x + b) 를 인수분해해 부호를 따져 보세요.',
+    read:()=>{ const b=+$('#ifB').value;
+      return [b.toFixed(2), b===0?'0 (중근)':'0, '+(-b/2).toFixed(3), b===0?'없음':'두 번',
+        b===0?0:2, b===0?'전 구간 아래로 볼록':'가운데만 위로 볼록']; } });
+}
