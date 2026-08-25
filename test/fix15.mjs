@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+const P = 'src/40-demos.js';
+let s = fs.readFileSync(P, 'utf8');
+const i0 = s.indexOf('const MISSIONS=');
+const m = s.slice(i0).match(/^const MISSIONS=\{[\s\S]*?\n\};/);
+const M = new Function('return ' + m[0].slice('const MISSIONS='.length, -1))();
+M[15][1].re = '데이터 1\\d개 · 잔차제곱합[\\s\\S]{0,120}R² = (0\\.9[5-9]|1\\.000)';
+s = s.slice(0, i0) + 'const MISSIONS=' + JSON.stringify(M, null, 1) + ';' + s.slice(i0 + m[0].length);
+fs.writeFileSync(P, s);
+console.log('OK:', M[15][1].re);

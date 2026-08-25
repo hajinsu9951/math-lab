@@ -1,0 +1,272 @@
+/* ---------- LAB 142 조합과 파스칼 삼각형 — 위 두 수의 합 ---------- */
+function pascalDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ps1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">각 자리는 <b>바로 위 두 수의 합</b>입니다.
+      그 수가 곧 「n 개에서 r 개를 뽑는 방법의 수」입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('psN','줄 번호 n',1,12,1,6,'')}
+      ${slider('psR','뽑는 개수 r',0,12,1,2,'')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="psSum">한 줄을 모두 더하기</button></div>
+      <div class="out" id="psout"></div>
+      <div class="note" style="margin-top:12px">C(n, r) = C(n−1, r−1) + C(n−1, r).
+      뽑히느냐 마느냐로 <b>두 갈래로 갈라</b> 세는 것이 이 식의 뜻입니다.</div>
+    </div></div>`;
+  const cv=$('#ps1'),ctx=cv.getContext('2d'),W=380,H=320;
+  const S={ sum:false };
+  const C=(n,r)=>{ if(r<0||r>n) return 0; let v=1; for(let i=0;i<r;i++) v=v*(n-i)/(i+1); return Math.round(v); };
+  function draw(){
+    let n=+$('#psN').value, r=Math.min(+$('#psR').value,n);
+    $('#psR').max=n; $('#psNv').textContent=n; $('#psRv').textContent=r;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const rows=n+1, dy=Math.min(26,(H-40)/rows), dx=Math.min(30,320/(n+1));
+    for(let i=0;i<rows;i++){ for(let j=0;j<=i;j++){
+      const px=W/2+(j-i/2)*dx, py=24+i*dy, v=C(i,j);
+      const hit = i===n&&j===r, par = i===n-1&&(j===r-1||j===r);
+      ctx.fillStyle = hit?'rgba(190,18,60,.85)':(par?'rgba(14,147,132,.75)':'#6B7280');
+      ctx.font=(hit?'bold ':'')+Math.min(12,dx*0.44)+'px sans-serif'; ctx.textAlign='center';
+      if(hit){ ctx.fillStyle='rgba(190,18,60,.14)'; ctx.beginPath(); ctx.arc(px,py-4,dx*0.44,0,7); ctx.fill();
+        ctx.fillStyle='#BE123C'; }
+      ctx.fillText(v, px, py); } }
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('붉은 = C(n, r) · 초록 = 그 위의 두 수', 14, H-10);
+    const val=C(n,r), a=C(n-1,r-1), b=C(n-1,r), tot=Math.pow(2,n);
+    $('#psout').innerHTML =
+      `<span class="mono">C(${n}, ${r}) = <b style="color:#BE123C">${val}</b></span><br>`
+      + `<span class="mono">위 두 수 ${a} + ${b} = <b>${a+b}</b> — 파스칼 항등식</span><br>`
+      + (n===10&&r===3 ? `<b style="color:#B45309">오늘의 문제 — 10명에서 3명을 뽑는 방법은 ${val}가지입니다.</b><br>` : '')
+      + (S.sum ? `<b style="color:#7C3AED">한 줄을 모두 더하면 ${tot} = 2^${n} — 부분집합의 개수와 같습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">한 사람을 정해 「뽑는다 / 안 뽑는다」로 나누면 항등식이 보입니다.</span>`;
+  }
+  $('#psSum').onclick=()=>{ S.sum=true; draw(); };
+  ['psN','psR'].forEach(i=>$('#'+i).oninput=()=>{ S.sum=false; draw(); }); draw();
+  inquiry(root,{ id:'ps', title:'조합 — 파스칼 삼각형으로 세기',
+    q:['(n, r, C(n,r), 위 두 수의 합) 을 여섯 줄 기록하세요.',
+       '한 줄의 합이 2ⁿ 인 이유를 부분집합으로 설명하세요.',
+       'C(n, r) = C(n, n−r) 인 이유를 「뽑는 대신 남기는」 관점으로 쓰세요.'],
+    cols:['n','r','C(n,r)','위 두 수','합'],
+    hint:'힌트 — 한 사람을 정해 뽑히는 경우와 아닌 경우로 나누면 항등식이 나옵니다.',
+    read:()=>{ const n=+$('#psN').value,r=Math.min(+$('#psR').value,n);
+      return [n,r,C(n,r),C(n-1,r-1)+' + '+C(n-1,r),C(n-1,r-1)+C(n-1,r)]; } });
+}
+
+/* ---------- LAB 143 중복조합 — 똑같은 사탕을 나눠 담기 ---------- */
+function starsBarsDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sb1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">사탕은 <b>★</b>, 사람 사이의 칸막이는 <b>|</b> 입니다.
+      나누는 방법의 수는 곧 <b>칸막이를 놓는 자리</b>를 고르는 문제입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('sbN','사탕 개수 n',1,10,1,4,'개')}
+      ${slider('sbK','사람 수 k',2,5,1,2,'명')}
+      <div class="ctl" style="margin-top:8px"><label><input type="checkbox" id="sbPos"> 모두 1개 이상씩 받아야 함</label></div>
+      <div class="out" id="sbout"></div>
+      <div class="note" style="margin-top:12px">H(k, n) = C(n + k − 1, k − 1).
+      ★ n 개와 | (k−1) 개를 <b>한 줄로 늘어놓는</b> 문제로 바뀝니다.</div>
+    </div></div>`;
+  const cv=$('#sb1'),ctx=cv.getContext('2d'),W=380,H=320;
+  const C=(n,r)=>{ if(r<0||r>n) return 0; let v=1; for(let i=0;i<r;i++) v=v*(n-i)/(i+1); return Math.round(v); };
+  function all(n,k){ const out=[]; (function rec(rem,left,cur){
+    if(left===1){ out.push(cur.concat(rem)); return; }
+    for(let v=0;v<=rem;v++) rec(rem-v,left-1,cur.concat(v)); })(n,k,[]); return out; }
+  function draw(){
+    const n=+$('#sbN').value, k=+$('#sbK').value, pos=$('#sbPos').checked;
+    $('#sbNv').textContent=n+'개'; $('#sbKv').textContent=k+'명';
+    const cnt = pos ? C(n-1,k-1) : C(n+k-1,k-1);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    let list=all(n,k); if(pos) list=list.filter(a=>a.every(v=>v>=1));
+    const show=list.slice(0,24);
+    ctx.font='12px sans-serif'; ctx.textAlign='left';
+    show.forEach((a,i)=>{ const px=16+(i%3)*124, py=24+Math.floor(i/3)*24;
+      let str=a.map(v=>'★'.repeat(v)).join('|');
+      ctx.fillStyle='#374151'; ctx.fillText(str.length?str:'|'.repeat(k-1), px, py); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText(list.length>24?('앞의 24가지만 보임 — 모두 '+list.length+'가지'):('모두 '+list.length+'가지'), 16, H-12);
+    $('#sbout').innerHTML =
+      `<span class="mono">★ ${n} 개 · 칸막이 ${k-1} 개 · 자리 ${n+k-1} 칸</span><br>`
+      + `<span class="mono">${pos?'C('+(n-1)+', '+(k-1)+')':'H('+k+', '+n+') = C('+(n+k-1)+', '+(k-1)+')'} = <b>${cnt}</b></span><br>`
+      + (!pos&&n===5&&k===3 ? `<b style="color:#B45309">오늘의 문제 — 사탕 5개를 3명에게 나누는 방법은 모두 ${cnt}가지입니다.</b><br>` : '')
+      + (pos ? `<b style="color:#7C3AED">한 개씩 먼저 나눠 주고 남은 ${n-k} 개를 다시 나누는 문제가 됩니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">순서가 없고 같은 것을 나누므로 순열이 아니라 조합입니다.</span>`;
+  }
+  ['sbN','sbK'].forEach(i=>$('#'+i).oninput=draw); $('#sbPos').onchange=draw; draw();
+  inquiry(root,{ id:'sb', title:'중복조합 — 별과 칸막이',
+    q:['(사탕, 사람, 방법의 수) 를 여섯 줄 기록하세요.',
+       '사람 수를 하나 늘리면 방법의 수가 어떻게 변하나요?',
+       '「1개 이상」 조건이 붙으면 왜 C(n−1, k−1) 이 되는지 설명하세요.'],
+    cols:['사탕 n','사람 k','조건','식','가짓수'],
+    hint:'힌트 — ★ 과 | 를 한 줄로 늘어놓고 | 의 자리를 고르는 문제입니다.',
+    read:()=>{ const n=+$('#sbN').value,k=+$('#sbK').value,pos=$('#sbPos').checked;
+      return [n,k,pos?'1개 이상':'제한 없음',
+        pos?('C('+(n-1)+','+(k-1)+')'):('C('+(n+k-1)+','+(k-1)+')'),
+        pos?C(n-1,k-1):C(n+k-1,k-1)]; } });
+}
+
+/* ---------- LAB 144 이항정리 — 전개하지 않고 계수 찾기 ---------- */
+function binomExpDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="be1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">막대 하나가 항 하나의 <b>계수</b>입니다.
+      가운데가 가장 크고 좌우로 대칭입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('beN','지수 n',2,10,1,4,'')}
+      ${slider('beC','상수 c  (x + c)ⁿ',1,3,1,1,'')}
+      ${slider('beR','몇 번째 항 r',0,10,1,1,'')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="beSum">계수를 모두 더하기</button></div>
+      <div class="out" id="beout"></div>
+      <div class="note" style="margin-top:12px">(x + c)ⁿ 의 일반항은 C(n, r)·c^r·x^(n−r).
+      <b>전개하지 않고</b> 원하는 항만 뽑아낼 수 있습니다.</div>
+    </div></div>`;
+  const cv=$('#be1'),ctx=cv.getContext('2d'),W=380,H=300,P=32;
+  const S={ sum:false };
+  const C=(n,r)=>{ if(r<0||r>n) return 0; let v=1; for(let i=0;i<r;i++) v=v*(n-i)/(i+1); return Math.round(v); };
+  function draw(){
+    const n=+$('#beN').value, c=+$('#beC').value; let r=Math.min(+$('#beR').value,n);
+    $('#beR').max=n; $('#beNv').textContent=n; $('#beCv').textContent=c; $('#beRv').textContent=r;
+    const co=[]; for(let i=0;i<=n;i++) co.push(C(n,i)*Math.pow(c,i));
+    const mx=Math.max(...co);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const bw=(W-2*P)/(n+1);
+    co.forEach((v,i)=>{ const h=(H-2*P-14)*v/mx;
+      ctx.fillStyle = i===r ? 'rgba(190,18,60,.55)' : 'rgba(37,99,235,.35)';
+      ctx.fillRect(P+i*bw+2, H-P-h, bw-4, h);
+      ctx.fillStyle='#374151'; ctx.font='9.5px sans-serif'; ctx.textAlign='center';
+      if(n<=8) ctx.fillText(v, P+i*bw+bw/2, H-P-h-4);
+      ctx.fillStyle='#6B7280'; ctx.fillText('r='+i, P+i*bw+bw/2, H-P+13); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('(x + '+c+')^'+n+' 의 계수들', P, P-10);
+    const tot=co.reduce((a,b)=>a+b,0);
+    $('#beout').innerHTML =
+      `<span class="mono">일반항 C(${n}, ${r})·${c}^${r}·x^${n-r} → 계수 = <b style="color:#BE123C">${co[r]}</b></span><br>`
+      + `<span class="mono">C(${n}, ${r}) = ${C(n,r)} · ${c}^${r} = ${Math.pow(c,r)}</span><br>`
+      + (n===5&&c===2&&r===3 ? `<b style="color:#B45309">오늘의 문제 — (x + 2)⁵ 에서 x² 의 계수는 ${co[r]} 입니다.</b><br>` : '')
+      + (S.sum ? `<b style="color:#7C3AED">계수를 모두 더하면 ${tot} — x 에 1 을 넣은 값 (1 + ${c})^${n} 과 같습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">계수의 대칭은 C(n, r) = C(n, n−r) 에서 옵니다 (c = 1 일 때).</span>`;
+  }
+  $('#beSum').onclick=()=>{ S.sum=true; draw(); };
+  ['beN','beC','beR'].forEach(i=>$('#'+i).oninput=()=>{ S.sum=false; draw(); }); draw();
+  inquiry(root,{ id:'be', title:'이항정리 — 원하는 항만 뽑기',
+    q:['(n, c, r, 계수) 를 여섯 줄 기록하세요.',
+       'c = 1 일 때 계수가 좌우 대칭인 이유를 쓰세요.',
+       'x 에 1 을 대입하면 왜 계수의 합이 나오는지 설명하세요.'],
+    cols:['n','c','r','C(n,r)','계수'],
+    hint:'힌트 — 일반항은 C(n, r)·c^r·x^(n−r) 입니다.',
+    read:()=>{ const n=+$('#beN').value,c=+$('#beC').value,r=Math.min(+$('#beR').value,n);
+      return [n,c,r,C(n,r),C(n,r)*Math.pow(c,r)]; } });
+}
+
+/* ---------- LAB 145 독립과 배반 — 같은 말이 아니다 ---------- */
+function exclIndepDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="id1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">전체 정사각형이 확률 1 입니다.
+      두 영역의 <b>겹침</b>을 바꿔 가며 두 개념이 어떻게 다른지 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('idA','P(A)',0.1,0.8,0.05,0.4,'')}
+      ${slider('idB','P(B)',0.1,0.8,0.05,0.5,'')}
+      ${slider('idI','P(A ∩ B)',0,0.6,0.05,0.3,'')}
+      <div class="out" id="idout"></div>
+      <div class="note" style="margin-top:12px">배반 — 함께 일어날 수 없다 (P(A∩B) = 0).
+      독립 — 서로 영향이 없다 (P(A∩B) = P(A)P(B)). <b>다른 말</b>입니다.</div>
+    </div></div>`;
+  const cv=$('#id1'),ctx=cv.getContext('2d'),W=380,H=300;
+  function draw(){
+    const a=+$('#idA').value, b=+$('#idB').value; let i=+$('#idI').value;
+    const cap=Math.min(a,b); if(i>cap){ i=Math.round(cap*20)/20; $('#idI').value=i; }
+    $('#idAv').textContent=a.toFixed(2); $('#idBv').textContent=b.toFixed(2); $('#idIv').textContent=i.toFixed(2);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const L=54,T=18,CELL=22;
+    const nBoth=Math.round(i*100), nA=Math.round(a*100)-nBoth, nB=Math.round(b*100)-nBoth;
+    for(let c=0;c<100;c++){
+      const px=L+(c%10)*CELL, py=T+Math.floor(c/10)*CELL;
+      let col='#F3F4F6';
+      if(c<nBoth) col='rgba(190,18,60,.55)';
+      else if(c<nBoth+nA) col='rgba(37,99,235,.38)';
+      else if(c<nBoth+nA+nB) col='rgba(14,147,132,.38)';
+      ctx.fillStyle=col; ctx.fillRect(px,py,CELL-2,CELL-2);
+    }
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('붉은 = A와 B 둘 다('+nBoth+') · 파랑 = A만('+nA+') · 초록 = B만('+nB+')', L-40, T+10*CELL+16);
+    ctx.fillText('100칸 중 겹침 '+nBoth+'칸 · P(A)P(B)×100 = '+(a*b*100).toFixed(1)+'칸', L-40, T+10*CELL+32);
+    const excl = i<1e-9, indep = Math.abs(i-a*b)<1e-6;
+    $('#idout').innerHTML =
+      `<span class="mono">P(A) = ${a.toFixed(2)} · P(B) = ${b.toFixed(2)} · P(A∩B) = ${i.toFixed(2)}</span><br>`
+      + `<span class="mono">P(A)P(B) = <b>${(a*b).toFixed(3)}</b> · P(A|B) = <b>${(i/b).toFixed(3)}</b> · P(A) = ${a.toFixed(2)}</span><br>`
+      + (excl ? `<b style="color:#B45309">겹침이 0 — 배반입니다. 그런데 P(A|B) = 0 ≠ P(A) 이므로 독립이 아닙니다.</b><br>` : '')
+      + (indep&&!excl ? `<b style="color:#7C3AED">P(A∩B) 가 곱과 같습니다 — 독립입니다. 서로 영향을 주지 않습니다.</b><br>` : '')
+      + (!excl&&!indep ? `배반도 독립도 아닙니다 — 겹치면서 서로 영향을 줍니다.<br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">배반이면서 독립이려면 한쪽 확률이 0 이어야 합니다.</span>`;
+  }
+  ['idA','idB','idI'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'id', title:'독립과 배반 — 헷갈리는 두 낱말',
+    q:['(P(A), P(B), P(A∩B), 판정) 을 여섯 줄 기록하세요 — 배반·독립·둘 다 아님을 모두 포함하세요.',
+       '배반인데 독립이 아닌 이유를 P(A|B) 로 설명하세요.',
+       '배반이면서 동시에 독립인 경우가 있는지 따져 보세요.'],
+    cols:['P(A)','P(B)','P(A∩B)','P(A)P(B)','판정'],
+    hint:'힌트 — 배반은 겹침이 0, 독립은 겹침이 곱과 같습니다.',
+    read:()=>{ const a=+$('#idA').value,b=+$('#idB').value,i=+$('#idI').value;
+      return [a.toFixed(2),b.toFixed(2),i.toFixed(2),(a*b).toFixed(3),
+        i<1e-9?'배반':(Math.abs(i-a*b)<1e-6?'독립':'둘 다 아님')]; } });
+}
+
+/* ---------- LAB 146 기하적 확률 — 몇 분을 기다려 주면 만날까 ---------- */
+function meetProbDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="mp1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">가로는 내 도착 시각, 세로는 친구 도착 시각입니다.
+      <b>띠 안쪽</b>이 만나는 경우 — 넓이의 비가 곧 확률입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('mpT','기다려 주는 시간 t',5,40,1,20,'분')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="mpRun">1000번 실험해 보기</button>
+        <button class="b g sm" id="mpClr">점 지우기</button>
+      </div>
+      <div class="out" id="mpout"></div>
+      <div class="note" style="margin-top:12px">확률 = 1 − ((60 − t)/60)².
+      경우의 수가 <b>셀 수 없이 많을 때</b>는 길이·넓이의 비로 확률을 정합니다.</div>
+    </div></div>`;
+  const cv=$('#mp1'),ctx=cv.getContext('2d'),W=380,H=320;
+  const S={ pts:[], hit:0 };
+  function draw(){
+    const t=+$('#mpT').value; $('#mpTv').textContent=t+'분';
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const L=46,T=18,SZ=250, X=v=>L+SZ*v/60, Y=v=>T+SZ-SZ*v/60;
+    ctx.fillStyle='rgba(37,99,235,.10)'; ctx.fillRect(L,T,SZ,SZ);
+    ctx.fillStyle='rgba(14,147,132,.26)'; ctx.beginPath();
+    ctx.moveTo(X(0),Y(0)); ctx.lineTo(X(0),Y(t)); ctx.lineTo(X(60-t),Y(60)); ctx.lineTo(X(60),Y(60));
+    ctx.lineTo(X(60),Y(60-t)); ctx.lineTo(X(t),Y(0)); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1; ctx.strokeRect(L,T,SZ,SZ);
+    S.pts.forEach(p=>{ ctx.fillStyle = p[2]?'rgba(14,147,132,.75)':'rgba(190,18,60,.5)';
+      ctx.beginPath(); ctx.arc(X(p[0]),Y(p[1]),1.7,0,7); ctx.fill(); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('내 도착 시각 →', L, T+SZ+18);
+    ctx.save(); ctx.translate(16,T+SZ); ctx.rotate(-Math.PI/2); ctx.fillText('친구 도착 시각 →',0,0); ctx.restore();
+    const p=1-Math.pow((60-t)/60,2);
+    const sim = S.pts.length ? (S.hit/S.pts.length*100) : null;
+    $('#mpout').innerHTML =
+      `<span class="mono">이론값 = 1 − (${60-t}/60)² = <b style="color:#0E9384">${(p*100).toFixed(1)}%</b></span><br>`
+      + (t===10 ? `<b style="color:#B45309">오늘의 문제 — 10분만 기다려 주면 만날 확률 ${(p*100).toFixed(1)}% 입니다.</b><br>` : '')
+      + (sim!==null ? `<b style="color:#7C3AED">${S.pts.length}번 실험 결과 ${sim.toFixed(1)}% — 이론값과의 차이 ${Math.abs(sim-p*100).toFixed(1)}%p</b><br>` : '')
+      + `<span class="mono">띠의 넓이 비 = ${(p).toFixed(4)}</span><br>`
+      + `<span style="color:#6B7280;font-size:12.5px">만나지 못하는 두 삼각형의 넓이를 빼는 것이 더 쉽습니다.</span>`;
+  }
+  $('#mpRun').onclick=()=>{ const t=+$('#mpT').value; S.pts=[]; S.hit=0;
+    for(let i=0;i<1000;i++){ const x=Math.random()*60, y=Math.random()*60, ok=Math.abs(x-y)<=t;
+      if(ok) S.hit++; S.pts.push([x,y,ok]); } draw(); };
+  $('#mpClr').onclick=()=>{ S.pts=[]; S.hit=0; draw(); };
+  $('#mpT').oninput=()=>{ S.pts=[]; S.hit=0; draw(); }; draw();
+  inquiry(root,{ id:'mp', title:'기하적 확률 — 넓이로 재는 확률',
+    q:['t 를 바꾸며 (t, 이론값, 실험값) 을 다섯 줄 기록하세요.',
+       '확률이 50% 를 넘으려면 몇 분을 기다려야 하나요?',
+       '만나지 못하는 경우가 왜 두 개의 삼각형인지 그림으로 설명하세요.'],
+    cols:['t','이론값(%)','실험 횟수','실험값(%)','차이'],
+    hint:'힌트 — 만나지 못할 확률은 ((60−t)/60)² 입니다.',
+    read:()=>{ const t=+$('#mpT').value, p=(1-Math.pow((60-t)/60,2))*100;
+      const sim=S.pts.length?S.hit/S.pts.length*100:null;
+      return [t,p.toFixed(1),S.pts.length,sim===null?'—':sim.toFixed(1),sim===null?'—':Math.abs(sim-p).toFixed(1)]; } });
+}

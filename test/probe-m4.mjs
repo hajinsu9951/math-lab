@@ -24,9 +24,20 @@ async function dragCv(cvId, x1, y1, x2, y2) {
   await p.mouse.move(f.l + x2 * f.sx, f.t + y2 * f.sy, { steps: 6 });
   await p.mouse.up(); await p.waitForTimeout(240);
 }
+async function openGate() {
+  const has = await p.evaluate(() => !!document.querySelector('.pgb'));
+  if (!has) return;
+  const cv = p.locator('.pgpad canvas').first();
+  const bb = await cv.boundingBox();
+  if (bb) { await p.mouse.move(bb.x + 20, bb.y + 20); await p.mouse.down(); await p.mouse.move(bb.x + 110, bb.y + 70, { steps: 6 }); await p.mouse.up(); }
+  await p.waitForTimeout(180);
+  await p.evaluate(() => { const b = document.querySelector('[id^="pgGo_"]'); if (b && !b.disabled) b.click(); });
+  await p.waitForTimeout(220);
+}
 async function run(lab, name, steps) {
   await p.evaluate(n => openLab(n), lab - 1);
   await p.waitForTimeout(400);
+  await openGate();
   for (const st of steps) { await st(); await p.waitForTimeout(320); }
   const pr = await prog();
   console.log(`LAB ${lab} ${name}: ${pr} ${/완주/.test(pr) ? 'OK' : '★미완'}`);

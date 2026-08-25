@@ -247,7 +247,7 @@ function betweenDemo(root){
 }
 
 /* ---------- LAB 141 회전체의 부피 — 그릇을 원판으로 자르다 ---------- */
-function solidDemo(root){
+function diskVolDemo(root){
   root.innerHTML=`<div class="row"><div class="col">
       <canvas id="sd3" width="380" height="300"></canvas>
       <div class="note" style="margin-top:8px">곡선을 축 둘레로 돌리면 그릇이 됩니다.

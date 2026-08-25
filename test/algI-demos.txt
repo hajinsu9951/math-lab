@@ -1,0 +1,317 @@
+/* ---------- LAB 152 이항분포가 종 모양이 되는 순간 ---------- */
+function deMoivreDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="dm1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">막대는 <b>이항분포</b>, 곡선은 같은 평균·표준편차의 <b>정규분포</b>입니다.
+      n 을 키우며 둘이 겹치는지 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('dmN','시행 횟수 n',5,200,5,10,'번')}
+      ${slider('dmP','성공 확률 p',5,95,5,50,'%')}
+      <div class="ctl" style="margin-top:8px"><label><input type="checkbox" id="dmZ" checked> 표준화해서 겹쳐 보기</label></div>
+      <div class="out" id="dmout"></div>
+      <div class="note" style="margin-top:12px">np ≥ 5 이고 n(1−p) ≥ 5 이면 정규분포로 근사할 만합니다.
+      <b>치우친 p 일수록</b> 더 큰 n 이 필요합니다.</div>
+    </div></div>`;
+  const cv=$('#dm1'),ctx=cv.getContext('2d'),W=380,H=300,P=34;
+  function lnC(n,k){ let v=0; for(let i=1;i<=k;i++) v+=Math.log(n-k+i)-Math.log(i); return v; }
+  function pmf(n,k,p){ return Math.exp(lnC(n,k)+k*Math.log(p)+(n-k)*Math.log(1-p)); }
+  function draw(){
+    const n=+$('#dmN').value, p=+$('#dmP').value/100, zmode=$('#dmZ').checked;
+    $('#dmNv').textContent=n+'번'; $('#dmPv').textContent=(p*100).toFixed(0)+'%';
+    const mean=n*p, sd=Math.sqrt(n*p*(1-p));
+    const ps=[]; for(let i=0;i<=n;i++) ps.push(pmf(n,i,p));
+    const mx=Math.max(...ps);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const lo = zmode ? Math.max(0,Math.floor(mean-4*sd)) : 0;
+    const hi = zmode ? Math.min(n,Math.ceil(mean+4*sd)) : n;
+    const span=Math.max(1,hi-lo), bw=(W-2*P)/(span+1);
+    for(let i=lo;i<=hi;i++){ const h=(H-2*P-10)*ps[i]/mx;
+      ctx.fillStyle='rgba(37,99,235,.32)';
+      ctx.fillRect(P+(i-lo)*bw, H-P-h, Math.max(1.2,bw-1), h); }
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2.2; ctx.beginPath();
+    for(let px=0;px<=300;px++){ const x=lo+span*px/300;
+      const y=Math.exp(-Math.pow(x-mean,2)/(2*sd*sd))/(sd*Math.sqrt(2*Math.PI));
+      const h=(H-2*P-10)*y/mx; px?ctx.lineTo(P+(x-lo)*bw+bw/2,H-P-h):ctx.moveTo(P+(x-lo)*bw+bw/2,H-P-h); }
+    ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('붉은 곡선 = 정규분포 N(np, np(1−p))', P, P-12);
+    let err=0; for(let i=lo;i<=hi;i++){
+      const y=Math.exp(-Math.pow(i-mean,2)/(2*sd*sd))/(sd*Math.sqrt(2*Math.PI));
+      err=Math.max(err,Math.abs(ps[i]-y)); }
+    const rel=err/mx, ok = n*p>=5 && n*(1-p)>=5;
+    $('#dmout').innerHTML =
+      `<span class="mono">평균 np = ${mean.toFixed(1)} · 표준편차 = ${sd.toFixed(2)}</span><br>`
+      + `<span class="mono">np = ${(n*p).toFixed(1)} · n(1−p) = ${(n*(1-p)).toFixed(1)} · 최대 상대 오차 <b>${(rel*100).toFixed(1)}%</b></span><br>`
+      + (rel<0.02 ? `<b style="color:#B45309">막대와 곡선이 거의 포개졌습니다 — 정규분포로 바꿔 계산해도 됩니다.</b><br>` : '')
+      + (!ok ? `<b style="color:#7C3AED">np 나 n(1−p) 가 5 미만 — 아직 한쪽으로 치우쳐 근사가 위험합니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">치우친 p 일수록 종 모양이 되기까지 더 많은 시행이 필요합니다.</span>`;
+  }
+  ['dmN','dmP'].forEach(i=>$('#'+i).oninput=draw); $('#dmZ').onchange=draw; draw();
+  inquiry(root,{ id:'dm', title:'정규 근사 — 언제 바꿔도 되나',
+    q:['p = 50% 와 p = 10% 에서 각각 n 을 키우며 상대 오차를 기록하세요.',
+       '오차가 2% 아래로 내려가는 n 을 두 경우에서 비교하세요.',
+       'np ≥ 5 조건이 왜 필요한지 자기 말로 쓰세요.'],
+    cols:['n','p','np','n(1−p)','상대 오차'],
+    hint:'힌트 — p 가 0.5 에서 멀수록 분포가 한쪽으로 기울어집니다.',
+    read:()=>{ const n=+$('#dmN').value,p=+$('#dmP').value/100,mean=n*p,sd=Math.sqrt(n*p*(1-p));
+      const ps=[]; for(let i=0;i<=n;i++) ps.push(pmf(n,i,p)); const mx=Math.max(...ps);
+      let err=0; for(let i=0;i<=n;i++){ const y=Math.exp(-Math.pow(i-mean,2)/(2*sd*sd))/(sd*Math.sqrt(2*Math.PI));
+        err=Math.max(err,Math.abs(ps[i]-y)); }
+      return [n,(p*100).toFixed(0)+'%',(n*p).toFixed(1),(n*(1-p)).toFixed(1),(err/mx*100).toFixed(1)+'%']; } });
+}
+
+/* ---------- LAB 153 68·95·99.7 법칙 — 표준편차라는 자 ---------- */
+function sigmaRuleDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sr1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">평균에서 <b>표준편차 몇 개만큼</b> 떨어진 구간인지에 따라
+      안쪽 넓이가 정해집니다. 평균과 표준편차를 바꿔도 비율은 그대로입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('srM','평균 μ',40,80,1,60,'점')}
+      ${slider('srS','표준편차 σ',4,20,1,10,'점')}
+      ${slider('srZ','구간 폭 (σ 단위)',0.5,3,0.5,1.5,'σ')}
+      <div class="out" id="srout"></div>
+      <div class="note" style="margin-top:12px">1σ 안 68% · 2σ 안 95% · 3σ 안 99.7%.
+      이 비율은 <b>μ 와 σ 가 무엇이든</b> 같습니다 — 그래서 표준화가 통합니다.</div>
+    </div></div>`;
+  const cv=$('#sr1'),ctx=cv.getContext('2d'),W=380,H=300,P=34;
+  const erf=x=>{ const t=1/(1+0.3275911*Math.abs(x));
+    const y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);
+    return x>=0?y:-y; };
+  const inside=z=>erf(z/Math.SQRT2);
+  function draw(){
+    const mu=+$('#srM').value, sd=+$('#srS').value, z=+$('#srZ').value;
+    $('#srMv').textContent=mu+'점'; $('#srSv').textContent=sd+'점'; $('#srZv').textContent=z.toFixed(1)+'σ';
+    const lo=mu-z*sd, hi=mu+z*sd;
+    const x0=mu-4*sd, x1=mu+4*sd;
+    const X=x=>P+(W-2*P)*(x-x0)/(x1-x0);
+    const f=x=>Math.exp(-Math.pow(x-mu,2)/(2*sd*sd))/(sd*Math.sqrt(2*Math.PI));
+    const mx=f(mu), Y=y=>H-P-(H-2*P-14)*y/mx;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(14,147,132,.26)'; ctx.beginPath(); ctx.moveTo(X(lo),Y(0));
+    for(let px=0;px<=200;px++){ const x=lo+(hi-lo)*px/200; ctx.lineTo(X(x),Y(f(x))); }
+    ctx.lineTo(X(hi),Y(0)); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4; ctx.beginPath();
+    for(let px=0;px<=300;px++){ const x=x0+(x1-x0)*px/300; px?ctx.lineTo(X(x),Y(f(x))):ctx.moveTo(X(x),Y(f(x))); }
+    ctx.stroke();
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,Y(0)); ctx.lineTo(W-P,Y(0)); ctx.stroke();
+    ctx.setLineDash([4,4]); ctx.strokeStyle='#BE123C';
+    ctx.beginPath(); ctx.moveTo(X(mu),Y(0)); ctx.lineTo(X(mu),Y(mx)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#374151'; ctx.font='10.5px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(lo.toFixed(1), X(lo), H-P+15); ctx.fillText(hi.toFixed(1), X(hi), H-P+15);
+    ctx.fillText('μ = '+mu, X(mu), H-P+15);
+    const pct=inside(z)*100;
+    $('#srout').innerHTML =
+      `<span class="mono">구간 [${lo.toFixed(1)}, ${hi.toFixed(1)}] = μ ± ${z.toFixed(1)}σ</span><br>`
+      + `<span class="mono">안쪽 넓이 = <b style="color:#0E9384">${pct.toFixed(1)}%</b> · 바깥 = ${(100-pct).toFixed(1)}%</span><br>`
+      + (Math.abs(z-1)<0.01 ? `<b style="color:#B45309">1σ 안에 약 68% — 셋 중 둘이 이 안에 들어옵니다.</b><br>` : '')
+      + (Math.abs(z-2)<0.01 ? `<b style="color:#7C3AED">2σ 안에 약 95% — 바깥 5% 가 이상치 판단의 관습적 기준입니다.</b><br>` : '')
+      + (Math.abs(z-3)<0.01 ? `3σ 안에 99.7% — 바깥은 천 번에 세 번 꼴입니다.<br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">μ 와 σ 를 바꿔도 이 비율은 변하지 않습니다.</span>`;
+  }
+  ['srM','srS','srZ'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'sr', title:'68·95·99.7 — 표준편차로 재는 거리',
+    q:['μ 와 σ 를 바꿔 가며 z = 1, 2, 3 의 안쪽 넓이를 기록하세요 — 값이 변하나요?',
+       '「상위 2.5%」에 들려면 z 가 얼마여야 하는지 찾아보세요.',
+       '이 비율이 μ, σ 와 무관한 이유를 표준화로 설명하세요.'],
+    cols:['μ','σ','z','구간','안쪽 %'],
+    hint:'힌트 — 표준화하면 모든 정규분포가 하나의 곡선이 됩니다.',
+    read:()=>{ const mu=+$('#srM').value,sd=+$('#srS').value,z=+$('#srZ').value;
+      return [mu,sd,z.toFixed(1),'['+(mu-z*sd).toFixed(1)+', '+(mu+z*sd).toFixed(1)+']',(inside(z)*100).toFixed(1)+'%']; } });
+}
+
+/* ---------- LAB 154 표본평균의 분포 — 왜 평균은 안정될까 ---------- */
+function clTheoremDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="cl1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">위는 <b>원래 자료</b>(고르게 치우친 모양), 아래는 그 자료에서 뽑은
+      <b>표본평균들</b>의 분포입니다. 모양이 달라집니다.</div>
+    </div>
+    <div class="col">
+      ${slider('clN','표본 크기 n',1,50,1,1,'개')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="clRun">표본 500번 뽑기</button>
+        <button class="b g sm" id="clClr">지우기</button>
+      </div>
+      <div class="out" id="clout"></div>
+      <div class="note" style="margin-top:12px">표본평균의 표준편차는 σ/√n.
+      <b>n 이 4배가 되면 흩어짐이 절반</b>으로 줄어듭니다.</div>
+    </div></div>`;
+  const cv=$('#cl1'),ctx=cv.getContext('2d'),W=380,H=330,P=32;
+  const S={ means:[] };
+  const pop=()=>{ const u=Math.random(); return u<0.7 ? 1+2*Math.random() : 5+4*Math.random(); };
+  const POPM=0.7*2+0.3*7, POPV=(()=>{ let s=0,n=200000; return null; })();
+  function draw(){
+    const n=+$('#clN').value; $('#clNv').textContent=n+'개';
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const X=v=>P+(W-2*P)*(v-0)/10;
+    const bars=new Array(40).fill(0);
+    for(let i=0;i<4000;i++){ const v=pop(); const b=Math.min(39,Math.floor(v/10*40)); bars[b]++; }
+    const mxb=Math.max(...bars);
+    bars.forEach((c,i)=>{ const h=90*c/mxb, px=P+(W-2*P)*i/40;
+      ctx.fillStyle='rgba(37,99,235,.28)'; ctx.fillRect(px,120-h,(W-2*P)/40-1,h); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('원래 자료의 분포 (치우쳐 있음)', P, 28);
+    const mb=new Array(40).fill(0);
+    S.means.forEach(m=>{ const b=Math.max(0,Math.min(39,Math.floor(m/10*40))); mb[b]++; });
+    const mxm=Math.max(1,...mb);
+    mb.forEach((c,i)=>{ const h=110*c/mxm, px=P+(W-2*P)*i/40;
+      ctx.fillStyle='rgba(14,147,132,.38)'; ctx.fillRect(px,H-P-h,(W-2*P)/40-1,h); });
+    ctx.fillStyle='#6B7280'; ctx.fillText('표본평균들의 분포 (n = '+n+')', P, 168);
+    ctx.setLineDash([4,4]); ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(X(POPM),150); ctx.lineTo(X(POPM),H-P); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#BE123C'; ctx.fillText('모평균 '+POPM.toFixed(2), X(POPM)+4, 164);
+    let msg='';
+    if(S.means.length){
+      const m=S.means.reduce((a,b)=>a+b,0)/S.means.length;
+      const sd=Math.sqrt(S.means.reduce((a,b)=>a+(b-m)*(b-m),0)/S.means.length);
+      msg = `<span class="mono">표본평균 ${S.means.length}개 · 평균 <b>${m.toFixed(3)}</b> · 표준편차 <b>${sd.toFixed(3)}</b></span><br>`
+        + (n>=25 && sd<0.55 ? `<b style="color:#B45309">n 을 키우니 표본평균이 모평균 둘레로 좁게 모였습니다 — 종 모양입니다.</b><br>` : '')
+        + (n===1 ? `<b style="color:#7C3AED">n = 1 이면 표본평균이 곧 원자료 — 아래 분포가 위와 같은 모양입니다.</b><br>` : '');
+    } else msg = `아직 표본을 뽑지 않았습니다 — 버튼을 눌러 보세요.<br>`;
+    $('#clout').innerHTML = msg
+      + `<span class="mono">이론 표준오차 σ/√n ≈ ${(2.42/Math.sqrt(n)).toFixed(3)}</span><br>`
+      + `<span style="color:#6B7280;font-size:12.5px">원자료가 치우쳐 있어도 표본평균은 종 모양으로 모입니다.</span>`;
+  }
+  $('#clRun').onclick=()=>{ const n=+$('#clN').value; S.means=[];
+    for(let i=0;i<500;i++){ let s=0; for(let j=0;j<n;j++) s+=pop(); S.means.push(s/n); } draw(); };
+  $('#clClr').onclick=()=>{ S.means=[]; draw(); };
+  $('#clN').oninput=()=>{ S.means=[]; draw(); }; draw();
+  inquiry(root,{ id:'cl', title:'중심극한정리 — 평균은 종 모양으로',
+    q:['n = 1, 4, 16, 36 에서 표본평균의 표준편차를 기록하세요.',
+       'n 이 4배가 될 때 표준편차가 어떻게 변하는지 확인하세요.',
+       '원자료가 치우쳐 있는데도 평균이 종 모양이 되는 것을 문장으로 정리하세요.'],
+    cols:['n','표본 수','표본평균의 평균','표본평균의 표준편차','σ/√n'],
+    hint:'힌트 — 표준오차는 n 이 아니라 √n 에 반비례합니다.',
+    read:()=>{ const n=+$('#clN').value;
+      if(!S.means.length) return [n,0,'—','—',(2.42/Math.sqrt(n)).toFixed(3)];
+      const m=S.means.reduce((a,b)=>a+b,0)/S.means.length;
+      const sd=Math.sqrt(S.means.reduce((a,b)=>a+(b-m)*(b-m),0)/S.means.length);
+      return [n,S.means.length,m.toFixed(3),sd.toFixed(3),(2.42/Math.sqrt(n)).toFixed(3)]; } });
+}
+
+/* ---------- LAB 155 신뢰구간 — 95% 신뢰란 무슨 뜻인가 ---------- */
+function ciMeaningDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="cf1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">가로줄 하나가 <b>한 번의 조사</b>에서 얻은 신뢰구간입니다.
+      붉은 줄은 참값을 <b>놓친</b> 구간입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('cfN','표본 크기 n',25,400,25,100,'명')}
+      ${slider('cfC','신뢰수준',80,99,1,95,'%')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="cfRun">조사 40번 반복</button>
+        <button class="b g sm" id="cfClr">지우기</button>
+      </div>
+      <div class="out" id="cfout"></div>
+      <div class="note" style="margin-top:12px">「95% 신뢰」는 참값이 그 안에 있을 확률이 아니라,
+      <b>같은 방법으로 100번 하면 95번쯤은 참값을 포함</b>한다는 뜻입니다.</div>
+    </div></div>`;
+  const cv=$('#cf1'),ctx=cv.getContext('2d'),W=380,H=330,P=30;
+  const TRUE=0.52;
+  const S={ runs:[] };
+  const zOf=c=>({80:1.282,85:1.440,90:1.645,95:1.960,99:2.576})[c] || (c>=97?2.17:1.96);
+  function draw(){
+    const n=+$('#cfN').value, c=+$('#cfC').value;
+    $('#cfNv').textContent=n+'명'; $('#cfCv').textContent=c+'%';
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const X=v=>P+(W-2*P)*(v-0.3)/0.4;
+    ctx.setLineDash([4,4]); ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(X(TRUE),16); ctx.lineTo(X(TRUE),H-24); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#BE123C'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('참값 '+(TRUE*100).toFixed(0)+'%', X(TRUE)+5, 14);
+    S.runs.forEach((r,i)=>{ const y=26+i*7;
+      ctx.strokeStyle = r.hit ? 'rgba(37,99,235,.6)' : '#BE123C';
+      ctx.lineWidth = r.hit ? 1.6 : 2.2;
+      ctx.beginPath(); ctx.moveTo(X(r.lo),y); ctx.lineTo(X(r.hi),y); ctx.stroke();
+      ctx.fillStyle = r.hit ? '#2563EB' : '#BE123C';
+      ctx.beginPath(); ctx.arc(X(r.p),y,1.8,0,7); ctx.fill(); });
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif';
+    ctx.fillText('가로 = 지지율 · 세로 = 조사 회차', P, H-8);
+    const hit=S.runs.filter(r=>r.hit).length, tot=S.runs.length;
+    const half=zOf(c)*Math.sqrt(0.25/n)*100;
+    $('#cfout').innerHTML =
+      (tot ? `<span class="mono">${tot}번 중 참값을 포함한 구간 <b>${hit}</b>개 (${(hit/tot*100).toFixed(1)}%)</span><br>` : `아직 조사를 하지 않았습니다.<br>`)
+      + `<span class="mono">오차한계 ≈ ±${half.toFixed(2)}%p  (z = ${zOf(c)} · n = ${n})</span><br>`
+      + (tot>=40 ? `<b style="color:#B45309">${tot}번 가운데 ${hit}번이 참값을 포함했습니다 — 신뢰수준과 견주어 보세요.</b><br>` : '')
+      + (c>=99 ? `<b style="color:#7C3AED">신뢰수준을 높이면 구간이 넓어집니다 — 확실해지는 대신 덜 날카로워집니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">붉은 줄의 비율이 대략 (100 − 신뢰수준)% 가 됩니다.</span>`;
+  }
+  $('#cfRun').onclick=()=>{ const n=+$('#cfN').value, c=+$('#cfC').value, z=zOf(c);
+    S.runs=[];
+    for(let i=0;i<40;i++){ let x=0; for(let j=0;j<n;j++) if(Math.random()<TRUE) x++;
+      const p=x/n, half=z*Math.sqrt(p*(1-p)/n);
+      S.runs.push({p:p, lo:p-half, hi:p+half, hit:(p-half<=TRUE&&TRUE<=p+half)}); }
+    draw(); };
+  $('#cfClr').onclick=()=>{ S.runs=[]; draw(); };
+  ['cfN','cfC'].forEach(i=>$('#'+i).oninput=()=>{ S.runs=[]; draw(); }); draw();
+  inquiry(root,{ id:'cf', title:'신뢰구간 — 95%의 진짜 뜻',
+    q:['(n, 신뢰수준, 40번 중 포함 횟수, 오차한계) 를 다섯 줄 기록하세요.',
+       '신뢰수준을 99% 로 올리면 구간의 폭과 포함 비율이 각각 어떻게 되나요?',
+       '「참값이 이 구간에 있을 확률이 95%」라는 표현이 왜 부정확한지 쓰세요.'],
+    cols:['n','신뢰수준','포함','전체','오차한계'],
+    hint:'힌트 — 참값은 고정되어 있고, 흔들리는 것은 구간 쪽입니다.',
+    read:()=>{ const n=+$('#cfN').value,c=+$('#cfC').value;
+      return [n,c+'%',S.runs.filter(r=>r.hit).length,S.runs.length,
+        '±'+(zOf(c)*Math.sqrt(0.25/n)*100).toFixed(2)+'%p']; } });
+}
+
+/* ---------- LAB 156 표본 크기와 오차한계 — 몇 명에게 물어야 하나 ---------- */
+function sampleSizeDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ss1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">가로가 표본 크기, 세로가 <b>오차한계</b>입니다.
+      곡선이 처음엔 가파르게 떨어지다가 이내 완만해집니다.</div>
+    </div>
+    <div class="col">
+      ${slider('ssN','표본 크기 n',100,4000,100,400,'명')}
+      ${slider('ssC','신뢰수준',90,99,1,95,'%')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="ssHalf">오차를 절반으로</button></div>
+      <div class="out" id="ssout"></div>
+      <div class="note" style="margin-top:12px">오차한계 = z√(p(1−p)/n) — <b>√n 에 반비례</b>합니다.
+      오차를 절반으로 줄이려면 표본은 <b>네 배</b>가 필요합니다.</div>
+    </div></div>`;
+  const cv=$('#ss1'),ctx=cv.getContext('2d'),W=380,H=300,P=42;
+  const zOf=c=>({90:1.645,95:1.960,96:2.054,97:2.170,98:2.326,99:2.576})[c] || 1.96;
+  const S={ prev:null };
+  function draw(){
+    const n=+$('#ssN').value, c=+$('#ssC').value, z=zOf(c);
+    $('#ssNv').textContent=n+'명'; $('#ssCv').textContent=c+'%';
+    const me=v=>z*Math.sqrt(0.25/v)*100;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const X=v=>P+(W-2*P)*(v-100)/3900, Y=v=>H-P-(H-2*P)*(v)/(me(100));
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(P,P-10); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4; ctx.beginPath();
+    for(let px=0;px<=300;px++){ const v=100+3900*px/300; px?ctx.lineTo(X(v),Y(me(v))):ctx.moveTo(X(v),Y(me(v))); }
+    ctx.stroke();
+    ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(n),Y(me(n)),4.6,0,7); ctx.fill();
+    if(S.prev){ ctx.fillStyle='rgba(107,114,128,.6)'; ctx.beginPath(); ctx.arc(X(S.prev),Y(me(S.prev)),3.6,0,7); ctx.fill(); }
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('오차한계 (%p)', P-30, P-14);
+    [100,1000,2000,3000,4000].forEach(v=>{ ctx.textAlign='center'; ctx.fillText(v, X(v), H-P+15); });
+    const cur=me(n);
+    $('#ssout').innerHTML =
+      `<span class="mono">n = ${n} · z = ${z} · 오차한계 = <b style="color:#BE123C">±${cur.toFixed(2)}%p</b></span><br>`
+      + `<span class="mono">±3%p 가 되려면 n ≈ <b>${Math.ceil(Math.pow(z/0.03,2)*0.25)}</b>명 · ±1.5%p 면 <b>${Math.ceil(Math.pow(z/0.015,2)*0.25)}</b>명</span><br>`
+      + (S.prev ? `<b style="color:#B45309">표본을 ${S.prev} → ${n} 명으로 ${(n/S.prev).toFixed(1)}배 늘려 오차가 ${(me(S.prev)/cur).toFixed(1)}배 줄었습니다.</b><br>` : '')
+      + (n>=3000 ? `<b style="color:#7C3AED">이 구간에서는 표본을 더 늘려도 오차가 거의 줄지 않습니다 — 비용 대비 효과가 낮습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">여론조사가 대개 1000명 안팎인 이유가 이 곡선에 있습니다.</span>`;
+  }
+  $('#ssHalf').onclick=()=>{ const n=+$('#ssN').value; S.prev=n;
+    $('#ssN').value=Math.min(4000,n*4); draw(); };
+  ['ssN','ssC'].forEach(i=>$('#'+i).oninput=()=>{ S.prev=null; draw(); }); draw();
+  inquiry(root,{ id:'ss', title:'표본 크기 — 몇 명에게 물어야 하나',
+    q:['(n, 신뢰수준, 오차한계) 를 여섯 줄 기록하세요.',
+       '오차를 절반으로 줄이려면 표본을 몇 배로 해야 하는지 실험으로 확인하세요.',
+       '표본을 3000명 이상으로 늘리는 것이 왜 비효율적인지 곡선의 모양으로 설명하세요.'],
+    cols:['n','신뢰수준','z','오차한계','±3%p 필요 n'],
+    hint:'힌트 — 오차한계는 √n 에 반비례합니다.',
+    read:()=>{ const n=+$('#ssN').value,c=+$('#ssC').value,z=zOf(c);
+      return [n,c+'%',z,'±'+(z*Math.sqrt(0.25/n)*100).toFixed(2)+'%p',Math.ceil(Math.pow(z/0.03,2)*0.25)]; } });
+}

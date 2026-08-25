@@ -1,0 +1,297 @@
+/* ---------- LAB 147 조건부확률 — 정확도 99% 검사의 함정 ---------- */
+function falsePosDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="fp1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">한 칸이 10명입니다. 붉은 칸은 <b>진짜 환자</b>,
+      테두리 친 칸은 <b>양성 판정</b>을 받은 사람입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('fpP','실제 유병률',1,200,1,100,'명/만명')}
+      ${slider('fpS','민감도 (환자를 잡아내는 비율)',80,100,1,99,'%')}
+      ${slider('fpF','특이도 (건강한 사람을 통과시키는 비율)',80,100,1,99,'%')}
+      <div class="out" id="fpout"></div>
+      <div class="note" style="margin-top:12px">P(환자 | 양성) = 진짜 양성 ÷ (진짜 양성 + 가짜 양성).
+      <b>드문 병일수록</b> 분모의 가짜 양성이 커집니다.</div>
+    </div></div>`;
+  const cv=$('#fp1'),ctx=cv.getContext('2d'),W=380,H=320;
+  function draw(){
+    const per=+$('#fpP').value, sens=+$('#fpS').value/100, spec=+$('#fpF').value/100;
+    $('#fpPv').textContent=per+'명/만명'; $('#fpSv').textContent=(sens*100).toFixed(0)+'%'; $('#fpFv').textContent=(spec*100).toFixed(0)+'%';
+    const N=10000, sick=per, well=N-sick;
+    const tp=sick*sens, fn=sick-tp, fp=well*(1-spec), tn=well-fp;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cols=40, rows=25, cw=8.6, ch=11.4, L=18, T=16;
+    for(let c=0;c<1000;c++){
+      const px=L+(c%cols)*cw, py=T+Math.floor(c/cols)*ch;
+      const isSick = c < Math.round(sick/10);
+      const posCount = Math.round((tp+fp)/10);
+      const isPos = isSick ? (c < Math.round(tp/10)) : (c >= Math.round(sick/10) && c < Math.round(sick/10)+Math.round(fp/10));
+      ctx.fillStyle = isSick ? 'rgba(190,18,60,.75)' : (isPos ? 'rgba(245,158,11,.65)' : '#EEF1F5');
+      ctx.fillRect(px,py,cw-1.4,ch-1.6);
+      if(isPos){ ctx.strokeStyle='#111827'; ctx.lineWidth=0.8; ctx.strokeRect(px,py,cw-1.4,ch-1.6); }
+    }
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('붉은 = 환자 · 주황 = 건강한데 양성(가짜 양성) · 테두리 = 양성 판정', L, H-12);
+    const ppv = tp/(tp+fp);
+    $('#fpout').innerHTML =
+      `<span class="mono">1만 명 중 환자 ${sick} · 건강 ${well}</span><br>`
+      + `<span class="mono">진짜 양성 ${tp.toFixed(1)} · 가짜 양성 <b style="color:#B45309">${fp.toFixed(1)}</b></span><br>`
+      + `<span class="mono">P(환자 | 양성) = ${tp.toFixed(1)} / (${tp.toFixed(1)} + ${fp.toFixed(1)}) = <b style="color:#BE123C">${(ppv*100).toFixed(1)}%</b></span><br>`
+      + (per<=10 && ppv<0.6 ? `<b style="color:#B45309">양성이어도 실제 환자일 확률이 절반에 못 미칩니다 — 가짜 양성이 더 많습니다.</b><br>` : '')
+      + (per>=100 && ppv>0.6 ? `<b style="color:#7C3AED">흔한 병이 되니 같은 검사인데 신뢰도가 크게 올라갑니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">검사 성능은 그대로인데 답이 달라집니다 — 사전확률이 결정적입니다.</span>`;
+  }
+  ['fpP','fpS','fpF'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'fp', title:'조건부확률 — 양성이면 정말 환자일까',
+    q:['유병률을 바꾸며 (유병률, 진짜 양성, 가짜 양성, P(환자|양성)) 를 여섯 줄 기록하세요.',
+       'P(환자|양성) 이 50% 를 넘는 유병률의 경계를 찾으세요.',
+       '검사 성능을 높이는 것과 대상을 좁히는 것 중 무엇이 더 효과적인지 근거를 들어 쓰세요.'],
+    cols:['유병률','민감도','특이도','가짜 양성','P(환자|양성)'],
+    hint:'힌트 — 분모는 「양성 전체」입니다. 건강한 사람이 훨씬 많다는 점이 핵심입니다.',
+    read:()=>{ const per=+$('#fpP').value, sens=+$('#fpS').value/100, spec=+$('#fpF').value/100;
+      const tp=per*sens, fp=(10000-per)*(1-spec);
+      return [per,(sens*100).toFixed(0)+'%',(spec*100).toFixed(0)+'%',fp.toFixed(1),(tp/(tp+fp)*100).toFixed(1)+'%']; } });
+}
+
+/* ---------- LAB 148 독립 판정 — 2×2 표로 확인하기 ---------- */
+function chiIndepDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ci1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">왼쪽은 <b>실제 관측</b>, 오른쪽은 <b>독립이라면 나왔을</b> 기대 표입니다.
+      두 표가 같으면 서로 영향이 없다는 뜻입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('ciA','아침을 먹고 지각 안 함',10,90,1,40,'명')}
+      ${slider('ciB','아침을 먹고 지각함',0,60,1,10,'명')}
+      ${slider('ciC','아침을 안 먹고 지각 안 함',10,90,1,35,'명')}
+      ${slider('ciD','아침을 안 먹고 지각함',0,60,1,15,'명')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="ciMake">독립이 되도록 맞춰 주기</button></div>
+      <div class="out" id="ciout"></div>
+      <div class="note" style="margin-top:12px">기댓값 = (행 합 × 열 합) ÷ 전체.
+      관측과 기대의 차이가 클수록 <b>서로 영향을 준다</b>는 증거입니다.</div>
+    </div></div>`;
+  const cv=$('#ci1'),ctx=cv.getContext('2d'),W=380,H=300;
+  function draw(){
+    const a=+$('#ciA').value,b=+$('#ciB').value,c=+$('#ciC').value,d=+$('#ciD').value;
+    ['ciA','ciB','ciC','ciD'].forEach(i=>$('#'+i+'v').textContent=$('#'+i).value+'명');
+    const n=a+b+c+d, r1=a+b, r2=c+d, k1=a+c, k2=b+d;
+    const E=[r1*k1/n, r1*k2/n, r2*k1/n, r2*k2/n], O=[a,b,c,d];
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const box=(x0,y0,vals,title,col)=>{
+      ctx.fillStyle='#374151'; ctx.font='bold 11px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(title,x0,y0-8);
+      for(let i=0;i<4;i++){ const px=x0+(i%2)*74, py=y0+Math.floor(i/2)*54;
+        ctx.fillStyle=col; ctx.fillRect(px,py,68,48);
+        ctx.strokeStyle='#C7D2E4'; ctx.lineWidth=1; ctx.strokeRect(px,py,68,48);
+        ctx.fillStyle='#111827'; ctx.font='13px sans-serif'; ctx.textAlign='center';
+        ctx.fillText(typeof vals[i]==='number'?vals[i].toFixed(vals[i]%1?1:0):vals[i], px+34, py+30); } };
+    box(22,50,O,'관측 표','rgba(37,99,235,.14)');
+    box(198,50,E,'독립이라면 (기대 표)','rgba(14,147,132,.14)');
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('행: 아침 먹음 / 안 먹음 · 열: 지각 안 함 / 지각함', 22, 216);
+    let chi=0; for(let i=0;i<4;i++) chi += Math.pow(O[i]-E[i],2)/Math.max(E[i],1e-9);
+    ctx.fillText('χ² = Σ (관측 − 기대)² / 기대 = '+chi.toFixed(3), 22, 236);
+    const pA=r1/n, pLate=k2/n, pBoth=b/n;
+    const close = Math.abs(pBoth-pA*pLate)<0.005;
+    $('#ciout').innerHTML =
+      `<span class="mono">P(아침) = ${pA.toFixed(3)} · P(지각) = ${pLate.toFixed(3)} · 곱 = <b>${(pA*pLate).toFixed(4)}</b></span><br>`
+      + `<span class="mono">P(아침 ∩ 지각) = <b>${pBoth.toFixed(4)}</b> · χ² = <b>${chi.toFixed(3)}</b></span><br>`
+      + (chi>3.84 ? `<b style="color:#B45309">관측과 기대의 차이가 큽니다 — 두 항목이 서로 영향을 준다고 볼 수 있습니다.</b><br>` : '')
+      + (close ? `<b style="color:#7C3AED">관측 표와 기대 표가 거의 같습니다 — 독립이라고 볼 만합니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">기댓값은 「행 합 × 열 합 ÷ 전체」로 만듭니다.</span>`;
+  }
+  $('#ciMake').onclick=()=>{
+    const a=+$('#ciA').value,b=+$('#ciB').value,c=+$('#ciC').value;
+    const d=Math.round(b*c/Math.max(a,1));
+    $('#ciD').value=Math.min(60,Math.max(0,d)); draw(); };
+  ['ciA','ciB','ciC','ciD'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'ci', title:'독립 판정 — 관측과 기대의 거리',
+    q:['네 칸을 바꾸며 (P(A), P(B), 곱, P(A∩B), χ²) 를 다섯 줄 기록하세요.',
+       '독립에 가까운 표와 크게 어긋난 표를 각각 하나씩 만들어 보세요.',
+       '표본 수를 두 배로 하면 χ² 는 어떻게 변하는지 확인하고 이유를 쓰세요.'],
+    cols:['a','b','c','d','χ²'],
+    hint:'힌트 — 기댓값은 행 합과 열 합만으로 정해집니다.',
+    read:()=>{ const a=+$('#ciA').value,b=+$('#ciB').value,c=+$('#ciC').value,d=+$('#ciD').value;
+      const n=a+b+c+d, E=[(a+b)*(a+c)/n,(a+b)*(b+d)/n,(c+d)*(a+c)/n,(c+d)*(b+d)/n], O=[a,b,c,d];
+      let chi=0; for(let i=0;i<4;i++) chi+=Math.pow(O[i]-E[i],2)/Math.max(E[i],1e-9);
+      return [a,b,c,d,chi.toFixed(3)]; } });
+}
+
+/* ---------- LAB 149 확률분포와 기댓값 — 보험료는 어떻게 정할까 ---------- */
+function expectDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ex1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">막대의 높이가 확률, 가로 위치가 <b>손해액</b>입니다.
+      삼각형 표시가 기댓값 — 막대들의 <b>무게중심</b>입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('exP','사고가 날 확률',0,10,0.1,2,'%')}
+      ${slider('exL','사고 시 손해액',100,2000,50,500,'만원')}
+      ${slider('exF','보험료',1,60,1,20,'만원')}
+      <div class="out" id="exout"></div>
+      <div class="note" style="margin-top:12px">E(X) = Σ x·P(X = x).
+      보험사는 기댓값보다 <b>조금 더</b> 받아야 유지됩니다 — 그 차이가 운영비와 이윤입니다.</div>
+    </div></div>`;
+  const cv=$('#ex1'),ctx=cv.getContext('2d'),W=380,H=300,P=40;
+  function draw(){
+    const pr=+$('#exP').value/100, loss=+$('#exL').value, fee=+$('#exF').value;
+    $('#exPv').textContent=(pr*100).toFixed(1)+'%'; $('#exLv').textContent=loss+'만원'; $('#exFv').textContent=fee+'만원';
+    const E=pr*loss;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const X=v=>P+(W-2*P)*v/2000, base=H-56;
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,base); ctx.lineTo(W-P,base); ctx.stroke();
+    const bars=[[0,1-pr],[loss,pr]];
+    bars.forEach(([v,p])=>{ const h=(base-40)*p;
+      ctx.fillStyle= v===0?'rgba(37,99,235,.35)':'rgba(190,18,60,.45)';
+      ctx.fillRect(X(v)-14, base-h, 28, h);
+      ctx.fillStyle='#374151'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+      ctx.fillText((p*100).toFixed(1)+'%', X(v), base-h-5);
+      ctx.fillStyle='#6B7280'; ctx.fillText(v===0?'사고 없음':(v+'만원'), X(v), base+15); });
+    ctx.fillStyle='#0E9384'; ctx.beginPath();
+    ctx.moveTo(X(E),base+4); ctx.lineTo(X(E)-7,base+18); ctx.lineTo(X(E)+7,base+18); ctx.closePath(); ctx.fill();
+    ctx.fillStyle='#0E9384'; ctx.font='10.5px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('기댓값 '+E.toFixed(1)+'만원', X(E), base+32);
+    ctx.fillStyle='#BE123C'; ctx.textAlign='center';
+    ctx.fillText('▲ 보험료 '+fee+'만원', X(fee), base+50);
+    const margin=fee-E;
+    $('#exout').innerHTML =
+      `<span class="mono">E(X) = ${loss} × ${(pr).toFixed(3)} + 0 × ${(1-pr).toFixed(3)} = <b style="color:#0E9384">${E.toFixed(2)}만원</b></span><br>`
+      + `<span class="mono">보험료 ${fee}만원 − 기댓값 ${E.toFixed(2)}만원 = <b>${margin.toFixed(2)}만원</b></span><br>`
+      + (margin<0 ? `<b style="color:#B45309">보험료가 기댓값보다 적습니다 — 계약이 많아질수록 회사는 손해를 봅니다.</b><br>` : '')
+      + (Math.abs(margin)<0.5 ? `<b style="color:#7C3AED">보험료가 기댓값과 거의 같습니다 — 이른바 공정한 게임입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">기댓값은 한 번의 결과가 아니라 「많이 반복했을 때의 평균」입니다.</span>`;
+  }
+  ['exP','exL','exF'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'ex', title:'기댓값 — 보험료의 바닥',
+    q:['(사고 확률, 손해액, 기댓값, 보험료, 차액) 을 다섯 줄 기록하세요.',
+       '손해액을 두 배로 하면 기댓값은 어떻게 되나요? 확률을 두 배로 하면?',
+       '공정한 게임(차액 0)이 왜 현실의 보험이 될 수 없는지 쓰세요.'],
+    cols:['확률','손해액','기댓값','보험료','차액'],
+    hint:'힌트 — E(X) 는 값과 확률을 곱해 모두 더한 것입니다.',
+    read:()=>{ const pr=+$('#exP').value/100,loss=+$('#exL').value,fee=+$('#exF').value;
+      return [(pr*100).toFixed(1)+'%',loss,(pr*loss).toFixed(2),fee,(fee-pr*loss).toFixed(2)]; } });
+}
+
+/* ---------- LAB 150 분산과 표준편차 — 평균이 같아도 다르다 ---------- */
+function varSpreadDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sp1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">두 반의 <b>평균은 같습니다</b>.
+      점들이 평균에서 얼마나 흩어져 있는지가 분산입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('spA','A반 흩어짐',1,25,1,5,'')}
+      ${slider('spB','B반 흩어짐',1,25,1,8,'')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="spSame">둘을 같게</button>
+        <button class="b g sm" id="spShow">편차 제곱 보이기</button>
+      </div>
+      <div class="out" id="spout"></div>
+      <div class="note" style="margin-top:12px">분산 = 편차의 <b>제곱</b>의 평균.
+      그냥 더하면 0 이 되므로 제곱해서 더합니다. 표준편차는 그 제곱근입니다.</div>
+    </div></div>`;
+  const cv=$('#sp1'),ctx=cv.getContext('2d'),W=380,H=320;
+  const S={ show:false };
+  const base=[-1.6,-1.1,-0.7,-0.3,0,0.3,0.7,1.1,1.6,0.2,-0.2,0];
+  function draw(){
+    const sa=+$('#spA').value, sb=+$('#spB').value;
+    $('#spAv').textContent=sa; $('#spBv').textContent=sb;
+    const A=base.map(z=>70+z*sa), B=base.map(z=>70+z*sb);
+    const mean=v=>v.reduce((x,y)=>x+y,0)/v.length;
+    const vr=v=>{ const m=mean(v); return v.reduce((x,y)=>x+(y-m)*(y-m),0)/v.length; };
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const X=s=>30+(W-60)*(s-20)/80;
+    [[A,110,'#2563EB','A반'],[B,220,'#0E9384','B반']].forEach(([v,y,col,nm])=>{
+      ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(30,y); ctx.lineTo(W-30,y); ctx.stroke();
+      const m=mean(v);
+      if(S.show) v.forEach(s=>{ const w=Math.abs(X(s)-X(m));
+        ctx.fillStyle='rgba(245,158,11,.16)'; ctx.fillRect(Math.min(X(s),X(m)),y-w/2,w,w/2); });
+      v.forEach(s=>{ ctx.fillStyle=col; ctx.beginPath(); ctx.arc(X(s),y,4.2,0,7); ctx.fill(); });
+      ctx.setLineDash([4,4]); ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.4;
+      ctx.beginPath(); ctx.moveTo(X(m),y-46); ctx.lineTo(X(m),y+46); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#374151'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(nm+'  평균 '+m.toFixed(1)+' · 표준편차 '+Math.sqrt(vr(v)).toFixed(2), 30, y-56); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('붉은 점선 = 평균 · 주황 사각형 = 편차의 제곱', 30, H-12);
+    const va=vr(A), vb=vr(B), same=Math.abs(va-vb)<0.01;
+    $('#spout').innerHTML =
+      `<span class="mono">A반 평균 ${mean(A).toFixed(1)} · 분산 <b>${va.toFixed(2)}</b> · 표준편차 <b>${Math.sqrt(va).toFixed(2)}</b></span><br>`
+      + `<span class="mono">B반 평균 ${mean(B).toFixed(1)} · 분산 <b>${vb.toFixed(2)}</b> · 표준편차 <b>${Math.sqrt(vb).toFixed(2)}</b></span><br>`
+      + (Math.abs(va-vb)>50 ? `<b style="color:#B45309">평균은 같은데 흩어짐이 크게 다릅니다 — 평균만으로는 두 반을 구별할 수 없습니다.</b><br>` : '')
+      + (same ? `<b style="color:#7C3AED">두 반의 분산이 같아졌습니다 — 이제 평균과 흩어짐이 모두 같습니다.</b><br>` : '')
+      + (S.show ? `주황 사각형의 넓이 평균이 곧 분산입니다.<br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">편차를 그냥 더하면 0 이 됩니다 — 그래서 제곱합니다.</span>`;
+  }
+  $('#spSame').onclick=()=>{ $('#spB').value=$('#spA').value; draw(); };
+  $('#spShow').onclick=()=>{ S.show=true; draw(); };
+  ['spA','spB'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'sp', title:'분산 — 평균 뒤에 숨은 차이',
+    q:['(A 흩어짐, B 흩어짐, 두 분산, 두 표준편차) 를 다섯 줄 기록하세요.',
+       '흩어짐을 두 배로 하면 분산과 표준편차는 각각 몇 배가 되나요?',
+       '편차를 그냥 더하면 왜 0 이 되는지 식으로 보이세요.'],
+    cols:['A 흩어짐','B 흩어짐','A 분산','B 분산','표준편차 차'],
+    hint:'힌트 — 표준편차는 분산의 제곱근이라 단위가 자료와 같아집니다.',
+    read:()=>{ const sa=+$('#spA').value,sb=+$('#spB').value;
+      const mk=s=>base.map(z=>70+z*s), mean=v=>v.reduce((x,y)=>x+y,0)/v.length,
+        vr=v=>{ const m=mean(v); return v.reduce((x,y)=>x+(y-m)*(y-m),0)/v.length; };
+      const va=vr(mk(sa)), vb=vr(mk(sb));
+      return [sa,sb,va.toFixed(2),vb.toFixed(2),Math.abs(Math.sqrt(va)-Math.sqrt(vb)).toFixed(2)]; } });
+}
+
+/* ---------- LAB 151 이항분포 — 동전 100번에 60번 앞면 ---------- */
+function binomDistDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="bd1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">막대 하나가 「앞면이 k 번 나올 확률」입니다.
+      붉은 막대는 <b>내가 관찰한 값 이상</b>이 나올 경우입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('bdN','던지는 횟수 n',10,200,10,20,'번')}
+      ${slider('bdP','앞면이 나올 확률 p',10,90,5,50,'%')}
+      ${slider('bdK','관찰한 앞면 수 k',0,200,1,12,'번')}
+      <div class="out" id="bdout"></div>
+      <div class="note" style="margin-top:12px">P(X = k) = C(n, k)p^k(1−p)^(n−k),
+      평균 np, 표준편차 √(np(1−p)). <b>드문 정도</b>를 재는 것이 판단의 출발입니다.</div>
+    </div></div>`;
+  const cv=$('#bd1'),ctx=cv.getContext('2d'),W=380,H=300,P=34;
+  function lnC(n,k){ let v=0; for(let i=1;i<=k;i++) v+=Math.log(n-k+i)-Math.log(i); return v; }
+  function pmf(n,k,p){ return Math.exp(lnC(n,k)+k*Math.log(p)+(n-k)*Math.log(1-p)); }
+  function draw(){
+    const n=+$('#bdN').value, p=+$('#bdP').value/100; let k=Math.min(+$('#bdK').value,n);
+    $('#bdK').max=n; $('#bdNv').textContent=n+'번'; $('#bdPv').textContent=(p*100).toFixed(0)+'%'; $('#bdKv').textContent=k+'번';
+    const ps=[]; for(let i=0;i<=n;i++) ps.push(pmf(n,i,p));
+    const mx=Math.max(...ps);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const bw=(W-2*P)/(n+1);
+    ps.forEach((v,i)=>{ const h=(H-2*P-10)*v/mx;
+      ctx.fillStyle = i>=k ? 'rgba(190,18,60,.55)' : 'rgba(37,99,235,.32)';
+      ctx.fillRect(P+i*bw, H-P-h, Math.max(1.2,bw-1), h); });
+    const mean=n*p, sd=Math.sqrt(n*p*(1-p));
+    const X=i=>P+i*bw+bw/2;
+    ctx.setLineDash([4,4]); ctx.strokeStyle='#0E9384'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(X(mean),P-6); ctx.lineTo(X(mean),H-P); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('초록 점선 = 평균 np = '+mean.toFixed(1), P, P-12);
+    let tail=0; for(let i=k;i<=n;i++) tail+=ps[i];
+    const z=(k-mean)/sd;
+    $('#bdout').innerHTML =
+      `<span class="mono">평균 np = <b>${mean.toFixed(1)}</b> · 표준편차 = <b>${sd.toFixed(2)}</b></span><br>`
+      + `<span class="mono">P(X = ${k}) = <b>${(ps[k]*100).toFixed(2)}%</b> · P(X ≥ ${k}) = <b style="color:#BE123C">${(tail*100).toFixed(2)}%</b></span><br>`
+      + `<span class="mono">z = (k − np)/√(np(1−p)) = <b>${z.toFixed(2)}</b></span><br>`
+      + (tail<0.05 ? `<b style="color:#B45309">이만큼 치우칠 확률이 5% 미만 — 우연이라고 보기 어렵습니다.</b><br>` : '')
+      + (Math.abs(z)<0.5 ? `<b style="color:#7C3AED">평균에서 거의 벗어나지 않았습니다 — 흔히 일어나는 결과입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">같은 60%라도 n 이 커질수록 더 드문 일이 됩니다.</span>`;
+  }
+  ['bdN','bdP','bdK'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'bd', title:'이항분포 — 의심해야 할 정도',
+    q:['(n, k, P(X ≥ k), z) 를 여섯 줄 기록하세요 — 비율은 60%로 고정하고 n 만 키워 보세요.',
+       'n 이 커질 때 같은 비율의 꼬리 확률이 어떻게 변하나요?',
+       '「우연이라고 보기 어렵다」의 기준을 스스로 정하고 근거를 쓰세요.'],
+    cols:['n','p','k','P(X ≥ k)','z'],
+    hint:'힌트 — 평균은 np, 표준편차는 √(np(1−p)) 입니다.',
+    read:()=>{ const n=+$('#bdN').value,p=+$('#bdP').value/100,k=Math.min(+$('#bdK').value,n);
+      let tail=0; for(let i=k;i<=n;i++) tail+=pmf(n,i,p);
+      return [n,(p*100).toFixed(0)+'%',k,(tail*100).toFixed(2)+'%',((k-n*p)/Math.sqrt(n*p*(1-p))).toFixed(2)]; } });
+}
