@@ -1,0 +1,15 @@
+import { chromium } from 'playwright';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+const ROOT = dirname(fileURLToPath(import.meta.url));
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: 1200, height: 1100 } });
+await p.goto('file://' + join(ROOT, 'dist', 'index.html'));
+await p.evaluate(() => openLab(4));
+await p.waitForTimeout(500);
+const prob = await p.evaluate(() => (document.querySelector('.probx') || { innerText: '(문제 카드 없음)' }).innerText);
+const gate = await p.evaluate(() => (document.querySelector('.pgb') || { innerText: '(게이트 없음)' }).innerText.slice(0, 260));
+console.log(prob);
+console.log('===== 게이트 =====');
+console.log(gate);
+await b.close();

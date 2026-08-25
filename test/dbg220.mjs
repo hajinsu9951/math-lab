@@ -1,0 +1,15 @@
+import { chromium } from 'playwright';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+const ROOT = dirname(fileURLToPath(import.meta.url));
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: 1300, height: 1300 } });
+p.on('pageerror', e => console.log('PAGEERROR:', e.message));
+await p.goto('file://' + join(ROOT, 'dist', 'index.html'));
+await p.evaluate(() => openLab(219));
+await p.waitForTimeout(500);
+console.log('열자마자:', await p.evaluate(() => (document.getElementById('mtout')||{}).innerText));
+await p.evaluate(() => document.getElementById('mtWrong').click());
+await p.waitForTimeout(300);
+console.log('버튼 뒤:', await p.evaluate(() => (document.getElementById('mtout')||{}).innerText));
+await b.close();

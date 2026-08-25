@@ -240,7 +240,7 @@ function materialDemo(root){
       `<span class="mono">올바른 투입 = ${need} ÷ (1 − ${loss.toFixed(2)}) = <b style="color:#2563EB">${Math.ceil(right)}개</b> → 완성 ${okOut}개</span><br>`
       + (S.wrong ? `<span class="mono">곱해서 계산 = ${need} × (1 + ${loss.toFixed(2)}) = <b style="color:#BE123C">${Math.ceil(wrong)}개</b> → 완성 ${wrOut}개</span><br>` : '')
       + (S.wrong && wrOut<need ? `<b style="color:#B45309">곱해서 계산하면 완성품이 ${need-wrOut}개 모자랍니다 — 나누기가 맞습니다.</b><br>` : '')
-      + (loss>=35 ? `<b style="color:#7C3AED">손실률이 커질수록 두 방법의 차이가 급격히 벌어집니다.</b><br>` : '')
+      + (loss>=0.35 ? `<b style="color:#7C3AED">손실률이 커질수록 두 방법의 차이가 급격히 벌어집니다.</b><br>` : '')
       + `<span style="color:#6B7280;font-size:12.5px">「몇 % 버려진다」는 남는 비율로 나누는 문제입니다.</span>`;
   }
   $('#mtWrong').onclick=()=>{ S.wrong=true; draw(); };

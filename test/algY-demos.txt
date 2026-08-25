@@ -1,0 +1,356 @@
+/* ---------- LAB 232 황금비와 피보나치 — 비가 스스로 찾아가는 수 ---------- */
+function goldenDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="gl1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">정사각형을 이어 붙이면 <b>피보나치 나선</b>이 됩니다.
+      이웃한 두 수의 비가 어디로 가는지 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('glN','이어 붙인 정사각형 수',2,12,1,4,'개')}
+      ${slider('glA','첫 두 수 (a, 1)',1,8,1,1,'')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="glRect">황금사각형과 견주기</button></div>
+      <div class="out" id="glout"></div>
+      <div class="note" style="margin-top:12px">φ = (1 + √5)/2 = 1.6180…
+      첫 두 수를 무엇으로 시작해도 <b>비는 같은 곳</b>으로 갑니다.</div>
+    </div></div>`;
+  const cv=$('#gl1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const S={ cmp:false };
+  const PHI=(1+Math.sqrt(5))/2;
+  function seq(n,a){ const f=[a,1]; while(f.length<n+2) f.push(f[f.length-1]+f[f.length-2]); return f; }
+  function draw(){
+    const n=+$('#glN').value, a=+$('#glA').value;
+    $('#glNv').textContent=n+'개'; $('#glAv').textContent='('+a+', 1)';
+    const f=seq(n,a);
+    const big=f[n], sc=Math.min(250/Math.max(f[n],1), 250/Math.max(f[n-1]||1,1));
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    // 나선 사각형 배치
+    let x=70, y=180, dir=0, w=f[0]*sc;
+    const boxes=[];
+    let cx=70, cy=180;
+    for(let i=0;i<n;i++){ const sz=f[i]*sc;
+      let bx=cx, by=cy;
+      if(dir===0){ by=cy-sz; }
+      else if(dir===1){ bx=cx; by=cy; }
+      boxes.push([bx,by,sz]);
+      if(dir===0){ cx=bx+sz; cy=by+sz; }
+      else if(dir===1){ cy=by+sz; }
+      dir=(dir+1)%4;
+    }
+    // 단순 배치: 왼쪽부터 오른쪽으로 크기순
+    let px=24, py=40;
+    const total=f.slice(0,n).reduce((s,v)=>s+v,0);
+    const usc=Math.min(320/Math.max(f[n-1]*1.7,1), 150/Math.max(f[n-1],1));
+    px=24; py=200;
+    for(let i=0;i<n;i++){ const sz=f[i]*usc;
+      ctx.fillStyle='rgba(37,99,235,'+(0.12+0.05*i)+')';
+      ctx.fillRect(px,py-sz,sz,sz);
+      ctx.strokeStyle='#2563EB'; ctx.lineWidth=1.2; ctx.strokeRect(px,py-sz,sz,sz);
+      if(sz>16){ ctx.fillStyle='#374151'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+        ctx.fillText(f[i], px+sz/2, py-sz/2+4); }
+      px+=sz+3; if(px>W-30) break; }
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('정사각형의 한 변 = 수열의 항 ('+f.slice(0,n).join(', ')+')', 24, 224);
+    // 비의 수렴 그래프
+    const rx=i=>24+(W-48)*(i-1)/Math.max(1,n-2), ry=v=>300-60*(v-1)/1.2;
+    ctx.setLineDash([4,4]); ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(24,ry(PHI)); ctx.lineTo(W-24,ry(PHI)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#BE123C'; ctx.font='10px sans-serif';
+    ctx.fillText('φ = 1.618', W-70, ry(PHI)-5);
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2; ctx.beginPath();
+    for(let i=1;i<n;i++){ const v=f[i+1]/f[i]; i===1?ctx.moveTo(rx(i),ry(v)):ctx.lineTo(rx(i),ry(v)); }
+    ctx.stroke();
+    for(let i=1;i<n;i++){ ctx.fillStyle='#0E9384';
+      ctx.beginPath(); ctx.arc(rx(i),ry(f[i+1]/f[i]),3,0,7); ctx.fill(); }
+    ctx.fillStyle='#6B7280'; ctx.fillText('아래 = 이웃 항의 비', 24, 316);
+    const last=f[n]/f[n-1], gap=Math.abs(last-PHI);
+    $('#glout').innerHTML =
+      `<span class="mono">수열 ${f.slice(0,n+1).join(', ')}</span><br>`
+      + `<span class="mono">마지막 비 = ${f[n]} / ${f[n-1]} = <b style="color:#0E9384">${last.toFixed(6)}</b> · φ 와의 차 <b>${gap.toFixed(6)}</b></span><br>`
+      + (gap<0.001 ? `<b style="color:#B45309">비가 φ 에 사실상 닿았습니다 — 시작한 두 수와 상관없이 같은 곳으로 갑니다.</b><br>` : '')
+      + (S.cmp ? `<b style="color:#7C3AED">황금사각형은 잘라내도 남는 부분이 원래와 닮은 사각형입니다 (1 : φ).</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">φ² = φ + 1 — 이 한 줄이 나선의 비밀입니다.</span>`;
+  }
+  $('#glRect').onclick=()=>{ S.cmp=true; draw(); };
+  ['glN','glA'].forEach(i=>$('#'+i).oninput=()=>{ S.cmp=false; draw(); }); draw();
+  inquiry(root,{ id:'gl', title:'황금비 — 어디서 시작해도 같은 곳',
+    q:['첫 두 수를 바꿔 가며 (시작, 마지막 비) 를 여섯 줄 기록하세요.',
+       '항을 늘릴수록 비가 φ 에 얼마나 가까워지는지 확인하세요.',
+       'φ² = φ + 1 을 풀어 φ 의 값을 직접 구하세요.'],
+    cols:['시작','항 수','마지막 두 항','비','φ 와의 차'],
+    hint:'힌트 — x² = x + 1 의 양의 근이 φ 입니다.',
+    read:()=>{ const n=+$('#glN').value,a=+$('#glA').value,f=seq(n,a);
+      return ['('+a+', 1)',n,f[n-1]+', '+f[n],(f[n]/f[n-1]).toFixed(6),
+        Math.abs(f[n]/f[n-1]-(1+Math.sqrt(5))/2).toFixed(6)]; } });
+}
+
+/* ---------- LAB 233 테셀레이션 — 평면을 빈틈없이 채우는 도형 ---------- */
+function tessellationDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ts1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">한 꼭짓점에 모인 각의 합이 <b>정확히 360°</b> 여야
+      빈틈도 겹침도 없이 채워집니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">정다각형 고르기<select id="tsK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="3">정삼각형 (60°)</option>
+        <option value="4">정사각형 (90°)</option>
+        <option value="5">정오각형 (108°)</option>
+        <option value="6">정육각형 (120°)</option>
+        <option value="8">정팔각형 (135°)</option>
+      </select></label>
+      ${slider('tsN','한 꼭짓점에 모을 개수',2,6,1,4,'개')}
+      <div class="out" id="tsout"></div>
+      <div class="note" style="margin-top:12px">한 내각 = 180(n−2)/n.
+      <b>360 ÷ 내각이 자연수</b>일 때만 한 종류로 채울 수 있습니다.</div>
+    </div></div>`;
+  const cv=$('#ts1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const k=+$('#tsK').value, cnt=+$('#tsN').value;
+    $('#tsNv').textContent=cnt+'개';
+    const ang=180*(k-2)/k, total=ang*cnt;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=190, cy=160, R=92;
+    let cur=-90;
+    for(let i=0;i<cnt;i++){
+      const a0=cur*Math.PI/180, a1=(cur+ang)*Math.PI/180;
+      ctx.fillStyle = total>360 && i===cnt-1 ? 'rgba(190,18,60,.35)' : 'rgba(37,99,235,'+(0.18+0.06*i)+')';
+      ctx.beginPath(); ctx.moveTo(cx,cy);
+      ctx.lineTo(cx+R*Math.cos(a0), cy+R*Math.sin(a0));
+      // 정다각형 모양 근사: 부채꼴 대신 다각형 조각
+      ctx.lineTo(cx+R*Math.cos((a0+a1)/2)/Math.cos((a1-a0)/2), cy+R*Math.sin((a0+a1)/2)/Math.cos((a1-a0)/2));
+      ctx.lineTo(cx+R*Math.cos(a1), cy+R*Math.sin(a1));
+      ctx.closePath(); ctx.fill();
+      ctx.strokeStyle='#2563EB'; ctx.lineWidth=1.4; ctx.stroke();
+      cur+=ang; }
+    if(total<360){ const a0=cur*Math.PI/180, a1=(-90+360)*Math.PI/180;
+      ctx.fillStyle='rgba(245,158,11,.3)';
+      ctx.beginPath(); ctx.moveTo(cx,cy);
+      ctx.arc(cx,cy,R,a0,a1); ctx.closePath(); ctx.fill();
+      ctx.fillStyle='#B45309'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('빈틈 '+(360-total).toFixed(0)+'°', cx+R*0.6*Math.cos((a0+a1)/2), cy+R*0.6*Math.sin((a0+a1)/2)); }
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(cx,cy,4,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('한 꼭짓점에 모인 조각들 (붉은 = 겹침, 주황 = 빈틈)', 20, 28);
+    ctx.fillText('한 내각 '+ang.toFixed(1)+'° × '+cnt+'개 = '+total.toFixed(1)+'°', 20, H-40);
+    ctx.fillText('360 ÷ '+ang.toFixed(1)+' = '+(360/ang).toFixed(3), 20, H-20);
+    const exact=Math.abs(total-360)<0.01;
+    const canTile=Math.abs(360/ang-Math.round(360/ang))<1e-9;
+    $('#tsout').innerHTML =
+      `<span class="mono">정${k}각형 한 내각 = 180(${k}−2)/${k} = <b>${ang.toFixed(2)}°</b> · ${cnt}개면 ${total.toFixed(2)}°</span><br>`
+      + `<span class="mono">360 ÷ ${ang.toFixed(2)} = <b style="color:${canTile?'#0E9384':'#BE123C'}">${(360/ang).toFixed(4)}</b> ${canTile?'(자연수)':'(자연수가 아님)'}</span><br>`
+      + (exact ? `<b style="color:#B45309">정확히 360° — 빈틈도 겹침도 없이 평면을 채웁니다.</b><br>` : '')
+      + (!canTile ? `<b style="color:#7C3AED">360 을 내각으로 나눈 값이 자연수가 아니라 한 종류로는 채울 수 없습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">한 종류로 채울 수 있는 정다각형은 삼각형·사각형·육각형뿐입니다.</span>`;
+  }
+  ['tsK'].forEach(i=>$('#'+i).onchange=draw); $('#tsN').oninput=draw; draw();
+  inquiry(root,{ id:'ts', title:'테셀레이션 — 360° 의 조건',
+    q:['다섯 도형의 (내각, 360 ÷ 내각) 을 모두 기록하세요.',
+       '한 종류로 채울 수 있는 정다각형을 모두 찾으세요.',
+       '정오각형이 왜 안 되는지 수로 설명하세요.'],
+    cols:['도형','내각','개수','합','채울 수 있나'],
+    hint:'힌트 — 360 ÷ 내각이 자연수여야 합니다.',
+    read:()=>{ const k=+$('#tsK').value,cnt=+$('#tsN').value,ang=180*(k-2)/k;
+      return ['정'+k+'각형',ang.toFixed(2)+'°',cnt,(ang*cnt).toFixed(2)+'°',
+        Math.abs(360/ang-Math.round(360/ang))<1e-9?'가능':'불가능']; } });
+}
+
+/* ---------- LAB 234 프랙탈 — 스스로를 닮은 도형 ---------- */
+function fractalDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="fr1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">같은 규칙을 <b>반복</b>할 때마다 길이와 넓이가
+      어떻게 변하는지 보세요.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">도형 고르기<select id="frK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="koch">코흐 눈송이 (길이가 늘어남)</option>
+        <option value="sier">시에르핀스키 삼각형 (넓이가 줄어듦)</option>
+      </select></label>
+      ${slider('frN','반복 횟수',0,6,1,2,'번')}
+      <div class="out" id="frout"></div>
+      <div class="note" style="margin-top:12px">코흐: 길이 × (4/3) 씩, 시에르핀스키: 넓이 × (3/4) 씩.
+      <b>등비수열</b>이 도형에 나타납니다.</div>
+    </div></div>`;
+  const cv=$('#fr1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function koch(p1,p2,d){ if(d===0){ ctx.lineTo(p2[0],p2[1]); return; }
+    const dx=(p2[0]-p1[0])/3, dy=(p2[1]-p1[1])/3;
+    const a=[p1[0]+dx,p1[1]+dy], c=[p1[0]+2*dx,p1[1]+2*dy];
+    const ang=Math.atan2(dy,dx)-Math.PI/3, len=Math.hypot(dx,dy);
+    const b=[a[0]+len*Math.cos(ang), a[1]+len*Math.sin(ang)];
+    koch(p1,a,d-1); koch(a,b,d-1); koch(b,c,d-1); koch(c,p2,d-1); }
+  function sier(p1,p2,p3,d){ if(d===0){ ctx.beginPath();
+      ctx.moveTo(p1[0],p1[1]); ctx.lineTo(p2[0],p2[1]); ctx.lineTo(p3[0],p3[1]); ctx.closePath();
+      ctx.fillStyle='rgba(37,99,235,.42)'; ctx.fill(); return; }
+    const m=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+    sier(p1,m(p1,p2),m(p1,p3),d-1); sier(m(p1,p2),p2,m(p2,p3),d-1); sier(m(p1,p3),m(p2,p3),p3,d-1); }
+  function draw(){
+    const k=$('#frK').value, n=+$('#frN').value;
+    $('#frNv').textContent=n+'번';
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    if(k==='koch'){
+      const A=[70,250], B=[310,250], C=[190,250-Math.sqrt(3)/2*240];
+      ctx.strokeStyle='#2563EB'; ctx.lineWidth=1.6;
+      ctx.beginPath(); ctx.moveTo(A[0],A[1]);
+      koch(A,C,Math.min(n,5)); koch(C,B,Math.min(n,5)); koch(B,A,Math.min(n,5));
+      ctx.closePath(); ctx.stroke();
+    } else {
+      const A=[70,280], B=[310,280], C=[190,280-Math.sqrt(3)/2*240];
+      sier(A,B,C,Math.min(n,6));
+    }
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText(k==='koch'?'코흐 눈송이 — 반복 '+n+'번':'시에르핀스키 삼각형 — 반복 '+n+'번', 24, 30);
+    const lenR=Math.pow(4/3,n), areaR=Math.pow(3/4,n);
+    const dim = k==='koch' ? Math.log(4)/Math.log(3) : Math.log(3)/Math.log(2);
+    $('#frout').innerHTML =
+      (k==='koch'
+        ? `<span class="mono">둘레 = 처음의 (4/3)^${n} = <b style="color:#2563EB">${lenR.toFixed(4)}배</b> · 넓이는 유한</span><br>`
+        : `<span class="mono">남은 넓이 = 처음의 (3/4)^${n} = <b style="color:#2563EB">${areaR.toFixed(4)}배</b> · 둘레는 무한</span><br>`)
+      + `<span class="mono">프랙탈 차원 = <b>${dim.toFixed(4)}</b> (1 과 2 사이의 수)</span><br>`
+      + (k==='koch' && n>=5 ? `<b style="color:#B45309">둘레가 ${lenR.toFixed(2)}배로 늘었습니다 — 반복할수록 끝없이 길어집니다.</b><br>` : '')
+      + (k==='sier' && n>=5 ? `<b style="color:#7C3AED">넓이가 처음의 ${(areaR*100).toFixed(1)}% 만 남았습니다 — 0 으로 다가갑니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">차원이 정수가 아닌 도형 — 그래서 「프랙탈」이라 부릅니다.</span>`;
+  }
+  $('#frK').onchange=draw; $('#frN').oninput=draw; draw();
+  inquiry(root,{ id:'fr', title:'프랙탈 — 자기닮음과 등비수열',
+    q:['반복 횟수를 늘리며 (횟수, 둘레 배율 또는 남은 넓이) 를 여섯 줄 기록하세요.',
+       '코흐 곡선의 둘레가 무한인데 넓이는 유한한 이유를 쓰세요.',
+       '프랙탈 차원 log4/log3 이 무엇을 뜻하는지 설명하세요.'],
+    cols:['도형','반복','둘레 배율','남은 넓이','차원'],
+    hint:'힌트 — 반복마다 같은 비율을 곱하는 등비수열입니다.',
+    read:()=>{ const k=$('#frK').value,n=+$('#frN').value;
+      return [k==='koch'?'코흐':'시에르핀스키',n,Math.pow(4/3,n).toFixed(4),
+        Math.pow(3/4,n).toFixed(4),
+        (k==='koch'?Math.log(4)/Math.log(3):Math.log(3)/Math.log(2)).toFixed(4)]; } });
+}
+
+/* ---------- LAB 235 음정과 진동수 비 — 왜 그 음이 어울릴까 ---------- */
+function musicRatioDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="mu1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">두 음의 진동수 비가 <b>간단한 분수</b>일수록
+      파형이 규칙적으로 겹칩니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">음정 고르기<select id="muK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="1">완전 5도 (3 : 2)</option>
+        <option value="0">옥타브 (2 : 1)</option>
+        <option value="2">완전 4도 (4 : 3)</option>
+        <option value="3">장 3도 (5 : 4)</option>
+        <option value="4">증 4도 (45 : 32) — 어긋나는 음</option>
+      </select></label>
+      ${slider('muS','평균율로 계산한 반음 수',0,12,1,0,'반음')}
+      <div class="out" id="muout"></div>
+      <div class="note" style="margin-top:12px">평균율의 비 = 2^(반음/12).
+      순정률의 간단한 분수와 <b>아주 조금</b> 다릅니다.</div>
+    </div></div>`;
+  const cv=$('#mu1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const RAT=[[2,1,'옥타브',12],[3,2,'완전 5도',7],[4,3,'완전 4도',5],[5,4,'장 3도',4],[45,32,'증 4도',6]];
+  function draw(){
+    const k=+$('#muK').value, semi=+$('#muS').value;
+    $('#muSv').textContent=semi+'반음';
+    const [p,q,nm,def]=RAT[k];
+    const r=p/q, eq=Math.pow(2,semi/12);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const drawWave=(y,f,col)=>{ ctx.strokeStyle=col; ctx.lineWidth=2; ctx.beginPath();
+      for(let x=0;x<=340;x++){ const v=y-26*Math.sin(2*Math.PI*f*x/340*2);
+        x?ctx.lineTo(20+x,v):ctx.moveTo(20+x,v); } ctx.stroke(); };
+    drawWave(60,1,'#2563EB'); drawWave(130,r,'#0E9384');
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2; ctx.beginPath();
+    for(let x=0;x<=340;x++){ const v=230-22*(Math.sin(2*Math.PI*1*x/340*2)+Math.sin(2*Math.PI*r*x/340*2))/2;
+      x?ctx.lineTo(20+x,v):ctx.moveTo(20+x,v); } ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('낮은 음 (1)', 20, 30); ctx.fillText('높은 음 ('+p+'/'+q+' = '+r.toFixed(4)+')', 20, 100);
+    ctx.fillText('둘을 합친 파형 — 규칙이 반복되면 「어울린다」고 느낍니다', 20, 200);
+    // 주기 표시
+    const per=q; // 낮은 음 q 주기마다 반복
+    ctx.setLineDash([4,4]); ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    for(let i=0;i<=2;i++){ const x=20+340*i*q/(2*4);
+      if(x<=360){ ctx.beginPath(); ctx.moveTo(x,206); ctx.lineTo(x,262); ctx.stroke(); } }
+    ctx.setLineDash([]);
+    ctx.fillStyle='#374151'; ctx.font='11px sans-serif';
+    ctx.fillText('순정률 '+p+':'+q+' = '+r.toFixed(6), 20, 286);
+    ctx.fillText('평균율 2^('+semi+'/12) = '+eq.toFixed(6), 20, 306);
+    const cent=1200*Math.log2(eq/r);
+    $('#muout').innerHTML =
+      `<span class="mono">${nm} — 순정률 ${p}:${q} = ${r.toFixed(6)} · 평균율(${semi}반음) = ${eq.toFixed(6)}</span><br>`
+      + `<span class="mono">차이 = <b style="color:#BE123C">${cent.toFixed(2)} 센트</b> (1 옥타브 = 1200 센트)</span><br>`
+      + (Math.abs(cent)<3 && semi===def ? `<b style="color:#B45309">두 방식의 차이가 3센트 아래 — 사람 귀로는 거의 구별되지 않습니다.</b><br>` : '')
+      + (k===4 ? `<b style="color:#7C3AED">45:32 처럼 복잡한 분수는 파형이 좀처럼 겹치지 않아 불안하게 들립니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">「어울림」은 취향이 아니라 진동수 비의 단순함입니다.</span>`;
+  }
+  $('#muK').onchange=draw; $('#muS').oninput=draw; draw();
+  inquiry(root,{ id:'mu', title:'음정 — 진동수의 비',
+    q:['다섯 음정의 (분수, 소수, 평균율 값, 센트 차) 를 모두 기록하세요.',
+       '차이가 가장 큰 음정과 가장 작은 음정을 찾으세요.',
+       '평균율이 왜 「조금씩 어긋난 타협」인지 설명하세요.'],
+    cols:['음정','비','소수','평균율','센트 차'],
+    hint:'힌트 — 평균율은 한 옥타브를 12등분(2^(1/12))한 것입니다.',
+    read:()=>{ const k=+$('#muK').value,semi=+$('#muS').value,[p,q,nm]=RAT[k];
+      const r=p/q, eq=Math.pow(2,semi/12);
+      return [nm,p+':'+q,r.toFixed(6),eq.toFixed(6),(1200*Math.log2(eq/r)).toFixed(2)]; } });
+}
+
+/* ---------- LAB 236 원근법과 소실점 — 평행선이 만나는 곳 ---------- */
+function perspectiveDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="pp1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">같은 간격의 기둥이 <b>멀어질수록 좁아집니다</b>.
+      그 선들을 이으면 한 점에서 만납니다.</div>
+    </div>
+    <div class="col">
+      ${slider('ppV','소실점의 높이',60,200,5,130,'')}
+      ${slider('ppN','기둥 개수',3,12,1,6,'개')}
+      ${slider('ppD','기둥 사이의 실제 간격',1,4,0.5,2,'m')}
+      <div class="out" id="ppout"></div>
+      <div class="note" style="margin-top:12px">화면 크기 ∝ 1 / 거리.
+      같은 간격이라도 <b>거리의 역수</b>로 줄어들어 간격이 좁아 보입니다.</div>
+    </div></div>`;
+  const cv=$('#pp1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const vy=+$('#ppV').value, n=+$('#ppN').value, gap=+$('#ppD').value;
+    $('#ppVv').textContent=vy; $('#ppNv').textContent=n+'개'; $('#ppDv').textContent=gap.toFixed(1)+'m';
+    const vx=250;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(0,vy); ctx.lineTo(W,vy); ctx.stroke();
+    ctx.fillStyle='#9CA3AF'; ctx.font='10px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('지평선', 6, vy-5);
+    const f=200;
+    const pos=[], hs=[];
+    for(let i=0;i<n;i++){ const d=4+i*gap;
+      const x=40+f*2.2/d*1.0, h=f*3/d;
+      pos.push(x); hs.push(h); }
+    for(let i=0;i<n;i++){ const x=pos[i], h=hs[i];
+      ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.2;
+      ctx.beginPath(); ctx.moveTo(x,vy+h/2); ctx.lineTo(x,vy-h/2); ctx.stroke();
+      ctx.fillStyle='#9CA3AF'; ctx.font='9px sans-serif'; ctx.textAlign='center';
+      ctx.fillText((4+i*gap).toFixed(0)+'m', x, vy+h/2+13); }
+    ctx.strokeStyle='rgba(190,18,60,.6)'; ctx.lineWidth=1.4;
+    [1,-1].forEach(s=>{ ctx.beginPath();
+      ctx.moveTo(pos[0], vy+s*hs[0]/2); ctx.lineTo(vx, vy); ctx.stroke(); });
+    ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(vx,vy,5,0,7); ctx.fill();
+    ctx.fillStyle='#BE123C'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('소실점', vx+8, vy-8);
+    ctx.fillStyle='#6B7280';
+    ctx.fillText('기둥의 실제 높이는 모두 같습니다 — 화면 높이만 다릅니다', 12, H-14);
+    const r1=hs[0], rn=hs[n-1];
+    const g1=Math.abs(pos[1]-pos[0]), g2=Math.abs(pos[n-1]-pos[n-2]);
+    $('#ppout').innerHTML =
+      `<span class="mono">첫 기둥 화면 높이 ${r1.toFixed(1)} · 마지막 ${rn.toFixed(1)} · 비 <b>${(r1/rn).toFixed(3)}</b></span><br>`
+      + `<span class="mono">거리의 비 = ${(4+(n-1)*gap).toFixed(1)} ÷ 4 = <b style="color:#2563EB">${((4+(n-1)*gap)/4).toFixed(3)}</b> — 높이의 비와 같습니다</span><br>`
+      + (Math.abs(r1/rn-(4+(n-1)*gap)/4)<0.01 ? `화면 크기가 거리에 반비례합니다 — 원근법의 규칙입니다.<br>` : '')
+      + (g1/g2>8 ? `<b style="color:#B45309">앞쪽 간격이 뒤쪽의 ${(g1/g2).toFixed(1)}배 — 뒤로 갈수록 기둥이 겹쳐 보입니다.</b><br>` : '')
+      + (vy>=180 ? `<b style="color:#7C3AED">지평선을 올리니 위에서 내려다보는 구도가 됩니다 — 소실점의 높이가 시점입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">평행선이 만나는 것처럼 보이는 자리가 소실점입니다.</span>`;
+  }
+  ['ppV','ppN','ppD'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'pp', title:'원근법 — 거리의 역수',
+    q:['기둥 개수를 바꾸며 (첫 높이, 마지막 높이, 비) 를 여섯 줄 기록하세요.',
+       '높이의 비와 거리의 비가 어떤 관계인지 확인하세요.',
+       '같은 간격인데 왜 뒤로 갈수록 좁아 보이는지 설명하세요.'],
+    cols:['기둥 수','간격','첫 높이','마지막 높이','비'],
+    hint:'힌트 — 화면 크기는 거리에 반비례합니다.',
+    read:()=>{ const n=+$('#ppN').value,gap=+$('#ppD').value;
+      const h1=600/4, hn=600/(4+(n-1)*gap);
+      return [n,gap.toFixed(1)+'m',h1.toFixed(1),hn.toFixed(1),(h1/hn).toFixed(3)]; } });
+}

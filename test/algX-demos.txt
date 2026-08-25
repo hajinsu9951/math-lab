@@ -1,0 +1,343 @@
+/* ---------- LAB 227 삼각비로 높이 재기 — 현장의 자와 각도기 ---------- */
+function fieldHeightDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="fh1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">눈높이에서 각을 재고 거리를 알면 <b>높이</b>가 나옵니다.
+      눈높이를 빠뜨리면 그만큼 어긋납니다.</div>
+    </div>
+    <div class="col">
+      ${slider('fhD','건물까지의 거리',10,60,1,25,'m')}
+      ${slider('fhA','올려본각',10,70,1,40,'°')}
+      ${slider('fhE','눈높이',0,2,0.1,1.5,'m')}
+      <div class="ctl" style="margin-top:8px"><label><input type="checkbox" id="fhIgn"> 눈높이를 빠뜨리고 계산</label></div>
+      <div class="out" id="fhout"></div>
+      <div class="note" style="margin-top:12px">높이 = 거리 × tan(각) + 눈높이.
+      각을 재는 <b>기준선이 눈높이</b>이기 때문입니다.</div>
+    </div></div>`;
+  const cv=$('#fh1'),ctx=cv.getContext('2d'),W=380,H=320;
+  function draw(){
+    const d=+$('#fhD').value, a=+$('#fhA').value, e=+$('#fhE').value, ign=$('#fhIgn').checked;
+    $('#fhDv').textContent=d+'m'; $('#fhAv').textContent=a+'°'; $('#fhEv').textContent=e.toFixed(1)+'m';
+    const h=d*Math.tan(a*Math.PI/180)+e, shown= ign ? h-e : h;
+    const sc=Math.min(4.4, 230/Math.max(h,1));
+    const gx=44, gy=H-56;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(20,gy); ctx.lineTo(W-20,gy); ctx.stroke();
+    const bx=gx+Math.min(250, d*4.2);
+    ctx.fillStyle='rgba(37,99,235,.18)'; ctx.fillRect(bx,gy-h*sc,44,h*sc);
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2; ctx.strokeRect(bx,gy-h*sc,44,h*sc);
+    ctx.strokeStyle='#374151'; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(gx,gy); ctx.lineTo(gx,gy-e*sc); ctx.stroke();
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(gx,gy-e*sc); ctx.lineTo(bx,gy-h*sc); ctx.stroke();
+    ctx.setLineDash([4,4]); ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(gx,gy-e*sc); ctx.lineTo(bx,gy-e*sc); ctx.stroke(); ctx.setLineDash([]);
+    ctx.strokeStyle='rgba(190,18,60,.8)'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.arc(gx,gy-e*sc,26,-a*Math.PI/180,0); ctx.stroke();
+    ctx.fillStyle='#BE123C'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+    ctx.fillText(a+'°', gx+30, gy-e*sc-8);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('붉은 선 = 눈에서 꼭대기로 본 시선 · 회색 점선 = 눈높이 수평선', 20, 26);
+    ctx.fillText('거리 '+d+'m', (gx+bx)/2-24, gy+18);
+    ctx.fillStyle='#374151'; ctx.font='12px sans-serif';
+    ctx.fillText('건물 높이 ≈ '+shown.toFixed(2)+' m', bx-10, gy-h*sc-10);
+    $('#fhout').innerHTML =
+      `<span class="mono">높이 = ${d} × tan${a}° + ${e.toFixed(1)} = ${(d*Math.tan(a*Math.PI/180)).toFixed(2)} + ${e.toFixed(1)} = <b style="color:#2563EB">${h.toFixed(3)} m</b></span><br>`
+      + (ign ? `<span class="mono">눈높이를 빼먹으면 <b style="color:#BE123C">${(h-e).toFixed(3)} m</b> — ${e.toFixed(1)}m 만큼 모자랍니다</span><br>` : '')
+      + (ign && e>=1 ? `<b style="color:#B45309">눈높이를 빠뜨려 ${e.toFixed(1)}m 나 낮게 나왔습니다 — 각의 기준선이 눈높이이기 때문입니다.</b><br>` : '')
+      + (a>=65 ? `<b style="color:#7C3AED">각이 커질수록 tan 이 급격히 커집니다 — 각을 1° 만 잘못 재도 크게 어긋납니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">거리와 각 중 어느 쪽 오차가 더 위험한지 따져 보세요.</span>`;
+  }
+  ['fhD','fhA','fhE'].forEach(i=>$('#'+i).oninput=draw); $('#fhIgn').onchange=draw; draw();
+  inquiry(root,{ id:'fh', title:'삼각비로 높이 재기',
+    q:['각을 바꾸며 (각, tan, 높이) 를 여섯 줄 기록하세요.',
+       '각을 1° 잘못 재면 높이가 얼마나 달라지는지 두 각에서 비교하세요.',
+       '눈높이를 빠뜨리면 늘 얼마만큼 어긋나는지 쓰세요.'],
+    cols:['거리','각','tan','눈높이','높이'],
+    hint:'힌트 — 시선의 기준은 땅이 아니라 눈입니다.',
+    read:()=>{ const d=+$('#fhD').value,a=+$('#fhA').value,e=+$('#fhE').value;
+      return [d+'m',a+'°',Math.tan(a*Math.PI/180).toFixed(4),e.toFixed(1)+'m',
+        (d*Math.tan(a*Math.PI/180)+e).toFixed(3)+'m']; } });
+}
+
+/* ---------- LAB 228 자재 재단 — 남는 토막을 줄이려면 ---------- */
+function cuttingDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ct1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">긴 자재를 잘라 필요한 길이를 만듭니다.
+      <b>어떻게 배치하느냐</b>에 따라 버리는 양이 달라집니다.</div>
+    </div>
+    <div class="col">
+      ${slider('ctL','자재 한 개의 길이',200,600,20,400,'cm')}
+      ${slider('ctA','필요한 길이 A',60,200,10,150,'cm')}
+      ${slider('ctB','필요한 길이 B',30,150,10,90,'cm')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="ctNaive">A 만 넣기</button>
+        <button class="b g sm" id="ctMix">A·B 섞어 넣기</button>
+      </div>
+      <div class="out" id="ctout"></div>
+      <div class="note" style="margin-top:12px">남는 길이 = 자재 길이 − (넣은 토막의 합).
+      <b>나머지</b>를 줄이는 조합을 찾는 것이 재단 계획입니다.</div>
+    </div></div>`;
+  const cv=$('#ct1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const S={ mode:'none' };
+  function plan(L,A,B,mode){
+    if(mode==='naive'){ const na=Math.floor(L/A); return {na:na, nb:0, rest:L-na*A}; }
+    if(mode==='mix'){ let best={na:0,nb:0,rest:L};
+      for(let na=0;na<=Math.floor(L/A);na++){ const nb=Math.floor((L-na*A)/B);
+        const rest=L-na*A-nb*B; if(rest<best.rest) best={na:na,nb:nb,rest:rest}; }
+      return best; }
+    return {na:0,nb:0,rest:L};
+  }
+  function draw(){
+    const L=+$('#ctL').value, A=+$('#ctA').value, B=+$('#ctB').value;
+    $('#ctLv').textContent=L+'cm'; $('#ctAv').textContent=A+'cm'; $('#ctBv').textContent=B+'cm';
+    const p=plan(L,A,B,S.mode);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const x0=24, wpx=(W-48)/L;
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.4; ctx.strokeRect(x0,80,L*wpx,46);
+    let cur=0;
+    for(let i=0;i<p.na;i++){ ctx.fillStyle='rgba(37,99,235,.4)';
+      ctx.fillRect(x0+cur*wpx,80,A*wpx,46);
+      ctx.strokeStyle='#fff'; ctx.lineWidth=1; ctx.strokeRect(x0+cur*wpx,80,A*wpx,46);
+      ctx.fillStyle='#111827'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('A', x0+(cur+A/2)*wpx, 108); cur+=A; }
+    for(let i=0;i<p.nb;i++){ ctx.fillStyle='rgba(14,147,132,.45)';
+      ctx.fillRect(x0+cur*wpx,80,B*wpx,46);
+      ctx.strokeStyle='#fff'; ctx.lineWidth=1; ctx.strokeRect(x0+cur*wpx,80,B*wpx,46);
+      ctx.fillStyle='#111827'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('B', x0+(cur+B/2)*wpx, 108); cur+=B; }
+    if(p.rest>0){ ctx.fillStyle='rgba(190,18,60,.28)';
+      ctx.fillRect(x0+cur*wpx,80,p.rest*wpx,46);
+      ctx.fillStyle='#BE123C'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+      if(p.rest*wpx>26) ctx.fillText('버림', x0+(cur+p.rest/2)*wpx, 108); }
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('자재 '+L+'cm — 파랑 = A, 초록 = B, 붉은 = 버리는 토막', 24, 66);
+    const naive=plan(L,A,B,'naive'), mix=plan(L,A,B,'mix');
+    ctx.fillText('A 만 넣기 → 버림 '+naive.rest+'cm  ('+(naive.rest/L*100).toFixed(1)+'%)', 24, 184);
+    ctx.fillText('섞어 넣기 → 버림 '+mix.rest+'cm  ('+(mix.rest/L*100).toFixed(1)+'%)', 24, 206);
+    [[naive.rest,'#9CA3AF',236],[mix.rest,'#0E9384',266]].forEach(([r,col,y])=>{
+      ctx.fillStyle=col; ctx.fillRect(24, y, (W-48)*r/L, 18);
+      ctx.strokeStyle='#C7D2E4'; ctx.lineWidth=1; ctx.strokeRect(24,y,W-48,18); });
+    ctx.fillStyle='#6B7280';
+    ctx.fillText('막대 = 버리는 비율 (위: A만 / 아래: 섞어서)', 24, 302);
+    $('#ctout').innerHTML =
+      `<span class="mono">지금 배치 — A ${p.na}개 · B ${p.nb}개 · 버림 <b style="color:#BE123C">${p.rest}cm</b> (${(p.rest/L*100).toFixed(1)}%)</span><br>`
+      + `<span class="mono">A 만 넣으면 ${naive.rest}cm · 섞어 넣으면 ${mix.rest}cm</span><br>`
+      + (S.mode==='mix' && mix.rest<naive.rest ? `<b style="color:#B45309">섞어 넣으니 버리는 양이 ${naive.rest-mix.rest}cm 줄었습니다 — 조합을 바꾼 것뿐입니다.</b><br>` : '')
+      + (S.mode==='naive' && naive.rest>0 ? `<b style="color:#7C3AED">A 만 넣으면 나머지가 그대로 버려집니다 — 나눗셈의 나머지입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">재단 계획은 「나머지를 가장 작게 하는 조합 찾기」입니다.</span>`;
+  }
+  $('#ctNaive').onclick=()=>{ S.mode='naive'; draw(); };
+  $('#ctMix').onclick=()=>{ S.mode='mix'; draw(); };
+  ['ctL','ctA','ctB'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'ct', title:'재단 계획 — 나머지를 줄이는 조합',
+    q:['자재 길이를 바꾸며 (A만, 섞어서) 버리는 양을 여섯 줄 기록하세요.',
+       '버리는 양이 0 이 되는 조합을 찾을 수 있나요?',
+       '이 문제가 나눗셈의 나머지와 어떻게 이어지는지 쓰세요.'],
+    cols:['자재','A','B','A만 버림','섞어 버림'],
+    hint:'힌트 — L − (aA + bB) 를 가장 작게 하는 자연수 a, b 를 찾는 문제입니다.',
+    read:()=>{ const L=+$('#ctL').value,A=+$('#ctA').value,B=+$('#ctB').value;
+      const na=Math.floor(L/A); let best=L;
+      for(let a=0;a<=Math.floor(L/A);a++){ const r=L-a*A-Math.floor((L-a*A)/B)*B; if(r<best) best=r; }
+      return [L,A,B,L-na*A,best]; } });
+}
+
+/* ---------- LAB 229 전기 요금 — 누진 구간과 기본요금 ---------- */
+function powerBillDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="pb2" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">사용량이 구간을 넘을 때마다 <b>단가가 뛰어오릅니다</b>.
+      요금 그래프가 꺾이는 자리를 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('pbU','한 달 사용량',50,700,10,250,'kWh')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="pbJust">경계 바로 아래로</button>
+        <button class="b g sm" id="pbOver">경계를 막 넘겨서</button>
+      </div>
+      <div class="out" id="pb2out"></div>
+      <div class="note" style="margin-top:12px">요금 = 기본요금 + Σ(구간 사용량 × 구간 단가).
+      평균 단가는 <b>총요금 ÷ 총사용량</b> — 마지막 단가와 다릅니다.</div>
+    </div></div>`;
+  const cv=$('#pb2'),ctx=cv.getContext('2d'),W=380,H=330,P=48;
+  const BASE=[910,1600,7300], EDGE=[200,400,10000], RATE=[120,214,307];
+  function bill(u){ let lo=0, cost=0, tier=0;
+    for(let i=0;i<EDGE.length;i++){ const amt=Math.max(0,Math.min(u,EDGE[i])-lo);
+      if(amt>0){ cost+=amt*RATE[i]; tier=i; } lo=EDGE[i]; if(u<=EDGE[i]) break; }
+    return {cost:cost+BASE[tier], tier:tier, energy:cost}; }
+  function draw(){
+    const u=+$('#pbU').value; $('#pbUv').textContent=u+'kWh';
+    const r=bill(u);
+    const X=v=>P+(W-2*P)*v/700, Y=c=>H-P-(H-2*P)*c/bill(700).cost;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(P,P-14); ctx.stroke();
+    [200,400].forEach(e=>{ ctx.setLineDash([3,3]); ctx.strokeStyle='#C7D2E4';
+      ctx.beginPath(); ctx.moveTo(X(e),P-10); ctx.lineTo(X(e),H-P); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#9CA3AF'; ctx.font='9.5px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(e, X(e), H-P+15); });
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.6; ctx.beginPath();
+    for(let v=0;v<=700;v+=2){ const c=bill(v).cost; v?ctx.lineTo(X(v),Y(c)):ctx.moveTo(X(v),Y(c)); }
+    ctx.stroke();
+    ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(u),Y(r.cost),6,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('가로 = 사용량(kWh) · 세로 = 요금(원)', P-30, P-16);
+    ctx.fillText('점선 = 구간 경계 (200 · 400)', P-30, H-14);
+    const avg=r.cost/u, marg=RATE[r.tier];
+    $('#pb2out').innerHTML =
+      `<span class="mono">사용 ${u}kWh → 요금 <b style="color:#BE123C">${Math.round(r.cost).toLocaleString()}원</b> (기본 ${BASE[r.tier].toLocaleString()} + 전력량 ${Math.round(r.energy).toLocaleString()})</span><br>`
+      + `<span class="mono">평균 단가 <b>${avg.toFixed(1)}원/kWh</b> · 마지막 구간 단가 <b style="color:#0E9384">${marg}원/kWh</b></span><br>`
+      + (u===410 ? `<b style="color:#B45309">경계를 10kWh 넘겼을 뿐인데 기본요금까지 뛰어 요금이 크게 늘었습니다.</b><br>` : '')
+      + (u===390 ? `<b style="color:#7C3AED">아직 2구간 — 기본요금이 낮게 유지됩니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">평균 단가와 마지막 단가를 헷갈리면 절약 계획이 어긋납니다.</span>`;
+  }
+  $('#pbJust').onclick=()=>{ $('#pbU').value=390; draw(); };
+  $('#pbOver').onclick=()=>{ $('#pbU').value=410; draw(); };
+  $('#pbU').oninput=draw; draw();
+  inquiry(root,{ id:'pb2', title:'전기 요금 — 꺾이는 그래프',
+    q:['사용량을 바꾸며 (사용량, 요금, 평균 단가, 마지막 단가) 를 여섯 줄 기록하세요.',
+       '경계 바로 위아래의 요금 차이를 계산하세요.',
+       '10kWh 를 줄이면 요금이 얼마나 줄어드는지 두 구간에서 비교하세요.'],
+    cols:['사용량','요금','평균 단가','마지막 단가','구간'],
+    hint:'힌트 — 구간마다 단가가 다르고 기본요금도 다릅니다.',
+    read:()=>{ const u=+$('#pbU').value, r=bill(u);
+      return [u,Math.round(r.cost).toLocaleString(),(r.cost/u).toFixed(1),RATE[r.tier],r.tier+1]; } });
+}
+
+/* ---------- LAB 230 GPS 좌표와 거리 — 위도 1도는 몇 km ---------- */
+function geoDistDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="gd1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">위도 1도는 어디서나 같지만 <b>경도 1도</b>는
+      위도가 높아질수록 짧아집니다.</div>
+    </div>
+    <div class="col">
+      ${slider('gdLat','위도',0,70,5,36,'°')}
+      ${slider('gdDla','위도 차',0,1,0.05,0.5,'°')}
+      ${slider('gdDlo','경도 차',0,1,0.05,0.5,'°')}
+      <div class="out" id="gdout"></div>
+      <div class="note" style="margin-top:12px">위도 1° ≈ 111 km, 경도 1° ≈ 111 × cos(위도) km.
+      <b>가로만 cos 이 붙습니다</b>.</div>
+    </div></div>`;
+  const cv=$('#gd1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const R=6371;
+  function draw(){
+    const lat=+$('#gdLat').value, dla=+$('#gdDla').value, dlo=+$('#gdDlo').value;
+    $('#gdLatv').textContent=lat+'°'; $('#gdDlav').textContent=dla.toFixed(2)+'°'; $('#gdDlov').textContent=dlo.toFixed(2)+'°';
+    const kmLat=Math.PI*R/180, kmLon=kmLat*Math.cos(lat*Math.PI/180);
+    const dy=dla*kmLat, dx=dlo*kmLon, dist=Math.hypot(dx,dy);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    // 지구 단면 + 위도선
+    const cx=100, cy=110, r=68;
+    ctx.strokeStyle='#C7D2E4'; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.arc(cx,cy,r,0,7); ctx.stroke();
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(cx-r,cy); ctx.lineTo(cx+r,cy); ctx.stroke();
+    const ly=cy-r*Math.sin(lat*Math.PI/180), lr=r*Math.cos(lat*Math.PI/180);
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.2;
+    ctx.beginPath(); ctx.moveTo(cx-lr,ly); ctx.lineTo(cx+lr,ly); ctx.stroke();
+    ctx.fillStyle='#2563EB'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('위도 '+lat+'° 의 둘레 반지름', cx+r+8, ly);
+    ctx.fillStyle='#6B7280';
+    ctx.fillText('적도', cx+r+8, cy+4);
+    // 사각형 비교
+    const sx=60, sy=230, sc=1.6;
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2;
+    ctx.strokeRect(sx, sy-dy*sc, Math.max(2,dx*sc), Math.max(2,dy*sc));
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.4; ctx.setLineDash([4,4]);
+    ctx.strokeRect(sx, sy-dla*kmLat*sc, Math.max(2,dlo*kmLat*sc), Math.max(2,dla*kmLat*sc));
+    ctx.setLineDash([]);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('붉은 = 실제 거리 · 회색 점선 = 경도에도 111km 를 쓴 경우', 24, 316);
+    const wrong=Math.hypot(dlo*kmLat, dy);
+    $('#gdout').innerHTML =
+      `<span class="mono">위도 1° = ${kmLat.toFixed(2)} km · 경도 1° = ${kmLat.toFixed(2)} × cos${lat}° = <b>${kmLon.toFixed(2)} km</b></span><br>`
+      + `<span class="mono">거리 = √(${dx.toFixed(2)}² + ${dy.toFixed(2)}²) = <b style="color:#BE123C">${dist.toFixed(3)} km</b> · cos 을 빼먹으면 ${wrong.toFixed(3)} km</span><br>`
+      + (lat>=60 ? `<b style="color:#B45309">고위도에서는 경도 1도가 절반 아래로 줄어듭니다 — cos 이 작아지기 때문입니다.</b><br>` : '')
+      + (lat===0 ? `<b style="color:#7C3AED">적도에서는 cos 0° = 1 이라 위도와 경도의 1도가 같은 거리입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">지도에서 가로세로를 같은 자로 재면 안 되는 이유입니다.</span>`;
+  }
+  ['gdLat','gdDla','gdDlo'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'gd', title:'GPS 좌표와 거리',
+    q:['위도를 바꾸며 (위도, 경도 1도의 거리, 두 점 거리) 를 여섯 줄 기록하세요.',
+       '경도에 cos 을 빼먹으면 오차가 얼마나 되는지 위도별로 비교하세요.',
+       '적도와 고위도에서 지도의 모양이 왜 달라지는지 쓰세요.'],
+    cols:['위도','위도 1°','경도 1°','거리','cos 뺀 값'],
+    hint:'힌트 — 경도선의 간격은 위도선의 반지름에 비례합니다.',
+    read:()=>{ const lat=+$('#gdLat').value,dla=+$('#gdDla').value,dlo=+$('#gdDlo').value;
+      const kl=Math.PI*6371/180, ko=kl*Math.cos(lat*Math.PI/180);
+      return [lat+'°',kl.toFixed(2),ko.toFixed(2),Math.hypot(dlo*ko,dla*kl).toFixed(3),
+        Math.hypot(dlo*kl,dla*kl).toFixed(3)]; } });
+}
+
+/* ---------- LAB 231 페인트와 도포량 — 몇 통을 사야 하나 ---------- */
+function paintCalcDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="pt2" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">벽 넓이에서 <b>창문과 문을 빼고</b>, 칠하는 횟수를 곱한 뒤
+      한 통의 도포 면적으로 나눕니다.</div>
+    </div>
+    <div class="col">
+      ${slider('ptW','방의 가로',2,8,0.5,4,'m')}
+      ${slider('ptD','방의 세로',2,8,0.5,3,'m')}
+      ${slider('ptH','천장 높이',2,3.5,0.1,2.4,'m')}
+      ${slider('ptC','칠하는 횟수',1,3,1,2,'회')}
+      <div class="ctl" style="margin-top:8px"><label><input type="checkbox" id="ptOpen" checked> 창문·문 넓이 빼기 (5.4 m²)</label></div>
+      <div class="out" id="pt2out"></div>
+      <div class="note" style="margin-top:12px">한 통은 12 m² 를 칠합니다.
+      통은 <b>올림</b>해서 사야 합니다 — 0.2통은 팔지 않습니다.</div>
+    </div></div>`;
+  const cv=$('#pt2'),ctx=cv.getContext('2d'),W=380,H=330;
+  const PER=12, OPEN=5.4;
+  function draw(){
+    const w=+$('#ptW').value, d=+$('#ptD').value, h=+$('#ptH').value, c=+$('#ptC').value, sub=$('#ptOpen').checked;
+    $('#ptWv').textContent=w.toFixed(1)+'m'; $('#ptDv').textContent=d.toFixed(1)+'m';
+    $('#ptHv').textContent=h.toFixed(1)+'m'; $('#ptCv').textContent=c+'회';
+    const wall=2*(w+d)*h, net=Math.max(0, wall-(sub?OPEN:0)), total=net*c;
+    const cans=Math.ceil(total/PER), exact=total/PER;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    // 벽 전개도
+    const sc=Math.min(300/(2*(w+d)), 70/h);
+    let x=24;
+    [[w,'앞'],[d,'옆'],[w,'뒤'],[d,'옆']].forEach(([len,nm],i)=>{
+      ctx.fillStyle='rgba(37,99,235,.16)'; ctx.fillRect(x,60,len*sc,h*sc);
+      ctx.strokeStyle='#2563EB'; ctx.lineWidth=1.4; ctx.strokeRect(x,60,len*sc,h*sc);
+      ctx.fillStyle='#6B7280'; ctx.font='9.5px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(nm, x+len*sc/2, 60+h*sc+14);
+      if(sub && i===0){ ctx.fillStyle='rgba(190,18,60,.25)';
+        ctx.fillRect(x+6,66,Math.min(len*sc-12,36),Math.min(h*sc-12,30));
+        ctx.strokeStyle='#BE123C'; ctx.lineWidth=1; ctx.strokeRect(x+6,66,Math.min(len*sc-12,36),Math.min(h*sc-12,30)); }
+      x += len*sc+6; });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('네 벽의 전개도 (붉은 = 창문·문)', 24, 48);
+    // 통
+    for(let i=0;i<Math.min(cans,12);i++){ const px=28+(i%6)*56, py=180+Math.floor(i/6)*66;
+      const full = i < Math.floor(exact);
+      ctx.fillStyle = full ? 'rgba(14,147,132,.5)' : 'rgba(14,147,132,.2)';
+      ctx.fillRect(px,py,40,50);
+      ctx.strokeStyle='#0E9384'; ctx.lineWidth=1.4; ctx.strokeRect(px,py,40,50);
+      ctx.fillStyle='#374151'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(full?'가득':'조금', px+20, py+30); }
+    ctx.fillStyle='#6B7280'; ctx.textAlign='left';
+    ctx.fillText('통 '+cans+'개 필요 (정확히는 '+exact.toFixed(2)+'통)', 28, 318);
+    $('#pt2out').innerHTML =
+      `<span class="mono">벽 넓이 = 2(${w.toFixed(1)} + ${d.toFixed(1)}) × ${h.toFixed(1)} = <b>${wall.toFixed(2)} m²</b>${sub?' − '+OPEN+' = '+net.toFixed(2):''}</span><br>`
+      + `<span class="mono">${c}회 칠 → ${total.toFixed(2)} m² ÷ ${PER} = ${exact.toFixed(3)} → <b style="color:#0E9384">${cans}통</b></span><br>`
+      + (!sub ? `<b style="color:#B45309">창문·문을 빼지 않아 ${(OPEN*c/PER).toFixed(2)}통만큼 더 사게 됩니다.</b><br>` : '')
+      + (exact>Math.floor(exact) && Math.ceil(exact)-exact>0.6 ? `<b style="color:#7C3AED">마지막 통을 조금만 쓰고 남깁니다 — 올림 때문에 생기는 낭비입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">넓이는 실수, 통 수는 자연수 — 올림이 필요한 자리입니다.</span>`;
+  }
+  ['ptW','ptD','ptH','ptC'].forEach(i=>$('#'+i).oninput=draw); $('#ptOpen').onchange=draw; draw();
+  inquiry(root,{ id:'pt2', title:'도포량 계산 — 올림이 필요한 자리',
+    q:['방 크기를 바꾸며 (벽 넓이, 필요 넓이, 통 수) 를 여섯 줄 기록하세요.',
+       '창문·문을 빼고 안 빼고의 차이를 통 수로 비교하세요.',
+       '올림 때문에 남는 페인트가 가장 많은 경우를 찾으세요.'],
+    cols:['가로','세로','높이','필요 넓이','통 수'],
+    hint:'힌트 — 통 수는 반드시 올림합니다.',
+    read:()=>{ const w=+$('#ptW').value,d=+$('#ptD').value,h=+$('#ptH').value,c=+$('#ptC').value;
+      const sub=$('#ptOpen').checked, wall=2*(w+d)*h, net=Math.max(0,wall-(sub?5.4:0));
+      return [w.toFixed(1),d.toFixed(1),h.toFixed(1),(net*c).toFixed(2),Math.ceil(net*c/12)]; } });
+}

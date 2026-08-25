@@ -1,0 +1,323 @@
+/* ---------- LAB 222 가중평균 — 그냥 평균과 무엇이 다른가 ---------- */
+function weightedMeanDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="wm1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">막대의 <b>넓이</b>가 각 조의 몫입니다.
+      인원이 다르면 그냥 평균과 결과가 달라집니다.</div>
+    </div>
+    <div class="col">
+      ${slider('wmN1','A조 인원',1,40,1,10,'명')}
+      ${slider('wmN2','B조 인원',1,40,1,25,'명')}
+      ${slider('wmV1','A조 평균',40,100,1,90,'점')}
+      ${slider('wmV2','B조 평균',40,100,1,60,'점')}
+      <div class="out" id="wmout"></div>
+      <div class="note" style="margin-top:12px">가중평균 = Σ(값×인원) ÷ Σ인원.
+      <b>인원이 같을 때만</b> 그냥 평균과 일치합니다.</div>
+    </div></div>`;
+  const cv=$('#wm1'),ctx=cv.getContext('2d'),W=380,H=320,P=44;
+  function draw(){
+    const n1=+$('#wmN1').value, n2=+$('#wmN2').value, v1=+$('#wmV1').value, v2=+$('#wmV2').value;
+    ['wmN1','wmN2'].forEach(i=>$('#'+i+'v').textContent=$('#'+i).value+'명');
+    ['wmV1','wmV2'].forEach(i=>$('#'+i+'v').textContent=$('#'+i).value+'점');
+    const simple=(v1+v2)/2, wt=(v1*n1+v2*n2)/(n1+n2);
+    const total=n1+n2;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const X=v=>P+(W-2*P)*(v-40)/60, base=200;
+    const w1=(W-2*P)*n1/total, w2=(W-2*P)*n2/total;
+    ctx.fillStyle='rgba(37,99,235,.35)'; ctx.fillRect(P,base-(v1-40)*2,w1,(v1-40)*2);
+    ctx.fillStyle='rgba(14,147,132,.35)'; ctx.fillRect(P+w1,base-(v2-40)*2,w2,(v2-40)*2);
+    ctx.strokeStyle='#C7D2E4'; ctx.lineWidth=1;
+    ctx.strokeRect(P,base-(v1-40)*2,w1,(v1-40)*2); ctx.strokeRect(P+w1,base-(v2-40)*2,w2,(v2-40)*2);
+    ctx.strokeStyle='#9CA3AF'; ctx.beginPath(); ctx.moveTo(P,base); ctx.lineTo(W-P,base); ctx.stroke();
+    ctx.setLineDash([5,4]); ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.8;
+    ctx.beginPath(); ctx.moveTo(P,base-(wt-40)*2); ctx.lineTo(W-P,base-(wt-40)*2); ctx.stroke();
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(P,base-(simple-40)*2); ctx.lineTo(W-P,base-(simple-40)*2); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#BE123C'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('가중평균 '+wt.toFixed(2), P+4, base-(wt-40)*2-6);
+    ctx.fillStyle='#6B7280';
+    ctx.fillText('그냥 평균 '+simple.toFixed(2), P+4, base-(simple-40)*2+14);
+    ctx.fillText('막대 폭 = 인원 비율 · 높이 = 평균 점수', P, base+30);
+    ctx.fillText('A조 '+n1+'명 · B조 '+n2+'명', P, base+48);
+    const gap=Math.abs(wt-simple);
+    $('#wmout').innerHTML =
+      `<span class="mono">가중평균 = (${v1}×${n1} + ${v2}×${n2}) ÷ ${total} = <b style="color:#BE123C">${wt.toFixed(3)}</b></span><br>`
+      + `<span class="mono">그냥 평균 = (${v1} + ${v2}) ÷ 2 = <b>${simple.toFixed(3)}</b> · 차이 ${gap.toFixed(3)}점</span><br>`
+      + (n1===n2 && gap<1e-9 ? `<b style="color:#B45309">인원이 같아 두 평균이 정확히 일치합니다 — 그때만 같습니다.</b><br>` : '')
+      + (gap>=8 ? `<b style="color:#7C3AED">인원 차이가 커서 두 평균이 ${gap.toFixed(1)}점이나 벌어졌습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">평균의 평균은 평균이 아닙니다 — 몫의 크기를 함께 봐야 합니다.</span>`;
+  }
+  ['wmN1','wmN2','wmV1','wmV2'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'wm', title:'가중평균 — 몫의 크기까지',
+    q:['인원을 바꾸며 (인원, 두 평균, 차이) 를 여섯 줄 기록하세요.',
+       '두 평균이 일치하는 조건을 찾으세요.',
+       '「평균의 평균」이 왜 위험한지 예를 들어 설명하세요.'],
+    cols:['A 인원','B 인원','가중평균','그냥 평균','차이'],
+    hint:'힌트 — 인원이 같을 때만 두 값이 같습니다.',
+    read:()=>{ const n1=+$('#wmN1').value,n2=+$('#wmN2').value,v1=+$('#wmV1').value,v2=+$('#wmV2').value;
+      return [n1,n2,((v1*n1+v2*n2)/(n1+n2)).toFixed(3),((v1+v2)/2).toFixed(3),
+        Math.abs((v1*n1+v2*n2)/(n1+n2)-(v1+v2)/2).toFixed(3)]; } });
+}
+
+/* ---------- LAB 223 작업 시간과 인원 — 사람을 두 배로 하면 절반일까 ---------- */
+function manDayDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="md1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">파랑은 <b>이상적인 반비례</b>, 초록은 <b>협업 손실</b>을 넣은 실제입니다.
+      사람을 늘려도 끝없이 빨라지지는 않습니다.</div>
+    </div>
+    <div class="col">
+      ${slider('mdW','일의 양 (사람·일)',10,120,5,60,'')}
+      ${slider('mdN','투입 인원',1,20,1,4,'명')}
+      ${slider('mdL','협업 손실',0,10,1,3,'%')}
+      <div class="out" id="mdout"></div>
+      <div class="note" style="margin-top:12px">이상적으로는 시간 = 일의 양 ÷ 인원 (<b>반비례</b>).
+      손실이 있으면 효율이 (1 − 손실)^(n−1) 로 떨어집니다.</div>
+    </div></div>`;
+  const cv=$('#md1'),ctx=cv.getContext('2d'),W=380,H=320,P=44;
+  function draw(){
+    const Wk=+$('#mdW').value, n=+$('#mdN').value, l=+$('#mdL').value/100;
+    $('#mdWv').textContent=Wk; $('#mdNv').textContent=n+'명'; $('#mdLv').textContent=(l*100).toFixed(0)+'%';
+    const ideal=k=>Wk/k, real=k=>Wk/(k*Math.pow(1-l,k-1));
+    const mx=ideal(1)*1.05;
+    const X=k=>P+(W-2*P)*(k-1)/19, Y=v=>H-P-(H-2*P)*Math.min(v,mx)/mx;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(P,P-14); ctx.stroke();
+    [[ideal,'#2563EB'],[real,'#0E9384']].forEach(([f,col])=>{
+      ctx.strokeStyle=col; ctx.lineWidth=2.6; ctx.beginPath();
+      for(let k=1;k<=20;k+=0.25){ const v=Math.min(f(k),mx);
+        k===1?ctx.moveTo(X(k),Y(v)):ctx.lineTo(X(k),Y(v)); }
+      ctx.stroke(); });
+    ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(n),Y(Math.min(real(n),mx)),5.6,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('파랑 = 이상(반비례) · 초록 = 손실을 넣은 실제', P-20, P-16);
+    ctx.fillText('가로 = 인원 · 세로 = 걸리는 시간', P-20, H-14);
+    // 최소 시간이 되는 인원
+    let best=1, bv=real(1);
+    for(let k=1;k<=20;k++){ if(real(k)<bv){ bv=real(k); best=k; } }
+    const t1=real(1), tn=real(n);
+    $('#mdout').innerHTML =
+      `<span class="mono">인원 ${n}명 → 이상 ${ideal(n).toFixed(2)} · 실제 <b style="color:#0E9384">${tn.toFixed(2)}</b></span><br>`
+      + `<span class="mono">혼자 할 때 ${t1.toFixed(1)} → ${n}명이면 <b>${(t1/tn).toFixed(2)}배</b> 빨라짐 (이상은 ${n}배)</span><br>`
+      + (l===0 && Math.abs(t1/tn-n)<1e-6 ? `<b style="color:#B45309">손실이 없으니 정확히 인원 배만큼 빨라집니다 — 완전한 반비례입니다.</b><br>` : '')
+      + (l>0 && best<20 ? `<b style="color:#7C3AED">손실 때문에 ${best}명을 넘으면 오히려 느려집니다 — 사람을 더 넣어도 소용없습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">「사람 수 × 시간 = 일의 양」은 손실이 없을 때만 성립합니다.</span>`;
+  }
+  ['mdW','mdN','mdL'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'md', title:'작업 시간과 인원 — 반비례의 한계',
+    q:['인원을 바꾸며 (인원, 이상 시간, 실제 시간, 배율) 을 여섯 줄 기록하세요.',
+       '손실이 0 일 때 「인원 × 시간」이 일정한지 확인하세요.',
+       '손실이 있을 때 가장 빨리 끝나는 인원을 찾으세요.'],
+    cols:['일의 양','인원','손실','이상 시간','실제 시간'],
+    hint:'힌트 — 손실이 0 이면 인원과 시간의 곱이 늘 일정합니다.',
+    read:()=>{ const Wk=+$('#mdW').value,n=+$('#mdN').value,l=+$('#mdL').value/100;
+      return [Wk,n,(l*100).toFixed(0)+'%',(Wk/n).toFixed(2),
+        (Wk/(n*Math.pow(1-l,n-1))).toFixed(2)]; } });
+}
+
+/* ---------- LAB 224 불량률과 관리도 — 언제 공정을 멈출까 ---------- */
+function qcChartDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="qc1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">점은 <b>날마다의 불량 개수</b>입니다.
+      붉은 선(관리 한계) 밖으로 나가면 이상 신호로 봅니다.</div>
+    </div>
+    <div class="col">
+      ${slider('qcP','평소 불량률',1,10,0.5,3,'%')}
+      ${slider('qcN','하루 검사 개수',50,500,50,200,'개')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="qcRun">30일 기록 만들기</button>
+        <button class="b g sm" id="qcBad">중간에 공정이 나빠지게</button>
+      </div>
+      <div class="out" id="qcout"></div>
+      <div class="note" style="margin-top:12px">관리 한계 = np ± 3√(np(1−p)).
+      <b>3σ 바깥</b>은 우연으로 보기 어려워 원인을 찾습니다.</div>
+    </div></div>`;
+  const cv=$('#qc1'),ctx=cv.getContext('2d'),W=380,H=330,P=44;
+  const S={ data:[], shift:false };
+  function draw(){
+    const p=+$('#qcP').value/100, n=+$('#qcN').value;
+    $('#qcPv').textContent=(p*100).toFixed(1)+'%'; $('#qcNv').textContent=n+'개';
+    const mu=n*p, sd=Math.sqrt(n*p*(1-p));
+    const ucl=mu+3*sd, lcl=Math.max(0,mu-3*sd);
+    const mx=Math.max(ucl*1.35, mu*2.2, ...S.data, 1);
+    const X=i=>P+(W-2*P)*i/29, Y=v=>H-P-(H-2*P)*v/mx;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(14,147,132,.08)'; ctx.fillRect(P,Y(ucl),W-2*P,Y(lcl)-Y(ucl));
+    [[mu,'#0E9384',[]],[ucl,'#BE123C',[5,4]],[lcl,'#BE123C',[5,4]]].forEach(([v,col,dash])=>{
+      ctx.strokeStyle=col; ctx.lineWidth=1.6; ctx.setLineDash(dash);
+      ctx.beginPath(); ctx.moveTo(P,Y(v)); ctx.lineTo(W-P,Y(v)); ctx.stroke(); ctx.setLineDash([]); });
+    ctx.fillStyle='#0E9384'; ctx.font='10px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('평균 '+mu.toFixed(1), P+2, Y(mu)-5);
+    ctx.fillStyle='#BE123C';
+    ctx.fillText('관리 상한 '+ucl.toFixed(1), P+2, Y(ucl)-5);
+    if(S.data.length){ ctx.strokeStyle='rgba(37,99,235,.5)'; ctx.lineWidth=1.4; ctx.beginPath();
+      S.data.forEach((v,i)=>{ i?ctx.lineTo(X(i),Y(v)):ctx.moveTo(X(i),Y(v)); }); ctx.stroke();
+      S.data.forEach((v,i)=>{ const out = v>ucl || v<lcl;
+        ctx.fillStyle = out ? '#BE123C' : '#2563EB';
+        ctx.beginPath(); ctx.arc(X(i),Y(v),out?5:3.4,0,7); ctx.fill(); }); }
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('가로 = 날짜(30일) · 세로 = 그날의 불량 개수', P-20, H-14);
+    const out=S.data.filter(v=>v>ucl||v<lcl).length;
+    $('#qcout').innerHTML =
+      `<span class="mono">평균 np = ${mu.toFixed(2)} · 표준편차 ${sd.toFixed(2)} · 관리 한계 [${lcl.toFixed(1)}, ${ucl.toFixed(1)}]</span><br>`
+      + (S.data.length ? `<span class="mono">30일 중 한계를 벗어난 날 <b style="color:#BE123C">${out}일</b></span><br>` : `아직 기록이 없습니다 — 버튼을 눌러 보세요.<br>`)
+      + (S.data.length && !S.shift && out<=1 ? `<b style="color:#B45309">거의 모든 점이 관리 한계 안에 있습니다 — 공정이 안정된 상태입니다.</b><br>` : '')
+      + (S.shift && out>=2 ? `<b style="color:#7C3AED">뒤쪽에서 점들이 위로 치우쳤습니다 — 원인을 찾아야 하는 신호입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">3σ 안에 99.7% 가 들어오므로 바깥은 드문 일입니다.</span>`;
+  }
+  function gen(shift){ const p=+$('#qcP').value/100, n=+$('#qcN').value;
+    S.data=[]; S.shift=shift;
+    for(let d=0;d<30;d++){ const pp = (shift && d>=18) ? p*2.2 : p;
+      let x=0; for(let i=0;i<n;i++) if(Math.random()<pp) x++;
+      S.data.push(x); } draw(); }
+  $('#qcRun').onclick=()=>gen(false);
+  $('#qcBad').onclick=()=>gen(true);
+  ['qcP','qcN'].forEach(i=>$('#'+i).oninput=()=>{ S.data=[]; S.shift=false; draw(); }); draw();
+  inquiry(root,{ id:'qc', title:'관리도 — 우연과 이상을 가르는 선',
+    q:['평소 불량률과 검사 개수를 바꾸며 관리 한계를 여섯 줄 기록하세요.',
+       '공정이 나빠졌을 때 몇 번째 날부터 신호가 뜨는지 확인하세요.',
+       '3σ 를 기준으로 삼는 이유를 정규분포로 설명하세요.'],
+    cols:['불량률','검사 개수','평균','관리 상한','벗어난 날'],
+    hint:'힌트 — np ± 3√(np(1−p)) 입니다.',
+    read:()=>{ const p=+$('#qcP').value/100,n=+$('#qcN').value;
+      const mu=n*p, sd=Math.sqrt(n*p*(1-p)), ucl=mu+3*sd, lcl=Math.max(0,mu-3*sd);
+      return [(p*100).toFixed(1)+'%',n,mu.toFixed(2),ucl.toFixed(1),
+        S.data.filter(v=>v>ucl||v<lcl).length]; } });
+}
+
+/* ---------- LAB 225 혼합 문제 — 두 용액을 섞으면 농도는 ---------- */
+function mixtureDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="mx1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">두 통을 합치면 <b>녹아 있는 양</b>과 <b>전체 양</b>이 각각 더해집니다.
+      농도는 그 비입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('mxV1','A 용액의 양',0,500,10,200,'g')}
+      ${slider('mxC1','A 의 농도',0,30,1,20,'%')}
+      ${slider('mxV2','B 용액의 양',0,500,10,300,'g')}
+      ${slider('mxC2','B 의 농도',0,30,1,5,'%')}
+      <div class="out" id="mxout"></div>
+      <div class="note" style="margin-top:12px">섞은 농도 = (c₁V₁ + c₂V₂) ÷ (V₁ + V₂) — <b>가중평균</b>입니다.
+      두 농도 사이를 벗어날 수 없습니다.</div>
+    </div></div>`;
+  const cv=$('#mx1'),ctx=cv.getContext('2d'),W=380,H=320;
+  function draw(){
+    const v1=+$('#mxV1').value, c1=+$('#mxC1').value/100, v2=+$('#mxV2').value, c2=+$('#mxC2').value/100;
+    $('#mxV1v').textContent=v1+'g'; $('#mxC1v').textContent=(c1*100).toFixed(0)+'%';
+    $('#mxV2v').textContent=v2+'g'; $('#mxC2v').textContent=(c2*100).toFixed(0)+'%';
+    const V=v1+v2, solute=c1*v1+c2*v2, c = V>0 ? solute/V : 0;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cup=(x,vv,cc,label)=>{ const h=Math.max(6,vv/500*150);
+      ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.6; ctx.strokeRect(x,200-h,74,h);
+      ctx.fillStyle='rgba(37,99,235,'+(0.12+cc*2.4)+')'; ctx.fillRect(x,200-h,74,h);
+      ctx.fillStyle='#374151'; ctx.font='10.5px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(label, x+37, 218);
+      ctx.fillText(vv+'g · '+(cc*100).toFixed(0)+'%', x+37, 234); };
+    cup(28,v1,c1,'A'); cup(122,v2,c2,'B');
+    const h3=Math.max(6,V/1000*150);
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2; ctx.strokeRect(240,200-h3,110,h3);
+    ctx.fillStyle='rgba(14,147,132,'+(0.12+c*2.4)+')'; ctx.fillRect(240,200-h3,110,h3);
+    ctx.fillStyle='#374151'; ctx.font='10.5px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('섞은 뒤', 295, 218); ctx.fillText(V+'g · '+(c*100).toFixed(2)+'%', 295, 234);
+    const X=cc=>30+300*cc/0.3;
+    ctx.strokeStyle='#C7D2E4'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(30,272); ctx.lineTo(330,272); ctx.stroke();
+    [[c1,'#2563EB','A'],[c2,'#2563EB','B'],[c,'#BE123C','섞은 것']].forEach(([cc,col,nm])=>{
+      ctx.fillStyle=col; ctx.beginPath(); ctx.arc(X(cc),272,nm==='섞은 것'?6:4.4,0,7); ctx.fill();
+      ctx.fillStyle='#6B7280'; ctx.font='9.5px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(nm, X(cc), 290); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('아래 수직선 = 농도 (0 ~ 30%)', 30, 308);
+    const lo=Math.min(c1,c2), hi=Math.max(c1,c2);
+    const inside = c>=lo-1e-9 && c<=hi+1e-9;
+    $('#mxout').innerHTML =
+      `<span class="mono">녹은 양 = ${(c1*v1).toFixed(1)} + ${(c2*v2).toFixed(1)} = <b>${solute.toFixed(1)}g</b> · 전체 ${V}g</span><br>`
+      + `<span class="mono">섞은 농도 = ${solute.toFixed(1)} ÷ ${V} = <b style="color:#BE123C">${(c*100).toFixed(2)}%</b></span><br>`
+      + (Math.abs(v1-v2)<1e-9 && v1>0 ? `<b style="color:#B45309">양이 같으니 섞은 농도가 두 농도의 한가운데입니다.</b><br>` : '')
+      + (v2===0 && v1>0 ? `<b style="color:#7C3AED">B 를 넣지 않았으니 A 의 농도 그대로입니다.</b><br>` : '')
+      + (inside ? `` : `<b>계산 오류</b><br>`)
+      + `<span style="color:#6B7280;font-size:12.5px">섞은 농도는 두 농도 사이를 결코 벗어나지 못합니다.</span>`;
+  }
+  ['mxV1','mxC1','mxV2','mxC2'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'mx', title:'혼합 — 농도는 가중평균',
+    q:['양과 농도를 바꾸며 (녹은 양, 전체, 섞은 농도) 를 여섯 줄 기록하세요.',
+       '섞은 농도가 두 농도 사이에 있는지 늘 확인하세요.',
+       '한쪽 양을 0 으로 하면 어떻게 되는지 쓰세요.'],
+    cols:['A 양','A 농도','B 양','B 농도','섞은 농도'],
+    hint:'힌트 — 녹은 양과 전체 양을 따로 더한 뒤 나눕니다.',
+    read:()=>{ const v1=+$('#mxV1').value,c1=+$('#mxC1').value/100,v2=+$('#mxV2').value,c2=+$('#mxC2').value/100;
+      const V=v1+v2;
+      return [v1,(c1*100).toFixed(0)+'%',v2,(c2*100).toFixed(0)+'%',
+        V>0?((c1*v1+c2*v2)/V*100).toFixed(2)+'%':'—']; } });
+}
+
+/* ---------- LAB 226 도수분포와 규격 — 몇 %가 규격 안에 드나 ---------- */
+function specDistDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sp3" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">막대는 <b>측정값의 도수분포</b>, 회색 띠가 <b>규격 범위</b>입니다.
+      규격 밖으로 나간 막대가 불량입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('spM','공정 평균',95,105,0.5,100,'mm')}
+      ${slider('spS','공정 산포 σ',0.5,4,0.1,1.5,'mm')}
+      ${slider('spT','규격 허용폭 ±',1,6,0.5,3,'mm')}
+      <div class="out" id="sp3out"></div>
+      <div class="note" style="margin-top:12px">공정능력 Cp = 규격폭 ÷ (6σ).
+      <b>중심이 어긋나면</b> 산포가 작아도 불량이 늘어납니다.</div>
+    </div></div>`;
+  const cv=$('#sp3'),ctx=cv.getContext('2d'),W=380,H=330,P=40;
+  const erf=x=>{ const t=1/(1+0.3275911*Math.abs(x));
+    const y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);
+    return x>=0?y:-y; };
+  const cdf=z=>0.5*(1+erf(z/Math.SQRT2));
+  function draw(){
+    const mu=+$('#spM').value, sd=+$('#spS').value, tol=+$('#spT').value;
+    $('#spMv').textContent=mu.toFixed(1)+'mm'; $('#spSv').textContent=sd.toFixed(1)+'mm'; $('#spTv').textContent='±'+tol.toFixed(1)+'mm';
+    const TARGET=100, LO=TARGET-tol, HI=TARGET+tol;
+    const X=x=>P+(W-2*P)*(x-90)/20, Y=v=>H-70-200*v;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(107,114,128,.12)'; ctx.fillRect(X(LO),40,X(HI)-X(LO),H-110);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.4;
+    [LO,HI].forEach(v=>{ ctx.beginPath(); ctx.moveTo(X(v),40); ctx.lineTo(X(v),H-70); ctx.stroke(); });
+    const f=x=>Math.exp(-Math.pow(x-mu,2)/(2*sd*sd))/(sd*Math.sqrt(2*Math.PI));
+    const bw=(W-2*P)/40;
+    for(let i=0;i<40;i++){ const x=90+20*i/40+0.25, v=f(x)*0.5;
+      const out = x<LO||x>HI;
+      ctx.fillStyle = out ? 'rgba(190,18,60,.5)' : 'rgba(37,99,235,.4)';
+      ctx.fillRect(P+i*bw, Y(v), bw-1, (H-70)-Y(v)); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,H-70); ctx.lineTo(W-P,H-70); ctx.stroke();
+    ctx.setLineDash([4,4]); ctx.strokeStyle='#0E9384'; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(X(TARGET),40); ctx.lineTo(X(TARGET),H-70); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#0E9384'; ctx.font='10.5px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('목표 100', X(TARGET), 34);
+    ctx.fillStyle='#6B7280'; ctx.textAlign='left';
+    ctx.fillText('회색 띠 = 규격 · 붉은 막대 = 규격 밖(불량)', P-20, H-46);
+    ctx.fillText('가로 = 치수(mm)', P-20, H-28);
+    const bad=(1-(cdf((HI-mu)/sd)-cdf((LO-mu)/sd)))*100;
+    const cp=(2*tol)/(6*sd), cpk=Math.min(HI-mu,mu-LO)/(3*sd);
+    $('#sp3out').innerHTML =
+      `<span class="mono">규격 [${LO.toFixed(1)}, ${HI.toFixed(1)}] · 평균 ${mu.toFixed(1)} · σ ${sd.toFixed(1)}</span><br>`
+      + `<span class="mono">불량률 <b style="color:#BE123C">${bad.toFixed(3)}%</b> · Cp ${cp.toFixed(2)} · Cpk <b>${cpk.toFixed(2)}</b></span><br>`
+      + (Math.abs(mu-TARGET)<0.01 && cp>=1.33 ? `<b style="color:#B45309">중심이 맞고 Cp 가 1.33 이상 — 넉넉히 규격을 만족합니다.</b><br>` : '')
+      + (Math.abs(mu-TARGET)>=2 ? `<b style="color:#7C3AED">산포는 그대로인데 중심이 밀려 불량이 크게 늘었습니다 — Cpk 가 떨어집니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">Cp 는 「폭」만, Cpk 는 「폭과 치우침」을 함께 봅니다.</span>`;
+  }
+  ['spM','spS','spT'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'sp3', title:'규격과 공정능력',
+    q:['평균과 산포를 바꾸며 (불량률, Cp, Cpk) 를 여섯 줄 기록하세요.',
+       '산포는 그대로 두고 중심만 옮기면 어떤 지표가 변하나요?',
+       'Cp 는 좋은데 Cpk 가 나쁜 경우를 만들어 보세요.'],
+    cols:['평균','σ','허용폭','불량률','Cpk'],
+    hint:'힌트 — Cp 는 중심을 보지 않습니다. Cpk 는 봅니다.',
+    read:()=>{ const mu=+$('#spM').value,sd=+$('#spS').value,tol=+$('#spT').value;
+      const LO=100-tol, HI=100+tol;
+      const bad=(1-(cdf((HI-mu)/sd)-cdf((LO-mu)/sd)))*100;
+      return [mu.toFixed(1),sd.toFixed(1),'±'+tol.toFixed(1),bad.toFixed(3)+'%',
+        (Math.min(HI-mu,mu-LO)/(3*sd)).toFixed(2)]; } });
+}

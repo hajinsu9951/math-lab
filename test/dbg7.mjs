@@ -1,0 +1,23 @@
+import { chromium } from 'playwright';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+const ROOT = dirname(fileURLToPath(import.meta.url));
+const b = await chromium.launch();
+const p = await b.newPage();
+await p.goto('file://' + join(ROOT, 'dist', 'index.html'));
+await p.evaluate(() => openLab(6));
+await p.waitForTimeout(300);
+const r1 = await p.evaluate(() => {
+  const e = document.getElementById('rpb');
+  if (!e) return 'NO rpb — ids: ' + [...document.querySelectorAll('#mBody [id]')].map(x => x.id).join(',');
+  e.value = 60000; e.dispatchEvent(new Event('input', { bubbles: true }));
+  return JSON.stringify({ min: e.min, max: e.max, val: e.value, tag: e.tagName, type: e.type });
+});
+console.log('slider:', r1);
+await p.waitForTimeout(400);
+const t = await p.evaluate(() => document.querySelector('#mBody').innerText);
+console.log('끌어올렸 present:', /크게 끌어올렸습니다/.test(t));
+const out = await p.evaluate(() => { const e = document.getElementById('rpout'); return e ? e.innerText.slice(0, 260) : 'NO rpout'; });
+console.log('out:', out);
+console.log('ldp:', await p.evaluate(() => document.querySelector('#ldp').textContent));
+await b.close();

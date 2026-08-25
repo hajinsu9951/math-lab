@@ -1,0 +1,10 @@
+import { chromium } from 'playwright';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+const ROOT = dirname(fileURLToPath(import.meta.url));
+const b = await chromium.launch();
+const p = await b.newPage();
+await p.goto('file://' + join(ROOT, 'dist', 'index.html'));
+const r = await p.evaluate(() => texToMathML('S=\\sum_{i=1}^{n} d_i \\equiv 0 \\pmod{10}', false));
+console.log(r.replace(/></g, '>\n<').slice(-500));
+await b.close();
