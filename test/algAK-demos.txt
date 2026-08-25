@@ -1,0 +1,401 @@
+/* ---------- LAB 292 진리표 — 스위치 두 개로 전등 켜기 ---------- */
+function truthTableDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="tt1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">스위치 두 개의 상태는 네 가지뿐입니다.
+      그 네 줄을 모두 적은 것이 <b>진리표</b>이고, 회로는 그 표대로 움직입니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">회로 고르기<select id="ttG" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="and">AND — 둘 다 켜야 켜짐</option>
+        <option value="or">OR — 하나라도 켜면 켜짐</option>
+        <option value="xor">XOR — 하나만 켜야 켜짐</option>
+        <option value="nand">NAND — AND 를 뒤집은 것</option>
+      </select></label>
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:8px">
+        <input type="checkbox" id="ttA"> 스위치 A 켜기</label>
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:4px">
+        <input type="checkbox" id="ttB"> 스위치 B 켜기</label>
+      <div class="out" id="ttout"></div>
+    </div></div>`;
+  const cv=$('#tt1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const NAME={and:'AND',or:'OR',xor:'XOR',nand:'NAND'};
+  const val=(g,a,b)=>g==='and'?(a&&b):(g==='or'?(a||b):(g==='xor'?(a!==b):!(a&&b)));
+  function draw(){
+    const g=$('#ttG').value, A=$('#ttA').checked, B=$('#ttB').checked;
+    const out=val(g,A,B);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    // 전구
+    ctx.fillStyle=out?'rgba(245,158,11,.85)':'rgba(209,213,219,.6)';
+    ctx.beginPath(); ctx.arc(300,64,26,0,7); ctx.fill();
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.4; ctx.stroke();
+    ctx.fillStyle=out?'#B45309':'#6B7280'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(out?'켜짐':'꺼짐', 300, 104);
+    // 스위치
+    [[A,'A',60],[B,'B',60+34]].forEach(([on,l,y])=>{
+      ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(40,y); ctx.lineTo(78,y); ctx.stroke();
+      ctx.strokeStyle=on?'#0E9384':'#BE123C'; ctx.lineWidth=3;
+      ctx.beginPath(); ctx.moveTo(78,y); ctx.lineTo(on?110:104,on?y:y-14); ctx.stroke();
+      ctx.fillStyle='#111827'; ctx.font='12px sans-serif'; ctx.textAlign='right';
+      ctx.fillText(l, 34, y+4); });
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(112,60); ctx.lineTo(150,60); ctx.lineTo(150,94); ctx.lineTo(112,94); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=1.8;
+    ctx.strokeRect(160,54,64,46);
+    ctx.fillStyle='#2563EB'; ctx.font='bold 13px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(NAME[g], 192, 82);
+    ctx.strokeStyle='#9CA3AF'; ctx.beginPath(); ctx.moveTo(224,77); ctx.lineTo(274,77); ctx.stroke();
+    // 진리표
+    const x0=48,y0=150,cw=68,ch=32;
+    ctx.font='11.5px sans-serif';
+    ['A','B',NAME[g]].forEach((t,j)=>{ ctx.fillStyle='#6B7280'; ctx.textAlign='center';
+      ctx.fillText(t, x0+j*cw+cw/2, y0-8); });
+    [[0,0],[0,1],[1,0],[1,1]].forEach(([a,b],i)=>{
+      const v=val(g,!!a,!!b), now=(a===(A?1:0)&&b===(B?1:0));
+      [a,b,v?1:0].forEach((c,j)=>{
+        ctx.fillStyle= now ? 'rgba(37,99,235,.16)' : '#FFF';
+        ctx.fillRect(x0+j*cw, y0+i*ch, cw-4, ch-4);
+        ctx.strokeStyle='#E5E7EB'; ctx.strokeRect(x0+j*cw, y0+i*ch, cw-4, ch-4);
+        ctx.fillStyle= j===2 ? (c?'#B45309':'#6B7280') : '#111827';
+        ctx.font=(j===2?'bold ':'')+'12px sans-serif'; ctx.textAlign='center';
+        ctx.fillText(c, x0+j*cw+(cw-4)/2, y0+i*ch+21); }); });
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif';
+    ctx.fillText('파랑 줄 = 지금 스위치 상태', x0, y0+4*ch+16);
+    const cnt=[[0,0],[0,1],[1,0],[1,1]].filter(([a,b])=>val(g,!!a,!!b)).length;
+    $('#ttout').innerHTML =
+      `<span class="mono">지금 (A, B) = (${A?1:0}, ${B?1:0}) → 출력 <b style="color:${out?'#B45309':'#6B7280'}">${out?1:0}</b></span><br>`
+      + `<span class="mono">네 줄 가운데 켜지는 줄 = <b>${cnt}</b> 개</span><br>`
+      + (g==='xor' && A && B ? `<b style="color:#B45309">둘 다 켰더니 오히려 꺼졌습니다 — 「하나만」이라는 뜻의 회로입니다.</b><br>` : '')
+      + (g==='nand' && A && B ? `<b style="color:#7C3AED">NAND 는 둘 다 켰을 때만 꺼집니다 — AND 를 통째로 뒤집은 것입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">경우가 네 가지뿐이니, 표를 다 적으면 회로를 완전히 안 것입니다.</span>`;
+  }
+  $('#ttG').onchange=draw; ['ttA','ttB'].forEach(i=>$('#'+i).onchange=draw); draw();
+  inquiry(root,{ id:'tt', title:'진리표 — 경우를 다 적기',
+    q:['회로와 스위치를 바꿔 가며 (회로, A, B, 출력) 을 여섯 줄 기록하세요.',
+       '켜지는 줄의 개수로 회로를 구별할 수 있는지 확인하세요.',
+       'XOR 을 AND·OR·NOT 으로 만드는 식을 세우세요.'],
+    cols:['회로','A','B','출력','켜지는 줄'],
+    hint:'힌트 — XOR = (A ∨ B) ∧ ¬(A ∧ B) 입니다.',
+    read:()=>{ const g=$('#ttG').value,A=$('#ttA').checked,B=$('#ttB').checked;
+      const c=[[0,0],[0,1],[1,0],[1,1]].filter(([a,b])=>val(g,!!a,!!b)).length;
+      return [NAME[g],A?1:0,B?1:0,val(g,A,B)?1:0,c]; } });
+}
+
+/* ---------- LAB 293 드모르간 법칙 — 부정을 나누어 넣기 ---------- */
+function demorganDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="dg1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">부정을 괄호 안으로 넣을 때는 <b>∧ 와 ∨ 를 맞바꿔야</b> 합니다.
+      그대로 두면 다른 영역이 됩니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">왼쪽 식<select id="dgL" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="nAuB">¬(A ∪ B)</option>
+        <option value="nAnB">¬(A ∩ B)</option>
+      </select></label>
+      <label class="ctl">오른쪽 식<select id="dgR" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="nA_and_nB">¬A ∩ ¬B</option>
+        <option value="nA_or_nB">¬A ∪ ¬B</option>
+      </select></label>
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:8px">
+        <input type="checkbox" id="dgCmp"> 두 영역을 겹쳐 보기</label>
+      <div class="out" id="dgout"></div>
+    </div></div>`;
+  const cv=$('#dg1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const LBL={nAuB:'¬(A ∪ B)',nAnB:'¬(A ∩ B)',nA_and_nB:'¬A ∩ ¬B',nA_or_nB:'¬A ∪ ¬B'};
+  // 네 구역: [A만, B만, 둘 다, 어느 쪽도 아님]
+  const region=k=>{
+    const A=[1,0,1,0], B=[0,1,1,0];
+    return [0,1,2,3].map(i=>{
+      const a=!!A[i], b=!!B[i];
+      if(k==='nAuB') return !(a||b);
+      if(k==='nAnB') return !(a&&b);
+      if(k==='nA_and_nB') return (!a)&&(!b);
+      return (!a)||(!b); }).map(v=>v?1:0);
+  };
+  function draw(){
+    const L=$('#dgL').value, R=$('#dgR').value, cmp=$('#dgCmp').checked;
+    const rL=region(L), rR=region(R);
+    const same=rL.every((v,i)=>v===rR[i]);
+    const diff=rL.filter((v,i)=>v!==rR[i]).length;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const panel=(cx,cy,reg,col,title)=>{
+      ctx.fillStyle='#F9FAFB'; ctx.fillRect(cx-84,cy-62,168,124);
+      ctx.strokeStyle='#E5E7EB'; ctx.strokeRect(cx-84,cy-62,168,124);
+      // 어느 쪽도 아님
+      if(reg[3]){ ctx.fillStyle=col; ctx.globalAlpha=0.28; ctx.fillRect(cx-84,cy-62,168,124); ctx.globalAlpha=1; }
+      const A={x:cx-22,y:cy,r:44}, B={x:cx+22,y:cy,r:44};
+      const paint=(idx)=>{ if(!reg[idx]) return;
+        ctx.save(); ctx.beginPath();
+        if(idx===0){ ctx.arc(A.x,A.y,A.r,0,7); ctx.clip();
+          ctx.globalCompositeOperation='source-over'; }
+        else if(idx===1){ ctx.arc(B.x,B.y,B.r,0,7); ctx.clip(); }
+        else { ctx.arc(A.x,A.y,A.r,0,7); ctx.clip(); ctx.beginPath(); ctx.arc(B.x,B.y,B.r,0,7); ctx.clip(); }
+        ctx.fillStyle=col; ctx.globalAlpha=0.55;
+        ctx.fillRect(cx-90,cy-70,180,140); ctx.globalAlpha=1; ctx.restore(); };
+      // A만 / B만 은 교집합을 뺀 부분이므로 먼저 칠하고 교집합을 덮어쓴다
+      if(reg[0]){ ctx.save(); ctx.beginPath(); ctx.arc(A.x,A.y,A.r,0,7); ctx.clip();
+        ctx.fillStyle=col; ctx.globalAlpha=0.55; ctx.fillRect(cx-90,cy-70,180,140); ctx.globalAlpha=1; ctx.restore(); }
+      if(reg[1]){ ctx.save(); ctx.beginPath(); ctx.arc(B.x,B.y,B.r,0,7); ctx.clip();
+        ctx.fillStyle=col; ctx.globalAlpha=0.55; ctx.fillRect(cx-90,cy-70,180,140); ctx.globalAlpha=1; ctx.restore(); }
+      if(!reg[2]){ ctx.save(); ctx.beginPath(); ctx.arc(A.x,A.y,A.r,0,7); ctx.clip();
+        ctx.beginPath(); ctx.arc(B.x,B.y,B.r,0,7); ctx.clip();
+        ctx.fillStyle='#F9FAFB'; ctx.fillRect(cx-90,cy-70,180,140); ctx.restore(); }
+      else { paint(2); }
+      ctx.strokeStyle='#374151'; ctx.lineWidth=1.4;
+      ctx.beginPath(); ctx.arc(A.x,A.y,A.r,0,7); ctx.stroke();
+      ctx.beginPath(); ctx.arc(B.x,B.y,B.r,0,7); ctx.stroke();
+      ctx.fillStyle='#374151'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('A', A.x-24, cy-30); ctx.fillText('B', B.x+24, cy-30);
+      ctx.fillStyle='#111827'; ctx.font='12px sans-serif';
+      ctx.fillText(title, cx, cy-72);
+    };
+    panel(96,110,rL,'#2563EB',LBL[L]);
+    panel(284,110,rR,'#0E9384',LBL[R]);
+    if(cmp){
+      ctx.fillStyle='#111827'; ctx.font='11.5px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('겹쳐 보기 — 어긋난 구역은 붉게 표시', 190, 216);
+      const A={x:190-22,y:268,r:36}, B={x:190+22,y:268,r:36};
+      ctx.fillStyle='#F9FAFB'; ctx.fillRect(106,216,168,104);
+      [0,1,2,3].forEach(i=>{ if(rL[i]===rR[i]) return;
+        ctx.save();
+        if(i===3){ ctx.fillStyle='rgba(190,18,60,.45)'; ctx.fillRect(106,216,168,104); }
+        else { ctx.beginPath();
+          if(i===0) ctx.arc(A.x,A.y,A.r,0,7);
+          else if(i===1) ctx.arc(B.x,B.y,B.r,0,7);
+          else { ctx.arc(A.x,A.y,A.r,0,7); ctx.clip(); ctx.beginPath(); ctx.arc(B.x,B.y,B.r,0,7); }
+          ctx.clip(); ctx.fillStyle='rgba(190,18,60,.45)'; ctx.fillRect(100,210,180,120); }
+        ctx.restore(); });
+      ctx.strokeStyle='#374151'; ctx.lineWidth=1.2;
+      ctx.beginPath(); ctx.arc(A.x,A.y,A.r,0,7); ctx.stroke();
+      ctx.beginPath(); ctx.arc(B.x,B.y,B.r,0,7); ctx.stroke();
+    }
+    $('#dgout').innerHTML =
+      `<span class="mono">${LBL[L]} 의 구역 = [${rL.join(', ')}] · ${LBL[R]} 의 구역 = [${rR.join(', ')}]</span><br>`
+      + `<span class="mono">어긋난 구역 수 = <b style="color:${same?'#0E9384':'#BE123C'}">${diff}</b> (구역 순서 : A만, B만, 둘 다, 어느 쪽도 아님)</span><br>`
+      + (cmp && same ? `<b style="color:#B45309">두 그림이 한 치도 어긋나지 않습니다 — 부정을 넣으며 기호를 맞바꾼 결과입니다.</b><br>` : '')
+      + (cmp && !same ? `<b style="color:#7C3AED">기호를 바꾸지 않았더니 두 그림이 다릅니다 — 부정은 그냥 나누어지지 않습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">¬(A ∪ B) = ¬A ∩ ¬B · ¬(A ∩ B) = ¬A ∪ ¬B</span>`;
+  }
+  ['dgL','dgR'].forEach(i=>$('#'+i).onchange=draw); $('#dgCmp').onchange=draw; draw();
+  inquiry(root,{ id:'dg', title:'드모르간 — 기호를 맞바꾸기',
+    q:['네 가지 짝을 모두 만들어 (왼쪽, 오른쪽, 어긋난 구역) 을 기록하세요.',
+       '겹치는 짝을 모두 찾으세요.',
+       '「둘 다는 아니다」와 「둘 다 아니다」의 차이를 쓰세요.'],
+    cols:['왼쪽 식','오른쪽 식','어긋난 구역','같은가'],
+    hint:'힌트 — 부정을 넣을 때 ∩ 과 ∪ 를 맞바꿉니다.',
+    read:()=>{ const L=$('#dgL').value,R=$('#dgR').value;
+      const rL=region(L),rR=region(R),d=rL.filter((v,i)=>v!==rR[i]).length;
+      return [LBL[L],LBL[R],d,d===0?'같음':'다름']; } });
+}
+
+/* ---------- LAB 294 포함배제 — 겹친 사람을 몇 번 셀 것인가 ---------- */
+function inclusionDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ie1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">그냥 더하면 겹친 사람을 <b>여러 번</b> 셉니다.
+      두 번 겹친 것은 빼고, 세 번 겹친 것은 <b>다시 더해야</b> 합니다.</div>
+    </div>
+    <div class="col">
+      ${slider('ieAB','두 동아리에 겹친 인원 (가·나)',0,20,1,0,'명')}
+      ${slider('ieBC','두 동아리에 겹친 인원 (나·다)',0,20,1,0,'명')}
+      ${slider('ieCA','두 동아리에 겹친 인원 (다·가)',0,20,1,0,'명')}
+      ${slider('ieABC','세 동아리 모두 든 인원',0,10,1,0,'명')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="ieNo"> 세 겹친 인원을 다시 더하지 않기</label>
+      <div class="out" id="ieout"></div>
+    </div></div>`;
+  const cv=$('#ie1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const NA=40,NB=35,NC=30;
+  function draw(){
+    const ab=+$('#ieAB').value, bc=+$('#ieBC').value, ca=+$('#ieCA').value;
+    const abc=Math.min(+$('#ieABC').value, ab, bc, ca);
+    const no=$('#ieNo').checked;
+    ['ieAB','ieBC','ieCA','ieABC'].forEach(i=>$('#'+i+'v').textContent=$('#'+i).value+'명');
+    const naive=NA+NB+NC;
+    const correct=NA+NB+NC-ab-bc-ca+abc;
+    const wrong=NA+NB+NC-ab-bc-ca;
+    const shown=no?wrong:correct;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=150,cy=140,r=64;
+    const C=[[cx-34,cy-18],[cx+34,cy-18],[cx,cy+40]];
+    const COL=['rgba(37,99,235,.28)','rgba(14,147,132,.28)','rgba(245,158,11,.30)'];
+    C.forEach((c,i)=>{ ctx.fillStyle=COL[i]; ctx.beginPath(); ctx.arc(c[0],c[1],r,0,7); ctx.fill(); });
+    C.forEach((c,i)=>{ ctx.strokeStyle=['#2563EB','#0E9384','#B45309'][i]; ctx.lineWidth=1.6;
+      ctx.beginPath(); ctx.arc(c[0],c[1],r,0,7); ctx.stroke(); });
+    ctx.fillStyle='#111827'; ctx.font='12px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('가', C[0][0]-40, C[0][1]-40);
+    ctx.fillText('나', C[1][0]+40, C[1][1]-40);
+    ctx.fillText('다', C[2][0], C[2][1]+52);
+    ctx.font='11px sans-serif'; ctx.fillStyle='#374151';
+    ctx.fillText(ab, cx, cy-26); ctx.fillText(bc, cx+26, cy+16); ctx.fillText(ca, cx-26, cy+16);
+    ctx.fillStyle='#BE123C'; ctx.font='bold 12px sans-serif';
+    ctx.fillText(abc, cx, cy+4);
+    // 오른쪽 막대
+    const bx=286, base=250, sc=110/Math.max(naive,1);
+    [[naive,'그냥 합','rgba(190,18,60,.6)'],[shown,'지금 계산','rgba(37,99,235,.65)'],[correct,'정확한 값','rgba(14,147,132,.6)']]
+      .forEach(([v,l,c],i)=>{ ctx.fillStyle=c;
+        ctx.fillRect(bx+i*30, base-v*sc, 24, v*sc);
+        ctx.fillStyle='#374151'; ctx.font='9.5px sans-serif'; ctx.textAlign='center';
+        ctx.fillText(v, bx+i*30+12, base-v*sc-5); });
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('합 / 지금 / 정확', bx+42, base+16);
+    ctx.textAlign='left';
+    $('#ieout').innerHTML =
+      `<span class="mono">그냥 더하면 ${NA} + ${NB} + ${NC} = <b style="color:#BE123C">${naive}</b> 명</span><br>`
+      + `<span class="mono">지금 계산 = <b style="color:${shown===correct?'#0E9384':'#BE123C'}">${shown}</b> 명 · 정확한 값 = <b>${correct}</b> 명</span><br>`
+      + (naive-correct>=10 ? `<b style="color:#B45309">그냥 더한 값이 ${naive-correct} 명이나 많습니다 — 겹친 사람을 여러 번 센 것입니다.</b><br>` : '')
+      + (no && abc>0 ? `<b style="color:#7C3AED">세 겹친 인원을 세 번 빼기만 하니 한 번도 세지 않은 셈이 되어 ${abc} 명이 모자랍니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">|A∪B∪C| = ΣA − Σ(둘의 교집합) + (셋의 교집합)</span>`;
+  }
+  ['ieAB','ieBC','ieCA','ieABC'].forEach(i=>$('#'+i).oninput=draw); $('#ieNo').onchange=draw; draw();
+  inquiry(root,{ id:'ie', title:'포함배제 — 더하고 빼고 다시 더하기',
+    q:['겹친 인원을 바꿔 가며 (그냥 합, 정확한 값) 을 여섯 줄 기록하세요.',
+       '두 값의 차이가 무엇과 같은지 찾으세요.',
+       '세 겹친 인원을 다시 더해야 하는 까닭을 설명하세요.'],
+    cols:['가·나','나·다','다·가','셋 모두','정확한 값'],
+    hint:'힌트 — 세 겹친 사람은 세 번 더해지고 세 번 빠집니다.',
+    read:()=>{ const ab=+$('#ieAB').value,bc=+$('#ieBC').value,ca=+$('#ieCA').value;
+      const abc=Math.min(+$('#ieABC').value,ab,bc,ca);
+      return [ab,bc,ca,abc,NA+NB+NC-ab-bc-ca+abc]; } });
+}
+
+/* ---------- LAB 295 비둘기집 원리 — 「아마도」가 아니라 「반드시」 ---------- */
+function pigeonholeDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ph1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">상자보다 물건이 많으면 <b>어떻게 넣어도</b>
+      한 상자에 둘 이상이 들어갑니다. 확률이 아니라 확정입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('phN','물건의 수',1,40,1,5,'개')}
+      ${slider('phK','상자의 수',1,20,1,5,'칸')}
+      ${slider('phS','넣는 방식 바꾸기',0,20,1,0,'')}
+      <div class="out" id="phout"></div>
+    </div></div>`;
+  const cv=$('#ph1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const n=+$('#phN').value, k=+$('#phK').value, seed=+$('#phS').value;
+    $('#phNv').textContent=n+'개'; $('#phKv').textContent=k+'칸'; $('#phSv').textContent=seed;
+    const box=Array(k).fill(0);
+    for(let i=0;i<n;i++) box[(i*(seed+1)+seed*3)%k]++;
+    const mx=Math.max(...box), guar=Math.ceil(n/k);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('넣는 방식을 아무리 바꿔도 가장 많은 칸은 '+guar+' 개 아래로 못 내려갑니다', 16, 20);
+    const bw=Math.min(46,(W-40)/k), x0=20, base=250;
+    box.forEach((c,i)=>{
+      const x=x0+i*bw;
+      ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1.4;
+      ctx.strokeRect(x, base-96, bw-4, 96);
+      for(let j=0;j<c;j++){
+        const y=base-10-j*Math.min(16,90/Math.max(mx,1));
+        ctx.fillStyle= c>=guar && c===mx ? 'rgba(190,18,60,.75)' : 'rgba(37,99,235,.6)';
+        ctx.beginPath(); ctx.arc(x+(bw-4)/2, y, Math.min(6,bw/4), 0, 7); ctx.fill(); }
+      ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(c, x+(bw-4)/2, base+14); });
+    ctx.textAlign='left'; ctx.fillStyle='#374151'; ctx.font='11px sans-serif';
+    ctx.fillText('가장 많이 든 칸 = '+mx+' 개 · 보장되는 최솟값 = '+guar+' 개', 20, base+40);
+    $('#phout').innerHTML =
+      `<span class="mono">물건 ${n} 개 · 상자 ${k} 칸 · 가장 많은 칸 = <b style="color:#BE123C">${mx}</b> 개</span><br>`
+      + `<span class="mono">⌈${n} / ${k}⌉ = <b style="color:#0E9384">${guar}</b> — 어떻게 넣어도 이보다 작아질 수 없습니다</span><br>`
+      + (n>k && guar>=2 ? `<b style="color:#B45309">상자보다 물건이 많으니 겹치는 칸이 반드시 있습니다 — 확률이 아니라 확정입니다.</b><br>` : '')
+      + (guar>=3 ? `<b style="color:#7C3AED">한 칸에 적어도 ${guar} 개가 들어가는 것까지 보장됩니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">이 원리는 「반례가 없다」를 세는 것만으로 증명해 줍니다.</span>`;
+  }
+  ['phN','phK','phS'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'ph', title:'비둘기집 — 세는 것만으로 증명하기',
+    q:['물건과 상자의 수를 바꿔 가며 (n, k, 보장값) 을 여섯 줄 기록하세요.',
+       '넣는 방식을 바꿔도 보장값 아래로 내려가지 않는지 확인하세요.',
+       '367 명이면 생일이 같은 사람이 반드시 있는 까닭을 쓰세요.'],
+    cols:['물건 n','상자 k','가장 많은 칸','보장값'],
+    hint:'힌트 — 보장값은 n 을 k 로 나눈 올림값입니다.',
+    read:()=>{ const n=+$('#phN').value,k=+$('#phK').value,seed=+$('#phS').value;
+      const box=Array(k).fill(0);
+      for(let i=0;i<n;i++) box[(i*(seed+1)+seed*3)%k]++;
+      return [n,k,Math.max(...box),Math.ceil(n/k)]; } });
+}
+
+/* ---------- LAB 296 하노이 탑 — 원반 하나에 두 배씩 ---------- */
+function hanoiDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="hn1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">n 개를 옮기려면 <b>n−1 개를 옮기고, 큰 것 하나를 옮기고, 다시 n−1 개</b>를 옮깁니다.
+      그래서 T(n) = 2T(n−1) + 1 입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('hnN','원반의 수',1,20,1,3,'개')}
+      ${slider('hnT','옮긴 정도',0,100,5,0,'%')}
+      <div class="out" id="hnout"></div>
+    </div></div>`;
+  const cv=$('#hn1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function moves(n){                                   // n<=8 만 실제로 만든다
+    const out=[];
+    const go=(k,a,b,c)=>{ if(k===0) return; go(k-1,a,c,b); out.push([a,b]); go(k-1,c,b,a); };
+    go(n,0,2,1); return out;
+  }
+  function draw(){
+    const n=+$('#hnN').value, t=+$('#hnT').value/100;
+    $('#hnNv').textContent=n+'개'; $('#hnTv').textContent=(t*100).toFixed(0)+'%';
+    const total=Math.pow(2,n)-1;
+    const small=n<=8;
+    let pegs=[[],[],[]];
+    let done=0;
+    if(small){ for(let i=n;i>=1;i--) pegs[0].push(i);
+      const mv=moves(n); done=Math.round(mv.length*t);
+      for(let i=0;i<done;i++){ const [a,b]=mv[i]; pegs[b].push(pegs[a].pop()); } }
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    if(small){
+      const base=230, pw=110;
+      for(let i=0;i<3;i++){
+        const cx=48+i*pw;
+        ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=3;
+        ctx.beginPath(); ctx.moveTo(cx,base); ctx.lineTo(cx,base-110); ctx.stroke();
+        ctx.fillStyle='#D1D5DB'; ctx.fillRect(cx-46,base,92,6);
+        pegs[i].forEach((d,j)=>{
+          const w=18+d*8, h=Math.min(14,100/n);
+          ctx.fillStyle='rgba(37,99,235,'+(0.35+0.07*d).toFixed(2)+')';
+          ctx.fillRect(cx-w/2, base-(j+1)*h, w, h-2);
+          ctx.strokeStyle='#2563EB'; ctx.lineWidth=1;
+          ctx.strokeRect(cx-w/2, base-(j+1)*h, w, h-2); });
+        ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+        ctx.fillText(['처음','가운데','목표'][i], cx, base+22); }
+      ctx.textAlign='left'; ctx.fillStyle='#374151'; ctx.font='11px sans-serif';
+      ctx.fillText('옮긴 횟수 = '+done+' / '+total, 20, 20);
+    } else {
+      ctx.fillStyle='#6B7280'; ctx.font='11.5px sans-serif';
+      ctx.fillText('원반이 '+n+'개라 그림으로는 다 보여 줄 수 없습니다.', 20, 40);
+      ctx.fillText('필요한 횟수만 세어 봅니다.', 20, 60);
+    }
+    // 횟수 그래프
+    const gx=24, gy=300, gw=W-48;
+    ctx.strokeStyle='#D1D5DB'; ctx.beginPath(); ctx.moveTo(gx,gy); ctx.lineTo(gx+gw,gy); ctx.stroke();
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.8; ctx.beginPath();
+    for(let k=1;k<=20;k++){ const v=Math.log2(Math.pow(2,k)-1+1)/20;
+      const px=gx+gw*(k-1)/19, py=gy-v*(small?54:180);
+      k===1?ctx.moveTo(px,py):ctx.lineTo(px,py); }
+    ctx.stroke();
+    ctx.fillStyle='#BE123C'; ctx.beginPath();
+    ctx.arc(gx+gw*(n-1)/19, gy-(Math.log2(total+1)/20)*(small?54:180), 4,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif';
+    ctx.fillText('원반 수에 따른 횟수 (세로는 로그 눈금)', gx, gy+14);
+    $('#hnout').innerHTML =
+      `<span class="mono">원반 ${n} 개 → 최소 이동 횟수 = 2<sup>${n}</sup> − 1 = <b style="color:#BE123C">${total.toLocaleString()}</b> 번</span><br>`
+      + `<span class="mono">${small?('지금까지 옮긴 횟수 = <b>'+done+'</b> 번'):'원반이 많아 그림은 생략했습니다'} · 한 번에 1 초면 ${(total/60/60/24).toFixed(total>86400?1:4)} 일</span><br>`
+      + (small && t>=0.99 ? `<b style="color:#B45309">정확히 2<sup>${n}</sup> − 1 = ${total} 번 만에 다 옮겼습니다.</b><br>` : '')
+      + (n>=15 ? `<b style="color:#7C3AED">원반 하나가 늘 때마다 횟수가 두 배가 넘습니다 — 20 개면 백만 번이 넘습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">T(n) = 2T(n−1) + 1 · T(1) = 1 을 풀면 2ⁿ − 1 입니다.</span>`;
+  }
+  ['hnN','hnT'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'hn', title:'하노이 탑 — 두 배씩 늘어나는 일',
+    q:['원반 수를 늘려 가며 (n, 횟수) 를 여섯 줄 기록하세요.',
+       '원반이 하나 늘면 횟수가 몇 배가 되는지 찾으세요.',
+       'T(n) = 2T(n−1) + 1 을 풀어 2ⁿ − 1 을 유도하세요.'],
+    cols:['원반 수','횟수','한 개 늘면','하루에 몇 개'],
+    hint:'힌트 — 양변에 1 을 더하면 T(n)+1 = 2(T(n−1)+1) 입니다.',
+    read:()=>{ const n=+$('#hnN').value, t=Math.pow(2,n)-1;
+      return [n,t.toLocaleString(),(Math.pow(2,n+1)-1)/t>0?((Math.pow(2,n+1)-1)/t).toFixed(3):'—',
+        (t/86400).toFixed(4)+' 일']; } });
+}

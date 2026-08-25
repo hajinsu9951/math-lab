@@ -1,0 +1,357 @@
+/* ---------- LAB 282 근축 — 두 원에 대한 힘이 같은 점들 ---------- */
+function radicalDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="rx1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">두 원의 방멱을 빼면 x², y² 이 <b>소거되어</b> 일차식만 남습니다.
+      그래서 근축은 언제나 직선입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('rxD','두 원 사이의 거리',0.6,4,0.1,1.8,'')}
+      ${slider('rxR2','오른쪽 원의 반지름',0.4,2,0.1,0.9,'')}
+      ${slider('rxPx','살펴볼 점의 x',-3,3,0.1,0,'')}
+      ${slider('rxPy','살펴볼 점의 y',-2,2,0.1,1.4,'')}
+      <div class="out" id="rxout"></div>
+    </div></div>`;
+  const cv=$('#rx1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const R1=1.2;
+  function draw(){
+    const d=+$('#rxD').value, R2=+$('#rxR2').value;
+    const px=+$('#rxPx').value, py=+$('#rxPy').value;
+    ['rxD','rxR2','rxPx','rxPy'].forEach(i=>$('#'+i+'v').textContent=(+$('#'+i).value).toFixed(1));
+    const O1=[-d/2,0], O2=[d/2,0];
+    const p1=(px-O1[0])**2+(py-O1[1])**2-R1*R1;
+    const p2=(px-O2[0])**2+(py-O2[1])**2-R2*R2;
+    const gap=p1-p2;
+    const xAxis=(R1*R1-R2*R2)/(2*d);        // 근축의 x 좌표
+    const meet=Math.abs(d) < R1+R2 && Math.abs(d) > Math.abs(R1-R2);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const ox=190,oy=170,u=62;
+    const X=t=>ox+t*u, Y=t=>oy-t*u;
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.arc(X(O1[0]),Y(O1[1]),R1*u,0,7); ctx.stroke();
+    ctx.strokeStyle='#0E9384';
+    ctx.beginPath(); ctx.arc(X(O2[0]),Y(O2[1]),R2*u,0,7); ctx.stroke();
+    ctx.fillStyle='#111827';
+    [[O1,'O₁'],[O2,'O₂']].forEach(([o,l])=>{ ctx.beginPath(); ctx.arc(X(o[0]),Y(o[1]),3,0,7); ctx.fill();
+      ctx.font='11px sans-serif'; ctx.textAlign='center'; ctx.fillText(l,X(o[0]),Y(o[1])-8); });
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2; ctx.setLineDash([6,4]);
+    ctx.beginPath(); ctx.moveTo(X(xAxis),12); ctx.lineTo(X(xAxis),H-30); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#BE123C'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('근축', X(xAxis)+6, 26);
+    ctx.fillStyle=Math.abs(gap)<0.15?'#0E9384':'#111827';
+    ctx.beginPath(); ctx.arc(X(px),Y(py),5.5,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('파랑 = 왼쪽 원 · 초록 = 오른쪽 원 · 붉은 점선 = 근축', 14, 20);
+    ctx.fillText('두 원이 '+(meet?'만납니다':'만나지 않습니다')+' — 그래도 근축은 있습니다', 14, H-12);
+    $('#rxout').innerHTML =
+      `<span class="mono">왼쪽 원에 대한 방멱 = <b style="color:#2563EB">${p1.toFixed(4)}</b> · 오른쪽 원 = <b style="color:#0E9384">${p2.toFixed(4)}</b></span><br>`
+      + `<span class="mono">차이 = <b style="color:${Math.abs(gap)<0.15?'#0E9384':'#BE123C'}">${gap.toFixed(4)}</b> · 근축의 x = ${xAxis.toFixed(4)}</span><br>`
+      + (Math.abs(gap)<0.15 ? `<b style="color:#B45309">두 방멱이 같아졌습니다 — 이 점이 근축 위에 있습니다.</b><br>` : '')
+      + (!meet ? `<b style="color:#7C3AED">두 원이 만나지 않는데도 근축은 그대로 있습니다 — 교점이 아니라 방멱이 정의합니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">두 원의 식을 빼면 제곱항이 사라져 일차식 하나가 남습니다.</span>`;
+  }
+  ['rxD','rxR2','rxPx','rxPy'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'rx', title:'근축 — 빼면 직선이 남는다',
+    q:['점을 옮겨 가며 (두 방멱, 차이) 를 여섯 줄 기록하세요.',
+       '차이가 0 이 되는 점들이 어떤 도형을 이루는지 확인하세요.',
+       '두 원이 만나지 않을 때도 근축이 있는 까닭을 설명하세요.'],
+    cols:['점','왼쪽 방멱','오른쪽 방멱','차이'],
+    hint:'힌트 — 두 원의 방정식을 빼면 x², y² 이 소거됩니다.',
+    read:()=>{ const d=+$('#rxD').value,R2=+$('#rxR2').value,px=+$('#rxPx').value,py=+$('#rxPy').value;
+      const p1=(px+d/2)**2+py*py-R1*R1, p2=(px-d/2)**2+py*py-R2*R2;
+      return ['('+px.toFixed(1)+','+py.toFixed(1)+')',p1.toFixed(4),p2.toFixed(4),(p1-p2).toFixed(4)]; } });
+}
+
+/* ---------- LAB 283 반전변환 — 직선이 원이 되는 순간 ---------- */
+function inversionDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="in1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">반전은 중심에서의 거리를 <b>r² / 거리</b> 로 바꿉니다.
+      중심을 지나지 않는 직선은 <b>원</b>이 되고, 지나는 직선은 그대로 직선입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('inK','반전 반지름 r',0.6,2.4,0.1,1.4,'')}
+      ${slider('inC','직선이 중심에서 떨어진 거리',0,2.4,0.1,0.3,'')}
+      ${slider('inA','직선의 기울기 각',0,170,10,0,'°')}
+      <div class="out" id="inout"></div>
+    </div></div>`;
+  const cv=$('#in1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const r=+$('#inK').value, c=+$('#inC').value, ang=+$('#inA').value;
+    ['inK','inC','inA'].forEach(i=>$('#'+i+'v').textContent=(+$('#'+i).value).toFixed(1));
+    const a=ang*Math.PI/180;
+    const nrm=[Math.cos(a+Math.PI/2), Math.sin(a+Math.PI/2)];   // 직선의 법선
+    const base=[nrm[0]*c, nrm[1]*c];
+    const dir=[Math.cos(a),Math.sin(a)];
+    const inv=P=>{ const n2=P[0]*P[0]+P[1]*P[1]; if(n2<1e-9) return null;
+      return [r*r*P[0]/n2, r*r*P[1]/n2]; };
+    const passes = c<0.05;
+    const imgR = passes ? Infinity : r*r/(2*c);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const ox=190,oy=170,u=58;
+    const X=t=>ox+t*u, Y=t=>oy-t*u;
+    ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.arc(ox,oy,r*u,0,7); ctx.stroke();
+    ctx.fillStyle='#9CA3AF'; ctx.font='10px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('반전의 기준 원 (r = '+r.toFixed(1)+')', ox+r*u+4, oy-4);
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2;
+    ctx.beginPath();
+    ctx.moveTo(X(base[0]-dir[0]*6),Y(base[1]-dir[1]*6));
+    ctx.lineTo(X(base[0]+dir[0]*6),Y(base[1]+dir[1]*6)); ctx.stroke();
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2.2; ctx.beginPath();
+    let started=false;
+    for(let i=-300;i<=300;i++){ const t=i*0.02;
+      const P=[base[0]+dir[0]*t, base[1]+dir[1]*t];
+      const Q=inv(P); if(!Q){ started=false; continue; }
+      if(Math.abs(Q[0])>4||Math.abs(Q[1])>4){ started=false; continue; }
+      started?ctx.lineTo(X(Q[0]),Y(Q[1])):ctx.moveTo(X(Q[0]),Y(Q[1])); started=true; }
+    ctx.stroke();
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(ox,oy,3.4,0,7); ctx.fill();
+    ctx.font='11px sans-serif'; ctx.textAlign='center'; ctx.fillText('O',ox,oy-8);
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('파랑 = 원래 직선 · 붉은 = 반전한 결과', 14, 20);
+    $('#inout').innerHTML =
+      `<span class="mono">직선이 중심에서 떨어진 거리 = ${c.toFixed(1)} · 반전 반지름 = ${r.toFixed(1)}</span><br>`
+      + `<span class="mono">결과 = ${passes?'<b>직선 그대로</b>':'반지름 <b>'+imgR.toFixed(4)+'</b> 인 원 (중심을 지남)'}</span><br>`
+      + (!passes && c>=0.6 ? `<b style="color:#B45309">중심을 지나지 않는 직선이 원으로 바뀌었습니다 — 원은 반드시 중심 O 를 지납니다.</b><br>` : '')
+      + (passes ? `<b style="color:#7C3AED">직선이 중심을 지나자 결과도 같은 직선입니다 — 자기 자신으로 돌아온 것입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">반전은 「직선과 원」을 한 가족으로 묶어 줍니다.</span>`;
+  }
+  ['inK','inC','inA'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'in', title:'반전 — 직선과 원은 한 가족',
+    q:['떨어진 거리를 바꿔 가며 (거리, 결과의 반지름) 을 여섯 줄 기록하세요.',
+       '거리가 0 이 될 때 무슨 일이 생기는지 쓰세요.',
+       '반지름이 r²/(2c) 인 까닭을 설명하세요.'],
+    cols:['r','거리 c','결과','반지름'],
+    hint:'힌트 — 직선 위 가장 가까운 점이 원의 지름 끝으로 갑니다.',
+    read:()=>{ const r=+$('#inK').value,c=+$('#inC').value;
+      return [r.toFixed(1),c.toFixed(1),c<0.05?'직선':'원',c<0.05?'—':(r*r/(2*c)).toFixed(4)]; } });
+}
+
+/* ---------- LAB 284 반전으로 풀기 — 어려운 배치를 단순하게 ---------- */
+function inversionSolveDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="is1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">서로 접하는 두 원을 <b>접점을 중심으로</b> 반전하면
+      두 평행선이 됩니다. 어려운 배치가 쉬운 배치로 바뀝니다.</div>
+    </div>
+    <div class="col">
+      ${slider('isC','반전 중심의 위치',-1.5,1.5,0.1,-0.4,'')}
+      ${slider('isR','두 원의 크기 비',0.4,2.4,0.1,1,'')}
+      <div class="out" id="isout"></div>
+    </div></div>`;
+  const cv=$('#is1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const cpos=+$('#isC').value, k=+$('#isR').value;
+    $('#isCv').textContent=cpos.toFixed(1); $('#isRv').textContent=k.toFixed(1);
+    // 두 원은 원점 (0,0) 에서 서로 접한다 (x 축 위)
+    const r1=0.9, r2=0.9*k;
+    const C1=[-r1,0], C2=[r2,0];
+    const O=[cpos,0], R=1.2;
+    const inv=P=>{ const dx=P[0]-O[0], dy=P[1]-O[1], n2=dx*dx+dy*dy;
+      if(n2<1e-9) return null; return [O[0]+R*R*dx/n2, O[1]+R*R*dy/n2]; };
+    const atTangent = Math.abs(cpos-0)<0.05;
+    // 반전된 두 도형이 얼마나 「평행선에 가까운가」 를 재기 위해 두 상의 곡률 반지름을 본다
+    const imgOf=(C,rr)=>{ const pts=[];
+      for(let i=0;i<=180;i++){ const t=2*Math.PI*i/180;
+        const Q=inv([C[0]+rr*Math.cos(t), C[1]+rr*Math.sin(t)]);
+        if(Q && Math.abs(Q[0])<8 && Math.abs(Q[1])<8) pts.push(Q); }
+      return pts; };
+    const P1=imgOf(C1,r1), P2=imgOf(C2,r2);
+    const spanX=arr=>{ if(!arr.length) return 0;          // 가로·세로 중 크게 뻗은 쪽으로 잰다
+      const xs=arr.map(q=>q[0]), ys=arr.map(q=>q[1]);
+      return Math.max(Math.max(...xs)-Math.min(...xs), Math.max(...ys)-Math.min(...ys)); };
+    const flat = P1.length>20 && P2.length>20 && spanX(P1)>6 && spanX(P2)>6;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const ox=190,oy=170,u=54;
+    const X=t=>ox+t*u, Y=t=>oy-t*u;
+    ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.arc(X(O[0]),Y(O[1]),R*u,0,7); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=1.8;
+    ctx.beginPath(); ctx.arc(X(C1[0]),Y(C1[1]),r1*u,0,7); ctx.stroke();
+    ctx.strokeStyle='#0E9384';
+    ctx.beginPath(); ctx.arc(X(C2[0]),Y(C2[1]),r2*u,0,7); ctx.stroke();
+    const plot=(pts,col)=>{ ctx.strokeStyle=col; ctx.lineWidth=2.4; ctx.beginPath(); let st=false;
+      pts.forEach(q=>{ const px=X(q[0]),py=Y(q[1]);
+        if(px<-200||px>W+200||py<-200||py>H+200){ st=false; return; }
+        st?ctx.lineTo(px,py):ctx.moveTo(px,py); st=true; });
+      ctx.stroke(); };
+    plot(P1,'#BE123C'); plot(P2,'#B45309');
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(X(O[0]),Y(O[1]),4,0,7); ctx.fill();
+    ctx.font='11px sans-serif'; ctx.textAlign='center'; ctx.fillText('중심',X(O[0]),Y(O[1])-9);
+    ctx.fillStyle='#0E9384'; ctx.beginPath(); ctx.arc(X(0),Y(0),3.6,0,7); ctx.fill();
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('옅은 원 = 반전의 기준 · 붉은·주황 = 반전한 결과', 14, 20);
+    ctx.fillText('두 원은 원점에서 서로 접합니다', 14, H-12);
+    $('#isout').innerHTML =
+      `<span class="mono">반전 중심 = (${cpos.toFixed(1)}, 0) · 접점 = (0, 0) · 두 원의 반지름 = ${r1.toFixed(2)} , ${r2.toFixed(2)}</span><br>`
+      + `<span class="mono">반전된 두 도형이 뻗은 크기 = ${spanX(P1).toFixed(2)} , ${spanX(P2).toFixed(2)}</span><br>`
+      + (atTangent && flat ? `<b style="color:#B45309">접점을 중심으로 삼자 두 원이 나란한 두 직선이 되었습니다.</b><br>` : '')
+      + (!atTangent && Math.abs(cpos)>=0.6 ? `<b style="color:#7C3AED">중심이 접점에서 벗어나 있으면 결과도 여전히 원입니다 — 중심을 어디에 두느냐가 전부입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">문제를 푸는 대신 문제를 바꾸는 것 — 이것이 변환의 힘입니다.</span>`;
+  }
+  ['isC','isR'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'is', title:'반전으로 풀기 — 문제를 바꾸기',
+    q:['중심을 옮겨 가며 (중심, 결과의 모양) 을 여섯 줄 기록하세요.',
+       '두 원이 두 직선이 되는 중심을 찾으세요.',
+       '왜 그 자리에서만 직선이 되는지 설명하세요.'],
+    cols:['중심','크기 비','왼쪽 결과','오른쪽 결과'],
+    hint:'힌트 — 반전 중심을 지나는 도형만 직선이 됩니다.',
+    read:()=>{ const c=+$('#isC').value,k=+$('#isR').value;
+      const at=Math.abs(c)<0.05;
+      return [c.toFixed(1),k.toFixed(1),at?'직선':'원',at?'직선':'원']; } });
+}
+
+/* ---------- LAB 285 복비 — 비스듬히 찍어도 변하지 않는 값 ---------- */
+function crossRatioDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="cr1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">한 점에서 본 네 점을 다른 직선에 <b>비스듬히</b> 옮깁니다.
+      길이의 비는 변하지만 <b>복비</b>는 변하지 않습니다.</div>
+    </div>
+    <div class="col">
+      ${slider('crA','옮겨 놓을 직선의 기울기',-60,60,5,0,'°')}
+      ${slider('crH','시점의 높이',1.2,3.5,0.1,2.4,'')}
+      ${slider('crD','넷째 점의 위치',1.2,3,0.1,2.4,'')}
+      <div class="out" id="crout"></div>
+    </div></div>`;
+  const cv=$('#cr1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const ang=+$('#crA').value, hh=+$('#crH').value, d4=+$('#crD').value;
+    ['crA','crH','crD'].forEach(i=>$('#'+i+'v').textContent=(+$('#'+i).value).toFixed(1));
+    const S=[0,hh];                                    // 시점
+    const base=[-2.2,0.4,1.2,d4].map(x=>[x,-1.2]);     // 원래 직선 위의 네 점
+    const a=ang*Math.PI/180, dir=[Math.cos(a),Math.sin(a)], p0=[0,-0.1];
+    const proj=P=>{ // S 에서 P 를 지나는 직선과 새 직선의 교점
+      const dx=P[0]-S[0], dy=P[1]-S[1];
+      const det=dx*(-dir[1])-dy*(-dir[0]);
+      if(Math.abs(det)<1e-9) return null;
+      const t=((p0[0]-S[0])*(-dir[1])-(p0[1]-S[1])*(-dir[0]))/det;
+      return [S[0]+dx*t, S[1]+dy*t]; };
+    const img=base.map(proj);
+    const cross=(pts,axis)=>{ if(pts.some(p=>!p)) return NaN;
+      const c=pts.map(p=>axis?(p[0]*dir[0]+p[1]*dir[1]):p[0]);
+      return ((c[0]-c[2])*(c[1]-c[3]))/((c[1]-c[2])*(c[0]-c[3])); };
+    const cr1=cross(base,false), cr2=cross(img,true);
+    const r1=(base[1][0]-base[0][0])/(base[2][0]-base[1][0]);
+    const ic=img.map(p=>p?(p[0]*dir[0]+p[1]*dir[1]):0);
+    const r2=(ic[1]-ic[0])/((ic[2]-ic[1])||1e-9);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const ox=190,oy=250,u=62;
+    const X=t=>ox+t*u, Y=t=>oy-t*u;
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(X(-2.9),Y(-1.2)); ctx.lineTo(X(2.9),Y(-1.2)); ctx.stroke();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=1.8;
+    ctx.beginPath();
+    ctx.moveTo(X(p0[0]-dir[0]*3.2),Y(p0[1]-dir[1]*3.2));
+    ctx.lineTo(X(p0[0]+dir[0]*3.2),Y(p0[1]+dir[1]*3.2)); ctx.stroke();
+    base.forEach((P,i)=>{ ctx.strokeStyle='rgba(37,99,235,.45)'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(X(S[0]),Y(S[1])); ctx.lineTo(X(P[0]),Y(P[1])); ctx.stroke();
+      ctx.fillStyle='#2563EB'; ctx.beginPath(); ctx.arc(X(P[0]),Y(P[1]),4.2,0,7); ctx.fill();
+      ctx.fillStyle='#374151'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('ABCD'[i], X(P[0]), Y(P[1])+15); });
+    img.forEach((P,i)=>{ if(!P) return;
+      ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(P[0]),Y(P[1]),4.2,0,7); ctx.fill();
+      ctx.fillStyle='#BE123C'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+      ctx.fillText("ABCD"[i]+"'", X(P[0]), Y(P[1])-9); });
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(X(S[0]),Y(S[1]),5,0,7); ctx.fill();
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('검은 점 = 시점 · 파랑 = 원래 네 점 · 붉은 = 옮겨진 네 점', 14, 20);
+    $('#crout').innerHTML =
+      `<span class="mono">원래 복비 = <b style="color:#2563EB">${cr1.toFixed(5)}</b> · 옮긴 뒤 복비 = <b style="color:#BE123C">${cr2.toFixed(5)}</b></span><br>`
+      + `<span class="mono">단순한 길이 비 AB : BC 는 ${r1.toFixed(3)} → ${r2.toFixed(3)} 로 <b>달라졌습니다</b></span><br>`
+      + (Math.abs(ang)>=20 && Math.abs(cr1-cr2)<0.002 ? `<b style="color:#B45309">직선을 크게 기울였는데도 복비는 그대로입니다 — 사영으로 보존되는 값입니다.</b><br>` : '')
+      + (Math.abs(ang)>=20 && hh<=1.5 && Math.abs(r1-r2)>0.5 ? `<b style="color:#7C3AED">길이의 비는 눈에 띄게 달라졌습니다 — 보존되는 것은 비가 아니라 비의 비입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">복비 = (AC · BD) / (BC · AD) — 사진을 비스듬히 찍어도 남는 값입니다.</span>`;
+  }
+  ['crA','crH','crD'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'cr', title:'복비 — 사영에서 살아남는 값',
+    q:['기울기를 바꿔 가며 (기울기, 두 복비, 길이 비) 를 여섯 줄 기록하세요.',
+       '복비가 변하는지 확인하세요.',
+       '길이 비와 복비의 차이를 한 문장으로 쓰세요.'],
+    cols:['기울기','원래 복비','옮긴 복비','길이 비 변화'],
+    hint:'힌트 — 복비는 (AC·BD)/(BC·AD) 입니다.',
+    read:()=>{ const ang=+$('#crA').value,hh=+$('#crH').value,d4=+$('#crD').value;
+      const S=[0,hh], base=[-2.2,0.4,1.2,d4].map(x=>[x,-1.2]);
+      const a=ang*Math.PI/180, dir=[Math.cos(a),Math.sin(a)], p0=[0,-0.1];
+      const proj=P=>{ const dx=P[0]-S[0],dy=P[1]-S[1];
+        const det=dx*(-dir[1])-dy*(-dir[0]); if(Math.abs(det)<1e-9) return null;
+        const t=((p0[0]-S[0])*(-dir[1])-(p0[1]-S[1])*(-dir[0]))/det;
+        return [S[0]+dx*t,S[1]+dy*t]; };
+      const img=base.map(proj);
+      const cr=(pts,ax)=>{ if(pts.some(p=>!p)) return NaN;
+        const c=pts.map(p=>ax?(p[0]*dir[0]+p[1]*dir[1]):p[0]);
+        return ((c[0]-c[2])*(c[1]-c[3]))/((c[1]-c[2])*(c[0]-c[3])); };
+      return [ang+'°',cr(base,false).toFixed(5),cr(img,true).toFixed(5),'—']; } });
+}
+
+/* ---------- LAB 286 평면의 방정식 — 법선 하나로는 부족하다 ---------- */
+function planeDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="pn1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">평면 하나를 정하려면 <b>법선벡터</b>와 <b>지나는 점</b>이 함께 있어야 합니다.
+      법선만 주면 원점을 지나는 평면이 되어 버립니다.</div>
+    </div>
+    <div class="col">
+      ${slider('pna','법선의 x 성분',-3,3,1,1,'')}
+      ${slider('pnb','법선의 y 성분',-3,3,1,1,'')}
+      ${slider('pnc','법선의 z 성분',-3,3,1,2,'')}
+      ${slider('pnd','상수항 d',-6,6,1,2,'')}
+      <div class="out" id="pnout"></div>
+    </div></div>`;
+  const cv=$('#pn1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const a=+$('#pna').value,b=+$('#pnb').value,c=+$('#pnc').value,d=+$('#pnd').value;
+    ['pna','pnb','pnc','pnd'].forEach(i=>$('#'+i+'v').textContent=$('#'+i).value);
+    const n=Math.hypot(a,b,c)||1;
+    const distO=Math.abs(d)/n;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    // 간단한 등축 투영
+    const ox=185,oy=195,u=34;
+    const pr=(x,y,z)=>[ox+(x-y)*0.87*u, oy-(z*u)-(x+y)*0.5*u];
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1.2;
+    [[[0,0,0],[3,0,0]],[[0,0,0],[0,3,0]],[[0,0,0],[0,0,3]]].forEach(([P,Q],i)=>{
+      const p=pr(...P), q=pr(...Q);
+      ctx.beginPath(); ctx.moveTo(p[0],p[1]); ctx.lineTo(q[0],q[1]); ctx.stroke();
+      ctx.fillStyle='#9CA3AF'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(['x','y','z'][i], q[0], q[1]-4); });
+    // 평면을 격자로 그린다 (z 를 풀어서)
+    const pts=[];
+    for(let i=-3;i<=3;i++){ const row=[];
+      for(let j=-3;j<=3;j++){ let x=i,y=j,z;
+        if(Math.abs(c)>1e-9) z=(d-a*x-b*y)/c;
+        else { z=j; y=Math.abs(b)>1e-9?(d-a*x-c*z)/b:0; }
+        row.push([x,y,z]); }
+      pts.push(row); }
+    ctx.strokeStyle='rgba(37,99,235,.55)'; ctx.lineWidth=1;
+    for(let i=0;i<7;i++){ ctx.beginPath();
+      for(let j=0;j<7;j++){ const q=pr(...pts[i][j]);
+        j?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]); } ctx.stroke(); }
+    for(let j=0;j<7;j++){ ctx.beginPath();
+      for(let i=0;i<7;i++){ const q=pr(...pts[i][j]);
+        i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]); } ctx.stroke(); }
+    // 법선 화살표 (원점에서)
+    const o=pr(0,0,0), t=pr(a/n*2,b/n*2,c/n*2);
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.4;
+    ctx.beginPath(); ctx.moveTo(o[0],o[1]); ctx.lineTo(t[0],t[1]); ctx.stroke();
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(o[0],o[1],4,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('초록 화살표 = 법선벡터 · 파랑 격자 = 평면', 14, 20);
+    ctx.fillText(a+'x + '+b+'y + '+c+'z = '+d, 14, H-12);
+    $('#pnout').innerHTML =
+      `<span class="mono">평면 : ${a}x + ${b}y + ${c}z = ${d} · 법선 = ( ${a} , ${b} , ${c} )</span><br>`
+      + `<span class="mono">원점에서 평면까지의 거리 = |d| / |n| = <b style="color:${distO<1e-9?'#BE123C':'#0E9384'}">${distO.toFixed(4)}</b></span><br>`
+      + (Math.abs(d)<1e-9 ? `<b style="color:#B45309">d 가 0 이라 평면이 원점을 지납니다 — 법선만으로는 위치를 정하지 못합니다.</b><br>` : '')
+      + (Math.abs(d)>=3 ? `<b style="color:#7C3AED">d 를 키우자 같은 기울기의 평면이 원점에서 멀어졌습니다 — 방향은 그대로, 위치만 바뀝니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">법선은 방향을, 상수항은 위치를 정합니다 — 둘이 있어야 평면 하나입니다.</span>`;
+  }
+  ['pna','pnb','pnc','pnd'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'pn', title:'평면의 방정식 — 방향과 위치',
+    q:['d 를 바꿔 가며 (d, 원점까지의 거리) 를 여섯 줄 기록하세요.',
+       '법선을 그대로 두고 d 만 바꾸면 무엇이 달라지는지 쓰세요.',
+       '거리가 |d|/|n| 인 까닭을 설명하세요.'],
+    cols:['법선','d','원점까지 거리'],
+    hint:'힌트 — 법선 방향으로 원점에서 얼마나 떨어졌는지를 재는 것입니다.',
+    read:()=>{ const a=+$('#pna').value,b=+$('#pnb').value,c=+$('#pnc').value,d=+$('#pnd').value;
+      return ['('+a+','+b+','+c+')',d,(Math.abs(d)/(Math.hypot(a,b,c)||1)).toFixed(4)]; } });
+}

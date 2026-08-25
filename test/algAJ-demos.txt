@@ -1,0 +1,409 @@
+/* ---------- LAB 287 두 평면이 이루는 각 — 법선 사이의 각과 다르다 ---------- */
+function planeAngleDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="pa1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">두 평면이 이루는 각은 <b>법선 사이의 각</b>으로 구합니다.
+      다만 법선의 방향이 둘이라, 둔각이 나오면 <b>180°에서 빼</b> 예각으로 약속합니다.</div>
+    </div>
+    <div class="col">
+      ${slider('paA','① 평면의 기울기',5,85,5,60,'°')}
+      ${slider('paB','② 평면의 기울기',5,85,5,60,'°')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="paFlip"> ② 평면의 법선을 뒤집기</label>
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:4px">
+        <input type="checkbox" id="paRaw"> 둔각을 고치지 않고 그대로 쓰기</label>
+      <div class="out" id="paout"></div>
+    </div></div>`;
+  const cv=$('#pa1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const a=+$('#paA').value, b=+$('#paB').value;
+    const flip=$('#paFlip').checked, raw=$('#paRaw').checked;
+    $('#paAv').textContent=a+'°'; $('#paBv').textContent=b+'°';
+    // 두 평면을 옆에서 본 단면(직선)으로 그린다. 지붕처럼 마루에서 만난다.
+    const ra=a*Math.PI/180, rb=b*Math.PI/180;
+    const n1=[Math.sin(ra), Math.cos(ra)];
+    let n2=[-Math.sin(rb), Math.cos(rb)];
+    if(flip) n2=[-n2[0],-n2[1]];
+    const cosn=(n1[0]*n2[0]+n1[1]*n2[1]);
+    const rawAng=Math.acos(Math.max(-1,Math.min(1,cosn)))*180/Math.PI;
+    const shown=raw?rawAng:(rawAng>90?180-rawAng:rawAng);
+    const acute=Math.min(rawAng,180-rawAng);   // 두 평면이 이루는 각은 예각으로 약속한다
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const ox=190,oy=220,u=1;
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(20,oy); ctx.lineTo(W-20,oy); ctx.stroke();
+    const L=140;
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=3;
+    ctx.beginPath(); ctx.moveTo(ox,oy-90);
+    ctx.lineTo(ox-L*Math.cos(ra), oy-90+L*Math.sin(ra)); ctx.stroke();
+    ctx.strokeStyle='#0E9384';
+    ctx.beginPath(); ctx.moveTo(ox,oy-90);
+    ctx.lineTo(ox+L*Math.cos(rb), oy-90+L*Math.sin(rb)); ctx.stroke();
+    const ar=(vx,vy,col)=>{ ctx.strokeStyle=col; ctx.fillStyle=col; ctx.lineWidth=2;
+      const bx=ox, by=oy-90;
+      ctx.beginPath(); ctx.moveTo(bx,by); ctx.lineTo(bx+vx*54,by-vy*54); ctx.stroke();
+      const A=Math.atan2(-vy,vx);
+      ctx.beginPath(); ctx.moveTo(bx+vx*54,by-vy*54);
+      ctx.lineTo(bx+vx*54-8*Math.cos(A-0.4),by-vy*54-8*Math.sin(A-0.4));
+      ctx.lineTo(bx+vx*54-8*Math.cos(A+0.4),by-vy*54-8*Math.sin(A+0.4));
+      ctx.closePath(); ctx.fill(); };
+    ar(n1[0],n1[1],'#2563EB'); ar(n2[0],n2[1],'#0E9384');
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.arc(ox,oy-90,34,-Math.PI+ra, -rb, false); ctx.stroke();
+    ctx.fillStyle='#BE123C'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(rawAng.toFixed(0)+'°', ox, oy-90+50);
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('옆에서 본 두 지붕면 · 화살표 = 각 면의 법선', 14, 20);
+    ctx.fillText('예각으로 약속한 값 = '+acute.toFixed(1)+'°', 14, H-12);
+    $('#paout').innerHTML =
+      `<span class="mono">법선 사이의 각 = <b>${rawAng.toFixed(2)}°</b> · 화면에 쓰는 값 = <b style="color:#2563EB">${shown.toFixed(2)}°</b></span><br>`
+      + `<span class="mono">예각으로 약속한 값 = <b style="color:#0E9384">${acute.toFixed(2)}°</b> · 지금 값과의 차이 = ${Math.abs(shown-acute).toFixed(2)}°</span><br>`
+      + (raw && rawAng>90.5 ? `<b style="color:#B45309">둔각을 그대로 쓰니 약속한 값과 어긋났습니다 — 180°에서 빼야 합니다.</b><br>` : '')
+      + (flip ? `<b style="color:#7C3AED">법선을 뒤집었더니 각이 보각으로 바뀝니다 — 법선의 방향은 두 가지입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">법선은 방향이 둘이라, 각을 잴 때 어느 쪽을 쓰는지 약속이 필요합니다.</span>`;
+  }
+  ['paA','paB'].forEach(i=>$('#'+i).oninput=draw);
+  ['paFlip','paRaw'].forEach(i=>$('#'+i).onchange=draw); draw();
+  inquiry(root,{ id:'pa', title:'두 평면의 각 — 보각을 잊지 말 것',
+    q:['두 기울기를 바꿔 가며 (법선 각, 예각 약속 값) 을 여섯 줄 기록하세요.',
+       '법선 각과 예각 약속 값이 어긋나는 경우를 찾으세요.',
+       '언제 보각으로 고쳐야 하는지 조건을 쓰세요.'],
+    cols:['① 기울기','② 기울기','법선 각','예각 약속'],
+    hint:'힌트 — 법선 사이의 각이 둔각이면 180°에서 빼야 합니다.',
+    read:()=>{ const a=+$('#paA').value,b=+$('#paB').value,flip=$('#paFlip').checked;
+      const ra=a*Math.PI/180, rb=b*Math.PI/180;
+      const n1=[Math.sin(ra),Math.cos(ra)]; let n2=[-Math.sin(rb),Math.cos(rb)];
+      if(flip) n2=[-n2[0],-n2[1]];
+      const rw=Math.acos(Math.max(-1,Math.min(1,n1[0]*n2[0]+n1[1]*n2[1])))*180/Math.PI;
+      return [a+'°',b+'°',rw.toFixed(2)+'°',Math.min(rw,180-rw).toFixed(2)+'°']; } });
+}
+
+/* ---------- LAB 288 이차곡면의 단면 — 자른 면으로 입체를 알아맞히기 ---------- */
+function quadSurfDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="qs1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">높이 z 에서 자른 <b>단면</b>만 보고 입체를 알아맞힙니다.
+      같은 높이만 보면 서로 다른 입체가 같아 보일 수 있습니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">입체 고르기<select id="qsK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="par">타원포물면  z = x² + y²</option>
+        <option value="hyp">쌍곡포물면  z = x² − y²  (안장)</option>
+        <option value="con">원뿔면  z² = x² + y²</option>
+        <option value="hy1">일엽쌍곡면  x² + y² − z² = 1</option>
+      </select></label>
+      ${slider('qsZ','자르는 높이 z',-2,2,0.1,1,'')}
+      <div class="out" id="qsout"></div>
+    </div></div>`;
+  const cv=$('#qs1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function shape(k,z){
+    if(k==='par') return z>0 ? {kind:'원', r:Math.sqrt(z)} : (Math.abs(z)<1e-9?{kind:'한 점'}:{kind:'없음'});
+    if(k==='hyp') return Math.abs(z)<1e-9 ? {kind:'두 직선'} : {kind:'쌍곡선', a:Math.sqrt(Math.abs(z))};
+    if(k==='con') return Math.abs(z)<1e-9 ? {kind:'한 점'} : {kind:'원', r:Math.abs(z)};
+    return {kind:'원', r:Math.sqrt(1+z*z)};
+  }
+  function draw(){
+    const k=$('#qsK').value, z=+$('#qsZ').value;
+    $('#qsZv').textContent=z.toFixed(1);
+    const S=shape(k,z);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    // 왼쪽: 옆에서 본 실루엣, 오른쪽: 단면
+    const lx=96, ly=170, lu=44;
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(lx,40); ctx.lineTo(lx,300); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(lx-76,ly); ctx.lineTo(lx+76,ly); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2; ctx.beginPath();
+    for(let i=0;i<=120;i++){ const t=-2+4*i/120;
+      let x,y;
+      if(k==='par'){ x=t; y=t*t; }
+      else if(k==='hyp'){ x=t; y=t*t; }
+      else if(k==='con'){ x=t; y=Math.abs(t); }
+      else { x=Math.sqrt(1+t*t); y=t; }
+      const px=lx+(k==='hy1'?x:x)*lu*0.8, py=ly-(k==='hy1'?y:y)*lu*0.8;
+      i?ctx.lineTo(px,py):ctx.moveTo(px,py); }
+    ctx.stroke();
+    if(k==='hy1'){ ctx.beginPath();
+      for(let i=0;i<=120;i++){ const t=-2+4*i/120;
+        const px=lx-Math.sqrt(1+t*t)*lu*0.8, py=ly-t*lu*0.8;
+        i?ctx.lineTo(px,py):ctx.moveTo(px,py); } ctx.stroke(); }
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.6; ctx.setLineDash([5,4]);
+    ctx.beginPath(); ctx.moveTo(lx-76,ly-z*lu*0.8); ctx.lineTo(lx+76,ly-z*lu*0.8); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('옆에서 본 모습', lx, 32);
+    // 오른쪽 단면
+    const rx=272, ry=170, ru=42;
+    ctx.strokeStyle='#E5E7EB';
+    ctx.beginPath(); ctx.moveTo(rx-84,ry); ctx.lineTo(rx+84,ry); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(rx,ry-84); ctx.lineTo(rx,ry+84); ctx.stroke();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.4;
+    if(S.kind==='원'){ ctx.beginPath(); ctx.arc(rx,ry,Math.min(80,S.r*ru),0,7); ctx.stroke(); }
+    else if(S.kind==='쌍곡선'){ const a=S.a;
+      [1,-1].forEach(sg=>{ ctx.beginPath();
+        for(let i=0;i<=60;i++){ const t=-1.6+3.2*i/60;
+          const x=sg*a*Math.cosh(t), y=a*Math.sinh(t);
+          const px=rx+(z>0?x:y)*ru, py=ry-(z>0?y:x)*ru;
+          if(Math.abs(px-rx)>84||Math.abs(py-ry)>84) continue;
+          i?ctx.lineTo(px,py):ctx.moveTo(px,py); }
+        ctx.stroke(); }); }
+    else if(S.kind==='두 직선'){ ctx.beginPath();
+      ctx.moveTo(rx-70,ry-70); ctx.lineTo(rx+70,ry+70);
+      ctx.moveTo(rx-70,ry+70); ctx.lineTo(rx+70,ry-70); ctx.stroke(); }
+    else if(S.kind==='한 점'){ ctx.fillStyle='#0E9384';
+      ctx.beginPath(); ctx.arc(rx,ry,5,0,7); ctx.fill(); }
+    else { ctx.fillStyle='#9CA3AF'; ctx.font='12px sans-serif';
+      ctx.fillText('단면이 없습니다', rx, ry); }
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('z = '+z.toFixed(1)+' 에서 자른 단면', rx, 32);
+    ctx.textAlign='left';
+    const rr=S.r!==undefined?S.r:null;
+    $('#qsout').innerHTML =
+      `<span class="mono">단면의 모양 = <b style="color:#0E9384">${S.kind}</b>${rr!==null?' · 반지름 = <b>'+rr.toFixed(4)+'</b>':''}</span><br>`
+      + `<span class="mono">자르는 높이 z = ${z.toFixed(1)}</span><br>`
+      + (S.kind==='쌍곡선' ? `<b style="color:#B45309">단면이 쌍곡선입니다 — 높이의 부호에 따라 방향이 90° 돌아갑니다.</b><br>` : '')
+      + (k==='hy1' && Math.abs(z)>=1.5 ? `<b style="color:#7C3AED">위아래로 갈수록 단면 원이 커집니다 — 허리가 잘록한 입체입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">한 높이의 단면만으로는 입체를 정하지 못합니다 — 여러 높이를 봐야 합니다.</span>`;
+  }
+  $('#qsK').onchange=draw; $('#qsZ').oninput=draw; draw();
+  inquiry(root,{ id:'qs', title:'단면 — 여러 높이를 봐야 안다',
+    q:['높이를 바꿔 가며 (입체, 높이, 단면) 을 여섯 줄 기록하세요.',
+       '같은 단면이 나오는 서로 다른 입체를 찾으세요.',
+       '입체를 정하려면 몇 개의 단면이 필요한지 쓰세요.'],
+    cols:['입체','높이','단면','크기'],
+    hint:'힌트 — 원뿔면과 일엽쌍곡면은 둘 다 원 단면을 냅니다.',
+    read:()=>{ const k=$('#qsK').value,z=+$('#qsZ').value,S=shape(k,z);
+      return [{par:'타원포물면',hyp:'쌍곡포물면',con:'원뿔면',hy1:'일엽쌍곡면'}[k],
+        z.toFixed(1),S.kind,S.r!==undefined?S.r.toFixed(4):'—']; } });
+}
+
+/* ---------- LAB 289 회전면 — 곡선을 돌리면 무엇이 될까 ---------- */
+function revolveSurfDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="rv1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">같은 곡선이라도 <b>어느 축으로 돌리느냐</b>에 따라
+      전혀 다른 입체가 됩니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">돌릴 곡선<select id="rvK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="lin">기울어진 직선  y = 0.6x</option>
+        <option value="par">포물선  y = 0.5x²</option>
+        <option value="hyp">쌍곡선의 한 가지  y = 1/x</option>
+      </select></label>
+      <label class="ctl">돌리는 축<select id="rvA" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="y">y 축</option>
+        <option value="x">x 축</option>
+      </select></label>
+      ${slider('rvT','돌린 정도',0,100,5,0,'%')}
+      <div class="out" id="rvout"></div>
+    </div></div>`;
+  const cv=$('#rv1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const k=$('#rvK').value, ax=$('#rvA').value, t=+$('#rvT').value/100;
+    $('#rvTv').textContent=(t*100).toFixed(0)+'%';
+    const f=x=>k==='lin'?0.6*x:(k==='par'?0.5*x*x:(Math.abs(x)<0.2?5:1/x));
+    const name = k==='lin' ? (ax==='y'?'원뿔면':'원뿔면')
+      : (k==='par' ? (ax==='y'?'회전포물면 (접시)':'뾰족한 나팔 모양') : (ax==='y'?'깔때기':'나팔'));
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const ox=190,oy=200,u=52;
+    const X=v=>ox+v*u, Y=v=>oy-v*u;
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(20,oy); ctx.lineTo(W-20,oy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(ox,20); ctx.lineTo(ox,H-24); ctx.stroke();
+    ctx.strokeStyle=ax==='y'?'#BE123C':'#D1D5DB'; ctx.lineWidth=ax==='y'?2:1;
+    ctx.beginPath(); ctx.moveTo(ox,20); ctx.lineTo(ox,H-24); ctx.stroke();
+    ctx.strokeStyle=ax==='x'?'#BE123C':'#D1D5DB'; ctx.lineWidth=ax==='x'?2:1;
+    ctx.beginPath(); ctx.moveTo(20,oy); ctx.lineTo(W-20,oy); ctx.stroke();
+    // 원래 곡선
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4; ctx.beginPath();
+    let st=false;
+    for(let i=0;i<=160;i++){ const x=0.2+2.6*i/160; const y=f(x);
+      if(!isFinite(y)||Math.abs(y)>3){ st=false; continue; }
+      const px=X(x),py=Y(y); st?ctx.lineTo(px,py):ctx.moveTo(px,py); st=true; }
+    ctx.stroke();
+    // 돌린 자취 — 여러 각도의 사본을 옅게 그린다 (등축 투영 흉내)
+    const steps=Math.round(t*14);
+    for(let s2=1;s2<=steps;s2++){
+      const a=2*Math.PI*s2/14*(t>0?1:0);
+      ctx.strokeStyle='rgba(14,147,132,'+(0.18+0.5*s2/Math.max(steps,1)).toFixed(3)+')';
+      ctx.lineWidth=1.4; ctx.beginPath(); st=false;
+      for(let i=0;i<=120;i++){ const x=0.2+2.6*i/120; const y=f(x);
+        if(!isFinite(y)||Math.abs(y)>3){ st=false; continue; }
+        let px,py;
+        if(ax==='y'){ px=X(x*Math.cos(a)); py=Y(y)+x*Math.sin(a)*u*0.35; }
+        else { px=X(x); py=Y(y*Math.cos(a))+y*Math.sin(a)*u*0.35; }
+        st?ctx.lineTo(px,py):ctx.moveTo(px,py); st=true; }
+      ctx.stroke(); }
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('파랑 = 원래 곡선 · 초록 = 돌린 자취 · 붉은 축 = 회전축', 14, 20);
+    ctx.fillText('만들어지는 입체 : '+name, 14, H-10);
+    $('#rvout').innerHTML =
+      `<span class="mono">곡선 = ${ {lin:'y = 0.6x', par:'y = 0.5x²', hyp:'y = 1/x'}[k] } · 회전축 = ${ax} 축 · 돌린 정도 ${(t*100).toFixed(0)} %</span><br>`
+      + `<span class="mono">만들어지는 입체 = <b style="color:#0E9384">${name}</b></span><br>`
+      + (t>=0.99 ? `<b style="color:#B45309">한 바퀴를 다 돌자 곡선 하나가 곡면 하나가 되었습니다.</b><br>` : '')
+      + (ax==='x' ? `<b style="color:#7C3AED">축을 바꾸자 같은 곡선인데 전혀 다른 입체가 나옵니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">회전면은 「곡선 + 축」의 짝으로 정해집니다.</span>`;
+  }
+  ['rvK','rvA'].forEach(i=>$('#'+i).onchange=draw); $('#rvT').oninput=draw; draw();
+  inquiry(root,{ id:'rv', title:'회전면 — 곡선과 축의 짝',
+    q:['곡선과 축을 바꿔 가며 (곡선, 축, 입체) 를 여섯 줄 기록하세요.',
+       '같은 곡선이 축에 따라 어떻게 달라지는지 쓰세요.',
+       '직선을 돌려 원뿔이 되는 조건을 설명하세요.'],
+    cols:['곡선','축','돌린 정도','입체'],
+    hint:'힌트 — 축을 지나는 직선을 돌리면 축 자신이 됩니다.',
+    read:()=>{ const k=$('#rvK').value,ax=$('#rvA').value,t=+$('#rvT').value;
+      const nm = k==='lin'?'원뿔면':(k==='par'?(ax==='y'?'회전포물면':'나팔 모양'):(ax==='y'?'깔때기':'나팔'));
+      return [{lin:'y = 0.6x',par:'y = 0.5x²',hyp:'y = 1/x'}[k],ax+' 축',t+'%',nm]; } });
+}
+
+/* ---------- LAB 290 구면 삼각형 — 내각의 합이 180°를 넘는다 ---------- */
+function sphericalDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sp2" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">구 위에서는 「직선」이 <b>대원</b>입니다.
+      삼각형이 커질수록 내각의 합이 180°를 넘어갑니다.</div>
+    </div>
+    <div class="col">
+      ${slider('spL','삼각형의 크기 (위도 폭)',5,89,2,81,'°')}
+      ${slider('spW','밑변의 경도 폭',10,180,5,20,'°')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="spFlat"> 평면 공식으로 계산하기</label>
+      <div class="out" id="spout"></div>
+    </div></div>`;
+  const cv=$('#sp2'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const lat=+$('#spL').value, lon=+$('#spW').value, flat=$('#spFlat').checked;
+    $('#spLv').textContent=lat+'°'; $('#spWv').textContent=lon+'°';
+    // 북극과 적도 위 두 점으로 이루어진 삼각형: 꼭지각 = 경도 폭,
+    // 밑각 두 개는 위도가 낮을수록 90°에 가깝다
+    const A=lon;                                   // 북극에서의 각
+    const rad=x=>x*Math.PI/180;
+    const co=Math.cos(rad(90-lat));
+    const base=Math.atan2(1, co*Math.tan(rad(A/2)))*180/Math.PI;   // 밑각(근사)
+    const sum=flat?180:(A+2*base);
+    const excess=sum-180;
+    const area=excess/180*Math.PI;                 // 단위구에서의 넓이
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=150,cy=165,R=110;
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.stroke();
+    for(let k=-60;k<=60;k+=30){ ctx.strokeStyle='#F3F4F6';
+      ctx.beginPath(); ctx.ellipse(cx,cy,R,R*Math.abs(Math.sin(rad(k)))||1,0,0,7); ctx.stroke(); }
+    ctx.strokeStyle='#E5E7EB';
+    ctx.beginPath(); ctx.ellipse(cx,cy,R*0.35,R,0,0,7); ctx.stroke();
+    // 삼각형: 북극(위) 과 아래 두 점
+    const top=[cx,cy-R];
+    const th=rad(90-lat);
+    const half=rad(lon/2);
+    const pt=sg=>[cx+R*Math.sin(th)*Math.sin(sg*half)*1.0, cy-R*Math.cos(th)];
+    const P1=pt(-1), P2=pt(1);
+    ctx.fillStyle='rgba(37,99,235,.16)';
+    ctx.beginPath(); ctx.moveTo(top[0],top[1]);
+    ctx.quadraticCurveTo((top[0]+P1[0])/2-8,(top[1]+P1[1])/2,P1[0],P1[1]);
+    ctx.quadraticCurveTo(cx,P1[1]+16,P2[0],P2[1]);
+    ctx.quadraticCurveTo((top[0]+P2[0])/2+8,(top[1]+P2[1])/2,top[0],top[1]);
+    ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.2; ctx.stroke();
+    [[top,'N'],[P1,'A'],[P2,'B']].forEach(([p,l])=>{ ctx.fillStyle='#111827';
+      ctx.beginPath(); ctx.arc(p[0],p[1],4,0,7); ctx.fill();
+      ctx.font='11px sans-serif'; ctx.textAlign='center'; ctx.fillText(l,p[0],p[1]-8); });
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('구 위의 삼각형 — 세 변이 모두 대원의 일부', 14, 20);
+    // 오른쪽 막대
+    const bx=300, base0=250, sc=1.1;
+    ctx.fillStyle='rgba(37,99,235,.6)'; ctx.fillRect(bx,base0-sum*0.55,26,sum*0.55);
+    ctx.strokeStyle='#BE123C'; ctx.setLineDash([4,3]);
+    ctx.beginPath(); ctx.moveTo(bx-10,base0-180*0.55); ctx.lineTo(bx+44,base0-180*0.55); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#BE123C'; ctx.font='10px sans-serif'; ctx.fillText('180°', bx+20, base0-180*0.55-4);
+    ctx.fillStyle='#374151'; ctx.fillText(sum.toFixed(1)+'°', bx-2, base0-sum*0.55-8);
+    $('#spout').innerHTML =
+      `<span class="mono">꼭지각 = ${A.toFixed(1)}° · 밑각 = ${base.toFixed(2)}° × 2 · 내각의 합 = <b style="color:${excess>0.5?'#BE123C':'#0E9384'}">${sum.toFixed(2)}°</b></span><br>`
+      + `<span class="mono">180° 를 넘은 양(구면 초과) = <b>${excess.toFixed(3)}°</b> · 넓이 = ${area.toFixed(4)} (단위구)</span><br>`
+      + (!flat && excess>=20 ? `<b style="color:#B45309">삼각형이 커지자 내각의 합이 180°를 크게 넘어섰습니다.</b><br>` : '')
+      + (flat ? `<b style="color:#7C3AED">평면 공식으로 계산하니 아무리 크게 그려도 언제나 180° 입니다 — 구면에서는 틀린 답입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">넘은 만큼이 곧 넓이입니다 — 각과 넓이가 이어져 있습니다.</span>`;
+  }
+  ['spL','spW'].forEach(i=>$('#'+i).oninput=draw); $('#spFlat').onchange=draw; draw();
+  inquiry(root,{ id:'sp2', title:'구면 삼각형 — 180°를 넘는 세계',
+    q:['크기를 바꿔 가며 (경도 폭, 내각의 합) 을 여섯 줄 기록하세요.',
+       '삼각형이 작아지면 합이 어디로 가는지 확인하세요.',
+       '구면 초과와 넓이의 관계를 쓰세요.'],
+    cols:['위도 폭','경도 폭','내각의 합','구면 초과'],
+    hint:'힌트 — 구면 초과가 곧 삼각형의 넓이입니다.',
+    read:()=>{ const lat=+$('#spL').value,lon=+$('#spW').value,flat=$('#spFlat').checked;
+      const rad=x=>x*Math.PI/180, co=Math.cos(rad(90-lat));
+      const base=Math.atan2(1,co*Math.tan(rad(lon/2)))*180/Math.PI;
+      const sum=flat?180:(lon+2*base);
+      return [lat+'°',lon+'°',sum.toFixed(2)+'°',(sum-180).toFixed(3)+'°']; } });
+}
+
+/* ---------- LAB 291 평행선 공준 — 다른 세계의 기하 ---------- */
+function hyperbolicDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="hb1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">푸앵카레 원판에서는 <b>경계에 수직인 원호</b>가 직선입니다.
+      한 점을 지나 주어진 직선과 만나지 않는 직선이 <b>여럿</b> 있습니다.</div>
+    </div>
+    <div class="col">
+      ${slider('hbP','점의 위치',0.05,0.85,0.05,0.4,'')}
+      ${slider('hbA','지나는 직선의 방향',0,170,5,90,'°')}
+      ${slider('hbN','그려 볼 직선의 수',1,7,1,1,'개')}
+      <div class="out" id="hbout"></div>
+    </div></div>`;
+  const cv=$('#hb1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const pr=+$('#hbP').value, ang=+$('#hbA').value, N=+$('#hbN').value;
+    $('#hbPv').textContent=pr.toFixed(2); $('#hbAv').textContent=ang+'°'; $('#hbNv').textContent=N+'개';
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=190,cy=165,R=140;
+    ctx.strokeStyle='#111827'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.stroke();
+    // 경계에 수직인 원호 = 두 경계점 u, v 로 정해진다
+    const arc=(t1,t2,col,wd)=>{
+      const A=[Math.cos(t1),Math.sin(t1)], B=[Math.cos(t2),Math.sin(t2)];
+      const d=A[0]*B[1]-A[1]*B[0];
+      if(Math.abs(d)<1e-6){ ctx.strokeStyle=col; ctx.lineWidth=wd;
+        ctx.beginPath(); ctx.moveTo(cx+A[0]*R,cy-A[1]*R); ctx.lineTo(cx+B[0]*R,cy-B[1]*R); ctx.stroke(); return; }
+      const ox2=(B[1]-A[1])/d, oy2=(A[0]-B[0])/d;            // 중심 (단위원 기준)
+      const rr=Math.sqrt(ox2*ox2+oy2*oy2-1);
+      const a1=Math.atan2(A[1]-oy2,A[0]-ox2), a2=Math.atan2(B[1]-oy2,B[0]-ox2);
+      ctx.strokeStyle=col; ctx.lineWidth=wd;
+      ctx.beginPath();
+      let s2=a1,e2=a2;
+      if(e2-s2>Math.PI) e2-=2*Math.PI; if(s2-e2>Math.PI) e2+=2*Math.PI;
+      for(let i=0;i<=60;i++){ const t=s2+(e2-s2)*i/60;
+        const px=cx+(ox2+rr*Math.cos(t))*R, py=cy-(oy2+rr*Math.sin(t))*R;
+        i?ctx.lineTo(px,py):ctx.moveTo(px,py); }
+      ctx.stroke(); };
+    // 기준 직선 (아래쪽)
+    arc(-2.6,-0.55,'#0E9384',2.6);
+    // 점 P
+    const a0=ang*Math.PI/180;
+    const Px=pr*Math.cos(a0+Math.PI/2), Py=pr*Math.sin(a0+Math.PI/2);
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(cx+Px*R,cy-Py*R,5,0,7); ctx.fill();
+    ctx.font='11px sans-serif'; ctx.textAlign='center'; ctx.fillText('P',cx+Px*R,cy-Py*R-9);
+    // P 를 지나면서 기준 직선과 만나지 않는 직선들
+    let drawn=0;
+    for(let i=0;i<N;i++){
+      const spread=0.55+0.45*i/Math.max(N-1,1);
+      const t1=Math.atan2(Py,Px)+spread, t2=Math.atan2(Py,Px)-spread;
+      arc(t1,t2,'rgba(37,99,235,'+(0.85-0.07*i).toFixed(2)+')',1.8);
+      drawn++; }
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('초록 = 기준 직선 · 파랑 = P 를 지나는 직선들', 14, 20);
+    ctx.fillText('모두 기준 직선과 만나지 않습니다', 14, H-12);
+    $('#hbout').innerHTML =
+      `<span class="mono">P 를 지나며 기준 직선과 만나지 않는 직선 = <b style="color:#2563EB">${drawn}</b> 개 그림</span><br>`
+      + `<span class="mono">유클리드 평면이라면 그런 직선은 <b>정확히 1 개</b>뿐입니다.</span><br>`
+      + (N>=4 ? `<b style="color:#B45309">한 점을 지나 만나지 않는 직선이 여럿입니다 — 평행선 공준이 깨진 세계입니다.</b><br>` : '')
+      + (pr>=0.75 ? `<b style="color:#7C3AED">점을 경계 가까이 옮기면 직선들이 더 심하게 휘어 보입니다 — 원판의 가장자리는 무한히 먼 곳입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">공준 하나를 바꾸면 모순 없는 다른 기하가 만들어집니다.</span>`;
+  }
+  ['hbP','hbA','hbN'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'hb', title:'평행선 공준 — 바꾸어도 무너지지 않는다',
+    q:['직선의 수를 늘려 가며 (개수, 만나는지) 를 여섯 줄 기록하세요.',
+       '유클리드 평면과 무엇이 다른지 쓰세요.',
+       '원판의 가장자리가 무엇을 뜻하는지 설명하세요.'],
+    cols:['점의 위치','방향','그린 직선 수','유클리드에서는'],
+    hint:'힌트 — 경계에 수직인 원호가 이 세계의 직선입니다.',
+    read:()=>{ const p=+$('#hbP').value,a=+$('#hbA').value,n=+$('#hbN').value;
+      return [p.toFixed(2),a+'°',n,'1 개']; } });
+}
