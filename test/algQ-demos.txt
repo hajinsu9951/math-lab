@@ -1,0 +1,328 @@
+/* ---------- LAB 192 이미지는 행렬이다 — 밝기와 대비 ---------- */
+function imgMatrixDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ix1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">왼쪽은 <b>숫자 표</b>, 오른쪽은 그 표를 밝기로 그린 <b>그림</b>입니다.
+      숫자를 바꾸면 그림이 바뀝니다.</div>
+    </div>
+    <div class="col">
+      ${slider('ixB','밝기 (모든 칸에 더하기)',-120,120,10,0,'')}
+      ${slider('ixC','대비 (평균에서 얼마나 벌릴까)',0.2,2.5,0.1,1,'배')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="ixInv">밝기 뒤집기 (255 − a)</button></div>
+      <div class="out" id="ixout"></div>
+      <div class="note" style="margin-top:12px">밝기 = 모든 원소에 <b>같은 수를 더하기</b>,
+      대비 = 평균에서의 차이에 <b>같은 수를 곱하기</b>. 행렬의 두 연산이 그대로 사진 보정입니다.</div>
+    </div></div>`;
+  const cv=$('#ix1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const BASE=[[40,60,90,120],[70,110,150,180],[110,160,200,220],[150,200,230,250]];
+  const S={ inv:false };
+  function draw(){
+    const b=+$('#ixB').value, c=+$('#ixC').value;
+    $('#ixBv').textContent=b; $('#ixCv').textContent=c.toFixed(1)+'배';
+    const mean=BASE.flat().reduce((x,y)=>x+y,0)/16;
+    const out=BASE.map(r=>r.map(v=>{ let n=(v-mean)*c+mean+b; if(S.inv) n=255-n;
+      return Math.round(Math.max(0,Math.min(255,n))); }));
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.font='11px sans-serif'; ctx.textAlign='center';
+    for(let i=0;i<4;i++) for(let j=0;j<4;j++){
+      const px=20+j*38, py=40+i*38;
+      ctx.fillStyle='#EEF1F5'; ctx.fillRect(px,py,34,34);
+      ctx.strokeStyle='#D9E0EA'; ctx.strokeRect(px,py,34,34);
+      ctx.fillStyle='#374151'; ctx.fillText(out[i][j], px+17, py+21); }
+    for(let i=0;i<4;i++) for(let j=0;j<4;j++){
+      const px=210+j*38, py=40+i*38, g=out[i][j];
+      ctx.fillStyle='rgb('+g+','+g+','+g+')'; ctx.fillRect(px,py,38,38); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1; ctx.strokeRect(210,40,152,152);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('숫자 표 (행렬)', 20, 28); ctx.fillText('밝기로 그린 그림', 210, 28);
+    const flat=out.flat(), mn=Math.min(...flat), mx=Math.max(...flat);
+    $('#ixout').innerHTML =
+      `<span class="mono">원본 평균 ${mean.toFixed(1)} · 지금 평균 <b>${(flat.reduce((x,y)=>x+y,0)/16).toFixed(1)}</b></span><br>`
+      + `<span class="mono">가장 어두운 칸 ${mn} · 가장 밝은 칸 ${mx} · 폭 <b>${mx-mn}</b></span><br>`
+      + (mx>=255 && mn<=0 ? `<b style="color:#B45309">양쪽 끝이 모두 막혔습니다 — 0 과 255 를 벗어난 값이 잘려 정보가 사라졌습니다.</b><br>` : '')
+      + (S.inv ? `<b style="color:#7C3AED">밝기를 뒤집으니 어두운 곳과 밝은 곳이 서로 바뀌었습니다 (255 − a).</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">사진 보정은 결국 행렬의 원소를 바꾸는 일입니다.</span>`;
+  }
+  $('#ixInv').onclick=()=>{ S.inv=!S.inv; draw(); };
+  ['ixB','ixC'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'ix', title:'이미지 = 행렬',
+    q:['밝기와 대비를 바꾸며 (평균, 최소, 최대, 폭) 을 여섯 줄 기록하세요.',
+       '값이 0 이나 255 에서 잘리면 무엇이 사라지나요?',
+       '밝기와 대비가 각각 행렬의 어떤 연산인지 쓰세요.'],
+    cols:['밝기','대비','평균','최소','최대'],
+    hint:'힌트 — 밝기는 덧셈, 대비는 평균 기준 곱셈입니다.',
+    read:()=>{ const b=+$('#ixB').value,c=+$('#ixC').value;
+      const mean=BASE.flat().reduce((x,y)=>x+y,0)/16;
+      const f=BASE.flat().map(v=>{ let n=(v-mean)*c+mean+b; if(S.inv) n=255-n;
+        return Math.round(Math.max(0,Math.min(255,n))); });
+      return [b,c.toFixed(1),(f.reduce((x,y)=>x+y,0)/16).toFixed(1),Math.min(...f),Math.max(...f)]; } });
+}
+
+/* ---------- LAB 193 컬러 이미지와 세 개의 행렬 ---------- */
+function rgbLayerDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="rg1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">컬러 사진은 <b>R·G·B 세 장의 행렬</b>이 겹쳐진 것입니다.
+      한 장씩 세기를 바꿔 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('rgR','빨강(R) 세기',0,2,0.1,1,'배')}
+      ${slider('rgG','초록(G) 세기',0,2,0.1,1,'배')}
+      ${slider('rgB','파랑(B) 세기',0,2,0.1,1,'배')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="rgGray">흑백으로 (가중 평균)</button></div>
+      <div class="out" id="rgout"></div>
+      <div class="note" style="margin-top:12px">흑백 = 0.299R + 0.587G + 0.114B.
+      단순 평균이 아니라 <b>사람 눈의 민감도</b>에 맞춘 가중치입니다.</div>
+    </div></div>`;
+  const cv=$('#rg1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const IMG=[[[220,80,60],[200,150,60],[120,180,80],[60,140,200]],
+             [[200,100,90],[180,170,90],[100,190,110],[70,150,210]],
+             [[180,120,110],[160,180,120],[90,200,140],[80,160,220]],
+             [[160,140,130],[140,190,150],[80,210,170],[90,170,230]]];
+  const S={ gray:false };
+  function draw(){
+    const kr=+$('#rgR').value, kg=+$('#rgG').value, kb=+$('#rgB').value;
+    $('#rgRv').textContent=kr.toFixed(1)+'배'; $('#rgGv').textContent=kg.toFixed(1)+'배'; $('#rgBv').textContent=kb.toFixed(1)+'배';
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cell=(x0,y0,sz,fn)=>{ for(let i=0;i<4;i++) for(let j=0;j<4;j++){
+      ctx.fillStyle=fn(IMG[i][j]); ctx.fillRect(x0+j*sz,y0+i*sz,sz,sz); }
+      ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1; ctx.strokeRect(x0,y0,4*sz,4*sz); };
+    const cl=v=>Math.round(Math.max(0,Math.min(255,v)));
+    cell(20,44,34, p=>'rgb('+cl(p[0]*kr)+',0,0)');
+    cell(148,44,34, p=>'rgb(0,'+cl(p[1]*kg)+',0)');
+    cell(276,44,20, p=>'rgb(0,0,'+cl(p[2]*kb)+')');
+    cell(112,206,34, p=>{ const r=cl(p[0]*kr),g=cl(p[1]*kg),b=cl(p[2]*kb);
+      if(S.gray){ const y=cl(0.299*r+0.587*g+0.114*b); return 'rgb('+y+','+y+','+y+')'; }
+      return 'rgb('+r+','+g+','+b+')'; });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('R 층', 20, 36); ctx.fillText('G 층', 148, 36); ctx.fillText('B 층', 276, 36);
+    ctx.fillText(S.gray?'합친 결과 — 흑백':'합친 결과 — 컬러', 112, 198);
+    const p=IMG[0][0], r=cl(p[0]*kr), g=cl(p[1]*kg), b=cl(p[2]*kb);
+    const y=Math.round(0.299*r+0.587*g+0.114*b);
+    const simple=Math.round((r+g+b)/3);
+    $('#rgout').innerHTML =
+      `<span class="mono">왼쪽 위 화소 — R ${r} · G ${g} · B ${b}</span><br>`
+      + `<span class="mono">가중 평균(흑백) = <b style="color:#2563EB">${y}</b> · 단순 평균 = ${simple} · 차이 ${Math.abs(y-simple)}</span><br>`
+      + (S.gray ? `<b style="color:#B45309">세 장을 한 장으로 합쳤습니다 — 색 정보는 사라지고 밝기만 남습니다.</b><br>` : '')
+      + (kg<=0.1 ? `<b style="color:#7C3AED">초록 층을 껐더니 그림이 크게 어두워집니다 — 사람 눈이 초록에 가장 민감합니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">컬러 사진 한 장 = 같은 크기의 행렬 세 개.</span>`;
+  }
+  $('#rgGray').onclick=()=>{ S.gray=!S.gray; draw(); };
+  ['rgR','rgG','rgB'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'rg', title:'컬러 = 세 개의 행렬',
+    q:['각 층의 세기를 0 으로 만들어 보며 그림의 변화를 기록하세요.',
+       '가중 평균과 단순 평균의 차이가 큰 화소를 찾으세요.',
+       '흑백 변환에서 초록의 가중치가 가장 큰 이유를 조사해 쓰세요.'],
+    cols:['R 배','G 배','B 배','가중 평균','단순 평균'],
+    hint:'힌트 — 0.299 + 0.587 + 0.114 = 1 입니다.',
+    read:()=>{ const kr=+$('#rgR').value,kg=+$('#rgG').value,kb=+$('#rgB').value;
+      const cl=v=>Math.round(Math.max(0,Math.min(255,v)));
+      const p=IMG[0][0], r=cl(p[0]*kr), g=cl(p[1]*kg), b=cl(p[2]*kb);
+      return [kr.toFixed(1),kg.toFixed(1),kb.toFixed(1),
+        Math.round(0.299*r+0.587*g+0.114*b),Math.round((r+g+b)/3)]; } });
+}
+
+/* ---------- LAB 194 전치행렬 — 사진의 구도를 바꾸다 ---------- */
+function transposeDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="tr1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">행과 열을 <b>맞바꾸면</b> 그림이 대각선 기준으로 뒤집힙니다.
+      회전과 어떻게 다른지 보세요.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">연산 고르기<select id="trK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="none">① 원본</option>
+        <option value="t">② 전치 (행 ↔ 열)</option>
+        <option value="rot">③ 시계 방향 90° 회전</option>
+        <option value="flip">④ 좌우 뒤집기</option>
+      </select></label>
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="trTwice">전치를 두 번 하기</button></div>
+      <div class="out" id="trout"></div>
+      <div class="note" style="margin-top:12px">(Aᵀ)ᵢⱼ = Aⱼᵢ. 회전 90° = <b>전치한 뒤 좌우 뒤집기</b>.
+      전치를 두 번 하면 원래로 돌아옵니다.</div>
+    </div></div>`;
+  const cv=$('#tr1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const A=[[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]];
+  const S={ twice:false };
+  function apply(k){
+    if(k==='t') return A[0].map((_,j)=>A.map(r=>r[j]));
+    if(k==='rot'){ const t=A[0].map((_,j)=>A.map(r=>r[j])); return t.map(r=>r.slice().reverse()); }
+    if(k==='flip') return A.map(r=>r.slice().reverse());
+    return A.map(r=>r.slice());
+  }
+  function draw(){
+    const k=$('#trK').value;
+    let out = S.twice ? A[0].map((_,j)=>A.map(r=>r[j])) : apply(k);
+    if(S.twice) out = out[0].map((_,j)=>out.map(r=>r[j]));
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const box=(x0,y0,M,label)=>{
+      ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(label, x0, y0-10);
+      for(let i=0;i<4;i++) for(let j=0;j<4;j++){
+        const px=x0+j*36, py=y0+i*36, v=M[i][j];
+        const g=Math.round(255-v*11);
+        ctx.fillStyle='rgb('+g+','+g+','+Math.min(255,g+22)+')';
+        ctx.fillRect(px,py,36,36);
+        ctx.strokeStyle='#D9E0EA'; ctx.strokeRect(px,py,36,36);
+        ctx.fillStyle = v>9 ? '#fff' : '#374151'; ctx.font='12px sans-serif'; ctx.textAlign='center';
+        ctx.fillText(v, px+18, py+23); } };
+    box(20,52,A,'원본 A');
+    box(210,52,out, S.twice ? '(Aᵀ)ᵀ' : {none:'원본 그대로',t:'전치 Aᵀ',rot:'90° 회전',flip:'좌우 뒤집기'}[k]);
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.6; ctx.setLineDash([4,4]);
+    ctx.beginPath(); ctx.moveTo(20,52); ctx.lineTo(164,196); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('붉은 점선 = 전치의 대칭축(주대각선)', 20, 216);
+    const same = JSON.stringify(out)===JSON.stringify(A);
+    const rot = apply('rot'), tflip = apply('t').map(r=>r.slice().reverse());
+    $('#trout').innerHTML =
+      `<span class="mono">A 의 (1행 2열) = ${A[0][1]} → 결과의 (2행 1열) = ${out[1][0]}</span><br>`
+      + `<span class="mono">첫 행 = (${out[0].join(', ')})</span><br>`
+      + (S.twice && same ? `<b style="color:#B45309">전치를 두 번 하니 원래 행렬로 돌아왔습니다 — (Aᵀ)ᵀ = A.</b><br>` : '')
+      + (k==='rot' ? `<b style="color:#7C3AED">90° 회전은 전치한 뒤 좌우로 뒤집은 것과 같습니다 — 두 연산의 합성입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">전치는 회전이 아닙니다 — 대각선을 축으로 한 뒤집기입니다.</span>`;
+  }
+  $('#trTwice').onclick=()=>{ S.twice=true; draw(); };
+  $('#trK').onchange=()=>{ S.twice=false; draw(); }; draw();
+  inquiry(root,{ id:'tr', title:'전치행렬 — 행과 열의 교환',
+    q:['네 연산의 결과 첫 행을 각각 기록해 비교하세요.',
+       '전치와 90° 회전이 어떻게 다른지 한 문장으로 쓰세요.',
+       '(Aᵀ)ᵀ = A 를 원소로 확인하세요.'],
+    cols:['연산','첫 행','(1,2) 원소','(2,1) 원소','원본과 같나'],
+    hint:'힌트 — 전치는 대각선을 축으로 접는 것입니다.',
+    read:()=>{ const k=$('#trK').value; let out=apply(k);
+      return [{none:'원본',t:'전치',rot:'회전',flip:'뒤집기'}[k],'('+out[0].join(', ')+')',
+        out[0][1],out[1][0],JSON.stringify(out)===JSON.stringify(A)?'같음':'다름']; } });
+}
+
+/* ---------- LAB 195 행렬의 곱셈 — 좌표를 옮기는 규칙 ---------- */
+function matMulDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="mm1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">회색이 원래 도형, 파랑이 <b>행렬을 곱한 뒤</b>의 도형입니다.
+      네 수가 도형을 어떻게 바꾸는지 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('mmA','a  (좌측 위)',-2,2,0.1,1,'')}
+      ${slider('mmB','b  (우측 위)',-2,2,0.1,0,'')}
+      ${slider('mmC','c  (좌측 아래)',-2,2,0.1,0,'')}
+      ${slider('mmD','d  (우측 아래)',-2,2,0.1,1,'')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="mmRot">90° 회전 행렬</button>
+        <button class="b g sm" id="mmFlip">좌우 뒤집기 행렬</button>
+      </div>
+      <div class="out" id="mmout"></div>
+      <div class="note" style="margin-top:12px">(x, y) → (ax + by, cx + dy).
+      행렬식 ad − bc 는 <b>넓이가 몇 배가 되는지</b>를 말해 줍니다.</div>
+    </div></div>`;
+  const cv=$('#mm1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const SHAPE=[[0,0],[2,0],[2,1],[1,1],[1,2],[0,2]];
+  function draw(){
+    const a=+$('#mmA').value, b=+$('#mmB').value, c=+$('#mmC').value, d=+$('#mmD').value;
+    ['mmA','mmB','mmC','mmD'].forEach(i=>$('#'+i+'v').textContent=(+$('#'+i).value).toFixed(1));
+    const X=x=>W/2+42*x, Y=y=>H/2-42*y;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#EEF1F5'; ctx.lineWidth=1;
+    for(let g=-4;g<=4;g++){ ctx.beginPath(); ctx.moveTo(X(g),0); ctx.lineTo(X(g),H); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0,Y(g)); ctx.lineTo(W,Y(g)); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF';
+    ctx.beginPath(); ctx.moveTo(0,Y(0)); ctx.lineTo(W,Y(0)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(0),0); ctx.lineTo(X(0),H); ctx.stroke();
+    const poly=(pts,fill,stroke)=>{ ctx.beginPath();
+      pts.forEach((p,i)=>{ i?ctx.lineTo(X(p[0]),Y(p[1])):ctx.moveTo(X(p[0]),Y(p[1])); });
+      ctx.closePath(); ctx.fillStyle=fill; ctx.fill(); ctx.strokeStyle=stroke; ctx.lineWidth=2; ctx.stroke(); };
+    poly(SHAPE,'rgba(107,114,128,.18)','#9CA3AF');
+    const out=SHAPE.map(p=>[a*p[0]+b*p[1], c*p[0]+d*p[1]]);
+    poly(out,'rgba(37,99,235,.28)','#2563EB');
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('회색 = 원래 도형 · 파랑 = 변환된 도형', 12, H-12);
+    const det=a*d-b*c;
+    const isRot = Math.abs(a)<1e-9 && Math.abs(b+1)<1e-9 && Math.abs(c-1)<1e-9 && Math.abs(d)<1e-9;
+    $('#mmout').innerHTML =
+      `<span class="mono">(x, y) → (${a.toFixed(1)}x + ${b.toFixed(1)}y, ${c.toFixed(1)}x + ${d.toFixed(1)}y)</span><br>`
+      + `<span class="mono">꼭짓점 (2, 0) → (${(a*2).toFixed(1)}, ${(c*2).toFixed(1)}) · 행렬식 ad − bc = <b>${det.toFixed(2)}</b></span><br>`
+      + (Math.abs(det)<1e-9 ? `<b style="color:#B45309">행렬식이 0 — 도형이 납작하게 눌려 선분이 되었습니다. 되돌릴 수 없습니다.</b><br>` : '')
+      + (det<-1e-9 ? `<b style="color:#7C3AED">행렬식이 음수 — 도형이 뒤집혔습니다 (거울상).</b><br>` : '')
+      + (Math.abs(det-1)<1e-9 && det>0 ? `넓이가 그대로입니다 — 회전이나 밀기처럼 넓이를 보존하는 변환입니다.<br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">행렬식의 절댓값이 넓이의 배율, 부호가 뒤집힘 여부입니다.</span>`;
+  }
+  $('#mmRot').onclick=()=>{ $('#mmA').value=0; $('#mmB').value=-1; $('#mmC').value=1; $('#mmD').value=0; draw(); };
+  $('#mmFlip').onclick=()=>{ $('#mmA').value=-1; $('#mmB').value=0; $('#mmC').value=0; $('#mmD').value=1; draw(); };
+  ['mmA','mmB','mmC','mmD'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'mm', title:'행렬 곱셈 = 좌표 변환',
+    q:['네 수를 바꾸며 (a, b, c, d, 행렬식, 도형의 변화) 를 여섯 줄 기록하세요.',
+       '행렬식이 0 이 되는 경우를 만들고 무슨 일이 생기는지 쓰세요.',
+       '회전 행렬과 뒤집기 행렬의 행렬식 부호를 비교하세요.'],
+    cols:['a','b','c','d','행렬식'],
+    hint:'힌트 — 90° 회전은 (0, −1 / 1, 0) 입니다.',
+    read:()=>{ const a=+$('#mmA').value,b=+$('#mmB').value,c=+$('#mmC').value,d=+$('#mmD').value;
+      return [a.toFixed(1),b.toFixed(1),c.toFixed(1),d.toFixed(1),(a*d-b*c).toFixed(2)]; } });
+}
+
+/* ---------- LAB 196 해밍 거리 — 손글씨를 가장 가까운 것으로 ---------- */
+function hammingDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="hm1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">왼쪽이 <b>입력한 글씨</b>, 오른쪽이 저장된 <b>본보기</b> 둘입니다.
+      칸을 눌러 글씨를 바꿔 보세요.</div>
+    </div>
+    <div class="col">
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="b g sm" id="hmT">본보기 T 그대로</button>
+        <button class="b g sm" id="hmL">본보기 L 그대로</button>
+        <button class="b g sm" id="hmN">잡음 두 칸 넣기</button>
+        <button class="b g sm" id="hmMid">두 본보기의 딱 가운데로</button>
+      </div>
+      <div class="out" id="hmout"></div>
+      <div class="note" style="margin-top:12px">해밍 거리 = <b>다른 칸의 개수</b>.
+      가장 가까운 본보기로 분류하는 것이 최근접 이웃의 가장 단순한 형태입니다.</div>
+    </div></div>`;
+  const cv=$('#hm1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const T=[[1,1,1,1],[0,1,1,0],[0,1,1,0],[0,1,1,0]];
+  const L=[[1,1,0,0],[1,1,0,0],[1,1,0,0],[1,1,1,1]];
+  const S={ g:(()=>{ const g=T.map(r=>r.slice()); g[0][3]=0; g[3][0]=1; return g; })() };
+  function dist(a,b){ let d=0; for(let i=0;i<4;i++) for(let j=0;j<4;j++) if(a[i][j]!==b[i][j]) d++; return d; }
+  function draw(){
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const box=(x0,y0,M,sz,label,cmp)=>{
+      ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(label, x0, y0-8);
+      for(let i=0;i<4;i++) for(let j=0;j<4;j++){
+        const px=x0+j*sz, py=y0+i*sz;
+        ctx.fillStyle = M[i][j] ? '#374151' : '#EDF0F4';
+        ctx.fillRect(px,py,sz-2,sz-2);
+        if(cmp && cmp[i][j]!==M[i][j]){ ctx.strokeStyle='#BE123C'; ctx.lineWidth=2;
+          ctx.strokeRect(px,py,sz-2,sz-2); } } };
+    box(24,44,S.g,44,'입력한 글씨 (칸을 눌러 바꾸기)');
+    box(230,44,T,30,'본보기 T', S.g);
+    box(230,190,L,30,'본보기 L', S.g);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('붉은 테두리 = 입력과 다른 칸', 24, H-14);
+    const dT=dist(S.g,T), dL=dist(S.g,L);
+    const pick = dT<dL ? 'T' : (dL<dT ? 'L' : '판정 불가(동점)');
+    $('#hmout').innerHTML =
+      `<span class="mono">해밍 거리 — T 까지 <b style="color:${dT<=dL?'#0E9384':'#6B7280'}">${dT}</b> · L 까지 <b style="color:${dL<dT?'#0E9384':'#6B7280'}">${dL}</b></span><br>`
+      + `<span class="mono">가장 가까운 본보기 → <b style="color:#2563EB">${pick}</b></span><br>`
+      + (dT===0 || dL===0 ? `<b style="color:#B45309">거리 0 — 본보기와 완전히 같습니다.</b><br>` : '')
+      + (dT===dL ? `<b style="color:#7C3AED">두 거리가 같아 어느 쪽이라 하기 어렵습니다 — 동점은 분류기의 약점입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">칸 몇 개가 흐트러져도 가장 가까운 쪽을 고르면 대체로 맞습니다.</span>`;
+  }
+  cv.onclick=e=>{ const r=cv.getBoundingClientRect();
+    const x=(e.clientX-r.left)*(W/r.width), y=(e.clientY-r.top)*(H/r.height);
+    const j=Math.floor((x-24)/44), i=Math.floor((y-44)/44);
+    if(i>=0&&i<4&&j>=0&&j<4){ S.g[i][j]=S.g[i][j]?0:1; draw(); } };
+  $('#hmT').onclick=()=>{ S.g=T.map(r=>r.slice()); draw(); };
+  $('#hmL').onclick=()=>{ S.g=L.map(r=>r.slice()); draw(); };
+  $('#hmN').onclick=()=>{ S.g[0][3]=S.g[0][3]?0:1; S.g[3][0]=S.g[3][0]?0:1; draw(); };
+  $('#hmMid').onclick=()=>{ const g=T.map(r=>r.slice());
+    [[0,2],[0,3],[1,0],[1,2]].forEach(([i,j])=>{ g[i][j]=L[i][j]; });
+    S.g=g; draw(); };
+  draw();
+  inquiry(root,{ id:'hm', title:'해밍 거리로 분류하기',
+    q:['칸을 하나씩 바꾸며 (T 까지 거리, L 까지 거리, 판정) 을 여섯 줄 기록하세요.',
+       '몇 칸까지 흐트러져도 바르게 분류되나요?',
+       '두 거리가 같아지는 글씨를 하나 만들어 보세요.'],
+    cols:['T 까지','L 까지','판정','다른 칸 합','16칸 중'],
+    hint:'힌트 — 해밍 거리는 서로 다른 칸의 개수입니다.',
+    read:()=>{ const dT=dist(S.g,T), dL=dist(S.g,L);
+      return [dT,dL,dT<dL?'T':(dL<dT?'L':'동점'),dT+dL,16]; } });
+}

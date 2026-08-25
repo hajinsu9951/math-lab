@@ -1,0 +1,331 @@
+/* ---------- LAB 197 완전연결층 — 신경망을 행렬의 곱으로 ---------- */
+function denseLayerDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="dl1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">왼쪽 입력 3개가 오른쪽 출력 2개로 이어집니다.
+      선의 굵기가 <b>가중치의 크기</b>입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('dlX1','입력 x₁',0,1,0.05,0.8,'')}
+      ${slider('dlX2','입력 x₂',0,1,0.05,0.2,'')}
+      ${slider('dlX3','입력 x₃',0,1,0.05,0.5,'')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="dlRelu">ReLU 켜기 / 끄기</button>
+        <button class="b g sm" id="dlZero">가중치 한 줄 지우기</button>
+      </div>
+      <div class="out" id="dlout"></div>
+      <div class="note" style="margin-top:12px">출력 = W·x + b, 그다음 활성함수.
+      층 하나가 곧 <b>행렬 하나의 곱셈</b>입니다.</div>
+    </div></div>`;
+  const cv=$('#dl1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const S={ relu:false, zero:false };
+  const W0=[[0.8,-0.5,0.3],[-0.4,0.9,0.6]], B=[0.1,-0.2];
+  function draw(){
+    const x=[+$('#dlX1').value,+$('#dlX2').value,+$('#dlX3').value];
+    ['dlX1','dlX2','dlX3'].forEach(i=>$('#'+i+'v').textContent=(+$('#'+i).value).toFixed(2));
+    const Wm = S.zero ? [[0,0,0],W0[1]] : W0;
+    const zs=[0,1].map(i=>Wm[i][0]*x[0]+Wm[i][1]*x[1]+Wm[i][2]*x[2]+B[i]);
+    const out=zs.map(z=>S.relu?Math.max(0,z):z);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const IN=[[80,80],[80,170],[80,260]], OUT=[[300,120],[300,220]];
+    for(let i=0;i<2;i++) for(let j=0;j<3;j++){
+      const w=Wm[i][j];
+      ctx.strokeStyle = w>=0 ? 'rgba(37,99,235,'+Math.min(1,Math.abs(w)+0.15)+')'
+                             : 'rgba(190,18,60,'+Math.min(1,Math.abs(w)+0.15)+')';
+      ctx.lineWidth=Math.max(0.6,Math.abs(w)*6);
+      ctx.beginPath(); ctx.moveTo(IN[j][0]+22,IN[j][1]); ctx.lineTo(OUT[i][0]-22,OUT[i][1]); ctx.stroke();
+      const mx=(IN[j][0]+OUT[i][0])/2, my=(IN[j][1]+OUT[i][1])/2;
+      ctx.fillStyle='#6B7280'; ctx.font='9.5px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(w.toFixed(1), mx+(i===0?-14:14), my-4); }
+    IN.forEach((p,j)=>{ ctx.fillStyle='rgba(37,99,235,'+(0.25+x[j]*0.6)+')';
+      ctx.beginPath(); ctx.arc(p[0],p[1],22,0,7); ctx.fill();
+      ctx.fillStyle='#111827'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(x[j].toFixed(2), p[0], p[1]+4); });
+    OUT.forEach((p,i)=>{ const v=out[i];
+      ctx.fillStyle = v>=0 ? 'rgba(14,147,132,'+(0.2+Math.min(0.7,Math.abs(v)))+')' : 'rgba(190,18,60,.4)';
+      ctx.beginPath(); ctx.arc(p[0],p[1],24,0,7); ctx.fill();
+      ctx.fillStyle='#111827'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(v.toFixed(2), p[0], p[1]+4); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('파란 선 = 양의 가중치 · 붉은 선 = 음의 가중치', 20, H-14);
+    ctx.fillText('입력 3', 60, 40); ctx.fillText('출력 2', 280, 40);
+    $('#dlout').innerHTML =
+      `<span class="mono">z₁ = ${Wm[0].map((w,j)=>w.toFixed(1)+'×'+x[j].toFixed(2)).join(' + ')} + ${B[0]} = <b>${zs[0].toFixed(3)}</b></span><br>`
+      + `<span class="mono">z₂ = <b>${zs[1].toFixed(3)}</b> · 출력 = (${out.map(v=>v.toFixed(3)).join(', ')})</span><br>`
+      + (S.relu && zs.some(z=>z<0) ? `<b style="color:#B45309">ReLU 가 음수를 0 으로 잘랐습니다 — 꺾인 활성함수의 효과입니다.</b><br>` : '')
+      + (S.zero ? `<b style="color:#7C3AED">가중치 한 줄을 지우니 그 출력이 편향만 남았습니다 — 입력을 전혀 보지 않습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">2×3 행렬 하나가 층 하나 — 신경망은 이런 곱셈의 연속입니다.</span>`;
+  }
+  $('#dlRelu').onclick=()=>{ S.relu=!S.relu; draw(); };
+  $('#dlZero').onclick=()=>{ S.zero=!S.zero; draw(); };
+  ['dlX1','dlX2','dlX3'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'dl', title:'완전연결층 = 행렬의 곱',
+    q:['입력을 바꾸며 (x, z₁, z₂, 출력) 을 여섯 줄 기록하세요.',
+       'ReLU 를 켜고 끌 때 어떤 값이 달라지나요?',
+       '2×3 행렬과 입력 벡터의 곱을 손으로 계산해 화면과 대조하세요.'],
+    cols:['x₁','x₂','x₃','z₁','z₂'],
+    hint:'힌트 — z = Wx + b 입니다. 행 하나가 출력 하나를 만듭니다.',
+    read:()=>{ const x=[+$('#dlX1').value,+$('#dlX2').value,+$('#dlX3').value];
+      const Wm = S.zero ? [[0,0,0],W0[1]] : W0;
+      const zs=[0,1].map(i=>Wm[i][0]*x[0]+Wm[i][1]*x[1]+Wm[i][2]*x[2]+B[i]);
+      return [x[0].toFixed(2),x[1].toFixed(2),x[2].toFixed(2),zs[0].toFixed(3),zs[1].toFixed(3)]; } });
+}
+
+/* ---------- LAB 198 손실함수 L(a) — 오차를 하나의 수로 ---------- */
+function lossCurveDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="lc1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">위는 자료와 추세선, 아래는 기울기 a 마다의 <b>손실 L(a)</b> 곡선입니다.
+      점을 골짜기로 옮겨 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('lcA','추세선의 기울기 a',0,6,0.1,1,'')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="lcBest">손실이 가장 작은 a 로</button>
+        <button class="b g sm" id="lcShow">잔차 사각형 보이기</button>
+      </div>
+      <div class="out" id="lcout"></div>
+      <div class="note" style="margin-top:12px">L(a) = Σ(yᵢ − a·xᵢ)² — 오차를 제곱해 모두 더한 값.
+      a 에 대한 <b>이차함수</b>라서 골짜기가 하나뿐입니다.</div>
+    </div></div>`;
+  const cv=$('#lc1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const S={ show:false };
+  const D=[[1,3.2],[2,5.8],[3,9.4],[4,12.1],[5,15.6]];
+  const best = D.reduce((s,p)=>s+p[0]*p[1],0)/D.reduce((s,p)=>s+p[0]*p[0],0);
+  const L=a=>D.reduce((s,p)=>s+Math.pow(p[1]-a*p[0],2),0);
+  function draw(){
+    const a=+$('#lcA').value; $('#lcAv').textContent=a.toFixed(1);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const X=x=>36+58*x, Y=y=>168-9*y;
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(30,Y(0)); ctx.lineTo(W-16,Y(0)); ctx.stroke();
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2.2;
+    ctx.beginPath(); ctx.moveTo(X(0),Y(0)); ctx.lineTo(X(5.6),Y(a*5.6)); ctx.stroke();
+    D.forEach(p=>{ const py=a*p[0];
+      if(S.show){ const h=Math.abs(Y(p[1])-Y(py));
+        ctx.fillStyle='rgba(245,158,11,.22)'; ctx.fillRect(X(p[0]),Math.min(Y(p[1]),Y(py)),h,h);
+        ctx.strokeStyle='rgba(245,158,11,.6)'; ctx.lineWidth=1;
+        ctx.strokeRect(X(p[0]),Math.min(Y(p[1]),Y(py)),h,h); }
+      ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(X(p[0]),Y(p[1])); ctx.lineTo(X(p[0]),Y(py)); ctx.stroke();
+      ctx.fillStyle='#2563EB'; ctx.beginPath(); ctx.arc(X(p[0]),Y(p[1]),4.6,0,7); ctx.fill(); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('자료와 추세선 y = ax', 30, 30);
+    const lx=a=>36+50*a, ly=v=>H-30-(H-220)*Math.min(v,60)/60;
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.4; ctx.beginPath();
+    for(let i=0;i<=200;i++){ const av=6*i/200, v=Math.min(L(av),60);
+      i?ctx.lineTo(lx(av),ly(v)):ctx.moveTo(lx(av),ly(v)); }
+    ctx.stroke();
+    ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(lx(a),ly(Math.min(L(a),60)),5,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.fillText('손실 곡선 L(a) — 가로: 기울기 a', 30, 214);
+    const cur=L(a), mn=L(best);
+    $('#lcout').innerHTML =
+      `<span class="mono">a = ${a.toFixed(1)} · L(a) = Σ(yᵢ − a·xᵢ)² = <b style="color:#BE123C">${cur.toFixed(3)}</b></span><br>`
+      + `<span class="mono">가장 작은 손실 = ${mn.toFixed(3)} (a = ${best.toFixed(3)})</span><br>`
+      + (Math.abs(cur-mn)<0.05 ? `<b style="color:#B45309">손실 곡선의 골짜기에 닿았습니다 — 이 기울기가 최적입니다.</b><br>` : '')
+      + (S.show ? `<b style="color:#7C3AED">주황 사각형의 넓이 합이 곧 손실입니다 — 그래서 「제곱」오차입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">L(a) 는 a 의 이차함수 — 골짜기가 하나라 반드시 찾을 수 있습니다.</span>`;
+  }
+  $('#lcBest').onclick=()=>{ $('#lcA').value=best.toFixed(1); draw(); };
+  $('#lcShow').onclick=()=>{ S.show=!S.show; draw(); };
+  $('#lcA').oninput=draw; draw();
+  inquiry(root,{ id:'lc', title:'손실함수 — 오차를 하나의 수로',
+    q:['a 를 바꾸며 (a, L(a)) 를 여덟 줄 기록해 곡선을 그리세요.',
+       'L(a) 가 왜 이차함수인지 식으로 보이세요.',
+       '골짜기의 a 를 손으로 구해(미분) 화면 값과 대조하세요.'],
+    cols:['a','L(a)','최소와의 차','최적 a','골짜기인가'],
+    hint:'힌트 — L(a) = Σ(yᵢ − axᵢ)² 를 전개하면 a² 의 계수가 Σxᵢ² 입니다.',
+    read:()=>{ const a=+$('#lcA').value;
+      return [a.toFixed(1),L(a).toFixed(3),(L(a)-L(best)).toFixed(3),best.toFixed(3),
+        Math.abs(L(a)-L(best))<0.05?'예':'아니오']; } });
+}
+
+/* ---------- LAB 199 오차를 재는 두 개의 자 — MSE 와 MAE ---------- */
+function mseMaeDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ms1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">한 점을 멀리 끌어 <b>이상치</b>를 만들어 보세요.
+      두 자(MSE·MAE)가 서로 다르게 반응합니다.</div>
+    </div>
+    <div class="col">
+      ${slider('msO','이상치의 크기',0,20,1,4,'')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="msMse">MSE 로 맞춘 직선</button>
+        <button class="b g sm" id="msMae">MAE 로 맞춘 직선</button>
+      </div>
+      <div class="out" id="msout"></div>
+      <div class="note" style="margin-top:12px">MSE 는 제곱이라 <b>큰 오차에 크게 반응</b>하고,
+      MAE 는 절댓값이라 <b>이상치에 덜 흔들립니다</b>.</div>
+    </div></div>`;
+  const cv=$('#ms1'),ctx=cv.getContext('2d'),W=380,H=320;
+  const S={ mode:'none' };
+  const BASE=[[1,2.1],[2,3.9],[3,6.2],[4,7.8],[5,10.1]];
+  function data(){ const o=+$('#msO').value;
+    return BASE.map((p,i)=> i===4 ? [p[0], p[1]+o] : p.slice()); }
+  function fitMSE(D){ const n=D.length, sx=D.reduce((s,p)=>s+p[0],0), sy=D.reduce((s,p)=>s+p[1],0);
+    const sxy=D.reduce((s,p)=>s+p[0]*p[1],0), sxx=D.reduce((s,p)=>s+p[0]*p[0],0);
+    const a=(n*sxy-sx*sy)/(n*sxx-sx*sx); return [a,(sy-a*sx)/n]; }
+  function fitMAE(D){ let best=[0,0], bv=Infinity;
+    for(let a=0;a<=4;a+=0.02) for(let b=-6;b<=8;b+=0.1){
+      const v=D.reduce((s,p)=>s+Math.abs(p[1]-(a*p[0]+b)),0);
+      if(v<bv){ bv=v; best=[a,b]; } }
+    return best; }
+  function draw(){
+    const o=+$('#msO').value; $('#msOv').textContent=o;
+    const D=data(), fm=fitMSE(D), fa=fitMAE(D);
+    const X=x=>40+60*x, Y=y=>H-46-8*y;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(34,Y(0)); ctx.lineTo(W-14,Y(0)); ctx.stroke();
+    const line=(f,col,dash)=>{ ctx.strokeStyle=col; ctx.lineWidth=2.4;
+      if(dash) ctx.setLineDash([6,4]);
+      ctx.beginPath(); ctx.moveTo(X(0.4),Y(f[0]*0.4+f[1])); ctx.lineTo(X(5.6),Y(f[0]*5.6+f[1])); ctx.stroke(); ctx.setLineDash([]); };
+    if(S.mode!=='mae') line(fm,'#BE123C',false);
+    if(S.mode!=='mse') line(fa,'#0E9384',true);
+    D.forEach((p,i)=>{ ctx.fillStyle= i===4 && o>0 ? '#F59E0B' : '#2563EB';
+      ctx.beginPath(); ctx.arc(X(p[0]),Y(p[1]),i===4&&o>0?6.5:4.8,0,7); ctx.fill(); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('붉은 실선 = MSE 로 맞춘 직선 · 초록 점선 = MAE 로 맞춘 직선', 20, 26);
+    ctx.fillText('주황 점 = 끌어올린 이상치', 20, H-14);
+    const mse=D.reduce((s,p)=>s+Math.pow(p[1]-(fm[0]*p[0]+fm[1]),2),0)/D.length;
+    const mae=D.reduce((s,p)=>s+Math.abs(p[1]-(fa[0]*p[0]+fa[1])),0)/D.length;
+    $('#msout').innerHTML =
+      `<span class="mono">MSE 직선 기울기 <b style="color:#BE123C">${fm[0].toFixed(3)}</b> · MAE 직선 기울기 <b style="color:#0E9384">${fa[0].toFixed(3)}</b></span><br>`
+      + `<span class="mono">MSE = ${mse.toFixed(3)} · MAE = ${mae.toFixed(3)} · 두 기울기 차 <b>${Math.abs(fm[0]-fa[0]).toFixed(3)}</b></span><br>`
+      + (o>=12 && Math.abs(fm[0]-fa[0])>0.2 ? `<b style="color:#B45309">이상치 하나에 붉은 직선이 크게 끌려갔습니다 — MSE 는 제곱이라 큰 오차에 민감합니다.</b><br>` : '')
+      + (o===0 ? `<b style="color:#7C3AED">이상치가 없으니 두 직선이 거의 같습니다 — 차이는 이상치에서 드러납니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">무엇을 「오차」로 볼지 정하는 순간 답이 달라집니다.</span>`;
+  }
+  $('#msMse').onclick=()=>{ S.mode = S.mode==='mse'?'none':'mse'; draw(); };
+  $('#msMae').onclick=()=>{ S.mode = S.mode==='mae'?'none':'mae'; draw(); };
+  $('#msO').oninput=draw; draw();
+  inquiry(root,{ id:'ms', title:'MSE 와 MAE — 두 개의 자',
+    q:['이상치를 키우며 (이상치 크기, MSE 기울기, MAE 기울기, 차) 를 여섯 줄 기록하세요.',
+       '어느 쪽이 이상치에 더 민감한가요? 왜 그런가요?',
+       '이상치가 「진짜 자료」일 때는 어느 자를 써야 할지 생각해 보세요.'],
+    cols:['이상치','MSE 기울기','MAE 기울기','차','MSE'],
+    hint:'힌트 — 제곱은 큰 값을 더 크게, 절댓값은 그대로 셉니다.',
+    read:()=>{ const o=+$('#msO').value, D=data(), fm=fitMSE(D), fa=fitMAE(D);
+      const mse=D.reduce((s,p)=>s+Math.pow(p[1]-(fm[0]*p[0]+fm[1]),2),0)/D.length;
+      return [o,fm[0].toFixed(3),fa[0].toFixed(3),Math.abs(fm[0]-fa[0]).toFixed(3),mse.toFixed(3)]; } });
+}
+
+/* ---------- LAB 200 학습률 — 너무 크면 튕겨 나간다 ---------- */
+function lrateDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="lr1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">골짜기를 향해 내려가는 발자국입니다.
+      보폭(<b>학습률</b>)을 바꾸면 길이 어떻게 달라지나요?</div>
+    </div>
+    <div class="col">
+      ${slider('lrE','학습률 (보폭)',0.01,2.5,0.01,0.1,'')}
+      ${slider('lrN','걸음 수',1,40,1,12,'걸음')}
+      ${slider('lrS','출발 위치',-4,4,0.5,3.5,'')}
+      <div class="out" id="lrout"></div>
+      <div class="note" style="margin-top:12px">다음 위치 = 지금 − 학습률 × 기울기.
+      너무 작으면 <b>더디고</b>, 너무 크면 <b>튕겨 나갑니다</b>.</div>
+    </div></div>`;
+  const cv=$('#lr1'),ctx=cv.getContext('2d'),W=380,H=330,P=34;
+  const f=x=>0.5*x*x, d=x=>x;
+  function draw(){
+    const e=+$('#lrE').value, n=+$('#lrN').value, x0=+$('#lrS').value;
+    $('#lrEv').textContent=e.toFixed(2); $('#lrNv').textContent=n+'걸음'; $('#lrSv').textContent=x0.toFixed(1);
+    const X=x=>W/2+40*Math.max(-4.4,Math.min(4.4,x)), Y=y=>H-P-24*Math.min(y,11);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4; ctx.beginPath();
+    for(let i=0;i<=200;i++){ const x=-4.4+8.8*i/200; i?ctx.lineTo(X(x),Y(f(x))):ctx.moveTo(X(x),Y(f(x))); }
+    ctx.stroke();
+    let x=x0; const path=[x]; let diverged=false;
+    for(let i=0;i<n;i++){ x = x - e*d(x); path.push(x); if(!isFinite(x)||Math.abs(x)>1e4){ diverged=true; break; } }
+    path.forEach((p,i)=>{ if(Math.abs(p)>4.4) return;
+      ctx.fillStyle = i===path.length-1 ? '#BE123C' : 'rgba(190,18,60,'+(0.25+0.5*i/path.length)+')';
+      ctx.beginPath(); ctx.arc(X(p),Y(f(p)),i===path.length-1?6:3.6,0,7); ctx.fill();
+      if(i>0 && Math.abs(path[i-1])<=4.4){ ctx.strokeStyle='rgba(190,18,60,.45)'; ctx.lineWidth=1.2;
+        ctx.beginPath(); ctx.moveTo(X(path[i-1]),Y(f(path[i-1]))); ctx.lineTo(X(p),Y(f(p))); ctx.stroke(); } });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('f(x) = 0.5x² · 붉은 점 = 걸음마다의 위치', P, P-12);
+    const last=path[path.length-1], ok=Math.abs(last)<0.05;
+    $('#lrout').innerHTML =
+      `<span class="mono">학습률 ${e.toFixed(2)} · ${n}걸음 뒤 x = <b>${diverged?'발산':last.toFixed(5)}</b></span><br>`
+      + `<span class="mono">|x| = ${diverged?'∞':Math.abs(last).toExponential(2)} · 목표는 0</span><br>`
+      + (ok && !diverged ? `<b style="color:#B45309">골짜기 바닥에 사실상 도착했습니다 — 학습률이 알맞습니다.</b><br>` : '')
+      + (e>2.0 ? `<b style="color:#7C3AED">보폭이 너무 커서 골짜기를 건너뛰며 점점 멀어집니다 — 발산입니다.</b><br>` : '')
+      + (e<=0.05 && !ok ? `보폭이 너무 작아 아직 한참 남았습니다 — 걸음 수를 늘려야 합니다.<br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">이 곡선에서는 학습률이 2 를 넘으면 반드시 발산합니다.</span>`;
+  }
+  ['lrE','lrN','lrS'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'lr', title:'학습률 — 보폭 고르기',
+    q:['학습률을 바꾸며 (학습률, 20걸음 뒤 위치) 를 여섯 줄 기록하세요.',
+       '발산이 시작되는 학습률의 경계를 찾으세요.',
+       '학습률이 작을 때와 클 때의 장단점을 정리하세요.'],
+    cols:['학습률','걸음 수','출발','도착','수렴 여부'],
+    hint:'힌트 — f(x) = 0.5x² 에서 x ← x(1 − 학습률) 입니다.',
+    read:()=>{ const e=+$('#lrE').value,n=+$('#lrN').value; let x=+$('#lrS').value;
+      for(let i=0;i<n;i++) x=x-e*x;
+      return [e.toFixed(2),n,(+$('#lrS').value).toFixed(1),
+        isFinite(x)?x.toFixed(5):'발산',Math.abs(x)<0.05?'수렴':'아직']; } });
+}
+
+/* ---------- LAB 201 절편까지 배우기 — 두 개를 함께 움직이면 ---------- */
+function biasLearnDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="bl1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">원점을 지나야만 하는 직선(y = ax)과
+      <b>절편까지 자유로운</b> 직선(y = ax + b)을 견줍니다.</div>
+    </div>
+    <div class="col">
+      ${slider('blA','기울기 a',0,4,0.05,1,'')}
+      ${slider('blB','절편 b',-6,10,0.5,0,'')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="blFitA">a 만 최적으로 (b = 0 고정)</button>
+        <button class="b g sm" id="blFitAB">a 와 b 를 함께 최적으로</button>
+      </div>
+      <div class="out" id="blout"></div>
+      <div class="note" style="margin-top:12px">자료가 원점을 지나지 않으면 절편이 꼭 필요합니다.
+      절편은 <b>「아무것도 없을 때의 기본값」</b>입니다.</div>
+    </div></div>`;
+  const cv=$('#bl1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const D=[[1,7.1],[2,9.0],[3,10.8],[4,13.2],[5,14.9]];
+  const bestA = D.reduce((s,p)=>s+p[0]*p[1],0)/D.reduce((s,p)=>s+p[0]*p[0],0);
+  const n=D.length, sx=D.reduce((s,p)=>s+p[0],0), sy=D.reduce((s,p)=>s+p[1],0);
+  const sxy=D.reduce((s,p)=>s+p[0]*p[1],0), sxx=D.reduce((s,p)=>s+p[0]*p[0],0);
+  const abA=(n*sxy-sx*sy)/(n*sxx-sx*sx), abB=(sy-abA*sx)/n;
+  const loss=(a,b)=>D.reduce((s,p)=>s+Math.pow(p[1]-(a*p[0]+b),2),0);
+  function draw(){
+    const a=+$('#blA').value, b=+$('#blB').value;
+    $('#blAv').textContent=a.toFixed(2); $('#blBv').textContent=b.toFixed(1);
+    const X=x=>44+58*x, Y=y=>H-52-16*y;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(38,Y(0)); ctx.lineTo(W-14,Y(0)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(0),24); ctx.lineTo(X(0),H-40); ctx.stroke();
+    ctx.strokeStyle='rgba(107,114,128,.5)'; ctx.lineWidth=1.6; ctx.setLineDash([5,4]);
+    ctx.beginPath(); ctx.moveTo(X(0),Y(0)); ctx.lineTo(X(5.6),Y(bestA*5.6)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2.6;
+    ctx.beginPath(); ctx.moveTo(X(0),Y(b)); ctx.lineTo(X(5.6),Y(a*5.6+b)); ctx.stroke();
+    D.forEach(p=>{ ctx.strokeStyle='rgba(107,114,128,.5)'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(X(p[0]),Y(p[1])); ctx.lineTo(X(p[0]),Y(a*p[0]+b)); ctx.stroke();
+      ctx.fillStyle='#2563EB'; ctx.beginPath(); ctx.arc(X(p[0]),Y(p[1]),5,0,7); ctx.fill(); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('회색 점선 = 원점을 지나야만 하는 최적 직선', 20, 26);
+    ctx.fillText('붉은 실선 = 지금의 y = ax + b', 20, 42);
+    const cur=loss(a,b), onlyA=loss(bestA,0), both=loss(abA,abB);
+    $('#blout').innerHTML =
+      `<span class="mono">지금 y = ${a.toFixed(2)}x + ${b.toFixed(1)} · 손실 <b style="color:#BE123C">${cur.toFixed(3)}</b></span><br>`
+      + `<span class="mono">b = 0 으로 묶은 최선 = ${onlyA.toFixed(3)} · a, b 둘 다 자유일 때 최선 = <b style="color:#0E9384">${both.toFixed(3)}</b></span><br>`
+      + (Math.abs(cur-onlyA)<0.05 ? `<b style="color:#B45309">절편을 0 으로 묶으니 자료 위를 지나가지 못합니다 — 손실이 크게 남습니다.</b><br>` : '')
+      + (Math.abs(cur-both)<0.05 ? `<b style="color:#7C3AED">절편까지 함께 맞추니 손실이 훨씬 줄었습니다 — 이것이 「절편도 배운다」의 뜻입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">기울기만 배우면 원점이라는 족쇄가 남습니다.</span>`;
+  }
+  $('#blFitA').onclick=()=>{ $('#blA').value=bestA.toFixed(2); $('#blB').value=0; draw(); };
+  $('#blFitAB').onclick=()=>{ $('#blA').value=abA.toFixed(2); $('#blB').value=abB.toFixed(1); draw(); };
+  ['blA','blB'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'bl', title:'절편까지 배우기',
+    q:['(a, b, 손실) 을 여섯 줄 기록해 두 경우의 최소 손실을 비교하세요.',
+       '절편을 0 으로 묶으면 손실이 얼마나 더 커지나요?',
+       '절편이 현실에서 무엇을 뜻하는지 예를 들어 쓰세요.'],
+    cols:['a','b','손실','b=0 최선','둘 다 최선'],
+    hint:'힌트 — 자료가 원점을 지나지 않으면 절편이 반드시 필요합니다.',
+    read:()=>{ const a=+$('#blA').value,b=+$('#blB').value;
+      return [a.toFixed(2),b.toFixed(1),loss(a,b).toFixed(3),loss(bestA,0).toFixed(3),loss(abA,abB).toFixed(3)]; } });
+}
