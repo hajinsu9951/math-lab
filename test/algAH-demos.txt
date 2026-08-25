@@ -1,0 +1,358 @@
+/* ---------- LAB 277 체바 정리 — 세 선분이 한 점에서 만나는 조건 ---------- */
+function cevaDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="cv2" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">세 꼭짓점에서 마주 보는 변으로 선분을 긋습니다.
+      세 비의 <b>곱</b>이 1 일 때만 한 점에서 만납니다.</div>
+    </div>
+    <div class="col">
+      ${slider('cvR1','BD : DC',0.3,3,0.1,1,'')}
+      ${slider('cvR2','CE : EA',0.3,3,0.1,1,'')}
+      ${slider('cvR3','AF : FB',0.3,3,0.1,1.3,'')}
+      <div class="out" id="cvout"></div>
+    </div></div>`;
+  const cx2=$('#cv2'),ctx=cx2.getContext('2d'),W=380,H=330;
+  const A=[0,2.0],B=[-1.9,-1.3],C=[1.9,-1.3];
+  const div=(P,Q,r)=>[P[0]+(r/(1+r))*(Q[0]-P[0]), P[1]+(r/(1+r))*(Q[1]-P[1])];
+  const meet=(P,Q,R,S)=>{ const a1=Q[1]-P[1],b1=P[0]-Q[0],c1=a1*P[0]+b1*P[1];
+    const a2=S[1]-R[1],b2=R[0]-S[0],c2=a2*R[0]+b2*R[1];
+    const d=a1*b2-a2*b1; if(Math.abs(d)<1e-12) return null;
+    return [(b2*c1-b1*c2)/d,(a1*c2-a2*c1)/d]; };
+  function draw(){
+    const r1=+$('#cvR1').value,r2=+$('#cvR2').value,r3=+$('#cvR3').value;
+    ['cvR1','cvR2','cvR3'].forEach(i=>$('#'+i+'v').textContent=(+$('#'+i).value).toFixed(1));
+    const D=div(B,C,r1), E=div(C,A,r2), F=div(A,B,r3);
+    const prod=r1*r2*r3;
+    const P1=meet(A,D,B,E), P2=meet(B,E,C,F), P3=meet(C,F,A,D);
+    const spread = (P1&&P2&&P3) ? Math.max(Math.hypot(P1[0]-P2[0],P1[1]-P2[1]),
+      Math.hypot(P2[0]-P3[0],P2[1]-P3[1]), Math.hypot(P3[0]-P1[0],P3[1]-P1[1])) : 0;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const ox=190,oy=190,u=62;
+    const X=p=>ox+p[0]*u, Y=p=>oy-p[1]*u;
+    ctx.fillStyle='rgba(14,147,132,.08)';
+    ctx.beginPath(); [A,B,C].forEach((p,i)=>i?ctx.lineTo(X(p),Y(p)):ctx.moveTo(X(p),Y(p)));
+    ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2; ctx.stroke();
+    const seg=(P,Q,col)=>{ ctx.strokeStyle=col; ctx.lineWidth=1.8;
+      ctx.beginPath(); ctx.moveTo(X(P),Y(P)); ctx.lineTo(X(Q),Y(Q)); ctx.stroke(); };
+    seg(A,D,'#2563EB'); seg(B,E,'#B45309'); seg(C,F,'#7C3AED');
+    if(spread>0.02 && P1&&P2&&P3){ ctx.fillStyle='rgba(190,18,60,.3)';
+      ctx.beginPath(); [P1,P2,P3].forEach((p,i)=>i?ctx.lineTo(X(p),Y(p)):ctx.moveTo(X(p),Y(p)));
+      ctx.closePath(); ctx.fill(); }
+    [[A,'A'],[B,'B'],[C,'C'],[D,'D'],[E,'E'],[F,'F']].forEach(([p,l])=>{
+      ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(X(p),Y(p),3.6,0,7); ctx.fill();
+      ctx.font='11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(l, X(p), Y(p)-8); });
+    if(P1){ ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(P1),Y(P1),4.5,0,7); ctx.fill(); }
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('세 선분이 만드는 삼각형의 크기 = '+spread.toFixed(4), 16, 20);
+    $('#cvout').innerHTML =
+      `<span class="mono">세 비의 곱 = ${r1.toFixed(1)} × ${r2.toFixed(1)} × ${r3.toFixed(1)} = <b style="color:${Math.abs(prod-1)<0.02?'#0E9384':'#BE123C'}">${prod.toFixed(4)}</b></span><br>`
+      + `<span class="mono">세 교점이 벌어진 정도 = <b>${spread.toFixed(4)}</b></span><br>`
+      + (Math.abs(prod-1)<0.02 ? `<b style="color:#B45309">세 선분이 한 점에서 만났습니다 — 곱이 정확히 1 일 때입니다.</b><br>` : '')
+      + (Math.abs(prod-1)>0.5 ? `<b style="color:#7C3AED">교점 셋이 작은 삼각형을 이룹니다 — 만나지 못하고 어긋난 것입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">한 점에서 만난다는 기하의 사실이 곱 하나로 판정됩니다.</span>`;
+  }
+  ['cvR1','cvR2','cvR3'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'cv2', title:'체바 정리 — 곱이 1 일 때',
+    q:['세 비를 바꿔 가며 (곱, 벌어진 정도) 를 여섯 줄 기록하세요.',
+       '곱이 1 일 때와 아닐 때의 차이를 쓰세요.',
+       '두 비를 정하면 세 번째 비가 어떻게 정해지는지 설명하세요.'],
+    cols:['BD:DC','CE:EA','AF:FB','곱','벌어짐'],
+    hint:'힌트 — 세 비의 곱이 1 이어야 한 점에서 만납니다.',
+    read:()=>{ const r1=+$('#cvR1').value,r2=+$('#cvR2').value,r3=+$('#cvR3').value;
+      const D=div(B,C,r1),E=div(C,A,r2),F=div(A,B,r3);
+      const P1=meet(A,D,B,E),P2=meet(B,E,C,F);
+      const sp=(P1&&P2)?Math.hypot(P1[0]-P2[0],P1[1]-P2[1]):0;
+      return [r1.toFixed(1),r2.toFixed(1),r3.toFixed(1),(r1*r2*r3).toFixed(4),sp.toFixed(4)]; } });
+}
+
+/* ---------- LAB 278 메넬라우스 정리 — 부호가 있어야 하는 이유 ---------- */
+function menelausDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="mn1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">한 직선이 삼각형의 세 변(의 연장)을 자릅니다.
+      <b>부호를 넣은</b> 세 비의 곱이 −1 일 때만 세 점이 한 직선 위에 있습니다.</div>
+    </div>
+    <div class="col">
+      ${slider('mnT1','AF : FB',-3,3,0.05,2,'')}
+      ${slider('mnT2','BD : DC',-3,3,0.05,2,'')}
+      ${slider('mnT3','CE : EA',-3,3,0.05,1,'')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="mnAbs"> 부호를 무시하고 계산하기</label>
+      <div class="out" id="mnout"></div>
+    </div></div>`;
+  const cv=$('#mn1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const A=[0,1.9],B=[-1.8,-1.2],C=[1.8,-1.2];
+  const pt=(P,Q,t)=>{ if(Math.abs(1+t)<1e-6) return null;
+    return [(P[0]+t*Q[0])/(1+t), (P[1]+t*Q[1])/(1+t)]; };
+  function draw(){
+    const t1=+$('#mnT1').value,t2=+$('#mnT2').value,t3=+$('#mnT3').value,abs=$('#mnAbs').checked;
+    ['mnT1','mnT2','mnT3'].forEach(i=>$('#'+i+'v').textContent=(+$('#'+i).value).toFixed(2));
+    const F=pt(A,B,t1), D=pt(B,C,t2), E=pt(C,A,t3);
+    const prod = abs ? Math.abs(t1*t2*t3) : t1*t2*t3;
+    let dev=99;
+    if(F&&D&&E){ const ax=D[0]-F[0],ay=D[1]-F[1];
+      dev=Math.abs(ax*(E[1]-F[1])-ay*(E[0]-F[0]))/(Math.hypot(ax,ay)||1); }
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const ox=190,oy=180,u=54;
+    const X=p=>ox+p[0]*u, Y=p=>oy-p[1]*u;
+    // 변의 연장선
+    ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1;
+    [[A,B],[B,C],[C,A]].forEach(([P,Q])=>{ const dx=Q[0]-P[0],dy=Q[1]-P[1];
+      ctx.beginPath(); ctx.moveTo(X([P[0]-2*dx,P[1]-2*dy]),Y([P[0]-2*dx,P[1]-2*dy]));
+      ctx.lineTo(X([P[0]+3*dx,P[1]+3*dy]),Y([P[0]+3*dx,P[1]+3*dy])); ctx.stroke(); });
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2;
+    ctx.beginPath(); [A,B,C].forEach((p,i)=>i?ctx.lineTo(X(p),Y(p)):ctx.moveTo(X(p),Y(p)));
+    ctx.closePath(); ctx.stroke();
+    if(F&&D){ ctx.strokeStyle='#BE123C'; ctx.lineWidth=2;
+      const dx=D[0]-F[0],dy=D[1]-F[1];
+      ctx.beginPath();
+      ctx.moveTo(X([F[0]-1.5*dx,F[1]-1.5*dy]),Y([F[0]-1.5*dx,F[1]-1.5*dy]));
+      ctx.lineTo(X([F[0]+2.5*dx,F[1]+2.5*dy]),Y([F[0]+2.5*dx,F[1]+2.5*dy])); ctx.stroke(); }
+    [[A,'A'],[B,'B'],[C,'C']].forEach(([p,l])=>{
+      ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(X(p),Y(p),3.6,0,7); ctx.fill();
+      ctx.font='11px sans-serif'; ctx.textAlign='center'; ctx.fillText(l,X(p),Y(p)-8); });
+    [[F,'F','#2563EB'],[D,'D','#B45309'],[E,'E','#7C3AED']].forEach(([p,l,c])=>{ if(!p) return;
+      ctx.fillStyle=c; ctx.beginPath(); ctx.arc(X(p),Y(p),4.4,0,7); ctx.fill();
+      ctx.font='11px sans-serif'; ctx.textAlign='center'; ctx.fillText(l,X(p),Y(p)-9); });
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('붉은 직선 = F 와 D 를 이은 직선 · E 가 그 위에 있는가?', 14, 20);
+    ctx.fillText('E 가 직선에서 떨어진 거리 = '+dev.toFixed(4), 14, H-12);
+    $('#mnout').innerHTML =
+      `<span class="mono">세 비의 곱 = <b style="color:${Math.abs(prod+1)<0.03?'#0E9384':'#BE123C'}">${prod.toFixed(4)}</b> · E 의 벗어남 = <b>${dev.toFixed(4)}</b></span><br>`
+      + `<span class="mono">지금 계산 = ${abs?'부호를 버린 절댓값':'부호를 넣은 값'}</span><br>`
+      + (!abs && Math.abs(prod+1)<0.03 ? `<b style="color:#B45309">세 점이 한 직선 위에 놓였습니다 — 부호까지 넣은 곱이 −1 입니다.</b><br>` : '')
+      + (abs ? `<b style="color:#7C3AED">부호를 버리면 곱이 양수가 되어, 바깥에서 자른 경우를 구별할 수 없습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">체바는 +1, 메넬라우스는 −1 — 부호 하나가 「만남」과 「가로지름」을 가릅니다.</span>`;
+  }
+  ['mnT1','mnT2','mnT3'].forEach(i=>$('#'+i).oninput=draw); $('#mnAbs').onchange=draw; draw();
+  inquiry(root,{ id:'mn', title:'메넬라우스 — 부호가 있는 비',
+    q:['세 비를 바꿔 가며 (곱, E 의 벗어남) 을 여섯 줄 기록하세요.',
+       '곱이 −1 이 되는 조합을 찾으세요.',
+       '체바의 +1 과 메넬라우스의 −1 이 무엇을 가르는지 쓰세요.'],
+    cols:['AF:FB','BD:DC','CE:EA','곱','벗어남'],
+    hint:'힌트 — 두 비를 정하면 세 번째는 −1/(t₁t₂) 로 정해집니다.',
+    read:()=>{ const t1=+$('#mnT1').value,t2=+$('#mnT2').value,t3=+$('#mnT3').value;
+      const F=pt(A,B,t1),D=pt(B,C,t2),E=pt(C,A,t3);
+      let dev=99; if(F&&D&&E){ const ax=D[0]-F[0],ay=D[1]-F[1];
+        dev=Math.abs(ax*(E[1]-F[1])-ay*(E[0]-F[0]))/(Math.hypot(ax,ay)||1); }
+      return [t1.toFixed(2),t2.toFixed(2),t3.toFixed(2),(t1*t2*t3).toFixed(4),dev.toFixed(4)]; } });
+}
+
+/* ---------- LAB 279 삼각형의 중심들 — 왜 여럿일까 ---------- */
+function centersDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ce1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">「중심」은 <b>무엇을 기준으로 삼느냐</b>에 따라 달라집니다.
+      무게·외접원·수선·내접원이 각각 다른 점을 가리킵니다.</div>
+    </div>
+    <div class="col">
+      ${slider('ceX','C 의 x',-3,3,0.1,2.6,'')}
+      ${slider('ceY','C 의 y',-2.5,2.5,0.1,-0.6,'')}
+      <div class="out" id="ceout"></div>
+    </div></div>`;
+  const cv=$('#ce1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const A=[0,2.0],B=[-1.9,-1.3];
+  function centers(C){
+    const G=[(A[0]+B[0]+C[0])/3,(A[1]+B[1]+C[1])/3];
+    const d=2*(A[0]*(B[1]-C[1])+B[0]*(C[1]-A[1])+C[0]*(A[1]-B[1]));
+    const ux=((A[0]**2+A[1]**2)*(B[1]-C[1])+(B[0]**2+B[1]**2)*(C[1]-A[1])+(C[0]**2+C[1]**2)*(A[1]-B[1]))/d;
+    const uy=((A[0]**2+A[1]**2)*(C[0]-B[0])+(B[0]**2+B[1]**2)*(A[0]-C[0])+(C[0]**2+C[1]**2)*(B[0]-A[0]))/d;
+    const O=[ux,uy];
+    const Hh=[A[0]+B[0]+C[0]-2*ux, A[1]+B[1]+C[1]-2*uy];
+    const a=Math.hypot(B[0]-C[0],B[1]-C[1]), b=Math.hypot(C[0]-A[0],C[1]-A[1]), c=Math.hypot(A[0]-B[0],A[1]-B[1]);
+    const I=[(a*A[0]+b*B[0]+c*C[0])/(a+b+c),(a*A[1]+b*B[1]+c*C[1])/(a+b+c)];
+    return {G,O,H:Hh,I,a,b,c,R:Math.hypot(A[0]-ux,A[1]-uy)};
+  }
+  function draw(){
+    const C=[+$('#ceX').value,+$('#ceY').value];
+    $('#ceXv').textContent=C[0].toFixed(1); $('#ceYv').textContent=C[1].toFixed(1);
+    const {G,O,H:Hh,I,a,b,c,R}=centers(C);
+    const cosA=(b*b+c*c-a*a)/(2*b*c), cosB=(a*a+c*c-b*b)/(2*a*c), cosC=(a*a+b*b-c*c)/(2*a*b);
+    const obtuse = Math.min(cosA,cosB,cosC) < -0.02;
+    const spread=Math.max(Math.hypot(G[0]-O[0],G[1]-O[1]),Math.hypot(G[0]-Hh[0],G[1]-Hh[1]),
+      Math.hypot(G[0]-I[0],G[1]-I[1]));
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const ox=190,oy=175,u=48;
+    const X=p=>ox+p[0]*u, Y=p=>oy-p[1]*u;
+    ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.arc(X(O),Y(O),R*u,0,7); ctx.stroke();
+    ctx.fillStyle='rgba(14,147,132,.07)';
+    ctx.beginPath(); [A,B,C].forEach((p,i)=>i?ctx.lineTo(X(p),Y(p)):ctx.moveTo(X(p),Y(p)));
+    ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2; ctx.stroke();
+    const dot=(p,col,l)=>{ ctx.fillStyle=col; ctx.beginPath(); ctx.arc(X(p),Y(p),5,0,7); ctx.fill();
+      ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(l,X(p),Y(p)-9); };
+    dot(G,'#2563EB','G'); dot(O,'#B45309','O'); dot(Hh,'#7C3AED','H'); dot(I,'#BE123C','I');
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('G 무게중심 · O 외심 · H 수심 · I 내심', 14, 20);
+    ctx.fillText('네 중심이 벌어진 정도 = '+spread.toFixed(4), 14, H-12);
+    $('#ceout').innerHTML =
+      `<span class="mono">세 변 = ${a.toFixed(3)} , ${b.toFixed(3)} , ${c.toFixed(3)} · 가장 큰 각 = ${(Math.acos(Math.min(cosA,cosB,cosC))*180/Math.PI).toFixed(1)}°</span><br>`
+      + `<span class="mono">네 중심이 벌어진 정도 = <b style="color:${spread<0.08?'#0E9384':'#BE123C'}">${spread.toFixed(4)}</b></span><br>`
+      + (spread<0.08 ? `<b style="color:#B45309">네 중심이 한 점으로 모였습니다 — 정삼각형에서만 일어나는 일입니다.</b><br>` : '')
+      + (obtuse ? `<b style="color:#7C3AED">둔각삼각형이 되자 외심과 수심이 삼각형 밖으로 나갔습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">「중심」이라는 말 하나에 서로 다른 정의가 여럿 들어 있습니다.</span>`;
+  }
+  ['ceX','ceY'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'ce', title:'삼각형의 중심들 — 정의가 다르면 점도 다르다',
+    q:['C 를 옮겨 가며 (가장 큰 각, 벌어진 정도) 를 여섯 줄 기록하세요.',
+       '네 중심이 한 점이 되는 모양을 찾으세요.',
+       '외심과 수심이 밖으로 나가는 조건을 쓰세요.'],
+    cols:['C','가장 큰 각','벌어짐','둔각'],
+    hint:'힌트 — 가장 큰 각이 90°를 넘으면 둔각삼각형입니다.',
+    read:()=>{ const C=[+$('#ceX').value,+$('#ceY').value];
+      const {G,O,H:Hh,I,a,b,c}=centers(C);
+      const mc=Math.min((b*b+c*c-a*a)/(2*b*c),(a*a+c*c-b*b)/(2*a*c),(a*a+b*b-c*c)/(2*a*b));
+      const sp=Math.max(Math.hypot(G[0]-O[0],G[1]-O[1]),Math.hypot(G[0]-Hh[0],G[1]-Hh[1]),
+        Math.hypot(G[0]-I[0],G[1]-I[1]));
+      return ['('+C[0].toFixed(1)+','+C[1].toFixed(1)+')',
+        (Math.acos(mc)*180/Math.PI).toFixed(1)+'°',sp.toFixed(4),mc<-0.02?'예':'아니오']; } });
+}
+
+/* ---------- LAB 280 오일러 직선 — 세 점이 한 줄에 ---------- */
+function eulerLineDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="el1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">외심 O · 무게중심 G · 수심 H 는 <b>언제나</b> 한 직선 위에 있고
+      OG : GH = 1 : 2 입니다. 내심 I 는 보통 그 위에 없습니다.</div>
+    </div>
+    <div class="col">
+      ${slider('elX','C 의 x',-3,3,0.1,2.6,'')}
+      ${slider('elY','C 의 y',-2.5,2.5,0.1,-0.6,'')}
+      <div class="out" id="elout"></div>
+    </div></div>`;
+  const cv=$('#el1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const A=[0,2.0],B=[-1.9,-1.3];
+  function four(C){
+    const G=[(A[0]+B[0]+C[0])/3,(A[1]+B[1]+C[1])/3];
+    const d=2*(A[0]*(B[1]-C[1])+B[0]*(C[1]-A[1])+C[0]*(A[1]-B[1]));
+    const ux=((A[0]**2+A[1]**2)*(B[1]-C[1])+(B[0]**2+B[1]**2)*(C[1]-A[1])+(C[0]**2+C[1]**2)*(A[1]-B[1]))/d;
+    const uy=((A[0]**2+A[1]**2)*(C[0]-B[0])+(B[0]**2+B[1]**2)*(A[0]-C[0])+(C[0]**2+C[1]**2)*(B[0]-A[0]))/d;
+    const O=[ux,uy], Hh=[A[0]+B[0]+C[0]-2*ux,A[1]+B[1]+C[1]-2*uy];
+    const a=Math.hypot(B[0]-C[0],B[1]-C[1]),b=Math.hypot(C[0]-A[0],C[1]-A[1]),c=Math.hypot(A[0]-B[0],A[1]-B[1]);
+    const I=[(a*A[0]+b*B[0]+c*C[0])/(a+b+c),(a*A[1]+b*B[1]+c*C[1])/(a+b+c)];
+    return {G,O,H:Hh,I,a,b,c};
+  }
+  function draw(){
+    const C=[+$('#elX').value,+$('#elY').value];
+    $('#elXv').textContent=C[0].toFixed(1); $('#elYv').textContent=C[1].toFixed(1);
+    const {G,O,H:Hh,I,a,b}=four(C);
+    const og=Math.hypot(G[0]-O[0],G[1]-O[1]), gh=Math.hypot(Hh[0]-G[0],Hh[1]-G[1]);
+    const dx=Hh[0]-O[0],dy=Hh[1]-O[1],len=Math.hypot(dx,dy);
+    const devI = len>1e-6 ? Math.abs(dx*(I[1]-O[1])-dy*(I[0]-O[0]))/len : 0;
+    const iso=Math.abs(a-b)<0.12;
+    const collapsed=Math.max(og,gh)<0.05;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const ox=190,oy=175,u=48;
+    const X=p=>ox+p[0]*u, Y=p=>oy-p[1]*u;
+    ctx.fillStyle='rgba(14,147,132,.07)';
+    ctx.beginPath(); [A,B,C].forEach((p,i)=>i?ctx.lineTo(X(p),Y(p)):ctx.moveTo(X(p),Y(p)));
+    ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2; ctx.stroke();
+    if(len>1e-6){ ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.8; ctx.setLineDash([6,4]);
+      ctx.beginPath();
+      ctx.moveTo(X([O[0]-2*dx,O[1]-2*dy]),Y([O[0]-2*dx,O[1]-2*dy]));
+      ctx.lineTo(X([O[0]+3*dx,O[1]+3*dy]),Y([O[0]+3*dx,O[1]+3*dy]));
+      ctx.stroke(); ctx.setLineDash([]); }
+    const dot=(p,col,l)=>{ ctx.fillStyle=col; ctx.beginPath(); ctx.arc(X(p),Y(p),5,0,7); ctx.fill();
+      ctx.font='bold 11px sans-serif'; ctx.textAlign='center'; ctx.fillText(l,X(p),Y(p)-9); };
+    dot(O,'#B45309','O'); dot(G,'#2563EB','G'); dot(Hh,'#7C3AED','H'); dot(I,'#BE123C','I');
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('붉은 점선 = 오일러 직선 · I 는 그 위에 있는가?', 14, 20);
+    ctx.fillText('OG : GH = '+og.toFixed(3)+' : '+gh.toFixed(3)+'  ( = 1 : '+(og>1e-6?(gh/og).toFixed(3):'—')+' )', 14, H-12);
+    $('#elout').innerHTML =
+      `<span class="mono">OG : GH = 1 : <b style="color:#0E9384">${og>1e-6?(gh/og).toFixed(4):'—'}</b> — 모양을 바꿔도 이 비는 그대로입니다.</span><br>`
+      + `<span class="mono">내심 I 가 직선에서 벗어난 거리 = <b style="color:${devI<0.05?'#0E9384':'#BE123C'}">${devI.toFixed(4)}</b></span><br>`
+      + (iso && !collapsed ? `<b style="color:#B45309">두 변의 길이가 같아지자 내심까지 같은 직선 위에 올라왔습니다.</b><br>` : '')
+      + (collapsed ? `<b style="color:#7C3AED">네 점이 한 점에 겹쳐 직선 자체가 사라졌습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">모양이 아무리 변해도 변하지 않는 관계 — 그것이 정리입니다.</span>`;
+  }
+  ['elX','elY'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'el', title:'오일러 직선 — 변하지 않는 비',
+    q:['C 를 옮겨 가며 (OG : GH, I 의 벗어남) 을 여섯 줄 기록하세요.',
+       'OG : GH 가 늘 같은지 확인하세요.',
+       'I 가 직선 위에 오는 모양을 찾고 조건을 쓰세요.'],
+    cols:['C','OG','GH','비','I 벗어남'],
+    hint:'힌트 — 이등변삼각형에서는 모든 중심이 대칭축 위에 있습니다.',
+    read:()=>{ const C=[+$('#elX').value,+$('#elY').value];
+      const {G,O,H:Hh,I}=four(C);
+      const og=Math.hypot(G[0]-O[0],G[1]-O[1]),gh=Math.hypot(Hh[0]-G[0],Hh[1]-G[1]);
+      const dx=Hh[0]-O[0],dy=Hh[1]-O[1],len=Math.hypot(dx,dy);
+      const dv=len>1e-6?Math.abs(dx*(I[1]-O[1])-dy*(I[0]-O[0]))/len:0;
+      return ['('+C[0].toFixed(1)+','+C[1].toFixed(1)+')',og.toFixed(3),gh.toFixed(3),
+        og>1e-6?(gh/og).toFixed(3):'—',dv.toFixed(4)]; } });
+}
+
+/* ---------- LAB 281 방멱 — 원 밖과 안에서 부호가 갈린다 ---------- */
+function powerPointDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="pw1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">한 점에서 그은 <b>어떤 할선</b>이든 두 교점까지의 거리의 곱이 같습니다.
+      그 값이 방멱 d² − r² 입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('pwD','중심에서 점까지의 거리',0.2,3,0.1,2.2,'')}
+      ${slider('pwA','할선의 각도',5,175,5,30,'°')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="pwTan">접선 그리기</button>
+        <button class="b t sm" id="pwOff">접선 지우기</button></div>
+      <div class="out" id="pwout"></div>
+    </div></div>`;
+  const cv=$('#pw1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const R=1.3, S={tan:false};
+  function draw(){
+    const d=+$('#pwD').value, ang=+$('#pwA').value;
+    $('#pwDv').textContent=d.toFixed(1); $('#pwAv').textContent=ang+'°';
+    const P=[d,0], a=ang*Math.PI/180, u=[Math.cos(a),Math.sin(a)];
+    // P + t u 가 원 위에 오는 t
+    const bq=2*(P[0]*u[0]+P[1]*u[1]), cq=P[0]*P[0]+P[1]*P[1]-R*R;
+    const disc=bq*bq-4*cq;
+    const t1=disc>=0?(-bq-Math.sqrt(disc))/2:null, t2=disc>=0?(-bq+Math.sqrt(disc))/2:null;
+    const pow=d*d-R*R;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const ox=130,oy=170,sc=64;
+    const X=p=>ox+p[0]*sc, Y=p=>oy-p[1]*sc;
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.arc(ox,oy,R*sc,0,7); ctx.stroke();
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(ox,oy,3,0,7); ctx.fill();
+    ctx.font='11px sans-serif'; ctx.textAlign='center'; ctx.fillText('O',ox,oy-8);
+    if(t1!==null){ const Q1=[P[0]+t1*u[0],P[1]+t1*u[1]], Q2=[P[0]+t2*u[0],P[1]+t2*u[1]];
+      ctx.strokeStyle='#2563EB'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(X(P),Y(P)); ctx.lineTo(X(Q2),Y(Q2)); ctx.stroke();
+      [[Q1,'A'],[Q2,'B']].forEach(([q,l])=>{ ctx.fillStyle='#BE123C';
+        ctx.beginPath(); ctx.arc(X(q),Y(q),4.4,0,7); ctx.fill();
+        ctx.fillStyle='#111827'; ctx.fillText(l,X(q),Y(q)-8); }); }
+    if(S.tan && d>R){ const L=Math.sqrt(d*d-R*R), ta=Math.acos(R/d);
+      [1,-1].forEach(sg=>{ const T=[R*Math.cos(sg*ta), R*Math.sin(sg*ta)];
+        ctx.strokeStyle='#B45309'; ctx.lineWidth=1.8;
+        ctx.beginPath(); ctx.moveTo(X(P),Y(P)); ctx.lineTo(X(T),Y(T)); ctx.stroke();
+        ctx.fillStyle='#B45309'; ctx.beginPath(); ctx.arc(X(T),Y(T),3.6,0,7); ctx.fill(); }); }
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(X(P),Y(P),5,0,7); ctx.fill();
+    ctx.fillText('P',X(P),Y(P)-9);
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('각도를 바꿔도 두 거리의 곱은 그대로입니다', 14, 20);
+    const pa=t1!==null?Math.abs(t1):0, pb=t2!==null?Math.abs(t2):0;
+    const signed=t1!==null?t1*t2:0;
+    $('#pwout').innerHTML =
+      `<span class="mono">PA × PB = ${pa.toFixed(4)} × ${pb.toFixed(4)} = <b style="color:#2563EB">${(pa*pb).toFixed(4)}</b></span><br>`
+      + `<span class="mono">방멱 d² − r² = ${d.toFixed(1)}² − ${R}² = <b style="color:${pow<0?'#BE123C':'#0E9384'}">${pow.toFixed(4)}</b> · 부호까지 넣은 곱 = ${signed.toFixed(4)}</span><br>`
+      + (S.tan && d>R ? `<b style="color:#B45309">접선 길이의 제곱이 곧 방멱입니다 — ${Math.sqrt(Math.max(pow,0)).toFixed(3)}² = ${pow.toFixed(3)}</b><br>` : '')
+      + (d<R ? `<b style="color:#7C3AED">점이 원 안으로 들어가자 방멱이 음수가 되었습니다 — 두 선분이 서로 반대쪽으로 뻗기 때문입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">할선을 어떻게 돌려도 곱이 같다는 것이 방멱의 핵심입니다.</span>`;
+  }
+  $('#pwTan').onclick=()=>{ S.tan=true; draw(); };
+  $('#pwOff').onclick=()=>{ S.tan=false; draw(); };
+  ['pwD','pwA'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'pw', title:'방멱 — 어떤 할선이든 같은 곱',
+    q:['각도를 바꿔 가며 (각, PA × PB) 를 여섯 줄 기록하세요.',
+       '거리를 바꿔 가며 방멱이 어떻게 변하는지 보세요.',
+       '점이 원 안에 있을 때 부호가 왜 음수가 되는지 설명하세요.'],
+    cols:['거리 d','각','PA × PB','d² − r²'],
+    hint:'힌트 — 방멱은 각도와 상관없이 위치만으로 정해집니다.',
+    read:()=>{ const d=+$('#pwD').value,ang=+$('#pwA').value,a=ang*Math.PI/180;
+      const bq=2*d*Math.cos(a), cq=d*d-R*R, disc=bq*bq-4*cq;
+      const t1=disc>=0?(-bq-Math.sqrt(disc))/2:0, t2=disc>=0?(-bq+Math.sqrt(disc))/2:0;
+      return [d.toFixed(1),ang+'°',(Math.abs(t1)*Math.abs(t2)).toFixed(4),(d*d-R*R).toFixed(4)]; } });
+}

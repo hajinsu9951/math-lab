@@ -1,0 +1,348 @@
+/* ---------- LAB 267 편미분 — 한 변수만 움직여 보기 ---------- */
+function partialDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="pd1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">y 를 <b>붙잡아 두고</b> x 만 움직이면 곡면이 곡선 하나로 줄어듭니다.
+      그 곡선의 기울기가 ∂f/∂x 입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('pdX','점의 x',-2,2,0.25,1,'')}
+      ${slider('pdY','점의 y',-2,2,0.25,0.5,'')}
+      <label class="ctl">움직일 변수<select id="pdV" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="x">x 만 움직이기 (y 고정)</option>
+        <option value="y">y 만 움직이기 (x 고정)</option>
+        <option value="b">두 변수를 함께 움직이기</option>
+      </select></label>
+      <div class="out" id="pdout"></div>
+    </div></div>`;
+  const cv=$('#pd1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const f=(x,y)=>x*x - 0.6*y*y + 0.8*x*y;
+  function draw(){
+    const px=+$('#pdX').value, py=+$('#pdY').value, mode=$('#pdV').value;
+    $('#pdXv').textContent=px.toFixed(2); $('#pdYv').textContent=py.toFixed(2);
+    const fx=2*px+0.8*py, fy=-1.2*py+0.8*px;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    // 잘라 낸 단면 곡선
+    const X=t=>40+(t+2.4)*68, Y=v=>170-v*22;
+    ctx.strokeStyle='#F3F4F6';
+    for(let k=-2;k<=2;k++){ ctx.beginPath(); ctx.moveTo(X(k),16); ctx.lineTo(X(k),262); ctx.stroke(); }
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1.1;
+    ctx.beginPath(); ctx.moveTo(24,Y(0)); ctx.lineTo(W-14,Y(0)); ctx.stroke();
+    const cut = mode==='y' ? (t=>f(px,t)) : (mode==='x' ? (t=>f(t,py)) : (t=>f(px+t-px, py+(t-px))));
+    const label = mode==='y' ? 'y 만 움직인 단면 f(x₀, y)' : (mode==='x' ? 'x 만 움직인 단면 f(x, y₀)' : '대각선으로 함께 움직인 단면');
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.2; ctx.beginPath();
+    for(let i=0;i<=240;i++){ const t=-2.4+4.8*i/240; const v=cut(t);
+      if(Math.abs(v)>6) { continue; }
+      i?ctx.lineTo(X(t),Y(v)):ctx.moveTo(X(t),Y(v)); }
+    ctx.stroke();
+    const t0 = mode==='y'?py:px;
+    const v0 = cut(t0);
+    const slope = mode==='y' ? fy : (mode==='x' ? fx : fx+fy);
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.8;
+    ctx.beginPath(); ctx.moveTo(X(t0-1.1),Y(v0-slope*1.1)); ctx.lineTo(X(t0+1.1),Y(v0+slope*1.1)); ctx.stroke();
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(X(t0),Y(v0),5,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText(label, 24, 22);
+    ctx.fillText('붉은 직선 = 그 자리의 기울기', 24, 282);
+    ctx.fillText('f(x, y) = x² − 0.6y² + 0.8xy', 24, 300);
+    ctx.fillText('점 ('+px.toFixed(2)+', '+py.toFixed(2)+') 의 값 = '+f(px,py).toFixed(3), 24, 318);
+    $('#pdout').innerHTML =
+      `<span class="mono">∂f/∂x = 2x + 0.8y = <b style="color:#2563EB">${fx.toFixed(3)}</b> · ∂f/∂y = −1.2y + 0.8x = <b style="color:#0E9384">${fy.toFixed(3)}</b></span><br>`
+      + `<span class="mono">지금 화면의 기울기 = <b>${slope.toFixed(3)}</b></span><br>`
+      + (mode==='y' ? `<b style="color:#B45309">x 를 붙잡아 두니 곡면이 곡선 하나로 줄었습니다 — 이 곡선의 기울기가 ∂f/∂y 입니다.</b><br>` : '')
+      + (mode==='b' ? `<b style="color:#7C3AED">두 변수를 함께 움직이면 기울기가 두 편미분의 합이 됩니다 — 이것은 편미분이 아니라 방향도함수입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">편미분은 「나머지를 붙잡아 두고 하나만 본다」는 약속입니다.</span>`;
+  }
+  ['pdX','pdY'].forEach(i=>$('#'+i).oninput=draw); $('#pdV').onchange=draw; draw();
+  inquiry(root,{ id:'pd', title:'편미분 — 하나만 움직이기',
+    q:['점을 옮겨 가며 (∂f/∂x, ∂f/∂y) 를 여섯 줄 기록하세요.',
+       '두 편미분이 동시에 0 이 되는 점을 찾으세요.',
+       '「함께 움직인 기울기」가 두 편미분과 어떤 관계인지 쓰세요.'],
+    cols:['점','f 값','∂f/∂x','∂f/∂y'],
+    hint:'힌트 — 한 변수로 미분할 때 다른 변수는 상수처럼 다룹니다.',
+    read:()=>{ const px=+$('#pdX').value,py=+$('#pdY').value;
+      return ['('+px.toFixed(2)+','+py.toFixed(2)+')',(px*px-0.6*py*py+0.8*px*py).toFixed(3),
+        (2*px+0.8*py).toFixed(3),(-1.2*py+0.8*px).toFixed(3)]; } });
+}
+
+/* ---------- LAB 268 접평면 — 가까이서 보면 평평하다 ---------- */
+function tangentPlaneDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="tp1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">곡면을 한 점 가까이에서 보면 <b>평면</b>과 구별되지 않습니다.
+      그 평면이 접평면이고, 기울기 둘이 그것을 정합니다.</div>
+    </div>
+    <div class="col">
+      ${slider('tpX','접점의 x',-1.5,1.5,0.25,0.5,'')}
+      ${slider('tpY','접점의 y',-1.5,1.5,0.25,0.5,'')}
+      ${slider('tpR','들여다보는 범위',0.05,1.5,0.05,1.5,'')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="tpOne"> 기울기 하나만 쓰기 (∂f/∂y 무시)</label>
+      <div class="out" id="tpout"></div>
+    </div></div>`;
+  const cv=$('#tp1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const f=(x,y)=>x*x+y*y;
+  function draw(){
+    const ax=+$('#tpX').value, ay=+$('#tpY').value, R=+$('#tpR').value, one=$('#tpOne').checked;
+    $('#tpXv').textContent=ax.toFixed(2); $('#tpYv').textContent=ay.toFixed(2); $('#tpRv').textContent=R.toFixed(2);
+    const fx=2*ax, fy=one?0:2*ay;
+    const plane=(x,y)=>f(ax,ay)+fx*(x-ax)+fy*(y-ay);
+    let worst=0;
+    for(let i=0;i<=20;i++) for(let j=0;j<=20;j++){
+      const x=ax-R+2*R*i/20, y=ay-R+2*R*j/20;
+      worst=Math.max(worst, Math.abs(f(x,y)-plane(x,y))); }
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    // 대각선 단면으로 곡면과 평면을 함께 그린다
+    const X=t=>190+t*(150/Math.max(R,0.05))/2, Y=v=>200-(v-f(ax,ay))*(90/Math.max(worst,0.05))/2;
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(20,Y(f(ax,ay))); ctx.lineTo(W-20,Y(f(ax,ay))); ctx.stroke();
+    const cut=t=>f(ax+t/Math.SQRT2, ay+t/Math.SQRT2);
+    const cutP=t=>plane(ax+t/Math.SQRT2, ay+t/Math.SQRT2);
+    ctx.strokeStyle='#111827'; ctx.lineWidth=2.2; ctx.beginPath();
+    for(let i=0;i<=200;i++){ const t=-R*1.42+2*R*1.42*i/200;
+      i?ctx.lineTo(X(t),Y(cut(t))):ctx.moveTo(X(t),Y(cut(t))); } ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=1.8; ctx.setLineDash([5,4]); ctx.beginPath();
+    for(let i=0;i<=200;i++){ const t=-R*1.42+2*R*1.42*i/200;
+      i?ctx.lineTo(X(t),Y(cutP(t))):ctx.moveTo(X(t),Y(cutP(t))); } ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(0),Y(f(ax,ay)),5,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('검정 = 곡면의 단면 · 파랑 점선 = 접평면의 단면', 20, 22);
+    ctx.fillText('보는 범위 ±'+R.toFixed(2)+' · 최대 벌어짐 '+worst.toFixed(4), 20, 300);
+    ctx.fillText('f(x, y) = x² + y²', 20, 318);
+    $('#tpout').innerHTML =
+      `<span class="mono">접평면 : z = ${f(ax,ay).toFixed(3)} + ${fx.toFixed(2)}(x − ${ax}) + ${fy.toFixed(2)}(y − ${ay})</span><br>`
+      + `<span class="mono">보는 범위 ±${R.toFixed(2)} 안의 최대 차이 = <b style="color:${worst<0.02?'#0E9384':'#BE123C'}">${worst.toFixed(5)}</b></span><br>`
+      + (R<=0.2 && !one ? `<b style="color:#B45309">좁혀 볼수록 두 선이 겹쳐 갑니다 — 가까이서 보면 곡면도 평평합니다.</b><br>` : '')
+      + (one ? `<b style="color:#7C3AED">기울기 하나만 쓰니 평면이 한쪽으로만 기울어 접하지 못합니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">접평면은 「그 점 근처에서 가장 잘 맞는 일차식」입니다.</span>`;
+  }
+  ['tpX','tpY','tpR'].forEach(i=>$('#'+i).oninput=draw); $('#tpOne').onchange=draw; draw();
+  inquiry(root,{ id:'tp', title:'접평면 — 가까이서는 평평하다',
+    q:['보는 범위를 줄여 가며 (범위, 최대 차이) 를 여섯 줄 기록하세요.',
+       '범위를 절반으로 줄이면 차이가 몇 배가 되는지 찾으세요.',
+       '기울기 하나만 쓰면 왜 안 되는지 설명하세요.'],
+    cols:['접점','범위','최대 차이','한쪽만'],
+    hint:'힌트 — 남는 오차는 이차항이라 범위의 제곱에 비례합니다.',
+    read:()=>{ const ax=+$('#tpX').value,ay=+$('#tpY').value,R=+$('#tpR').value,one=$('#tpOne').checked;
+      const f=(x,y)=>x*x+y*y, fx=2*ax, fy=one?0:2*ay;
+      let w=0; for(let i=0;i<=20;i++) for(let j=0;j<=20;j++){
+        const x=ax-R+2*R*i/20,y=ay-R+2*R*j/20;
+        w=Math.max(w,Math.abs(f(x,y)-(f(ax,ay)+fx*(x-ax)+fy*(y-ay)))); }
+      return ['('+ax+','+ay+')',R.toFixed(2),w.toFixed(5),one?'예':'아니오']; } });
+}
+
+/* ---------- LAB 269 그래디언트 — 가장 가파른 방향 ---------- */
+function gradDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="gd1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">방향 d 로 갈 때의 변화율은 <b>∇f · d</b> 입니다.
+      이 값이 가장 커지는 방향이 곧 ∇f 방향입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('gdX','점의 x',-2,2,0.25,1,'')}
+      ${slider('gdY','점의 y',-2,2,0.25,0.5,'')}
+      ${slider('gdT','가려는 방향',0,359,1,0,'°')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="gdBest">가장 가파른 방향으로</button></div>
+      <div class="out" id="gdout"></div>
+    </div></div>`;
+  const cv=$('#gd1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const f=(x,y)=>0.6*x*x+1.4*y*y;
+  const S={best:false};
+  function draw(){
+    const px=+$('#gdX').value, py=+$('#gdY').value;
+    const gx=1.2*px, gy=2.8*py, gn=Math.hypot(gx,gy);
+    if(S.best && gn>1e-9){ $('#gdT').value=Math.round(((Math.atan2(gy,gx)*180/Math.PI)+360)%360); }
+    const th=+$('#gdT').value;
+    $('#gdXv').textContent=px.toFixed(2); $('#gdYv').textContent=py.toFixed(2); $('#gdTv').textContent=th+'°';
+    const dx=Math.cos(th*Math.PI/180), dy=Math.sin(th*Math.PI/180);
+    const dd=gx*dx+gy*dy;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=150,cy=160,u=58;
+    const CX=x=>cx+x*u, CY=y=>cy-y*u;
+    ctx.strokeStyle='rgba(37,99,235,.45)'; ctx.lineWidth=1.1;
+    [0.4,1.2,2.4,4,6].forEach(lv=>{ ctx.beginPath();
+      for(let i=0;i<=90;i++){ const a=2*Math.PI*i/90;
+        const x=Math.sqrt(lv/0.6)*Math.cos(a), y=Math.sqrt(lv/1.4)*Math.sin(a);
+        i?ctx.lineTo(CX(x),CY(y)):ctx.moveTo(CX(x),CY(y)); }
+      ctx.closePath(); ctx.stroke(); });
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(14,cy); ctx.lineTo(290,cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx,16); ctx.lineTo(cx,300); ctx.stroke();
+    const arrow=(ax,ay,col,wd)=>{ ctx.strokeStyle=col; ctx.fillStyle=col; ctx.lineWidth=wd;
+      ctx.beginPath(); ctx.moveTo(CX(px),CY(py)); ctx.lineTo(CX(px)+ax,CY(py)-ay); ctx.stroke();
+      const A=Math.atan2(-ay,ax);
+      ctx.beginPath(); ctx.moveTo(CX(px)+ax,CY(py)-ay);
+      ctx.lineTo(CX(px)+ax-9*Math.cos(A-0.4),CY(py)-ay-9*Math.sin(A-0.4));
+      ctx.lineTo(CX(px)+ax-9*Math.cos(A+0.4),CY(py)-ay-9*Math.sin(A+0.4));
+      ctx.closePath(); ctx.fill(); };
+    if(gn>1e-9) arrow(gx/gn*54, gy/gn*54, '#0E9384', 2.6);
+    arrow(dx*44, dy*44, '#BE123C', 2.2);
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(CX(px),CY(py),4,0,7); ctx.fill();
+    // 오른쪽: 방향에 따른 변화율
+    const bx=300, by=v=>160-v*22;
+    ctx.strokeStyle='#D1D5DB'; ctx.beginPath(); ctx.moveTo(bx,40); ctx.lineTo(bx,280); ctx.stroke();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=1.6; ctx.beginPath();
+    for(let i=0;i<=180;i++){ const a=2*Math.PI*i/180;
+      const v=gx*Math.cos(a)+gy*Math.sin(a);
+      const py2=44+(236)*i/180, px2=bx+v*8;
+      i?ctx.lineTo(px2,py2):ctx.moveTo(px2,py2); }
+    ctx.stroke();
+    ctx.fillStyle='#BE123C'; ctx.beginPath();
+    ctx.arc(bx+dd*8, 44+236*(th/360), 4,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('방향별 변화율', bx-34, 34);
+    ctx.font='10.5px sans-serif';
+    ctx.fillText('초록 = ∇f · 붉은 = 가려는 방향 · 타원 = 등고선', 14, 20);
+    const cosang = gn>1e-9 ? dd/gn : 0;
+    $('#gdout').innerHTML =
+      `<span class="mono">∇f = ( ${gx.toFixed(3)} , ${gy.toFixed(3)} ) · 크기 ${gn.toFixed(3)}</span><br>`
+      + `<span class="mono">이 방향의 변화율 = ∇f · d = <b style="color:#BE123C">${dd.toFixed(4)}</b> (최댓값 ${gn.toFixed(3)})</span><br>`
+      + (gn>1e-9 && Math.abs(dd)<0.03 ? `<b style="color:#B45309">변화율이 0 입니다 — 등고선을 따라 걷고 있어 높이가 그대로입니다.</b><br>` : '')
+      + (gn>1e-9 && cosang>0.999 ? `<b style="color:#7C3AED">여기가 가장 가파른 방향입니다 — 변화율이 ∇f 의 크기와 같아졌습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">∇f 와 등고선은 언제나 직각입니다 — 등고선을 따라가면 변화율이 0 이니까요.</span>`;
+  }
+  $('#gdBest').onclick=()=>{ S.best=true; draw(); S.best=false; };
+  ['gdX','gdY','gdT'].forEach(i=>$('#'+i).oninput=()=>{ S.best=false; draw(); }); draw();
+  inquiry(root,{ id:'gd', title:'그래디언트 — 가장 가파른 쪽',
+    q:['방향을 돌려 가며 (각, 변화율) 을 여섯 줄 기록하세요.',
+       '변화율이 0 이 되는 방향을 모두 찾으세요.',
+       '그 방향과 등고선의 관계를 설명하세요.'],
+    cols:['점','방향','변화율','|∇f|'],
+    hint:'힌트 — ∇f · d = |∇f| cos θ 입니다.',
+    read:()=>{ const px=+$('#gdX').value,py=+$('#gdY').value,th=+$('#gdT').value;
+      const gx=1.2*px,gy=2.8*py;
+      return ['('+px+','+py+')',th+'°',(gx*Math.cos(th*Math.PI/180)+gy*Math.sin(th*Math.PI/180)).toFixed(4),
+        Math.hypot(gx,gy).toFixed(3)]; } });
+}
+
+/* ---------- LAB 270 안장점 — 기울기가 0 인데 극값이 아니다 ---------- */
+function saddleDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sd1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">기울기가 0 인 점은 <b>후보</b>일 뿐입니다.
+      두 방향의 휨을 함께 봐야 극값인지 안장인지 갈립니다.</div>
+    </div>
+    <div class="col">
+      ${slider('sdA','x 방향의 휨 a',-2,2,0.5,1,'')}
+      ${slider('sdB','y 방향의 휨 b',-2,2,0.5,1,'')}
+      ${slider('sdC','섞임 c',-3,3,0.5,0,'')}
+      <div class="out" id="sdout"></div>
+    </div></div>`;
+  const cv=$('#sd1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const a=+$('#sdA').value,b=+$('#sdB').value,c=+$('#sdC').value;
+    ['sdA','sdB','sdC'].forEach(i=>$('#'+i+'v').textContent=(+$('#'+i).value).toFixed(1));
+    const f=(x,y)=>a*x*x+b*y*y+c*x*y;
+    const D=4*a*b-c*c;                     // 헤세 행렬식
+    const kind = Math.abs(D)<1e-9 ? '판정 불가' : (D<0 ? '안장점' : (a>0?'극소':'극대'));
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    // 원점 둘레를 한 바퀴 돌며 값의 부호를 본다
+    const cx=120,cy=150,R=92;
+    ctx.strokeStyle='#E5E7EB'; ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.stroke();
+    for(let i=0;i<180;i++){ const t=2*Math.PI*i/180;
+      const v=f(Math.cos(t),Math.sin(t));
+      ctx.strokeStyle = v>0.02 ? '#2563EB' : (v<-0.02 ? '#BE123C' : '#9CA3AF');
+      ctx.lineWidth=5;
+      ctx.beginPath(); ctx.arc(cx,cy,R,t,t+2*Math.PI/180); ctx.stroke(); }
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(cx,cy,4,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('원점 둘레의 부호 — 파랑 = 위로, 붉은 = 아래로', 14, 20);
+    // 두 축 방향 단면
+    const bx=232, by0=90, bw=134, bh=64;
+    [[0,'x 축을 따라'],[1,'y 축을 따라']].forEach(([k,lab])=>{
+      const y0=by0+k*112;
+      ctx.strokeStyle='#D1D5DB'; ctx.beginPath();
+      ctx.moveTo(bx,y0); ctx.lineTo(bx+bw,y0); ctx.stroke();
+      ctx.strokeStyle='#2563EB'; ctx.lineWidth=2; ctx.beginPath();
+      for(let i=0;i<=60;i++){ const t=-1.4+2.8*i/60;
+        const v=k?f(0,t):f(t,0);
+        const X=bx+bw*(t+1.4)/2.8, Y=y0-v*22;
+        i?ctx.lineTo(X,Math.max(y0-bh,Math.min(y0+bh,Y))):ctx.moveTo(X,Math.max(y0-bh,Math.min(y0+bh,Y))); }
+      ctx.stroke();
+      ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif';
+      ctx.fillText(lab, bx, y0-bh-6); });
+    ctx.fillStyle='#111827'; ctx.font='12px sans-serif';
+    ctx.fillText('판정 : '+kind, 14, H-14);
+    $('#sdout').innerHTML =
+      `<span class="mono">원점에서 ∇f = (0, 0) — 어떤 경우든 기울기는 0 입니다.</span><br>`
+      + `<span class="mono">4ab − c² = <b style="color:${D<0?'#BE123C':'#0E9384'}">${D.toFixed(2)}</b> · 판정 = <b>${kind}</b></span><br>`
+      + (D<-0.01 ? `<b style="color:#B45309">한쪽으로는 올라가고 다른 쪽으로는 내려갑니다 — 기울기가 0 이어도 극값이 아닙니다.</b><br>` : '')
+      + (Math.abs(D)<1e-9 ? `<b style="color:#7C3AED">판정식이 0 이라 이차항만으로는 결론을 낼 수 없습니다 — 더 높은 항을 봐야 합니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">기울기 0 은 필요조건일 뿐, 이계도함수까지 봐야 극값을 말할 수 있습니다.</span>`;
+  }
+  ['sdA','sdB','sdC'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'sd', title:'안장점 — 0 인데 극값이 아니다',
+    q:['a, b, c 를 바꿔 가며 (4ab − c², 판정) 을 여섯 줄 기록하세요.',
+       '안장점이 되는 조건을 정리하세요.',
+       '판정식이 0 인 예를 만들고 무슨 일이 생기는지 조사하세요.'],
+    cols:['a','b','c','4ab − c²','판정'],
+    hint:'힌트 — 헤세 행렬의 행렬식 부호가 결정합니다.',
+    read:()=>{ const a=+$('#sdA').value,b=+$('#sdB').value,c=+$('#sdC').value,D=4*a*b-c*c;
+      return [a.toFixed(1),b.toFixed(1),c.toFixed(1),D.toFixed(2),
+        Math.abs(D)<1e-9?'판정 불가':(D<0?'안장점':(a>0?'극소':'극대'))]; } });
+}
+
+/* ---------- LAB 271 라그랑주 승수법 — 조건이 붙은 최댓값 ---------- */
+function lagrangeDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="lg1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">조건 곡선 위만 걸을 수 있습니다.
+      최댓값 자리에서는 <b>등고선과 조건 곡선이 접합니다</b>.</div>
+    </div>
+    <div class="col">
+      ${slider('lgT','조건 원 위의 위치',0,359,1,0,'°')}
+      ${slider('lgR','조건 원의 반지름',0.6,2,0.1,1.2,'')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="lgBest">가장 큰 자리로</button></div>
+      <div class="out" id="lgout"></div>
+    </div></div>`;
+  const cv=$('#lg1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const f=(x,y)=>x+2*y;                     // 최대화할 값
+  const S={best:false};
+  function draw(){
+    const R=+$('#lgR').value;
+    if(S.best){ $('#lgT').value=Math.round(Math.atan2(2,1)*180/Math.PI); }
+    const th=+$('#lgT').value;
+    $('#lgTv').textContent=th+'°'; $('#lgRv').textContent=R.toFixed(1);
+    const x=R*Math.cos(th*Math.PI/180), y=R*Math.sin(th*Math.PI/180);
+    const v=f(x,y), best=R*Math.sqrt(5);
+    const gfx=1, gfy=2, ggx=2*x, ggy=2*y;
+    const cross=gfx*ggy-gfy*ggx;            // 두 기울기가 나란한가
+    const lam = (ggx||ggy) ? (gfx*ggx+gfy*ggy)/(ggx*ggx+ggy*ggy) : 0;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=180,cy=170,u=64;
+    const X=t=>cx+t*u, Y=t=>cy-t*u;
+    ctx.strokeStyle='rgba(37,99,235,.35)'; ctx.lineWidth=1.1;
+    for(let c=-6;c<=6;c++){ ctx.beginPath();
+      ctx.moveTo(X(-2.6),Y((c+2.6)/2)); ctx.lineTo(X(2.6),Y((c-2.6)/2)); ctx.stroke(); }
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.4;
+    ctx.beginPath(); ctx.arc(cx,cy,R*u,0,7); ctx.stroke();
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2.4;
+    ctx.beginPath(); ctx.moveTo(X(-2.6),Y((v+2.6)/2)); ctx.lineTo(X(2.6),Y((v-2.6)/2)); ctx.stroke();
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(X(x),Y(y),6,0,7); ctx.fill();
+    const ar=(ax,ay,col)=>{ const n=Math.hypot(ax,ay)||1;
+      ctx.strokeStyle=col; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(X(x),Y(y)); ctx.lineTo(X(x)+ax/n*44,Y(y)-ay/n*44); ctx.stroke(); };
+    ar(gfx,gfy,'#2563EB'); ar(ggx,ggy,'#F59E0B');
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('초록 = 조건 곡선 · 옅은 파랑 = f 의 등고선 · 붉은 = 지금 값의 등고선', 14, 20);
+    ctx.fillText('파랑 화살표 = ∇f · 주황 화살표 = ∇g', 14, H-14);
+    $('#lgout').innerHTML =
+      `<span class="mono">위치 (${x.toFixed(3)}, ${y.toFixed(3)}) · f = x + 2y = <b style="color:#BE123C">${v.toFixed(4)}</b> (가능한 최댓값 ${best.toFixed(4)})</span><br>`
+      + `<span class="mono">∇f 와 ∇g 의 어긋남 = <b style="color:${Math.abs(cross)<0.05?'#0E9384':'#BE123C'}">${cross.toFixed(4)}</b> · λ = ${lam.toFixed(4)}</span><br>`
+      + (Math.abs(cross)<0.05 && v>0 ? `<b style="color:#B45309">두 화살표가 나란해졌습니다 — 등고선이 조건 곡선에 접하는 자리입니다.</b><br>` : '')
+      + (Math.abs(cross)<0.05 && v<0 ? `<b style="color:#7C3AED">여기서도 두 화살표가 나란합니다 — 접하는 자리는 가장 큰 곳과 가장 작은 곳, 둘입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">조건이 붙은 최댓값은 ∇f = λ∇g 를 푸는 문제가 됩니다.</span>`;
+  }
+  $('#lgBest').onclick=()=>{ S.best=true; draw(); S.best=false; };
+  ['lgT','lgR'].forEach(i=>$('#'+i).oninput=()=>{ S.best=false; draw(); }); draw();
+  inquiry(root,{ id:'lg', title:'라그랑주 — 접하는 자리',
+    q:['위치를 돌려 가며 (각, f 값, 어긋남) 을 여섯 줄 기록하세요.',
+       'f 가 최대일 때 어긋남이 얼마인지 확인하세요.',
+       '∇f = λ∇g 를 직접 풀어 최댓값을 구하세요.'],
+    cols:['반지름','각','f 값','어긋남','λ'],
+    hint:'힌트 — 접한다는 것은 두 기울기가 나란하다는 뜻입니다.',
+    read:()=>{ const R=+$('#lgR').value,th=+$('#lgT').value;
+      const x=R*Math.cos(th*Math.PI/180), y=R*Math.sin(th*Math.PI/180);
+      const cross=1*(2*y)-2*(2*x), lam=(2*x+2*2*y)/((2*x)*(2*x)+(2*y)*(2*y)||1);
+      return [R.toFixed(1),th+'°',(x+2*y).toFixed(4),cross.toFixed(4),lam.toFixed(4)]; } });
+}

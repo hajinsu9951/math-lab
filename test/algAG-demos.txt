@@ -1,0 +1,358 @@
+/* ---------- LAB 272 중적분 — 순서를 바꾸면 구간도 바꿔야 한다 ---------- */
+function doubleIntDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="di1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">삼각형 영역 0 ≤ x ≤ 1, 0 ≤ y ≤ x 를 적분합니다.
+      순서를 바꾸면 <b>구간의 모양도 함께</b> 바뀝니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">적분 순서<select id="diO" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="yx">먼저 y, 다음 x (세로로 훑기)</option>
+        <option value="xy">먼저 x, 다음 y (가로로 훑기)</option>
+      </select></label>
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="diKeep"> 순서만 바꾸고 구간은 그대로 두기</label>
+      ${slider('diK','훑는 자리',0,20,1,10,'')}
+      <div class="out" id="diout"></div>
+    </div></div>`;
+  const cv=$('#di1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const f=(x,y)=>x*y;
+  function calc(order,keep){
+    const N=200; let s=0;
+    for(let i=0;i<N;i++) for(let j=0;j<N;j++){
+      if(order==='yx'){ const x=(i+0.5)/N, ymax=keep?1:x;
+        const y=ymax*(j+0.5)/N; s+=f(x,y)*(1/N)*(ymax/N); }
+      else { const y=(j+0.5)/N, x0=keep?0:y, x=x0+(1-x0)*(i+0.5)/N;
+        s+=f(x,y)*(1/N)*((1-x0)/N); } }
+    return s;
+  }
+  function draw(){
+    const order=$('#diO').value, keep=$('#diKeep').checked, k=+$('#diK').value;
+    $('#diKv').textContent=k;
+    const val=calc(order,keep), truth=1/8;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const x0=60,y0=270,u=200;
+    const X=t=>x0+t*u, Y=t=>y0-t*u;
+    ctx.strokeStyle='#F3F4F6';
+    for(let i=0;i<=10;i++){ ctx.beginPath(); ctx.moveTo(X(i/10),Y(0)); ctx.lineTo(X(i/10),Y(1)); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(X(0),Y(i/10)); ctx.lineTo(X(1),Y(i/10)); ctx.stroke(); }
+    // 실제 영역 (삼각형)
+    ctx.fillStyle='rgba(14,147,132,.18)';
+    ctx.beginPath(); ctx.moveTo(X(0),Y(0)); ctx.lineTo(X(1),Y(0)); ctx.lineTo(X(1),Y(1)); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=1.8; ctx.stroke();
+    // 훑고 있는 띠
+    const t=k/20;
+    ctx.fillStyle='rgba(190,18,60,.35)';
+    if(order==='yx'){ const ymax=keep?1:t;
+      ctx.fillRect(X(t)-3, Y(ymax), 6, Y(0)-Y(ymax)); }
+    else { const xmin=keep?0:t;
+      ctx.fillRect(X(xmin), Y(t)-3, X(1)-X(xmin), 6); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(X(0),Y(0)); ctx.lineTo(X(1.05),Y(0)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(0),Y(0)); ctx.lineTo(X(0),Y(1.05)); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('초록 = 실제 영역 · 붉은 띠 = 지금 훑고 있는 줄', 20, 22);
+    ctx.fillText(order==='yx' ? '∫₀¹ ∫₀^'+(keep?'1':'x')+' xy dy dx' : '∫₀¹ ∫_'+(keep?'0':'y')+'^1 xy dx dy', 20, 40);
+    ctx.fillText('x', X(1.05)+4, Y(0)+4); ctx.fillText('y', X(0)-4, Y(1.05)-4);
+    $('#diout').innerHTML =
+      `<span class="mono">계산값 = <b style="color:${Math.abs(val-truth)<0.002?'#0E9384':'#BE123C'}">${val.toFixed(5)}</b> · 참값(삼각형 위 적분) = <b>0.12500</b></span><br>`
+      + `<span class="mono">지금 순서 = ${order==='yx'?'y 먼저':'x 먼저'} · 구간 = ${keep?'그대로 둠':'순서에 맞게 고침'}</span><br>`
+      + (order==='xy' && !keep && Math.abs(val-truth)<0.002 ? `<b style="color:#B45309">순서를 바꾸고 구간도 y 부터 1 까지로 고쳤더니 같은 값이 나왔습니다.</b><br>` : '')
+      + (keep && Math.abs(val-truth)>=0.002 ? `<b style="color:#7C3AED">구간을 그대로 둔 채 순서만 바꾸니 영역이 사각형으로 넓어져 값이 달라졌습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">「순서를 바꿔도 된다」는 말은 「구간도 함께 고쳐야 한다」는 말입니다.</span>`;
+  }
+  $('#diO').onchange=draw; $('#diKeep').onchange=draw; $('#diK').oninput=draw; draw();
+  inquiry(root,{ id:'di', title:'중적분 — 순서와 구간은 한 몸',
+    q:['순서와 구간 설정을 바꿔 가며 (설정, 계산값) 을 여섯 줄 기록하세요.',
+       '값이 달라지는 설정을 찾고 그 까닭을 쓰세요.',
+       '두 순서의 적분식을 각각 세워 손으로 계산하세요.'],
+    cols:['순서','구간','계산값','참값과의 차'],
+    hint:'힌트 — 0 ≤ y ≤ x 는 y 를 먼저 볼 때와 x 를 먼저 볼 때 모양이 다릅니다.',
+    read:()=>{ const o=$('#diO').value,k=$('#diKeep').checked,v=calc(o,k);
+      return [o==='yx'?'y 먼저':'x 먼저',k?'그대로':'고침',v.toFixed(5),(v-0.125).toFixed(5)]; } });
+}
+
+/* ---------- LAB 273 극좌표 변환 — r 을 곱하는 이유 ---------- */
+function jacobianDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="jc1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">극좌표로 바꾸면 작은 조각의 넓이가 dr·dθ 가 아니라
+      <b>r·dr·dθ</b> 입니다. 바깥쪽 조각이 더 크기 때문입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('jcR','원의 반지름',0.5,2.5,0.1,1,'')}
+      ${slider('jcN','조각의 수',4,24,2,8,'개')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="jcNo"> r 을 곱하지 않고 계산하기</label>
+      <div class="out" id="jcout"></div>
+    </div></div>`;
+  const cv=$('#jc1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const R=+$('#jcR').value, N=+$('#jcN').value, no=$('#jcNo').checked;
+    $('#jcRv').textContent=R.toFixed(1); $('#jcNv').textContent=N+'개';
+    const dr=R/N, dth=2*Math.PI/N;
+    let area=0;
+    for(let i=0;i<N;i++) for(let j=0;j<N;j++){
+      const r=(i+0.5)*dr;
+      area += (no?1:r)*dr*dth; }
+    const truth=Math.PI*R*R;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=140,cy=160,u=Math.min(110/Math.max(R,0.5),90);
+    for(let i=0;i<N;i++) for(let j=0;j<N;j++){
+      const r0=i*dr, r1=(i+1)*dr, a0=j*dth, a1=(j+1)*dth;
+      const mid=(i+0.5)*dr;
+      const shade = no ? 0.35 : Math.min(0.75, 0.15+mid/R*0.6);
+      ctx.fillStyle='rgba(37,99,235,'+shade.toFixed(3)+')';
+      ctx.beginPath();
+      ctx.arc(cx,cy,r1*u,a0,a1); ctx.arc(cx,cy,r0*u,a1,a0,true);
+      ctx.closePath(); ctx.fill();
+      ctx.strokeStyle='rgba(255,255,255,.8)'; ctx.lineWidth=0.7; ctx.stroke(); }
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.arc(cx,cy,R*u,0,7); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText(no?'모든 조각을 같은 크기로 세는 중':'색이 진할수록 넓은 조각 (바깥일수록 크다)', 14, 20);
+    // 오른쪽 막대 비교
+    const bx=290, base=250, sc=120/Math.max(area,truth,1);
+    ctx.fillStyle='rgba(37,99,235,.65)'; ctx.fillRect(bx,base-area*sc,28,area*sc);
+    ctx.fillStyle='rgba(14,147,132,.65)'; ctx.fillRect(bx+40,base-truth*sc,28,truth*sc);
+    ctx.fillStyle='#374151'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('계산', bx+14, base+14); ctx.fillText('참값', bx+54, base+14);
+    ctx.fillText(area.toFixed(2), bx+14, base-area*sc-6);
+    ctx.fillText(truth.toFixed(2), bx+54, base-truth*sc-6);
+    ctx.textAlign='left';
+    $('#jcout').innerHTML =
+      `<span class="mono">조각을 모두 더한 넓이 = <b style="color:${Math.abs(area-truth)/truth<0.02?'#0E9384':'#BE123C'}">${area.toFixed(4)}</b> · 참값 πr² = <b>${truth.toFixed(4)}</b></span><br>`
+      + `<span class="mono">비율 = ${(area/truth).toFixed(4)} · 조각 하나의 넓이 = ${no?'dr·dθ':'r·dr·dθ'}</span><br>`
+      + (!no && N>=16 && Math.abs(area-truth)/truth<0.02 ? `<b style="color:#B45309">r 을 곱해 세니 참값 πr² 에 딱 맞습니다.</b><br>` : '')
+      + (no ? `<b style="color:#7C3AED">r 을 빼먹으니 바깥 조각을 안쪽과 같게 세어 넓이가 어긋납니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">좌표를 바꾸면 넓이의 배율(야코비안)이 따라붙습니다.</span>`;
+  }
+  ['jcR','jcN'].forEach(i=>$('#'+i).oninput=draw); $('#jcNo').onchange=draw; draw();
+  inquiry(root,{ id:'jc', title:'야코비안 — 좌표를 바꾸면 넓이도 바뀐다',
+    q:['조각 수를 늘려 가며 (조각 수, 계산값, 참값) 을 여섯 줄 기록하세요.',
+       'r 을 곱했을 때와 안 곱했을 때의 비율을 견주세요.',
+       '조각 하나의 넓이가 왜 r·dr·dθ 인지 그림으로 설명하세요.'],
+    cols:['반지름','조각 수','r 곱함','계산값','참값'],
+    hint:'힌트 — 호의 길이가 r·dθ 이므로 조각은 (dr) × (r dθ) 입니다.',
+    read:()=>{ const R=+$('#jcR').value,N=+$('#jcN').value,no=$('#jcNo').checked;
+      const dr=R/N,dth=2*Math.PI/N; let a=0;
+      for(let i=0;i<N;i++) for(let j=0;j<N;j++) a+=(no?1:(i+0.5)*dr)*dr*dth;
+      return [R.toFixed(1),N,no?'아니오':'예',a.toFixed(4),(Math.PI*R*R).toFixed(4)]; } });
+}
+
+/* ---------- LAB 274 선적분 — 바람을 거슬러 갈 때 드는 힘 ---------- */
+function lineIntDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="li1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">한 걸음마다 드는 힘은 <b>힘 벡터와 걸음 방향의 내적</b>입니다.
+      크기의 곱이 아닙니다 — 방향이 반대면 음수가 됩니다.</div>
+    </div>
+    <div class="col">
+      ${slider('liA','출발 각도',0,359,5,180,'°')}
+      ${slider('liS','걸어간 정도',0,100,5,0,'%')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="liAbs"> 내적 대신 크기의 곱으로 세기</label>
+      <div class="out" id="liout"></div>
+    </div></div>`;
+  const cv=$('#li1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const F=(x,y)=>[1.2, 0.4*x];              // 오른쪽으로 부는, 위치에 따라 휘는 바람
+  function draw(){
+    const a0=+$('#liA').value, sp=+$('#liS').value/100, abs=$('#liAbs').checked;
+    $('#liAv').textContent=a0+'°'; $('#liSv').textContent=(sp*100).toFixed(0)+'%';
+    const path=t=>{ const a=(a0+360*t)*Math.PI/180; return [1.6*Math.cos(a), 1.2*Math.sin(a)]; };
+    const N=240; let work=0; const upto=Math.max(1,Math.round(N*sp));
+    for(let i=0;i<upto;i++){
+      const [x1,y1]=path(i/N), [x2,y2]=path((i+1)/N);
+      const [fx,fy]=F((x1+x2)/2,(y1+y2)/2);
+      const dx=x2-x1, dy=y2-y1;
+      work += abs ? Math.hypot(fx,fy)*Math.hypot(dx,dy) : fx*dx+fy*dy; }
+    if(sp===0) work=0;
+    let full=0;
+    for(let i=0;i<N;i++){ const [x1,y1]=path(i/N), [x2,y2]=path((i+1)/N);
+      const [fx,fy]=F((x1+x2)/2,(y1+y2)/2);
+      full += fx*(x2-x1)+fy*(y2-y1); }
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=170,cy=160,u=62;
+    const X=t=>cx+t*u, Y=t=>cy-t*u;
+    for(let gx=-2;gx<=2;gx+=0.8) for(let gy=-1.6;gy<=1.6;gy+=0.8){
+      const [fx,fy]=F(gx,gy); const n=Math.hypot(fx,fy)||1, L=13;
+      ctx.strokeStyle='rgba(156,163,175,.85)'; ctx.lineWidth=1.2;
+      ctx.beginPath(); ctx.moveTo(X(gx),Y(gy)); ctx.lineTo(X(gx)+fx/n*L,Y(gy)-fy/n*L); ctx.stroke();
+      ctx.fillStyle='rgba(156,163,175,.85)';
+      ctx.beginPath(); ctx.arc(X(gx)+fx/n*L,Y(gy)-fy/n*L,1.8,0,7); ctx.fill(); }
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1.4; ctx.beginPath();
+    for(let i=0;i<=N;i++){ const [x,y]=path(i/N); i?ctx.lineTo(X(x),Y(y)):ctx.moveTo(X(x),Y(y)); }
+    ctx.closePath(); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.8; ctx.beginPath();
+    for(let i=0;i<=upto;i++){ const [x,y]=path(i/N); i?ctx.lineTo(X(x),Y(y)):ctx.moveTo(X(x),Y(y)); }
+    ctx.stroke();
+    const [px,py]=path(sp);
+    ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(px),Y(py),5,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('회색 화살표 = 바람 · 파랑 = 지금까지 걸은 길', 14, 20);
+    ctx.fillText('한 바퀴 다 돌았을 때의 값 = '+full.toFixed(4), 14, H-12);
+    $('#liout').innerHTML =
+      `<span class="mono">지금까지의 값 = <b style="color:${work<0?'#BE123C':'#2563EB'}">${work.toFixed(4)}</b> · 세는 방식 = ${abs?'크기의 곱':'내적'}</span><br>`
+      + `<span class="mono">한 바퀴 값 = <b>${full.toFixed(4)}</b> (= 넓이 × 회전량)</span><br>`
+      + (!abs && work< -0.05 ? `<b style="color:#B45309">값이 음수입니다 — 바람을 거스르는 동안은 오히려 빼야 합니다.</b><br>` : '')
+      + (abs && sp>0 ? `<b style="color:#7C3AED">크기의 곱으로 세니 방향과 상관없이 언제나 양수가 됩니다 — 거스르는 구간이 사라집니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">선적분은 「방향까지 셈에 넣은 합」입니다.</span>`;
+  }
+  ['liA','liS'].forEach(i=>$('#'+i).oninput=draw); $('#liAbs').onchange=draw; draw();
+  inquiry(root,{ id:'li', title:'선적분 — 방향을 셈에 넣기',
+    q:['걸어간 정도를 늘려 가며 (진행률, 값) 을 여섯 줄 기록하세요.',
+       '값이 음수가 되는 구간을 찾으세요.',
+       '크기의 곱으로 세면 무엇이 사라지는지 쓰세요.'],
+    cols:['출발각','진행률','세는 방식','값'],
+    hint:'힌트 — F·dr 는 |F||dr|cos θ 이므로 θ 가 둔각이면 음수입니다.',
+    read:()=>{ const a0=+$('#liA').value,sp=+$('#liS').value/100,abs=$('#liAbs').checked;
+      const path=t=>{ const a=(a0+360*t)*Math.PI/180; return [1.6*Math.cos(a),1.2*Math.sin(a)]; };
+      const N=240; let w=0; const upto=Math.max(1,Math.round(N*sp));
+      for(let i=0;i<upto;i++){ const [x1,y1]=path(i/N),[x2,y2]=path((i+1)/N);
+        const fx=1.2, fy=0.4*(x1+x2)/2, dx=x2-x1, dy=y2-y1;
+        w+= abs?Math.hypot(fx,fy)*Math.hypot(dx,dy):fx*dx+fy*dy; }
+      return [a0+'°',(sp*100).toFixed(0)+'%',abs?'크기의 곱':'내적',(sp===0?0:w).toFixed(4)]; } });
+}
+
+/* ---------- LAB 275 보존장 — 어느 길로 가든 같은가 ---------- */
+function conservDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="cs1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">같은 출발점과 도착점을 두 갈래 길로 이어 봅니다.
+      두 값이 늘 같으면 <b>보존장</b>입니다. 그 조건은 회전이 0 인 것입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('csK','회전을 만드는 정도 k',-2,2,0.25,0,'')}
+      ${slider('csB','아래 길의 휘어짐',-1.5,1.5,0.25,0,'')}
+      <div class="out" id="csout"></div>
+    </div></div>`;
+  const cv=$('#cs1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const k=+$('#csK').value, b=+$('#csB').value;
+    $('#csKv').textContent=k.toFixed(2); $('#csBv').textContent=b.toFixed(2);
+    const F=(x,y)=>[2*x + k*y, 2*y];                  // k = 0 이면 (x²+y²) 의 기울기
+    const curl=k;                                      // ∂Q/∂x − ∂P/∂y = 0 − k = −k
+    const A=[-1.4,-0.9], B=[1.4,0.9];
+    const p1=t=>[A[0]+(B[0]-A[0])*t, A[1]+(B[1]-A[1])*t];
+    const p2=t=>[A[0]+(B[0]-A[0])*t, A[1]+(B[1]-A[1])*t - (1.2+b)*Math.sin(Math.PI*t)];
+    const work=path=>{ const N=300; let s=0;
+      for(let i=0;i<N;i++){ const [x1,y1]=path(i/N), [x2,y2]=path((i+1)/N);
+        const [fx,fy]=F((x1+x2)/2,(y1+y2)/2);
+        s+=fx*(x2-x1)+fy*(y2-y1); } return s; };
+    const w1=work(p1), w2=work(p2), gap=Math.abs(w1-w2);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=190,cy=170,u=76;
+    const X=t=>cx+t*u, Y=t=>cy-t*u;
+    for(let gx=-2;gx<=2;gx+=0.5) for(let gy=-1.5;gy<=1.5;gy+=0.5){
+      const [fx,fy]=F(gx,gy); const n=Math.hypot(fx,fy)||1, L=11;
+      ctx.strokeStyle='rgba(156,163,175,.8)'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(X(gx),Y(gy)); ctx.lineTo(X(gx)+fx/n*L,Y(gy)-fy/n*L); ctx.stroke(); }
+    const plot=(path,col,wd)=>{ ctx.strokeStyle=col; ctx.lineWidth=wd; ctx.beginPath();
+      for(let i=0;i<=120;i++){ const [x,y]=path(i/120); i?ctx.lineTo(X(x),Y(y)):ctx.moveTo(X(x),Y(y)); }
+      ctx.stroke(); };
+    plot(p1,'#2563EB',2.6); plot(p2,'#BE123C',2.6);
+    ctx.fillStyle='#111827';
+    ctx.beginPath(); ctx.arc(X(A[0]),Y(A[1]),5,0,7); ctx.fill();
+    ctx.beginPath(); ctx.arc(X(B[0]),Y(B[1]),5,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('파랑 = 곧은 길 · 붉은 = 돌아가는 길 (출발·도착은 같음)', 14, 20);
+    ctx.fillText('F = (2x + '+k+'y,  2y)', 14, H-12);
+    $('#csout').innerHTML =
+      `<span class="mono">곧은 길 = <b style="color:#2563EB">${w1.toFixed(5)}</b> · 돌아가는 길 = <b style="color:#BE123C">${w2.toFixed(5)}</b> · 차이 <b>${gap.toFixed(5)}</b></span><br>`
+      + `<span class="mono">회전(∂Q/∂x − ∂P/∂y) = <b style="color:${Math.abs(curl)<1e-9?'#0E9384':'#BE123C'}">${(-curl).toFixed(3)}</b></span><br>`
+      + (Math.abs(k)>=0.5 && gap>0.05 ? `<b style="color:#B45309">회전이 0 이 아니니 길에 따라 값이 달라집니다 — 보존장이 아닙니다.</b><br>` : '')
+      + (Math.abs(k)<1e-9 && Math.abs(b)>=0.5 ? `<b style="color:#7C3AED">길을 아무리 크게 돌려도 값이 그대로입니다 — 퍼텐셜 x² + y² 의 차이만 남습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">경로와 무관하다는 것은 「퍼텐셜 함수가 있다」는 말과 같습니다.</span>`;
+  }
+  ['csK','csB'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'cs', title:'보존장 — 길에 상관없는 힘',
+    q:['k 를 바꿔 가며 (k, 두 값, 차이) 를 여섯 줄 기록하세요.',
+       '차이가 0 이 되는 k 를 찾으세요.',
+       'k = 0 일 때 퍼텐셜 함수를 직접 구하세요.'],
+    cols:['k','휘어짐','곧은 길','돌아가는 길','차이'],
+    hint:'힌트 — ∂Q/∂x = ∂P/∂y 이면 보존장입니다.',
+    read:()=>{ const k=+$('#csK').value,b=+$('#csB').value;
+      const F=(x,y)=>[2*x+k*y,2*y];
+      const A=[-1.4,-0.9],B=[1.4,0.9];
+      const w=path=>{ const N=300; let s=0;
+        for(let i=0;i<N;i++){ const [x1,y1]=path(i/N),[x2,y2]=path((i+1)/N);
+          const [fx,fy]=F((x1+x2)/2,(y1+y2)/2); s+=fx*(x2-x1)+fy*(y2-y1); } return s; };
+      const p1=t=>[A[0]+(B[0]-A[0])*t,A[1]+(B[1]-A[1])*t];
+      const p2=t=>[A[0]+(B[0]-A[0])*t,A[1]+(B[1]-A[1])*t-(1.2+b)*Math.sin(Math.PI*t)];
+      return [k.toFixed(2),b.toFixed(2),w(p1).toFixed(4),w(p2).toFixed(4),Math.abs(w(p1)-w(p2)).toFixed(5)]; } });
+}
+
+/* ---------- LAB 276 그린 정리 — 둘레만 돌아 넓이 재기 ---------- */
+function greenDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="gr1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">둘레를 한 바퀴 돌면서 <b>½(x dy − y dx)</b> 를 더하면
+      안쪽 넓이가 나옵니다. 안을 들여다보지 않고도 넓이를 잽니다.</div>
+    </div>
+    <div class="col">
+      ${slider('grN','도형의 꼭짓점 수',3,12,1,4,'개')}
+      ${slider('grR','도형의 크기',0.6,2,0.1,1.2,'')}
+      ${slider('grT','돈 정도',0,100,5,0,'%')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="grRev"> 반대 방향으로 돌기</label>
+      <div class="out" id="grout"></div>
+    </div></div>`;
+  const cv=$('#gr1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const N=+$('#grN').value, R=+$('#grR').value, t=+$('#grT').value/100, rev=$('#grRev').checked;
+    $('#grNv').textContent=N+'개'; $('#grRv').textContent=R.toFixed(1); $('#grTv').textContent=(t*100).toFixed(0)+'%';
+    const V=Array.from({length:N},(_,i)=>{ const a=-Math.PI/2+(rev?-1:1)*2*Math.PI*i/N;
+      return [R*Math.cos(a), R*Math.sin(a)]; });
+    const M=240;
+    const pos=s=>{ const q=s*N, i=Math.floor(q)%N, u2=q-Math.floor(q);
+      const A=V[i], B=V[(i+1)%N];
+      return [A[0]+(B[0]-A[0])*u2, A[1]+(B[1]-A[1])*u2]; };
+    let acc=0; const upto=Math.max(0,Math.round(M*t));
+    for(let i=0;i<upto;i++){ const [x1,y1]=pos(i/M), [x2,y2]=pos((i+1)/M);
+      acc += 0.5*(x1*(y2-y1) - y1*(x2-x1)); }
+    const truth = 0.5*N*R*R*Math.sin(2*Math.PI/N) * (rev?-1:1);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=170,cy=160,u=68;
+    const X=v=>cx+v*u, Y=v=>cy-v*u;
+    ctx.fillStyle='rgba(14,147,132,.12)';
+    ctx.beginPath(); V.forEach((p,i)=>{ i?ctx.lineTo(X(p[0]),Y(p[1])):ctx.moveTo(X(p[0]),Y(p[1])); });
+    ctx.closePath(); ctx.fill();
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1.4; ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=3; ctx.beginPath();
+    for(let i=0;i<=upto;i++){ const [x,y]=pos(i/M); i?ctx.lineTo(X(x),Y(y)):ctx.moveTo(X(x),Y(y)); }
+    ctx.stroke();
+    if(upto>0){ const [px,py]=pos(t);
+      ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(px),Y(py),5,0,7); ctx.fill();
+      ctx.strokeStyle='rgba(190,18,60,.5)'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(X(0),Y(0)); ctx.lineTo(X(px),Y(py)); ctx.stroke(); }
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(X(0),Y(0),3,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('초록 = 실제 넓이 · 파랑 = 지금까지 돈 둘레', 14, 20);
+    ctx.fillText('붉은 선분이 쓸고 간 부채꼴이 곧 더해진 값입니다', 14, H-12);
+    // 오른쪽 막대
+    const bx=300, base=250, sc=110/Math.max(Math.abs(truth),1);
+    ctx.fillStyle='rgba(37,99,235,.65)';
+    ctx.fillRect(bx, base-Math.max(0,acc)*sc, 26, Math.abs(acc)*sc);
+    ctx.fillStyle='rgba(14,147,132,.6)';
+    ctx.fillRect(bx+36, base-Math.max(0,truth)*sc, 26, Math.abs(truth)*sc);
+    ctx.fillStyle='#374151'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('둘레 적분', bx+13, base+14); ctx.fillText('실제', bx+49, base+14);
+    ctx.textAlign='left';
+    $('#grout').innerHTML =
+      `<span class="mono">지금까지의 값 = <b style="color:#2563EB">${acc.toFixed(4)}</b> · 실제 넓이 = <b>${Math.abs(truth).toFixed(4)}</b></span><br>`
+      + `<span class="mono">돈 정도 = ${(t*100).toFixed(0)} % · 방향 = ${rev?'시계 방향':'반시계 방향'}</span><br>`
+      + (t>=0.99 && !rev && Math.abs(acc-Math.abs(truth))<0.02 ? `<b style="color:#B45309">둘레를 한 바퀴 돌았을 뿐인데 안쪽 넓이가 그대로 나왔습니다.</b><br>` : '')
+      + (rev && t>=0.99 ? `<b style="color:#7C3AED">반대로 돌았더니 값이 음수입니다 — 부호가 도는 방향을 기억합니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">넓이 = ½∮(x dy − y dx) — 면적계(플래니미터)가 이 원리로 움직입니다.</span>`;
+  }
+  ['grN','grR','grT'].forEach(i=>$('#'+i).oninput=draw); $('#grRev').onchange=draw; draw();
+  inquiry(root,{ id:'gr', title:'그린 정리 — 둘레가 넓이를 안다',
+    q:['꼭짓점 수를 늘려 가며 (꼭짓점 수, 둘레 적분, 실제 넓이) 를 여섯 줄 기록하세요.',
+       '꼭짓점을 늘리면 어떤 값에 다가가는지 찾으세요.',
+       '도는 방향을 바꾸면 왜 부호가 바뀌는지 설명하세요.'],
+    cols:['꼭짓점','크기','방향','둘레 적분','실제 넓이'],
+    hint:'힌트 — 원점과 두 점이 만드는 삼각형 넓이를 모두 더하는 셈입니다.',
+    read:()=>{ const N=+$('#grN').value,R=+$('#grR').value,rev=$('#grRev').checked;
+      const A=0.5*N*R*R*Math.sin(2*Math.PI/N);
+      return [N,R.toFixed(1),rev?'시계':'반시계',(rev?-A:A).toFixed(4),A.toFixed(4)]; } });
+}
