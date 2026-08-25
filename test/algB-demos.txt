@@ -1,0 +1,344 @@
+
+/* ---------- LAB 117 주기·진폭·위상 따로 움직이기 ---------- */
+function trigParamDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="tp1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">회색은 기준 y = sin x, 파랑이 지금 식입니다.
+      한 번에 <b>하나씩만</b> 움직여 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('tpA','진폭 a',0.5,3,0.1,1,'')}
+      ${slider('tpB','주기 계수 b',0.5,4,0.5,1,'')}
+      ${slider('tpC','위상 c (오른쪽으로)',0,6.5,0.25,0,'')}
+      ${slider('tpD','세로 이동 d',-2,2,0.5,0,'')}
+      <div class="out" id="tpout"></div>
+      <div class="note" style="margin-top:12px">주기 = 2π ÷ b · 최댓값 = d + a · 최솟값 = d − a.
+      계수마다 담당이 다릅니다.</div>
+    </div></div>`;
+  const cv=$('#tp1'),ctx=cv.getContext('2d'),W=380,H=300,P=34;
+  function draw(){
+    const a=+$('#tpA').value, b=+$('#tpB').value, c=+$('#tpC').value, d=+$('#tpD').value;
+    $('#tpAv').textContent=a.toFixed(1); $('#tpBv').textContent=b.toFixed(1);
+    $('#tpCv').textContent=c.toFixed(2); $('#tpDv').textContent=d.toFixed(1);
+    const XM=4*Math.PI, YM=5;
+    const X=x=>P+(W-P-14)*x/XM, Y=y=>H/2-(H/2-P)*y/YM;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#F1F3F6';
+    for(let y=-4;y<=4;y+=2){ ctx.beginPath(); ctx.moveTo(P,Y(y)); ctx.lineTo(W-14,Y(y)); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(P,Y(0)); ctx.lineTo(W-14,Y(0)); ctx.stroke();
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1.5; ctx.beginPath();
+    for(let x=0;x<=XM;x+=0.03){ const px=X(x),py=Y(Math.sin(x)); x===0?ctx.moveTo(px,py):ctx.lineTo(px,py); } ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.5; ctx.beginPath();
+    for(let x=0;x<=XM;x+=0.02){ const px=X(x),py=Y(d+a*Math.sin(b*(x-c))); x===0?ctx.moveTo(px,py):ctx.lineTo(px,py); } ctx.stroke();
+    // 최대·최소 선
+    ctx.strokeStyle='#BE123C'; ctx.setLineDash([4,3]); ctx.lineWidth=1.2;
+    [d+a, d-a].forEach(v=>{ ctx.beginPath(); ctx.moveTo(P,Y(v)); ctx.lineTo(W-14,Y(v)); ctx.stroke(); });
+    ctx.setLineDash([]);
+    const per=2*Math.PI/b;
+    $('#tpout').innerHTML =
+      `<span class="mono">y = ${d.toFixed(1)} + ${a.toFixed(1)} sin( ${b.toFixed(1)}(x − ${c.toFixed(2)}) )</span><br>`
+      + `주기 = 2π ÷ ${b.toFixed(1)} = <b>${per.toFixed(2)}</b> · 최댓값 <b>${(d+a).toFixed(1)}</b> · 최솟값 <b>${(d-a).toFixed(1)}</b><br>`
+      + (Math.abs(b-2)<0.01 ? `<b style="color:#0E9384">주기가 절반(π)이 되었습니다 — b 가 커지면 물결이 촘촘해집니다.</b><br>` : '')
+      + (Math.abs(a-2.5)<0.051 ? `<b style="color:#2563EB">진폭 2.5 — 위아래로 5 만큼 출렁입니다.</b><br>` : '')
+      + (c>0.01 ? `<b style="color:#B45309">위상 이동 ${c.toFixed(2)} — 모양은 그대로, 오른쪽으로 밀렸습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">셋을 한꺼번에 움직이면 무엇이 무엇을 바꿨는지 알 수 없습니다 — 하나씩!</span>`;
+  }
+  ['tpA','tpB','tpC','tpD'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'tp', title:'주기·진폭·위상 — 계수의 담당 구역',
+    q:['a·b·c·d 를 하나씩만 움직이며 (무엇을 움직였나, 그래프의 변화) 를 여덟 줄 기록하세요.',
+       '주기와 b 의 관계를 표로 만들고 규칙(주기 = 2π/b)을 찾으세요.',
+       '「진폭이 커지면 주기도 변하는가」를 실험으로 판정하고, 계수들이 서로 침범하지 않는 이유를 설명하세요.'],
+    cols:['a','b','c','d','주기','최댓값','최솟값'],
+    hint:'힌트 — b 는 x 에 곱해져 「시간을 빠르게」, a 는 y 에 곱해져 「크기를 키우게」 합니다.',
+    read:()=>{ const a=+$('#tpA').value,b=+$('#tpB').value,c=+$('#tpC').value,d=+$('#tpD').value;
+      return [a.toFixed(1),b.toFixed(1),c.toFixed(2),d.toFixed(1),(2*Math.PI/b).toFixed(2),(d+a).toFixed(1),(d-a).toFixed(1)]; } });
+}
+
+/* ---------- LAB 118 삼각방정식 — 해가 무한히 많은 이유 ---------- */
+function trigEqDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="te1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">위는 단위원, 아래는 sin 곡선입니다.
+      가로선 y = k 와 만나는 자리가 모두 해입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('teK','k (오른쪽 값)',-1,1,0.05,0.3,'')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="teHalf">k = 0.5</button>
+        <button class="b g sm" id="teOne">k = 1</button>
+        <button class="b g sm" id="teBig">k = 1 초과 시도</button>
+      </div>
+      <div class="out" id="teout"></div>
+      <div class="note" style="margin-top:12px">삼각함수는 주기 함수라 해가 <b>2π 마다 반복</b>됩니다.
+      한 바퀴 안의 해를 먼저 찾고, 거기에 2nπ 를 더하면 전부입니다.</div>
+    </div></div>`;
+  const cv=$('#te1'),ctx=cv.getContext('2d'),W=380,H=300;
+  const S={ over:false };
+  function draw(){
+    const k=S.over ? 1.4 : +$('#teK').value;
+    $('#teKv').textContent=(+$('#teK').value).toFixed(2);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    // 단위원
+    const C={x:62,y:70}, R=46;
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.3;
+    ctx.beginPath(); ctx.arc(C.x,C.y,R,0,7); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(C.x-R-8,C.y); ctx.lineTo(C.x+R+8,C.y); ctx.stroke();
+    ctx.strokeStyle='#BE123C'; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(C.x-R-8,C.y-R*k); ctx.lineTo(C.x+R+8,C.y-R*k); ctx.stroke(); ctx.setLineDash([]);
+    const sols=[];
+    if(Math.abs(k)<=1){
+      const a1=Math.asin(k), a2=Math.PI-a1;
+      [a1,a2].forEach(t=>{ const tt=(t+2*Math.PI)%(2*Math.PI); sols.push(tt);
+        ctx.fillStyle='#2563EB'; ctx.beginPath(); ctx.arc(C.x+R*Math.cos(tt),C.y-R*Math.sin(tt),4.5,0,7); ctx.fill(); });
+    }
+    // sin 곡선
+    const P=32, top=140, bot=H-30, XM=4*Math.PI;
+    const X=x=>P+(W-P-14)*x/XM, Y=y=>(top+bot)/2-(bot-top)/2*y*0.9;
+    ctx.strokeStyle='#F1F3F6'; ctx.beginPath(); ctx.moveTo(P,Y(0)); ctx.lineTo(W-14,Y(0)); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4; ctx.beginPath();
+    for(let x=0;x<=XM;x+=0.02){ const px=X(x),py=Y(Math.sin(x)); x===0?ctx.moveTo(px,py):ctx.lineTo(px,py); } ctx.stroke();
+    ctx.strokeStyle='#BE123C'; ctx.setLineDash([5,4]); ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(P,Y(k)); ctx.lineTo(W-14,Y(k)); ctx.stroke(); ctx.setLineDash([]);
+    let cnt=0;
+    if(Math.abs(k)<=1){
+      sols.forEach(t0=>{ for(let n=0;n<2;n++){ const x=t0+2*Math.PI*n; if(x<=XM){
+        ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(x),Y(k),4.5,0,7); ctx.fill(); cnt++; } } });
+    }
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+    [0,Math.PI,2*Math.PI,3*Math.PI,4*Math.PI].forEach((v,i)=>ctx.fillText(['0','π','2π','3π','4π'][i], X(v), bot+14));
+    const deg=t=>(t*180/Math.PI).toFixed(1);
+    $('#teout').innerHTML =
+      `<span class="mono">sin x = ${k.toFixed(2)}</span><br>`
+      + (Math.abs(k)>1
+        ? `<b style="color:#BE123C">해가 없습니다 — sin 의 값은 −1 과 1 사이를 벗어날 수 없습니다.</b><br>`
+        : Math.abs(Math.abs(k)-1)<1e-9
+        ? `<b style="color:#7C3AED">해가 한 바퀴에 하나뿐 — 꼭짓점에서 만났습니다 (x = ${deg(sols[0])}°).</b><br>`
+        : `한 바퀴 안의 해: <b>${deg(sols[0])}°</b> 와 <b>${deg(sols[1])}°</b> — <b style="color:#0E9384">화면에 보이는 해 ${cnt}개</b><br>`
+          + `<span class="mono">x = ${deg(sols[0])}° + 360°n 또는 ${deg(sols[1])}° + 360°n</span><br>`)
+      + `<span style="color:#6B7280;font-size:12.5px">주기 함수의 방정식은 「한 바퀴 안의 해 + 2nπ」로 전부 적습니다.</span>`;
+  }
+  $('#teK').oninput=()=>{ S.over=false; draw(); };
+  $('#teHalf').onclick=()=>{ S.over=false; $('#teK').value=0.5; draw(); };
+  $('#teOne').onclick=()=>{ S.over=false; $('#teK').value=1; draw(); };
+  $('#teBig').onclick=()=>{ S.over=true; draw(); };
+  draw();
+  inquiry(root,{ id:'te', title:'삼각방정식 — 해가 무한히 많은 이유',
+    q:['k 를 바꿔 가며 (k, 한 바퀴 안의 해, 화면의 해 개수) 를 여섯 줄 기록하세요.',
+       'k = 1 일 때와 |k| > 1 일 때 해의 개수가 어떻게 달라지는지 확인하세요.',
+       '해를 「+ 360°n」으로 적는 이유를 단위원의 회전으로 손으로 설명하세요.'],
+    cols:['k','해 ①','해 ②','한 바퀴 해의 수','일반해'],
+    hint:'힌트 — 단위원에서 높이가 k 인 점은 보통 두 곳입니다. 한 바퀴 더 돌면 같은 자리로 돌아옵니다.',
+    read:()=>{ const k=+$('#teK').value;
+      if(Math.abs(k)>1) return [k.toFixed(2),'없음','없음',0,'해 없음'];
+      const a1=Math.asin(k), a2=Math.PI-a1;
+      const d=t=>((t*180/Math.PI+360)%360).toFixed(1)+'°';
+      return [k.toFixed(2), d(a1), d(a2), Math.abs(Math.abs(k)-1)<1e-9?1:2, '해 + 360°n']; } });
+}
+
+/* ---------- LAB 119 삼각함수의 합성 — a sin x + b cos x ---------- */
+function trigSumDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ts1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">보라 곡선 a sin x, 초록 곡선 b cos x,
+      <b>파란 곡선</b>이 둘의 합입니다. 합도 사인 곡선인가요?</div>
+    </div>
+    <div class="col">
+      ${slider('tsA','a (sin 계수)',-4,4,0.5,2,'')}
+      ${slider('tsB','b (cos 계수)',-4,4,0.5,1,'')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="tsFit">합성 곡선 겹쳐 보기</button>
+      </div>
+      <div class="out" id="tsout"></div>
+      <div class="note" style="margin-top:12px">두 파동을 더해도 <b>같은 주기의 사인 곡선</b>이 됩니다.
+      진폭은 √(a²+b²), 위상만 옮겨집니다.</div>
+    </div></div>`;
+  const cv=$('#ts1'),ctx=cv.getContext('2d'),W=380,H=300,P=32;
+  const S={ fit:false };
+  function draw(){
+    const a=+$('#tsA').value, b=+$('#tsB').value;
+    $('#tsAv').textContent=a.toFixed(1); $('#tsBv').textContent=b.toFixed(1);
+    const R=Math.hypot(a,b), al=Math.atan2(b,a);
+    const XM=2*Math.PI, YM=6;
+    const X=x=>P+(W-P-14)*x/XM, Y=y=>H/2-(H/2-P)*y/YM;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#F1F3F6';
+    for(let y=-4;y<=4;y+=2){ ctx.beginPath(); ctx.moveTo(P,Y(y)); ctx.lineTo(W-14,Y(y)); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(P,Y(0)); ctx.lineTo(W-14,Y(0)); ctx.stroke();
+    const curve=(f,col,w,dash)=>{ ctx.strokeStyle=col; ctx.lineWidth=w;
+      ctx.setLineDash(dash||[]); ctx.beginPath();
+      for(let x=0;x<=XM;x+=0.02){ const px=X(x),py=Y(f(x)); x===0?ctx.moveTo(px,py):ctx.lineTo(px,py); }
+      ctx.stroke(); ctx.setLineDash([]); };
+    curve(x=>a*Math.sin(x), 'rgba(124,58,237,.55)', 1.6);
+    curve(x=>b*Math.cos(x), 'rgba(14,147,132,.55)', 1.6);
+    curve(x=>a*Math.sin(x)+b*Math.cos(x), '#2563EB', 2.6);
+    if(S.fit) curve(x=>R*Math.sin(x+al), '#BE123C', 1.8, [6,4]);
+    ctx.strokeStyle='#BE123C'; ctx.setLineDash([3,3]); ctx.lineWidth=1;
+    [R,-R].forEach(v=>{ ctx.beginPath(); ctx.moveTo(P,Y(v)); ctx.lineTo(W-14,Y(v)); ctx.stroke(); });
+    ctx.setLineDash([]);
+    $('#tsout').innerHTML =
+      `<span class="mono">y = ${a.toFixed(1)} sin x + ${b.toFixed(1)} cos x</span><br>`
+      + `<span class="mono">= R sin(x + α),&nbsp; R = √(a² + b²) = <b>${R.toFixed(3)}</b>, α = ${(al*180/Math.PI).toFixed(1)}°</span><br>`
+      + `최댓값 <b>${R.toFixed(2)}</b> · 최솟값 <b>${(-R).toFixed(2)}</b><br>`
+      + (Math.abs(a-3)<0.01 && Math.abs(b-4)<0.01 ? `<b style="color:#B45309">3·4·5 삼각형 등장 — R = 5 입니다.</b><br>` : '')
+      + (S.fit ? `<b style="color:#0E9384">합성 곡선이 합과 완전히 겹칩니다 — 두 파동의 합은 하나의 사인 곡선입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">a, b 를 바꿔도 주기는 그대로 2π 입니다 — 바뀌는 것은 크기와 위상뿐.</span>`;
+  }
+  ['tsA','tsB'].forEach(i=>$('#'+i).oninput=()=>{ S.fit=false; draw(); });
+  $('#tsFit').onclick=()=>{ S.fit=true; draw(); };
+  draw();
+  inquiry(root,{ id:'ts', title:'삼각함수의 합성 — 두 파동은 하나의 파동',
+    q:['(a, b, R, 최댓값) 을 여섯 줄 기록하세요. a 또는 b 가 0 인 경우도 포함하세요.',
+       'R 과 a, b 의 관계를 찾고, 피타고라스 정리와 어떻게 닮았는지 쓰세요.',
+       '합성 곡선을 겹쳐 두 곡선이 완전히 같은지 확인하고, 위상 α 가 어디서 오는지 설명하세요.'],
+    cols:['a','b','R','α','최댓값'],
+    hint:'힌트 — (a, b) 를 좌표로 보면 R 은 원점까지의 거리, α 는 그 점의 방향각입니다.',
+    read:()=>{ const a=+$('#tsA').value,b=+$('#tsB').value,R=Math.hypot(a,b);
+      return [a.toFixed(1),b.toFixed(1),R.toFixed(3),(Math.atan2(b,a)*180/Math.PI).toFixed(1)+'°',R.toFixed(2)]; } });
+}
+
+/* ---------- LAB 120 헤론의 공식 — 세 변만으로 넓이 ---------- */
+function heronDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="hr1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">세 변 길이만 정하면 삼각형이 하나로 정해집니다(SSS).
+      그럼 넓이도 정해져야 하지 않을까요?</div>
+    </div>
+    <div class="col">
+      ${slider('hrA','변 a',3,20,1,8,'')}
+      ${slider('hrB','변 b',3,20,1,9,'')}
+      ${slider('hrC','변 c',3,20,1,10,'')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="hrChk">½ab sin C 로 검산</button>
+      </div>
+      <div class="out" id="hrout"></div>
+      <div class="note" style="margin-top:12px">s = (a+b+c)/2 로 두면
+      넓이 = √(s(s−a)(s−b)(s−c)) — 각을 몰라도 넓이가 나옵니다.</div>
+    </div></div>`;
+  const cv=$('#hr1'),ctx=cv.getContext('2d'),W=380,H=300;
+  const S={ chk:false };
+  function draw(){
+    const a=+$('#hrA').value, b=+$('#hrB').value, c=+$('#hrC').value;
+    $('#hrAv').textContent=a; $('#hrBv').textContent=b; $('#hrCv').textContent=c;
+    const ok = a+b>c && b+c>a && c+a>b;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const s=(a+b+c)/2;
+    const area = ok ? Math.sqrt(s*(s-a)*(s-b)*(s-c)) : 0;
+    if(ok){
+      const sc=Math.min(11, 240/Math.max(a,b,c));
+      const A={x:70,y:230}, B={x:70+c*sc, y:230};
+      const cosA=(b*b+c*c-a*a)/(2*b*c);
+      const Cp={x:70+b*sc*cosA, y:230-b*sc*Math.sqrt(Math.max(0,1-cosA*cosA))};
+      ctx.fillStyle='rgba(37,99,235,.14)';
+      ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y); ctx.lineTo(Cp.x,Cp.y); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.2; ctx.stroke();
+      ctx.fillStyle='#111827'; ctx.font='bold 11.5px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('c = '+c, (A.x+B.x)/2, A.y+18);
+      ctx.fillText('b = '+b, (A.x+Cp.x)/2-14, (A.y+Cp.y)/2);
+      ctx.fillText('a = '+a, (B.x+Cp.x)/2+16, (B.y+Cp.y)/2);
+    } else {
+      ctx.fillStyle='#BE123C'; ctx.font='bold 14px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('삼각형이 만들어지지 않습니다', W/2, 150);
+      ctx.font='12px sans-serif'; ctx.fillStyle='#6B7280';
+      ctx.fillText('가장 긴 변이 나머지 두 변의 합보다 짧아야 합니다', W/2, 174);
+    }
+    const cosC=(a*a+b*b-c*c)/(2*a*b);
+    const area2 = ok ? 0.5*a*b*Math.sqrt(Math.max(0,1-cosC*cosC)) : 0;
+    $('#hrout').innerHTML =
+      `<span class="mono">s = (a+b+c)/2 = ${s.toFixed(1)}</span><br>`
+      + (ok
+        ? `<span class="mono">넓이 = √(${s.toFixed(1)}×${(s-a).toFixed(1)}×${(s-b).toFixed(1)}×${(s-c).toFixed(1)}) = <b>${area.toFixed(3)}</b></span><br>`
+          + (Math.abs(area-84)<0.01 ? `<b style="color:#B45309">13·14·15 삼각형 — 넓이가 정확히 84 입니다.</b><br>` : '')
+          + (S.chk ? `½ab sin C = <b>${area2.toFixed(3)}</b> — ${Math.abs(area-area2)<0.01?'<b style="color:#0E9384">헤론과 일치! 검산 성공</b>':'차이 '+Math.abs(area-area2).toFixed(3)}<br>` : '')
+        : `<b style="color:#BE123C">삼각부등식 위반 — 넓이를 말할 수 없습니다.</b><br>`)
+      + `<span style="color:#6B7280;font-size:12.5px">각을 하나도 재지 않고 넓이를 구했습니다 — 측량에서 대단히 쓸모 있는 성질입니다.</span>`;
+  }
+  ['hrA','hrB','hrC'].forEach(i=>$('#'+i).oninput=()=>{ S.chk=false; draw(); });
+  $('#hrChk').onclick=()=>{ S.chk=true; draw(); };
+  draw();
+  inquiry(root,{ id:'hr', title:'헤론의 공식 — 각 없이 넓이 구하기',
+    q:['세 변을 바꿔 가며 (a, b, c, s, 넓이) 를 여섯 줄 기록하세요. 삼각부등식을 깨는 조합도 넣으세요.',
+       '½ab sin C 검산과 헤론의 값이 늘 같은지 확인하세요.',
+       '세 변이 정해지면 넓이가 하나로 정해지는 이유를 SSS 합동으로 설명하세요.'],
+    cols:['a','b','c','s','헤론 넓이','½ab sinC'],
+    hint:'힌트 — 세 변이 같으면 삼각형은 합동입니다. 합동이면 넓이도 같을 수밖에 없습니다.',
+    read:()=>{ const a=+$('#hrA').value,b=+$('#hrB').value,c=+$('#hrC').value,s=(a+b+c)/2;
+      const ok=a+b>c&&b+c>a&&c+a>b;
+      const ar=ok?Math.sqrt(s*(s-a)*(s-b)*(s-c)):0;
+      const cosC=(a*a+b*b-c*c)/(2*a*b);
+      return [a,b,c,s.toFixed(1), ok?ar.toFixed(3):'없음', ok?(0.5*a*b*Math.sqrt(Math.max(0,1-cosC*cosC))).toFixed(3):'없음']; } });
+}
+
+/* ---------- LAB 121 푸리에의 직관 — 소리를 성분으로 쪼개기 ---------- */
+function fourierDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="fr1" width="380" height="180"></canvas>
+      <canvas id="fr2" width="380" height="120" style="margin-top:6px"></canvas>
+      <div class="note" style="margin-top:8px">위는 만들어진 파형, 아래는 <b>성분 막대</b>(스펙트럼)입니다.
+      목표 파형에 얼마나 가까운지 오차로 알려 줍니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">목표 파형<select id="frT" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="sq">사각파 (톱니처럼 각진 소리)</option>
+        <option value="saw">톱니파</option></select></label>
+      ${slider('fr1a','1배음',0,1.4,0.05,0.4,'')}
+      ${slider('fr3a','3배음',0,0.8,0.05,0,'')}
+      ${slider('fr5a','5배음',0,0.5,0.05,0,'')}
+      ${slider('fr7a','7배음',0,0.4,0.05,0,'')}
+      <div class="out" id="frout"></div>
+      <div class="note" style="margin-top:12px">사각파는 홀수 배음을 1, 1/3, 1/5, 1/7 … 비율로 더하면 만들어집니다.
+      어떤 파형이든 사인들의 합으로 쪼갤 수 있다 — 푸리에의 생각입니다.</div>
+    </div></div>`;
+  const c1=$('#fr1'),x1=c1.getContext('2d'),W=380,H1=180;
+  const c2=$('#fr2'),x2=c2.getContext('2d'),H2=120;
+  const target=(k,t)=>{
+    if(k==='sq') return Math.sign(Math.sin(t)) * 0.9;
+    return ((t%(2*Math.PI))/Math.PI - 1) * 0.9;
+  };
+  function draw(){
+    const k=$('#frT').value;
+    const A=[+$('#fr1a').value, +$('#fr3a').value, +$('#fr5a').value, +$('#fr7a').value];
+    [['fr1a',0],['fr3a',1],['fr5a',2],['fr7a',3]].forEach(([id,i])=>$('#'+id+'v').textContent=A[i].toFixed(2));
+    const H=[1,3,5,7];
+    const f=t=>A.reduce((s,a,i)=>s+a*Math.sin(H[i]*t),0);
+    x1.clearRect(0,0,W,H1); x1.fillStyle='#fff'; x1.fillRect(0,0,W,H1);
+    x1.strokeStyle='#E5E7EB'; x1.beginPath(); x1.moveTo(20,H1/2); x1.lineTo(W-20,H1/2); x1.stroke();
+    const X=t=>20+(W-40)*t/(2*Math.PI), Y=v=>H1/2-v*60;
+    x1.strokeStyle='#D1D5DB'; x1.lineWidth=1.8; x1.beginPath();
+    for(let t=0;t<=2*Math.PI;t+=0.01){ const px=X(t),py=Y(target(k,t)); t===0?x1.moveTo(px,py):x1.lineTo(px,py); } x1.stroke();
+    x1.strokeStyle='#2563EB'; x1.lineWidth=2.4; x1.beginPath();
+    for(let t=0;t<=2*Math.PI;t+=0.005){ const px=X(t),py=Y(f(t)); t===0?x1.moveTo(px,py):x1.lineTo(px,py); } x1.stroke();
+    // 스펙트럼
+    x2.clearRect(0,0,W,H2); x2.fillStyle='#fff'; x2.fillRect(0,0,W,H2);
+    x2.strokeStyle='#9CA3AF'; x2.beginPath(); x2.moveTo(30,H2-24); x2.lineTo(W-20,H2-24); x2.stroke();
+    A.forEach((a,i)=>{ const bx=60+i*70, h=a*70;
+      x2.fillStyle='rgba(37,99,235,.45)'; x2.fillRect(bx-14, H2-24-h, 28, h);
+      x2.strokeStyle='#2563EB'; x2.strokeRect(bx-14, H2-24-h, 28, h);
+      x2.fillStyle='#374151'; x2.font='10.5px sans-serif'; x2.textAlign='center';
+      x2.fillText(H[i]+'배음', bx, H2-10); });
+    let se=0, n=0;
+    for(let t=0;t<2*Math.PI;t+=0.02){ const e=f(t)-target(k,t); se+=e*e; n++; }
+    const rmse=Math.sqrt(se/n);
+    $('#frout').innerHTML =
+      `<span class="mono">y = ${A.map((a,i)=>a>0?a.toFixed(2)+'·sin('+H[i]+'x)':null).filter(Boolean).join(' + ')||'0'}</span><br>`
+      + `목표와의 평균 오차 = <b style="color:${rmse<0.25?'#0E9384':rmse<0.4?'#B45309':'#BE123C'}">${rmse.toFixed(3)}</b><br>`
+      + (rmse<0.25 ? `<b style="color:#0E9384">성분 분해 성공 — 사인들의 합이 목표 파형을 흉내 냈습니다.</b><br>` : '')
+      + (A[1]>0 && A[2]>0 && A[3]>0 ? `<b style="color:#7C3AED">홀수 배음 넷이 모두 살아 있습니다 — 각진 파형의 재료입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">막대(스펙트럼)는 「이 소리에 어떤 주파수가 얼마나 들었는가」의 지도입니다.</span>`;
+  }
+  ['fr1a','fr3a','fr5a','fr7a'].forEach(i=>$('#'+i).oninput=draw);
+  $('#frT').onchange=draw;
+  draw();
+  inquiry(root,{ id:'fr', title:'푸리에의 직관 — 파형을 성분으로',
+    q:['배음 진폭을 하나씩 올리며 (진폭 조합, 오차) 를 여섯 줄 기록하세요.',
+       '사각파에 가장 가까워지는 조합을 찾고, 1 : 1/3 : 1/5 : 1/7 비율과 비교하세요.',
+       '스펙트럼 막대가 무엇을 나타내는지 자기 말로 쓰고, 음성 인식·MP3 압축과 어떻게 이어지는지 조사하세요.'],
+    cols:['1배음','3배음','5배음','7배음','오차'],
+    hint:'힌트 — 각진 파형일수록 높은 배음이 필요합니다. 배음을 잘라내면 모서리가 둥글어집니다.',
+    read:()=>{ const A=['fr1a','fr3a','fr5a','fr7a'].map(i=>+$('#'+i).value);
+      const k=$('#frT').value, H=[1,3,5,7];
+      const f=t=>A.reduce((s,a,i)=>s+a*Math.sin(H[i]*t),0);
+      let se=0,n=0; for(let t=0;t<2*Math.PI;t+=0.02){ const e=f(t)-target(k,t); se+=e*e; n++; }
+      return A.map(a=>a.toFixed(2)).concat([Math.sqrt(se/n).toFixed(3)]); } });
+}

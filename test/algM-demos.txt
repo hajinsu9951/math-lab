@@ -1,0 +1,304 @@
+/* ---------- LAB 172 수열의 극한 — 어디로 가는가 ---------- */
+function seqLimitDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sl2" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">항의 개수를 늘리며 점들이 <b>한 값으로 모이는지</b> 보세요.
+      모이지 않는 수열도 있습니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">수열 고르기<select id="slK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="inv">① aₙ = 1 + 1/n</option>
+        <option value="alt">② aₙ = (−1)ⁿ</option>
+        <option value="lin">③ aₙ = n/3</option>
+        <option value="rt">④ aₙ = (2n+1)/(n+3)</option>
+      </select></label>
+      ${slider('slN','항의 개수 n',5,200,5,20,'항')}
+      <div class="out" id="slout"></div>
+      <div class="note" style="margin-top:12px">극한은 「끝없이 갈 때 <b>다가가는 값</b>」입니다.
+      진동하거나 한없이 커지면 극한이 없습니다.</div>
+    </div></div>`;
+  const cv=$('#sl2'),ctx=cv.getContext('2d'),W=380,H=300,P=36;
+  const F={ inv:{f:n=>1+1/n, L:1, s:'1 + 1/n'}, alt:{f:n=>Math.pow(-1,n), L:null, s:'(−1)ⁿ'},
+            lin:{f:n=>n/3, L:null, s:'n/3'}, rt:{f:n=>(2*n+1)/(n+3), L:2, s:'(2n+1)/(n+3)'} };
+  function draw(){
+    const k=$('#slK').value, n=+$('#slN').value, C=F[k];
+    $('#slNv').textContent=n+'항';
+    const vals=[]; for(let i=1;i<=n;i++) vals.push(C.f(i));
+    const lo=Math.min(...vals,C.L===null?0:C.L)-0.5, hi=Math.max(...vals,C.L===null?0:C.L)+0.5;
+    const X=i=>P+(W-2*P)*(i-1)/Math.max(1,n-1), Y=v=>H-P-(H-2*P)*(v-lo)/(hi-lo);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    if(C.L!==null){ ctx.setLineDash([5,4]); ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.6;
+      ctx.beginPath(); ctx.moveTo(P,Y(C.L)); ctx.lineTo(W-P,Y(C.L)); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#BE123C'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+      ctx.fillText('L = '+C.L, W-P-32, Y(C.L)-6); }
+    vals.forEach((v,i)=>{ ctx.fillStyle='rgba(37,99,235,.7)';
+      ctx.beginPath(); ctx.arc(X(i+1),Y(v),Math.max(1.6,3.6-n/80),0,7); ctx.fill(); });
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('aₙ = '+C.s+' · 항의 개수 '+n, P, P-12);
+    const last=vals[vals.length-1], gap = C.L===null ? null : Math.abs(last-C.L);
+    $('#slout').innerHTML =
+      `<span class="mono">a₁ = ${vals[0].toFixed(4)} · a${n} = <b>${last.toFixed(6)}</b></span><br>`
+      + (C.L!==null ? `<span class="mono">극한 L = ${C.L} · |a${n} − L| = <b>${gap.toFixed(6)}</b></span><br>`
+                    : `<span class="mono">한 값으로 모이지 않습니다.</span><br>`)
+      + (gap!==null && gap<0.005 ? `<b style="color:#B45309">차이가 0.005 아래 — 붉은 선에 사실상 붙었습니다. 수렴합니다.</b><br>` : '')
+      + (k==='alt' ? `<b style="color:#7C3AED">두 값 사이를 오갈 뿐입니다 — 진동하며 발산합니다.</b><br>` : '')
+      + (k==='lin' ? `항이 한없이 커집니다 — 양의 무한대로 발산합니다.<br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">「가까워진다」를 차이의 크기로 재는 것이 극한의 정의입니다.</span>`;
+  }
+  $('#slK').onchange=draw; $('#slN').oninput=draw; draw();
+  inquiry(root,{ id:'sl2', title:'수열의 극한 — 다가가는 값',
+    q:['네 수열 각각에서 n = 20, 100, 200 의 값을 기록하세요.',
+       '수렴하는 수열과 발산하는 수열을 나누고 그 까닭을 쓰세요.',
+       '「차이가 얼마나 작아지는가」로 수렴을 설명해 보세요.'],
+    cols:['수열','n','aₙ','극한','차이'],
+    hint:'힌트 — 분자·분모의 최고차항만 보면 극한이 보입니다.',
+    read:()=>{ const k=$('#slK').value,n=+$('#slN').value,C=F[k];
+      return [C.s,n,C.f(n).toFixed(6),C.L===null?'없음':C.L,
+        C.L===null?'—':Math.abs(C.f(n)-C.L).toFixed(6)]; } });
+}
+
+/* ---------- LAB 173 등비수열의 수렴 조건 — r 이 결정한다 ---------- */
+function gpConvDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="gc1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">공비 r 을 바꾸면 rⁿ 이 <b>0 으로 가거나, 커지거나, 진동</b>합니다.
+      경계가 어디인지 찾아보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('gcR','공비 r',-1.5,1.5,0.05,0.5,'')}
+      ${slider('gcN','항의 개수 n',5,60,1,20,'항')}
+      <div class="out" id="gcout"></div>
+      <div class="note" style="margin-top:12px">|r| &lt; 1 이면 0 으로 수렴, r = 1 이면 1 로 수렴,
+      그 밖에는 발산합니다. <b>부등호에 등호가 없다</b>는 점이 핵심입니다.</div>
+    </div></div>`;
+  const cv=$('#gc1'),ctx=cv.getContext('2d'),W=380,H=300,P=36;
+  function draw(){
+    const r=+$('#gcR').value, n=+$('#gcN').value;
+    $('#gcRv').textContent=r.toFixed(2); $('#gcNv').textContent=n+'항';
+    const vals=[]; for(let i=1;i<=n;i++) vals.push(Math.pow(r,i));
+    const cap=v=>Math.max(-4,Math.min(4,v));
+    const X=i=>P+(W-2*P)*(i-1)/Math.max(1,n-1), Y=v=>H/2-52*cap(v);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,Y(0)); ctx.lineTo(W-P,Y(0)); ctx.stroke();
+    ctx.setLineDash([4,4]); ctx.strokeStyle='#C7D2E4';
+    [1,-1].forEach(v=>{ ctx.beginPath(); ctx.moveTo(P,Y(v)); ctx.lineTo(W-P,Y(v)); ctx.stroke(); });
+    ctx.setLineDash([]);
+    vals.forEach((v,i)=>{ ctx.fillStyle = Math.abs(v)>4 ? '#BE123C' : 'rgba(37,99,235,.75)';
+      ctx.beginPath(); ctx.arc(X(i+1),Y(v),3.2,0,7); ctx.fill(); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('점선 = ±1 · 붉은 점은 화면을 벗어난 값', P, P-12);
+    const last=vals[n-1], ar=Math.abs(r);
+    let verdict;
+    if(ar<1-1e-9) verdict='0 으로 수렴';
+    else if(Math.abs(r-1)<1e-9) verdict='1 로 수렴';
+    else if(Math.abs(r+1)<1e-9) verdict='진동 (발산)';
+    else verdict='발산';
+    $('#gcout').innerHTML =
+      `<span class="mono">r = ${r.toFixed(2)} · r^${n} = <b>${Math.abs(last)>1e6?last.toExponential(2):last.toFixed(8)}</b></span><br>`
+      + `<span class="mono">판정 — <b>${verdict}</b></span><br>`
+      + (ar<1-1e-9 && Math.abs(last)<1e-4 ? `<b style="color:#B45309">항이 0 에 사실상 닿았습니다 — |r| < 1 이면 반드시 0 으로 갑니다.</b><br>` : '')
+      + (Math.abs(r+1)<1e-9 ? `<b style="color:#7C3AED">−1 과 1 을 번갈아 오갑니다 — 값이 하나로 정해지지 않아 발산입니다.</b><br>` : '')
+      + (ar>1+1e-9 ? `항의 크기가 한없이 커집니다 — 발산합니다.<br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">r = 1 은 수렴, r = −1 은 발산 — 경계에서 갈립니다.</span>`;
+  }
+  ['gcR','gcN'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'gc', title:'등비수열 — 수렴의 경계',
+    q:['r = 0.9, 1, −1, 1.1 에서 n = 60 의 값을 기록하세요.',
+       '수렴하는 r 의 범위를 부등식으로 쓰세요 — 등호는 어디에 붙나요?',
+       'r = −1 이 왜 수렴이 아닌지 설명하세요.'],
+    cols:['r','n','rⁿ','판정','|r|'],
+    hint:'힌트 — −1 < r ≤ 1 이 수렴 조건입니다. 오른쪽에만 등호가 붙습니다.',
+    read:()=>{ const r=+$('#gcR').value,n=+$('#gcN').value,v=Math.pow(r,n),ar=Math.abs(r);
+      const j = ar<1-1e-9?'0 으로 수렴':(Math.abs(r-1)<1e-9?'1 로 수렴':(Math.abs(r+1)<1e-9?'진동':'발산'));
+      return [r.toFixed(2),n,Math.abs(v)>1e6?v.toExponential(2):v.toFixed(6),j,ar.toFixed(2)]; } });
+}
+
+/* ---------- LAB 174 급수의 부분합 — 무한히 더하면 어디로 ---------- */
+function seriesPartDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sp2" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">막대는 <b>부분합</b>입니다. 항을 더할수록
+      어떤 값에 붙는지, 아니면 계속 커지는지 보세요.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">급수 고르기<select id="spK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="geo">① 1/2 + 1/4 + 1/8 + … (등비 r = 1/2)</option>
+        <option value="harm">② 1 + 1/2 + 1/3 + … (조화급수)</option>
+        <option value="sq">③ 1 + 1/4 + 1/9 + … (1/n²)</option>
+      </select></label>
+      ${slider('spN','더하는 항의 수',1,300,1,8,'항')}
+      <div class="out" id="sp2out"></div>
+      <div class="note" style="margin-top:12px">항이 0 으로 가는 것은 <b>필요조건일 뿐</b>입니다.
+      조화급수는 항이 0 으로 가는데도 합이 한없이 커집니다.</div>
+    </div></div>`;
+  const cv=$('#sp2'),ctx=cv.getContext('2d'),W=380,H=300,P=36;
+  const K={ geo:{f:k=>Math.pow(0.5,k), L:1, s:'(1/2)^k'},
+            harm:{f:k=>1/k, L:null, s:'1/k'},
+            sq:{f:k=>1/(k*k), L:Math.PI*Math.PI/6, s:'1/k²'} };
+  function draw(){
+    const k=$('#spK').value, n=+$('#spN').value, C=K[k];
+    $('#spNv').textContent=n+'항';
+    const parts=[]; let acc=0;
+    for(let i=1;i<=n;i++){ acc+=C.f(i); parts.push(acc); }
+    const mx=Math.max(...parts, C.L===null?0:C.L)*1.15;
+    const X=i=>P+(W-2*P)*(i-1)/Math.max(1,n-1), Y=v=>H-P-(H-2*P)*v/mx;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    if(C.L!==null){ ctx.setLineDash([5,4]); ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.6;
+      ctx.beginPath(); ctx.moveTo(P,Y(C.L)); ctx.lineTo(W-P,Y(C.L)); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#BE123C'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+      ctx.fillText('합 = '+C.L.toFixed(4), W-P-70, Y(C.L)-6); }
+    const bw=Math.max(1,(W-2*P)/n-1);
+    parts.forEach((v,i)=>{ ctx.fillStyle='rgba(37,99,235,.42)';
+      ctx.fillRect(P+(W-2*P)*i/n, Y(v), bw, Y(0)-Y(v)); });
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(P,Y(0)); ctx.lineTo(W-P,Y(0)); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('일반항 '+C.s+' · 부분합 S'+n, P, P-12);
+    const S=parts[n-1], term=C.f(n);
+    $('#sp2out').innerHTML =
+      `<span class="mono">S${n} = <b>${S.toFixed(6)}</b> · 마지막 항 = ${term.toFixed(6)}</span><br>`
+      + (C.L!==null ? `<span class="mono">합 = ${C.L.toFixed(6)} · 남은 차이 <b>${Math.abs(S-C.L).toFixed(6)}</b></span><br>`
+                    : `<span class="mono">합이 한 값으로 모이지 않습니다 (한없이 커집니다).</span><br>`)
+      + (k==='geo' && Math.abs(S-1)<0.005 ? `<b style="color:#B45309">1 에 사실상 닿았습니다 — 무한히 더해도 1 을 넘지 않습니다.</b><br>` : '')
+      + (k==='harm' && n>=200 ? `<b style="color:#7C3AED">항은 0 으로 가는데 합은 계속 커집니다 — 조화급수는 발산합니다.</b><br>` : '')
+      + (k==='sq' && n>=200 ? `1/n² 은 같은 조건에서도 수렴합니다 — 0 으로 가는 속도가 중요합니다.<br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">「항 → 0」은 수렴의 필요조건일 뿐 충분조건이 아닙니다.</span>`;
+  }
+  $('#spK').onchange=draw; $('#spN').oninput=draw; draw();
+  inquiry(root,{ id:'sp2', title:'급수 — 무한히 더한 값',
+    q:['세 급수 각각에서 n = 10, 100, 300 의 부분합을 기록하세요.',
+       '조화급수의 항은 0 으로 가는데 왜 합은 커지나요?',
+       '수렴하는 급수와 발산하는 급수의 차이를 「0 으로 가는 속도」로 설명하세요.'],
+    cols:['급수','n','마지막 항','부분합','수렴 여부'],
+    hint:'힌트 — 1/n 과 1/n² 은 둘 다 0 으로 가지만 결과가 다릅니다.',
+    read:()=>{ const k=$('#spK').value,n=+$('#spN').value,C=K[k];
+      let acc=0; for(let i=1;i<=n;i++) acc+=C.f(i);
+      return [C.s,n,C.f(n).toFixed(6),acc.toFixed(6),C.L===null?'발산':'수렴']; } });
+}
+
+/* ---------- LAB 175 순환소수와 무한등비급수 — 0.999… 는 1인가 ---------- */
+function repeatDecDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="rd1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">막대를 <b>0.9 → 0.99 → 0.999 …</b> 로 채워 갑니다.
+      1 에 남은 틈이 어떻게 되는지 보세요.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">순환소수 고르기<select id="rdK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="p3">① 0.333… (첫 항 0.3, 공비 0.1)</option>
+        <option value="p9">② 0.999… (첫 항 0.9, 공비 0.1)</option>
+        <option value="p12">③ 0.121212… (첫 항 0.12, 공비 0.01)</option>
+      </select></label>
+      ${slider('rdN','자릿수',1,16,1,3,'자리')}
+      <div class="out" id="rdout"></div>
+      <div class="note" style="margin-top:12px">무한등비급수의 합 S = a/(1 − r) (|r| &lt; 1).
+      순환소수는 <b>등비급수의 다른 표기</b>입니다.</div>
+    </div></div>`;
+  const cv=$('#rd1'),ctx=cv.getContext('2d'),W=380,H=300,P=40;
+  const K={ p3:{a:0.3,r:0.1,frac:'1/3'}, p9:{a:0.9,r:0.1,frac:'1'}, p12:{a:0.12,r:0.01,frac:'4/33'} };
+  function draw(){
+    const k=$('#rdK').value, n=+$('#rdN').value, C=K[k];
+    $('#rdNv').textContent=n+'자리';
+    const S=C.a*(1-Math.pow(C.r,n))/(1-C.r), L=C.a/(1-C.r);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const bx=40, by=60, bw=300, bh=60;
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.4; ctx.strokeRect(bx,by,bw,bh);
+    ctx.fillStyle='rgba(37,99,235,.32)'; ctx.fillRect(bx,by,bw*S/Math.max(L,1),bh);
+    ctx.setLineDash([4,4]); ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(bx+bw*L/Math.max(L,1),by-8); ctx.lineTo(bx+bw*L/Math.max(L,1),by+bh+8); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#BE123C'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('참값 '+C.frac, bx+bw*L/Math.max(L,1)+6, by-12);
+    let acc=0;
+    for(let i=0;i<Math.min(n,10);i++){ const t=C.a*Math.pow(C.r,i);
+      const x0=bx+bw*acc/Math.max(L,1), w=bw*t/Math.max(L,1);
+      ctx.strokeStyle='#fff'; ctx.lineWidth=1; ctx.strokeRect(x0,by,w,bh);
+      acc+=t; }
+    ctx.fillStyle='#374151'; ctx.font='13px sans-serif'; ctx.textAlign='left';
+    const digits = k==='p3' ? '3'.repeat(n) : (k==='p9' ? '9'.repeat(n) : '12'.repeat(n));
+    ctx.fillText('0.'+digits+(n<16?'…':''), bx, by+bh+34);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('칸 하나가 한 자리씩 더한 몫입니다', bx, H-14);
+    const gap=L-S;
+    $('#rdout').innerHTML =
+      `<span class="mono">S${n} = ${S.toFixed(12)}</span><br>`
+      + `<span class="mono">S = a/(1−r) = ${C.a}/(1−${C.r}) = <b style="color:#BE123C">${L.toFixed(6)}</b> · 남은 틈 <b>${gap.toExponential(3)}</b></span><br>`
+      + (k==='p9' && n>=12 ? `<b style="color:#B45309">틈이 1조분의 1 아래로 줄었습니다 — 무한히 가면 정확히 1 입니다.</b><br>` : '')
+      + (k==='p3' ? `<b style="color:#7C3AED">0.333… 은 1/3 과 같은 수입니다 — 표기가 다를 뿐입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">「한없이 가까워진다」와 「같다」는 극한에서 하나로 만납니다.</span>`;
+  }
+  $('#rdK').onchange=draw; $('#rdN').oninput=draw; draw();
+  inquiry(root,{ id:'rd', title:'순환소수 = 무한등비급수',
+    q:['자릿수를 늘리며 (자릿수, 부분합, 남은 틈) 을 여섯 줄 기록하세요.',
+       '0.999… 가 1 과 같은지 자기 말로 논증하세요.',
+       '0.121212… 를 분수로 바꾸고 S = a/(1−r) 로 확인하세요.'],
+    cols:['순환소수','자릿수','부분합','참값','남은 틈'],
+    hint:'힌트 — 첫 항 a 와 공비 r 을 찾으면 분수가 바로 나옵니다.',
+    read:()=>{ const k=$('#rdK').value,n=+$('#rdN').value,C=K[k];
+      const S=C.a*(1-Math.pow(C.r,n))/(1-C.r), L=C.a/(1-C.r);
+      return [C.frac,n,S.toFixed(10),L.toFixed(6),(L-S).toExponential(3)]; } });
+}
+
+/* ---------- LAB 176 sin x / x 의 극한 — 라디안을 쓰는 까닭 ---------- */
+function sincLimitDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sn1" width="380" height="310"></canvas>
+      <div class="note" style="margin-top:8px">단위원에서 <b>호의 길이 x</b> 와 <b>세로 길이 sin x</b> 를 견줍니다.
+      각이 작아질수록 둘의 비가 어떻게 되나요?</div>
+    </div>
+    <div class="col">
+      ${slider('snX','각 x (라디안)',1,80,1,40,'')}
+      <label class="ctl" style="margin-top:8px">각의 단위<select id="snU" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="rad">라디안</option>
+        <option value="deg">도(°)</option>
+      </select></label>
+      <div class="out" id="snout"></div>
+      <div class="note" style="margin-top:12px">lim(x→0) sin x / x = 1 — <b>라디안일 때만</b> 성립합니다.
+      도(°)를 쓰면 π/180 이라는 군더더기가 붙습니다.</div>
+    </div></div>`;
+  const cv=$('#sn1'),ctx=cv.getContext('2d'),W=380,H=310;
+  const xval=i=>Math.pow(10,-(i/20)+0.3);
+  function draw(){
+    const x=xval(+$('#snX').value), unit=$('#snU').value;
+    $('#snXv').textContent=x.toFixed(5);
+    const cx=150, cy=190, R=110;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#C7D2E4'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.arc(cx,cy,R,-Math.PI/2.2,0.06); ctx.stroke();
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(cx-10,cy); ctx.lineTo(cx+R+30,cy); ctx.stroke();
+    const dx=Math.min(x,1.2);
+    const px=cx+R*Math.cos(dx), py=cy-R*Math.sin(dx);
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=3;
+    ctx.beginPath(); ctx.arc(cx,cy,R,-dx,0); ctx.stroke();
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=3;
+    ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(px,cy); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(px,py); ctx.stroke();
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(px,py,4,0,7); ctx.fill();
+    ctx.fillStyle='#0E9384'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('초록 = 호의 길이 x', 16, 24);
+    ctx.fillStyle='#BE123C'; ctx.fillText('붉은 = sin x', 16, 40);
+    const ratio = unit==='rad' ? Math.sin(x)/x : Math.sin(x)/(x*180/Math.PI);
+    const disp = unit==='rad' ? x : x*180/Math.PI;
+    $('#snout').innerHTML =
+      `<span class="mono">x = ${x.toFixed(6)} 라디안 (= ${(x*180/Math.PI).toFixed(4)}°)</span><br>`
+      + `<span class="mono">sin x = ${Math.sin(x).toFixed(8)} · 분모로 쓸 값 = ${disp.toFixed(6)}</span><br>`
+      + `<span class="mono">sin x / x = <b style="color:#2563EB">${ratio.toFixed(8)}</b></span><br>`
+      + (unit==='rad' && Math.abs(ratio-1)<0.0005 ? `<b style="color:#B45309">비가 1 에 붙었습니다 — 각이 작아지면 호와 세로가 같아집니다.</b><br>` : '')
+      + (unit==='deg' ? `<b style="color:#7C3AED">도(°)로 재니 비가 0.01745 로 갑니다 — π/180 이라는 군더더기가 붙습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">미적분이 라디안을 쓰는 이유가 이 한 줄에 있습니다.</span>`;
+  }
+  $('#snX').oninput=draw; $('#snU').onchange=draw; draw();
+  inquiry(root,{ id:'sn', title:'sin x / x — 라디안의 이유',
+    q:['x 를 줄이며 (x, sin x, 비) 를 여섯 줄 기록하세요.',
+       '단위를 도(°)로 바꾸면 비가 어디로 가나요? 그 값의 정체는?',
+       '「호의 길이와 세로 길이가 같아진다」를 그림으로 설명하세요.'],
+    cols:['단위','x','sin x','분모','비'],
+    hint:'힌트 — 0.01745 는 π/180 입니다.',
+    read:()=>{ const x=xval(+$('#snX').value), u=$('#snU').value;
+      const den = u==='rad'? x : x*180/Math.PI;
+      return [u==='rad'?'라디안':'도',x.toFixed(6),Math.sin(x).toFixed(8),den.toFixed(6),(Math.sin(x)/den).toFixed(8)]; } });
+}

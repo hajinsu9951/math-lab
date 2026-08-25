@@ -1,0 +1,341 @@
+/* ---------- LAB 167 삼수선 정리 — 공간에서 수직을 확인하는 법 ---------- */
+function threePerpDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="tp1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">평면 위의 직선 ℓ, 평면 밖의 점 P, 발 H, 그리고 ℓ 위의 점 A.
+      <b>세 개의 수직</b>이 서로 어떻게 이어지는지 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('tpH','P 의 높이 (PH)',1,6,0.5,3,'')}
+      ${slider('tpD','H 에서 ℓ 까지의 거리 (HA)',0,5,0.5,0,'')}
+      ${slider('tpS','A 를 ℓ 위에서 옮기기',-4,4,0.5,0,'')}
+      <div class="out" id="tpout"></div>
+      <div class="note" style="margin-top:12px">PH ⊥ 평면, HA ⊥ ℓ 이면 <b>PA ⊥ ℓ</b>.
+      셋 중 둘이 수직이면 나머지 하나도 수직이 됩니다.</div>
+    </div></div>`;
+  const cv=$('#tp1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const h=+$('#tpH').value, d=+$('#tpD').value, sv=+$('#tpS').value;
+    $('#tpHv').textContent=h.toFixed(1); $('#tpDv').textContent=d.toFixed(1); $('#tpSv').textContent=sv.toFixed(1);
+    // 비스듬히 본 평면: x 는 오른쪽, y 는 안쪽(비스듬), z 는 위
+    const pr=(x,y,z)=>[70+30*x+16*y, 240-30*z+12*y];
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(37,99,235,.07)'; ctx.beginPath();
+    [[-1.5,-1.5],[7,-1.5],[7,4],[-1.5,4]].forEach((c,i)=>{ const q=pr(c[0],c[1],0); i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]); });
+    ctx.closePath(); ctx.fill(); ctx.strokeStyle='#C7D2E4'; ctx.lineWidth=1; ctx.stroke();
+    const Hh=[0,0,0], A=[0,d,0], P=[0,0,h];
+    const L0=pr(-1.2,d,0), L1=pr(6.6,d,0);
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.4;
+    ctx.beginPath(); ctx.moveTo(L0[0],L0[1]); ctx.lineTo(L1[0],L1[1]); ctx.stroke();
+    const Ap=pr(sv,d,0), Hp=pr(0,0,0), Pp=pr(0,0,h);
+    const seg=(a,b,col,w,dash)=>{ ctx.strokeStyle=col; ctx.lineWidth=w;
+      if(dash) ctx.setLineDash([4,4]);
+      ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); ctx.stroke(); ctx.setLineDash([]); };
+    seg(Hp,Pp,'#BE123C',2.6);
+    seg(Hp,Ap,'#2563EB',2.2);
+    seg(Pp,Ap,'#7C3AED',2.6);
+    [[Pp,'P','#BE123C'],[Hp,'H','#111827'],[Ap,'A','#2563EB']].forEach(([q,nm,col])=>{
+      ctx.fillStyle=col; ctx.beginPath(); ctx.arc(q[0],q[1],4.6,0,7); ctx.fill();
+      ctx.fillStyle='#374151'; ctx.font='12px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(nm, q[0]+7, q[1]-6); });
+    ctx.fillStyle='#0E9384'; ctx.font='10.5px sans-serif';
+    ctx.fillText('직선 ℓ', L1[0]-40, L1[1]-8);
+    ctx.fillStyle='#6B7280';
+    ctx.fillText('붉은 PH ⊥ 평면 · 파랑 HA · 보라 PA', 12, H-14);
+    // 벡터 계산 (실제 3차원 좌표)
+    const PA=[sv-0, d-0, -h], l=[1,0,0];
+    const dotPA = PA[0]*l[0]+PA[1]*l[1]+PA[2]*l[2];
+    const HA=[sv-0, d-0, 0], dotHA = HA[0];
+    const lenPA=Math.hypot(PA[0],PA[1],PA[2]);
+    $('#tpout').innerHTML =
+      `<span class="mono">PH = ${h.toFixed(1)} · HA = ${Math.hypot(sv,d).toFixed(2)} · PA = <b>${lenPA.toFixed(3)}</b></span><br>`
+      + `<span class="mono">HA·ℓ = <b>${dotHA.toFixed(2)}</b> · PA·ℓ = <b>${dotPA.toFixed(2)}</b></span><br>`
+      + (Math.abs(dotHA)<1e-9 && Math.abs(dotPA)<1e-9 && d>0.05
+          ? `<b style="color:#B45309">HA 가 ℓ 에 수직이니 PA 도 ℓ 에 수직입니다 — 삼수선 정리 그대로입니다.</b><br>` : '')
+      + (Math.abs(dotHA)>1e-9
+          ? `<b style="color:#7C3AED">A 를 옮기자 HA 가 ℓ 에 수직이 아니게 되었고, PA 도 수직이 아닙니다.</b><br>` : '')
+      + (d<0.05 ? `H 가 ℓ 위에 있어 HA 가 사라졌습니다 — 정리를 쓸 수 없는 경우입니다.<br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">PA² = PH² + HA² 도 함께 확인해 보세요.</span>`;
+  }
+  ['tpH','tpD','tpS'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'tp', title:'삼수선 정리 — 수직이 옮겨 간다',
+    q:['A 를 옮기며 (HA·ℓ, PA·ℓ) 를 여섯 줄 기록하세요 — 두 값이 함께 0 이 되나요?',
+       'PA² = PH² + HA² 가 성립하는지 값으로 확인하세요.',
+       '「PH ⊥ 평면, HA ⊥ ℓ ⟹ PA ⊥ ℓ」을 자기 말로 정리하세요.'],
+    cols:['PH','HA','PA','HA·ℓ','PA·ℓ'],
+    hint:'힌트 — A 가 H 의 바로 앞(수직 발)일 때만 두 내적이 함께 0 이 됩니다.',
+    read:()=>{ const h=+$('#tpH').value,d=+$('#tpD').value,sv=+$('#tpS').value;
+      return [h.toFixed(1),Math.hypot(sv,d).toFixed(2),Math.hypot(sv,d,h).toFixed(3),
+        sv.toFixed(2),sv.toFixed(2)]; } });
+}
+
+/* ---------- LAB 168 공간좌표 — 드론의 위치와 거리 ---------- */
+function space3dDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="s31" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">드론의 위치를 (x, y, z) 로 나타냅니다.
+      바닥에 드리운 <b>그림자</b>와 높이를 함께 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('s3X','x (동쪽)',0,8,0.5,3,'m')}
+      ${slider('s3Y','y (북쪽)',0,8,0.5,2,'m')}
+      ${slider('s3Z','z (높이)',0,8,0.5,4,'m')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="s3Home">관제탑(0,0,0) 까지의 거리 보기</button></div>
+      <div class="out" id="s3out"></div>
+      <div class="note" style="margin-top:12px">두 점 사이 거리 = √((Δx)² + (Δy)² + (Δz)²).
+      평면에서의 피타고라스를 <b>한 번 더</b> 쓴 것입니다.</div>
+    </div></div>`;
+  const cv=$('#s31'),ctx=cv.getContext('2d'),W=380,H=330;
+  const S={ home:false };
+  function draw(){
+    const x=+$('#s3X').value, y=+$('#s3Y').value, z=+$('#s3Z').value;
+    $('#s3Xv').textContent=x.toFixed(1)+'m'; $('#s3Yv').textContent=y.toFixed(1)+'m'; $('#s3Zv').textContent=z.toFixed(1)+'m';
+    const pr=(a,b,c)=>[64+26*a+15*b, 250-26*c+11*b];
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#EEF1F5'; ctx.lineWidth=1;
+    for(let g=0;g<=8;g+=1){ let p0=pr(g,0,0), p1=pr(g,8,0);
+      ctx.beginPath(); ctx.moveTo(p0[0],p0[1]); ctx.lineTo(p1[0],p1[1]); ctx.stroke();
+      p0=pr(0,g,0); p1=pr(8,g,0);
+      ctx.beginPath(); ctx.moveTo(p0[0],p0[1]); ctx.lineTo(p1[0],p1[1]); ctx.stroke(); }
+    const O=pr(0,0,0), Xa=pr(8,0,0), Ya=pr(0,8,0), Za=pr(0,0,8);
+    [[Xa,'x','#BE123C'],[Ya,'y','#0E9384'],[Za,'z','#2563EB']].forEach(([q,nm,col])=>{
+      ctx.strokeStyle=col; ctx.lineWidth=1.8;
+      ctx.beginPath(); ctx.moveTo(O[0],O[1]); ctx.lineTo(q[0],q[1]); ctx.stroke();
+      ctx.fillStyle=col; ctx.font='11px sans-serif'; ctx.fillText(nm, q[0]+4, q[1]); });
+    const sh=pr(x,y,0), pt=pr(x,y,z);
+    ctx.setLineDash([4,4]); ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(sh[0],sh[1]); ctx.lineTo(pt[0],pt[1]); ctx.stroke();
+    if(S.home){ ctx.strokeStyle='#7C3AED'; ctx.lineWidth=2.2; ctx.setLineDash([]);
+      ctx.beginPath(); ctx.moveTo(O[0],O[1]); ctx.lineTo(pt[0],pt[1]); ctx.stroke();
+      ctx.strokeStyle='rgba(124,58,237,.4)'; ctx.lineWidth=1.6; ctx.setLineDash([3,3]);
+      ctx.beginPath(); ctx.moveTo(O[0],O[1]); ctx.lineTo(sh[0],sh[1]); ctx.stroke(); }
+    ctx.setLineDash([]);
+    ctx.fillStyle='rgba(107,114,128,.5)'; ctx.beginPath(); ctx.arc(sh[0],sh[1],4,0,7); ctx.fill();
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(pt[0],pt[1],6,0,7); ctx.fill();
+    ctx.fillStyle='#374151'; ctx.font='11px sans-serif';
+    ctx.fillText('드론 ('+x.toFixed(1)+', '+y.toFixed(1)+', '+z.toFixed(1)+')', pt[0]+9, pt[1]-8);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('회색 점 = 바닥 그림자 (x, y, 0)', 12, H-14);
+    const ground=Math.hypot(x,y), dist=Math.hypot(x,y,z);
+    $('#s3out').innerHTML =
+      `<span class="mono">바닥 그림자까지 √(${x.toFixed(1)}² + ${y.toFixed(1)}²) = <b>${ground.toFixed(3)}</b> m</span><br>`
+      + (S.home ? `<span class="mono">관제탑까지 √(${ground.toFixed(2)}² + ${z.toFixed(1)}²) = <b style="color:#7C3AED">${dist.toFixed(3)}</b> m</span><br>` : '')
+      + (S.home ? `<b style="color:#B45309">바닥 거리와 높이로 다시 피타고라스 — 공간의 거리 공식이 됩니다.</b><br>` : '')
+      + (z<0.05 ? `<b style="color:#7C3AED">높이가 0 이라 드론이 바닥에 있습니다 — 그림자와 겹칩니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">평면에서 한 번, 높이로 한 번 — 피타고라스를 두 번 씁니다.</span>`;
+  }
+  $('#s3Home').onclick=()=>{ S.home=true; draw(); };
+  ['s3X','s3Y','s3Z'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'s3', title:'공간좌표 — 거리 공식',
+    q:['드론을 옮기며 (x, y, z, 바닥 거리, 관제탑까지) 를 여섯 줄 기록하세요.',
+       'z 를 0 으로 하면 어떤 공식이 되나요?',
+       '거리 공식이 피타고라스를 두 번 쓴 결과임을 그림으로 설명하세요.'],
+    cols:['x','y','z','바닥 거리','전체 거리'],
+    hint:'힌트 — 먼저 바닥에서, 그다음 높이로 직각삼각형을 하나 더 만듭니다.',
+    read:()=>{ const x=+$('#s3X').value,y=+$('#s3Y').value,z=+$('#s3Z').value;
+      return [x.toFixed(1),y.toFixed(1),z.toFixed(1),Math.hypot(x,y).toFixed(3),Math.hypot(x,y,z).toFixed(3)]; } });
+}
+
+/* ---------- LAB 169 구를 자르면 — 구의 방정식과 평면의 절단 ---------- */
+function sphereCutDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sc1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">구를 수평면으로 자릅니다.
+      자른 높이에 따라 <b>단면의 크기</b>가 어떻게 변하는지 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('scR','구의 반지름 R',2,6,0.5,4,'')}
+      ${slider('scH','자르는 높이 h',-6,6,0.1,1.5,'')}
+      <div class="out" id="scout"></div>
+      <div class="note" style="margin-top:12px">x² + y² + z² = R² 에 z = h 를 넣으면
+      x² + y² = R² − h² — <b>반지름 √(R² − h²) 인 원</b>입니다.</div>
+    </div></div>`;
+  const cv=$('#sc1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const R=+$('#scR').value; let h=+$('#scH').value;
+    $('#scRv').textContent=R.toFixed(1); $('#scHv').textContent=h.toFixed(1);
+    const sc=26, cx=190, cy=150;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(37,99,235,.10)';
+    ctx.beginPath(); ctx.arc(cx,cy,R*sc,0,7); ctx.fill();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.2; ctx.stroke();
+    ctx.strokeStyle='rgba(37,99,235,.35)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.ellipse(cx,cy,R*sc,R*sc*0.32,0,0,7); ctx.stroke();
+    const inside=Math.abs(h)<R;
+    const r = inside ? Math.sqrt(R*R-h*h) : 0;
+    const y = cy-h*sc;
+    ctx.strokeStyle=inside?'#BE123C':'#9CA3AF'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(24,y); ctx.lineTo(W-24,y); ctx.stroke();
+    if(inside){ ctx.fillStyle='rgba(190,18,60,.25)';
+      ctx.beginPath(); ctx.ellipse(cx,y,r*sc,r*sc*0.32,0,0,7); ctx.fill();
+      ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.8; ctx.stroke(); }
+    ctx.fillStyle='#374151'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('z = '+h.toFixed(1), W-70, y-6);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('붉은 타원 = 잘린 단면 (실제로는 원)', 16, H-14);
+    $('#scout').innerHTML =
+      `<span class="mono">x² + y² + z² = ${(R*R).toFixed(2)} 에 z = ${h.toFixed(1)} 을 대입</span><br>`
+      + (inside ? `<span class="mono">x² + y² = ${(R*R-h*h).toFixed(2)} → 반지름 <b style="color:#BE123C">${r.toFixed(3)}</b> 인 원 · 넓이 ${(Math.PI*r*r).toFixed(2)}</span><br>`
+                : `<span class="mono">R² − h² = ${(R*R-h*h).toFixed(2)} < 0 — 해가 없습니다.</b></span><br>`)
+      + (inside && Math.abs(h)<0.05 ? `<b style="color:#B45309">중심을 지나게 잘랐습니다 — 단면이 가장 큰 원(대원)입니다.</b><br>` : '')
+      + (!inside ? `<b style="color:#7C3AED">평면이 구를 벗어나 만나지 않습니다 — 단면이 생기지 않습니다.</b><br>` : '')
+      + (inside && Math.abs(Math.abs(h)-R)<0.06 ? `평면이 구에 접합니다 — 단면이 점 하나로 줄었습니다.<br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">단면의 반지름은 h 에 비례하지 않습니다 — √(R² − h²) 입니다.</span>`;
+  }
+  ['scR','scH'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'sc', title:'구의 절단 — 언제나 원',
+    q:['h 를 바꾸며 (h, 단면 반지름, 단면 넓이) 를 여섯 줄 기록하세요.',
+       '단면이 가장 큰 h 와 단면이 사라지는 h 를 각각 찾으세요.',
+       '단면 반지름이 h 에 비례하지 않음을 표로 보이세요.'],
+    cols:['R','h','R²−h²','단면 반지름','넓이'],
+    hint:'힌트 — z = h 를 대입하면 x² + y² = R² − h² 입니다.',
+    read:()=>{ const R=+$('#scR').value,h=+$('#scH').value,k=R*R-h*h;
+      return [R.toFixed(1),h.toFixed(1),k.toFixed(2),k>0?Math.sqrt(k).toFixed(3):'없음',
+        k>0?(Math.PI*k).toFixed(2):'0']; } });
+}
+
+/* ---------- LAB 170 원뿔을 어떻게 자르느냐 — 이차곡선의 통일 ---------- */
+function coneCutDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="cc1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">같은 원뿔을 <b>자르는 각도만</b> 바꿉니다.
+      원 · 타원 · 포물선 · 쌍곡선이 차례로 나타납니다.</div>
+    </div>
+    <div class="col">
+      ${slider('ccT','자르는 평면의 기울기',0,80,5,20,'°')}
+      <div class="out" id="ccout"></div>
+      <div class="note" style="margin-top:12px">원뿔의 모선 각을 45°라 하면,
+      자르는 각이 <b>45°보다 작으면 타원, 같으면 포물선, 크면 쌍곡선</b>입니다.
+      이심률 e = tan(자른 각)/tan(모선 각).</div>
+    </div></div>`;
+  const cv=$('#cc1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const CONE=45;
+  function draw(){
+    const t=+$('#ccT').value; $('#ccTv').textContent=t+'°';
+    const e=Math.tan(t*Math.PI/180)/Math.tan(CONE*Math.PI/180);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const apex=[110,40], sc=1;
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(apex[0],apex[1]); ctx.lineTo(apex[0]-80,apex[1]+160); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(apex[0],apex[1]); ctx.lineTo(apex[0]+80,apex[1]+160); ctx.stroke();
+    ctx.strokeStyle='rgba(37,99,235,.5)'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.ellipse(apex[0],apex[1]+160,80,22,0,0,7); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(apex[0],apex[1]); ctx.lineTo(apex[0]-80,apex[1]-160); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(apex[0],apex[1]); ctx.lineTo(apex[0]+80,apex[1]-160); ctx.stroke();
+    const rad=t*Math.PI/180, cxp=apex[0], cyp=apex[1]+100;
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2.4;
+    ctx.beginPath();
+    ctx.moveTo(cxp-110*Math.cos(rad), cyp+110*Math.sin(rad));
+    ctx.lineTo(cxp+110*Math.cos(rad), cyp-110*Math.sin(rad));
+    ctx.stroke();
+    let kind, note;
+    if(t===0){ kind='원'; note='자르는 면이 밑면과 나란합니다.'; }
+    else if(t<CONE-0.5){ kind='타원'; note='한 겹만 잘라 닫힌 곡선이 됩니다.'; }
+    else if(Math.abs(t-CONE)<0.5){ kind='포물선'; note='모선과 나란해 한쪽으로 열립니다.'; }
+    else { kind='쌍곡선'; note='두 겹을 모두 잘라 두 갈래가 됩니다.'; }
+    const bx=230, by=90, R=64;
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.4;
+    if(kind==='원'){ ctx.beginPath(); ctx.arc(bx+40,by+80,40,0,7); ctx.stroke(); }
+    else if(kind==='타원'){ ctx.beginPath(); ctx.ellipse(bx+40,by+80,46,46*Math.sqrt(Math.max(0.02,1-e*e)),0,0,7); ctx.stroke(); }
+    else if(kind==='포물선'){ ctx.beginPath();
+      for(let i=0;i<=60;i++){ const u=-1.4+2.8*i/60, X=bx+40+38*u, Y=by+30+34*u*u;
+        i?ctx.lineTo(X,Y):ctx.moveTo(X,Y); } ctx.stroke(); }
+    else { [1,-1].forEach(s=>{ ctx.beginPath();
+      for(let i=0;i<=60;i++){ const u=-1.3+2.6*i/60, X=bx+40+s*30*Math.cosh(u), Y=by+80+34*Math.sinh(u);
+        i?ctx.lineTo(X,Y):ctx.moveTo(X,Y); } ctx.stroke(); }); }
+    ctx.fillStyle='#374151'; ctx.font='bold 12px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('단면: '+kind, bx, by-6);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('붉은 선 = 자르는 평면 · 모선 각 45°', 12, H-14);
+    $('#ccout').innerHTML =
+      `<span class="mono">자르는 각 ${t}° · 모선 각 ${CONE}° · 이심률 e = tan${t}°/tan45° = <b>${e.toFixed(3)}</b></span><br>`
+      + `<span class="mono">단면의 이름 — <b style="color:#0E9384">${kind}</b> (${note})</span><br>`
+      + (Math.abs(t-CONE)<0.5 ? `<b style="color:#B45309">모선과 나란해지는 순간 — 닫힌 곡선이 열려 포물선이 됩니다 (e = 1).</b><br>` : '')
+      + (t>CONE+0.5 ? `<b style="color:#7C3AED">더 세우니 두 겹을 모두 잘라 두 갈래가 생겼습니다 — 쌍곡선입니다 (e > 1).</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">세 곡선은 서로 다른 도형이 아니라 같은 원뿔의 다른 단면입니다.</span>`;
+  }
+  $('#ccT').oninput=draw; draw();
+  inquiry(root,{ id:'cc', title:'원뿔곡선 — 하나의 원뿔, 네 가지 단면',
+    q:['각을 0°부터 80°까지 바꾸며 (각, e, 단면 이름) 을 여섯 줄 기록하세요.',
+       '타원에서 포물선으로 바뀌는 경계의 각과 e 를 찾으세요.',
+       '이심률이 0, 0.5, 1, 1.5 일 때의 도형을 각각 적으세요.'],
+    cols:['자른 각','e','단면','열림/닫힘','겹 수'],
+    hint:'힌트 — e = 1 이 되는 순간이 경계입니다.',
+    read:()=>{ const t=+$('#ccT').value, e=Math.tan(t*Math.PI/180)/Math.tan(45*Math.PI/180);
+      const kind = t===0?'원':(t<44.5?'타원':(Math.abs(t-45)<0.5?'포물선':'쌍곡선'));
+      return [t+'°',e.toFixed(3),kind,kind==='원'||kind==='타원'?'닫힘':'열림',kind==='쌍곡선'?2:1]; } });
+}
+
+/* ---------- LAB 171 위치벡터와 내분점 — 드론 편대의 대형 ---------- */
+function posVecDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="pv1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">두 드론 A, B 사이를 <b>m : n 으로 나누는 자리</b>에
+      세 번째 드론을 띄웁니다. 세 점의 무게중심도 함께 표시됩니다.</div>
+    </div>
+    <div class="col">
+      ${slider('pvM','앞쪽 비 m',0,10,1,2,'')}
+      ${slider('pvN','뒤쪽 비 n',0,10,1,1,'')}
+      ${slider('pvC','C 드론의 x 좌표',-5,5,0.5,0,'')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="pvG">무게중심 보이기</button></div>
+      <div class="out" id="pvout"></div>
+      <div class="note" style="margin-top:12px">내분점 P = (n·A + m·B)/(m + n).
+      비가 <b>엇갈려 붙는다</b>는 점을 눈으로 확인하세요. 무게중심은 (A+B+C)/3.</div>
+    </div></div>`;
+  const cv=$('#pv1'),ctx=cv.getContext('2d'),W=380,H=320;
+  const S={ g:false };
+  const A=[-4,-2], B=[4,3];
+  function draw(){
+    let m=+$('#pvM').value, n=+$('#pvN').value, cxv=+$('#pvC').value;
+    $('#pvMv').textContent=m; $('#pvNv').textContent=n; $('#pvCv').textContent=cxv.toFixed(1);
+    const C=[cxv,4];
+    const X=x=>W/2+34*x, Y=y=>H/2-34*y;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#EEF1F5'; ctx.lineWidth=1;
+    for(let g=-5;g<=5;g++){ ctx.beginPath(); ctx.moveTo(X(g),0); ctx.lineTo(X(g),H); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0,Y(g)); ctx.lineTo(W,Y(g)); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF';
+    ctx.beginPath(); ctx.moveTo(0,Y(0)); ctx.lineTo(W,Y(0)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(0),0); ctx.lineTo(X(0),H); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.2;
+    ctx.beginPath(); ctx.moveTo(X(A[0]),Y(A[1])); ctx.lineTo(X(B[0]),Y(B[1])); ctx.stroke();
+    let P=null;
+    if(m+n>0){ P=[(n*A[0]+m*B[0])/(m+n), (n*A[1]+m*B[1])/(m+n)];
+      ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(P[0]),Y(P[1]),6,0,7); ctx.fill(); }
+    if(S.g){ const G=[(A[0]+B[0]+C[0])/3,(A[1]+B[1]+C[1])/3];
+      ctx.strokeStyle='rgba(124,58,237,.5)'; ctx.lineWidth=1.4;
+      [[A,B],[B,C],[C,A]].forEach(([p,q])=>{ ctx.beginPath();
+        ctx.moveTo(X(p[0]),Y(p[1])); ctx.lineTo(X(q[0]),Y(q[1])); ctx.stroke(); });
+      ctx.fillStyle='#7C3AED'; ctx.beginPath(); ctx.arc(X(G[0]),Y(G[1]),6,0,7); ctx.fill();
+      ctx.fillStyle='#7C3AED'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+      ctx.fillText('G', X(G[0])+8, Y(G[1])-6); }
+    [[A,'A','#111827'],[B,'B','#111827'],[C,'C','#0E9384']].forEach(([q,nm,col])=>{
+      ctx.fillStyle=col; ctx.beginPath(); ctx.arc(X(q[0]),Y(q[1]),5,0,7); ctx.fill();
+      ctx.fillStyle='#374151'; ctx.font='12px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(nm, X(q[0])+8, Y(q[1])-6); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('A(−4, −2) · B(4, 3) · 붉은 점 = 내분점', 12, H-12);
+    const G=[(A[0]+B[0]+C[0])/3,(A[1]+B[1]+C[1])/3];
+    $('#pvout').innerHTML =
+      (P ? `<span class="mono">P = (${n}·A + ${m}·B)/(${m}+${n}) = <b style="color:#BE123C">(${P[0].toFixed(2)}, ${P[1].toFixed(2)})</b></span><br>`
+         : `<b>m 과 n 이 모두 0 이라 내분점을 정할 수 없습니다.</b><br>`)
+      + (P ? `<span class="mono">AP : PB = ${m} : ${n}</span><br>` : '')
+      + (m===n && m>0 ? `<b style="color:#B45309">m = n 이라 정확히 가운데 — 중점입니다.</b><br>` : '')
+      + (m>0&&n===0 ? `<b style="color:#7C3AED">n 이 0 이라 내분점이 B 와 겹쳤습니다 — 비가 엇갈려 붙는 까닭입니다.</b><br>` : '')
+      + (S.g ? `<span class="mono">무게중심 G = (A+B+C)/3 = (${G[0].toFixed(2)}, ${G[1].toFixed(2)})</span><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">B 쪽 계수가 m 이라는 점 — 헷갈리기 쉬운 자리입니다.</span>`;
+  }
+  $('#pvG').onclick=()=>{ S.g=true; draw(); };
+  ['pvM','pvN','pvC'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'pv', title:'내분점 — 비가 엇갈려 붙는다',
+    q:['(m, n, 내분점 좌표) 를 여섯 줄 기록하세요 — m : n 과 좌표의 관계를 살피세요.',
+       'm = 3, n = 1 일 때 점이 A 와 B 중 어느 쪽에 가까운가요? 왜 그런가요?',
+       '무게중심이 세 중선의 교점임을 그림에서 확인하세요.'],
+    cols:['m','n','P','A 까지','B 까지'],
+    hint:'힌트 — A 의 계수가 n, B 의 계수가 m 입니다. 비가 엇갈립니다.',
+    read:()=>{ const m=+$('#pvM').value,n=+$('#pvN').value;
+      if(m+n===0) return [m,n,'없음','—','—'];
+      const P=[(n*(-4)+m*4)/(m+n),(n*(-2)+m*3)/(m+n)];
+      return [m,n,'('+P[0].toFixed(2)+', '+P[1].toFixed(2)+')',
+        Math.hypot(P[0]+4,P[1]+2).toFixed(2),Math.hypot(P[0]-4,P[1]-3).toFixed(2)]; } });
+}

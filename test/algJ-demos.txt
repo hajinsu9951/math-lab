@@ -1,0 +1,315 @@
+/* ---------- LAB 157 포물선 — 위성 안테나가 접시 모양인 까닭 ---------- */
+function paraFocusDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="pf2" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">위에서 <b>나란히 내려오는 전파</b>가 접시에 부딪혀 반사됩니다.
+      반사된 선들이 어디로 가는지 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('pfP','초점까지의 거리 p',0.5,3,0.1,1,'')}
+      ${slider('pfX','확인할 점의 x 좌표',-3,3,0.1,1.5,'')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="pfRay">평행 전파 쏘기</button>
+        <button class="b g sm" id="pfOff">전파 끄기</button>
+      </div>
+      <div class="out" id="pfout"></div>
+      <div class="note" style="margin-top:12px">포물선은 <b>초점까지의 거리 = 준선까지의 거리</b>인 점들의 자취입니다.
+      이 성질이 곧 반사의 성질이 됩니다.</div>
+    </div></div>`;
+  const cv=$('#pf2'),ctx=cv.getContext('2d'),W=380,H=320;
+  const S={ ray:false };
+  function draw(){
+    const p=+$('#pfP').value, px=+$('#pfX').value;
+    $('#pfPv').textContent=p.toFixed(1); $('#pfXv').textContent=px.toFixed(1);
+    const f=x=>x*x/(4*p);
+    const X=x=>W/2+52*x, Y=y=>H-70-42*y;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(20,Y(0)); ctx.lineTo(W-20,Y(0)); ctx.stroke();
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.4; ctx.setLineDash([5,4]);
+    ctx.beginPath(); ctx.moveTo(20,Y(-p)); ctx.lineTo(W-20,Y(-p)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#BE123C'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('준선 y = −'+p.toFixed(1), 24, Y(-p)-5);
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.6; ctx.beginPath();
+    for(let i=0;i<=300;i++){ const x=-3.4+6.8*i/300; i?ctx.lineTo(X(x),Y(f(x))):ctx.moveTo(X(x),Y(f(x))); }
+    ctx.stroke();
+    if(S.ray){ for(let k=-5;k<=5;k++){ if(k===0) continue; const x=k*0.55, y=f(x);
+      ctx.strokeStyle='rgba(245,158,11,.8)'; ctx.lineWidth=1.4;
+      ctx.beginPath(); ctx.moveTo(X(x),18); ctx.lineTo(X(x),Y(y)); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(X(x),Y(y)); ctx.lineTo(X(0),Y(p)); ctx.stroke(); } }
+    ctx.fillStyle='#0E9384'; ctx.beginPath(); ctx.arc(X(0),Y(p),5,0,7); ctx.fill();
+    ctx.fillStyle='#0E9384'; ctx.fillText('초점 (0, '+p.toFixed(1)+')', X(0)+9, Y(p)-6);
+    const py=f(px);
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(X(px),Y(py),4.4,0,7); ctx.fill();
+    const dF=Math.hypot(px-0,py-p), dL=py+p;
+    ctx.strokeStyle='#6B7280'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(X(px),Y(py)); ctx.lineTo(X(0),Y(p)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(px),Y(py)); ctx.lineTo(X(px),Y(-p)); ctx.stroke(); ctx.setLineDash([]);
+    $('#pfout').innerHTML =
+      `<span class="mono">y = x²/(4p) · 초점 (0, ${p.toFixed(1)}) · 준선 y = −${p.toFixed(1)}</span><br>`
+      + `<span class="mono">점 (${px.toFixed(1)}, ${py.toFixed(2)}) — 초점까지 <b>${dF.toFixed(3)}</b> · 준선까지 <b>${dL.toFixed(3)}</b></span><br>`
+      + (Math.abs(dF-dL)<0.005 ? `두 거리가 같습니다 — 포물선의 정의 그대로입니다.<br>` : '')
+      + (S.ray ? `<b style="color:#B45309">나란히 들어온 전파가 반사되어 모두 한 점에서 만납니다 — 그 점이 초점입니다.</b><br>` : '')
+      + (p>=2 ? `<b style="color:#7C3AED">p 가 커지자 접시가 얕아지고 초점이 멀어졌습니다 — 큰 안테나가 깊은 이유입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">수신기를 초점에 두면 접시 전체가 받은 신호가 한곳에 모입니다.</span>`;
+  }
+  $('#pfRay').onclick=()=>{ S.ray=true; draw(); };
+  $('#pfOff').onclick=()=>{ S.ray=false; draw(); };
+  ['pfP','pfX'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'pf2', title:'포물선 — 초점과 준선',
+    q:['점의 x 를 바꾸며 (초점까지 거리, 준선까지 거리) 를 여섯 줄 기록하세요.',
+       'p 를 키우면 접시의 깊이와 초점 위치가 어떻게 달라지나요?',
+       '「두 거리가 같다」에서 y = x²/(4p) 를 손으로 유도하세요.'],
+    cols:['p','x','y','초점까지','준선까지'],
+    hint:'힌트 — 준선까지의 거리는 세로 거리 y + p 입니다.',
+    read:()=>{ const p=+$('#pfP').value,x=+$('#pfX').value,y=x*x/(4*p);
+      return [p.toFixed(1),x.toFixed(1),y.toFixed(2),Math.hypot(x,y-p).toFixed(3),(y+p).toFixed(3)]; } });
+}
+
+/* ---------- LAB 158 타원 — 두 압정과 실 ---------- */
+function ellipsePinDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="el1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">두 압정에 실을 걸고 팽팽하게 당겨 돌리면 타원이 그려집니다.
+      실 길이는 <b>변하지 않습니다</b>.</div>
+    </div>
+    <div class="col">
+      ${slider('elC','두 압정 사이 거리의 절반 c',0,4,0.1,1.5,'')}
+      ${slider('elA','실 길이의 절반 a',2,6,0.1,3,'')}
+      ${slider('elT','연필의 위치 (각도)',0,360,5,50,'°')}
+      <div class="out" id="elout"></div>
+      <div class="note" style="margin-top:12px">PF₁ + PF₂ = 2a 로 일정. b² = a² − c², 이심률 e = c/a.
+      <b>e 가 0 이면 원</b>, 1 에 가까울수록 납작해집니다.</div>
+    </div></div>`;
+  const cv=$('#el1'),ctx=cv.getContext('2d'),W=380,H=320;
+  function draw(){
+    const a=+$('#elA').value; let c=Math.min(+$('#elC').value, a-0.1);
+    const t=+$('#elT').value*Math.PI/180;
+    $('#elCv').textContent=c.toFixed(1); $('#elAv').textContent=a.toFixed(1); $('#elTv').textContent=$('#elT').value+'°';
+    const b=Math.sqrt(Math.max(0.01,a*a-c*c));
+    const X=x=>W/2+42*x, Y=y=>H/2-42*y;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(16,Y(0)); ctx.lineTo(W-16,Y(0)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(0),12); ctx.lineTo(X(0),H-12); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4; ctx.beginPath();
+    for(let i=0;i<=240;i++){ const th=2*Math.PI*i/240, x=a*Math.cos(th), y=b*Math.sin(th);
+      i?ctx.lineTo(X(x),Y(y)):ctx.moveTo(X(x),Y(y)); }
+    ctx.closePath(); ctx.stroke();
+    const pxx=a*Math.cos(t), pyy=b*Math.sin(t);
+    [[-c,0],[c,0]].forEach(f=>{ ctx.fillStyle='#BE123C';
+      ctx.beginPath(); ctx.arc(X(f[0]),Y(f[1]),4.6,0,7); ctx.fill();
+      ctx.strokeStyle='rgba(190,18,60,.6)'; ctx.lineWidth=1.6;
+      ctx.beginPath(); ctx.moveTo(X(f[0]),Y(f[1])); ctx.lineTo(X(pxx),Y(pyy)); ctx.stroke(); });
+    ctx.fillStyle='#111827'; ctx.beginPath(); ctx.arc(X(pxx),Y(pyy),4.6,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('붉은 점 = 초점(압정) · 두 붉은 선의 합이 실 길이', 16, H-12);
+    const d1=Math.hypot(pxx+c,pyy), d2=Math.hypot(pxx-c,pyy), e=c/a;
+    $('#elout').innerHTML =
+      `<span class="mono">PF₁ + PF₂ = ${d1.toFixed(3)} + ${d2.toFixed(3)} = <b>${(d1+d2).toFixed(3)}</b> · 2a = ${(2*a).toFixed(1)}</span><br>`
+      + `<span class="mono">a = ${a.toFixed(1)} · b = ${b.toFixed(2)} · c = ${c.toFixed(1)} · 이심률 e = <b>${e.toFixed(3)}</b></span><br>`
+      + (c<0.05 ? `<b style="color:#B45309">두 압정이 겹쳐 원이 되었습니다 — 원은 이심률 0 인 타원입니다.</b><br>` : '')
+      + (e>=0.8 ? `<b style="color:#7C3AED">몹시 납작한 타원 — 혜성의 궤도가 이런 모양입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">연필을 어디로 옮겨도 두 거리의 합은 그대로입니다.</span>`;
+  }
+  ['elC','elA','elT'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'el', title:'타원 — 두 거리의 합이 일정',
+    q:['연필 위치를 여섯 곳으로 옮기며 (PF₁, PF₂, 합) 을 기록하세요 — 합이 변하나요?',
+       'c 를 0 으로 하면 무엇이 되나요? e 는 얼마인가요?',
+       'b² = a² − c² 를 그림에서 어떻게 읽을 수 있는지 설명하세요.'],
+    cols:['a','c','각도','PF₁','PF₂','합'],
+    hint:'힌트 — 연필이 짧은 축 끝에 있을 때 두 거리가 모두 a 입니다.',
+    read:()=>{ const a=+$('#elA').value,c=Math.min(+$('#elC').value,a-0.1),t=+$('#elT').value*Math.PI/180;
+      const b=Math.sqrt(Math.max(0.01,a*a-c*c)), x=a*Math.cos(t), y=b*Math.sin(t);
+      return [a.toFixed(1),c.toFixed(1),$('#elT').value+'°',Math.hypot(x+c,y).toFixed(3),
+        Math.hypot(x-c,y).toFixed(3),(Math.hypot(x+c,y)+Math.hypot(x-c,y)).toFixed(3)]; } });
+}
+
+/* ---------- LAB 159 쌍곡선과 점근선 — 닿을 듯 닿지 않는 선 ---------- */
+function hyperAsymDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="hy1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">회색 직선이 <b>점근선</b>입니다.
+      곡선을 따라 멀리 갈수록 두 선의 간격이 어떻게 되는지 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('hyA','a',1,4,0.1,2,'')}
+      ${slider('hyB','b',1,4,0.1,1.4,'')}
+      ${slider('hyX','확인할 x 좌표',2.1,40,0.1,3,'')}
+      <div class="out" id="hyout"></div>
+      <div class="note" style="margin-top:12px">x²/a² − y²/b² = 1 의 점근선은 y = ±(b/a)x.
+      a = b 이면 두 점근선이 <b>직각</b>으로 만납니다.</div>
+    </div></div>`;
+  const cv=$('#hy1'),ctx=cv.getContext('2d'),W=380,H=320;
+  function draw(){
+    const a=+$('#hyA').value, b=+$('#hyB').value; let x=Math.max(+$('#hyX').value,a+0.05);
+    $('#hyAv').textContent=a.toFixed(1); $('#hyBv').textContent=b.toFixed(1); $('#hyXv').textContent=x.toFixed(1);
+    const X=v=>W/2+34*v, Y=v=>H/2-34*v;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(10,Y(0)); ctx.lineTo(W-10,Y(0)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(0),10); ctx.lineTo(X(0),H-10); ctx.stroke();
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.4;
+    [1,-1].forEach(s=>{ ctx.beginPath(); ctx.moveTo(X(-5.4),Y(-s*b/a*5.4)); ctx.lineTo(X(5.4),Y(s*b/a*5.4)); ctx.stroke(); });
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4;
+    [1,-1].forEach(sx=>{ [1,-1].forEach(sy=>{ ctx.beginPath();
+      for(let i=0;i<=160;i++){ const t=i/160*2.4, xv=sx*a*Math.cosh(t), yv=sy*b*Math.sinh(t);
+        i?ctx.lineTo(X(xv),Y(yv)):ctx.moveTo(X(xv),Y(yv)); } ctx.stroke(); }); });
+    const yc=b*Math.sqrt(x*x/(a*a)-1), ya=b/a*x, gap=ya-yc;
+    if(x<=5.4){ ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(x),Y(yc),4.2,0,7); ctx.fill();
+      ctx.strokeStyle='#BE123C'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(X(x),Y(yc)); ctx.lineTo(X(x),Y(ya)); ctx.stroke(); }
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('회색 = 점근선 y = ±(b/a)x · 기울기 ±'+(b/a).toFixed(2), 12, H-12);
+    $('#hyout').innerHTML =
+      `<span class="mono">x = ${x.toFixed(1)} 에서 곡선 y = ${yc.toFixed(4)} · 점근선 y = ${ya.toFixed(4)}</span><br>`
+      + `<span class="mono">간격 = <b style="color:#BE123C">${gap.toFixed(5)}</b> · 점근선 기울기 ±${(b/a).toFixed(3)}</span><br>`
+      + (gap<0.05 ? `<b style="color:#B45309">간격이 0.05 아래 — 멀리 갈수록 붙지만 결코 만나지는 않습니다.</b><br>` : '')
+      + (Math.abs(a-b)<0.05 ? `<b style="color:#7C3AED">a = b 이므로 점근선의 기울기가 ±1 — 직각쌍곡선입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">간격은 0 으로 수렴하지만 어떤 x 에서도 0 이 되지 않습니다.</span>`;
+  }
+  ['hyA','hyB','hyX'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'hy', title:'쌍곡선 — 다가가지만 닿지 않는다',
+    q:['x 를 키우며 (곡선 y, 점근선 y, 간격) 을 여섯 줄 기록하세요.',
+       '간격이 0 이 되는 x 가 있나요? 왜 그런가요?',
+       'a = b 일 때 점근선이 직교하는 이유를 기울기로 설명하세요.'],
+    cols:['a','b','x','곡선 y','점근선 y','간격'],
+    hint:'힌트 — 간격은 (b/a)x − b√(x²/a² − 1) 입니다. x 를 크게 해 보세요.',
+    read:()=>{ const a=+$('#hyA').value,b=+$('#hyB').value,x=Math.max(+$('#hyX').value,a+0.05);
+      const yc=b*Math.sqrt(x*x/(a*a)-1), ya=b/a*x;
+      return [a.toFixed(1),b.toFixed(1),x.toFixed(1),yc.toFixed(4),ya.toFixed(4),(ya-yc).toFixed(5)]; } });
+}
+
+/* ---------- LAB 160 거리 차로 위치 찾기 — 소리의 도착 시간 차 ---------- */
+function tdoaDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="td1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">두 마이크에 소리가 <b>도착한 시간 차</b>가 같은 점들을 이으면
+      쌍곡선이 됩니다. 마이크를 하나 더 놓으면?</div>
+    </div>
+    <div class="col">
+      ${slider('tdD','시간 차 (마이크 A 가 먼저)',-8,8,0.2,0,'ms')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="tdThird">세 번째 마이크 켜기</button>
+        <button class="b g sm" id="tdOff">끄기</button>
+      </div>
+      <div class="out" id="tdout"></div>
+      <div class="note" style="margin-top:12px">거리 차 = 소리 속도 × 시간 차.
+      <b>거리 차가 일정한 점의 자취</b>가 곧 쌍곡선입니다 — 이것이 위치 추적의 원리입니다.</div>
+    </div></div>`;
+  const cv=$('#td1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const S={ third:false };
+  const V=0.343; // m/ms
+  const A=[-4,0], B=[4,0], C=[0,5];
+  function draw(){
+    const dt=+$('#tdD').value; $('#tdDv').textContent=dt.toFixed(1)+'ms';
+    const dd=V*dt*2; // 거리 차(m) — 화면 단위와 맞춘 스케일
+    const X=x=>W/2+34*x, Y=y=>H-70-34*y;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(10,Y(0)); ctx.lineTo(W-10,Y(0)); ctx.stroke();
+    const drawHyp=(P1,P2,diff,col)=>{
+      const cx=(P1[0]+P2[0])/2, cy=(P1[1]+P2[1])/2;
+      const dx=P2[0]-P1[0], dy=P2[1]-P1[1], L=Math.hypot(dx,dy), c=L/2;
+      const a=Math.abs(diff)/2; if(a>=c-0.02) return false;
+      const b=Math.sqrt(c*c-a*a), ang=Math.atan2(dy,dx), sgn=diff>0?-1:1;
+      ctx.strokeStyle=col; ctx.lineWidth=2.2; ctx.beginPath();
+      for(let i=0;i<=120;i++){ const t=-2.2+4.4*i/120;
+        const u=sgn*a*Math.cosh(t), v=b*Math.sinh(t);
+        const xx=cx+u*Math.cos(ang)-v*Math.sin(ang), yy=cy+u*Math.sin(ang)+v*Math.cos(ang);
+        i?ctx.lineTo(X(xx),Y(yy)):ctx.moveTo(X(xx),Y(yy)); }
+      ctx.stroke(); return true; };
+    const ok1=drawHyp(A,B,dd,'#2563EB');
+    let ok2=false;
+    if(S.third){ const src=[1.6,3.2];
+      const d2=Math.hypot(src[0]-A[0],src[1]-A[1])-Math.hypot(src[0]-C[0],src[1]-C[1]);
+      ok2=drawHyp(A,C,d2,'#0E9384');
+      ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(src[0]),Y(src[1]),5.4,0,7); ctx.fill();
+      ctx.fillStyle='#BE123C'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+      ctx.fillText('소리가 난 곳', X(src[0])+8, Y(src[1])-6); }
+    [[A,'A'],[B,'B']].concat(S.third?[[C,'C']]:[]).forEach(([P,nm])=>{
+      ctx.fillStyle='#111827'; ctx.fillRect(X(P[0])-5,Y(P[1])-5,10,10);
+      ctx.fillStyle='#374151'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(nm, X(P[0]), Y(P[1])+20); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('마이크 사이 거리 8 m · 소리 속도 343 m/s', 12, H-12);
+    $('#tdout').innerHTML =
+      `<span class="mono">시간 차 ${dt.toFixed(1)} ms → 거리 차 = 0.343 × ${dt.toFixed(1)} × 2 = <b>${dd.toFixed(2)} m</b></span><br>`
+      + (ok1 ? `<span class="mono">거리 차가 ${Math.abs(dd).toFixed(2)} m 인 점들이 파란 쌍곡선을 이룹니다.</span><br>` : `<b>거리 차가 마이크 간격보다 커서 그런 점은 없습니다.</b><br>`)
+      + (ok1&&Math.abs(dd)>0.5&&!S.third ? `<b style="color:#B45309">아직 곡선 위 어디인지까지는 모릅니다 — 마이크가 둘뿐이기 때문입니다.</b><br>` : '')
+      + (S.third&&ok2 ? `<b style="color:#7C3AED">두 쌍곡선이 만나 한 점으로 좁혀졌습니다 — 마이크 셋이면 위치가 정해집니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">GPS 도 같은 원리입니다 — 위성 신호의 도착 시간 차를 씁니다.</span>`;
+  }
+  $('#tdThird').onclick=()=>{ S.third=true; draw(); };
+  $('#tdOff').onclick=()=>{ S.third=false; draw(); };
+  $('#tdD').oninput=draw; draw();
+  inquiry(root,{ id:'td', title:'거리 차로 찾는 위치',
+    q:['시간 차를 바꾸며 (시간 차, 거리 차, 곡선의 모양) 을 다섯 줄 기록하세요.',
+       '시간 차가 0 이면 어떤 도형이 되나요?',
+       '마이크가 둘일 때와 셋일 때 알 수 있는 것의 차이를 쓰세요.'],
+    cols:['시간 차(ms)','거리 차(m)','a','마이크 수','알 수 있는 것'],
+    hint:'힌트 — 거리 차의 절반이 a 입니다. a 가 c 를 넘으면 그런 점은 없습니다.',
+    read:()=>{ const dt=+$('#tdD').value, dd=0.343*dt*2;
+      return [dt.toFixed(1),dd.toFixed(2),(Math.abs(dd)/2).toFixed(2),S.third?3:2,
+        S.third?'한 점':'곡선 하나']; } });
+}
+
+/* ---------- LAB 161 접선의 조건 — 판별식이 0 이 되는 순간 ---------- */
+function tangentCondDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="tc1" width="380" height="320"></canvas>
+      <div class="note" style="margin-top:8px">직선을 위아래로 옮기며 원과 <b>몇 군데서 만나는지</b> 세어 보세요.
+      두 점 → 한 점 → 만나지 않음으로 바뀝니다.</div>
+    </div>
+    <div class="col">
+      ${slider('tcM','직선의 기울기 m',-2,2,0.1,0.8,'')}
+      ${slider('tcK','직선의 y 절편 k',-6,6,0.1,1,'')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="tcFit">접하도록 k 맞추기</button></div>
+      <div class="out" id="tcout"></div>
+      <div class="note" style="margin-top:12px">x² + y² = 4 와 y = mx + k 를 연립하면 이차방정식.
+      <b>판별식 D 의 부호</b>가 교점의 개수를 정합니다.</div>
+    </div></div>`;
+  const cv=$('#tc1'),ctx=cv.getContext('2d'),W=380,H=320;
+  const R=2;
+  function draw(){
+    const m=+$('#tcM').value, k=+$('#tcK').value;
+    $('#tcMv').textContent=m.toFixed(1); $('#tcKv').textContent=k.toFixed(1);
+    const X=x=>W/2+52*x, Y=y=>H/2-52*y;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(10,Y(0)); ctx.lineTo(W-10,Y(0)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(0),10); ctx.lineTo(X(0),H-10); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4;
+    ctx.beginPath(); ctx.arc(X(0),Y(0),52*R,0,7); ctx.stroke();
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2.2;
+    ctx.beginPath(); ctx.moveTo(X(-3.4),Y(m*(-3.4)+k)); ctx.lineTo(X(3.4),Y(m*3.4+k)); ctx.stroke();
+    const A=1+m*m, B=2*m*k, C=k*k-R*R, D=B*B-4*A*C;
+    if(D>=0){ [(-B+Math.sqrt(D))/(2*A), (-B-Math.sqrt(D))/(2*A)].forEach(x=>{
+      ctx.fillStyle='#0E9384'; ctx.beginPath(); ctx.arc(X(x),Y(m*x+k),5,0,7); ctx.fill(); }); }
+    const dist=Math.abs(k)/Math.sqrt(1+m*m);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('원 x² + y² = 4 (반지름 2) · 중심에서 직선까지 '+dist.toFixed(3), 12, H-12);
+    const tol=0.01;
+    const n = D>tol ? 2 : (D<-tol ? 0 : 1);
+    $('#tcout').innerHTML =
+      `<span class="mono">(1+m²)x² + 2mkx + (k²−4) = 0 · D = <b>${D.toFixed(4)}</b></span><br>`
+      + `<span class="mono">교점 <b>${n}</b>개 · 중심까지 거리 ${dist.toFixed(3)} · 반지름 2</span><br>`
+      + (n===1 ? `<b style="color:#B45309">판별식이 0 — 한 점에서만 스치듯 만납니다. 접선입니다.</b><br>` : '')
+      + (n===0 ? `<b style="color:#7C3AED">판별식이 음수 — 실근이 없어 아예 만나지 않습니다.</b><br>` : '')
+      + (n===2 ? `두 점에서 만납니다 — 할선입니다.<br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">「중심까지 거리 = 반지름」과 「D = 0」이 같은 말임을 확인하세요.</span>`;
+  }
+  $('#tcFit').onclick=()=>{ const m=+$('#tcM').value;
+    $('#tcK').step=0.0001; $('#tcK').value=Math.sqrt(4*(1+m*m)); draw(); };
+  ['tcM','tcK'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'tc', title:'접선의 조건 — D = 0',
+    q:['k 를 바꾸며 (k, D, 교점 수, 중심까지 거리) 를 여섯 줄 기록하세요.',
+       '교점이 2 → 1 → 0 으로 바뀌는 경계의 k 를 찾으세요.',
+       '「중심까지 거리 = 반지름」과 「D = 0」이 같은 조건임을 식으로 보이세요.'],
+    cols:['m','k','D','교점 수','중심까지 거리'],
+    hint:'힌트 — D = 0 을 k 에 대해 풀면 k² = 4(1 + m²) 입니다.',
+    read:()=>{ const m=+$('#tcM').value,k=+$('#tcK').value;
+      const A=1+m*m,B=2*m*k,C=k*k-4,D=B*B-4*A*C,tol=0.01;
+      return [m.toFixed(1),k.toFixed(3),D.toFixed(4),D>tol?2:(D<-tol?0:1),
+        (Math.abs(k)/Math.sqrt(1+m*m)).toFixed(3)]; } });
+}

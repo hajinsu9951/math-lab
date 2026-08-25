@@ -1,0 +1,323 @@
+
+/* ---------- LAB 112 지수방정식·부등식 — 몇 해 뒤에 세 배가 될까 ---------- */
+function expEqDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="xe1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">파란 곡선은 y = a<sup>x</sup>, 붉은 가로선은 y = k 입니다.
+      두 선이 만나는 x 가 방정식의 해입니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">밑 a<select id="xeA" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="2">a = 2</option>
+        <option value="3">a = 3</option>
+        <option value="1.06" selected>a = 1.06 (연 6% 복리)</option>
+        <option value="0.5">a = 0.5 (반씩 줄기)</option></select></label>
+      ${slider('xeK','k (오른쪽 값)',1.2,10,0.1,5,'')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="xeEq">= k (방정식)</button>
+        <button class="b g sm" id="xeGt">&gt; k (부등식)</button>
+      </div>
+      <div class="out" id="xeout"></div>
+      <div class="note" style="margin-top:12px">지수에 갇힌 x 를 꺼내는 열쇠가 <b>로그</b>입니다.
+      밑이 1보다 작으면 부등호의 방향이 뒤집히는 것도 함께 보세요.</div>
+    </div></div>`;
+  const cv=$('#xe1'),ctx=cv.getContext('2d'),W=380,H=300,P=40;
+  const S={ mode:'eq' };
+  function draw(){
+    const a=+$('#xeA').value, k=+$('#xeK').value;
+    $('#xeKv').textContent=k.toFixed(1);
+    const xmax = a>1 ? Math.max(6, Math.log(10)/Math.log(a)*1.2) : 6;
+    const ymax = 11;
+    const X=x=>P+(W-P-16)*x/xmax, Y=y=>H-P-(H-2*P)*y/ymax;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#F1F3F6';
+    for(let y=0;y<=10;y+=2){ ctx.beginPath(); ctx.moveTo(P,Y(y)); ctx.lineTo(W-16,Y(y)); ctx.stroke();
+      ctx.fillStyle='#9CA3AF'; ctx.font='9.5px sans-serif'; ctx.textAlign='right'; ctx.fillText(y,P-6,Y(y)+3); }
+    const sol = Math.log(k)/Math.log(a);
+    // 부등식 영역
+    if(S.mode!=='eq' && sol>0 && sol<xmax){
+      ctx.fillStyle='rgba(14,147,132,.14)';
+      if(a>1) ctx.fillRect(X(sol), P-10, X(xmax)-X(sol), H-P-(P-10));
+      else ctx.fillRect(P, P-10, X(sol)-P, H-P-(P-10));
+    }
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4; ctx.beginPath();
+    for(let x=0;x<=xmax;x+=xmax/200){ const y=Math.pow(a,x); if(y>ymax) break;
+      const px=X(x), py=Y(y); x===0?ctx.moveTo(px,py):ctx.lineTo(px,py); }
+    ctx.stroke();
+    ctx.strokeStyle='#BE123C'; ctx.setLineDash([5,4]); ctx.lineWidth=1.8;
+    ctx.beginPath(); ctx.moveTo(P,Y(k)); ctx.lineTo(W-16,Y(k)); ctx.stroke(); ctx.setLineDash([]);
+    if(sol>0 && sol<xmax){ ctx.fillStyle='#111827';
+      ctx.beginPath(); ctx.arc(X(sol),Y(k),5.5,0,7); ctx.fill();
+      ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('x = '+sol.toFixed(2), X(sol), Y(k)-12); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-16,H-P); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='left'; ctx.fillText('x →',P,H-P+16);
+    const flip = a<1;
+    $('#xeout').innerHTML =
+      `<span class="mono">${a}<sup>x</sup> ${S.mode==='eq'?'=':'>'} ${k.toFixed(1)}</span><br>`
+      + `<span class="mono">x = log<sub>${a}</sub> ${k.toFixed(1)} = log ${k.toFixed(1)} ÷ log ${a} = <b>${sol.toFixed(3)}</b></span><br>`
+      + (S.mode==='eq'
+          ? `<b style="color:#2563EB">방정식의 해 x = ${sol.toFixed(3)}</b><br>`
+          : (flip ? `<b style="color:#BE123C">밑이 1보다 작아 부등호가 뒤집힙니다 — 해는 x &lt; ${sol.toFixed(3)}</b><br>`
+                  : `<b style="color:#0E9384">부등식의 해 x &gt; ${sol.toFixed(3)}</b><br>`))
+      + (Math.abs(a-1.06)<1e-9 && Math.abs(k-3)<0.051
+          ? `<b style="color:#B45309">원금이 세 배 되는 해 — 약 ${Math.ceil(sol)}년째</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">지수 자리의 x 는 로그로만 내려옵니다. 밑이 1보다 작을 때를 꼭 확인하세요.</span>`;
+  }
+  $('#xeA').onchange=draw; $('#xeK').oninput=draw;
+  $('#xeEq').onclick=()=>{ S.mode='eq'; draw(); };
+  $('#xeGt').onclick=()=>{ S.mode='gt'; draw(); };
+  draw();
+  inquiry(root,{ id:'xe', title:'지수방정식·부등식 — 지수에 갇힌 x 꺼내기',
+    q:['밑과 k 를 바꿔 가며 (a, k, 해 x) 를 여섯 줄 기록하세요.',
+       '밑이 1보다 클 때와 작을 때 부등식의 해가 어떻게 달라지는지 확인하세요.',
+       'a^x = k 의 해가 x = log k / log a 인 이유를 로그의 정의로 손으로 설명하세요.'],
+    cols:['밑 a','k','해 x','부등식의 해'],
+    hint:'힌트 — 지수함수는 밑이 1보다 크면 증가, 작으면 감소합니다. 감소하면 대소 관계가 뒤집힙니다.',
+    read:()=>{ const a=+$('#xeA').value, k=+$('#xeK').value, s=Math.log(k)/Math.log(a);
+      return [a, k.toFixed(1), s.toFixed(3), (a<1?'x < ':'x > ')+s.toFixed(2)]; } });
+}
+
+/* ---------- LAB 113 로그의 밑 변환 — 계산기에 없는 밑 ---------- */
+function logBaseDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="lb1" width="380" height="280"></canvas>
+      <div class="note" style="margin-top:8px">막대 세 개는 log b, log a, 그리고 그 <b>몫</b>입니다.
+      계산기에 상용로그(밑 10)밖에 없어도 어떤 밑이든 구할 수 있습니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">밑 a<select id="lbA" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="2">a = 2</option><option value="3">a = 3</option>
+        <option value="5" selected>a = 5</option><option value="7">a = 7</option></select></label>
+      ${slider('lbB','진수 b',2,1000,1,50,'')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="lbChk">거듭제곱으로 검산</button>
+        <button class="b g sm" id="lbSame">밑 = 진수로 맞추기</button>
+      </div>
+      <div class="out" id="lbout"></div>
+      <div class="note" style="margin-top:12px">밑 변환은 <b>같은 자를 두 번 쓰는 일</b>입니다 —
+      분자와 분모를 같은 밑으로 재면 원래 밑이 무엇이든 답이 나옵니다.</div>
+    </div></div>`;
+  const cv=$('#lb1'),ctx=cv.getContext('2d'),W=380,H=280;
+  const S={ chk:false };
+  function draw(){
+    const a=+$('#lbA').value, b=+$('#lbB').value;
+    $('#lbBv').textContent=b;
+    const lb=Math.log10(b), la=Math.log10(a), v=lb/la;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const bar=(y,len,col,lab,val)=>{
+      ctx.fillStyle=col; ctx.globalAlpha=.28; ctx.fillRect(40,y,len,26); ctx.globalAlpha=1;
+      ctx.strokeStyle=col; ctx.lineWidth=1.6; ctx.strokeRect(40,y,len,26);
+      ctx.fillStyle='#111827'; ctx.font='bold 11.5px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(lab, 44, y-6);
+      ctx.textAlign='left'; ctx.fillText(val, 46+len, y+18);
+    };
+    const sc=90;
+    bar(50, Math.max(4,lb*sc), '#2563EB', 'log b (계산기로 잰 값)', lb.toFixed(4));
+    bar(120, Math.max(4,la*sc), '#0E9384', 'log a', la.toFixed(4));
+    bar(196, Math.max(4,v*sc*0.6), '#BE123C', '몫 = log b ÷ log a', v.toFixed(4));
+    ctx.fillStyle='#6B7280'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('두 막대의 비가 곧 답입니다', 40, 258);
+    const back = Math.pow(a, v);
+    $('#lbout').innerHTML =
+      `<span class="mono">log<sub>${a}</sub> ${b} = log ${b} ÷ log ${a} = ${lb.toFixed(4)} ÷ ${la.toFixed(4)} = <b>${v.toFixed(4)}</b></span><br>`
+      + (Math.abs(a-2)<1e-9 && b===100 ? `<b style="color:#B45309">오늘의 문제 — log₂ 100 = ${v.toFixed(3)}</b><br>` : '')
+      + (S.chk ? `검산: ${a}<sup>${v.toFixed(4)}</sup> = <b>${back.toFixed(2)}</b> — ${Math.abs(back-b)<0.05?'<b style="color:#0E9384">진수와 일치! 밑 변환 성공</b>':'차이 '+Math.abs(back-b).toFixed(2)}<br>` : '')
+      + (a===b ? `<b style="color:#7C3AED">밑과 진수가 같으면 값은 1 — 자기 자신을 자기 자로 재면 1입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">밑을 10 으로 바꿔도, e 로 바꿔도 몫은 같습니다 — 그것이 밑 변환의 힘입니다.</span>`;
+  }
+  $('#lbA').onchange=()=>{ S.chk=false; draw(); };
+  $('#lbB').oninput=()=>{ S.chk=false; draw(); };
+  $('#lbChk').onclick=()=>{ S.chk=true; draw(); };
+  $('#lbSame').onclick=()=>{ $('#lbB').value=+$('#lbA').value; S.chk=false; draw(); };
+  draw();
+  inquiry(root,{ id:'lb', title:'로그의 밑 변환 — 어떤 밑이든 상용로그로',
+    q:['(a, b, log_a b) 를 여섯 줄 기록하고, 매번 거듭제곱 검산도 함께 하세요.',
+       '밑과 진수가 같을 때, 진수가 1일 때 값이 무엇이 되는지 확인하세요.',
+       'log_a b = log b / log a 를 로그의 정의(a^x = b)에서 손으로 유도하세요.'],
+    cols:['밑 a','진수 b','log b','log a','log_a b'],
+    hint:'힌트 — a^x = b 의 양변에 상용로그를 취하면 x·log a = log b 가 됩니다.',
+    read:()=>{ const a=+$('#lbA').value, b=+$('#lbB').value;
+      return [a, b, Math.log10(b).toFixed(4), Math.log10(a).toFixed(4), (Math.log10(b)/Math.log10(a)).toFixed(4)]; } });
+}
+
+/* ---------- LAB 114 지수와 로그는 짝 — y = x 대칭 ---------- */
+function expLogDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="el1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">파란 곡선 y = a<sup>x</sup>, 초록 곡선 y = log<sub>a</sub> x.
+      점 P 를 끌어 두 곡선의 <b>짝점</b>을 추적하세요.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">밑 a<select id="elA" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="2" selected>a = 2</option><option value="3">a = 3</option>
+        <option value="0.5">a = 0.5</option></select></label>
+      ${slider('elX','대응점 x',-3,5,0.5,1,'')}
+      <div class="out" id="elout"></div>
+      <div class="note" style="margin-top:12px">지수함수의 <b>치역</b>(y &gt; 0)이 로그함수의 <b>정의역</b>이 됩니다 —
+      역함수는 정의역과 치역을 맞바꿉니다.</div>
+    </div></div>`;
+  const cv=$('#el1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const O={x:120,y:210}, U=34;
+  function draw(){
+    const a=+$('#elA').value, x=+$('#elX').value;
+    $('#elXv').textContent=x.toFixed(1);
+    const X=v=>O.x+v*U, Y=v=>O.y-v*U;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#EEF1F5';
+    for(let v=-3;v<=7;v++){ ctx.beginPath(); ctx.moveTo(X(v),0); ctx.lineTo(X(v),H); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0,Y(v)); ctx.lineTo(W,Y(v)); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.3;
+    ctx.beginPath(); ctx.moveTo(0,Y(0)); ctx.lineTo(W,Y(0)); ctx.moveTo(X(0),0); ctx.lineTo(X(0),H); ctx.stroke();
+    ctx.strokeStyle='#B45309'; ctx.setLineDash([5,3]); ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(X(-3),Y(-3)); ctx.lineTo(X(7),Y(7)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4; ctx.beginPath();
+    for(let v=-3;v<=6;v+=0.05){ const y=Math.pow(a,v); if(y>7) break; const px=X(v),py=Y(y);
+      v===-3?ctx.moveTo(px,py):ctx.lineTo(px,py); } ctx.stroke();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.4; ctx.beginPath();
+    let started=false;
+    for(let v=0.02;v<=7;v+=0.03){ const y=Math.log(v)/Math.log(a); if(y< -3||y>7) { started=false; continue; }
+      const px=X(v),py=Y(y); started?ctx.lineTo(px,py):ctx.moveTo(px,py); started=true; } ctx.stroke();
+    const fx=Math.pow(a,x);
+    if(fx<=7){
+      ctx.strokeStyle='#BE123C'; ctx.setLineDash([3,3]); ctx.lineWidth=1.4;
+      ctx.beginPath(); ctx.moveTo(X(x),Y(fx)); ctx.lineTo(X(fx),Y(x)); ctx.stroke(); ctx.setLineDash([]);
+      [[x,fx,'#2563EB'],[fx,x,'#0E9384']].forEach(([px,py,col])=>{
+        ctx.fillStyle=col; ctx.beginPath(); ctx.arc(X(px),Y(py),5,0,7); ctx.fill();
+        ctx.fillStyle='#111827'; ctx.font='bold 10.5px sans-serif'; ctx.textAlign='center';
+        ctx.fillText('('+px.toFixed(1)+', '+py.toFixed(1)+')', X(px), Y(py)-9); });
+    }
+    $('#elout').innerHTML =
+      `<span class="mono">y = ${a}<sup>x</sup> ↔ y = log<sub>${a}</sub> x</span><br>`
+      + (fx<=7
+          ? `대응점: 지수 위 <b style="color:#2563EB">(${x.toFixed(1)}, ${fx.toFixed(2)})</b>`
+            + ` ↔ 로그 위 <b style="color:#0E9384">(${fx.toFixed(2)}, ${x.toFixed(1)})</b><br>`
+            + `<b style="color:#B45309">좌표를 맞바꾼 자리 — 두 곡선은 y = x 대칭입니다.</b><br>`
+          : `<span style="color:#BE123C">값이 화면 밖입니다 — x 를 줄여 보세요.</span><br>`)
+      + `지수함수 정의역 <b>모든 실수</b> · 치역 <b>y &gt; 0</b> &nbsp;→&nbsp; 로그함수 정의역 <b>x &gt; 0</b> · 치역 <b>모든 실수</b><br>`
+      + (a<1 ? `<b style="color:#7C3AED">밑이 1보다 작아 둘 다 감소합니다 — 짝은 그대로입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">로그에 음수나 0 을 넣을 수 없는 이유가 지수함수의 치역에 있습니다.</span>`;
+  }
+  $('#elA').onchange=draw; $('#elX').oninput=draw; draw();
+  inquiry(root,{ id:'el', title:'지수와 로그 — 좌표를 맞바꾼 짝',
+    q:['x 를 바꿔 가며 (지수 위의 점, 로그 위의 점) 짝을 여섯 줄 기록하세요.',
+       '두 함수의 정의역·치역을 표로 적고 무엇이 맞바뀌는지 확인하세요.',
+       'log_a x 에 0 이나 음수를 넣을 수 없는 이유를 지수함수의 치역으로 손으로 설명하세요.'],
+    cols:['x','a^x','로그 위의 점','대칭축'],
+    hint:'힌트 — (p, q) 가 지수 위의 점이면 (q, p) 는 로그 위의 점입니다. 두 점의 중점은 y = x 위에 있습니다.',
+    read:()=>{ const a=+$('#elA').value, x=+$('#elX').value, f=Math.pow(a,x);
+      return [x.toFixed(1), f.toFixed(2), '('+f.toFixed(2)+', '+x.toFixed(1)+')', 'y = x']; } });
+}
+
+/* ---------- LAB 115 상용로그의 지표와 가수 — 2^100 은 몇 자리? ---------- */
+function log10Demo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="lg2" width="380" height="270"></canvas>
+      <div class="note" style="margin-top:8px">막대는 log₁₀(수) 입니다. <b>정수 부분(지표)</b>이 자릿수를,
+      <b>소수 부분(가수)</b>이 첫 자리 숫자를 쥐고 있습니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">밑<select id="lgB" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="2" selected>2 의 거듭제곱</option>
+        <option value="3">3 의 거듭제곱</option>
+        <option value="7">7 의 거듭제곱</option></select></label>
+      ${slider('lgN','지수 n',1,200,1,10,'')}
+      <div class="out" id="lg2out"></div>
+      <div class="note" style="margin-top:12px">계산기가 넘치는 큰 수도 <b>자릿수와 첫 자리</b>는 로그로 알 수 있습니다.</div>
+    </div></div>`;
+  const cv=$('#lg2'),ctx=cv.getContext('2d'),W=380,H=270;
+  function draw(){
+    const b=+$('#lgB').value, n=+$('#lgN').value;
+    $('#lgNv').textContent=n;
+    const L=n*Math.log10(b), ji=Math.floor(L), ga=L-ji;
+    const digits=ji+1, first=Math.floor(Math.pow(10,ga));
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const x0=40, wpx=(W-70)/70;
+    ctx.fillStyle='rgba(37,99,235,.30)'; ctx.fillRect(x0, 70, Math.min(W-60, ji*wpx), 34);
+    ctx.strokeStyle='#2563EB'; ctx.strokeRect(x0, 70, Math.min(W-60, ji*wpx), 34);
+    ctx.fillStyle='rgba(190,18,60,.35)';
+    ctx.fillRect(x0+Math.min(W-60,ji*wpx), 70, Math.max(3,ga*wpx*6), 34);
+    ctx.fillStyle='#111827'; ctx.font='bold 12px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('지표(정수부) = '+ji, x0, 60);
+    ctx.fillStyle='#BE123C'; ctx.fillText('가수(소수부) = '+ga.toFixed(4), x0, 128);
+    ctx.fillStyle='#374151'; ctx.font='13px sans-serif';
+    ctx.fillText('log₁₀ ('+b+'^'+n+') = '+L.toFixed(4), x0, 170);
+    ctx.fillStyle='#0E9384'; ctx.font='bold 15px sans-serif';
+    ctx.fillText('→ '+digits+'자리 수', x0, 200);
+    ctx.fillStyle='#7C3AED'; ctx.font='bold 13px sans-serif';
+    ctx.fillText('→ 최고 자리 숫자 '+first, x0, 226);
+    $('#lg2out').innerHTML =
+      `<span class="mono">log₁₀ ${b}<sup>${n}</sup> = ${n} × log ${b} = <b>${L.toFixed(4)}</b></span><br>`
+      + `지표 <b>${ji}</b> · 가수 <b>${ga.toFixed(4)}</b><br>`
+      + `<b style="color:#0E9384">자릿수 = 지표 + 1 = ${digits}자리</b> · 최고 자리 숫자 <b>${first}</b><br>`
+      + (b===2 && n===100 ? `<b style="color:#B45309">오늘의 문제 — 2¹⁰⁰ 은 ${digits}자리 수입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">가수만 있으면 첫 자리 숫자를 알 수 있습니다 — 벤포드 법칙의 뿌리입니다.</span>`;
+  }
+  $('#lgB').onchange=draw; $('#lgN').oninput=draw; draw();
+  inquiry(root,{ id:'lg2', title:'상용로그 — 자릿수와 첫 자리의 비밀',
+    q:['(밑, 지수, log 값, 지표, 가수, 자릿수) 를 여섯 줄 기록하세요.',
+       '지수를 2배로 하면 자릿수는 어떻게 변하는지 확인하세요.',
+       '자릿수 = 지표 + 1 인 이유를 10^지표 ≤ 수 < 10^(지표+1) 로 손으로 설명하세요.'],
+    cols:['수','log 값','지표','가수','자릿수','첫 자리'],
+    hint:'힌트 — 어떤 수 N 의 자릿수는 10 의 몇 제곱과 몇 제곱 사이에 있는지가 정합니다.',
+    read:()=>{ const b=+$('#lgB').value, n=+$('#lgN').value, L=n*Math.log10(b), ji=Math.floor(L);
+      return [b+'^'+n, L.toFixed(4), ji, (L-ji).toFixed(4), ji+1, Math.floor(Math.pow(10,L-ji))]; } });
+}
+
+/* ---------- LAB 116 지수함수의 변신 — 밑·평행이동·점근선 ---------- */
+function expMoveDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="em1" width="380" height="310"></canvas>
+      <div class="note" style="margin-top:8px">회색 곡선은 기준 y = 2<sup>x</sup>, 파란 곡선이 지금 식입니다.
+      <b>붉은 점선</b>은 점근선입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('emA','밑 a',0.2,5,0.1,2,'')}
+      ${slider('emP','가로 이동 p',-3,3,0.5,0,'')}
+      ${slider('emQ','세로 이동 q',-2,4,0.5,0,'')}
+      <div class="out" id="emout"></div>
+      <div class="note" style="margin-top:12px">밑이 1보다 크면 증가, 작으면 감소합니다.
+      세로 이동 q 는 <b>점근선</b>을 통째로 들어 올립니다.</div>
+    </div></div>`;
+  const cv=$('#em1'),ctx=cv.getContext('2d'),W=380,H=310;
+  const O={x:150,y:230}, U=34;
+  function draw(){
+    const a=+$('#emA').value, p=+$('#emP').value, q=+$('#emQ').value;
+    $('#emAv').textContent=a.toFixed(1); $('#emPv').textContent=p.toFixed(1); $('#emQv').textContent=q.toFixed(1);
+    const X=v=>O.x+v*U, Y=v=>O.y-v*U;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#EEF1F5';
+    for(let v=-4;v<=6;v++){ ctx.beginPath(); ctx.moveTo(X(v),0); ctx.lineTo(X(v),H); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0,Y(v)); ctx.lineTo(W,Y(v)); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.3;
+    ctx.beginPath(); ctx.moveTo(0,Y(0)); ctx.lineTo(W,Y(0)); ctx.moveTo(X(0),0); ctx.lineTo(X(0),H); ctx.stroke();
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1.6; ctx.beginPath();
+    for(let v=-4;v<=6;v+=0.05){ const y=Math.pow(2,v); if(y>6) break; const px=X(v),py=Y(y);
+      v===-4?ctx.moveTo(px,py):ctx.lineTo(px,py); } ctx.stroke();
+    ctx.strokeStyle='#BE123C'; ctx.setLineDash([5,4]); ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(0,Y(q)); ctx.lineTo(W,Y(q)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.6; ctx.beginPath();
+    let on=false;
+    for(let v=-4;v<=6;v+=0.04){ const y=Math.pow(a,v-p)+q; if(y>6.2||y<-3){ on=false; continue; }
+      const px=X(v),py=Y(y); on?ctx.lineTo(px,py):ctx.moveTo(px,py); on=true; } ctx.stroke();
+    ctx.fillStyle='#BE123C'; ctx.font='bold 11px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('점근선 y = '+q.toFixed(1), 10, Y(q)-6);
+    const inc = a>1;
+    $('#emout').innerHTML =
+      `<span class="mono">y = ${a.toFixed(1)}<sup>(x ${p>=0?'− '+p.toFixed(1):'+ '+(-p).toFixed(1)})</sup> ${q>=0?'+ '+q.toFixed(1):'− '+(-q).toFixed(1)}</span><br>`
+      + `<b style="color:${inc?'#2563EB':'#BE123C'}">${inc?'증가함수 — 밑이 1보다 큽니다':'감소함수 — 밑이 1보다 작습니다'}</b><br>`
+      + `점근선 <b>y = ${q.toFixed(1)}</b> · y절편 <b>${(Math.pow(a,-p)+q).toFixed(2)}</b><br>`
+      + (Math.abs(q-2)<0.01 ? `<b style="color:#7C3AED">점근선이 y = 2 로 올라갔습니다 — 아무리 작아져도 2 아래로는 못 내려갑니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">가로 이동은 괄호 안에서 부호가 반대로 보입니다 — 왜 그런지 대입해 확인하세요.</span>`;
+  }
+  ['emA','emP','emQ'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'em', title:'지수함수의 변신 — 밑·이동·점근선',
+    q:['a·p·q 를 하나씩만 움직이며 그래프가 어떻게 변하는지 여섯 줄 기록하세요.',
+       '밑이 1보다 작을 때와 클 때의 증가·감소를 확인하고, 두 그래프가 y축 대칭인 짝(a 와 1/a)도 찾으세요.',
+       '가로 이동에서 괄호 안 부호가 반대로 보이는 이유를 대입으로 손으로 설명하세요.'],
+    cols:['밑 a','p','q','증가/감소','점근선','y절편'],
+    hint:'힌트 — y = a^(x−p) + q 는 기준 곡선을 오른쪽 p, 위로 q 만큼 민 것입니다.',
+    read:()=>{ const a=+$('#emA').value, p=+$('#emP').value, q=+$('#emQ').value;
+      return [a.toFixed(1), p.toFixed(1), q.toFixed(1), a>1?'증가':'감소', 'y = '+q.toFixed(1), (Math.pow(a,-p)+q).toFixed(2)]; } });
+}
