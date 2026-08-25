@@ -1,0 +1,379 @@
+/* ---------- LAB 297 한붓그리기 — 홀수 점을 세면 안다 ---------- */
+function eulerPathDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ep1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">한붓그리기는 <b>홀수 차수 꼭짓점의 개수</b>로 판정합니다.
+      0 개면 어디서 시작해도 되고, 2 개면 그 둘에서만 시작할 수 있습니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">도형 고르기<select id="epK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="sq">사각형</option>
+        <option value="env">봉투 모양</option>
+        <option value="k4">완전그래프 K₄</option>
+        <option value="k5">완전그래프 K₅</option>
+        <option value="bri">쾨니히스베르크 다리</option>
+      </select></label>
+      ${slider('epE','간선 하나 지우기 / 되살리기',0,6,1,0,'')}
+      <div class="out" id="epout"></div>
+    </div></div>`;
+  const cv=$('#ep1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const G={
+    sq:{V:[[-1,1],[1,1],[1,-1],[-1,-1]],E:[[0,1],[1,2],[2,3],[3,0]]},
+    env:{V:[[-1.2,-0.9],[1.2,-0.9],[1.2,0.5],[-1.2,0.5],[0,1.3]],
+         E:[[0,1],[1,2],[2,3],[3,0],[0,2],[1,3],[3,4],[4,2]]},
+    k4:{V:[[0,1.2],[-1.1,-0.6],[1.1,-0.6],[0,-0.1]],E:[[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]]},
+    k5:{V:[[0,1.3],[-1.25,0.4],[-0.77,-1.05],[0.77,-1.05],[1.25,0.4]],
+        E:[[0,1],[0,2],[0,3],[0,4],[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]},
+    bri:{V:[[0,1.2],[-1.3,0],[1.3,0],[0,-1.2]],
+         E:[[0,1],[0,1],[0,2],[0,2],[1,3],[2,3],[0,3]]}
+  };
+  const NM={sq:'사각형',env:'봉투 모양',k4:'K₄',k5:'K₅',bri:'쾨니히스베르크 다리'};
+  function draw(){
+    const k=$('#epK').value, cut=+$('#epE').value;
+    $('#epEv').textContent=cut===0?'그대로':(cut+' 번째 지움');
+    const g=G[k];
+    const E=g.E.filter((_,i)=>!(cut>0 && i===cut-1));
+    const deg=g.V.map((_,i)=>E.filter(e=>e[0]===i||e[1]===i).length);
+    const odd=deg.filter(d=>d%2===1).length;
+    const kind = odd===0?'닫힌 한붓그리기 가능':(odd===2?'열린 한붓그리기 가능':'불가능');
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=190,cy=155,u=82;
+    const X=p=>cx+p[0]*u, Y=p=>cy-p[1]*u;
+    const seen={};
+    E.forEach(([a,b])=>{ const key=a<b?a+'-'+b:b+'-'+a;
+      seen[key]=(seen[key]||0)+1;
+      const off=(seen[key]-1)*14;
+      const A=g.V[a],B=g.V[b];
+      ctx.strokeStyle='#2563EB'; ctx.lineWidth=2;
+      ctx.beginPath();
+      if(off===0) { ctx.moveTo(X(A),Y(A)); ctx.lineTo(X(B),Y(B)); }
+      else { const mx=(X(A)+X(B))/2, my=(Y(A)+Y(B))/2;
+        const dx=X(B)-X(A), dy=Y(B)-Y(A), n=Math.hypot(dx,dy)||1;
+        ctx.moveTo(X(A),Y(A));
+        ctx.quadraticCurveTo(mx-dy/n*off, my+dx/n*off, X(B),Y(B)); }
+      ctx.stroke(); });
+    g.V.forEach((p,i)=>{
+      ctx.fillStyle=deg[i]%2===1?'#BE123C':'#0E9384';
+      ctx.beginPath(); ctx.arc(X(p),Y(p),9,0,7); ctx.fill();
+      ctx.fillStyle='#fff'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(deg[i], X(p), Y(p)+4); });
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('점 안의 수 = 그 점에 모인 간선 수 · 붉은 = 홀수', 14, 20);
+    ctx.fillText('간선 '+E.length+' 개 · 홀수 점 '+odd+' 개 → '+kind, 14, H-12);
+    $('#epout').innerHTML =
+      `<span class="mono">${NM[k]} · 차수 = [${deg.join(', ')}] · 홀수 점 <b style="color:${odd<=2?'#0E9384':'#BE123C'}">${odd}</b> 개</span><br>`
+      + `<span class="mono">판정 = <b>${kind}</b> · 차수의 합 = ${deg.reduce((a,b)=>a+b,0)} = 간선 수 × 2</span><br>`
+      + (odd>2 ? `<b style="color:#B45309">홀수 점이 ${odd} 개라 어디서 시작해도 한 번에 그릴 수 없습니다.</b><br>` : '')
+      + (odd===2 ? `<b style="color:#7C3AED">홀수 점이 정확히 둘 — 그 두 점 가운데 하나에서 출발해야만 그려집니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">지나가는 점은 들어온 만큼 나가야 하므로 차수가 짝수여야 합니다.</span>`;
+  }
+  $('#epK').onchange=draw; $('#epE').oninput=draw; draw();
+  inquiry(root,{ id:'ep', title:'한붓그리기 — 홀수 점 세기',
+    q:['도형을 바꿔 가며 (도형, 홀수 점, 판정) 을 여섯 줄 기록하세요.',
+       '간선을 하나 지우면 판정이 어떻게 바뀌는지 보세요.',
+       '왜 홀수 점이 0 개 또는 2 개여야 하는지 설명하세요.'],
+    cols:['도형','간선 수','홀수 점','판정'],
+    hint:'힌트 — 중간에 지나는 점은 들어오고 나가야 하니 짝수여야 합니다.',
+    read:()=>{ const k=$('#epK').value,cut=+$('#epE').value,g=G[k];
+      const E=g.E.filter((_,i)=>!(cut>0&&i===cut-1));
+      const deg=g.V.map((_,i)=>E.filter(e=>e[0]===i||e[1]===i).length);
+      const odd=deg.filter(d=>d%2===1).length;
+      return [NM[k],E.length,odd,odd===0?'닫힌 가능':(odd===2?'열린 가능':'불가능')]; } });
+}
+
+/* ---------- LAB 298 악수 정리 — 차수의 합은 간선의 두 배 ---------- */
+function handshakeDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="hs1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">간선 하나는 <b>두 점의 차수를 각각 1 씩</b> 올립니다.
+      그래서 차수의 합은 언제나 간선 수의 두 배입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('hsN','사람 수',3,10,1,6,'명')}
+      ${slider('hsE','악수한 횟수',0,20,1,4,'번')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="hsOne"> 간선을 한 번만 세기 (잘못된 셈)</label>
+      <div class="out" id="hsout"></div>
+    </div></div>`;
+  const cv=$('#hs1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function edges(n,m){
+    const all=[];
+    for(let i=0;i<n;i++) for(let j=i+1;j<n;j++) all.push([i,j]);
+    const out=[];
+    for(let k=0;k<Math.min(m,all.length);k++) out.push(all[(k*7+3)%all.length]);
+    return out.filter((e,i,a)=>a.findIndex(x=>x[0]===e[0]&&x[1]===e[1])===i);
+  }
+  function draw(){
+    const n=+$('#hsN').value, m=+$('#hsE').value, one=$('#hsOne').checked;
+    $('#hsNv').textContent=n+'명'; $('#hsEv').textContent=m+'번';
+    const E=edges(n,m);
+    const deg=Array(n).fill(0);
+    E.forEach(([a,b])=>{ deg[a]++; deg[b]++; });
+    const sum=deg.reduce((a,b)=>a+b,0);
+    const counted=one?E.length:sum;
+    const odd=deg.filter(d=>d%2===1).length;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=190,cy=155,R=110;
+    const P=i=>[cx+R*Math.cos(-Math.PI/2+2*Math.PI*i/n), cy+R*Math.sin(-Math.PI/2+2*Math.PI*i/n)];
+    E.forEach(([a,b])=>{ const A=P(a),B=P(b);
+      ctx.strokeStyle='rgba(37,99,235,.7)'; ctx.lineWidth=1.8;
+      ctx.beginPath(); ctx.moveTo(A[0],A[1]); ctx.lineTo(B[0],B[1]); ctx.stroke(); });
+    for(let i=0;i<n;i++){ const p=P(i);
+      ctx.fillStyle=deg[i]%2===1?'#BE123C':'#0E9384';
+      ctx.beginPath(); ctx.arc(p[0],p[1],13,0,7); ctx.fill();
+      ctx.fillStyle='#fff'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(deg[i], p[0], p[1]+4); }
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('점 안의 수 = 그 사람이 악수한 횟수', 14, 20);
+    ctx.fillText('실제 악수 = '+E.length+' 번 · 차수의 합 = '+sum, 14, H-12);
+    $('#hsout').innerHTML =
+      `<span class="mono">차수 = [${deg.join(', ')}] · 합 = <b style="color:#2563EB">${sum}</b> · 악수 횟수 = <b>${E.length}</b></span><br>`
+      + `<span class="mono">지금 세는 방식 = ${one?'간선을 한 번만':'양쪽 모두'} → <b style="color:${counted===sum?'#0E9384':'#BE123C'}">${counted}</b></span><br>`
+      + (!one && sum===2*E.length && E.length>=5 ? `<b style="color:#B45309">차수의 합이 악수 횟수의 정확히 두 배입니다 — 한 번의 악수를 두 사람이 함께 세기 때문입니다.</b><br>` : '')
+      + (one ? `<b style="color:#7C3AED">간선을 한 번만 세니 차수의 합의 절반이 나옵니다 — 한 번의 악수를 두 사람이 함께 세야 합니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">Σ deg(v) = 2|E| — 같은 것을 두 방법으로 세는 가장 단순한 예입니다.</span>`;
+  }
+  ['hsN','hsE'].forEach(i=>$('#'+i).oninput=draw); $('#hsOne').onchange=draw; draw();
+  inquiry(root,{ id:'hs', title:'악수 정리 — 두 방법으로 세기',
+    q:['악수 횟수를 바꿔 가며 (간선 수, 차수의 합) 을 여섯 줄 기록하세요.',
+       '두 값의 관계를 한 문장으로 쓰세요.',
+       '홀수 번 악수한 사람이 왜 짝수 명인지 설명하세요.'],
+    cols:['사람 수','악수 횟수','차수의 합','홀수인 사람'],
+    hint:'힌트 — 악수 하나를 두 사람이 각각 셉니다.',
+    read:()=>{ const n=+$('#hsN').value,m=+$('#hsE').value,E=edges(n,m);
+      const deg=Array(n).fill(0); E.forEach(([a,b])=>{deg[a]++;deg[b]++;});
+      return [n,E.length,deg.reduce((a,b)=>a+b,0),deg.filter(d=>d%2===1).length]; } });
+}
+
+/* ---------- LAB 299 최소 신장 트리 — 사이클을 피하며 잇기 ---------- */
+function mstDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="mt1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">싼 길부터 고르되 <b>이미 이어진 곳을 또 잇지 않습니다</b>.
+      사이클 검사를 빼면 비용만 늘고 마을이 다 이어지지 않습니다.</div>
+    </div>
+    <div class="col">
+      ${slider('mtK','고른 길의 수',0,8,1,0,'개')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="mtNo"> 사이클 검사를 하지 않기</label>
+      <div class="out" id="mtout"></div>
+    </div></div>`;
+  const cv=$('#mt1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const V=[[-1.4,0.9],[0,1.3],[1.4,0.9],[-1.1,-0.7],[0.3,-1.2],[1.5,-0.4]];
+  const NAMES=['가','나','다','라','마','바'];
+  const E=[[0,1,3],[1,2,4],[0,2,5],[3,4,6],[0,3,7],[4,5,8],[2,5,9],[1,4,11],[3,5,12]];
+  function pick(k,noCheck){
+    const sorted=E.slice().sort((a,b)=>a[2]-b[2]);
+    const par=V.map((_,i)=>i);
+    const find=x=>par[x]===x?x:(par[x]=find(par[x]));
+    const out=[]; let cost=0;
+    for(const e of sorted){
+      if(out.length>=k) break;
+      const [a,b,w]=e;
+      if(!noCheck){ if(find(a)===find(b)) continue; par[find(a)]=find(b); }
+      out.push(e); cost+=w; }
+    const par2=V.map((_,i)=>i);
+    const find2=x=>par2[x]===x?x:(par2[x]=find2(par2[x]));
+    out.forEach(([a,b])=>{ par2[find2(a)]=find2(b); });
+    const comp=new Set(V.map((_,i)=>find2(i))).size;
+    return {out,cost,comp};
+  }
+  function draw(){
+    const k=+$('#mtK').value, no=$('#mtNo').checked;
+    $('#mtKv').textContent=k+'개';
+    const {out,cost,comp}=pick(k,no);
+    const best=pick(5,false);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=190,cy=160,u=92;
+    const X=p=>cx+p[0]*u, Y=p=>cy-p[1]*u;
+    E.forEach(([a,b,w])=>{ const A=V[a],B=V[b];
+      const on=out.some(e=>e[0]===a&&e[1]===b);
+      ctx.strokeStyle=on?'#2563EB':'#E5E7EB'; ctx.lineWidth=on?3:1.4;
+      ctx.beginPath(); ctx.moveTo(X(A),Y(A)); ctx.lineTo(X(B),Y(B)); ctx.stroke();
+      ctx.fillStyle=on?'#2563EB':'#9CA3AF'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(w, (X(A)+X(B))/2, (Y(A)+Y(B))/2-3); });
+    V.forEach((p,i)=>{ ctx.fillStyle='#111827';
+      ctx.beginPath(); ctx.arc(X(p),Y(p),12,0,7); ctx.fill();
+      ctx.fillStyle='#fff'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(NAMES[i], X(p), Y(p)+4); });
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('숫자 = 길을 놓는 비용 · 파랑 = 고른 길', 14, 20);
+    ctx.fillText('고른 길 '+out.length+' 개 · 비용 '+cost+' · 아직 나뉜 덩어리 '+comp+' 개', 14, H-12);
+    $('#mtout').innerHTML =
+      `<span class="mono">고른 길 = ${out.length} 개 · 비용 = <b style="color:${cost===best.cost&&comp===1?'#0E9384':'#BE123C'}">${cost}</b> · 덩어리 = <b>${comp}</b> 개</span><br>`
+      + `<span class="mono">가장 싼 잇기의 비용 = <b>${best.cost}</b> (길 ${best.out.length} 개)</span><br>`
+      + (!no && k>=5 && comp===1 && cost===best.cost ? `<b style="color:#B45309">여섯 마을이 다섯 개의 길로 모두 이어졌습니다 — 이보다 싸게는 못 잇습니다.</b><br>` : '')
+      + (no && k>=3 && comp>1 ? `<b style="color:#7C3AED">사이클 검사를 빼니 이미 이어진 곳을 또 이어, 길을 ${out.length} 개나 놓고도 ${comp} 덩어리로 남았습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">꼭짓점 n 개를 잇는 데 필요한 길은 정확히 n − 1 개입니다.</span>`;
+  }
+  $('#mtK').oninput=draw; $('#mtNo').onchange=draw; draw();
+  inquiry(root,{ id:'mt', title:'최소 신장 트리 — 싼 것부터, 겹치지 않게',
+    q:['고른 길의 수를 늘려 가며 (개수, 비용, 덩어리) 를 여섯 줄 기록하세요.',
+       '사이클 검사를 뺐을 때 무엇이 달라지는지 쓰세요.',
+       '꼭짓점 n 개를 잇는 데 필요한 길의 수를 설명하세요.'],
+    cols:['고른 길','사이클 검사','비용','덩어리'],
+    hint:'힌트 — 사이클이 생기면 그 길은 없어도 이미 이어져 있습니다.',
+    read:()=>{ const k=+$('#mtK').value,no=$('#mtNo').checked,r=pick(k,no);
+      return [r.out.length,no?'안 함':'함',r.cost,r.comp]; } });
+}
+
+/* ---------- LAB 300 너비 우선 vs 깊이 우선 — 찾는 순서가 답을 바꾼다 ---------- */
+function bfsDfsDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="bd1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">같은 미로라도 <b>다음에 무엇을 꺼내느냐</b>에 따라
+      찾는 순서가 달라집니다. 최단 경로를 원하면 큐를 써야 합니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">탐색 방법<select id="bdM" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="bfs">너비 우선 (큐 — 먼저 넣은 것부터)</option>
+        <option value="dfs">깊이 우선 (스택 — 나중에 넣은 것부터)</option>
+      </select></label>
+      ${slider('bdK','살펴본 칸 수',0,22,1,0,'칸')}
+      <div class="out" id="bdout"></div>
+    </div></div>`;
+  const cv=$('#bd1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const R=4,C=6,START=0,GOAL=R*C-1;
+  const WALL=new Set([7,13,19]);
+  const nb=i=>{ const r=Math.floor(i/C), c=i%C, out=[];
+    [[0,1],[1,0],[0,-1],[-1,0]].forEach(([dr,dc])=>{ const r2=r+dr,c2=c+dc;
+      if(r2<0||r2>=R||c2<0||c2>=C) return; const j=r2*C+c2;
+      if(WALL.has(j)) return; out.push(j); });
+    return out; };
+  function search(mode,k){
+    const prev={}, order=[], seen=new Set();
+    let bag=[[START,-1]];
+    while(bag.length && order.length<=k){
+      const [cur,from] = mode==='bfs' ? bag.shift() : bag.pop();
+      if(seen.has(cur)) continue;
+      seen.add(cur); if(from>=0) prev[cur]=from; order.push(cur);
+      if(cur===GOAL) break;
+      for(const j of nb(cur)) if(!seen.has(j)) bag.push([j,cur]); }
+    const found=order.indexOf(GOAL);
+    let path=null;
+    if(found>=0){ path=[GOAL]; let cur=GOAL;
+      while(cur!==START && prev[cur]!==undefined){ cur=prev[cur]; path.unshift(cur); } }
+    return {order,path,found};
+  }
+  function draw(){
+    const mode=$('#bdM').value, k=+$('#bdK').value;
+    $('#bdKv').textContent=k+'칸';
+    const {order,path,found}=search(mode,k);
+    const shortest=search('bfs',999).path;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cw=56,ch=54,x0=32,y0=52;
+    for(let i=0;i<R*C;i++){
+      const r=Math.floor(i/C), c=i%C, X=x0+c*cw, Y=y0+r*ch;
+      const idx=order.indexOf(i);
+      ctx.fillStyle = WALL.has(i) ? '#374151'
+        : i===START ? 'rgba(14,147,132,.45)'
+        : i===GOAL ? 'rgba(190,18,60,.35)'
+        : idx>=0 ? 'rgba(37,99,235,'+(0.12+0.035*Math.min(idx,14)).toFixed(3)+')' : '#F9FAFB';
+      ctx.fillRect(X,Y,cw-4,ch-4);
+      ctx.strokeStyle='#E5E7EB'; ctx.strokeRect(X,Y,cw-4,ch-4);
+      if(idx>=0 && !WALL.has(i)){ ctx.fillStyle='#1E3A8A'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+        ctx.fillText(idx+1, X+(cw-4)/2, Y+(ch-4)/2+8); }
+      if(i===START){ ctx.fillStyle='#065F46'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+        ctx.fillText('출발', X+(cw-4)/2, Y+14); }
+      if(i===GOAL){ ctx.fillStyle='#7F1D1D'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+        ctx.fillText('목표', X+(cw-4)/2, Y+14); } }
+    if(path){ ctx.strokeStyle='#B45309'; ctx.lineWidth=3.4; ctx.beginPath();
+      path.forEach((i,m)=>{ const r=Math.floor(i/C), c=i%C;
+        const X=x0+c*cw+(cw-4)/2, Y=y0+r*ch+(ch-4)/2;
+        m?ctx.lineTo(X,Y):ctx.moveTo(X,Y); }); ctx.stroke(); }
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('칸 안의 수 = 살펴본 순서 · 검정 = 벽 · 주황 선 = 찾은 길', 14, 24);
+    ctx.fillText('살펴본 칸 '+order.length+' 개'+(path?(' · 찾은 길 '+(path.length-1)+' 칸'):' · 아직 못 찾음'), 14, H-10);
+    $('#bdout').innerHTML =
+      `<span class="mono">방법 = <b>${mode==='bfs'?'너비 우선(큐)':'깊이 우선(스택)'}</b> · 살펴본 칸 = ${order.length} · 목표를 ${found>=0?(found+1)+' 번째로 찾음':'아직 못 찾음'}</span><br>`
+      + `<span class="mono">찾은 길의 길이 = <b style="color:${path&&shortest&&path.length===shortest.length?'#0E9384':'#BE123C'}">${path?path.length-1:'—'}</b> 칸 · 최단 길이 = <b>${shortest?shortest.length-1:'—'}</b> 칸</span><br>`
+      + (mode==='bfs' && path && shortest && path.length===shortest.length ? `<b style="color:#B45309">큐로 찾으니 곧바로 최단 경로가 나왔습니다.</b><br>` : '')
+      + (mode==='dfs' && path && shortest && path.length>shortest.length ? `<b style="color:#7C3AED">스택으로 찾은 길이 최단보다 ${path.length-shortest.length} 칸이나 깁니다 — 먼저 찾았다고 가장 짧은 것은 아닙니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">큐를 쓰면 가까운 곳부터, 스택을 쓰면 한 방향으로 끝까지 갑니다.</span>`;
+  }
+  $('#bdM').onchange=draw; $('#bdK').oninput=draw; draw();
+  inquiry(root,{ id:'bd', title:'탐색 순서 — 큐냐 스택이냐',
+    q:['두 방법으로 (살펴본 칸 수, 찾은 길이) 를 여섯 줄 기록하세요.',
+       '어느 쪽이 최단 경로를 주는지 확인하세요.',
+       '큐와 스택의 차이가 순서를 어떻게 바꾸는지 쓰세요.'],
+    cols:['방법','살펴본 칸','찾은 길이','최단 길이'],
+    hint:'힌트 — 큐는 먼저 넣은 것을, 스택은 나중에 넣은 것을 꺼냅니다.',
+    read:()=>{ const m=$('#bdM').value,k=+$('#bdK').value,r=search(m,k),b=search('bfs',999);
+      return [m==='bfs'?'너비 우선':'깊이 우선',r.order.length,r.path?r.path.length-1:'—',b.path?b.path.length-1:'—']; } });
+}
+
+/* ---------- LAB 301 다익스트라 — 확정한 곳은 다시 보지 않는다 ---------- */
+function dijkstraDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="dk1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">가장 가까운 곳을 하나씩 <b>확정</b>해 나갑니다.
+      확정한 곳을 다시 고치면 계산이 끝나지 않습니다.</div>
+    </div>
+    <div class="col">
+      ${slider('dkK','확정한 곳의 수',0,6,1,0,'개')}
+      ${slider('dkW','가·라 구간의 길이',1,20,1,5,'')}
+      <div class="out" id="dkout"></div>
+    </div></div>`;
+  const cv=$('#dk1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const V=[[-1.4,0.9],[0,1.3],[1.4,0.9],[-1.1,-0.8],[0.4,-1.2],[1.5,-0.3]];
+  const NAMES=['가','나','다','라','마','바'];
+  function edges(w){ return [[0,1,2],[1,2,3],[0,3,w],[3,4,2],[4,5,3],[2,5,2],[1,4,7]]; }
+  function run(w,k){
+    const E=edges(w);
+    const dist=V.map((_,i)=>i===0?0:Infinity), fixed=new Set(), prev={};
+    const order=[];
+    while(fixed.size<V.length){
+      let bi=-1,bv=Infinity;
+      V.forEach((_,i)=>{ if(!fixed.has(i)&&dist[i]<bv){ bv=dist[i]; bi=i; } });
+      if(bi<0) break;
+      fixed.add(bi); order.push(bi);
+      if(order.length>k) break;
+      E.forEach(([a,b,ww])=>{
+        if(a===bi&&!fixed.has(b)&&dist[a]+ww<dist[b]){ dist[b]=dist[a]+ww; prev[b]=a; }
+        if(b===bi&&!fixed.has(a)&&dist[b]+ww<dist[a]){ dist[a]=dist[b]+ww; prev[a]=b; } });
+    }
+    return {dist,order:order.slice(0,k+1),prev,E};
+  }
+  function draw(){
+    const k=+$('#dkK').value, w=+$('#dkW').value;
+    $('#dkKv').textContent=k+'개'; $('#dkWv').textContent=w;
+    const {dist,order,prev,E}=run(w,k);
+    const full=run(w,9);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=190,cy=160,u=92;
+    const X=p=>cx+p[0]*u, Y=p=>cy-p[1]*u;
+    E.forEach(([a,b,ww])=>{ const A=V[a],B=V[b];
+      const on = prev[b]===a || prev[a]===b;
+      ctx.strokeStyle=on?'#2563EB':'#E5E7EB'; ctx.lineWidth=on?3:1.5;
+      ctx.beginPath(); ctx.moveTo(X(A),Y(A)); ctx.lineTo(X(B),Y(B)); ctx.stroke();
+      ctx.fillStyle=on?'#2563EB':'#9CA3AF'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(ww, (X(A)+X(B))/2, (Y(A)+Y(B))/2-3); });
+    V.forEach((p,i)=>{
+      const done=order.includes(i);
+      ctx.fillStyle= i===0 ? '#0E9384' : (done ? '#2563EB' : '#D1D5DB');
+      ctx.beginPath(); ctx.arc(X(p),Y(p),15,0,7); ctx.fill();
+      ctx.fillStyle='#fff'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(NAMES[i], X(p), Y(p)-1);
+      ctx.font='9.5px sans-serif';
+      ctx.fillText(dist[i]===Infinity?'∞':dist[i], X(p), Y(p)+11); });
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('점 안의 아래 수 = 지금까지 알아낸 최단 거리', 14, 20);
+    ctx.fillText('확정한 순서 : '+order.map(i=>NAMES[i]).join(' → '), 14, H-12);
+    const goal=dist[5], best=full.dist[5];
+    $('#dkout').innerHTML =
+      `<span class="mono">확정한 곳 = ${order.length} 개 · 「바」까지의 거리 = <b style="color:${goal===best?'#0E9384':'#BE123C'}">${goal===Infinity?'∞':goal}</b> (최종 ${best})</span><br>`
+      + `<span class="mono">가·라 구간을 ${w} 로 두었을 때의 최단 경로 길이 = <b>${best}</b></span><br>`
+      + (k>=5 && goal===best ? `<b style="color:#B45309">모든 곳이 확정되어 「바」까지의 최단 거리가 정해졌습니다.</b><br>` : '')
+      + (w<=1 ? `<b style="color:#7C3AED">가·라 구간이 짧아지자 최단 경로가 아래쪽으로 갈아탔습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">한 번 확정한 곳은 다시 고치지 않습니다 — 그래서 반드시 끝납니다.</span>`;
+  }
+  ['dkK','dkW'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'dk', title:'다익스트라 — 하나씩 확정하기',
+    q:['확정 수를 늘려 가며 (확정 순서, 거리) 를 여섯 줄 기록하세요.',
+       '가·라 구간의 길이를 바꿔 최단 경로가 갈아타는 지점을 찾으세요.',
+       '왜 가장 가까운 곳부터 확정해도 되는지 설명하세요.'],
+    cols:['확정 수','가·라 길이','바까지 거리','최종값'],
+    hint:'힌트 — 간선의 길이가 모두 양수라면 더 짧은 길로 돌아올 수 없습니다.',
+    read:()=>{ const k=+$('#dkK').value,w=+$('#dkW').value,r=run(w,k),f=run(w,9);
+      return [r.order.length,w,r.dist[5]===Infinity?'∞':r.dist[5],f.dist[5]]; } });
+}

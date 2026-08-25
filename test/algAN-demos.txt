@@ -1,0 +1,372 @@
+/* ---------- LAB 307 귀류법 — 아니라고 가정하면 무엇이 무너지나 ---------- */
+function reductioDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="rd2" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">「√2 가 유리수다」라고 <b>가정</b>한 뒤,
+      그 가정에서 모순이 나오는지 따라갑니다.</div>
+    </div>
+    <div class="col">
+      ${slider('rdS','증명의 단계',0,5,1,0,'단계')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="rdBad"> 가정을 부정하지 않고 그대로 쓰기</label>
+      <div class="out" id="rdout"></div>
+    </div></div>`;
+  const cv=$('#rd2'),ctx=cv.getContext('2d'),W=380,H=330;
+  const STEP=[
+    ['가정','√2 = p / q (p, q 는 서로소인 자연수)'],
+    ['양변 제곱','2 = p² / q²  →  p² = 2q²'],
+    ['p 는 짝수','p² 이 짝수이므로 p 도 짝수 : p = 2k'],
+    ['대입','(2k)² = 2q²  →  4k² = 2q²  →  q² = 2k²'],
+    ['q 도 짝수','q² 이 짝수이므로 q 도 짝수'],
+    ['모순','p 와 q 가 둘 다 짝수 — 서로소라던 가정과 어긋난다']
+  ];
+  const BAD=[
+    ['잘못된 가정','√2 는 무리수다 (증명하려던 것을 그대로 가정)'],
+    ['전개','그러므로 √2 = p / q 로 쓸 수 없다'],
+    ['결론','따라서 √2 는 무리수다'],
+    ['다시 보기','쓴 것이 곧 결론 — 아무것도 보이지 않았다'],
+    ['','' ],['','']
+  ];
+  function draw(){
+    const k=+$('#rdS').value, bad=$('#rdBad').checked;
+    $('#rdSv').textContent=k+'단계';
+    const L=bad?BAD:STEP;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText(bad?'가정을 부정하지 않은 「증명」':'귀류법 — 가정에서 모순으로', 16, 20);
+    L.forEach(([ttl,body],i)=>{
+      if(!ttl) return;
+      const y=42+i*46, on=i<=k;
+      ctx.fillStyle= on ? (i===5&&!bad ? 'rgba(190,18,60,.14)' : 'rgba(37,99,235,.10)') : '#F9FAFB';
+      ctx.fillRect(16,y,W-32,40);
+      ctx.strokeStyle= on ? (i===5&&!bad?'#BE123C':'#93C5FD') : '#F3F4F6';
+      ctx.strokeRect(16,y,W-32,40);
+      ctx.fillStyle= on ? '#111827' : '#D1D5DB';
+      ctx.font='bold 11px sans-serif';
+      ctx.fillText((i+1)+'. '+ttl, 26, y+16);
+      ctx.font='11.5px sans-serif';
+      ctx.fillStyle= on ? '#374151' : '#E5E7EB';
+      ctx.fillText(body, 26, y+33); });
+    const done = !bad && k>=5;
+    $('#rdout').innerHTML =
+      `<span class="mono">지금 단계 = ${k+1} / ${bad?4:6}</span><br>`
+      + `<span class="mono">가정 : ${bad?'√2 는 무리수다 (증명할 것을 그대로 가정)':'√2 = p/q 로 쓸 수 있다 (증명할 것의 부정)'}</span><br>`
+      + (done ? `<b style="color:#B45309">서로소라고 해 놓고 둘 다 짝수가 나왔습니다 — 가정이 무너졌습니다.</b><br>` : '')
+      + (bad ? `<b style="color:#7C3AED">증명하려던 것을 그대로 가정했더니 결론이 가정의 되풀이가 되었습니다 — 순환논법입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">귀류법은 「결론의 부정」에서 출발해야 합니다.</span>`;
+  }
+  $('#rdS').oninput=draw; $('#rdBad').onchange=draw; draw();
+  inquiry(root,{ id:'rd2', title:'귀류법 — 부정에서 출발하기',
+    q:['단계를 하나씩 올리며 (단계, 무엇이 밝혀졌는지) 를 여섯 줄 기록하세요.',
+       '어느 단계에서 모순이 드러나는지 찾으세요.',
+       '가정을 부정하지 않으면 왜 안 되는지 쓰세요.'],
+    cols:['단계','내용','모순인가'],
+    hint:'힌트 — 귀류법의 첫 줄은 언제나 「결론이 아니라고 하자」입니다.',
+    read:()=>{ const k=+$('#rdS').value,bad=$('#rdBad').checked;
+      const L=bad?BAD:STEP;
+      return [k+1,(L[k]||['',''])[0],(!bad&&k>=5)?'모순':'아직']; } });
+}
+
+/* ---------- LAB 308 추론의 형태 — 타당한 것과 아닌 것 ---------- */
+function fallacyDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="fl1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">「비가 오면 땅이 젖는다」에서 무엇을 알 수 있고
+      무엇은 알 수 없는지, <b>네 가지 형태</b>로 나누어 봅니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">추론의 형태<select id="flK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="mp">비가 왔다 → 땅이 젖었다 (전건긍정)</option>
+        <option value="mt">땅이 안 젖었다 → 비가 안 왔다 (후건부정)</option>
+        <option value="ac">땅이 젖었다 → 비가 왔다 (후건긍정)</option>
+        <option value="dа">비가 안 왔다 → 땅이 안 젖었다 (전건부정)</option>
+      </select></label>
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="flCase">반례를 찾아보기</button></div>
+      <div class="out" id="flout"></div>
+    </div></div>`;
+  const cv=$('#fl1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const S={look:false};
+  const INFO={
+    mp:{ok:true,name:'전건긍정',lat:'p → q, p ⊢ q',why:'조건문이 참이고 앞이 참이면 뒤도 참입니다.'},
+    mt:{ok:true,name:'후건부정',lat:'p → q, ¬q ⊢ ¬p',why:'대우와 같은 말이므로 언제나 타당합니다.'},
+    ac:{ok:false,name:'후건긍정',lat:'p → q, q ⊬ p',why:'비 말고도 땅을 적시는 것이 있습니다.',cs:'물차가 지나갔다'},
+    dа:{ok:false,name:'전건부정',lat:'p → q, ¬p ⊬ ¬q',why:'비가 안 와도 젖을 수 있습니다.',cs:'눈이 녹았다'}
+  };
+  function draw(){
+    const k=$('#flK').value, I=INFO[k];
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    // 진리표 네 줄
+    const rows=[[1,1],[1,0],[0,1],[0,0]];
+    const x0=24,y0=54,cw=58,ch=34;
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='center';
+    ['비 p','젖음 q','p→q'].forEach((t,j)=>ctx.fillText(t, x0+j*cw+cw/2, y0-8));
+    rows.forEach(([p,q],i)=>{
+      const imp = (!p)||q;
+      const fits = k==='mp' ? (p===1) : (k==='mt' ? (q===0) : (k==='ac' ? (q===1) : (p===0)));
+      [p,q,imp?1:0].forEach((v,j)=>{
+        ctx.fillStyle = !imp ? '#F3F4F6' : (fits ? 'rgba(37,99,235,.16)' : '#FFF');
+        ctx.fillRect(x0+j*cw, y0+i*ch, cw-4, ch-4);
+        ctx.strokeStyle='#E5E7EB'; ctx.strokeRect(x0+j*cw, y0+i*ch, cw-4, ch-4);
+        ctx.fillStyle= !imp ? '#D1D5DB' : '#111827';
+        ctx.font=(j===2?'bold ':'')+'12px sans-serif';
+        ctx.fillText(v, x0+j*cw+(cw-4)/2, y0+i*ch+22); }); });
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif';
+    ctx.fillText('회색 = 조건문이 거짓이라 따질 필요가 없는 줄', x0, y0+4*ch+16);
+    ctx.fillText('파랑 = 이 추론이 전제로 삼는 줄', x0, y0+4*ch+32);
+    ctx.fillStyle='#111827'; ctx.font='12.5px sans-serif';
+    ctx.fillText(I.name+' : '+I.lat, 210, 76);
+    ctx.fillStyle=I.ok?'#0E9384':'#BE123C'; ctx.font='bold 14px sans-serif';
+    ctx.fillText(I.ok?'타당':'타당하지 않음', 210, 100);
+    if(S.look && !I.ok){ ctx.fillStyle='#BE123C'; ctx.font='11.5px sans-serif';
+      ctx.fillText('반례 : '+I.cs, 210, 126); }
+    if(S.look && I.ok){ ctx.fillStyle='#0E9384'; ctx.font='11.5px sans-serif';
+      ctx.fillText('반례가 없습니다', 210, 126); }
+    $('#flout').innerHTML =
+      `<span class="mono">${I.name} — ${I.lat}</span><br>`
+      + `<span class="mono">판정 = <b style="color:${I.ok?'#0E9384':'#BE123C'}">${I.ok?'타당':'타당하지 않음'}</b> · ${I.why}</span><br>`
+      + (!I.ok && S.look ? `<b style="color:#B45309">반례가 있습니다 — ${I.cs}. 전제가 모두 참인데 결론이 거짓인 경우가 있으면 그 추론은 무너집니다.</b><br>` : '')
+      + (k==='mt' ? `<b style="color:#7C3AED">이것이 대우입니다 — 원래 명제와 언제나 참거짓이 같습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">「타당하다」는 전제가 참일 때 결론이 반드시 참이라는 뜻입니다.</span>`;
+  }
+  $('#flK').onchange=()=>{ S.look=false; draw(); };
+  $('#flCase').onclick=()=>{ S.look=true; draw(); }; draw();
+  inquiry(root,{ id:'fl', title:'추론의 형태 — 반례가 있으면 무너진다',
+    q:['네 형태를 모두 골라 (형태, 판정, 반례) 를 기록하세요.',
+       '타당하지 않은 두 형태의 반례를 각각 만드세요.',
+       '「타당하다」의 뜻을 한 문장으로 쓰세요.'],
+    cols:['형태','기호','판정','반례'],
+    hint:'힌트 — 전제가 참인데 결론이 거짓인 경우가 하나라도 있으면 타당하지 않습니다.',
+    read:()=>{ const k=$('#flK').value,I=INFO[k];
+      return [I.name,I.lat,I.ok?'타당':'타당하지 않음',I.cs||'없음']; } });
+}
+
+/* ---------- LAB 309 유리수 줄 세우기 — 분수도 자연수만큼 ---------- */
+function countableDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ct2" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">분수를 <b>대각선으로</b> 훑으면 모든 분수에 번호가 붙습니다.
+      분모별로 차례대로 세면 첫 줄에서 영영 끝나지 않습니다.</div>
+    </div>
+    <div class="col">
+      ${slider('ctN','붙인 번호',1,60,1,1,'번')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="ctRow"> 분모별로 차례대로 세기</label>
+      <div class="out" id="ct2out"></div>
+    </div></div>`;
+  const cv=$('#ct2'),ctx=cv.getContext('2d'),W=380,H=330;
+  const gcd=(a,b)=>b?gcd(b,a%b):a;
+  function order(n,row){
+    const out=[];
+    if(row){ for(let q=1;q<=1&&out.length<n;q++) for(let p=1;out.length<n;p++) out.push([p,q]); return out; }
+    for(let s=2;out.length<n;s++)
+      for(let p=1;p<s && out.length<n;p++){ const q=s-p; out.push([p,q]); }
+    return out;
+  }
+  function draw(){
+    const n=+$('#ctN').value, row=$('#ctRow').checked;
+    $('#ctNv').textContent=n+'번';
+    const seq=order(n,row);
+    const last=seq[seq.length-1];
+    const seen=new Set(seq.map(([p,q])=>(p/gcd(p,q))+'/'+(q/gcd(p,q))));
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const N=7, cw=46, ch=34, x0=54, y0=54;
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+    for(let q=1;q<=N;q++) ctx.fillText('/'+q, 30, y0+(q-1)*ch+22);
+    for(let p=1;p<=N;p++) ctx.fillText(p, x0+(p-1)*cw+cw/2, y0-8);
+    for(let q=1;q<=N;q++) for(let p=1;p<=N;p++){
+      const idx=seq.findIndex(([a,b])=>a===p&&b===q);
+      const X=x0+(p-1)*cw, Y=y0+(q-1)*ch;
+      ctx.fillStyle= idx>=0 ? 'rgba(37,99,235,'+(0.14+0.5*(1-idx/Math.max(n,1))).toFixed(2)+')' : '#F9FAFB';
+      ctx.fillRect(X,Y,cw-4,ch-4);
+      ctx.strokeStyle='#F3F4F6'; ctx.strokeRect(X,Y,cw-4,ch-4);
+      if(idx>=0){ ctx.fillStyle='#1E3A8A'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+        ctx.fillText(idx+1, X+(cw-4)/2, Y+21); } }
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('칸 안의 수 = 그 분수에 붙은 번호 (가로 = 분자, 세로 = 분모)', 16, 22);
+    ctx.fillText(row?'분모 1 인 줄만 세는 중':'대각선으로 훑는 중', 16, H-14);
+    const reach = row ? (last?last[1]:1) : (last?last[0]+last[1]:2);
+    $('#ct2out').innerHTML =
+      `<span class="mono">${n} 번까지 붙였습니다 · 마지막 = <b style="color:#2563EB">${last?last[0]+'/'+last[1]:'—'}</b></span><br>`
+      + `<span class="mono">서로 다른 분수 = ${seen.size} 개 · 지금 세고 있는 줄(분자+분모) = ${reach}</span><br>`
+      + (!row && n>=30 ? `<b style="color:#B45309">번호를 붙이는 방법이 있으니 분수도 자연수만큼입니다 — 가산집합입니다.</b><br>` : '')
+      + (row ? `<b style="color:#7C3AED">분모 1 인 줄만 세고 있어 다음 줄로 영영 넘어가지 못합니다 — 이 방법으로는 번호가 다 붙지 않습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">「무한이 같은 크기다」는 곧 「일대일 대응이 있다」는 뜻입니다.</span>`;
+  }
+  $('#ctN').oninput=draw; $('#ctRow').onchange=draw; draw();
+  inquiry(root,{ id:'ct2', title:'가산집합 — 번호를 붙일 수 있는가',
+    q:['번호를 늘려 가며 (번호, 마지막 분수) 를 여섯 줄 기록하세요.',
+       '분모별로 세면 왜 안 되는지 쓰세요.',
+       '「크기가 같다」의 뜻을 일대일 대응으로 설명하세요.'],
+    cols:['번호','마지막 분수','세는 방식','다른 분수'],
+    hint:'힌트 — 분자와 분모의 합이 같은 것끼리 묶어 세면 됩니다.',
+    read:()=>{ const n=+$('#ctN').value,row=$('#ctRow').checked,seq=order(n,row);
+      const l=seq[seq.length-1];
+      const seen=new Set(seq.map(([p,q])=>(p/gcd(p,q))+'/'+(q/gcd(p,q))));
+      return [n,l?l[0]+'/'+l[1]:'—',row?'분모별':'대각선',seen.size]; } });
+}
+
+/* ---------- LAB 310 대각선 논법 — 목록에 없는 수 만들기 ---------- */
+function diagonalDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="dg2" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">목록의 <b>n 번째 수의 n 번째 자리</b>를 모두 바꾸면
+      어느 것과도 다른 수가 만들어집니다.</div>
+    </div>
+    <div class="col">
+      ${slider('dg2N','목록에 적은 수의 개수',1,8,1,3,'개')}
+      <div class="ctl" style="margin-top:8px"><button class="b g sm" id="dg2Go">대각선을 바꿔 새 수 만들기</button></div>
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="dg2Bad"> 9 를 0 으로 바꾸는 방식 쓰기</label>
+      <div class="out" id="dg2out"></div>
+    </div></div>`;
+  const cv=$('#dg2'),ctx=cv.getContext('2d'),W=380,H=330;
+  const S={made:false};
+  const LIST=[
+    [1,4,1,5,9,2,6,5],[3,3,3,3,3,3,3,3],[7,0,7,1,0,6,7,8],
+    [9,9,9,9,9,9,9,9],[2,7,1,8,2,8,1,8],[5,0,0,0,0,0,0,1],
+    [6,1,8,0,3,3,9,8],[4,4,7,2,1,3,5,9]
+  ];
+  function made(n,bad){
+    return Array.from({length:8},(_,j)=>{
+      if(j>=n) return 0;
+      const d=LIST[j][j];
+      return bad ? (d===9?0:d+1) : ((d+5)%10);
+    });
+  }
+  function draw(){
+    const n=+$('#dg2N').value, bad=$('#dg2Bad').checked;
+    $('#dg2Nv').textContent=n+'개';
+    const nw=made(n,bad);
+    const dup = S.made && LIST.slice(0,n).some(r=>r.slice(0,n).every((d,j)=>d===nw[j]));
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('0 과 1 사이의 수를 목록에 적어 봅니다 (소수 아래 자리)', 16, 20);
+    const x0=54,y0=44,cw=34,ch=28;
+    for(let i=0;i<n;i++){
+      ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='right';
+      ctx.fillText((i+1)+'.', x0-8, y0+i*ch+19);
+      ctx.textAlign='center';
+      for(let j=0;j<8;j++){
+        const X=x0+j*cw, Y=y0+i*ch;
+        ctx.fillStyle = i===j ? 'rgba(190,18,60,.22)' : '#FFF';
+        ctx.fillRect(X,Y,cw-3,ch-3);
+        ctx.strokeStyle='#E5E7EB'; ctx.strokeRect(X,Y,cw-3,ch-3);
+        ctx.fillStyle= i===j ? '#BE123C' : '#374151';
+        ctx.font=(i===j?'bold ':'')+'12px sans-serif';
+        ctx.fillText(LIST[i][j], X+(cw-3)/2, Y+19); } }
+    if(S.made){
+      const Y=y0+n*ch+16;
+      ctx.fillStyle='#111827'; ctx.font='11px sans-serif'; ctx.textAlign='right';
+      ctx.fillText('새 수', x0-8, Y+19);
+      ctx.textAlign='center';
+      for(let j=0;j<8;j++){
+        const X=x0+j*cw;
+        ctx.fillStyle= j<n ? 'rgba(14,147,132,.28)' : '#F3F4F6';
+        ctx.fillRect(X,Y,cw-3,ch-3);
+        ctx.strokeStyle='#0E9384'; ctx.strokeRect(X,Y,cw-3,ch-3);
+        ctx.fillStyle='#065F46'; ctx.font='bold 12px sans-serif';
+        ctx.fillText(nw[j], X+(cw-3)/2, Y+19); } }
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif';
+    ctx.fillText('붉은 칸 = 대각선 · 초록 = 대각선을 바꿔 만든 새 수', 16, H-14);
+    $('#dg2out').innerHTML =
+      `<span class="mono">목록 ${n} 개 · 만든 수 = <b style="color:#0E9384">0.${S.made?nw.slice(0,n).join(''):'—'}</b></span><br>`
+      + `<span class="mono">목록의 어느 것과 같은가 = <b style="color:${dup?'#BE123C':'#0E9384'}">${S.made?(dup?'있음':'없음'):'—'}</b></span><br>`
+      + (S.made && !bad && !dup && n>=3 ? `<b style="color:#B45309">만든 수는 목록의 어느 것과도 다릅니다 — n 번째와는 n 번째 자리에서 다르니까요.</b><br>` : '')
+      + (bad ? `<b style="color:#7C3AED">9 를 0 으로 바꾸면 0.4999… = 0.5 처럼 겉만 다르고 값이 같은 수가 생길 수 있습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">목록을 아무리 길게 해도 늘 빠진 수가 있습니다 — 실수는 줄 세울 수 없습니다.</span>`;
+  }
+  $('#dg2Go').onclick=()=>{ S.made=true; draw(); };
+  $('#dg2N').oninput=()=>{ draw(); };
+  $('#dg2Bad').onchange=draw; draw();
+  inquiry(root,{ id:'dg2', title:'대각선 논법 — 늘 빠진 수가 있다',
+    q:['목록의 개수를 늘려 가며 (개수, 만든 수) 를 여섯 줄 기록하세요.',
+       '만든 수가 목록에 없는 까닭을 n 번째 자리로 설명하세요.',
+       '9 를 0 으로 바꾸면 왜 위험한지 쓰세요.'],
+    cols:['목록 개수','만든 수','목록에 있나'],
+    hint:'힌트 — 새 수는 k 번째 수와 k 번째 자리에서 다릅니다.',
+    read:()=>{ const n=+$('#dg2N').value,bad=$('#dg2Bad').checked,nw=made(n,bad);
+      const dup=LIST.slice(0,n).some(r=>r.slice(0,n).every((d,j)=>d===nw[j]));
+      return [n,'0.'+nw.slice(0,n).join(''),dup?'있음':'없음']; } });
+}
+
+/* ---------- LAB 311 상한 — 최댓값이 없어도 울타리는 있다 ---------- */
+function supremumDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="su1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">위쪽 울타리 가운데 <b>가장 낮은 것</b>이 상한입니다.
+      최댓값은 집합 안에 있어야 하지만, 상한은 밖에 있어도 됩니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">살펴볼 집합<select id="suK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="nat">자연수 전체 { 1, 2, 3, … }</option>
+        <option value="open">{ x : 0 ≤ x < 1 }</option>
+        <option value="closed">{ x : 0 ≤ x ≤ 1 }</option>
+        <option value="seq">{ 1 − 1/n : n = 1, 2, 3, … }</option>
+      </select></label>
+      ${slider('suB','내가 고른 울타리 값',0.2,2,0.05,1.6,'')}
+      <div class="out" id="suout"></div>
+    </div></div>`;
+  const cv=$('#su1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const INFO={
+    nat:{sup:null,max:null,name:'자연수 전체'},
+    open:{sup:1,max:null,name:'0 이상 1 미만'},
+    closed:{sup:1,max:1,name:'0 이상 1 이하'},
+    seq:{sup:1,max:null,name:'1 − 1/n 꼴의 수'}
+  };
+  function draw(){
+    const k=$('#suK').value, b=+$('#suB').value, I=INFO[k];
+    $('#suBv').textContent=b.toFixed(2);
+    const bounded = I.sup!==null;
+    const isBound = bounded && b>=I.sup;
+    const tight = bounded && Math.abs(b-I.sup)<0.03;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const x0=30, y0=170, u=150;
+    const X=v=>x0+v*u;
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(x0-12,y0); ctx.lineTo(W-16,y0); ctx.stroke();
+    for(let v=0;v<=2;v+=0.5){ ctx.strokeStyle='#E5E7EB';
+      ctx.beginPath(); ctx.moveTo(X(v),y0-8); ctx.lineTo(X(v),y0+8); ctx.stroke();
+      ctx.fillStyle='#9CA3AF'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(v, X(v), y0+22); }
+    if(k==='nat'){ for(let i=1;i<=8;i++){ const v=i*0.25;
+      ctx.fillStyle='#2563EB'; ctx.beginPath(); ctx.arc(X(v*2/0.5*0.25),y0,5,0,7); ctx.fill(); }
+      ctx.fillStyle='#2563EB';
+      for(let i=1;i<=7;i++){ ctx.beginPath(); ctx.arc(X(i*0.28),y0,5,0,7); ctx.fill(); }
+      ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+      ctx.fillText('… 끝없이 커집니다', X(1.95)-70, y0-16); }
+    else if(k==='seq'){ for(let n2=1;n2<=14;n2++){ const v=1-1/n2;
+      ctx.fillStyle='rgba(37,99,235,'+(0.35+0.05*n2).toFixed(2)+')';
+      ctx.beginPath(); ctx.arc(X(v),y0,5,0,7); ctx.fill(); } }
+    else { ctx.strokeStyle='#2563EB'; ctx.lineWidth=7;
+      ctx.beginPath(); ctx.moveTo(X(0),y0); ctx.lineTo(X(1),y0); ctx.stroke();
+      ctx.fillStyle='#fff'; ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4;
+      ctx.beginPath(); ctx.arc(X(1),y0,6,0,7);
+      if(k==='closed'){ ctx.fillStyle='#2563EB'; ctx.fill(); } else { ctx.fill(); ctx.stroke(); } }
+    ctx.strokeStyle=isBound?'#0E9384':'#BE123C'; ctx.lineWidth=2.2; ctx.setLineDash([5,4]);
+    ctx.beginPath(); ctx.moveTo(X(b),40); ctx.lineTo(X(b),y0+40); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle=isBound?'#0E9384':'#BE123C'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(isBound?'울타리가 됩니다':'넘어가는 원소가 있습니다', X(b), 32);
+    if(bounded){ ctx.strokeStyle='#B45309'; ctx.lineWidth=2; ctx.setLineDash([2,3]);
+      ctx.beginPath(); ctx.moveTo(X(I.sup),60); ctx.lineTo(X(I.sup),y0+30); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#B45309'; ctx.font='11px sans-serif';
+      ctx.fillText('상한 '+I.sup, X(I.sup), y0+56); }
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('집합 : '+I.name, 16, 20);
+    ctx.fillText('최댓값 : '+(I.max===null?'없음':I.max)+' · 상한 : '+(I.sup===null?'없음(위로 유계가 아님)':I.sup), 16, H-14);
+    $('#suout').innerHTML =
+      `<span class="mono">고른 값 ${b.toFixed(2)} 은 ${isBound?'울타리입니다':'울타리가 아닙니다'} · 상한 = <b style="color:#B45309">${I.sup===null?'없음':I.sup}</b> · 최댓값 = <b>${I.max===null?'없음':I.max}</b></span><br>`
+      + `<span class="mono">${tight?'가장 낮은 울타리에 닿았습니다':'더 낮출 수 있는지 살펴보세요'}</span><br>`
+      + (I.sup!==null && I.max===null ? `<b style="color:#B45309">최댓값은 없는데 상한은 있습니다 — 상한은 집합 밖에 있어도 됩니다.</b><br>` : '')
+      + (k==='closed' ? `<b style="color:#7C3AED">닫혀 있으면 상한이 곧 최댓값입니다 — 울타리가 집합 안으로 들어왔습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">실수의 완비성 : 위로 유계인 집합에는 반드시 상한이 있습니다.</span>`;
+  }
+  $('#suK').onchange=draw; $('#suB').oninput=draw; draw();
+  inquiry(root,{ id:'su', title:'상한 — 가장 낮은 울타리',
+    q:['네 집합을 모두 골라 (집합, 최댓값, 상한) 을 기록하세요.',
+       '최댓값이 없는데 상한이 있는 집합을 찾으세요.',
+       '상한이 없는 집합의 조건을 쓰세요.'],
+    cols:['집합','최댓값','상한','내 울타리'],
+    hint:'힌트 — 상한은 「울타리 가운데 가장 낮은 것」입니다.',
+    read:()=>{ const k=$('#suK').value,b=+$('#suB').value,I=INFO[k];
+      return [I.name,I.max===null?'없음':I.max,I.sup===null?'없음':I.sup,b.toFixed(2)]; } });
+}

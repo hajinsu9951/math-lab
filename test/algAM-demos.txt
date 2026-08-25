@@ -1,0 +1,379 @@
+/* ---------- LAB 302 탐욕법이 실패하는 자리 — 거스름돈 ---------- */
+function greedyFailDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="gf1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">큰 동전부터 고르는 방법은 <b>대개</b> 통합니다.
+      그런데 동전의 종류를 바꾸면 통하지 않는 금액이 생깁니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">동전 묶음<select id="gfC" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="std">1, 5, 10, 50 원</option>
+        <option value="odd">1, 3, 4 원</option>
+        <option value="tri">1, 6, 10 원</option>
+      </select></label>
+      ${slider('gfM','거슬러 줄 금액',1,60,1,18,'원')}
+      <div class="out" id="gfout"></div>
+    </div></div>`;
+  const cv=$('#gf1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const SET={std:[50,10,5,1],odd:[4,3,1],tri:[10,6,1]};
+  const NM={std:'1, 5, 10, 50 원',odd:'1, 3, 4 원',tri:'1, 6, 10 원'};
+  function greedy(coins,m){ const use=[]; let left=m;
+    for(const c of coins){ const k=Math.floor(left/c); for(let i=0;i<k;i++) use.push(c); left-=k*c; }
+    return use; }
+  function best(coins,m){
+    const dp=Array(m+1).fill(Infinity), from=Array(m+1).fill(-1);
+    dp[0]=0;
+    for(let v=1;v<=m;v++) for(const c of coins) if(c<=v && dp[v-c]+1<dp[v]){ dp[v]=dp[v-c]+1; from[v]=c; }
+    const use=[]; let v=m;
+    while(v>0 && from[v]>0){ use.push(from[v]); v-=from[v]; }
+    return use.sort((a,b)=>b-a); }
+  function draw(){
+    const k=$('#gfC').value, m=+$('#gfM').value;
+    $('#gfMv').textContent=m+'원';
+    const coins=SET[k], g=greedy(coins,m), b=best(coins,m);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('위 = 큰 동전부터 고른 결과 · 아래 = 가장 적은 개수', 16, 20);
+    const row=(list,y,col,label)=>{
+      ctx.fillStyle='#374151'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(label+' — '+list.length+' 개', 16, y-16);
+      list.slice(0,18).forEach((c,i)=>{
+        const x=20+(i%9)*38, yy=y+Math.floor(i/9)*40;
+        const r=11+Math.min(8,Math.log2(c)*3);
+        ctx.fillStyle=col; ctx.beginPath(); ctx.arc(x+16,yy+16,r,0,7); ctx.fill();
+        ctx.fillStyle='#fff'; ctx.font='bold 10px sans-serif'; ctx.textAlign='center';
+        ctx.fillText(c, x+16, yy+20); });
+      if(list.length>18){ ctx.fillStyle='#9CA3AF'; ctx.textAlign='left';
+        ctx.font='10px sans-serif'; ctx.fillText('… 외 '+(list.length-18)+' 개', 20, y+86); }
+    };
+    row(g,50,'rgba(190,18,60,.75)','큰 동전부터');
+    row(b,190,'rgba(14,147,132,.75)','가장 적게');
+    ctx.textAlign='left'; ctx.fillStyle='#374151'; ctx.font='11px sans-serif';
+    ctx.fillText('동전 묶음 : '+NM[k], 16, H-12);
+    $('#gfout').innerHTML =
+      `<span class="mono">${m} 원 · 큰 것부터 = <b style="color:#BE123C">${g.length}</b> 개 (${g.join(' + ') || '—'})</span><br>`
+      + `<span class="mono">가장 적게 = <b style="color:#0E9384">${b.length}</b> 개 (${b.join(' + ') || '—'})</span><br>`
+      + (g.length>b.length ? `<b style="color:#B45309">큰 것부터 골랐더니 ${g.length-b.length} 개나 더 썼습니다 — 매번 최선이 전체의 최선은 아닙니다.</b><br>` : '')
+      + (k==='std' && g.length===b.length && m>=40 ? `<b style="color:#7C3AED">우리 동전 묶음에서는 큰 것부터 골라도 언제나 최선입니다 — 묶음이 그렇게 짜여 있기 때문입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">탐욕법이 통하는지 아닌지는 「문제」가 아니라 「자료의 생김새」가 정합니다.</span>`;
+  }
+  $('#gfC').onchange=draw; $('#gfM').oninput=draw; draw();
+  inquiry(root,{ id:'gf', title:'탐욕법 — 통할 때와 통하지 않을 때',
+    q:['묶음과 금액을 바꿔 가며 (묶음, 금액, 두 개수) 를 여섯 줄 기록하세요.',
+       '탐욕이 실패하는 가장 작은 금액을 찾으세요.',
+       '어떤 묶음에서 탐욕이 늘 통하는지 조사하세요.'],
+    cols:['묶음','금액','큰 것부터','가장 적게'],
+    hint:'힌트 — 1, 3, 4 원에서 6 원을 만들어 보세요.',
+    read:()=>{ const k=$('#gfC').value,m=+$('#gfM').value;
+      return [NM[k],m,greedy(SET[k],m).length,best(SET[k],m).length]; } });
+}
+
+/* ---------- LAB 303 허프만 부호 — 자주 쓰면 짧게 ---------- */
+function huffmanDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="hf1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">모든 글자에 같은 길이를 주면 줄어들지 않습니다.
+      <b>자주 나오는 글자를 짧게</b> 하면 전체가 줄어듭니다.</div>
+    </div>
+    <div class="col">
+      ${slider('hfA','가 의 빈도',1,60,1,10,'회')}
+      ${slider('hfB','나 의 빈도',1,60,1,10,'회')}
+      ${slider('hfC','다 의 빈도',1,60,1,10,'회')}
+      ${slider('hfD','라 의 빈도',1,60,1,10,'회')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="hfEq"> 모든 글자에 같은 길이 주기</label>
+      <div class="out" id="hfout"></div>
+    </div></div>`;
+  const cv=$('#hf1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const NAMES=['가','나','다','라'];
+  function build(f){
+    let nodes=f.map((w,i)=>({w,ch:i,l:null,r:null}));
+    while(nodes.length>1){
+      nodes.sort((a,b)=>a.w-b.w||(a.ch??9)-(b.ch??9));
+      const a=nodes.shift(), b=nodes.shift();
+      nodes.push({w:a.w+b.w,ch:null,l:a,r:b}); }
+    const code={};
+    (function go(n,s){ if(!n) return;
+      if(n.ch!==null){ code[n.ch]=s||'0'; return; }
+      go(n.l,s+'0'); go(n.r,s+'1'); })(nodes[0],'');
+    return {root:nodes[0],code};
+  }
+  function draw(){
+    const f=[+$('#hfA').value,+$('#hfB').value,+$('#hfC').value,+$('#hfD').value];
+    const eq=$('#hfEq').checked;
+    ['hfA','hfB','hfC','hfD'].forEach(i=>$('#'+i+'v').textContent=$('#'+i).value+'회');
+    const {root:tree,code}=build(f);
+    const total=f.reduce((a,b)=>a+b,0);
+    const bitsFixed=total*2;
+    const bitsHuff=f.reduce((s,w,i)=>s+w*code[i].length,0);
+    const bits=eq?bitsFixed:bitsHuff;
+    const ratio=bits/bitsFixed;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    // 트리 그리기
+    const put=(n,x,y,dx,d)=>{ if(!n) return;
+      if(n.l){ ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1.4;
+        ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x-dx,y+42); ctx.stroke();
+        ctx.fillStyle='#9CA3AF'; ctx.font='9px sans-serif'; ctx.textAlign='center';
+        ctx.fillText('0', x-dx/2-6, y+24);
+        put(n.l,x-dx,y+42,dx/2,d+1); }
+      if(n.r){ ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1.4;
+        ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+dx,y+42); ctx.stroke();
+        ctx.fillStyle='#9CA3AF'; ctx.font='9px sans-serif'; ctx.textAlign='center';
+        ctx.fillText('1', x+dx/2+6, y+24);
+        put(n.r,x+dx,y+42,dx/2,d+1); }
+      ctx.fillStyle= n.ch!==null ? '#2563EB' : '#E5E7EB';
+      ctx.beginPath(); ctx.arc(x,y,n.ch!==null?15:9,0,7); ctx.fill();
+      if(n.ch!==null){ ctx.fillStyle='#fff'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+        ctx.fillText(NAMES[n.ch], x, y+4); }
+      else { ctx.fillStyle='#6B7280'; ctx.font='9px sans-serif'; ctx.textAlign='center';
+        ctx.fillText(n.w, x, y+3); } };
+    if(!eq) put(tree,190,34,84,0);
+    else { ctx.fillStyle='#6B7280'; ctx.font='11.5px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('모든 글자에 2 비트씩 주는 중 — 나무가 필요 없습니다', 190, 90);
+      NAMES.forEach((nm,i)=>{ ctx.fillStyle='#2563EB';
+        ctx.beginPath(); ctx.arc(70+i*80,140,17,0,7); ctx.fill();
+        ctx.fillStyle='#fff'; ctx.font='bold 12px sans-serif';
+        ctx.fillText(nm,70+i*80,145); }); }
+    ctx.textAlign='left'; ctx.fillStyle='#374151'; ctx.font='11px sans-serif';
+    NAMES.forEach((nm,i)=>{
+      ctx.fillStyle='#374151';
+      ctx.fillText(nm+' : '+f[i]+' 회 · 부호 '+(eq?['00','01','10','11'][i]:code[i]),
+        24+(i%2)*180, 236+Math.floor(i/2)*20); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('같은 길이로 쓰면 '+bitsFixed+' 비트 · 지금 '+bits+' 비트', 24, 292);
+    ctx.fillStyle='rgba(37,99,235,.55)'; ctx.fillRect(24, 300, (W-48)*ratio, 16);
+    ctx.strokeStyle='#9CA3AF'; ctx.strokeRect(24, 300, W-48, 16);
+    $('#hfout').innerHTML =
+      `<span class="mono">전체 ${total} 글자 · 같은 길이 = <b>${bitsFixed}</b> 비트 · 지금 = <b style="color:${bits<bitsFixed?'#0E9384':'#BE123C'}">${bits}</b> 비트</span><br>`
+      + `<span class="mono">압축률 = <b>${(ratio*100).toFixed(1)}</b> % · 글자당 평균 ${(bits/total).toFixed(3)} 비트</span><br>`
+      + (!eq && ratio<=0.8 ? `<b style="color:#B45309">자주 나오는 글자를 짧게 했더니 ${(100-ratio*100).toFixed(0)} % 나 줄었습니다.</b><br>` : '')
+      + (eq ? `<b style="color:#7C3AED">모든 글자에 같은 길이를 주니 압축률이 100 % — 한 비트도 줄지 않았습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">어떤 부호도 다른 부호의 앞부분이 되지 않아, 띄어쓰기 없이도 읽힙니다.</span>`;
+  }
+  ['hfA','hfB','hfC','hfD'].forEach(i=>$('#'+i).oninput=draw); $('#hfEq').onchange=draw; draw();
+  inquiry(root,{ id:'hf', title:'허프만 — 자주 쓰면 짧게',
+    q:['빈도를 바꿔 가며 (빈도, 비트 수, 압축률) 을 여섯 줄 기록하세요.',
+       '압축이 가장 잘 되는 빈도 분포를 찾으세요.',
+       '모든 빈도가 같을 때 압축률이 어떻게 되는지 쓰세요.'],
+    cols:['빈도','부호 길이','비트 수','압축률'],
+    hint:'힌트 — 빈도가 한쪽으로 치우칠수록 많이 줄어듭니다.',
+    read:()=>{ const f=[+$('#hfA').value,+$('#hfB').value,+$('#hfC').value,+$('#hfD').value];
+      const {code}=build(f), t=f.reduce((a,b)=>a+b,0);
+      const bits=f.reduce((s,w,i)=>s+w*code[i].length,0);
+      return [f.join('/'),[0,1,2,3].map(i=>code[i].length).join('/'),bits,(bits/(t*2)*100).toFixed(1)+'%']; } });
+}
+
+/* ---------- LAB 304 오류 정정 부호 — 어디가 뒤집혔는지까지 ---------- */
+function hamming74Demo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="hm1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">패리티를 <b>한 개</b>만 붙이면 「틀렸다」까지만 압니다.
+      여러 개를 겹쳐 붙이면 <b>어디가</b> 틀렸는지까지 알 수 있습니다.</div>
+    </div>
+    <div class="col">
+      ${slider('hmD','보낼 자료 (0~15)',0,15,1,11,'')}
+      ${slider('hmE','뒤집힌 자리 (0 = 없음)',0,7,1,0,'번')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="hmOne"> 패리티를 한 개만 붙이기</label>
+      <div class="out" id="hmout"></div>
+    </div></div>`;
+  const cv=$('#hm1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function encode(d){                              // 해밍(7,4)
+    const b=[(d>>3)&1,(d>>2)&1,(d>>1)&1,d&1];      // d1 d2 d3 d4
+    const p1=b[0]^b[1]^b[3], p2=b[0]^b[2]^b[3], p3=b[1]^b[2]^b[3];
+    return [p1,p2,b[0],p3,b[1],b[2],b[3]];         // 1..7 번 자리
+  }
+  function draw(){
+    const d=+$('#hmD').value, e=+$('#hmE').value, one=$('#hmOne').checked;
+    $('#hmDv').textContent=d; $('#hmEv').textContent=e===0?'없음':e+'번';
+    const code=encode(d);
+    const got=code.slice(); if(e>0) got[e-1]^=1;
+    const s1=got[0]^got[2]^got[4]^got[6];
+    const s2=got[1]^got[2]^got[5]^got[6];
+    const s3=got[3]^got[4]^got[5]^got[6];
+    const pos=s1*1+s2*2+s3*4;
+    const single=got.reduce((a,b)=>a^b,0);         // 패리티 한 개만 쓸 때
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('보낸 7 비트 (회색 = 검사 비트) · 붉은 = 뒤집힌 자리', 16, 20);
+    const bw=46, x0=26;
+    for(let i=0;i<7;i++){
+      const X=x0+i*bw, Y=44;
+      const isP=[0,1,3].includes(i);
+      ctx.fillStyle= (e===i+1) ? 'rgba(190,18,60,.75)' : (isP?'rgba(156,163,175,.5)':'rgba(37,99,235,.6)');
+      ctx.fillRect(X,Y,bw-6,44);
+      ctx.fillStyle='#fff'; ctx.font='bold 16px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(got[i], X+(bw-6)/2, Y+29);
+      ctx.fillStyle='#6B7280'; ctx.font='9.5px sans-serif';
+      ctx.fillText((i+1)+'번', X+(bw-6)/2, Y+58); }
+    // 검사 묶음
+    const sets=[[0,2,4,6],[1,2,5,6],[3,4,5,6]];
+    sets.forEach((st,k)=>{ const Y=140+k*46;
+      ctx.fillStyle='#374151'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+      ctx.fillText('검사 '+(k+1), 16, Y+16);
+      st.forEach(i=>{ const X=x0+i*bw;
+        ctx.strokeStyle=[s1,s2,s3][k]?'#BE123C':'#0E9384'; ctx.lineWidth=2;
+        ctx.strokeRect(X+6,Y,bw-18,22); });
+      ctx.fillStyle=[s1,s2,s3][k]?'#BE123C':'#0E9384'; ctx.font='bold 12px sans-serif';
+      ctx.fillText([s1,s2,s3][k]?'어긋남':'맞음', 330, Y+16); });
+    ctx.fillStyle='#111827'; ctx.font='12px sans-serif'; ctx.textAlign='left';
+    ctx.fillText(one ? ('패리티 한 개 : '+(single?'어딘가 틀렸다':'이상 없음'))
+      : ('세 검사의 결과 = '+pos+' → '+(pos?pos+'번 자리가 뒤집혔다':'이상 없음')), 16, 300);
+    $('#hmout').innerHTML =
+      `<span class="mono">보낸 자료 ${d} → 7 비트 [${code.join('')}] · 받은 것 [${got.join('')}]</span><br>`
+      + `<span class="mono">세 검사 = (${s1}, ${s2}, ${s3}) → 위치 = <b style="color:${pos?'#BE123C':'#0E9384'}">${pos}</b> · 실제 뒤집힌 자리 = ${e}</span><br>`
+      + (!one && e>0 && pos===e ? `<b style="color:#B45309">뒤집힌 자리를 정확히 ${pos} 번으로 짚어 냈습니다 — 고칠 수도 있습니다.</b><br>` : '')
+      + (one && e>0 ? `<b style="color:#7C3AED">패리티가 하나뿐이라 「틀렸다」까지만 알고 어디인지는 모릅니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">검사 비트 3 개로 7 자리 가운데 어디가 틀렸는지 가릴 수 있습니다 (2³ = 8 > 7).</span>`;
+  }
+  ['hmD','hmE'].forEach(i=>$('#'+i).oninput=draw); $('#hmOne').onchange=draw; draw();
+  inquiry(root,{ id:'hm', title:'오류 정정 — 어디가 틀렸는지까지',
+    q:['뒤집힌 자리를 바꿔 가며 (자리, 세 검사, 짚어 낸 위치) 를 여섯 줄 기록하세요.',
+       '언제나 정확히 짚어 내는지 확인하세요.',
+       '검사 비트가 3 개면 왜 7 자리까지 되는지 설명하세요.'],
+    cols:['자료','뒤집힌 자리','세 검사','짚어 낸 위치'],
+    hint:'힌트 — 세 검사 결과를 2 진수로 읽으면 자리 번호가 됩니다.',
+    read:()=>{ const d=+$('#hmD').value,e=+$('#hmE').value;
+      const c=encode(d), g=c.slice(); if(e>0) g[e-1]^=1;
+      const s1=g[0]^g[2]^g[4]^g[6], s2=g[1]^g[2]^g[5]^g[6], s3=g[3]^g[4]^g[5]^g[6];
+      return [d,e,''+s1+s2+s3,s1+2*s2+4*s3]; } });
+}
+
+/* ---------- LAB 305 복잡도 — 자료가 열 배면 시간은 몇 배 ---------- */
+function complexityDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="cp2" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">n 이 작을 때는 둘이 비슷해 보입니다.
+      <b>n 을 키워야</b> 차이가 드러납니다.</div>
+    </div>
+    <div class="col">
+      ${slider('cpN','자료의 크기 n',10,100000,10,100,'개')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="cpLog"> 세로를 로그 눈금으로 보기</label>
+      <div class="out" id="cpout"></div>
+    </div></div>`;
+  const cv=$('#cp2'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const n=+$('#cpN').value, lg=$('#cpLog').checked;
+    $('#cpNv').textContent=n.toLocaleString()+'개';
+    const f1=x=>x*Math.log2(x), f2=x=>x*x;
+    const v1=f1(n), v2=f2(n), ratio=v2/v1;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const x0=44, y0=260, gw=W-72, gh=200;
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x0+gw,y0); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x0,y0-gh); ctx.lineTo(x0,y0); ctx.stroke();
+    const NX=Math.max(n,20);
+    const mx=Math.max(f2(NX),1);
+    const Y=v=>lg ? y0-(Math.log10(Math.max(v,1))/Math.log10(mx))*gh
+                  : y0-(v/mx)*gh;
+    const plot=(f,col)=>{ ctx.strokeStyle=col; ctx.lineWidth=2.2; ctx.beginPath();
+      for(let i=0;i<=160;i++){ const x=20+(NX-20)*i/160;
+        const px=x0+gw*i/160, py=Y(f(x));
+        i?ctx.lineTo(px,py):ctx.moveTo(px,py); }
+      ctx.stroke(); };
+    plot(f1,'#0E9384'); plot(f2,'#BE123C');
+    ctx.fillStyle='#0E9384'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('n log n', x0+8, y0-gh+16);
+    ctx.fillStyle='#BE123C'; ctx.fillText('n²', x0+8, y0-gh+32);
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif';
+    ctx.fillText('가로 = 자료 크기 (20 → '+NX.toLocaleString()+')', x0, y0+16);
+    ctx.fillText(lg?'세로 = 로그 눈금':'세로 = 보통 눈금', x0, y0+30);
+    // 열 배 비교 막대
+    const r1=f1(n*10)/v1, r2=f2(n*10)/v2;
+    ctx.fillStyle='#374151'; ctx.font='11px sans-serif';
+    ctx.fillText('자료가 열 배가 되면 — n log n 은 '+r1.toFixed(1)+' 배, n² 은 '+r2.toFixed(0)+' 배', x0, y0+48);
+    $('#cpout').innerHTML =
+      `<span class="mono">n = ${n.toLocaleString()} · n log n = <b style="color:#0E9384">${Math.round(v1).toLocaleString()}</b> · n² = <b style="color:#BE123C">${Math.round(v2).toLocaleString()}</b></span><br>`
+      + `<span class="mono">n² / (n log n) = <b>${ratio.toFixed(1)}</b> 배</span><br>`
+      + (ratio>=100 ? `<b style="color:#B45309">두 방법의 차이가 ${Math.round(ratio)} 배까지 벌어졌습니다 — n 을 키워야 보이는 차이입니다.</b><br>` : '')
+      + (lg ? `<b style="color:#7C3AED">로그 눈금으로 보니 두 곡선이 곧은 선이 되고, 기울기의 차이가 바로 차수의 차이입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">n 이 작을 때 비슷해 보이는 것이 복잡도를 재는 함정입니다.</span>`;
+  }
+  $('#cpN').oninput=draw; $('#cpLog').onchange=draw; draw();
+  inquiry(root,{ id:'cp2', title:'복잡도 — n 을 키워야 보인다',
+    q:['n 을 키워 가며 (n, 두 값, 비) 를 여섯 줄 기록하세요.',
+       '두 값의 비가 100 배가 되는 n 을 찾으세요.',
+       '자료가 열 배가 될 때 각각 몇 배가 되는지 쓰세요.'],
+    cols:['n','n log n','n²','비'],
+    hint:'힌트 — n² / (n log n) = n / log n 입니다.',
+    read:()=>{ const n=+$('#cpN').value;
+      return [n.toLocaleString(),Math.round(n*Math.log2(n)).toLocaleString(),
+        Math.round(n*n).toLocaleString(),(n/Math.log2(n)).toFixed(1)]; } });
+}
+
+/* ---------- LAB 306 정렬 경주 — 최선의 경우를 놓치지 마라 ---------- */
+function sortRaceDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sr1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">같은 알고리즘도 <b>들어오는 자료의 모양</b>에 따라
+      비교 횟수가 크게 달라집니다.</div>
+    </div>
+    <div class="col">
+      ${slider('srN','자료의 개수',5,40,1,20,'개')}
+      <label class="ctl">자료의 모양<select id="srK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="rand">뒤죽박죽</option>
+        <option value="sorted">이미 정렬됨</option>
+        <option value="rev">거꾸로 정렬됨</option>
+      </select></label>
+      <div class="out" id="srout"></div>
+    </div></div>`;
+  const cv=$('#sr1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function data(n,k){
+    const a=Array.from({length:n},(_,i)=>((i*37+11)%n)+1);
+    if(k==='sorted') return Array.from({length:n},(_,i)=>i+1);
+    if(k==='rev') return Array.from({length:n},(_,i)=>n-i);
+    return a;
+  }
+  function insertion(a){ const b=a.slice(); let cmp=0,swap=0;
+    for(let i=1;i<b.length;i++){ let j=i;
+      while(j>0){ cmp++; if(b[j-1]<=b[j]) break; const t=b[j-1]; b[j-1]=b[j]; b[j]=t; swap++; j--; } }
+    return {cmp,swap}; }
+  function mergeSort(a){ let cmp=0;
+    const go=arr=>{ if(arr.length<2) return arr;
+      const m=arr.length>>1, L=go(arr.slice(0,m)), R=go(arr.slice(m)), out=[];
+      let i=0,j=0;
+      while(i<L.length&&j<R.length){ cmp++; out.push(L[i]<=R[j]?L[i++]:R[j++]); }
+      while(i<L.length) out.push(L[i++]);
+      while(j<R.length) out.push(R[j++]);
+      return out; };
+    go(a.slice()); return {cmp}; }
+  function draw(){
+    const n=+$('#srN').value, k=$('#srK').value;
+    $('#srNv').textContent=n+'개';
+    const a=data(n,k);
+    const ins=insertion(a), mer=mergeSort(a);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('들어온 자료의 모양', 16, 20);
+    const bw=Math.min(14,(W-40)/n);
+    a.forEach((v,i)=>{ const h=v/n*96;
+      ctx.fillStyle='rgba(37,99,235,.6)';
+      ctx.fillRect(20+i*bw, 130-h, bw-1.5, h); });
+    const bars=[['삽입 정렬',ins.cmp,'rgba(190,18,60,.7)'],['병합 정렬',mer.cmp,'rgba(14,147,132,.7)']];
+    const mx=Math.max(ins.cmp,mer.cmp,1);
+    bars.forEach(([nm,v,c],i)=>{ const y=180+i*54;
+      ctx.fillStyle='#374151'; ctx.font='11.5px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(nm, 20, y-4);
+      ctx.fillStyle=c; ctx.fillRect(20, y, (W-120)*v/mx, 26);
+      ctx.fillStyle='#111827'; ctx.font='11px sans-serif';
+      ctx.fillText(v+' 번 비교', 24+(W-120)*v/mx, y+18); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('n log n ≈ '+Math.round(n*Math.log2(n))+' · n² / 2 ≈ '+Math.round(n*n/2), 20, 300);
+    $('#srout').innerHTML =
+      `<span class="mono">자료 ${n} 개 · 모양 = ${ {rand:'뒤죽박죽',sorted:'이미 정렬됨',rev:'거꾸로'}[k] }</span><br>`
+      + `<span class="mono">삽입 정렬 = <b style="color:#BE123C">${ins.cmp}</b> 번 · 병합 정렬 = <b style="color:#0E9384">${mer.cmp}</b> 번</span><br>`
+      + (k==='sorted' && ins.cmp<mer.cmp ? `<b style="color:#B45309">이미 정렬된 자료에서는 삽입 정렬이 오히려 적게 비교합니다 — 최선의 경우입니다.</b><br>` : '')
+      + (k==='rev' && ins.cmp>mer.cmp*2 ? `<b style="color:#7C3AED">거꾸로 된 자료에서는 삽입 정렬이 병합 정렬의 ${(ins.cmp/mer.cmp).toFixed(1)} 배나 비교합니다 — 최악의 경우입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">「어느 것이 빠른가」는 자료의 모양을 말하지 않고는 답할 수 없습니다.</span>`;
+  }
+  $('#srN').oninput=draw; $('#srK').onchange=draw; draw();
+  inquiry(root,{ id:'sr', title:'정렬 경주 — 자료의 모양이 정한다',
+    q:['자료의 모양을 바꿔 가며 (모양, 두 비교 횟수) 를 여섯 줄 기록하세요.',
+       '삽입 정렬이 이기는 경우를 찾으세요.',
+       '「어느 정렬이 빠른가」라는 질문이 왜 불완전한지 쓰세요.'],
+    cols:['개수','모양','삽입 정렬','병합 정렬'],
+    hint:'힌트 — 삽입 정렬의 최선은 n−1 번, 최악은 n(n−1)/2 번입니다.',
+    read:()=>{ const n=+$('#srN').value,k=$('#srK').value,a=data(n,k);
+      return [n,{rand:'뒤죽박죽',sorted:'정렬됨',rev:'거꾸로'}[k],insertion(a).cmp,mergeSort(a).cmp]; } });
+}
