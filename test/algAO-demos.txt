@@ -1,0 +1,330 @@
+/* ---------- LAB 312 유리수의 구멍 — 좁혀 가도 닿지 않는 곳 ---------- */
+function completeDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="cm1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">제곱이 2 보다 작은 유리수와 큰 유리수로 구간을 좁혀 갑니다.
+      좁힐수록 한 점에 다가가는데, 그 점은 <b>유리수가 아닙니다</b>.</div>
+    </div>
+    <div class="col">
+      ${slider('cmN','좁힌 횟수',0,20,1,0,'번')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="cmQ"> 유리수만 있는 세계로 보기</label>
+      <div class="out" id="cmout"></div>
+    </div></div>`;
+  const cv=$('#cm1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function bisect(n){
+    let lo=1, hi=2, hist=[[lo,hi]];
+    for(let i=0;i<n;i++){ const m=(lo+hi)/2;
+      if(m*m<2) lo=m; else hi=m; hist.push([lo,hi]); }
+    return hist;
+  }
+  function draw(){
+    const n=+$('#cmN').value, onlyQ=$('#cmQ').checked;
+    $('#cmNv').textContent=n+'번';
+    const hist=bisect(n), [lo,hi]=hist[hist.length-1];
+    const gap=hi-lo, S2=Math.SQRT2;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('구간이 좁아지는 모습 (가로를 크게 늘려 그렸습니다)', 16, 20);
+    const x0=24, gwid=W-48;
+    hist.slice(0,15).forEach(([a,b],i)=>{
+      const y=40+i*15;
+      const A=x0+gwid*(a-1), B=x0+gwid*(b-1);
+      ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(x0,y); ctx.lineTo(x0+gwid,y); ctx.stroke();
+      ctx.strokeStyle='rgba(37,99,235,'+(0.35+0.04*i).toFixed(2)+')'; ctx.lineWidth=4;
+      ctx.beginPath(); ctx.moveTo(A,y); ctx.lineTo(Math.max(B,A+1),y); ctx.stroke(); });
+    const SX=x0+gwid*(S2-1);
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.6; ctx.setLineDash([4,3]);
+    ctx.beginPath(); ctx.moveTo(SX,32); ctx.lineTo(SX,268); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#BE123C'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(onlyQ?'여기에는 아무것도 없다':'√2', SX, 282);
+    ctx.textAlign='left'; ctx.fillStyle='#374151'; ctx.font='11px sans-serif';
+    ctx.fillText('아래끝 '+lo.toFixed(9), 20, 300);
+    ctx.fillText('위끝 '+hi.toFixed(9), 200, 300);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('구간의 길이 = '+gap.toExponential(3), 20, 318);
+    $('#cmout').innerHTML =
+      `<span class="mono">아래끝² = <b>${(lo*lo).toFixed(9)}</b> · 위끝² = <b>${(hi*hi).toFixed(9)}</b> · 사이에 2 가 있습니다</span><br>`
+      + `<span class="mono">구간의 길이 = <b style="color:#2563EB">${gap.toExponential(3)}</b> · 두 끝은 모두 유리수입니다</span><br>`
+      + (n>=12 && gap<0.001 ? `<b style="color:#B45309">구간이 한없이 좁아지는데도 두 끝은 계속 유리수입니다 — 그 사이에 무엇이 있을까요?</b><br>` : '')
+      + (onlyQ ? `<b style="color:#7C3AED">유리수만 있는 세계에서는 좁혀 가도 닿을 점이 없습니다 — 수직선에 구멍이 뚫려 있습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">실수의 완비성은 「이렇게 좁힌 구간에는 반드시 한 점이 있다」는 약속입니다.</span>`;
+  }
+  $('#cmN').oninput=draw; $('#cmQ').onchange=draw; draw();
+  inquiry(root,{ id:'cm', title:'완비성 — 구멍이 없다는 약속',
+    q:['좁힌 횟수를 늘려 가며 (횟수, 구간의 길이) 를 여섯 줄 기록하세요.',
+       '두 끝이 계속 유리수인지 확인하세요.',
+       '「유리수에 구멍이 있다」는 말의 뜻을 쓰세요.'],
+    cols:['횟수','아래끝','위끝','구간 길이'],
+    hint:'힌트 — 두 끝은 유리수인데 다가가는 점은 유리수가 아닙니다.',
+    read:()=>{ const n=+$('#cmN').value,h=bisect(n),[a,b]=h[h.length-1];
+      return [n,a.toFixed(9),b.toFixed(9),(b-a).toExponential(3)]; } });
+}
+
+/* ---------- LAB 313 엡실론-델타 — ε 을 주면 δ 를 찾는 게임 ---------- */
+function epsDeltaDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ed1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">「가까워진다」를 <b>ε 을 아무리 작게 줘도
+      그에 맞는 δ 를 찾을 수 있다</b>로 바꿔 말한 것이 극한의 정의입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('edE','상대가 준 ε',0.05,1,0.05,0.5,'')}
+      ${slider('edD','내가 고른 δ',0.02,1,0.02,0.5,'')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="edFix"> δ 를 ε 과 무관하게 0.5 로 고정</label>
+      <div class="out" id="edout"></div>
+    </div></div>`;
+  const cv=$('#ed1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const f=x=>2*x+1, A=1, L=3;                     // x → 1 일 때 f → 3
+  function draw(){
+    const e=+$('#edE').value; const fix=$('#edFix').checked;
+    const d=fix?0.5:+$('#edD').value;
+    $('#edEv').textContent=e.toFixed(2); $('#edDv').textContent=d.toFixed(2);
+    // |x−1|<δ 안에서 |f(x)−3| 의 최댓값 = 2δ
+    const worst=2*d;
+    const ok=worst<=e+1e-12;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=170,cy=180,u=110;
+    const X=x=>cx+(x-A)*u, Y=y=>cy-(y-L)*u*0.55;
+    ctx.fillStyle='rgba(190,18,60,.10)';
+    ctx.fillRect(20, Y(L+e), W-40, Y(L-e)-Y(L+e));
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.3; ctx.setLineDash([4,3]);
+    [L+e,L-e].forEach(v=>{ ctx.beginPath(); ctx.moveTo(20,Y(v)); ctx.lineTo(W-20,Y(v)); ctx.stroke(); });
+    ctx.setLineDash([]);
+    ctx.fillStyle='rgba(37,99,235,.10)';
+    ctx.fillRect(X(A-d), 20, X(A+d)-X(A-d), 260);
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=1.3; ctx.setLineDash([4,3]);
+    [A-d,A+d].forEach(v=>{ ctx.beginPath(); ctx.moveTo(X(v),20); ctx.lineTo(X(v),280); ctx.stroke(); });
+    ctx.setLineDash([]);
+    ctx.strokeStyle='#111827'; ctx.lineWidth=2.2; ctx.beginPath();
+    ctx.moveTo(X(A-1.2),Y(f(A-1.2))); ctx.lineTo(X(A+1.2),Y(f(A+1.2))); ctx.stroke();
+    ctx.fillStyle='#0E9384'; ctx.beginPath(); ctx.arc(X(A),Y(L),5,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('붉은 띠 = ε 만큼의 허용 범위 · 파랑 띠 = δ 만큼의 접근 범위', 14, 20);
+    ctx.fillText('f(x) = 2x + 1 · x → 1 일 때 f → 3', 14, H-12);
+    $('#edout').innerHTML =
+      `<span class="mono">|x − 1| &lt; ${d.toFixed(2)} 이면 |f(x) − 3| &lt; <b style="color:${ok?'#0E9384':'#BE123C'}">${worst.toFixed(3)}</b> · 요구된 ε = ${e.toFixed(2)}</span><br>`
+      + `<span class="mono">판정 = <b style="color:${ok?'#0E9384':'#BE123C'}">${ok?'δ 가 통합니다':'δ 가 너무 큽니다'}</b> · 필요한 δ 는 ε / 2 = ${(e/2).toFixed(3)} 이하</span><br>`
+      + (!fix && ok && e<=0.15 ? `<b style="color:#B45309">아주 작은 ε 에도 통하는 δ 를 찾았습니다 — 이것이 「가까워진다」의 뜻입니다.</b><br>` : '')
+      + (fix && e<1.0 && !ok ? `<b style="color:#7C3AED">δ 를 고정해 두니 ε 을 줄이는 순간 무너집니다 — δ 는 ε 을 보고 골라야 합니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">먼저 ε 이 주어지고, 그다음에 δ 를 고릅니다 — 순서가 정의의 핵심입니다.</span>`;
+  }
+  ['edE','edD'].forEach(i=>$('#'+i).oninput=draw); $('#edFix').onchange=draw; draw();
+  inquiry(root,{ id:'ed', title:'ε-δ — 순서가 전부다',
+    q:['ε 을 줄여 가며 (ε, 통하는 δ) 를 여섯 줄 기록하세요.',
+       'ε 과 δ 사이의 관계식을 찾으세요.',
+       'δ 를 먼저 고르면 왜 안 되는지 쓰세요.'],
+    cols:['ε','δ','최대 오차','통하는가'],
+    hint:'힌트 — |f(x) − 3| = 2|x − 1| 이므로 δ = ε/2 면 됩니다.',
+    read:()=>{ const e=+$('#edE').value,fix=$('#edFix').checked,d=fix?0.5:+$('#edD').value;
+      return [e.toFixed(2),d.toFixed(2),(2*d).toFixed(3),2*d<=e+1e-12?'통함':'안 통함']; } });
+}
+
+/* ---------- LAB 314 균등연속 — δ 가 점마다 달라도 될까 ---------- */
+function uniformContDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="uc1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">같은 ε 에 대해 <b>모든 점에서 통하는 하나의 δ</b>가 있으면
+      균등연속입니다. 점마다 달라져야 한다면 아닙니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">함수 고르기<select id="ucF" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="lin">f(x) = 2x  (0 &lt; x ≤ 1)</option>
+        <option value="inv">f(x) = 1/x  (0 &lt; x ≤ 1)</option>
+      </select></label>
+      ${slider('ucX','살펴볼 점 x',0.05,1,0.01,0.8,'')}
+      ${slider('ucE','같은 ε',0.1,1,0.05,0.5,'')}
+      <div class="out" id="ucout"></div>
+    </div></div>`;
+  const cv=$('#uc1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function need(k,x,e){                             // 그 점에서 통하는 가장 큰 δ
+    if(k==='lin') return e/2;
+    const lo=1/(1/x+e);                             // 1/x 가 e 만큼 늘어나는 지점
+    return Math.max(1e-6, x-lo);
+  }
+  function draw(){
+    const k=$('#ucF').value, x=+$('#ucX').value, e=+$('#ucE').value;
+    $('#ucXv').textContent=x.toFixed(2); $('#ucEv').textContent=e.toFixed(2);
+    const d=need(k,x,e);
+    const dMin=k==='lin' ? e/2 : need(k,0.05,e);
+    const uniform = k==='lin';
+    const f=k==='lin' ? (t=>2*t) : (t=>1/t);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const x0=40,y0=270,u=300;
+    const X=t=>x0+t*u, Y=v=>y0-Math.min(v,6)*40;
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x0+u,y0); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x0,30); ctx.lineTo(x0,y0); ctx.stroke();
+    ctx.strokeStyle='#111827'; ctx.lineWidth=2.2; ctx.beginPath();
+    let st=false;
+    for(let i=1;i<=300;i++){ const t=i/300; const v=f(t);
+      if(v>6.2){ st=false; continue; }
+      st?ctx.lineTo(X(t),Y(v)):ctx.moveTo(X(t),Y(v)); st=true; }
+    ctx.stroke();
+    ctx.fillStyle='rgba(37,99,235,.18)';
+    ctx.fillRect(X(Math.max(0,x-d)),30,X(Math.min(1,x+d))-X(Math.max(0,x-d)),y0-30);
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(X(x),30); ctx.lineTo(X(x),y0); ctx.stroke();
+    ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(x),Y(f(x)),5,0,7); ctx.fill();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('파랑 띠 = 이 점에서 ε 을 지키려면 필요한 δ', 14, 20);
+    ctx.fillText('x = '+x.toFixed(2)+' 에서 통하는 δ = '+d.toFixed(4), 14, H-12);
+    $('#ucout').innerHTML =
+      `<span class="mono">ε = ${e.toFixed(2)} · x = ${x.toFixed(2)} 에서 통하는 δ = <b style="color:#2563EB">${d.toFixed(5)}</b></span><br>`
+      + `<span class="mono">x = 0.05 에서 필요한 δ = <b>${dMin.toFixed(5)}</b> · ${uniform?'점이 달라져도 같습니다':'점이 왼쪽으로 갈수록 작아집니다'}</span><br>`
+      + (uniform && x<=0.2 ? `<b style="color:#B45309">왼쪽 끝으로 가도 δ 가 그대로입니다 — 하나의 δ 로 온 구간을 덮을 수 있습니다.</b><br>` : '')
+      + (!uniform && x<=0.15 ? `<b style="color:#7C3AED">왼쪽으로 갈수록 δ 가 0 으로 줄어듭니다 — 모든 점에 통하는 하나의 δ 가 없습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">연속은 점마다, 균등연속은 구간 전체에 대해 δ 를 고릅니다.</span>`;
+  }
+  $('#ucF').onchange=draw; ['ucX','ucE'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'uc', title:'균등연속 — 하나의 δ 로 되는가',
+    q:['점을 옮겨 가며 (함수, x, 통하는 δ) 를 여섯 줄 기록하세요.',
+       'δ 가 점에 따라 달라지는 함수를 찾으세요.',
+       '연속과 균등연속의 차이를 한 문장으로 쓰세요.'],
+    cols:['함수','x','ε','통하는 δ'],
+    hint:'힌트 — 닫힌 구간에서 연속이면 균등연속입니다.',
+    read:()=>{ const k=$('#ucF').value,x=+$('#ucX').value,e=+$('#ucE').value;
+      return [k==='lin'?'2x':'1/x',x.toFixed(2),e.toFixed(2),need(k,x,e).toFixed(5)]; } });
+}
+
+/* ---------- LAB 315 함수열의 수렴 — 각점과 균등 ---------- */
+function funcSeqDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="fs1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">xⁿ 은 각 점에서는 0 으로 갑니다 (x &lt; 1).
+      그런데 <b>최대 오차</b>는 언제나 1 근처에 남아 있습니다.</div>
+    </div>
+    <div class="col">
+      ${slider('fsN','n',1,60,1,1,'')}
+      ${slider('fsX','살펴볼 점 x',0.1,1,0.01,0.5,'')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="fsMax"> 최대 오차를 함께 보기</label>
+      <div class="out" id="fsout"></div>
+    </div></div>`;
+  const cv=$('#fs1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function draw(){
+    const n=+$('#fsN').value, x=+$('#fsX').value, showMax=$('#fsMax').checked;
+    $('#fsNv').textContent=n; $('#fsXv').textContent=x.toFixed(2);
+    const at=Math.pow(x,n);
+    const worst=1;                                   // sup |xⁿ − 0| on [0,1) → 1
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const x0=40,y0=260,u=290,v=200;
+    const X=t=>x0+t*u, Y=w=>y0-w*v;
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x0+u,y0); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x0,y0-v-14); ctx.lineTo(x0,y0); ctx.stroke();
+    ctx.fillStyle='#9CA3AF'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('0',x0,y0+16); ctx.fillText('1',X(1),y0+16);
+    ctx.textAlign='right'; ctx.fillText('1',x0-6,Y(1)+4);
+    [1,2,4,8,16,32].filter(k=>k<=n).forEach(k=>{
+      ctx.strokeStyle='rgba(156,163,175,.55)'; ctx.lineWidth=1; ctx.beginPath();
+      for(let i=0;i<=200;i++){ const t=i/200; i?ctx.lineTo(X(t),Y(Math.pow(t,k))):ctx.moveTo(X(t),Y(Math.pow(t,k))); }
+      ctx.stroke(); });
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.6; ctx.beginPath();
+    for(let i=0;i<=300;i++){ const t=i/300; i?ctx.lineTo(X(t),Y(Math.pow(t,n))):ctx.moveTo(X(t),Y(Math.pow(t,n))); }
+    ctx.stroke();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=1.6; ctx.setLineDash([4,3]);
+    ctx.beginPath(); ctx.moveTo(x0,Y(0)); ctx.lineTo(X(1),Y(0)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(x),Y(at),5,0,7); ctx.fill();
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(X(x),Y(0)); ctx.lineTo(X(x),Y(at)); ctx.stroke();
+    if(showMax){ ctx.strokeStyle='#B45309'; ctx.lineWidth=2.4;
+      ctx.beginPath(); ctx.moveTo(X(1)-1,Y(0)); ctx.lineTo(X(1)-1,Y(1)); ctx.stroke();
+      ctx.fillStyle='#B45309'; ctx.font='11px sans-serif'; ctx.textAlign='right';
+      ctx.fillText('최대 오차 1', X(1)-6, Y(0.5)); }
+    ctx.textAlign='left'; ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('회색 = 작은 n 들 · 파랑 = 지금의 xⁿ · 초록 점선 = 극한함수 0', 14, 20);
+    ctx.fillText('x = 1 에서는 xⁿ = 1 로 남습니다', 14, H-12);
+    $('#fsout').innerHTML =
+      `<span class="mono">x = ${x.toFixed(2)} 에서 x<sup>${n}</sup> = <b style="color:#2563EB">${at.toExponential(3)}</b> — 각 점에서는 0 으로 갑니다</span><br>`
+      + `<span class="mono">구간 전체의 최대 오차 = <b style="color:#BE123C">${worst.toFixed(3)}</b> — n 을 아무리 키워도 그대로입니다</span><br>`
+      + (n>=25 && at<0.001 ? `<b style="color:#B45309">이 점에서는 사실상 0 이 되었습니다 — 각점수렴입니다.</b><br>` : '')
+      + (showMax ? `<b style="color:#7C3AED">그런데 최대 오차는 1 에서 꿈쩍도 하지 않습니다 — 균등수렴은 아닙니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">극한함수는 x = 1 에서 값이 1 로 튀어, 연속이 보존되지 않습니다.</span>`;
+  }
+  ['fsN','fsX'].forEach(i=>$('#'+i).oninput=draw); $('#fsMax').onchange=draw; draw();
+  inquiry(root,{ id:'fs', title:'함수열 — 점마다와 전체는 다르다',
+    q:['n 을 키워 가며 (n, 그 점의 값, 최대 오차) 를 여섯 줄 기록하세요.',
+       '각 점에서는 0 인데 최대 오차는 왜 그대로인지 쓰세요.',
+       '극한함수가 연속이 아닌 까닭을 설명하세요.'],
+    cols:['n','x','xⁿ','최대 오차'],
+    hint:'힌트 — 최대 오차는 x 가 1 에 아주 가까운 곳에서 생깁니다.',
+    read:()=>{ const n=+$('#fsN').value,x=+$('#fsX').value;
+      return [n,x.toFixed(2),Math.pow(x,n).toExponential(3),'1.000']; } });
+}
+
+/* ---------- LAB 316 오일러 공식 — 왜 원 위의 점인가 ---------- */
+function eulerFormulaDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ef1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">e<sup>iθ</sup> 를 급수로 펴면 <b>실수부는 cos, 허수부는 sin</b> 이 됩니다.
+      그래서 언제나 단위원 위에 있습니다.</div>
+    </div>
+    <div class="col">
+      ${slider('efT','각 θ',0,360,5,60,'°')}
+      ${slider('efN','급수의 항 수',1,16,1,3,'항')}
+      <label class="ctl" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="checkbox" id="efSw"> 실수부와 허수부를 바꿔 넣기</label>
+      <div class="out" id="efout"></div>
+    </div></div>`;
+  const cv=$('#ef1'),ctx=cv.getContext('2d'),W=380,H=330;
+  function series(th,N){
+    let re=0, im=0, term=[1,0];
+    for(let k=0;k<N;k++){
+      re+=term[0]; im+=term[1];
+      const nr=(term[0]*0-term[1]*th)/(k+1), ni=(term[0]*th+term[1]*0)/(k+1);
+      term=[nr,ni]; }
+    return [re,im];
+  }
+  function draw(){
+    const deg=+$('#efT').value, N=+$('#efN').value, sw=$('#efSw').checked;
+    $('#efTv').textContent=deg+'°'; $('#efNv').textContent=N+'항';
+    const th=deg*Math.PI/180;
+    let [re,im]=series(th,N);
+    if(sw){ const t=re; re=im; im=t; }
+    const r=Math.hypot(re,im);
+    const exact=[Math.cos(th),Math.sin(th)];
+    const err=Math.hypot(re-exact[0], im-exact[1]);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cx=190,cy=170,u=110;
+    const X=v=>cx+v*u, Y=v=>cy-v*u;
+    ctx.strokeStyle='#E5E7EB'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.arc(cx,cy,u,0,7); ctx.stroke();
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(cx-u-24,cy); ctx.lineTo(cx+u+24,cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx,cy-u-24); ctx.lineTo(cx,cy+u+24); ctx.stroke();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.2;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(X(exact[0]),Y(exact[1])); ctx.stroke();
+    ctx.fillStyle='#0E9384'; ctx.beginPath(); ctx.arc(X(exact[0]),Y(exact[1]),5,0,7); ctx.fill();
+    ctx.strokeStyle='#BE123C'; ctx.lineWidth=2.2;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(X(re),Y(im)); ctx.stroke();
+    ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(re),Y(im),5,0,7); ctx.fill();
+    ctx.strokeStyle='rgba(37,99,235,.5)'; ctx.lineWidth=1.2; ctx.beginPath();
+    for(let i=0;i<=90;i++){ const t=th*i/90; const [a,b]=series(t,N);
+      const P=sw?[b,a]:[a,b];
+      i?ctx.lineTo(X(P[0]),Y(P[1])):ctx.moveTo(X(P[0]),Y(P[1])); }
+    ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('초록 = cos θ + i sin θ · 붉은 = 급수 '+N+'항까지', 14, 20);
+    ctx.fillText('파랑 곡선 = θ 를 0 에서 지금까지 늘렸을 때의 자취', 14, H-12);
+    $('#efout').innerHTML =
+      `<span class="mono">급수 ${N} 항 = <b style="color:#BE123C">${re.toFixed(5)} + ${im.toFixed(5)} i</b> · 크기 ${r.toFixed(5)}</span><br>`
+      + `<span class="mono">cos${deg}° + i sin${deg}° = <b style="color:#0E9384">${exact[0].toFixed(5)} + ${exact[1].toFixed(5)} i</b> · 오차 <b>${err.toExponential(3)}</b></span><br>`
+      + (!sw && N>=10 && err<1e-4 ? `<b style="color:#B45309">항을 늘리자 크기가 정확히 1 인 원 위의 점이 되었습니다 — e<sup>iθ</sup> = cos θ + i sin θ 입니다.</b><br>` : '')
+      + (sw ? `<b style="color:#7C3AED">실수부와 허수부를 바꿔 넣었더니 점이 반대로 돕니다 — 어느 쪽이 cos 인지가 중요합니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">θ = π 를 넣으면 e<sup>iπ</sup> + 1 = 0 이 됩니다.</span>`;
+  }
+  ['efT','efN'].forEach(i=>$('#'+i).oninput=draw); $('#efSw').onchange=draw; draw();
+  inquiry(root,{ id:'ef', title:'오일러 공식 — 급수가 원을 그린다',
+    q:['항 수를 늘려 가며 (항 수, 오차) 를 여섯 줄 기록하세요.',
+       '오차가 1/1000 아래로 내려가는 항 수를 찾으세요.',
+       'θ = π 를 넣어 얻는 식을 쓰세요.'],
+    cols:['θ','항 수','급수 값','오차'],
+    hint:'힌트 — e^x 의 급수에 x = iθ 를 넣고 실수부·허수부로 나누어 보세요.',
+    read:()=>{ const deg=+$('#efT').value,N=+$('#efN').value,th=deg*Math.PI/180;
+      const [re,im]=series(th,N);
+      return [deg+'°',N,re.toFixed(5)+' + '+im.toFixed(5)+'i',
+        Math.hypot(re-Math.cos(th),im-Math.sin(th)).toExponential(3)]; } });
+}
