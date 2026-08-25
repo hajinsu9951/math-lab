@@ -1,0 +1,442 @@
+
+/* ---------- LAB 106 단위원 — 90°를 넘는 각의 삼각비 ---------- */
+function unitCircleDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="uc1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px"><b>원 위의 점 P 를 끌어</b> 각을 바꾸세요.
+      특수각 근처에서는 딱 붙습니다.</div>
+    </div>
+    <div class="col">
+      ${slider('ucA','각 θ',-90,750,1,30,'°')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="uc150">150°</button>
+        <button class="b g sm" id="uc210">210°</button>
+        <button class="b g sm" id="uc390">390°</button>
+      </div>
+      <div class="out" id="ucout"></div>
+      <div class="note" style="margin-top:12px">직각삼각형만으로는 90°를 넘는 각의 삼각비를 말할 수 없습니다.
+      <b>단위원 위의 좌표</b>로 정의를 넓히면 어떤 각이든 sin·cos 이 생깁니다.</div>
+    </div></div>`;
+  const cv=$('#uc1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const C={x:190,y:170}, R=110;
+  const SNAP=[0,30,45,60,90,120,135,150,180,210,225,240,270,300,315,330,360,390,405,420,450,540,720];
+  const S={ a:30 };
+  const rad=d=>d*Math.PI/180;
+  function quad(a){ const m=((a%360)+360)%360;
+    if(Math.abs(m%90)<0.5) return '축 위';
+    return (m<90?'제1사분면':m<180?'제2사분면':m<270?'제3사분면':'제4사분면'); }
+  function draw(){
+    const a=S.a; $('#ucAv').textContent=a+'°';
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#E8ECF2'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(C.x-150,C.y); ctx.lineTo(C.x+150,C.y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(C.x,C.y-140); ctx.lineTo(C.x,C.y+140); ctx.stroke();
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.arc(C.x,C.y,R,0,7); ctx.stroke();
+    const t=rad(a), px=C.x+R*Math.cos(t), py=C.y-R*Math.sin(t);
+    // 각 호
+    ctx.strokeStyle='#B45309'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.arc(C.x,C.y,30,0,-rad(Math.min(a,360)),a>0); ctx.stroke();
+    // 좌표 성분
+    ctx.strokeStyle='#0E9384'; ctx.setLineDash([4,3]); ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(px,C.y); ctx.stroke();
+    ctx.strokeStyle='#2563EB';
+    ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(C.x,py); ctx.stroke(); ctx.setLineDash([]);
+    ctx.strokeStyle='#111827'; ctx.lineWidth=2.2;
+    ctx.beginPath(); ctx.moveTo(C.x,C.y); ctx.lineTo(px,py); ctx.stroke();
+    handle(ctx,px,py,'#BE123C','P');
+    ctx.fillStyle='#0E9384'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('sin θ', px+(Math.cos(t)>=0?26:-26), (py+C.y)/2);
+    ctx.fillStyle='#2563EB'; ctx.fillText('cos θ', (px+C.x)/2, py+(Math.sin(t)>=0?-8:16));
+    const si=Math.sin(t), co=Math.cos(t);
+    const near=SNAP.find(v=>Math.abs(v-a)<0.6);
+    $('#ucout').innerHTML =
+      `<b>θ = ${a}°</b> · ${quad(a)}<br>`
+      + `<span class="mono">P(cos θ, sin θ) = (${co.toFixed(3)}, ${si.toFixed(3)})</span><br>`
+      + `sin θ = <b style="color:#0E9384">${si.toFixed(3)}</b> · cos θ = <b style="color:#2563EB">${co.toFixed(3)}</b>`
+      + ` · tan θ = <b>${Math.abs(co)<1e-9?'정의되지 않음':(si/co).toFixed(3)}</b><br>`
+      + `부호: sin ${si>=0?'+':'−'} · cos ${co>=0?'+':'−'}<br>`
+      + (near!==undefined && Math.abs(Math.abs(si)-0.5)<1e-3 ? `<b style="color:#0E9384">특수각 명중 — |sin θ| = 0.500 (30°짜리 삼각형)</b><br>` : '')
+      + (a>=360 ? `<b style="color:#7C3AED">한 바퀴 지났습니다 — ${a}° 와 ${a-360}° 는 같은 자리(주기 360°)</b><br>` : '')
+      + (a<0 ? `<b style="color:#B45309">음의 각 — 시계 방향으로 ${-a}° 돌았습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">삼각비가 「길이의 비」에서 「좌표」로 넓어지는 순간입니다.</span>`;
+  }
+  dragOn(cv,{
+    hit:p=>Math.hypot(p.x-C.x,p.y-C.y)>40?'P':null,
+    move:(h,p)=>{ let a=Math.atan2(-(p.y-C.y), p.x-C.x)*180/Math.PI;
+      if(a<0) a+=360;
+      const base=Math.floor((S.a<0?0:S.a)/360)*360;
+      let cand=base+a;
+      SNAP.forEach(v=>{ if(Math.abs(v-cand)<5) cand=v; });
+      S.a=Math.max(-90,Math.min(750,Math.round(cand))); $('#ucA').value=S.a; draw(); }
+  });
+  $('#ucA').oninput=()=>{ S.a=+$('#ucA').value; draw(); };
+  [['uc150',150],['uc210',210],['uc390',390]].forEach(([id,v])=>{
+    $('#'+id).onclick=()=>{ S.a=v; $('#ucA').value=v; draw(); }; });
+  draw();
+  inquiry(root,{ id:'uc', title:'단위원 — 각을 90° 너머로 넓히기',
+    q:['θ 를 0°부터 360°까지 30° 간격으로 돌리며 (θ, sin, cos, 부호, 사분면)을 기록하세요.',
+       '사분면별로 sin·cos 의 부호를 표로 정리하고, 부호가 바뀌는 자리(축)를 확인하세요.',
+       'sin 150° 가 sin 30° 와 같은 이유를 <b>단위원의 좌표</b>로 손으로 설명하고, 390°가 30°와 같은 이유(주기)도 적으세요.'],
+    cols:['θ','사분면','sin θ','cos θ','부호(sin, cos)'],
+    hint:'힌트 — 단위원 위의 점 P 의 y 좌표가 sin, x 좌표가 cos 입니다. 부호는 좌표의 부호 그대로입니다.',
+    read:()=>{ const t=rad(S.a);
+      return [S.a+'°', quad(S.a), Math.sin(t).toFixed(3), Math.cos(t).toFixed(3),
+              (Math.sin(t)>=0?'+':'−')+', '+(Math.cos(t)>=0?'+':'−')]; } });
+}
+
+/* ---------- LAB 107 일출 시각 — 삼각함수로 1년을 모형화 ---------- */
+function sunriseDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sr1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">점 12개는 <b>대전의 월별 일출 시각</b>(실측 근사)입니다.
+      곡선을 점에 맞춰 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('srA','진폭 A (시간)',0,2,0.05,0.5,'')}
+      ${slider('srD','중심 D (시각)',5,8,0.05,7,'')}
+      ${slider('srC','위상 C (달)',0,12,0.25,0,'')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="srP">6월 21일 예측</button>
+      </div>
+      <div class="out" id="srout"></div>
+      <div class="note" style="margin-top:12px">주기는 12개월로 고정입니다 — 1년이 한 바퀴이기 때문입니다.
+      진폭·중심·위상 셋만 맞추면 1년의 일출이 식 하나로 들어옵니다.</div>
+    </div></div>`;
+  const cv=$('#sr1'),ctx=cv.getContext('2d'),W=380,H=300,P=44;
+  const DATA=[7.70,7.33,6.78,6.08,5.57,5.27,5.40,5.78,6.18,6.60,7.08,7.55]; // 1~12월 일출(시)
+  const S={};
+  const X=m=>P+(W-P-16)*(m-1)/11, Y=v=>H-P-(H-2*P)*(v-4.8)/(8.2-4.8);
+  const model=(m,A,D,C)=>D+A*Math.sin(2*Math.PI*(m-C)/12);
+  function draw(){
+    const A=+$('#srA').value, D=+$('#srD').value, C=+$('#srC').value;
+    $('#srAv').textContent=A.toFixed(2); $('#srDv').textContent=D.toFixed(2); $('#srCv').textContent=C.toFixed(2);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#F1F3F6';
+    for(let v=5;v<=8;v+=0.5){ ctx.beginPath(); ctx.moveTo(P,Y(v)); ctx.lineTo(W-16,Y(v)); ctx.stroke();
+      ctx.fillStyle='#9CA3AF'; ctx.font='9.5px sans-serif'; ctx.textAlign='right';
+      ctx.fillText(v.toFixed(1), P-6, Y(v)+3); }
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4; ctx.beginPath();
+    for(let m=1;m<=12;m+=0.1){ const x=X(m), y=Y(model(m,A,D,C)); m===1?ctx.moveTo(x,y):ctx.lineTo(x,y); }
+    ctx.stroke();
+    DATA.forEach((v,i)=>{ ctx.fillStyle='#BE123C';
+      ctx.beginPath(); ctx.arc(X(i+1),Y(v),4,0,7); ctx.fill(); });
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-16,H-P); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+    [1,4,7,10,12].forEach(m=>ctx.fillText(m+'월', X(m), H-P+16));
+    let se=0; DATA.forEach((v,i)=>{ const e=v-model(i+1,A,D,C); se+=e*e; });
+    const rmse=Math.sqrt(se/12);
+    const hm=v=>{ const h=Math.floor(v), mi=Math.round((v-h)*60); return h+'시 '+String(mi).padStart(2,'0')+'분'; };
+    $('#srout').innerHTML =
+      `<span class="mono">y = ${D.toFixed(2)} + ${A.toFixed(2)} sin( 2π(x − ${C.toFixed(2)}) / 12 )</span><br>`
+      + `평균 오차(RMSE) = <b style="color:${rmse<0.12?'#0E9384':rmse<0.3?'#B45309':'#BE123C'}">${rmse.toFixed(3)} 시간</b>`
+      + ` (${(rmse*60).toFixed(0)}분)<br>`
+      + (rmse<0.12 ? `<b style="color:#0E9384">일출 모형 명중 — 12개월 전부를 식 하나가 설명합니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">6월(하지) 예측 ${hm(model(6.7,A,D,C))} · 12월(동지) 예측 ${hm(model(12.7,A,D,C))}</span>`;
+  }
+  ['srA','srD','srC'].forEach(i=>$('#'+i).oninput=draw);
+  $('#srP').onclick=()=>{ const A=+$('#srA').value, D=+$('#srD').value, C=+$('#srC').value;
+    const v=model(6.7,A,D,C); const h=Math.floor(v), mi=Math.round((v-h)*60);
+    $('#srout').innerHTML += `<br><b style="color:#7C3AED">6월 21일(하지) 모형 예측: ${h}시 ${String(mi).padStart(2,'0')}분</b>`; };
+  draw();
+  inquiry(root,{ id:'sr', title:'일출 시각 — 1년을 식 하나로',
+    q:['A·D·C 를 하나씩만 움직이며 곡선이 어떻게 반응하는지 기록하세요(각각 무엇을 조종하나요?).',
+       'RMSE 를 0.12시간(약 7분) 아래로 낮춘 (A, D, C) 조합을 찾아 적으세요.',
+       '주기를 12로 고정한 이유를 쓰고, 하지·동지가 곡선의 어느 자리인지 표시해 설명하세요.'],
+    cols:['A','D','C','RMSE(시간)','판정'],
+    hint:'힌트 — D 는 1년 평균 일출, A 는 여름·겨울의 차이 절반, C 는 곡선을 좌우로 미는 값입니다.',
+    read:()=>{ const A=+$('#srA').value, D=+$('#srD').value, C=+$('#srC').value;
+      let se=0; DATA.forEach((v,i)=>{ const e=v-model(i+1,A,D,C); se+=e*e; });
+      const r=Math.sqrt(se/12);
+      return [A.toFixed(2), D.toFixed(2), C.toFixed(2), r.toFixed(3), r<0.12?'명중':'조정 필요']; } });
+}
+
+/* ---------- LAB 108 사인·코사인법칙 — 갈 수 없는 곳까지의 거리 ---------- */
+function lawsDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ls1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">강 건너 나무 C 까지의 거리를 재야 합니다.
+      건널 수 없으니 이쪽 기슭에서 <b>기선 AB</b>와 두 각만 잽니다.</div>
+    </div>
+    <div class="col">
+      ${slider('lsA','각 A (∠BAC)',20,110,1,63,'°')}
+      ${slider('lsB','각 B (∠ABC)',20,110,1,55,'°')}
+      ${slider('lsC','기선 AB (m)',20,120,1,50,'m')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="lsChk">코사인법칙으로 검산</button>
+      </div>
+      <div class="out" id="lsout"></div>
+      <div class="note" style="margin-top:12px">한 변과 그 양 끝 각을 알면 나머지가 모두 정해집니다(ASA).
+      사인법칙이 그 「정해짐」을 길이로 바꿔 줍니다.</div>
+    </div></div>`;
+  const cv=$('#ls1'),ctx=cv.getContext('2d'),W=380,H=300;
+  const S={ chk:false };
+  const rad=d=>d*Math.PI/180;
+  function geom(){
+    const A=+$('#lsA').value, B=+$('#lsB').value, c=+$('#lsC').value;
+    const Cang=180-A-B;
+    const b = Cang>0 ? c*Math.sin(rad(B))/Math.sin(rad(Cang)) : NaN;  // AC
+    const a = Cang>0 ? c*Math.sin(rad(A))/Math.sin(rad(Cang)) : NaN;  // BC
+    return {A,B,C:Cang,a,b,c};
+  }
+  function draw(){
+    const g=geom();
+    $('#lsAv').textContent=g.A+'°'; $('#lsBv').textContent=g.B+'°'; $('#lsCv').textContent=g.c+'m';
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    // 강
+    ctx.fillStyle='#E7F0FB'; ctx.fillRect(0,60,W,90);
+    ctx.fillStyle='#93B4F7'; ctx.font='11px sans-serif'; ctx.textAlign='left'; ctx.fillText('강', 12, 108);
+    const sc=Math.min(2.6, 220/Math.max(g.c,1));
+    const Ax=70, Ay=230, Bx=Ax+g.c*sc, By=230;
+    let Cx=Ax, Cy=Ay;
+    if(isFinite(g.b)){ Cx=Ax+g.b*sc*Math.cos(rad(g.A)); Cy=Ay-g.b*sc*Math.sin(rad(g.A)); }
+    ctx.strokeStyle='#111827'; ctx.lineWidth=2.4;
+    ctx.beginPath(); ctx.moveTo(Ax,Ay); ctx.lineTo(Bx,By); ctx.stroke();
+    if(isFinite(g.b)){
+      ctx.strokeStyle='#2563EB'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(Ax,Ay); ctx.lineTo(Cx,Cy); ctx.stroke();
+      ctx.strokeStyle='#0E9384';
+      ctx.beginPath(); ctx.moveTo(Bx,By); ctx.lineTo(Cx,Cy); ctx.stroke();
+      ctx.fillStyle='#166534'; ctx.beginPath(); ctx.arc(Cx,Cy,6,0,7); ctx.fill();
+      ctx.fillStyle='#111827'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('C (나무)', Cx, Cy-12);
+    }
+    ctx.fillStyle='#111827'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('A', Ax-12, Ay+6); ctx.fillText('B', Bx+12, By+6);
+    ctx.fillStyle='#6B7280'; ctx.font='11px sans-serif';
+    ctx.fillText('기선 '+g.c+' m', (Ax+Bx)/2, Ay+20);
+    const ok=g.C>0;
+    const cos2 = ok ? Math.sqrt(g.a*g.a + g.c*g.c - 2*g.a*g.c*Math.cos(rad(g.B))) : NaN; // 코사인법칙으로 b 재계산
+    $('#lsout').innerHTML =
+      (!ok ? `<b style="color:#BE123C">두 각의 합이 180°를 넘어 삼각형이 없습니다.</b>`
+        : `<span class="mono">a / sin A = b / sin B = c / sin C</span><br>`
+          + `∠C = 180° − ${g.A}° − ${g.B}° = <b>${g.C}°</b><br>`
+          + `AC = ${g.c} × sin ${g.B}° / sin ${g.C}° = <b style="color:#2563EB">${g.b.toFixed(1)} m</b><br>`
+          + `BC = <b style="color:#0E9384">${g.a.toFixed(1)} m</b><br>`
+          + (Math.abs(g.A-63)<0.5 && Math.abs(g.B-55)<0.5 && g.c===50
+             ? `<b style="color:#BE123C">건널 수 없는 거리 확정 — 나무까지 ${g.b.toFixed(1)} m</b><br>` : '')
+          + (S.chk ? `<span class="mono">b² = a² + c² − 2ac·cos B</span> → b = <b>${cos2.toFixed(1)} m</b> — `
+                     + (Math.abs(cos2-g.b)<0.05 ? `<b style="color:#0E9384">두 법칙 일치! 검산 성공</b>` : `차이 ${Math.abs(cos2-g.b).toFixed(2)}`) + `<br>` : '')
+          + `<span style="color:#6B7280;font-size:12.5px">기선을 늘리면 정확도가 올라갑니다 — 측량의 기본 원리입니다.</span>`);
+  }
+  ['lsA','lsB','lsC'].forEach(i=>$('#'+i).oninput=()=>{ S.chk=false; draw(); });
+  $('#lsChk').onclick=()=>{ S.chk=true; draw(); };
+  draw();
+  inquiry(root,{ id:'ls', title:'사인·코사인법칙 — 갈 수 없는 거리 재기',
+    q:['(A, B, 기선) 을 바꿔 가며 AC·BC 를 다섯 줄 기록하세요.',
+       '기선을 2배로 늘리면 거리 값이 어떻게 변하는지 확인하고, 두 각만 바꿨을 때와 비교하세요.',
+       '사인법칙으로 구한 값을 코사인법칙으로 검산해 같은지 확인하고, 왜 같은 값이 나오는지 설명하세요.'],
+    cols:['∠A','∠B','∠C','기선 c','AC','BC'],
+    hint:'힌트 — 한 변과 양 끝 각이 정해지면 삼각형은 하나뿐(ASA)입니다. 나머지 두 변은 사인법칙으로 즉시 나옵니다.',
+    read:()=>{ const g=geom(); if(g.C<=0) return null;
+      return [g.A+'°', g.B+'°', g.C+'°', g.c+'m', g.b.toFixed(1), g.a.toFixed(1)]; } });
+}
+
+/* ---------- LAB 109 등비수열 — 대출 상환액은 어떻게 정해질까 ---------- */
+function loanDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="lo1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">막대는 매달 남은 <b>원금(잔액)</b>입니다.
+      갚아도 처음엔 잘 안 줄어드는 이유를 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('loP','대출 원금',100,2000,50,1200,'만원')}
+      ${slider('loR','연이자율',1,12,0.5,6,'%')}
+      ${slider('loN','상환 기간',6,60,6,24,'개월')}
+      <div class="out" id="loout"></div>
+      <div class="note" style="margin-top:12px">매달 같은 금액을 갚는 원리금균등상환입니다.
+      각 달의 상환액을 현재 가치로 되돌리면 <b>등비수열의 합</b>이 됩니다.</div>
+    </div></div>`;
+  const cv=$('#lo1'),ctx=cv.getContext('2d'),W=380,H=300,P=42;
+  function calc(){
+    const Pv=+$('#loP').value, r=+$('#loR').value/100/12, n=+$('#loN').value;
+    const q=Math.pow(1+r,n);
+    const m = r>0 ? Pv*r*q/(q-1) : Pv/n;
+    const bal=[Pv]; let b=Pv, tot=0;
+    for(let k=0;k<n;k++){ const it=b*r; b=b+it-m; tot+=m; bal.push(Math.max(0,b)); }
+    return {Pv,r,n,m,bal,tot,interest:tot-Pv};
+  }
+  function draw(){
+    const c=calc();
+    $('#loPv').textContent=c.Pv.toLocaleString()+'만원';
+    $('#loRv').textContent=(+$('#loR').value).toFixed(1)+'%';
+    $('#loNv').textContent=c.n+'개월';
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const bw=(W-P-16)/c.bal.length;
+    ctx.strokeStyle='#F1F3F6';
+    for(let i=0;i<=4;i++){ const y=H-P-(H-2*P)*i/4; ctx.beginPath(); ctx.moveTo(P,y); ctx.lineTo(W-16,y); ctx.stroke(); }
+    c.bal.forEach((v,i)=>{ const h=(H-2*P)*v/c.Pv;
+      ctx.fillStyle= i===0?'#BE123C':'rgba(37,99,235,.45)';
+      ctx.fillRect(P+i*bw+1, H-P-h, Math.max(1.5,bw-2), h); });
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-16,H-P); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('개월 →', P, H-P+16);
+    ctx.textAlign='right'; ctx.fillText(c.Pv.toLocaleString()+'만원', P-6, H-2*P+14);
+    const half=c.bal.findIndex(v=>v<=c.Pv/2);
+    $('#loout').innerHTML =
+      `<span class="mono">m = P·i(1+i)ⁿ / ((1+i)ⁿ − 1)</span><br>`
+      + `월 이자율 i = ${(c.r*100).toFixed(3)}% · 기간 ${c.n}개월<br>`
+      + `<b style="color:#2563EB">월 상환액 ${c.m.toFixed(1)}만원</b> · 총 상환 ${c.tot.toFixed(0)}만원`
+      + ` · 총 이자 <b style="color:#BE123C">${c.interest.toFixed(1)}만원</b><br>`
+      + (half>0 ? `잔액이 절반이 되는 시점: <b>${half}개월째</b> (기간의 ${(half/c.n*100).toFixed(0)}%)<br>` : '')
+      + (c.interest > c.Pv*0.1 ? `<b style="color:#BE123C">이자가 원금의 10%를 넘었습니다 — 기간과 이자율의 힘.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">기간을 늘리면 월 부담은 줄지만 총 이자는 늘어납니다 — 직접 확인해 보세요.</span>`;
+  }
+  ['loP','loR','loN'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'lo', title:'대출 상환 — 등비수열이 만든 월 상환액',
+    q:['(원금, 이자율, 기간) 을 바꿔 가며 월 상환액·총이자를 여섯 줄 기록하세요.',
+       '기간만 2배로 늘렸을 때 월 상환액과 총 이자가 각각 어떻게 변하는지 비교하세요.',
+       '월 상환액 공식이 <b>등비수열의 합</b>에서 나오는 과정을 손으로 유도하세요 (각 달의 상환액을 현재가치로 되돌려 더하기).'],
+    cols:['원금','연이자율','기간','월 상환액','총 이자'],
+    hint:'힌트 — n개월 뒤 가치로 환산하면 P(1+i)ⁿ = m{(1+i)ⁿ⁻¹ + … + 1} 이고, 오른쪽이 등비수열의 합입니다.',
+    read:()=>{ const c=calc();
+      return [c.Pv+'만원', (+$('#loR').value).toFixed(1)+'%', c.n+'개월', c.m.toFixed(1), c.interest.toFixed(1)]; } });
+}
+
+/* ---------- LAB 110 시그마 — 계단 두 개로 만드는 합의 공식 ---------- */
+function sigmaDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sg1" width="380" height="300"></canvas>
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b t" id="sgFlip">거꾸로 된 계단 붙이기</button>
+        <button class="b g sm" id="sgRs">떼어내기</button>
+      </div>
+    </div>
+    <div class="col">
+      ${slider('sgN','n (몇까지 더할까)',3,20,1,6,'')}
+      <label class="ctl" style="margin-top:8px">무엇을 더할까요
+        <select id="sgK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+          <option value="1">Σk — 1 + 2 + 3 + … + n</option>
+          <option value="2">Σk² — 1² + 2² + … + n²</option>
+        </select></label>
+      <div class="out" id="sgout"></div>
+      <div class="note" style="margin-top:12px">계단 두 개를 <b>맞물려 붙이면</b> 직사각형이 됩니다.
+      가우스가 1부터 100까지를 순식간에 더한 방법입니다.</div>
+    </div></div>`;
+  const cv=$('#sg1'),ctx=cv.getContext('2d'),W=380,H=300,P=34;
+  const S={ flip:false };
+  function draw(){
+    const n=+$('#sgN').value, kind=$('#sgK').value;
+    $('#sgNv').textContent=n;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const cw=(W-2*P)/n, ch=(H-2*P)/(n+1);
+    for(let i=1;i<=n;i++){
+      const h=i*ch;
+      ctx.fillStyle='rgba(37,99,235,.42)';
+      ctx.fillRect(P+(i-1)*cw+1, H-P-h, cw-2, h);
+      if(S.flip){ ctx.fillStyle='rgba(190,18,60,.32)';
+        ctx.fillRect(P+(i-1)*cw+1, H-P-(n+1)*ch, cw-2, (n+1-i)*ch); }
+    }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    if(S.flip){ ctx.strokeStyle='#111827'; ctx.lineWidth=2;
+      ctx.strokeRect(P+1, H-P-(n+1)*ch, n*cw-2, (n+1)*ch);
+      ctx.fillStyle='#111827'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('가로 n = '+n+' · 세로 (n+1) = '+(n+1), W/2, H-P-(n+1)*ch-8); }
+    const s1=n*(n+1)/2, s2=n*(n+1)*(2*n+1)/6;
+    const sum = kind==='1' ? s1 : s2;
+    let brute=0; for(let i=1;i<=n;i++) brute += (kind==='1'? i : i*i);
+    $('#sgout').innerHTML =
+      (kind==='1'
+        ? `<span class="mono">Σ<sub>k=1</sub><sup>${n}</sup> k = ${brute}</span><br>`
+          + (S.flip
+            ? `<b style="color:#0E9384">직사각형 완성 — 넓이 n(n+1) = ${n}×${n+1} = ${n*(n+1)}</b><br>`
+              + `계단 하나는 그 <b>절반</b> → <span class="mono">n(n+1)/2 = ${s1}</span><br>`
+            : `계단 두 개를 붙이면 어떤 모양이 될까요? 단추를 눌러 보세요.<br>`)
+          + `<span style="color:#6B7280;font-size:12.5px">n = 100 이면 100×101/2 = 5,050 — 가우스의 답입니다.</span>`
+        : `<span class="mono">Σ<sub>k=1</sub><sup>${n}</sup> k² = ${brute}</span><br>`
+          + `공식값 n(n+1)(2n+1)/6 = <b>${s2}</b> — ${brute===s2?'<b style="color:#0E9384">일치합니다</b>':'다릅니다'}<br>`
+          + `<span style="color:#6B7280;font-size:12.5px">제곱의 합은 계단을 세 겹으로 쌓아야 직육면체가 됩니다 — 그래서 6으로 나눕니다.</span>`);
+  }
+  $('#sgFlip').onclick=()=>{ S.flip=true; draw(); };
+  $('#sgRs').onclick=()=>{ S.flip=false; draw(); };
+  $('#sgN').oninput=draw; $('#sgK').onchange=draw;
+  draw();
+  inquiry(root,{ id:'sg', title:'시그마 — 계단을 붙여 만드는 합의 공식',
+    q:['n 을 3부터 10까지 바꾸며 (n, 실제 합, n(n+1)/2) 를 기록하세요.',
+       '계단을 붙였을 때 만들어지는 직사각형의 가로·세로를 n 으로 쓰고, 왜 절반인지 확인하세요.',
+       '1부터 100까지의 합을 공식으로 구하고, 제곱의 합 공식이 왜 6으로 나누는지 조사해 적으세요.'],
+    cols:['n','실제 합','n(n+1)/2','직사각형 넓이','일치?'],
+    hint:'힌트 — 1+2+…+n 과 n+…+2+1 을 위아래로 더하면 (n+1) 이 n 개 생깁니다.',
+    read:()=>{ const n=+$('#sgN').value; let b=0; for(let i=1;i<=n;i++) b+=i;
+      return [n, b, n*(n+1)/2, n*(n+1), b===n*(n+1)/2?'일치':'—']; } });
+}
+
+/* ---------- LAB 111 수학적 귀납법 — 도미노가 무너지는 조건 ---------- */
+function dominoDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="dm1" width="380" height="240"></canvas>
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b t" id="dmGo">첫 도미노 밀기 ▶</button>
+        <button class="b g sm" id="dmRs">다시 세우기</button>
+      </div>
+    </div>
+    <div class="col">
+      ${slider('dmN','도미노 개수',5,14,1,10,'개')}
+      ${slider('dmGap','간격 (칸)',1,3,0.1,1.4,'')}
+      <div class="ctl" style="margin-top:8px">
+        <label class="ctl"><input type="checkbox" id="dmBreak"> 5번째 도미노만 빼기 (연결 끊기)</label>
+      </div>
+      <div class="out" id="dmout"></div>
+      <div class="note" style="margin-top:12px">귀납법의 두 조건 — <b>① 첫 도미노가 넘어진다</b>,
+      <b>② k 번째가 넘어지면 k+1 번째도 넘어진다</b>. 둘 중 하나만 빠져도 전부 무너지지 않습니다.</div>
+    </div></div>`;
+  const cv=$('#dm1'),ctx=cv.getContext('2d'),W=380,H=240;
+  const S={ fallen:0, pushed:false };
+  const DH=54, DW=9;
+  function reach(){ return +$('#dmGap').value <= 1.8; }   // 도미노 높이보다 간격이 좁아야 다음을 친다
+  function draw(){
+    const n=+$('#dmN').value, gap=+$('#dmGap').value, brk=$('#dmBreak').checked;
+    $('#dmNv').textContent=n+'개'; $('#dmGapv').textContent=gap.toFixed(1);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const step=(W-70)/n, y0=180;
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.moveTo(20,y0); ctx.lineTo(W-16,y0); ctx.stroke();
+    for(let i=1;i<=n;i++){
+      const x=24+(i-1)*step*Math.min(1.4,gap)/1.4;
+      if(brk && i===5){ ctx.strokeStyle='#D1D5DB'; ctx.setLineDash([3,3]);
+        ctx.strokeRect(x,y0-DH,DW,DH); ctx.setLineDash([]);
+        ctx.fillStyle='#BE123C'; ctx.font='9px sans-serif'; ctx.textAlign='center';
+        ctx.fillText('없음', x+4, y0+12); continue; }
+      const down = i<=S.fallen;
+      ctx.fillStyle = down ? 'rgba(190,18,60,.55)' : 'rgba(37,99,235,.55)';
+      if(down){ ctx.save(); ctx.translate(x,y0); ctx.rotate(-Math.PI/2.2);
+        ctx.fillRect(0,-DW,DH,DW); ctx.restore(); }
+      else ctx.fillRect(x, y0-DH, DW, DH);
+      ctx.fillStyle='#6B7280'; ctx.font='9px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(i, x+4, y0+12);
+    }
+    const n2=+$('#dmN').value;
+    const all = S.fallen>=n2;
+    $('#dmout').innerHTML =
+      `쓰러진 도미노 <b>${S.fallen} / ${n2}</b><br>`
+      + `조건 ① 첫 도미노: <b style="color:${S.pushed?'#0E9384':'#BE123C'}">${S.pushed?'밀었다 ✓':'아직'}</b>`
+      + ` · 조건 ② k → k+1: <b style="color:${(reach()&&!brk)?'#0E9384':'#BE123C'}">${brk?'5번에서 끊김 ✗':(reach()?'이어짐 ✓':'간격이 넓어 못 닿음 ✗')}</b><br>`
+      + (all ? `<b style="color:#0E9384">전부 무너졌습니다 — 두 조건이 모두 갖춰지면 무한히 이어집니다(귀납법 성립).</b><br>`
+        : S.pushed ? `<b style="color:#BE123C">${S.fallen}번에서 멈췄습니다 — 사슬이 끊기면 그 뒤는 보장되지 않습니다.</b><br>`
+        : `<span style="color:#6B7280">첫 도미노를 밀어야 시작됩니다 — ①이 없으면 ②만으로는 아무 일도 안 일어납니다.</span><br>`)
+      + `<span style="color:#6B7280;font-size:12.5px">n = 1 성립 + (n = k ⟹ n = k+1) ⟹ 모든 자연수에서 성립.</span>`;
+  }
+  $('#dmGo').onclick=()=>{
+    const n=+$('#dmN').value, brk=$('#dmBreak').checked;
+    S.pushed=true;
+    if(!reach()){ S.fallen=1; }
+    else if(brk){ S.fallen=4; }
+    else S.fallen=n;
+    draw();
+  };
+  $('#dmRs').onclick=()=>{ S.fallen=0; S.pushed=false; draw(); };
+  ['dmN','dmGap'].forEach(i=>$('#'+i).oninput=()=>{ S.fallen=0; S.pushed=false; draw(); });
+  $('#dmBreak').onchange=()=>{ S.fallen=0; S.pushed=false; draw(); };
+  draw();
+  inquiry(root,{ id:'dm', title:'수학적 귀납법 — 도미노의 두 조건',
+    q:['① 첫 도미노를 밀지 않은 경우 ② 간격을 넓힌 경우 ③ 5번을 뺀 경우 ④ 둘 다 갖춘 경우를 각각 실험해 기록하세요.',
+       '「전부 무너짐」이 되려면 무엇과 무엇이 필요한지 표에서 확인하세요.',
+       '1 + 2 + … + n = n(n+1)/2 를 귀납법으로 증명하고, 그 증명의 어느 부분이 「첫 도미노」이고 어느 부분이 「k → k+1」인지 표시하세요.'],
+    cols:['첫 도미노','k→k+1','쓰러진 수','전부 무너짐?'],
+    hint:'힌트 — 조건 ②는 「어떤 k 에 대해서도」여야 합니다. 한 곳만 끊겨도 그 뒤는 보장되지 않습니다.',
+    read:()=>{ const n=+$('#dmN').value, brk=$('#dmBreak').checked;
+      return [S.pushed?'밀었다':'아니오', (reach()&&!brk)?'이어짐':'끊김', S.fallen, S.fallen>=n?'예':'아니오']; } });
+}
