@@ -4899,7 +4899,247 @@ const PRINS = [
   eq:'P(1) ∧ (P(k) ⟹ P(k+1)) ⟹ ∀n P(n)',
   what:'무한을 다루는 <b>증명의 구조</b>를 눈으로 보는 실험입니다. 두 조건 중 하나만 빠져도 결론이 무너지는 것을 도미노가 대신 말해 줍니다.',
   probe:'첫 도미노를 밀지 않은 채 간격만 좁혀 보세요. 조건 ②만으로는 아무 일도 일어나지 않습니다 — ①의 존재 이유입니다.',
-  link:'수학적 귀납법 단원. 시그마 공식(LAB 110)의 엄밀한 증명이며, 재귀·알고리즘 정당성으로 이어집니다.'}
+  link:'수학적 귀납법 단원. 시그마 공식(LAB 110)의 엄밀한 증명이며, 재귀·알고리즘 정당성으로 이어집니다.'},
+
+/* 112 지수방정식·부등식 */
+ {tex:[
+   {t:'a^{x}=k \iff x=\log_{a}k', s:'지수 자리에 갇힌 x 를 <b>로그</b>가 끌어내립니다 — 지수와 로그는 같은 사실의 두 표기입니다.'},
+   {t:'x=\frac{\log k}{\log a}', s:'상용로그로 바꾸면 계산기 하나로 어떤 밑이든 풀 수 있습니다.'},
+   {t:'0<a<1 \Rightarrow a^{x}>k \iff x<\log_{a}k', s:'밑이 1보다 작으면 감소함수라 <b>부등호가 뒤집힙니다</b> — 지수부등식에서 가장 자주 틀리는 곳입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'두 배 시점', d:'같은 방법으로 원금이 2배·5배 되는 해를 구하고 72의 법칙(LAB 11)과 비교하세요.'},
+   {lv:'심화',   t:'밑이 다른 두 지수', d:'2^x = 3^(x−1) 처럼 밑이 다른 방정식을 양변 로그로 푸는 절차를 정리하세요.'},
+   {lv:'프로젝트', t:'감가상각 계산기', d:'중고차 가격이 매년 15%씩 떨어질 때 반값이 되는 해를 구하는 계산기를 만드세요.'}
+  ],
+  eq:'a^x = k ⟺ x = log k / log a',
+  what:'지수방정식은 <b>곡선과 가로선의 교점</b>입니다. 그림으로 보면 해가 하나뿐인 이유(단조성)와 부등식의 방향까지 한꺼번에 읽힙니다.',
+  probe:'밑을 0.5 로 두고 부등식을 켜 보세요. 초록 영역이 오른쪽이 아니라 왼쪽에 생깁니다 — 뒤집힌 부등호가 눈에 보입니다.',
+  link:'복리(LAB 11)·확산(LAB 3)에서 만든 지수 모형을 「언제?」로 되묻는 단원입니다.'},
+
+/* 113 로그의 밑 변환 */
+ {tex:[
+   {t:'\log_{a}b=\frac{\log b}{\log a}', s:'같은 자(상용로그)로 두 번 재어 비를 취하면 원래 밑이 무엇이든 값이 나옵니다.'},
+   {t:'a^{\log_{a}b}=b', s:'구한 값을 지수로 되돌리면 진수가 그대로 돌아옵니다 — 검산의 근거입니다.'},
+   {t:'\log_{a}a=1,\qquad \log_{a}1=0', s:'자기 자신을 자기 자로 재면 1, 1을 재면 0 — 정의에서 곧바로 따라옵니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'정보량 계산', d:'log₂ 를 이용해 「가능한 경우가 100가지일 때 몇 비트가 필요한가」를 계산하세요.'},
+   {lv:'심화',   t:'밑을 e 로', d:'자연로그로 바꿔도 몫이 같은지 확인하고, 왜 밑을 무엇으로 잡아도 되는지 설명하세요.'},
+   {lv:'프로젝트', t:'복잡도 표', d:'정렬 알고리즘의 n log n 을 밑에 따라 계산해 표로 비교하세요.'}
+  ],
+  eq:'log_a b = log b / log a',
+  what:'밑 변환은 <b>단위 환산</b>과 같습니다. 어떤 자로 재든 두 길이의 비는 같다는 사실이 공식의 정체입니다.',
+  probe:'밑을 2, 진수를 100 으로 두고 검산을 눌러 보세요. 2^6.644 가 정확히 100 으로 돌아옵니다.',
+  link:'상용로그(LAB 115)·로그 스케일(LAB 12)과 이어지고, 정보량·알고리즘 복잡도로 확장됩니다.'},
+
+/* 114 지수와 로그의 대칭 */
+ {tex:[
+   {t:'y=a^{x} \iff x=\log_{a}y', s:'같은 관계를 x 기준으로 쓰면 로그 — <b>역함수</b>의 정의 그대로입니다.'},
+   {t:'(p,\ a^{p}) \leftrightarrow (a^{p},\ p)', s:'대응점의 좌표를 맞바꾸면 상대 곡선 위의 점 — 두 그래프는 y = x 대칭입니다.'},
+   {t:'a^{x}>0 \Rightarrow \log_{a}x \text{ 의 정의역은 } x>0', s:'지수함수의 치역이 로그함수의 정의역 — 「로그에 음수를 못 넣는」 이유입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'정의역·치역 표', d:'밑을 바꿔 가며 두 함수의 정의역·치역을 표로 정리하세요.'},
+   {lv:'심화',   t:'합성으로 확인', d:'log_a(a^x) = x 와 a^(log_a x) = x 를 대입으로 확인하고 역함수의 정의와 잇세요.'},
+   {lv:'프로젝트', t:'인코딩·디코딩', d:'데이터 압축에서 로그 변환을 쓰는 사례를 조사해 발표하세요.'}
+  ],
+  eq:'y = aˣ ↔ y = log_a x (y = x 대칭)',
+  what:'두 함수가 <b>같은 관계의 앞·뒤</b>임을 좌표로 확인하는 실험입니다. 역함수(LAB 21)의 지수·로그판입니다.',
+  probe:'x 를 키우면 지수 쪽 점은 순식간에 화면 밖으로 나가지만 로그 쪽 점은 느릿느릿합니다 — 성장 속도의 대비가 한눈에 보입니다.',
+  link:'역함수(LAB 21)의 사례이며, 지수·로그 단원 전체의 관문입니다.'},
+
+/* 115 상용로그의 지표와 가수 */
+ {tex:[
+   {t:'10^{n}\le N<10^{n+1} \iff n\le \log N<n+1', s:'로그의 정수 부분(지표)이 곧 「10의 몇 제곱 자리인가」 — 자릿수는 지표 + 1 입니다.'},
+   {t:'\log(2^{100})=100\log 2=30.10\Rightarrow 31\text{자리}', s:'계산기가 넘치는 수도 로그로는 자릿수를 정확히 셀 수 있습니다.'},
+   {t:'10^{\text{가수}} \text{ 의 정수 부분} = \text{최고 자리 숫자}', s:'가수만 있으면 맨 앞자리를 알 수 있습니다 — 벤포드 법칙의 뿌리입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'우리 반 큰 수', d:'2⁶⁴(체스판 쌀알)의 자릿수를 구하고 실제 쌀의 양으로 환산하세요.'},
+   {lv:'심화',   t:'벤포드 법칙', d:'여러 거듭제곱의 최고 자리 숫자를 모아 1이 가장 흔한지 확인하고 이유를 조사하세요.'},
+   {lv:'프로젝트', t:'데이터 규모 감각', d:'기가·테라·페타를 로그로 비교하는 인포그래픽을 만드세요.'}
+  ],
+  eq:'자릿수 = ⌊log N⌋ + 1',
+  what:'로그를 <b>자릿수 세는 자</b>로 쓰는 실험입니다. 지수 폭발을 눈으로 보지 않고 수로 다루는 방법입니다.',
+  probe:'지수를 100 에서 200 으로 올려 보세요. 자릿수는 31 → 61 — 정확히 두 배가 아닌 이유를 지표에서 찾을 수 있습니다.',
+  link:'로그 스케일(LAB 12)·밑 변환(LAB 113)과 이어지고, 데이터 규모 감각으로 확장됩니다.'},
+
+/* 116 지수함수의 변신 */
+ {tex:[
+   {t:'y=a^{x-p}+q', s:'괄호 안의 −p 는 <b>오른쪽으로 p</b>, 뒤의 +q 는 <b>위로 q</b> — 부호가 반대로 보이는 이유는 대입해 보면 알 수 있습니다.'},
+   {t:'a>1 \text{ 증가},\quad 0<a<1 \text{ 감소}', s:'밑 하나가 곡선의 방향을 결정합니다. a 와 1/a 의 그래프는 y축 대칭입니다.'},
+   {t:'x\to-\infty \Rightarrow a^{x-p}\to 0,\quad y\to q', s:'점근선이 y = q 인 이유 — 세로 이동은 점근선을 통째로 들어 올립니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'대칭 짝 찾기', d:'a = 2 와 a = 0.5 의 그래프를 겹쳐 y축 대칭임을 확인하세요.'},
+   {lv:'심화',   t:'x절편이 생기는 조건', d:'q < 0 일 때 x절편을 식으로 구하고, q ≥ 0 이면 왜 없는지 설명하세요.'},
+   {lv:'프로젝트', t:'감쇠 모형', d:'커피가 식는 곡선(뉴턴의 냉각)을 지수함수 + 상수로 모형화해 보세요.'}
+  ],
+  eq:'y = a^(x−p) + q · 점근선 y = q',
+  what:'식의 각 자리가 그래프의 어느 동작을 맡는지 <b>분해해 보는</b> 실험입니다. 이동과 점근선을 따로 다루면 그래프는 외울 것이 없습니다.',
+  probe:'q 만 움직여 보세요. 곡선의 모양은 그대로인 채 붉은 점선(점근선)이 함께 올라갑니다.',
+  link:'지수·로그 단원의 그래프 파트. 함수의 평행이동(LAB 51)과 같은 문법입니다.'},
+
+/* 117 주기·진폭·위상 */
+ {tex:[
+   {t:'y=d+a\sin b(x-c)', s:'a 는 진폭, b 는 주기, c 는 위상, d 는 중심선 — <b>계수마다 담당이 다릅니다</b>.'},
+   {t:'\text{주기}=\frac{2\pi}{b}', s:'b 가 커질수록 물결이 촘촘해집니다. x 에 곱해진 수가 시간을 빠르게 돌립니다.'},
+   {t:'\text{최댓값}=d+a,\quad \text{최솟값}=d-a', s:'세로로는 중심선 d 를 기준으로 a 만큼 위아래 — 진폭의 정의 그대로입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'식 읽고 그리기', d:'y = 3 sin(2x) − 1 의 주기·최대·최소를 먼저 계산한 뒤 화면으로 검산하세요.'},
+   {lv:'심화',   t:'cos 로 바꾸기', d:'같은 그래프를 cos 로 쓰면 위상이 얼마나 달라지는지 구하세요.'},
+   {lv:'프로젝트', t:'생체 리듬 모형', d:'체온·수면 자료를 삼각함수로 모형화하고 계수의 뜻을 해석하세요.'}
+  ],
+  eq:'y = d + a sin b(x − c) · 주기 2π/b',
+  what:'그래프를 외우지 않고 <b>계수의 담당을 나눠</b> 읽는 훈련입니다. 한 번에 하나씩 움직이는 것이 실험의 규율입니다.',
+  probe:'b 만 2로 올려 보세요. 주기가 절반이 되지만 최댓값은 꿈쩍도 하지 않습니다 — 담당이 다르기 때문입니다.',
+  link:'일출 모형(LAB 107)에서 맞춘 계수를 이번엔 하나씩 분해합니다. 파형 합성(LAB 20)과 이어집니다.'},
+
+/* 118 삼각방정식 */
+ {tex:[
+   {t:'\sin x=k\ (|k|\le 1)', s:'단위원에서 높이가 k 인 점은 보통 <b>두 곳</b> — 그래서 한 바퀴에 해가 둘입니다.'},
+   {t:'x=\alpha+2n\pi \ \text{ 또는 } \ x=\pi-\alpha+2n\pi', s:'주기 함수라 한 바퀴 안의 해에 2nπ 를 더하면 <b>모든 해</b>가 됩니다.'},
+   {t:'|k|>1 \Rightarrow \text{해 없음}', s:'sin 의 치역이 [−1, 1] 이기 때문입니다 — 방정식의 해가 없는 이유가 그림에 있습니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'cos 방정식', d:'cos x = 0.5 의 해를 같은 방법으로 구하고 sin 과 어떻게 다른지 비교하세요.'},
+   {lv:'심화',   t:'삼각부등식', d:'sin x > 0.5 의 해를 구간으로 나타내고 곡선에서 확인하세요.'},
+   {lv:'프로젝트', t:'관람차 시각표', d:'주기 12분 관람차에서 높이가 특정 값이 되는 시각을 모두 구해 시각표로 만드세요.'}
+  ],
+  eq:'sin x = k ⟹ x = α + 2nπ 또는 π − α + 2nπ',
+  what:'삼각방정식은 <b>주기 때문에 해가 무한히 많은</b> 방정식입니다. 단위원과 곡선을 나란히 보면 그 구조가 한눈에 들어옵니다.',
+  probe:'k 를 1 에 가깝게 밀어 보세요. 두 해가 점점 가까워지다 k = 1 에서 하나로 겹칩니다 — 중근과 같은 장면입니다.',
+  link:'단위원(LAB 106)의 정의를 방정식으로 확장합니다. 이차방정식의 해의 개수(LAB 49)와 같은 구조입니다.'},
+
+/* 119 삼각함수의 합성 */
+ {tex:[
+   {t:'a\sin x+b\cos x=R\sin(x+\alpha)', s:'두 파동의 합은 <b>같은 주기의 사인 곡선</b> — 바뀌는 것은 크기와 위상뿐입니다.'},
+   {t:'R=\sqrt{a^{2}+b^{2}},\quad \tan\alpha=\frac{b}{a}', s:'(a, b) 를 좌표로 보면 R 은 원점까지의 거리, α 는 그 방향각입니다 — 피타고라스가 여기서 나옵니다.'},
+   {t:'\text{최댓값}=R,\ \text{최솟값}=-R', s:'합성하면 최대·최소를 즉시 알 수 있습니다 — 합성의 가장 큰 쓸모입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'최댓값 문제', d:'5 sin x + 12 cos x 의 최댓값을 계산으로 구하고 화면으로 검산하세요.'},
+   {lv:'심화',   t:'위상의 의미', d:'a, b 의 부호를 바꿔 가며 α 가 어느 사분면으로 가는지 정리하세요.'},
+   {lv:'프로젝트', t:'스피커 간섭', d:'두 스피커의 위상차가 소리 크기에 미치는 영향을 조사해 발표하세요.'}
+  ],
+  eq:'a sin x + b cos x = √(a²+b²) sin(x + α)',
+  what:'두 파동을 하나로 <b>합치는</b> 기술입니다. 벡터의 합(피타고라스)과 같은 그림이 파동에서도 성립합니다.',
+  probe:'a=3, b=4 로 두면 R = 5 — 3·4·5 직각삼각형이 파동에서 다시 나타납니다.',
+  link:'파형 합성(LAB 20)·푸리에(LAB 121)와 이어지고, 벡터의 크기(피타고라스)와 뿌리가 같습니다.'},
+
+/* 120 헤론의 공식 */
+ {tex:[
+   {t:'s=\frac{a+b+c}{2}', s:'둘레의 절반을 s 로 두는 것이 공식의 출발점입니다.'},
+   {t:'S=\sqrt{s(s-a)(s-b)(s-c)}', s:'각을 하나도 쓰지 않고 <b>세 변만으로</b> 넓이가 나옵니다 — 측량에 곧바로 쓰입니다.'},
+   {t:'S=\tfrac{1}{2}ab\sin C', s:'각을 쓰는 공식과 값이 같습니다. 코사인법칙으로 cos C 를 구해 대입하면 헤론이 유도됩니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'같은 둘레, 다른 넓이', d:'둘레가 같은 세 삼각형의 넓이를 비교하고 가장 넓은 모양을 찾으세요.'},
+   {lv:'심화',   t:'헤론 유도', d:'½ab sin C 에서 시작해 코사인법칙을 넣어 헤론의 공식을 손으로 유도하세요.'},
+   {lv:'프로젝트', t:'운동장 측량', d:'삼각형으로 나눈 운동장 넓이를 줄자만으로 구하는 계획서를 만드세요.'}
+  ],
+  eq:'S = √(s(s−a)(s−b)(s−c))',
+  what:'각을 재지 않아도 <b>길이만으로 넓이</b>가 정해진다는 사실 — SSS 합동의 직접적 결과입니다.',
+  probe:'가장 긴 변을 키워 삼각부등식을 깨 보세요. 근호 안이 음수가 되며 「넓이가 없다」가 수식으로 나타납니다.',
+  link:'사인·코사인법칙(LAB 108)·합동(LAB 31)과 이어지는 측량 계열입니다.'},
+
+/* 121 푸리에의 직관 */
+ {tex:[
+   {t:'f(x)\approx \sum a_k\sin(kx)', s:'어떤 주기 함수든 <b>사인들의 합</b>으로 근사할 수 있다 — 푸리에의 발상입니다.'},
+   {t:'\text{사각파}=\frac{4}{\pi}\left(\sin x+\frac{\sin 3x}{3}+\frac{\sin 5x}{5}+\cdots\right)', s:'홀수 배음을 1, 1/3, 1/5 … 비율로 더하면 각진 파형이 만들어집니다.'},
+   {t:'\text{스펙트럼}=(a_1,a_3,a_5,\dots)', s:'막대 하나하나가 「그 주파수가 얼마나 들었는가」 — 음성 인식·압축이 읽는 지도입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'톱니파 만들기', d:'목표를 톱니파로 바꿔 필요한 배음 조합을 찾고 사각파와 비교하세요.'},
+   {lv:'심화',   t:'깁스 현상', d:'배음을 아무리 더해도 모서리에서 남는 출렁임을 관찰하고 이름을 조사하세요.'},
+   {lv:'프로젝트', t:'MP3 는 무엇을 버리나', d:'사람이 못 듣는 주파수를 버리는 압축 원리를 조사해 스펙트럼으로 설명하세요.'}
+  ],
+  eq:'f(x) ≈ Σ aₖ sin(kx) · 스펙트럼 = (a₁, a₃, a₅, …)',
+  what:'복잡한 파형을 <b>단순한 파동의 합</b>으로 되돌리는 실험입니다. 합성(LAB 20)의 반대 방향 — 분해입니다.',
+  probe:'7배음만 0으로 내려 보세요. 모서리가 눈에 띄게 둥글어집니다 — 고주파가 「각짐」을 담당한다는 증거입니다.',
+  link:'파형 합성(LAB 20)·합성 공식(LAB 119)의 확장이며, 음성 인식·이미지 압축의 수학적 뿌리입니다.'},
+
+/* 122 등차수열 */
+ {tex:[
+   {t:'a_n=a_1+(n-1)d', s:'첫 항에서 <b>공차 d 를 (n−1)번</b> 더한 것 — 등차수열의 일반항입니다.'},
+   {t:'S_n=\frac{n(a_1+a_n)}{2}', s:'첫 줄과 끝 줄의 <b>평균</b>에 줄 수를 곱한 값 — 사다리꼴 넓이와 같은 구조입니다.'},
+   {t:'S_n=\frac{n\{2a_1+(n-1)d\}}{2}', s:'끝 항을 모르면 일반항을 대입한 이 꼴을 씁니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'우리 학교 강당', d:'실제 강당(또는 교실) 좌석을 세어 등차수열로 모형화하고 총 좌석을 계산하세요.'},
+   {lv:'심화',   t:'부분합의 최대', d:'공차가 음수인 등차수열에서 합이 최대가 되는 항까지를 구하는 방법을 정리하세요.'},
+   {lv:'프로젝트', t:'계단식 요금제', d:'전기 요금 누진 구간을 등차수열로 모형화해 사용량별 요금표를 만드세요.'}
+  ],
+  eq:'Sₙ = n(a₁ + aₙ)/2',
+  what:'합의 공식을 <b>사다리꼴</b>로 보는 실험입니다. 뒤집어 겹치면 직사각형이 된다는 가우스의 아이디어가 좌석 배치에서 재현됩니다.',
+  probe:'공차를 0 으로 내려 보세요. 사다리꼴이 직사각형이 되며 공식이 단순한 곱셈으로 무너집니다.',
+  link:'시그마(LAB 110)의 일반화이며, 적금·대출(LAB 126·109)의 등비수열과 짝을 이룹니다.'},
+
+/* 123 등차 vs 등비 */
+ {tex:[
+   {t:'\text{등차: } a_n=a+dn,\qquad \text{등비: } a_n=a(1+r)^n', s:'더하기는 <b>직선</b>, 곱하기는 <b>지수</b> — 자라는 방식이 근본적으로 다릅니다.'},
+   {t:'a(1+r)^n \ge a+dn \ \text{ 인 최소 } n', s:'역전 시점은 이 부등식을 만족하는 첫 n 입니다. 로그로는 깔끔히 안 풀려 실험이 빛납니다.'},
+   {t:'\lim_{n\to\infty}\frac{a(1+r)^n}{a+dn}=\infty', s:'r 이 아무리 작아도 지수는 결국 직선을 압도합니다 — 「곱하기가 이긴다」의 근거입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'저축 방식 고르기', d:'2년·5년·10년 뒤를 각각 계산해 어느 방식이 유리한지 기간별로 판정하세요.'},
+   {lv:'심화',   t:'역전 시점 어림', d:'로그를 이용해 역전 시점을 어림하는 식을 만들고 실험값과 비교하세요.'},
+   {lv:'프로젝트', t:'구독료 인상 분석', d:'정액 인상과 정률 인상을 비교해 5년 총액이 어떻게 달라지는지 보고서로 쓰세요.'}
+  ],
+  eq:'a + dn (등차) vs a(1+r)ⁿ (등비)',
+  what:'두 성장 방식을 <b>같은 화면에서 겨루게</b> 하는 실험입니다. 「처음의 앞섬」이 오래가지 않는다는 감각이 남습니다.',
+  probe:'r 을 1% 까지 낮춰도 기간을 늘리면 반드시 역전됩니다 — 지수의 힘을 눈으로 확인하세요.',
+  link:'복리(LAB 11)·확산(LAB 3)과 같은 뿌리이며, 등차(LAB 122)와 짝을 이룹니다.'},
+
+/* 124 시그마와 누적합 */
+ {tex:[
+   {t:'S_n=\sum_{k=1}^{n}a_k', s:'시그마는 <b>더하라는 명령</b>입니다. 누적선의 마지막 점이 곧 총합입니다.'},
+   {t:'\sum(a_k+b_k)=\sum a_k+\sum b_k,\quad \sum c\,a_k=c\sum a_k', s:'「먼저 더하나 나중에 더하나 같다」 — 집계의 기본 성질입니다.'},
+   {t:'a_n=S_n-S_{n-1}', s:'누적합의 <b>증가량</b>이 그날의 값 — 미분과 적분의 관계와 같은 구조입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'우리 반 자료', d:'학급 봉사시간·독서량을 모아 누적 그래프를 만들고 기울기를 해석하세요.'},
+   {lv:'심화',   t:'이동평균', d:'누적합으로 이동평균을 계산하는 방법을 만들고 자료의 추세를 읽으세요.'},
+   {lv:'프로젝트', t:'대시보드 만들기', d:'스프레드시트로 일별 자료 → 누적 지표 대시보드를 만들어 발표하세요.'}
+  ],
+  eq:'Sₙ = Σaₖ · aₙ = Sₙ − Sₙ₋₁',
+  what:'시그마를 <b>데이터 집계</b>로 만나는 실험입니다. 막대와 누적선을 나란히 두면 두 표현이 같은 사실의 앞뒤임이 보입니다.',
+  probe:'막대를 하나만 크게 올려 보세요. 그 지점에서 누적선의 기울기가 급해집니다 — 값은 곧 기울기입니다.',
+  link:'수열의 합(LAB 110·122)을 자료 처리로 잇고, 순간변화율(LAB 13)과 구조가 같습니다.'},
+
+/* 125 점화식 */
+ {tex:[
+   {t:'a_{n+1}=a_n+d \ \text{(등차)},\qquad a_{n+1}=ra_n \ \text{(등비)}', s:'점화식은 <b>「다음을 만드는 규칙」</b>입니다. 씨앗(첫 항)이 있어야 수열이 시작됩니다.'},
+   {t:'a_{n+1}=a_n+a_{n-1}\ (\text{피보나치})', s:'앞의 <b>두 항</b>이 다음을 정합니다. 이웃 항의 비는 황금비 1.618… 로 다가갑니다.'},
+   {t:'a_{n+1}=2a_n+1 \Rightarrow (a_{n+1}+1)=2(a_n+1)', s:'양변에 1을 더하면 <b>등비</b>가 드러납니다 — 점화식을 푸는 전형적인 기술입니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'하노이 탑', d:'원판 n개를 옮기는 최소 횟수 점화식 aₙ = 2aₙ₋₁ + 1 을 만들고 값을 계산하세요.'},
+   {lv:'심화',   t:'일반항 구하기', d:'aₙ₊₁ = 2aₙ + 1 의 일반항을 구하고 점화식과 값이 같은지 검증하세요.'},
+   {lv:'프로젝트', t:'재귀 코드', d:'피보나치를 재귀와 반복 두 방식으로 코딩해 계산 횟수를 비교하세요.'}
+  ],
+  eq:'aₙ₊₁ = f(aₙ) · 씨앗 + 규칙',
+  what:'수열을 <b>만드는 규칙</b>으로 정의하는 방식입니다. 재귀 알고리즘·인구 모형이 모두 이 문법을 씁니다.',
+  probe:'피보나치를 10항 이상 쌓고 이웃 항의 비를 보세요 — 1.618 에 스스로 다가갑니다.',
+  link:'귀납법(LAB 111)으로 증명되고, 등차·등비(LAB 122·123)의 다른 표현입니다.'},
+
+/* 126 적금 */
+ {tex:[
+   {t:'S=m\left[(1+i)^{n-1}+(1+i)^{n-2}+\cdots+1\right]', s:'각 달의 돈이 받는 <b>이자 기간이 달라</b> 만기 가치가 제각각 — 그 합이 등비수열의 합입니다.'},
+   {t:'S=m\cdot\frac{(1+i)^{n}-1}{i}', s:'등비수열의 합 공식을 적용한 만기 금액. 은행 앱의 숫자가 여기서 나옵니다.'},
+   {t:'\text{이자}=S-mn', s:'만기 금액에서 원금 합계를 빼면 이자 — 기간이 길수록 비중이 커집니다.'}
+  ],
+  next:[
+   {lv:'바로',   t:'목표 금액 역산', d:'1년 뒤 300만원을 만들려면 매달 얼마를 넣어야 하는지 식을 뒤집어 구하세요.'},
+   {lv:'심화',   t:'단리 적금과 비교', d:'단리 방식과 복리 방식의 만기 금액을 비교하는 표를 만드세요.'},
+   {lv:'프로젝트', t:'금융 상품 비교', d:'실제 적금 상품 셋의 조건을 모아 만기 금액을 계산해 비교 보고서를 쓰세요.'}
+  ],
+  eq:'S = m((1+i)ⁿ − 1)/i',
+  what:'적립식 저축이 <b>등비수열의 합</b>임을 막대 그림으로 보이는 실험입니다. 대출(LAB 109)과 정확히 짝을 이룹니다.',
+  probe:'첫 달 막대가 가장 높습니다 — 시간이 곧 이자라는 사실이 높이 차이로 보입니다.',
+  link:'대출 상환(LAB 109)·복리(LAB 11)와 한 묶음인 금융 계열입니다.'}
 ];
 
 /* ============ 10종 실험실 정의 ============ */
@@ -5541,6 +5781,988 @@ function dominoDemo(root){
       return [S.pushed?'밀었다':'아니오', (reach()&&!brk)?'이어짐':'끊김', S.fallen, S.fallen>=n?'예':'아니오']; } });
 }
 
+
+
+/* ---------- LAB 112 지수방정식·부등식 — 몇 해 뒤에 세 배가 될까 ---------- */
+function expEqDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="xe1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">파란 곡선은 y = a<sup>x</sup>, 붉은 가로선은 y = k 입니다.
+      두 선이 만나는 x 가 방정식의 해입니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">밑 a<select id="xeA" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="2">a = 2</option>
+        <option value="3">a = 3</option>
+        <option value="1.06" selected>a = 1.06 (연 6% 복리)</option>
+        <option value="0.5">a = 0.5 (반씩 줄기)</option></select></label>
+      ${slider('xeK','k (오른쪽 값)',1.2,10,0.1,5,'')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="xeEq">= k (방정식)</button>
+        <button class="b g sm" id="xeGt">&gt; k (부등식)</button>
+      </div>
+      <div class="out" id="xeout"></div>
+      <div class="note" style="margin-top:12px">지수에 갇힌 x 를 꺼내는 열쇠가 <b>로그</b>입니다.
+      밑이 1보다 작으면 부등호의 방향이 뒤집히는 것도 함께 보세요.</div>
+    </div></div>`;
+  const cv=$('#xe1'),ctx=cv.getContext('2d'),W=380,H=300,P=40;
+  const S={ mode:'eq' };
+  function draw(){
+    const a=+$('#xeA').value, k=+$('#xeK').value;
+    $('#xeKv').textContent=k.toFixed(1);
+    const xmax = a>1 ? Math.max(6, Math.log(10)/Math.log(a)*1.2) : 6;
+    const ymax = 11;
+    const X=x=>P+(W-P-16)*x/xmax, Y=y=>H-P-(H-2*P)*y/ymax;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#F1F3F6';
+    for(let y=0;y<=10;y+=2){ ctx.beginPath(); ctx.moveTo(P,Y(y)); ctx.lineTo(W-16,Y(y)); ctx.stroke();
+      ctx.fillStyle='#9CA3AF'; ctx.font='9.5px sans-serif'; ctx.textAlign='right'; ctx.fillText(y,P-6,Y(y)+3); }
+    const sol = Math.log(k)/Math.log(a);
+    // 부등식 영역
+    if(S.mode!=='eq' && sol>0 && sol<xmax){
+      ctx.fillStyle='rgba(14,147,132,.14)';
+      if(a>1) ctx.fillRect(X(sol), P-10, X(xmax)-X(sol), H-P-(P-10));
+      else ctx.fillRect(P, P-10, X(sol)-P, H-P-(P-10));
+    }
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4; ctx.beginPath();
+    for(let x=0;x<=xmax;x+=xmax/200){ const y=Math.pow(a,x); if(y>ymax) break;
+      const px=X(x), py=Y(y); x===0?ctx.moveTo(px,py):ctx.lineTo(px,py); }
+    ctx.stroke();
+    ctx.strokeStyle='#BE123C'; ctx.setLineDash([5,4]); ctx.lineWidth=1.8;
+    ctx.beginPath(); ctx.moveTo(P,Y(k)); ctx.lineTo(W-16,Y(k)); ctx.stroke(); ctx.setLineDash([]);
+    if(sol>0 && sol<xmax){ ctx.fillStyle='#111827';
+      ctx.beginPath(); ctx.arc(X(sol),Y(k),5.5,0,7); ctx.fill();
+      ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('x = '+sol.toFixed(2), X(sol), Y(k)-12); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-16,H-P); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='left'; ctx.fillText('x →',P,H-P+16);
+    const flip = a<1;
+    $('#xeout').innerHTML =
+      `<span class="mono">${a}<sup>x</sup> ${S.mode==='eq'?'=':'>'} ${k.toFixed(1)}</span><br>`
+      + `<span class="mono">x = log<sub>${a}</sub> ${k.toFixed(1)} = log ${k.toFixed(1)} ÷ log ${a} = <b>${sol.toFixed(3)}</b></span><br>`
+      + (S.mode==='eq'
+          ? `<b style="color:#2563EB">방정식의 해 x = ${sol.toFixed(3)}</b><br>`
+          : (flip ? `<b style="color:#BE123C">밑이 1보다 작아 부등호가 뒤집힙니다 — 해는 x &lt; ${sol.toFixed(3)}</b><br>`
+                  : `<b style="color:#0E9384">부등식의 해 x &gt; ${sol.toFixed(3)}</b><br>`))
+      + (Math.abs(a-1.06)<1e-9 && Math.abs(k-3)<0.051
+          ? `<b style="color:#B45309">원금이 세 배 되는 해 — 약 ${Math.ceil(sol)}년째</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">지수 자리의 x 는 로그로만 내려옵니다. 밑이 1보다 작을 때를 꼭 확인하세요.</span>`;
+  }
+  $('#xeA').onchange=draw; $('#xeK').oninput=draw;
+  $('#xeEq').onclick=()=>{ S.mode='eq'; draw(); };
+  $('#xeGt').onclick=()=>{ S.mode='gt'; draw(); };
+  draw();
+  inquiry(root,{ id:'xe', title:'지수방정식·부등식 — 지수에 갇힌 x 꺼내기',
+    q:['밑과 k 를 바꿔 가며 (a, k, 해 x) 를 여섯 줄 기록하세요.',
+       '밑이 1보다 클 때와 작을 때 부등식의 해가 어떻게 달라지는지 확인하세요.',
+       'a^x = k 의 해가 x = log k / log a 인 이유를 로그의 정의로 손으로 설명하세요.'],
+    cols:['밑 a','k','해 x','부등식의 해'],
+    hint:'힌트 — 지수함수는 밑이 1보다 크면 증가, 작으면 감소합니다. 감소하면 대소 관계가 뒤집힙니다.',
+    read:()=>{ const a=+$('#xeA').value, k=+$('#xeK').value, s=Math.log(k)/Math.log(a);
+      return [a, k.toFixed(1), s.toFixed(3), (a<1?'x < ':'x > ')+s.toFixed(2)]; } });
+}
+
+/* ---------- LAB 113 로그의 밑 변환 — 계산기에 없는 밑 ---------- */
+function logBaseDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="lb1" width="380" height="280"></canvas>
+      <div class="note" style="margin-top:8px">막대 세 개는 log b, log a, 그리고 그 <b>몫</b>입니다.
+      계산기에 상용로그(밑 10)밖에 없어도 어떤 밑이든 구할 수 있습니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">밑 a<select id="lbA" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="2">a = 2</option><option value="3">a = 3</option>
+        <option value="5" selected>a = 5</option><option value="7">a = 7</option></select></label>
+      ${slider('lbB','진수 b',2,1000,1,50,'')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="lbChk">거듭제곱으로 검산</button>
+        <button class="b g sm" id="lbSame">밑 = 진수로 맞추기</button>
+      </div>
+      <div class="out" id="lbout"></div>
+      <div class="note" style="margin-top:12px">밑 변환은 <b>같은 자를 두 번 쓰는 일</b>입니다 —
+      분자와 분모를 같은 밑으로 재면 원래 밑이 무엇이든 답이 나옵니다.</div>
+    </div></div>`;
+  const cv=$('#lb1'),ctx=cv.getContext('2d'),W=380,H=280;
+  const S={ chk:false };
+  function draw(){
+    const a=+$('#lbA').value, b=+$('#lbB').value;
+    $('#lbBv').textContent=b;
+    const lb=Math.log10(b), la=Math.log10(a), v=lb/la;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const bar=(y,len,col,lab,val)=>{
+      ctx.fillStyle=col; ctx.globalAlpha=.28; ctx.fillRect(40,y,len,26); ctx.globalAlpha=1;
+      ctx.strokeStyle=col; ctx.lineWidth=1.6; ctx.strokeRect(40,y,len,26);
+      ctx.fillStyle='#111827'; ctx.font='bold 11.5px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(lab, 44, y-6);
+      ctx.textAlign='left'; ctx.fillText(val, 46+len, y+18);
+    };
+    const sc=90;
+    bar(50, Math.max(4,lb*sc), '#2563EB', 'log b (계산기로 잰 값)', lb.toFixed(4));
+    bar(120, Math.max(4,la*sc), '#0E9384', 'log a', la.toFixed(4));
+    bar(196, Math.max(4,v*sc*0.6), '#BE123C', '몫 = log b ÷ log a', v.toFixed(4));
+    ctx.fillStyle='#6B7280'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('두 막대의 비가 곧 답입니다', 40, 258);
+    const back = Math.pow(a, v);
+    $('#lbout').innerHTML =
+      `<span class="mono">log<sub>${a}</sub> ${b} = log ${b} ÷ log ${a} = ${lb.toFixed(4)} ÷ ${la.toFixed(4)} = <b>${v.toFixed(4)}</b></span><br>`
+      + (Math.abs(a-2)<1e-9 && b===100 ? `<b style="color:#B45309">오늘의 문제 — log₂ 100 = ${v.toFixed(3)}</b><br>` : '')
+      + (S.chk ? `검산: ${a}<sup>${v.toFixed(4)}</sup> = <b>${back.toFixed(2)}</b> — ${Math.abs(back-b)<0.05?'<b style="color:#0E9384">진수와 일치! 밑 변환 성공</b>':'차이 '+Math.abs(back-b).toFixed(2)}<br>` : '')
+      + (a===b ? `<b style="color:#7C3AED">밑과 진수가 같으면 값은 1 — 자기 자신을 자기 자로 재면 1입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">밑을 10 으로 바꿔도, e 로 바꿔도 몫은 같습니다 — 그것이 밑 변환의 힘입니다.</span>`;
+  }
+  $('#lbA').onchange=()=>{ S.chk=false; draw(); };
+  $('#lbB').oninput=()=>{ S.chk=false; draw(); };
+  $('#lbChk').onclick=()=>{ S.chk=true; draw(); };
+  $('#lbSame').onclick=()=>{ $('#lbB').value=+$('#lbA').value; S.chk=false; draw(); };
+  draw();
+  inquiry(root,{ id:'lb', title:'로그의 밑 변환 — 어떤 밑이든 상용로그로',
+    q:['(a, b, log_a b) 를 여섯 줄 기록하고, 매번 거듭제곱 검산도 함께 하세요.',
+       '밑과 진수가 같을 때, 진수가 1일 때 값이 무엇이 되는지 확인하세요.',
+       'log_a b = log b / log a 를 로그의 정의(a^x = b)에서 손으로 유도하세요.'],
+    cols:['밑 a','진수 b','log b','log a','log_a b'],
+    hint:'힌트 — a^x = b 의 양변에 상용로그를 취하면 x·log a = log b 가 됩니다.',
+    read:()=>{ const a=+$('#lbA').value, b=+$('#lbB').value;
+      return [a, b, Math.log10(b).toFixed(4), Math.log10(a).toFixed(4), (Math.log10(b)/Math.log10(a)).toFixed(4)]; } });
+}
+
+/* ---------- LAB 114 지수와 로그는 짝 — y = x 대칭 ---------- */
+function expLogDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="el1" width="380" height="330"></canvas>
+      <div class="note" style="margin-top:8px">파란 곡선 y = a<sup>x</sup>, 초록 곡선 y = log<sub>a</sub> x.
+      점 P 를 끌어 두 곡선의 <b>짝점</b>을 추적하세요.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">밑 a<select id="elA" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="2" selected>a = 2</option><option value="3">a = 3</option>
+        <option value="0.5">a = 0.5</option></select></label>
+      ${slider('elX','대응점 x',-3,5,0.5,1,'')}
+      <div class="out" id="elout"></div>
+      <div class="note" style="margin-top:12px">지수함수의 <b>치역</b>(y &gt; 0)이 로그함수의 <b>정의역</b>이 됩니다 —
+      역함수는 정의역과 치역을 맞바꿉니다.</div>
+    </div></div>`;
+  const cv=$('#el1'),ctx=cv.getContext('2d'),W=380,H=330;
+  const O={x:120,y:210}, U=34;
+  function draw(){
+    const a=+$('#elA').value, x=+$('#elX').value;
+    $('#elXv').textContent=x.toFixed(1);
+    const X=v=>O.x+v*U, Y=v=>O.y-v*U;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#EEF1F5';
+    for(let v=-3;v<=7;v++){ ctx.beginPath(); ctx.moveTo(X(v),0); ctx.lineTo(X(v),H); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0,Y(v)); ctx.lineTo(W,Y(v)); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.3;
+    ctx.beginPath(); ctx.moveTo(0,Y(0)); ctx.lineTo(W,Y(0)); ctx.moveTo(X(0),0); ctx.lineTo(X(0),H); ctx.stroke();
+    ctx.strokeStyle='#B45309'; ctx.setLineDash([5,3]); ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(X(-3),Y(-3)); ctx.lineTo(X(7),Y(7)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4; ctx.beginPath();
+    for(let v=-3;v<=6;v+=0.05){ const y=Math.pow(a,v); if(y>7) break; const px=X(v),py=Y(y);
+      v===-3?ctx.moveTo(px,py):ctx.lineTo(px,py); } ctx.stroke();
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.4; ctx.beginPath();
+    let started=false;
+    for(let v=0.02;v<=7;v+=0.03){ const y=Math.log(v)/Math.log(a); if(y< -3||y>7) { started=false; continue; }
+      const px=X(v),py=Y(y); started?ctx.lineTo(px,py):ctx.moveTo(px,py); started=true; } ctx.stroke();
+    const fx=Math.pow(a,x);
+    if(fx<=7){
+      ctx.strokeStyle='#BE123C'; ctx.setLineDash([3,3]); ctx.lineWidth=1.4;
+      ctx.beginPath(); ctx.moveTo(X(x),Y(fx)); ctx.lineTo(X(fx),Y(x)); ctx.stroke(); ctx.setLineDash([]);
+      [[x,fx,'#2563EB'],[fx,x,'#0E9384']].forEach(([px,py,col])=>{
+        ctx.fillStyle=col; ctx.beginPath(); ctx.arc(X(px),Y(py),5,0,7); ctx.fill();
+        ctx.fillStyle='#111827'; ctx.font='bold 10.5px sans-serif'; ctx.textAlign='center';
+        ctx.fillText('('+px.toFixed(1)+', '+py.toFixed(1)+')', X(px), Y(py)-9); });
+    }
+    $('#elout').innerHTML =
+      `<span class="mono">y = ${a}<sup>x</sup> ↔ y = log<sub>${a}</sub> x</span><br>`
+      + (fx<=7
+          ? `대응점: 지수 위 <b style="color:#2563EB">(${x.toFixed(1)}, ${fx.toFixed(2)})</b>`
+            + ` ↔ 로그 위 <b style="color:#0E9384">(${fx.toFixed(2)}, ${x.toFixed(1)})</b><br>`
+            + `<b style="color:#B45309">좌표를 맞바꾼 자리 — 두 곡선은 y = x 대칭입니다.</b><br>`
+          : `<span style="color:#BE123C">값이 화면 밖입니다 — x 를 줄여 보세요.</span><br>`)
+      + `지수함수 정의역 <b>모든 실수</b> · 치역 <b>y &gt; 0</b> &nbsp;→&nbsp; 로그함수 정의역 <b>x &gt; 0</b> · 치역 <b>모든 실수</b><br>`
+      + (a<1 ? `<b style="color:#7C3AED">밑이 1보다 작아 둘 다 감소합니다 — 짝은 그대로입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">로그에 음수나 0 을 넣을 수 없는 이유가 지수함수의 치역에 있습니다.</span>`;
+  }
+  $('#elA').onchange=draw; $('#elX').oninput=draw; draw();
+  inquiry(root,{ id:'el', title:'지수와 로그 — 좌표를 맞바꾼 짝',
+    q:['x 를 바꿔 가며 (지수 위의 점, 로그 위의 점) 짝을 여섯 줄 기록하세요.',
+       '두 함수의 정의역·치역을 표로 적고 무엇이 맞바뀌는지 확인하세요.',
+       'log_a x 에 0 이나 음수를 넣을 수 없는 이유를 지수함수의 치역으로 손으로 설명하세요.'],
+    cols:['x','a^x','로그 위의 점','대칭축'],
+    hint:'힌트 — (p, q) 가 지수 위의 점이면 (q, p) 는 로그 위의 점입니다. 두 점의 중점은 y = x 위에 있습니다.',
+    read:()=>{ const a=+$('#elA').value, x=+$('#elX').value, f=Math.pow(a,x);
+      return [x.toFixed(1), f.toFixed(2), '('+f.toFixed(2)+', '+x.toFixed(1)+')', 'y = x']; } });
+}
+
+/* ---------- LAB 115 상용로그의 지표와 가수 — 2^100 은 몇 자리? ---------- */
+function log10Demo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="lg2" width="380" height="270"></canvas>
+      <div class="note" style="margin-top:8px">막대는 log₁₀(수) 입니다. <b>정수 부분(지표)</b>이 자릿수를,
+      <b>소수 부분(가수)</b>이 첫 자리 숫자를 쥐고 있습니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">밑<select id="lgB" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="2" selected>2 의 거듭제곱</option>
+        <option value="3">3 의 거듭제곱</option>
+        <option value="7">7 의 거듭제곱</option></select></label>
+      ${slider('lgN','지수 n',1,200,1,10,'')}
+      <div class="out" id="lg2out"></div>
+      <div class="note" style="margin-top:12px">계산기가 넘치는 큰 수도 <b>자릿수와 첫 자리</b>는 로그로 알 수 있습니다.</div>
+    </div></div>`;
+  const cv=$('#lg2'),ctx=cv.getContext('2d'),W=380,H=270;
+  function draw(){
+    const b=+$('#lgB').value, n=+$('#lgN').value;
+    $('#lgNv').textContent=n;
+    const L=n*Math.log10(b), ji=Math.floor(L), ga=L-ji;
+    const digits=ji+1, first=Math.floor(Math.pow(10,ga));
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const x0=40, wpx=(W-70)/70;
+    ctx.fillStyle='rgba(37,99,235,.30)'; ctx.fillRect(x0, 70, Math.min(W-60, ji*wpx), 34);
+    ctx.strokeStyle='#2563EB'; ctx.strokeRect(x0, 70, Math.min(W-60, ji*wpx), 34);
+    ctx.fillStyle='rgba(190,18,60,.35)';
+    ctx.fillRect(x0+Math.min(W-60,ji*wpx), 70, Math.max(3,ga*wpx*6), 34);
+    ctx.fillStyle='#111827'; ctx.font='bold 12px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('지표(정수부) = '+ji, x0, 60);
+    ctx.fillStyle='#BE123C'; ctx.fillText('가수(소수부) = '+ga.toFixed(4), x0, 128);
+    ctx.fillStyle='#374151'; ctx.font='13px sans-serif';
+    ctx.fillText('log₁₀ ('+b+'^'+n+') = '+L.toFixed(4), x0, 170);
+    ctx.fillStyle='#0E9384'; ctx.font='bold 15px sans-serif';
+    ctx.fillText('→ '+digits+'자리 수', x0, 200);
+    ctx.fillStyle='#7C3AED'; ctx.font='bold 13px sans-serif';
+    ctx.fillText('→ 최고 자리 숫자 '+first, x0, 226);
+    $('#lg2out').innerHTML =
+      `<span class="mono">log₁₀ ${b}<sup>${n}</sup> = ${n} × log ${b} = <b>${L.toFixed(4)}</b></span><br>`
+      + `지표 <b>${ji}</b> · 가수 <b>${ga.toFixed(4)}</b><br>`
+      + `<b style="color:#0E9384">자릿수 = 지표 + 1 = ${digits}자리</b> · 최고 자리 숫자 <b>${first}</b><br>`
+      + (b===2 && n===100 ? `<b style="color:#B45309">오늘의 문제 — 2¹⁰⁰ 은 ${digits}자리 수입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">가수만 있으면 첫 자리 숫자를 알 수 있습니다 — 벤포드 법칙의 뿌리입니다.</span>`;
+  }
+  $('#lgB').onchange=draw; $('#lgN').oninput=draw; draw();
+  inquiry(root,{ id:'lg2', title:'상용로그 — 자릿수와 첫 자리의 비밀',
+    q:['(밑, 지수, log 값, 지표, 가수, 자릿수) 를 여섯 줄 기록하세요.',
+       '지수를 2배로 하면 자릿수는 어떻게 변하는지 확인하세요.',
+       '자릿수 = 지표 + 1 인 이유를 10^지표 ≤ 수 < 10^(지표+1) 로 손으로 설명하세요.'],
+    cols:['수','log 값','지표','가수','자릿수','첫 자리'],
+    hint:'힌트 — 어떤 수 N 의 자릿수는 10 의 몇 제곱과 몇 제곱 사이에 있는지가 정합니다.',
+    read:()=>{ const b=+$('#lgB').value, n=+$('#lgN').value, L=n*Math.log10(b), ji=Math.floor(L);
+      return [b+'^'+n, L.toFixed(4), ji, (L-ji).toFixed(4), ji+1, Math.floor(Math.pow(10,L-ji))]; } });
+}
+
+/* ---------- LAB 116 지수함수의 변신 — 밑·평행이동·점근선 ---------- */
+function expMoveDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="em1" width="380" height="310"></canvas>
+      <div class="note" style="margin-top:8px">회색 곡선은 기준 y = 2<sup>x</sup>, 파란 곡선이 지금 식입니다.
+      <b>붉은 점선</b>은 점근선입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('emA','밑 a',0.2,5,0.1,2,'')}
+      ${slider('emP','가로 이동 p',-3,3,0.5,0,'')}
+      ${slider('emQ','세로 이동 q',-2,4,0.5,0,'')}
+      <div class="out" id="emout"></div>
+      <div class="note" style="margin-top:12px">밑이 1보다 크면 증가, 작으면 감소합니다.
+      세로 이동 q 는 <b>점근선</b>을 통째로 들어 올립니다.</div>
+    </div></div>`;
+  const cv=$('#em1'),ctx=cv.getContext('2d'),W=380,H=310;
+  const O={x:150,y:230}, U=34;
+  function draw(){
+    const a=+$('#emA').value, p=+$('#emP').value, q=+$('#emQ').value;
+    $('#emAv').textContent=a.toFixed(1); $('#emPv').textContent=p.toFixed(1); $('#emQv').textContent=q.toFixed(1);
+    const X=v=>O.x+v*U, Y=v=>O.y-v*U;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#EEF1F5';
+    for(let v=-4;v<=6;v++){ ctx.beginPath(); ctx.moveTo(X(v),0); ctx.lineTo(X(v),H); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0,Y(v)); ctx.lineTo(W,Y(v)); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.3;
+    ctx.beginPath(); ctx.moveTo(0,Y(0)); ctx.lineTo(W,Y(0)); ctx.moveTo(X(0),0); ctx.lineTo(X(0),H); ctx.stroke();
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1.6; ctx.beginPath();
+    for(let v=-4;v<=6;v+=0.05){ const y=Math.pow(2,v); if(y>6) break; const px=X(v),py=Y(y);
+      v===-4?ctx.moveTo(px,py):ctx.lineTo(px,py); } ctx.stroke();
+    ctx.strokeStyle='#BE123C'; ctx.setLineDash([5,4]); ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(0,Y(q)); ctx.lineTo(W,Y(q)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.6; ctx.beginPath();
+    let on=false;
+    for(let v=-4;v<=6;v+=0.04){ const y=Math.pow(a,v-p)+q; if(y>6.2||y<-3){ on=false; continue; }
+      const px=X(v),py=Y(y); on?ctx.lineTo(px,py):ctx.moveTo(px,py); on=true; } ctx.stroke();
+    ctx.fillStyle='#BE123C'; ctx.font='bold 11px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('점근선 y = '+q.toFixed(1), 10, Y(q)-6);
+    const inc = a>1;
+    $('#emout').innerHTML =
+      `<span class="mono">y = ${a.toFixed(1)}<sup>(x ${p>=0?'− '+p.toFixed(1):'+ '+(-p).toFixed(1)})</sup> ${q>=0?'+ '+q.toFixed(1):'− '+(-q).toFixed(1)}</span><br>`
+      + `<b style="color:${inc?'#2563EB':'#BE123C'}">${inc?'증가함수 — 밑이 1보다 큽니다':'감소함수 — 밑이 1보다 작습니다'}</b><br>`
+      + `점근선 <b>y = ${q.toFixed(1)}</b> · y절편 <b>${(Math.pow(a,-p)+q).toFixed(2)}</b><br>`
+      + (Math.abs(q-2)<0.01 ? `<b style="color:#7C3AED">점근선이 y = 2 로 올라갔습니다 — 아무리 작아져도 2 아래로는 못 내려갑니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">가로 이동은 괄호 안에서 부호가 반대로 보입니다 — 왜 그런지 대입해 확인하세요.</span>`;
+  }
+  ['emA','emP','emQ'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'em', title:'지수함수의 변신 — 밑·이동·점근선',
+    q:['a·p·q 를 하나씩만 움직이며 그래프가 어떻게 변하는지 여섯 줄 기록하세요.',
+       '밑이 1보다 작을 때와 클 때의 증가·감소를 확인하고, 두 그래프가 y축 대칭인 짝(a 와 1/a)도 찾으세요.',
+       '가로 이동에서 괄호 안 부호가 반대로 보이는 이유를 대입으로 손으로 설명하세요.'],
+    cols:['밑 a','p','q','증가/감소','점근선','y절편'],
+    hint:'힌트 — y = a^(x−p) + q 는 기준 곡선을 오른쪽 p, 위로 q 만큼 민 것입니다.',
+    read:()=>{ const a=+$('#emA').value, p=+$('#emP').value, q=+$('#emQ').value;
+      return [a.toFixed(1), p.toFixed(1), q.toFixed(1), a>1?'증가':'감소', 'y = '+q.toFixed(1), (Math.pow(a,-p)+q).toFixed(2)]; } });
+}
+
+
+
+/* ---------- LAB 117 주기·진폭·위상 따로 움직이기 ---------- */
+function trigParamDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="tp1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">회색은 기준 y = sin x, 파랑이 지금 식입니다.
+      한 번에 <b>하나씩만</b> 움직여 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('tpA','진폭 a',0.5,3,0.1,1,'')}
+      ${slider('tpB','주기 계수 b',0.5,4,0.5,1,'')}
+      ${slider('tpC','위상 c (오른쪽으로)',0,6.5,0.25,0,'')}
+      ${slider('tpD','세로 이동 d',-2,2,0.5,0,'')}
+      <div class="out" id="tpout"></div>
+      <div class="note" style="margin-top:12px">주기 = 2π ÷ b · 최댓값 = d + a · 최솟값 = d − a.
+      계수마다 담당이 다릅니다.</div>
+    </div></div>`;
+  const cv=$('#tp1'),ctx=cv.getContext('2d'),W=380,H=300,P=34;
+  function draw(){
+    const a=+$('#tpA').value, b=+$('#tpB').value, c=+$('#tpC').value, d=+$('#tpD').value;
+    $('#tpAv').textContent=a.toFixed(1); $('#tpBv').textContent=b.toFixed(1);
+    $('#tpCv').textContent=c.toFixed(2); $('#tpDv').textContent=d.toFixed(1);
+    const XM=4*Math.PI, YM=5;
+    const X=x=>P+(W-P-14)*x/XM, Y=y=>H/2-(H/2-P)*y/YM;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#F1F3F6';
+    for(let y=-4;y<=4;y+=2){ ctx.beginPath(); ctx.moveTo(P,Y(y)); ctx.lineTo(W-14,Y(y)); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(P,Y(0)); ctx.lineTo(W-14,Y(0)); ctx.stroke();
+    ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1.5; ctx.beginPath();
+    for(let x=0;x<=XM;x+=0.03){ const px=X(x),py=Y(Math.sin(x)); x===0?ctx.moveTo(px,py):ctx.lineTo(px,py); } ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.5; ctx.beginPath();
+    for(let x=0;x<=XM;x+=0.02){ const px=X(x),py=Y(d+a*Math.sin(b*(x-c))); x===0?ctx.moveTo(px,py):ctx.lineTo(px,py); } ctx.stroke();
+    // 최대·최소 선
+    ctx.strokeStyle='#BE123C'; ctx.setLineDash([4,3]); ctx.lineWidth=1.2;
+    [d+a, d-a].forEach(v=>{ ctx.beginPath(); ctx.moveTo(P,Y(v)); ctx.lineTo(W-14,Y(v)); ctx.stroke(); });
+    ctx.setLineDash([]);
+    const per=2*Math.PI/b;
+    $('#tpout').innerHTML =
+      `<span class="mono">y = ${d.toFixed(1)} + ${a.toFixed(1)} sin( ${b.toFixed(1)}(x − ${c.toFixed(2)}) )</span><br>`
+      + `주기 = 2π ÷ ${b.toFixed(1)} = <b>${per.toFixed(2)}</b> · 최댓값 <b>${(d+a).toFixed(1)}</b> · 최솟값 <b>${(d-a).toFixed(1)}</b><br>`
+      + (Math.abs(b-2)<0.01 ? `<b style="color:#0E9384">주기가 절반(π)이 되었습니다 — b 가 커지면 물결이 촘촘해집니다.</b><br>` : '')
+      + (Math.abs(a-2.5)<0.051 ? `<b style="color:#2563EB">진폭 2.5 — 위아래로 5 만큼 출렁입니다.</b><br>` : '')
+      + (c>0.01 ? `<b style="color:#B45309">위상 이동 ${c.toFixed(2)} — 모양은 그대로, 오른쪽으로 밀렸습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">셋을 한꺼번에 움직이면 무엇이 무엇을 바꿨는지 알 수 없습니다 — 하나씩!</span>`;
+  }
+  ['tpA','tpB','tpC','tpD'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'tp', title:'주기·진폭·위상 — 계수의 담당 구역',
+    q:['a·b·c·d 를 하나씩만 움직이며 (무엇을 움직였나, 그래프의 변화) 를 여덟 줄 기록하세요.',
+       '주기와 b 의 관계를 표로 만들고 규칙(주기 = 2π/b)을 찾으세요.',
+       '「진폭이 커지면 주기도 변하는가」를 실험으로 판정하고, 계수들이 서로 침범하지 않는 이유를 설명하세요.'],
+    cols:['a','b','c','d','주기','최댓값','최솟값'],
+    hint:'힌트 — b 는 x 에 곱해져 「시간을 빠르게」, a 는 y 에 곱해져 「크기를 키우게」 합니다.',
+    read:()=>{ const a=+$('#tpA').value,b=+$('#tpB').value,c=+$('#tpC').value,d=+$('#tpD').value;
+      return [a.toFixed(1),b.toFixed(1),c.toFixed(2),d.toFixed(1),(2*Math.PI/b).toFixed(2),(d+a).toFixed(1),(d-a).toFixed(1)]; } });
+}
+
+/* ---------- LAB 118 삼각방정식 — 해가 무한히 많은 이유 ---------- */
+function trigEqDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="te1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">위는 단위원, 아래는 sin 곡선입니다.
+      가로선 y = k 와 만나는 자리가 모두 해입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('teK','k (오른쪽 값)',-1,1,0.05,0.3,'')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="teHalf">k = 0.5</button>
+        <button class="b g sm" id="teOne">k = 1</button>
+        <button class="b g sm" id="teBig">k = 1 초과 시도</button>
+      </div>
+      <div class="out" id="teout"></div>
+      <div class="note" style="margin-top:12px">삼각함수는 주기 함수라 해가 <b>2π 마다 반복</b>됩니다.
+      한 바퀴 안의 해를 먼저 찾고, 거기에 2nπ 를 더하면 전부입니다.</div>
+    </div></div>`;
+  const cv=$('#te1'),ctx=cv.getContext('2d'),W=380,H=300;
+  const S={ over:false };
+  function draw(){
+    const k=S.over ? 1.4 : +$('#teK').value;
+    $('#teKv').textContent=(+$('#teK').value).toFixed(2);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    // 단위원
+    const C={x:62,y:70}, R=46;
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.3;
+    ctx.beginPath(); ctx.arc(C.x,C.y,R,0,7); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(C.x-R-8,C.y); ctx.lineTo(C.x+R+8,C.y); ctx.stroke();
+    ctx.strokeStyle='#BE123C'; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(C.x-R-8,C.y-R*k); ctx.lineTo(C.x+R+8,C.y-R*k); ctx.stroke(); ctx.setLineDash([]);
+    const sols=[];
+    if(Math.abs(k)<=1){
+      const a1=Math.asin(k), a2=Math.PI-a1;
+      [a1,a2].forEach(t=>{ const tt=(t+2*Math.PI)%(2*Math.PI); sols.push(tt);
+        ctx.fillStyle='#2563EB'; ctx.beginPath(); ctx.arc(C.x+R*Math.cos(tt),C.y-R*Math.sin(tt),4.5,0,7); ctx.fill(); });
+    }
+    // sin 곡선
+    const P=32, top=140, bot=H-30, XM=4*Math.PI;
+    const X=x=>P+(W-P-14)*x/XM, Y=y=>(top+bot)/2-(bot-top)/2*y*0.9;
+    ctx.strokeStyle='#F1F3F6'; ctx.beginPath(); ctx.moveTo(P,Y(0)); ctx.lineTo(W-14,Y(0)); ctx.stroke();
+    ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.4; ctx.beginPath();
+    for(let x=0;x<=XM;x+=0.02){ const px=X(x),py=Y(Math.sin(x)); x===0?ctx.moveTo(px,py):ctx.lineTo(px,py); } ctx.stroke();
+    ctx.strokeStyle='#BE123C'; ctx.setLineDash([5,4]); ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(P,Y(k)); ctx.lineTo(W-14,Y(k)); ctx.stroke(); ctx.setLineDash([]);
+    let cnt=0;
+    if(Math.abs(k)<=1){
+      sols.forEach(t0=>{ for(let n=0;n<2;n++){ const x=t0+2*Math.PI*n; if(x<=XM){
+        ctx.fillStyle='#BE123C'; ctx.beginPath(); ctx.arc(X(x),Y(k),4.5,0,7); ctx.fill(); cnt++; } } });
+    }
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+    [0,Math.PI,2*Math.PI,3*Math.PI,4*Math.PI].forEach((v,i)=>ctx.fillText(['0','π','2π','3π','4π'][i], X(v), bot+14));
+    const deg=t=>(t*180/Math.PI).toFixed(1);
+    $('#teout').innerHTML =
+      `<span class="mono">sin x = ${k.toFixed(2)}</span><br>`
+      + (Math.abs(k)>1
+        ? `<b style="color:#BE123C">해가 없습니다 — sin 의 값은 −1 과 1 사이를 벗어날 수 없습니다.</b><br>`
+        : Math.abs(Math.abs(k)-1)<1e-9
+        ? `<b style="color:#7C3AED">해가 한 바퀴에 하나뿐 — 꼭짓점에서 만났습니다 (x = ${deg(sols[0])}°).</b><br>`
+        : `한 바퀴 안의 해: <b>${deg(sols[0])}°</b> 와 <b>${deg(sols[1])}°</b> — <b style="color:#0E9384">화면에 보이는 해 ${cnt}개</b><br>`
+          + `<span class="mono">x = ${deg(sols[0])}° + 360°n 또는 ${deg(sols[1])}° + 360°n</span><br>`)
+      + `<span style="color:#6B7280;font-size:12.5px">주기 함수의 방정식은 「한 바퀴 안의 해 + 2nπ」로 전부 적습니다.</span>`;
+  }
+  $('#teK').oninput=()=>{ S.over=false; draw(); };
+  $('#teHalf').onclick=()=>{ S.over=false; $('#teK').value=0.5; draw(); };
+  $('#teOne').onclick=()=>{ S.over=false; $('#teK').value=1; draw(); };
+  $('#teBig').onclick=()=>{ S.over=true; draw(); };
+  draw();
+  inquiry(root,{ id:'te', title:'삼각방정식 — 해가 무한히 많은 이유',
+    q:['k 를 바꿔 가며 (k, 한 바퀴 안의 해, 화면의 해 개수) 를 여섯 줄 기록하세요.',
+       'k = 1 일 때와 |k| > 1 일 때 해의 개수가 어떻게 달라지는지 확인하세요.',
+       '해를 「+ 360°n」으로 적는 이유를 단위원의 회전으로 손으로 설명하세요.'],
+    cols:['k','해 ①','해 ②','한 바퀴 해의 수','일반해'],
+    hint:'힌트 — 단위원에서 높이가 k 인 점은 보통 두 곳입니다. 한 바퀴 더 돌면 같은 자리로 돌아옵니다.',
+    read:()=>{ const k=+$('#teK').value;
+      if(Math.abs(k)>1) return [k.toFixed(2),'없음','없음',0,'해 없음'];
+      const a1=Math.asin(k), a2=Math.PI-a1;
+      const d=t=>((t*180/Math.PI+360)%360).toFixed(1)+'°';
+      return [k.toFixed(2), d(a1), d(a2), Math.abs(Math.abs(k)-1)<1e-9?1:2, '해 + 360°n']; } });
+}
+
+/* ---------- LAB 119 삼각함수의 합성 — a sin x + b cos x ---------- */
+function trigSumDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ts1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">보라 곡선 a sin x, 초록 곡선 b cos x,
+      <b>파란 곡선</b>이 둘의 합입니다. 합도 사인 곡선인가요?</div>
+    </div>
+    <div class="col">
+      ${slider('tsA','a (sin 계수)',-4,4,0.5,2,'')}
+      ${slider('tsB','b (cos 계수)',-4,4,0.5,1,'')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="tsFit">합성 곡선 겹쳐 보기</button>
+      </div>
+      <div class="out" id="tsout"></div>
+      <div class="note" style="margin-top:12px">두 파동을 더해도 <b>같은 주기의 사인 곡선</b>이 됩니다.
+      진폭은 √(a²+b²), 위상만 옮겨집니다.</div>
+    </div></div>`;
+  const cv=$('#ts1'),ctx=cv.getContext('2d'),W=380,H=300,P=32;
+  const S={ fit:false };
+  function draw(){
+    const a=+$('#tsA').value, b=+$('#tsB').value;
+    $('#tsAv').textContent=a.toFixed(1); $('#tsBv').textContent=b.toFixed(1);
+    const R=Math.hypot(a,b), al=Math.atan2(b,a);
+    const XM=2*Math.PI, YM=6;
+    const X=x=>P+(W-P-14)*x/XM, Y=y=>H/2-(H/2-P)*y/YM;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#F1F3F6';
+    for(let y=-4;y<=4;y+=2){ ctx.beginPath(); ctx.moveTo(P,Y(y)); ctx.lineTo(W-14,Y(y)); ctx.stroke(); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(P,Y(0)); ctx.lineTo(W-14,Y(0)); ctx.stroke();
+    const curve=(f,col,w,dash)=>{ ctx.strokeStyle=col; ctx.lineWidth=w;
+      ctx.setLineDash(dash||[]); ctx.beginPath();
+      for(let x=0;x<=XM;x+=0.02){ const px=X(x),py=Y(f(x)); x===0?ctx.moveTo(px,py):ctx.lineTo(px,py); }
+      ctx.stroke(); ctx.setLineDash([]); };
+    curve(x=>a*Math.sin(x), 'rgba(124,58,237,.55)', 1.6);
+    curve(x=>b*Math.cos(x), 'rgba(14,147,132,.55)', 1.6);
+    curve(x=>a*Math.sin(x)+b*Math.cos(x), '#2563EB', 2.6);
+    if(S.fit) curve(x=>R*Math.sin(x+al), '#BE123C', 1.8, [6,4]);
+    ctx.strokeStyle='#BE123C'; ctx.setLineDash([3,3]); ctx.lineWidth=1;
+    [R,-R].forEach(v=>{ ctx.beginPath(); ctx.moveTo(P,Y(v)); ctx.lineTo(W-14,Y(v)); ctx.stroke(); });
+    ctx.setLineDash([]);
+    $('#tsout').innerHTML =
+      `<span class="mono">y = ${a.toFixed(1)} sin x + ${b.toFixed(1)} cos x</span><br>`
+      + `<span class="mono">= R sin(x + α),&nbsp; R = √(a² + b²) = <b>${R.toFixed(3)}</b>, α = ${(al*180/Math.PI).toFixed(1)}°</span><br>`
+      + `최댓값 <b>${R.toFixed(2)}</b> · 최솟값 <b>${(-R).toFixed(2)}</b><br>`
+      + (Math.abs(a-3)<0.01 && Math.abs(b-4)<0.01 ? `<b style="color:#B45309">3·4·5 삼각형 등장 — R = 5 입니다.</b><br>` : '')
+      + (S.fit ? `<b style="color:#0E9384">합성 곡선이 합과 완전히 겹칩니다 — 두 파동의 합은 하나의 사인 곡선입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">a, b 를 바꿔도 주기는 그대로 2π 입니다 — 바뀌는 것은 크기와 위상뿐.</span>`;
+  }
+  ['tsA','tsB'].forEach(i=>$('#'+i).oninput=()=>{ S.fit=false; draw(); });
+  $('#tsFit').onclick=()=>{ S.fit=true; draw(); };
+  draw();
+  inquiry(root,{ id:'ts', title:'삼각함수의 합성 — 두 파동은 하나의 파동',
+    q:['(a, b, R, 최댓값) 을 여섯 줄 기록하세요. a 또는 b 가 0 인 경우도 포함하세요.',
+       'R 과 a, b 의 관계를 찾고, 피타고라스 정리와 어떻게 닮았는지 쓰세요.',
+       '합성 곡선을 겹쳐 두 곡선이 완전히 같은지 확인하고, 위상 α 가 어디서 오는지 설명하세요.'],
+    cols:['a','b','R','α','최댓값'],
+    hint:'힌트 — (a, b) 를 좌표로 보면 R 은 원점까지의 거리, α 는 그 점의 방향각입니다.',
+    read:()=>{ const a=+$('#tsA').value,b=+$('#tsB').value,R=Math.hypot(a,b);
+      return [a.toFixed(1),b.toFixed(1),R.toFixed(3),(Math.atan2(b,a)*180/Math.PI).toFixed(1)+'°',R.toFixed(2)]; } });
+}
+
+/* ---------- LAB 120 헤론의 공식 — 세 변만으로 넓이 ---------- */
+function heronDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="hr1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">세 변 길이만 정하면 삼각형이 하나로 정해집니다(SSS).
+      그럼 넓이도 정해져야 하지 않을까요?</div>
+    </div>
+    <div class="col">
+      ${slider('hrA','변 a',3,20,1,8,'')}
+      ${slider('hrB','변 b',3,20,1,9,'')}
+      ${slider('hrC','변 c',3,20,1,10,'')}
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b g sm" id="hrChk">½ab sin C 로 검산</button>
+      </div>
+      <div class="out" id="hrout"></div>
+      <div class="note" style="margin-top:12px">s = (a+b+c)/2 로 두면
+      넓이 = √(s(s−a)(s−b)(s−c)) — 각을 몰라도 넓이가 나옵니다.</div>
+    </div></div>`;
+  const cv=$('#hr1'),ctx=cv.getContext('2d'),W=380,H=300;
+  const S={ chk:false };
+  function draw(){
+    const a=+$('#hrA').value, b=+$('#hrB').value, c=+$('#hrC').value;
+    $('#hrAv').textContent=a; $('#hrBv').textContent=b; $('#hrCv').textContent=c;
+    const ok = a+b>c && b+c>a && c+a>b;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const s=(a+b+c)/2;
+    const area = ok ? Math.sqrt(s*(s-a)*(s-b)*(s-c)) : 0;
+    if(ok){
+      const sc=Math.min(11, 240/Math.max(a,b,c));
+      const A={x:70,y:230}, B={x:70+c*sc, y:230};
+      const cosA=(b*b+c*c-a*a)/(2*b*c);
+      const Cp={x:70+b*sc*cosA, y:230-b*sc*Math.sqrt(Math.max(0,1-cosA*cosA))};
+      ctx.fillStyle='rgba(37,99,235,.14)';
+      ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y); ctx.lineTo(Cp.x,Cp.y); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle='#2563EB'; ctx.lineWidth=2.2; ctx.stroke();
+      ctx.fillStyle='#111827'; ctx.font='bold 11.5px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('c = '+c, (A.x+B.x)/2, A.y+18);
+      ctx.fillText('b = '+b, (A.x+Cp.x)/2-14, (A.y+Cp.y)/2);
+      ctx.fillText('a = '+a, (B.x+Cp.x)/2+16, (B.y+Cp.y)/2);
+    } else {
+      ctx.fillStyle='#BE123C'; ctx.font='bold 14px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('삼각형이 만들어지지 않습니다', W/2, 150);
+      ctx.font='12px sans-serif'; ctx.fillStyle='#6B7280';
+      ctx.fillText('가장 긴 변이 나머지 두 변의 합보다 짧아야 합니다', W/2, 174);
+    }
+    const cosC=(a*a+b*b-c*c)/(2*a*b);
+    const area2 = ok ? 0.5*a*b*Math.sqrt(Math.max(0,1-cosC*cosC)) : 0;
+    $('#hrout').innerHTML =
+      `<span class="mono">s = (a+b+c)/2 = ${s.toFixed(1)}</span><br>`
+      + (ok
+        ? `<span class="mono">넓이 = √(${s.toFixed(1)}×${(s-a).toFixed(1)}×${(s-b).toFixed(1)}×${(s-c).toFixed(1)}) = <b>${area.toFixed(3)}</b></span><br>`
+          + (Math.abs(area-84)<0.01 ? `<b style="color:#B45309">13·14·15 삼각형 — 넓이가 정확히 84 입니다.</b><br>` : '')
+          + (S.chk ? `½ab sin C = <b>${area2.toFixed(3)}</b> — ${Math.abs(area-area2)<0.01?'<b style="color:#0E9384">헤론과 일치! 검산 성공</b>':'차이 '+Math.abs(area-area2).toFixed(3)}<br>` : '')
+        : `<b style="color:#BE123C">삼각부등식 위반 — 넓이를 말할 수 없습니다.</b><br>`)
+      + `<span style="color:#6B7280;font-size:12.5px">각을 하나도 재지 않고 넓이를 구했습니다 — 측량에서 대단히 쓸모 있는 성질입니다.</span>`;
+  }
+  ['hrA','hrB','hrC'].forEach(i=>$('#'+i).oninput=()=>{ S.chk=false; draw(); });
+  $('#hrChk').onclick=()=>{ S.chk=true; draw(); };
+  draw();
+  inquiry(root,{ id:'hr', title:'헤론의 공식 — 각 없이 넓이 구하기',
+    q:['세 변을 바꿔 가며 (a, b, c, s, 넓이) 를 여섯 줄 기록하세요. 삼각부등식을 깨는 조합도 넣으세요.',
+       '½ab sin C 검산과 헤론의 값이 늘 같은지 확인하세요.',
+       '세 변이 정해지면 넓이가 하나로 정해지는 이유를 SSS 합동으로 설명하세요.'],
+    cols:['a','b','c','s','헤론 넓이','½ab sinC'],
+    hint:'힌트 — 세 변이 같으면 삼각형은 합동입니다. 합동이면 넓이도 같을 수밖에 없습니다.',
+    read:()=>{ const a=+$('#hrA').value,b=+$('#hrB').value,c=+$('#hrC').value,s=(a+b+c)/2;
+      const ok=a+b>c&&b+c>a&&c+a>b;
+      const ar=ok?Math.sqrt(s*(s-a)*(s-b)*(s-c)):0;
+      const cosC=(a*a+b*b-c*c)/(2*a*b);
+      return [a,b,c,s.toFixed(1), ok?ar.toFixed(3):'없음', ok?(0.5*a*b*Math.sqrt(Math.max(0,1-cosC*cosC))).toFixed(3):'없음']; } });
+}
+
+/* ---------- LAB 121 푸리에의 직관 — 소리를 성분으로 쪼개기 ---------- */
+function fourierDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="fr1" width="380" height="180"></canvas>
+      <canvas id="fr2" width="380" height="120" style="margin-top:6px"></canvas>
+      <div class="note" style="margin-top:8px">위는 만들어진 파형, 아래는 <b>성분 막대</b>(스펙트럼)입니다.
+      목표 파형에 얼마나 가까운지 오차로 알려 줍니다.</div>
+    </div>
+    <div class="col">
+      <label class="ctl">목표 파형<select id="frT" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="sq">사각파 (톱니처럼 각진 소리)</option>
+        <option value="saw">톱니파</option></select></label>
+      ${slider('fr1a','1배음',0,1.4,0.05,0.4,'')}
+      ${slider('fr3a','3배음',0,0.8,0.05,0,'')}
+      ${slider('fr5a','5배음',0,0.5,0.05,0,'')}
+      ${slider('fr7a','7배음',0,0.4,0.05,0,'')}
+      <div class="out" id="frout"></div>
+      <div class="note" style="margin-top:12px">사각파는 홀수 배음을 1, 1/3, 1/5, 1/7 … 비율로 더하면 만들어집니다.
+      어떤 파형이든 사인들의 합으로 쪼갤 수 있다 — 푸리에의 생각입니다.</div>
+    </div></div>`;
+  const c1=$('#fr1'),x1=c1.getContext('2d'),W=380,H1=180;
+  const c2=$('#fr2'),x2=c2.getContext('2d'),H2=120;
+  const target=(k,t)=>{
+    if(k==='sq') return Math.sign(Math.sin(t)) * 0.9;
+    return ((t%(2*Math.PI))/Math.PI - 1) * 0.9;
+  };
+  function draw(){
+    const k=$('#frT').value;
+    const A=[+$('#fr1a').value, +$('#fr3a').value, +$('#fr5a').value, +$('#fr7a').value];
+    [['fr1a',0],['fr3a',1],['fr5a',2],['fr7a',3]].forEach(([id,i])=>$('#'+id+'v').textContent=A[i].toFixed(2));
+    const H=[1,3,5,7];
+    const f=t=>A.reduce((s,a,i)=>s+a*Math.sin(H[i]*t),0);
+    x1.clearRect(0,0,W,H1); x1.fillStyle='#fff'; x1.fillRect(0,0,W,H1);
+    x1.strokeStyle='#E5E7EB'; x1.beginPath(); x1.moveTo(20,H1/2); x1.lineTo(W-20,H1/2); x1.stroke();
+    const X=t=>20+(W-40)*t/(2*Math.PI), Y=v=>H1/2-v*60;
+    x1.strokeStyle='#D1D5DB'; x1.lineWidth=1.8; x1.beginPath();
+    for(let t=0;t<=2*Math.PI;t+=0.01){ const px=X(t),py=Y(target(k,t)); t===0?x1.moveTo(px,py):x1.lineTo(px,py); } x1.stroke();
+    x1.strokeStyle='#2563EB'; x1.lineWidth=2.4; x1.beginPath();
+    for(let t=0;t<=2*Math.PI;t+=0.005){ const px=X(t),py=Y(f(t)); t===0?x1.moveTo(px,py):x1.lineTo(px,py); } x1.stroke();
+    // 스펙트럼
+    x2.clearRect(0,0,W,H2); x2.fillStyle='#fff'; x2.fillRect(0,0,W,H2);
+    x2.strokeStyle='#9CA3AF'; x2.beginPath(); x2.moveTo(30,H2-24); x2.lineTo(W-20,H2-24); x2.stroke();
+    A.forEach((a,i)=>{ const bx=60+i*70, h=a*70;
+      x2.fillStyle='rgba(37,99,235,.45)'; x2.fillRect(bx-14, H2-24-h, 28, h);
+      x2.strokeStyle='#2563EB'; x2.strokeRect(bx-14, H2-24-h, 28, h);
+      x2.fillStyle='#374151'; x2.font='10.5px sans-serif'; x2.textAlign='center';
+      x2.fillText(H[i]+'배음', bx, H2-10); });
+    let se=0, n=0;
+    for(let t=0;t<2*Math.PI;t+=0.02){ const e=f(t)-target(k,t); se+=e*e; n++; }
+    const rmse=Math.sqrt(se/n);
+    $('#frout').innerHTML =
+      `<span class="mono">y = ${A.map((a,i)=>a>0?a.toFixed(2)+'·sin('+H[i]+'x)':null).filter(Boolean).join(' + ')||'0'}</span><br>`
+      + `목표와의 평균 오차 = <b style="color:${rmse<0.25?'#0E9384':rmse<0.4?'#B45309':'#BE123C'}">${rmse.toFixed(3)}</b><br>`
+      + (rmse<0.25 ? `<b style="color:#0E9384">성분 분해 성공 — 사인들의 합이 목표 파형을 흉내 냈습니다.</b><br>` : '')
+      + (A[1]>0 && A[2]>0 && A[3]>0 ? `<b style="color:#7C3AED">홀수 배음 넷이 모두 살아 있습니다 — 각진 파형의 재료입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">막대(스펙트럼)는 「이 소리에 어떤 주파수가 얼마나 들었는가」의 지도입니다.</span>`;
+  }
+  ['fr1a','fr3a','fr5a','fr7a'].forEach(i=>$('#'+i).oninput=draw);
+  $('#frT').onchange=draw;
+  draw();
+  inquiry(root,{ id:'fr', title:'푸리에의 직관 — 파형을 성분으로',
+    q:['배음 진폭을 하나씩 올리며 (진폭 조합, 오차) 를 여섯 줄 기록하세요.',
+       '사각파에 가장 가까워지는 조합을 찾고, 1 : 1/3 : 1/5 : 1/7 비율과 비교하세요.',
+       '스펙트럼 막대가 무엇을 나타내는지 자기 말로 쓰고, 음성 인식·MP3 압축과 어떻게 이어지는지 조사하세요.'],
+    cols:['1배음','3배음','5배음','7배음','오차'],
+    hint:'힌트 — 각진 파형일수록 높은 배음이 필요합니다. 배음을 잘라내면 모서리가 둥글어집니다.',
+    read:()=>{ const A=['fr1a','fr3a','fr5a','fr7a'].map(i=>+$('#'+i).value);
+      const k=$('#frT').value, H=[1,3,5,7];
+      const f=t=>A.reduce((s,a,i)=>s+a*Math.sin(H[i]*t),0);
+      let se=0,n=0; for(let t=0;t<2*Math.PI;t+=0.02){ const e=f(t)-target(k,t); se+=e*e; n++; }
+      return A.map(a=>a.toFixed(2)).concat([Math.sqrt(se/n).toFixed(3)]); } });
+}
+
+
+
+/* ---------- LAB 122 등차수열 — 극장 좌석과 사다리꼴 ---------- */
+function apDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ap1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">한 줄이 늘 때마다 좌석이 <b>d 개씩</b> 늘어납니다.
+      전체 좌석 수는 사다리꼴의 넓이와 같은 구조입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('apF','첫째 줄 좌석 a₁',4,20,1,12,'석')}
+      ${slider('apD','한 줄마다 늘어나는 수 d',0,6,1,2,'석')}
+      ${slider('apN','줄 수 n',3,20,1,8,'줄')}
+      <div class="out" id="apout"></div>
+      <div class="note" style="margin-top:12px">Sₙ = n(a₁ + aₙ)/2 — 첫 줄과 끝 줄의 <b>평균</b>에 줄 수를 곱한 것입니다.</div>
+    </div></div>`;
+  const cv=$('#ap1'),ctx=cv.getContext('2d'),W=380,H=300,P=30;
+  function draw(){
+    const a1=+$('#apF').value, d=+$('#apD').value, n=+$('#apN').value;
+    $('#apFv').textContent=a1+'석'; $('#apDv').textContent=d+'석'; $('#apNv').textContent=n+'줄';
+    const an=a1+(n-1)*d, sum=n*(a1+an)/2;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const rowH=Math.min(20,(H-2*P)/n), maxSeat=Math.max(an,1);
+    for(let i=0;i<n;i++){
+      const seats=a1+i*d, w=(W-2*P)*seats/maxSeat;
+      ctx.fillStyle= i===0?'rgba(190,18,60,.4)': i===n-1?'rgba(14,147,132,.4)':'rgba(37,99,235,.32)';
+      ctx.fillRect(P, P+i*rowH, w, rowH-2);
+      ctx.strokeStyle='#C7D2E4'; ctx.lineWidth=0.8; ctx.strokeRect(P, P+i*rowH, w, rowH-2);
+    }
+    ctx.fillStyle='#374151'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('첫 줄 '+a1+'석', P+4, P+13);
+    ctx.fillText('끝 줄 '+an+'석', P+4, P+(n-1)*rowH+13);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('사다리꼴 모양 — 위·아래 변의 평균 × 높이', P, H-14);
+    $('#apout').innerHTML =
+      `<span class="mono">aₙ = a₁ + (n−1)d = ${a1} + ${n-1}×${d} = <b>${an}</b></span><br>`
+      + `<span class="mono">Sₙ = n(a₁ + aₙ)/2 = ${n}(${a1} + ${an})/2 = <b>${sum}</b></span><br>`
+      + `전체 좌석 <b style="color:#2563EB">${sum}석</b> · 평균 한 줄 <b>${(sum/n).toFixed(1)}석</b><br>`
+      + (d===0 ? `<b style="color:#7C3AED">공차 0 — 모든 줄이 같아 직사각형이 되었습니다 (Sₙ = n·a₁).</b><br>` : '')
+      + (a1===12 && d===2 && n===15 ? `<b style="color:#B45309">오늘의 문제 — 15줄이면 모두 ${sum}석입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">첫 줄과 끝 줄의 평균이 「가운데 줄」과 같다는 것이 공식의 핵심입니다.</span>`;
+  }
+  ['apF','apD','apN'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'ap', title:'등차수열 — 사다리꼴로 세는 좌석',
+    q:['(a₁, d, n, aₙ, Sₙ) 을 여섯 줄 기록하세요. 공차 0 인 경우도 포함하세요.',
+       '첫 줄과 끝 줄의 평균이 전체 평균과 같은지 표에서 확인하세요.',
+       'Sₙ = n(a₁+aₙ)/2 를 사다리꼴 넓이 공식과 짝지어 손으로 설명하세요.'],
+    cols:['a₁','d','n','aₙ','Sₙ','평균'],
+    hint:'힌트 — 좌석 배치를 뒤집어 원래 배치 위에 얹으면 모든 줄이 (a₁+aₙ) 개인 직사각형이 됩니다.',
+    read:()=>{ const a1=+$('#apF').value,d=+$('#apD').value,n=+$('#apN').value,an=a1+(n-1)*d;
+      return [a1,d,n,an,n*(a1+an)/2,((a1+an)/2).toFixed(1)]; } });
+}
+
+/* ---------- LAB 123 등차 vs 등비 — 매달 1만원 vs 매달 1% ---------- */
+function apGpDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ag1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">파랑은 <b>매달 같은 금액</b>(등차), 초록은 <b>매달 같은 비율</b>(등비)입니다.
+      언제 뒤집히는지 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('agA','시작 금액',10,200,10,50,'만원')}
+      ${slider('agD','등차 — 매달 더하는 돈',1,20,1,5,'만원')}
+      ${slider('agR','등비 — 매달 늘어나는 비율',1,20,1,3,'%')}
+      ${slider('agN','개월 수',6,60,6,12,'개월')}
+      <div class="out" id="agout"></div>
+      <div class="note" style="margin-top:12px">처음에는 등차가 앞서지만, 등비는 <b>언젠가 반드시</b> 추월합니다 —
+      그 시점을 찾는 것이 오늘의 목표입니다.</div>
+    </div></div>`;
+  const cv=$('#ag1'),ctx=cv.getContext('2d'),W=380,H=300,P=42;
+  function draw(){
+    const a=+$('#agA').value, d=+$('#agD').value, r=+$('#agR').value/100, n=+$('#agN').value;
+    $('#agAv').textContent=a+'만원'; $('#agDv').textContent=d+'만원';
+    $('#agRv').textContent=(+$('#agR').value)+'%'; $('#agNv').textContent=n+'개월';
+    const ap=k=>a+d*k, gp=k=>a*Math.pow(1+r,k);
+    const maxV=Math.max(ap(n), gp(n))*1.08;
+    const X=k=>P+(W-P-16)*k/n, Y=v=>H-P-(H-2*P)*v/maxV;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#F1F3F6';
+    for(let i=0;i<=4;i++){ const y=H-P-(H-2*P)*i/4; ctx.beginPath(); ctx.moveTo(P,y); ctx.lineTo(W-16,y); ctx.stroke(); }
+    const path=(f,col,w)=>{ ctx.strokeStyle=col; ctx.lineWidth=w; ctx.beginPath();
+      for(let k=0;k<=n;k+=n/200){ const px=X(k),py=Y(f(k)); k===0?ctx.moveTo(px,py):ctx.lineTo(px,py); } ctx.stroke(); };
+    path(ap,'#2563EB',2.4); path(gp,'#0E9384',2.6);
+    let cross=null;
+    for(let k=1;k<=n;k++){ if(gp(k)>=ap(k)){ cross=k; break; } }
+    if(cross){ ctx.strokeStyle='#BE123C'; ctx.setLineDash([4,3]); ctx.lineWidth=1.4;
+      ctx.beginPath(); ctx.moveTo(X(cross),P-8); ctx.lineTo(X(cross),H-P); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#BE123C'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(cross+'개월', X(cross), P-12); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-16,H-P); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='left'; ctx.fillText('개월 →',P,H-P+16);
+    $('#agout').innerHTML =
+      `<span class="mono">등차 aₙ = ${a} + ${d}n &nbsp;/&nbsp; 등비 aₙ = ${a}×${(1+r).toFixed(2)}ⁿ</span><br>`
+      + `${n}개월 뒤 — 등차 <b style="color:#2563EB">${ap(n).toFixed(0)}만원</b> · 등비 <b style="color:#0E9384">${gp(n).toFixed(0)}만원</b><br>`
+      + (cross ? `<b style="color:#BE123C">역전 시점 — ${cross}개월째에 등비가 등차를 앞질렀습니다.</b><br>`
+               : `<b style="color:#B45309">아직 역전 전 — 개월 수를 늘리면 언젠가 반드시 뒤집힙니다.</b><br>`)
+      + `<span style="color:#6B7280;font-size:12.5px">더하기는 직선, 곱하기는 휘는 곡선 — 처음의 앞섬은 오래가지 않습니다.</span>`;
+  }
+  ['agA','agD','agR','agN'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'ag', title:'등차 vs 등비 — 언제 뒤집힐까',
+    q:['(d, r, 역전 시점) 을 여섯 줄 기록하세요. 역전이 화면 안에서 일어나지 않는 경우도 넣으세요.',
+       '비율 r 을 올릴 때 역전 시점이 어떻게 변하는지 규칙을 찾으세요.',
+       '「곱하기는 결국 더하기를 이긴다」를 두 수열의 일반항으로 손으로 설명하세요.'],
+    cols:['시작','d','r','n개월 뒤 등차','n개월 뒤 등비','역전 시점'],
+    hint:'힌트 — 등차는 직선(일차), 등비는 지수입니다. 지수는 어떤 직선도 결국 넘어섭니다.',
+    read:()=>{ const a=+$('#agA').value,d=+$('#agD').value,r=+$('#agR').value/100,n=+$('#agN').value;
+      let c=null; for(let k=1;k<=n;k++){ if(a*Math.pow(1+r,k)>=a+d*k){ c=k; break; } }
+      return [a,d,(r*100)+'%',(a+d*n).toFixed(0),(a*Math.pow(1+r,n)).toFixed(0), c?c+'개월':'아직']; } });
+}
+
+/* ---------- LAB 124 시그마와 누적합 — 데이터 집계 ---------- */
+function sumDataDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sd2" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">위 막대는 <b>매일의 값</b>, 아래 꺾은선은 <b>누적합</b>입니다.
+      막대를 눌러 값을 바꿔 보세요.</div>
+    </div>
+    <div class="col">
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="b g sm" id="sdFlat">모두 같게 (하루 5)</button>
+        <button class="b g sm" id="sdUp">매일 2씩 증가</button>
+        <button class="b g sm" id="sdRnd">들쭉날쭉</button>
+      </div>
+      <div class="out" id="sd2out"></div>
+      <div class="note" style="margin-top:12px">시그마는 <b>더하라는 명령</b>입니다.
+      Σ(aₖ + bₖ) = Σaₖ + Σbₖ, Σc·aₖ = c·Σaₖ — 성질은 「먼저 더하나 나중에 더하나 같다」입니다.</div>
+    </div></div>`;
+  const cv=$('#sd2'),ctx=cv.getContext('2d'),W=380,H=300,P=34;
+  const S={ v:[3,5,2,6,4,7,3,5,6,4] };
+  function draw(){
+    const v=S.v, n=v.length;
+    const cum=[]; let acc=0; v.forEach(x=>{ acc+=x; cum.push(acc); });
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const bw=(W-2*P)/n, mid=140, maxV=Math.max(...v,1), maxC=Math.max(acc,1);
+    v.forEach((x,i)=>{ const h=(mid-P)*x/maxV;
+      ctx.fillStyle='rgba(37,99,235,.42)'; ctx.fillRect(P+i*bw+2, mid-h, bw-4, h);
+      ctx.strokeStyle='#2563EB'; ctx.lineWidth=1; ctx.strokeRect(P+i*bw+2, mid-h, bw-4, h);
+      ctx.fillStyle='#374151'; ctx.font='9.5px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(x, P+i*bw+bw/2, mid-h-4); });
+    ctx.strokeStyle='#9CA3AF'; ctx.beginPath(); ctx.moveTo(P,mid); ctx.lineTo(W-P,mid); ctx.stroke();
+    const Y=c=>H-P-(H-P-mid-24)*c/maxC;
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.4; ctx.beginPath();
+    cum.forEach((c,i)=>{ const px=P+i*bw+bw/2, py=Y(c); i?ctx.lineTo(px,py):ctx.moveTo(px,py); }); ctx.stroke();
+    cum.forEach((c,i)=>{ ctx.fillStyle='#0E9384'; ctx.beginPath(); ctx.arc(P+i*bw+bw/2,Y(c),3.4,0,7); ctx.fill(); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('매일의 값', P, P-8); ctx.fillText('누적합 (지금까지 모두 더한 값)', P, mid+18);
+    const flat = v.every(x=>x===v[0]);
+    const inc = v.every((x,i)=>i===0||x-v[i-1]===v[1]-v[0]) && v[1]-v[0]!==0;
+    $('#sd2out').innerHTML =
+      `<span class="mono">Σ<sub>k=1</sub><sup>${n}</sup> a<sub>k</sub> = <b>${acc}</b></span> · 평균 <b>${(acc/n).toFixed(1)}</b><br>`
+      + `마지막 누적값이 곧 총합입니다.<br>`
+      + (flat ? `<b style="color:#7C3AED">모두 같은 값 — 누적합이 <b>직선</b>이 되었습니다 (Σc = nc).</b><br>` : '')
+      + (inc ? `<b style="color:#0E9384">일정하게 증가 — 누적합이 위로 휘는 <b>이차 곡선</b>이 됩니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">막대의 모양이 곧 누적선의 기울기입니다 — 집계는 「기울기 읽기」의 반대입니다.</span>`;
+  }
+  cv.style.touchAction='none';
+  cv.addEventListener('pointerdown',e=>{
+    const r=cv.getBoundingClientRect();
+    const x=(e.clientX-r.left)*W/r.width, y=(e.clientY-r.top)*H/r.height;
+    if(y>140) return;
+    const bw=(W-2*P)/S.v.length, i=Math.floor((x-P)/bw);
+    if(i<0||i>=S.v.length) return;
+    S.v[i] = S.v[i]>=9 ? 1 : S.v[i]+1; draw();
+  });
+  $('#sdFlat').onclick=()=>{ S.v=S.v.map(()=>5); draw(); };
+  $('#sdUp').onclick=()=>{ S.v=S.v.map((_,i)=>i+1); draw(); };
+  $('#sdRnd').onclick=()=>{ S.v=[3,5,2,6,4,7,3,5,6,4]; draw(); };
+  draw();
+  inquiry(root,{ id:'sd2', title:'시그마와 누적합 — 집계의 수학',
+    q:['막대를 눌러 자료를 바꿔 가며 (자료 모양, 총합, 누적선의 모양) 을 여섯 줄 기록하세요.',
+       '모두 같은 값일 때와 일정하게 증가할 때 누적선이 각각 어떤 모양인지 확인하세요.',
+       'Σ(aₖ+bₖ) = Σaₖ + Σbₖ 를 자료 두 벌로 검증하고, 성질이 성립하는 이유를 쓰세요.'],
+    cols:['자료 모양','총합','평균','누적선 모양'],
+    hint:'힌트 — 누적합의 「증가량」이 곧 그날의 값입니다. 미분과 적분의 관계와 같은 구조입니다.',
+    read:()=>{ const v=S.v, acc=v.reduce((a,b)=>a+b,0);
+      const flat=v.every(x=>x===v[0]);
+      return [flat?'모두 같음':'변동 있음', acc, (acc/v.length).toFixed(1), flat?'직선':'휘는 선']; } });
+}
+
+/* ---------- LAB 125 점화식 — 다음 항은 앞 항이 정한다 ---------- */
+function recurSeqDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="rq1" width="380" height="300"></canvas>
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b t" id="rqStep">다음 항 만들기 ▶</button>
+        <button class="b t sm" id="rqRun">10항 한 번에</button>
+        <button class="b g sm" id="rqRs">처음으로</button>
+      </div>
+    </div>
+    <div class="col">
+      <label class="ctl">점화식 고르기<select id="rqK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="add">aₙ₊₁ = aₙ + 3 (등차)</option>
+        <option value="mul">aₙ₊₁ = 2aₙ (등비)</option>
+        <option value="fib" selected>aₙ₊₁ = aₙ + aₙ₋₁ (피보나치)</option>
+        <option value="mix">aₙ₊₁ = 2aₙ + 1</option></select></label>
+      <div class="out" id="rqout"></div>
+      <div class="note" style="margin-top:12px">점화식은 <b>「다음을 만드는 규칙」</b>입니다.
+      토끼 쌍의 수, 예금 잔액, 재귀 알고리즘이 모두 이 꼴로 적힙니다.</div>
+    </div></div>`;
+  const cv=$('#rq1'),ctx=cv.getContext('2d'),W=380,H=300,P=36;
+  const S={ a:[1,1] };
+  function init(){ const k=$('#rqK').value;
+    S.a = k==='fib' ? [1,1] : k==='add' ? [2] : k==='mul' ? [1] : [1]; }
+  function next(){
+    const k=$('#rqK').value, a=S.a, n=a.length;
+    if(n>=14) return;
+    if(k==='add') a.push(a[n-1]+3);
+    else if(k==='mul') a.push(2*a[n-1]);
+    else if(k==='fib') a.push(a[n-1]+a[n-2]);
+    else a.push(2*a[n-1]+1);
+  }
+  function draw(){
+    const a=S.a, n=a.length, mx=Math.max(...a,1);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const bw=(W-2*P)/14;
+    a.forEach((v,i)=>{ const h=(H-2*P)*v/mx;
+      ctx.fillStyle= i>=n-1 ? 'rgba(190,18,60,.45)' : 'rgba(37,99,235,.38)';
+      ctx.fillRect(P+i*bw+2, H-P-h, bw-4, h);
+      ctx.fillStyle='#374151'; ctx.font='9.5px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(v, P+i*bw+bw/2, H-P-h-4); });
+    ctx.strokeStyle='#9CA3AF'; ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('항 번호 →', P, H-P+16);
+    const k=$('#rqK').value;
+    const names={add:'aₙ₊₁ = aₙ + 3', mul:'aₙ₊₁ = 2aₙ', fib:'aₙ₊₁ = aₙ + aₙ₋₁', mix:'aₙ₊₁ = 2aₙ + 1'};
+    const ratio = n>=3 ? (a[n-1]/a[n-2]) : null;
+    $('#rqout').innerHTML =
+      `<span class="mono">${names[k]}</span> · 지금까지 <b>${n}항</b><br>`
+      + `수열: <b>${a.join(', ')}</b><br>`
+      + (k==='fib' && n>=10 ? `<b style="color:#B45309">이웃 항의 비 = ${ratio.toFixed(4)} — 황금비 1.618 에 다가갑니다.</b><br>` : '')
+      + (k==='mix' && n>=6 ? `<b style="color:#7C3AED">각 항에 1을 더해 보세요 — 2, 4, 8, 16 … 등비가 숨어 있습니다.</b><br>` : '')
+      + (k==='add' && n>=6 ? `<b style="color:#0E9384">차가 늘 3 — 일반항 aₙ = ${a[0]} + 3(n−1) 로 한 번에 구할 수 있습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">점화식은 「다음」만 알려 줍니다. 먼 항을 바로 알려면 일반항이 필요합니다.</span>`;
+  }
+  $('#rqStep').onclick=()=>{ next(); draw(); };
+  $('#rqRun').onclick=()=>{ for(let i=0;i<10;i++) next(); draw(); };
+  $('#rqRs').onclick=()=>{ init(); draw(); };
+  $('#rqK').onchange=()=>{ init(); draw(); };
+  init(); draw();
+  inquiry(root,{ id:'rq', title:'점화식 — 다음 항을 만드는 규칙',
+    q:['네 점화식을 모두 10항까지 만들며 (규칙, 처음 다섯 항, 자라는 속도) 를 기록하세요.',
+       '피보나치에서 이웃 항의 비를 계산해 어디로 다가가는지 확인하세요.',
+       'aₙ₊₁ = 2aₙ + 1 의 각 항에 1을 더하면 등비가 되는 이유를 손으로 설명하세요.'],
+    cols:['점화식','항 수','마지막 항','이웃 비'],
+    hint:'힌트 — 점화식은 「씨앗(첫 항) + 만드는 규칙」입니다. 씨앗이 다르면 전혀 다른 수열이 됩니다.',
+    read:()=>{ const a=S.a,n=a.length,k=$('#rqK').value;
+      const names={add:'aₙ+3',mul:'2aₙ',fib:'aₙ+aₙ₋₁',mix:'2aₙ+1'};
+      return [names[k], n, a[n-1], n>=3?(a[n-1]/a[n-2]).toFixed(4):'—']; } });
+}
+
+/* ---------- LAB 126 적금의 수학 — 매달 넣으면 얼마가 될까 ---------- */
+function savingDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sv2" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">막대 하나가 <b>그달에 넣은 돈이 만기에 갖는 가치</b>입니다.
+      먼저 넣은 돈일수록 이자를 오래 받습니다.</div>
+    </div>
+    <div class="col">
+      ${slider('svM','매달 넣는 돈',5,50,5,10,'만원')}
+      ${slider('svR','연이자율',1,8,0.5,2,'%')}
+      ${slider('svN','기간',6,36,6,6,'개월')}
+      <div class="out" id="sv2out"></div>
+      <div class="note" style="margin-top:12px">매달 같은 돈을 넣어도 <b>넣은 시점마다 이자 기간이 다릅니다</b> —
+      그래서 만기 금액이 등비수열의 합이 됩니다.</div>
+    </div></div>`;
+  const cv=$('#sv2'),ctx=cv.getContext('2d'),W=380,H=300,P=40;
+  function calc(){
+    const m=+$('#svM').value, r=+$('#svR').value/100/12, n=+$('#svN').value;
+    const parts=[]; let tot=0;
+    for(let k=0;k<n;k++){ const v=m*Math.pow(1+r,n-1-k); parts.push(v); tot+=v; }
+    return {m,r,n,parts,tot,principal:m*n};
+  }
+  function draw(){
+    const c=calc();
+    $('#svMv').textContent=c.m+'만원'; $('#svRv').textContent=(+$('#svR').value).toFixed(1)+'%'; $('#svNv').textContent=c.n+'개월';
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const bw=(W-2*P)/c.n, mx=Math.max(...c.parts);
+    c.parts.forEach((v,i)=>{ const h=(H-2*P)*v/mx;
+      ctx.fillStyle='rgba(37,99,235,.40)'; ctx.fillRect(P+i*bw+1, H-P-h, bw-2, h);
+      ctx.fillStyle='rgba(190,18,60,.35)';
+      const ih=(H-2*P)*(v-c.m)/mx; if(ih>0.6) ctx.fillRect(P+i*bw+1, H-P-h, bw-2, ih);
+    });
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('첫 달 (이자 오래)', P, H-P+16);
+    ctx.textAlign='right'; ctx.fillText('마지막 달', W-P, H-P+16);
+    ctx.textAlign='left'; ctx.fillStyle='#BE123C'; ctx.font='bold 10.5px sans-serif';
+    ctx.fillText('붉은 부분 = 이자', P, P-10);
+    const interest = c.tot - c.principal;
+    $('#sv2out').innerHTML =
+      `<span class="mono">S = m·((1+i)ⁿ − 1)/i</span> &nbsp;(i = 월이자율 ${(c.r*100).toFixed(3)}%)<br>`
+      + `원금 합계 <b>${c.principal}만원</b> → 만기 금액 <b style="color:#2563EB">${c.tot.toFixed(1)}만원</b>`
+      + ` · 이자 <b style="color:#BE123C">${interest.toFixed(1)}만원</b><br>`
+      + (c.m===20 && c.n===12 && Math.abs(+$('#svR').value-3)<0.01
+          ? `<b style="color:#B45309">오늘의 문제 — 만기에 ${c.tot.toFixed(1)}만원, 이자는 ${interest.toFixed(1)}만원입니다.</b><br>` : '')
+      + (c.n>=24 ? `<b style="color:#0E9384">기간이 길어질수록 이자 비중이 눈에 띄게 커집니다 (${(interest/c.principal*100).toFixed(1)}%).</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">첫 달에 넣은 돈이 가장 높은 막대입니다 — 시간이 곧 이자입니다.</span>`;
+  }
+  ['svM','svR','svN'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'sv2', title:'적금 — 등비수열로 자라는 저축',
+    q:['(매달 금액, 이자율, 기간, 만기 금액, 이자) 를 여섯 줄 기록하세요.',
+       '기간을 두 배로 늘리면 이자가 몇 배가 되는지 확인하세요(두 배보다 큰가요?).',
+       '만기 금액이 등비수열의 합인 이유를 「각 달의 돈이 받는 이자 기간」으로 손으로 설명하세요.'],
+    cols:['매달','이자율','기간','원금 합','만기 금액','이자'],
+    hint:'힌트 — 첫 달 돈은 (1+i)^(n−1) 배, 마지막 달 돈은 1 배. 이들을 더하면 등비수열의 합입니다.',
+    read:()=>{ const c=calc();
+      return [c.m+'만원',(+$('#svR').value).toFixed(1)+'%',c.n+'개월',c.principal,c.tot.toFixed(1),(c.tot-c.principal).toFixed(1)]; } });
+}
+
 const LABS=[
 {n:1,core:1,t:'“여기 어디지?” GPS 위치 추정',q:'스마트폰은 내가 어디 있는지 어떻게 알까?',
  m:['좌표평면·두 점 사이의 거리','원의 방정식','연립방정식'],a:['위치기반서비스(LBS)','센서 융합·오차 보정'],
@@ -5987,7 +7209,67 @@ const LABS=[
 {n:111,core:0,t:'“도미노가 다 무너지려면” 수학적 귀납법',q:'무한히 많은 경우를 어떻게 다 확인할까?',
  m:['수학적 귀납법','증명의 구조'],a:['알고리즘 정당성','재귀'],
  note:'첫 도미노를 밀지 않거나 간격이 넓거나 한 개를 빼면 사슬이 끊깁니다. 귀납법의 두 조건이 각각 무엇을 하는지 도미노로 몸에 남깁니다.',
- build:dominoDemo}
+ build:dominoDemo},
+{n:112,core:0,t:'“몇 해 뒤에 세 배?” 지수방정식과 부등식',q:'지수에 갇힌 x 를 어떻게 꺼낼까?',
+ m:['지수방정식','지수부등식','로그의 정의'],a:['복리 계산','성장 시점 예측'],
+ note:'y = a^x 곡선과 가로선 y = k 의 교점이 곧 방정식의 해입니다. 밑이 1보다 작을 때 부등호가 뒤집히는 장면까지 직접 만들어 봅니다.',
+ build:expEqDemo},
+{n:113,core:0,t:'“계산기에 없는 밑” 로그의 밑 변환',q:'log₂ 100 을 상용로그만으로 구할 수 있을까?',
+ m:['로그의 밑 변환','상용로그'],a:['정보량 계산','알고리즘 복잡도'],
+ note:'log b 와 log a 두 막대의 비가 곧 log_a b 입니다. 거듭제곱 검산으로 결과를 되돌려 확인하고, 밑과 진수가 같을 때 1이 되는 것도 실험합니다.',
+ build:logBaseDemo},
+{n:114,core:0,t:'“좌표를 맞바꾼 짝” 지수와 로그의 대칭',q:'로그에 음수를 넣을 수 없는 이유는?',
+ m:['역함수','y = x 대칭','정의역과 치역'],a:['인코딩과 디코딩','스케일 변환'],
+ note:'지수함수의 치역(y > 0)이 로그함수의 정의역이 됩니다. 대응점을 끌어 두 곡선이 y = x 대칭임을 확인하고, 정의역 밖으로 나가 보며 로그의 조건을 몸으로 만납니다.',
+ build:expLogDemo},
+{n:115,core:0,t:'“2의 100제곱은 몇 자리?” 상용로그의 지표와 가수',q:'계산기가 넘치는 수의 자릿수를 알 수 있을까?',
+ m:['상용로그','지표와 가수','자릿수'],a:['빅데이터 규모 감각','벤포드 법칙'],
+ note:'log 값의 정수 부분(지표)이 자릿수를, 소수 부분(가수)이 최고 자리 숫자를 쥐고 있습니다. 지수를 키우며 자릿수가 어떻게 자라는지 확인합니다.',
+ build:log10Demo},
+{n:116,core:0,t:'“밑을 바꾸면 곡선이 뒤집힌다” 지수함수의 변신',q:'점근선은 어디로 움직일까?',
+ m:['지수함수의 그래프','평행이동','점근선'],a:['성장·감쇠 모형','신호 감쇠'],
+ note:'밑·가로이동·세로이동을 하나씩 움직이며 증가·감소가 갈리는 지점과 점근선이 통째로 들리는 장면을 봅니다. 괄호 안 부호가 반대로 보이는 이유까지.',
+ build:expMoveDemo},
+{n:117,core:0,t:'“무엇이 무엇을 바꿨나” 주기·진폭·위상',q:'계수 넷은 각각 그래프의 무엇을 맡을까?',
+ m:['삼각함수의 그래프','주기와 진폭','위상 이동'],a:['신호 처리','음향 합성'],
+ note:'a·b·c·d 를 하나씩만 움직이며 담당 구역을 가려냅니다. 주기 = 2π/b, 최대·최소 = d ± a 가 화면에서 확인됩니다.',
+ build:trigParamDemo},
+{n:118,core:0,t:'“해가 왜 무한히 많을까” 삼각방정식',q:'sin x = 0.5 의 해는 몇 개일까?',
+ m:['삼각방정식','주기성','일반해'],a:['주기 신호의 시점 찾기','위상 검출'],
+ note:'단위원과 사인 곡선을 나란히 두고 가로선과의 교점을 셉니다. 한 바퀴 안의 해에 2nπ 를 더하면 전부라는 구조가 눈에 남습니다.',
+ build:trigEqDemo},
+{n:119,core:0,t:'“두 파동을 더하면” 삼각함수의 합성',q:'3 sin x + 4 cos x 의 최댓값은?',
+ m:['삼각함수의 합성','R sin(x+α)','최대·최소'],a:['신호 합성','진폭 계산'],
+ note:'a sin x + b cos x 가 왜 다시 사인 곡선이 되는지, 진폭이 왜 √(a²+b²) 인지 곡선을 겹쳐 확인합니다. 3·4·5 가 여기서 다시 등장합니다.',
+ build:trigSumDemo},
+{n:120,core:0,t:'“각 없이 넓이 구하기” 헤론의 공식',q:'세 변만 알아도 넓이를 구할 수 있을까?',
+ m:['헤론의 공식','삼각부등식','SSS'],a:['토지 측량','드론 면적 계산'],
+ note:'세 변이 정해지면 삼각형은 합동이므로 넓이도 하나입니다. ½ab sin C 로 검산해 두 길이 같은 값을 주는지 확인합니다.',
+ build:heronDemo},
+{n:121,core:0,t:'“소리를 성분으로 쪼개다” 푸리에의 직관',q:'각진 파형은 어떤 사인들의 합일까?',
+ m:['삼각함수의 합','배음','스펙트럼'],a:['MP3 압축','음성 인식','신호 분해'],
+ note:'홀수 배음을 1, 1/3, 1/5, 1/7 비율로 더하면 사각파에 가까워집니다. 파형과 스펙트럼을 나란히 보며 「분해」의 뜻을 만듭니다.',
+ build:fourierDemo},
+{n:122,core:0,t:'“극장 좌석은 모두 몇 석?” 등차수열과 사다리꼴',q:'줄마다 늘어나는 좌석을 한 번에 셀 수 있을까?',
+ m:['등차수열','일반항','수열의 합'],a:['좌석 배치','누적 계획'],
+ note:'첫 줄과 끝 줄의 평균에 줄 수를 곱하면 전체가 나옵니다 — 사다리꼴 넓이와 같은 구조가 좌석 배치에서 보입니다.',
+ build:apDemo},
+{n:123,core:0,t:'“매달 1만원 vs 매달 1%” 등차와 등비의 대결',q:'언제 뒤집힐까?',
+ m:['등차수열','등비수열','증가 속도'],a:['저축 전략','성장 비교'],
+ note:'더하기는 직선, 곱하기는 곡선입니다. 처음에는 등차가 앞서지만 등비가 반드시 추월하는 시점을 화면에서 찾습니다.',
+ build:apGpDemo},
+{n:124,core:0,t:'“집계란 무엇인가” 시그마와 누적합',q:'매일의 값과 누적선은 어떤 사이일까?',
+ m:['시그마','수열의 합','누적합'],a:['데이터 집계','대시보드 지표'],
+ note:'막대(그날의 값)와 꺾은선(누적합)을 나란히 두면, 막대의 모양이 곧 누적선의 기울기임이 보입니다. 시그마의 성질을 자료로 검증합니다.',
+ build:sumDataDemo},
+{n:125,core:0,t:'“다음 항은 앞 항이 정한다” 점화식',q:'토끼 쌍은 몇 달 뒤 몇 쌍이 될까?',
+ m:['점화식','수열의 귀납적 정의','피보나치'],a:['재귀 알고리즘','인구 모형'],
+ note:'네 가지 점화식을 한 항씩 만들어 보며 「씨앗 + 규칙」의 구조를 익힙니다. 피보나치 이웃 항의 비가 황금비로 다가가는 장면까지.',
+ build:recurSeqDemo},
+{n:126,core:0,t:'“매달 넣으면 만기에 얼마?” 적금과 등비수열',q:'같은 돈인데 왜 이자가 다를까?',
+ m:['등비수열의 합','원리합계','미래가치'],a:['금융 설계','적립식 투자'],
+ note:'매달 같은 금액을 넣어도 넣은 시점마다 이자 기간이 달라 막대 높이가 다릅니다. 그 막대들의 합이 곧 등비수열의 합입니다.',
+ build:savingDemo}
 ];
 
 /* ---------- LAB 21 y = x 대칭의 발견 (역함수) ---------- */
@@ -12207,7 +13489,116 @@ const THUMBS = [
    <rect x="90" y="24" width="7" height="30" fill="${TC.blue}" opacity=".55"/>
    <path d="M20 58 H104" stroke="${TC.mute}" stroke-width="1.2"/>
    <text x="62" y="70" font-size="8.5" font-weight="800" fill="${TC.ink3}" text-anchor="middle">k → k+1</text>`,
-   '도미노가 차례로 넘어지는 그림')
+   '도미노가 차례로 넘어지는 그림'),
+
+ svg(`<path d="M22 56 C46 56 62 30 96 12" stroke="${TC.blue}" stroke-width="2" fill="none"/>
+   <path d="M18 30 H104" stroke="${TC.rose}" stroke-width="1.6" stroke-dasharray="5 4"/>
+   <circle cx="68" cy="30" r="4" fill="${TC.ink}"/>
+   <text x="68" y="22" font-size="8.5" font-weight="800" fill="${TC.ink3}" text-anchor="middle">x = ?</text>
+   <text x="96" y="62" font-size="8.5" font-weight="800" fill="${TC.blue}">aˣ</text>`,
+   '지수 곡선과 가로선이 만나 방정식의 해를 만드는 그림'),
+
+ svg(`<rect x="20" y="16" width="72" height="12" fill="${TC.blue}" opacity=".35"/>
+   <rect x="20" y="34" width="34" height="12" fill="${TC.teal}" opacity=".45"/>
+   <rect x="20" y="52" width="52" height="12" fill="${TC.rose}" opacity=".4"/>
+   <text x="98" y="26" font-size="8" font-weight="800" fill="${TC.blue}">log b</text>
+   <text x="60" y="44" font-size="8" font-weight="800" fill="${TC.teal}">log a</text>
+   <text x="78" y="62" font-size="8" font-weight="800" fill="${TC.rose}">몫</text>`,
+   '두 로그 막대의 비가 밑 변환 값이 되는 그림'),
+
+ svg(`<path d="M20 58 C40 58 52 20 62 12" stroke="${TC.blue}" stroke-width="1.9" fill="none"/>
+   <path d="M12 50 C22 40 60 28 100 24" stroke="${TC.teal}" stroke-width="1.9" fill="none"/>
+   <path d="M14 62 L102 10" stroke="${TC.amber}" stroke-width="1.2" stroke-dasharray="4 3"/>
+   <circle cx="48" cy="28" r="3.2" fill="${TC.blue}"/><circle cx="72" cy="44" r="3.2" fill="${TC.teal}"/>
+   <path d="M48 28 L72 44" stroke="${TC.rose}" stroke-width="1.1" stroke-dasharray="3 2"/>`,
+   '지수와 로그 곡선이 y=x 에 대해 마주 보는 그림'),
+
+ svg(`<rect x="22" y="26" width="58" height="18" fill="${TC.blue}" opacity=".35"/>
+   <rect x="80" y="26" width="14" height="18" fill="${TC.rose}" opacity=".45"/>
+   <text x="50" y="20" font-size="8" font-weight="800" fill="${TC.blue}" text-anchor="middle">지표</text>
+   <text x="88" y="20" font-size="8" font-weight="800" fill="${TC.rose}" text-anchor="middle">가수</text>
+   <text x="58" y="60" font-size="10" font-weight="800" fill="${TC.ink3}" text-anchor="middle">31자리</text>`,
+   '로그 값의 지표와 가수가 자릿수를 정하는 그림'),
+
+ svg(`<path d="M16 58 C40 58 54 24 64 10" stroke="#D1D5DB" stroke-width="1.6" fill="none"/>
+   <path d="M34 58 C58 58 72 24 82 10" stroke="${TC.blue}" stroke-width="2.1" fill="none"/>
+   <path d="M12 44 H106" stroke="${TC.rose}" stroke-width="1.4" stroke-dasharray="5 4"/>
+   <text x="100" y="40" font-size="8" font-weight="800" fill="${TC.rose}" text-anchor="end">점근선</text>`,
+   '기준 지수 곡선이 오른쪽·위로 밀린 그림'),
+
+ svg(`<path d="M16 35 Q30 8 44 35 T72 35 T100 35" stroke="#D1D5DB" stroke-width="1.5" fill="none"/>
+   <path d="M16 35 Q23 6 30 35 T44 35 T58 35 T72 35 T86 35 T100 35" stroke="${TC.blue}" stroke-width="2" fill="none"/>
+   <path d="M12 14 H108" stroke="${TC.rose}" stroke-width="1" stroke-dasharray="4 3"/>
+   <path d="M12 56 H108" stroke="${TC.rose}" stroke-width="1" stroke-dasharray="4 3"/>
+   <text x="60" y="70" font-size="8.5" font-weight="800" fill="${TC.ink3}" text-anchor="middle">주기·진폭</text>`,
+   '기준 사인 곡선과 주기가 촘촘해진 곡선을 겹친 그림'),
+
+ svg(`<circle cx="32" cy="30" r="18" stroke="${TC.mute}" stroke-width="1.3" fill="none"/>
+   <path d="M14 22 H50" stroke="${TC.rose}" stroke-width="1.2" stroke-dasharray="3 2"/>
+   <circle cx="41" cy="22" r="3" fill="${TC.blue}"/><circle cx="23" cy="22" r="3" fill="${TC.blue}"/>
+   <path d="M58 40 Q70 16 82 40 T106 40" stroke="${TC.blue}" stroke-width="1.8" fill="none"/>
+   <path d="M56 28 H108" stroke="${TC.rose}" stroke-width="1.2" stroke-dasharray="3 2"/>
+   <circle cx="66" cy="28" r="2.8" fill="${TC.rose}"/><circle cx="76" cy="28" r="2.8" fill="${TC.rose}"/>`,
+   '단위원의 두 해가 사인 곡선에서 반복되는 그림'),
+
+ svg(`<path d="M14 40 Q28 18 42 40 T70 40 T98 40" stroke="#C4B5FD" stroke-width="1.4" fill="none"/>
+   <path d="M14 26 Q28 48 42 26 T70 26 T98 26" stroke="#5EEAD4" stroke-width="1.4" fill="none"/>
+   <path d="M14 34 Q30 6 46 34 T78 34 T108 34" stroke="${TC.blue}" stroke-width="2.2" fill="none"/>
+   <text x="60" y="66" font-size="8.5" font-weight="800" fill="${TC.ink3}" text-anchor="middle">R = √(a²+b²)</text>`,
+   '두 파동과 그 합이 겹쳐진 그림'),
+
+ svg(`<path d="M24 52 L96 52 L64 16 Z" fill="${TC.blue}" opacity=".14" stroke="${TC.blue}" stroke-width="1.8"/>
+   <text x="60" y="62" font-size="8" font-weight="800" fill="${TC.ink3}" text-anchor="middle">c = 15</text>
+   <text x="34" y="34" font-size="8" font-weight="800" fill="${TC.ink3}">b = 14</text>
+   <text x="84" y="34" font-size="8" font-weight="800" fill="${TC.ink3}">a = 13</text>
+   <text x="60" y="44" font-size="9.5" font-weight="800" fill="${TC.teal}" text-anchor="middle">S = 84</text>`,
+   '세 변만 적힌 삼각형과 넓이가 나온 그림'),
+
+ svg(`<path d="M14 34 H30 V16 H46 V52 H62 V16 H78 V52 H94 V34 H106" stroke="${TC.ink}" stroke-width="1.4" fill="none" opacity=".35"/>
+   <path d="M14 34 Q24 12 34 34 T54 34 T74 34 T94 34 T108 34" stroke="${TC.blue}" stroke-width="1.9" fill="none"/>
+   <rect x="20" y="60" width="10" height="10" fill="${TC.blue}" opacity=".5"/>
+   <rect x="38" y="64" width="10" height="6" fill="${TC.blue}" opacity=".5"/>
+   <rect x="56" y="66" width="10" height="4" fill="${TC.blue}" opacity=".5"/>
+   <rect x="74" y="67" width="10" height="3" fill="${TC.blue}" opacity=".5"/>`,
+   '사각파를 배음 막대로 쪼갠 그림'),
+
+ svg(`<rect x="24" y="16" width="34" height="7" fill="${TC.rose}" opacity=".45"/>
+   <rect x="24" y="26" width="46" height="7" fill="${TC.blue}" opacity=".38"/>
+   <rect x="24" y="36" width="58" height="7" fill="${TC.blue}" opacity=".38"/>
+   <rect x="24" y="46" width="70" height="7" fill="${TC.teal}" opacity=".45"/>
+   <text x="60" y="68" font-size="8.5" font-weight="800" fill="${TC.ink3}" text-anchor="middle">사다리꼴 좌석</text>`,
+   '줄마다 좌석이 늘어나는 사다리꼴 그림'),
+
+ svg(`<path d="M18 54 L100 26" stroke="${TC.blue}" stroke-width="2" fill="none"/>
+   <path d="M18 56 C50 54 78 40 100 12" stroke="${TC.teal}" stroke-width="2.2" fill="none"/>
+   <circle cx="80" cy="33" r="4" fill="${TC.rose}"/>
+   <text x="80" y="26" font-size="8" font-weight="800" fill="${TC.rose}" text-anchor="middle">역전</text>`,
+   '직선과 지수 곡선이 교차하는 그림'),
+
+ svg(`<rect x="20" y="30" width="10" height="14" fill="${TC.blue}" opacity=".4"/>
+   <rect x="34" y="24" width="10" height="20" fill="${TC.blue}" opacity=".4"/>
+   <rect x="48" y="34" width="10" height="10" fill="${TC.blue}" opacity=".4"/>
+   <rect x="62" y="20" width="10" height="24" fill="${TC.blue}" opacity=".4"/>
+   <path d="M25 66 L39 62 L53 60 L67 52 L81 46 L95 40" stroke="${TC.teal}" stroke-width="2" fill="none"/>
+   <text x="96" y="34" font-size="8" font-weight="800" fill="${TC.teal}" text-anchor="end">누적</text>`,
+   '일별 막대와 누적 꺾은선이 함께 있는 그림'),
+
+ svg(`<rect x="20" y="52" width="9" height="8" fill="${TC.blue}" opacity=".4"/>
+   <rect x="32" y="50" width="9" height="10" fill="${TC.blue}" opacity=".4"/>
+   <rect x="44" y="46" width="9" height="14" fill="${TC.blue}" opacity=".4"/>
+   <rect x="56" y="38" width="9" height="22" fill="${TC.blue}" opacity=".4"/>
+   <rect x="68" y="24" width="9" height="36" fill="${TC.rose}" opacity=".45"/>
+   <text x="94" y="34" font-size="8.5" font-weight="800" fill="${TC.ink3}" text-anchor="end">aₙ+aₙ₋₁</text>`,
+   '앞의 두 항을 더해 다음 항이 자라는 그림'),
+
+ svg(`<rect x="22" y="20" width="12" height="40" fill="${TC.blue}" opacity=".4"/>
+   <rect x="22" y="20" width="12" height="12" fill="${TC.rose}" opacity=".45"/>
+   <rect x="40" y="26" width="12" height="34" fill="${TC.blue}" opacity=".4"/>
+   <rect x="40" y="26" width="12" height="8" fill="${TC.rose}" opacity=".45"/>
+   <rect x="58" y="32" width="12" height="28" fill="${TC.blue}" opacity=".4"/>
+   <rect x="76" y="40" width="12" height="20" fill="${TC.blue}" opacity=".4"/>
+   <text x="60" y="72" font-size="8" font-weight="800" fill="${TC.rose}" text-anchor="middle">붉은 = 이자</text>`,
+   '적금 각 달의 만기 가치가 다른 막대 그림')
 ];
 
 /* 상단 카드는 20종만 — 나머지 실험실은 아래 확장 카탈로그의 제 과목 자리에서 연다.
@@ -15012,6 +16403,378 @@ const MISSIONS={
    "do": "① 다시 세우기 ② 간격을 2.0 이상으로 ③ 첫 도미노 밀기",
    "hand": "조건 ②가 깨진 증명의 예를 하나 지어 쓰기"
   }
+ ],
+ "112": [
+  {
+   "t": "1분 자유 탐색 — 밑과 k 를 움직여 보세요. 두 선이 만나는 자리는 무엇을 뜻하나요?"
+  },
+  {
+   "t": "오늘의 문제 — 밑을 1.06(연 6%)로 두고 k 를 3.0 으로 맞추세요. 원금이 세 배가 되는 해는 언제인가요?",
+   "re": "세 배 되는 해",
+   "do": "① 밑 1.06 확인 ② k 를 3.0 으로 ③ 교점의 x 값 읽기",
+   "hand": "log 3 ÷ log 1.06 을 종이에서 어림 계산해 화면 값과 대조"
+  },
+  {
+   "t": "딱 떨어지는 해 — 밑을 2로, k 를 8.0 으로 맞춰 보세요. 해가 정수로 떨어지나요?",
+   "re": "= 3\\.000",
+   "do": "① 밑 2 선택 ② k = 8.0 ③ 교점 x 읽기",
+   "hand": "2³ = 8 임을 이용해 로그 없이도 답을 말할 수 있는지 확인"
+  },
+  {
+   "t": "(밑, k, 해) 표 다섯 줄 — k 를 두 배로 하면 해는 얼마나 늘어나나요?"
+  },
+  {
+   "t": "심화 — 뒤집히는 부등호: 밑을 0.5 로 바꾸고 부등식 단추를 눌러 보세요. 해가 「크다」가 아니라 「작다」로 바뀌는 이유를 그래프에서 찾으세요.",
+   "re": "부등호가 뒤집힙니다",
+   "do": "① 밑 0.5 선택 ② > k 부등식 단추 ③ 초록 영역의 위치 확인",
+   "hand": "감소함수에서 대소 관계가 뒤집히는 이유를 두 점의 y 값 비교로 설명"
+  }
+ ],
+ "113": [
+  {
+   "t": "1분 자유 탐색 — 밑과 진수를 바꿔 보세요. 세 막대는 각각 무엇을 재고 있나요?"
+  },
+  {
+   "t": "오늘의 문제 — 밑을 2, 진수를 100 으로 맞추세요. 밑이 2인 로그 값은 얼마인가요?",
+   "re": "오늘의 문제 — log₂",
+   "do": "① 밑 2 선택 ② 진수 100 ③ 몫 막대의 값 읽기",
+   "hand": "log 100 = 2 이므로 2 ÷ log 2 를 종이에서 계산해 대조"
+  },
+  {
+   "t": "되돌려 검산 — 「거듭제곱으로 검산」을 눌러 보세요. 구한 값을 지수로 올리면 진수가 돌아오나요?",
+   "re": "진수와 일치",
+   "do": "① 검산 단추 ② 되돌아온 값과 진수 비교 ③ 다른 진수에서도 반복",
+   "hand": "a^(log_a b) = b 인 이유를 로그의 정의로 한 줄로"
+  },
+  {
+   "t": "(밑, 진수, log b, log a, log_a b) 표 다섯 줄 — 진수를 제곱하면 값이 어떻게 되나요?"
+  },
+  {
+   "t": "심화 — 스스로를 재기: 「밑 = 진수로 맞추기」를 눌러 보세요. 값이 왜 1 이 되나요? 진수가 1일 때는 어떻게 되는지도 확인하세요.",
+   "re": "자기 자신을 자기 자로 재면 1",
+   "do": "① 밑 = 진수 단추 ② 값 확인 ③ 진수를 1 근처로 내려 관찰",
+   "hand": "log_a a = 1, log_a 1 = 0 을 지수 형태로 바꿔 설명"
+  }
+ ],
+ "114": [
+  {
+   "t": "1분 자유 탐색 — 대응점 x 를 끌어 보세요. 두 곡선 위의 점은 어떻게 짝지어지나요?"
+  },
+  {
+   "t": "짝점 추적 — x 를 2 로 맞추세요. 지수 위의 (2, 4) 는 로그 위의 어느 점과 짝인가요?",
+   "re": "\\(4\\.00, 2\\.0\\)",
+   "do": "① x 를 2.0 으로 ② 두 점의 좌표 읽기 ③ 연결선이 y = x 와 만나는 자리 확인",
+   "hand": "(p, q) ↔ (q, p) 임을 좌표로 쓰고 두 점의 중점이 y=x 위에 있음을 계산"
+  },
+  {
+   "t": "화면 밖으로 — x 를 4 이상으로 끌어 보세요. 지수함수는 얼마나 빨리 커지나요?",
+   "re": "값이 화면 밖입니다",
+   "do": "① x 를 4 이상으로 ② 안내문 확인 ③ 로그 쪽은 왜 천천히 자라는지 관찰",
+   "hand": "2⁴, 2⁵ 값을 적고 로그 쪽 대응점의 위치와 비교"
+  },
+  {
+   "t": "(x, aˣ, 로그 위의 점) 표 다섯 줄 — 정의역·치역이 어떻게 맞바뀌는지 정리하세요."
+  },
+  {
+   "t": "심화 — 밑이 작아지면: 밑을 0.5 로 바꿔 보세요. 두 곡선이 모두 감소해도 짝 관계는 유지되나요? 로그에 음수를 넣을 수 없는 이유를 지수함수의 치역으로 논증하세요.",
+   "re": "둘 다 감소합니다",
+   "do": "① 밑 0.5 선택 ② 두 곡선의 방향 확인 ③ 대응점이 여전히 y=x 대칭인지",
+   "hand": "a^x > 0 이 언제나 성립함을 밑의 조건으로 설명"
+  }
+ ],
+ "115": [
+  {
+   "t": "1분 자유 탐색 — 지수 n 을 움직여 보세요. 막대의 파란 부분과 붉은 부분은 각각 무엇인가요?"
+  },
+  {
+   "t": "오늘의 문제 — 밑 2, 지수 100 으로 맞추세요. 2¹⁰⁰ 은 몇 자리 수인가요?",
+   "re": "2¹⁰⁰ 은 31자리",
+   "do": "① 밑 2 확인 ② 지수 100 ③ 지표·가수·자릿수 읽기",
+   "hand": "100 × log 2 = 30.10 을 계산하고 자릿수 = 지표 + 1 을 적용"
+  },
+  {
+   "t": "다른 밑으로 — 3의 거듭제곱으로 바꾸고 지수를 50 으로 두세요. 몇 자리인가요?",
+   "re": "= 24자리",
+   "do": "① 밑 3 선택 ② 지수 50 ③ 자릿수 기록",
+   "hand": "50 × log 3 ≈ 23.85 로 자릿수를 손으로 확인"
+  },
+  {
+   "t": "(수, log 값, 지표, 가수, 자릿수, 첫 자리) 표 다섯 줄 — 지수를 2배 하면 자릿수는?"
+  },
+  {
+   "t": "심화 — 두 배의 법칙: 밑 2에서 지수를 200 으로 올려 보세요. 자릿수가 정확히 두 배가 아닌 이유를 지표의 계산으로 설명하세요.",
+   "re": "= 61자리",
+   "do": "① 밑 2 ② 지수 200 ③ 100일 때(31자리)와 비교",
+   "hand": "200 × log 2 = 60.2 로 61자리가 되는 과정을 쓰고 31×2 와 비교"
+  }
+ ],
+ "116": [
+  {
+   "t": "1분 자유 탐색 — 세 슬라이더를 하나씩 움직여 보세요. 회색 기준 곡선과 무엇이 달라지나요?"
+  },
+  {
+   "t": "방향 뒤집기 — 밑을 1보다 작게 내려 보세요. 곡선은 어느 쪽으로 기우나요?",
+   "re": "감소함수",
+   "do": "① 밑을 0.5 근처로 ② 곡선 방향 확인 ③ 밑 2 와 나란히 비교",
+   "hand": "a > 1 과 0 < a < 1 에서 aˣ 의 대소를 두 점으로 비교해 쓰기"
+  },
+  {
+   "t": "점근선 들어 올리기 — 세로 이동 q 를 2 로 올려 보세요. 곡선이 아무리 내려가도 넘지 못하는 선은 어디인가요?",
+   "re": "점근선이 y = 2 로",
+   "do": "① q = 2.0 ② 붉은 점선의 자리 확인 ③ x 를 아주 작게 상상해 보기",
+   "hand": "x → −∞ 일 때 aˣ → 0 이므로 y → q 임을 설명"
+  },
+  {
+   "t": "(밑, p, q, 증가/감소, 점근선, y절편) 표 다섯 줄 — 오늘의 문제 식 y = 2^(x−3) + 2 를 만들어 보세요."
+  },
+  {
+   "t": "심화 — 아래로 내려간 점근선: q 를 −2 로 내리고 그래프가 x축을 자르는지 확인하세요. 점근선이 음수일 때 x절편이 생기는 이유를 식으로 설명하세요.",
+   "re": "점근선 y = -2\\.0",
+   "do": "① q = −2.0 ② x축과 만나는지 확인 ③ 만나는 x 값 어림",
+   "hand": "aˣ = 2 를 풀어 x절편을 손으로 구하기"
+  }
+ ],
+ "117": [
+  {
+   "t": "1분 자유 탐색 — 네 슬라이더를 마음대로. 회색 기준 곡선과 무엇이 달라지나요?"
+  },
+  {
+   "t": "물결을 촘촘하게 — b 만 2 로 올려 보세요. 주기는 어떻게 되나요? (진폭은 그대로인가요?)",
+   "re": "주기가 절반",
+   "do": "① b = 2.0 ② 주기 값 읽기 ③ 최댓값이 그대로인지 확인",
+   "hand": "주기 = 2π ÷ b 에 b=2 를 넣어 π 가 나오는지 계산"
+  },
+  {
+   "t": "키 키우기 — 이번엔 a 만 2.5 로 올려 보세요. 주기는 변하지 않나요?",
+   "re": "위아래로 5 만큼",
+   "do": "① a = 2.5 ② 최대·최소 선의 자리 확인 ③ 주기 값 재확인",
+   "hand": "최댓값 = d + a, 최솟값 = d − a 를 계산해 화면과 대조"
+  },
+  {
+   "t": "(무엇을 움직였나, 주기, 최댓값, 최솟값) 표 여섯 줄 — 계수의 담당을 확정하세요."
+  },
+  {
+   "t": "심화 — 오늘의 문제 식 만들기: y = 2 sin(2(x − π/4)) + 1 이 되도록 네 계수를 맞추고, 위상 이동이 그래프를 어떻게 미는지 확인하세요.",
+   "re": "위상 이동 0\\.75",
+   "do": "① a=2, b=2, d=1 ② c 를 0.75 로 ③ 기준 곡선과 어긋난 정도 관찰",
+   "hand": "π/4 ≈ 0.785 임을 확인하고 c 값과 비교"
+  }
+ ],
+ "118": [
+  {
+   "t": "1분 자유 탐색 — k 를 위아래로 움직여 보세요. 단위원의 파란 점과 곡선의 붉은 점은 어떻게 함께 움직이나요?"
+  },
+  {
+   "t": "오늘의 문제 — k 를 0.5 로 맞추세요. 한 바퀴(0~360°) 안에 해가 몇 개이고 각각 몇 도인가요?",
+   "re": "한 바퀴 안의 해: 30\\.0°",
+   "do": "① k = 0.5 단추 ② 단위원의 두 점 확인 ③ 곡선에서 해의 개수 세기",
+   "hand": "sin 30° = sin 150° = 0.5 임을 단위원 그림으로 확인"
+  },
+  {
+   "t": "해가 하나뿐인 순간 — k 를 1 로 올려 보세요. 왜 한 바퀴에 해가 하나뿐인가요?",
+   "re": "해가 한 바퀴에 하나뿐",
+   "do": "① k = 1 단추 ② 단위원에서 점의 위치 확인 ③ 곡선의 꼭짓점과 대조",
+   "hand": "sin 의 최댓값이 1 인 이유를 단위원의 반지름으로 설명"
+  },
+  {
+   "t": "(k, 해 ①, 해 ②, 해의 개수) 표 다섯 줄 — 해가 두 개·한 개·없음으로 갈리는 경계를 찾으세요."
+  },
+  {
+   "t": "심화 — 해가 없는 세상: 「k = 1 초과 시도」를 눌러 보세요. 왜 해가 없나요? 관람차 문제의 답(하루 동안 몇 번인지)을 주기로 계산하세요.",
+   "re": "해가 없습니다",
+   "do": "① k > 1 단추 ② 곡선과 가로선의 관계 확인 ③ 치역 −1 ≤ sin x ≤ 1 확인",
+   "hand": "12분 주기라면 24시간에 몇 바퀴인지, 그때 해가 몇 번인지 계산"
+  }
+ ],
+ "119": [
+  {
+   "t": "1분 자유 탐색 — a·b 를 움직여 보세요. 보라·초록 두 곡선과 파란 합은 어떤 사이인가요?"
+  },
+  {
+   "t": "오늘의 문제 — a = 3, b = 4 로 맞추세요. 합쳐진 파동의 최댓값은 얼마인가요?",
+   "re": "3·4·5 삼각형 등장",
+   "do": "① a=3.0, b=4.0 ② R 값 읽기 ③ 최대·최소 점선의 자리 확인",
+   "hand": "√(3²+4²) 을 계산해 R 과 대조"
+  },
+  {
+   "t": "정말 사인 곡선일까 — 「합성 곡선 겹쳐 보기」를 눌러 보세요. 두 곡선이 완전히 겹치나요?",
+   "re": "완전히 겹칩니다",
+   "do": "① 겹쳐 보기 단추 ② 붉은 점선과 파란 곡선 비교 ③ a·b 를 바꿔도 겹치는지",
+   "hand": "R sin(x+α) 를 전개해 a sin x + b cos x 와 같음을 손으로 보이기"
+  },
+  {
+   "t": "(a, b, R, α, 최댓값) 표 여섯 줄 — R 과 a, b 의 관계를 찾으세요."
+  },
+  {
+   "t": "심화 — 한쪽이 0이면: b 를 0 으로 두면 어떤 곡선이 되나요? a 와 b 를 모두 음수로 하면 위상 α 는 어떻게 되는지 확인하고, (a, b) 를 좌표로 보는 해석을 정리하세요."
+  }
+ ],
+ "120": [
+  {
+   "t": "1분 자유 탐색 — 세 변을 움직여 보세요. 삼각형이 사라지는 순간이 있나요?"
+  },
+  {
+   "t": "오늘의 문제 — 13, 14, 15 로 맞추세요. 밭의 넓이는 얼마인가요?",
+   "re": "넓이가 정확히 84",
+   "do": "① a=13, b=14, c=15 ② s 값 확인 ③ 넓이 읽기",
+   "hand": "s = 21 을 구하고 √(21×8×7×6) 을 손으로 계산"
+  },
+  {
+   "t": "다른 길로 검산 — 「½ab sin C 로 검산」을 눌러 보세요. 각을 쓰는 공식과 값이 같은가요?",
+   "re": "헤론과 일치",
+   "do": "① 검산 단추 ② 두 값 비교 ③ 다른 세 변에서도 반복",
+   "hand": "코사인법칙으로 cos C 를 구한 뒤 sin C 를 계산해 넓이 확인"
+  },
+  {
+   "t": "(a, b, c, s, 넓이) 표 다섯 줄 — 둘레가 같아도 넓이가 다른 짝을 찾으세요."
+  },
+  {
+   "t": "심화 — 삼각형이 없는 조합: 가장 긴 변을 나머지 두 변의 합보다 크게 만들어 보세요. 헤론의 공식에서 근호 안이 어떻게 되는지 확인하고, 그 부호가 삼각부등식과 어떻게 이어지는지 설명하세요.",
+   "re": "삼각부등식 위반",
+   "do": "① a=3, b=4, c=20 처럼 설정 ② 화면 판정 확인 ③ s−c 의 부호 계산",
+   "hand": "s − c < 0 이 되어 근호 안이 음수가 되는 과정을 쓰기"
+  }
+ ],
+ "121": [
+  {
+   "t": "1분 자유 탐색 — 1배음만 올려 보세요. 사인 하나로는 각진 목표 파형을 흉내 낼 수 있나요?"
+  },
+  {
+   "t": "홀수 배음 더하기 — 3·5·7 배음을 1/3, 1/5, 1/7 비율(대략 0.4 / 0.25 / 0.15)로 올려 오차를 0.25 아래로 낮추세요.",
+   "re": "성분 분해 성공",
+   "do": "① 1배음 1.15 ② 3배음 0.40 ③ 5배음 0.25, 7배음 0.15 로 조정하며 오차 관찰",
+   "hand": "사각파의 계수 4/π × (1, 1/3, 1/5, 1/7) 을 계산해 슬라이더 값과 비교"
+  },
+  {
+   "t": "모서리의 재료 — 배음 셋이 모두 살아 있는 상태를 만들고 파형의 모서리를 관찰하세요. 높은 배음을 0으로 내리면 무엇이 사라지나요?",
+   "re": "홀수 배음 넷이 모두",
+   "do": "① 세 배음 모두 0보다 크게 ② 파형의 각진 정도 확인 ③ 7배음만 0으로 내려 비교",
+   "hand": "배음을 잘라낼 때 파형이 둥글어지는 이유를 한 줄로"
+  },
+  {
+   "t": "(진폭 조합, 오차) 표 여섯 줄 — 목표에 가까워지는 규칙을 찾으세요."
+  },
+  {
+   "t": "심화 — 스펙트럼 읽기: 목표를 톱니파로 바꿔 같은 실험을 하고, 사각파와 스펙트럼이 어떻게 다른지 비교하세요. MP3가 높은 배음을 버려 용량을 줄이는 원리와 이어 설명하세요."
+  }
+ ],
+ "122": [
+  {
+   "t": "1분 자유 탐색 — 세 슬라이더를 움직여 보세요. 좌석 배치가 왜 사다리꼴이 되나요?"
+  },
+  {
+   "t": "오늘의 문제 — 첫 줄 12석, 줄마다 2석 증가, 15줄로 맞추세요. 강당 전체는 몇 석인가요?",
+   "re": "15줄이면 모두",
+   "do": "① a₁ = 12 ② d = 2 ③ n = 15 로 맞추고 Sₙ 읽기",
+   "hand": "끝 줄 좌석 12 + 14×2 = 40 을 구하고 15(12+40)/2 를 계산"
+  },
+  {
+   "t": "모두 같은 줄 — 공차를 0 으로 내려 보세요. 사다리꼴이 어떤 모양으로 바뀌나요?",
+   "re": "직사각형이 되었습니다",
+   "do": "① d = 0 으로 ② 그림의 모양 확인 ③ Sₙ 이 n×a₁ 이 되는지 확인",
+   "hand": "공차 0 인 수열의 합을 곱셈 하나로 쓰는 이유를 설명"
+  },
+  {
+   "t": "(a₁, d, n, aₙ, Sₙ) 표 다섯 줄 — 첫 줄과 끝 줄의 평균이 전체 평균과 같은지 확인하세요."
+  },
+  {
+   "t": "심화 — 뒤집어 겹치기: 좌석 배치를 뒤집어 원래 배치 위에 얹으면 모든 줄이 같아집니다. 이 그림으로 Sₙ = n(a₁+aₙ)/2 를 손으로 유도하고, 가우스의 방법(LAB 110)과 비교하세요."
+  }
+ ],
+ "123": [
+  {
+   "t": "1분 자유 탐색 — 두 곡선을 보세요. 어느 쪽이 직선이고 어느 쪽이 휘나요?"
+  },
+  {
+   "t": "오늘의 문제 — 시작 100만원, 등차 10만원, 등비 5%, 36개월로 맞추세요. 역전은 몇 개월째에 일어나나요?",
+   "re": "개월째에 등비가 등차를",
+   "do": "① 네 슬라이더를 문제 값으로 ② 붉은 점선의 위치 확인 ③ 36개월 뒤 두 금액 비교",
+   "hand": "100×1.05ⁿ 와 100+10n 을 n=25, 27 에서 각각 계산해 역전 구간 확인"
+  },
+  {
+   "t": "비율을 낮추면 — 등비 비율을 1%로 내려 보세요. 36개월 안에도 역전이 일어나나요?",
+   "re": "×1\\.01ⁿ",
+   "do": "① r = 1% ② 화면 판정 확인 ③ 개월 수를 늘려 언제 역전되는지 탐색",
+   "hand": "역전 조건 a(1+r)ⁿ ≥ a + dn 을 부등식으로 쓰기"
+  },
+  {
+   "t": "(d, r, 뒤집히는 달) 표 다섯 줄 — 비율이 커지면 그 시점은 어떻게 변하나요?"
+  },
+  {
+   "t": "심화 — 지수는 왜 이기나: 등비 비율을 아무리 작게 해도(1%) 기간을 늘리면 결국 역전됨을 실험으로 확인하고, 그 이유를 두 일반항의 자라는 방식으로 논증하세요."
+  }
+ ],
+ "124": [
+  {
+   "t": "1분 자유 탐색 — 막대를 눌러 값을 바꿔 보세요. 아래 꺾은선은 어떻게 반응하나요?"
+  },
+  {
+   "t": "평평한 자료 — 「모두 같게(하루 5)」를 눌러 보세요. 누적선은 어떤 모양이 되나요?",
+   "re": "누적합이 직선이 되었습니다",
+   "do": "① 모두 같게 단추 ② 누적선 모양 확인 ③ 총합이 n×5 인지 확인",
+   "hand": "Σc = nc 를 자료로 검증하고 직선의 기울기가 무엇인지 쓰기"
+  },
+  {
+   "t": "일정하게 증가 — 「매일 2씩 증가」를 눌러 보세요. 이번엔 누적선이 어떻게 휘나요?",
+   "re": "이차 곡선이 됩니다",
+   "do": "① 매일 2씩 증가 단추 ② 누적선의 휘는 방향 확인 ③ 등차수열의 합과 연결",
+   "hand": "등차수열의 합이 n 에 대한 이차식임을 일반항으로 확인"
+  },
+  {
+   "t": "(자료 모양, 총합, 평균, 누적선 모양) 표 다섯 줄 — 막대와 누적선의 관계를 정리하세요."
+  },
+  {
+   "t": "심화 — 시그마의 성질: 자료를 둘로 나눠 각각의 합을 구한 뒤 더한 값과, 자료를 먼저 더해 합을 구한 값이 같은지 확인하세요. Σ(aₖ+bₖ) = Σaₖ + Σbₖ 가 성립하는 이유를 쓰세요."
+  }
+ ],
+ "125": [
+  {
+   "t": "1분 자유 탐색 — 「다음 항 만들기」를 눌러 보세요. 새 막대는 무엇을 보고 만들어지나요?"
+  },
+  {
+   "t": "오늘의 문제 — 피보나치로 10항 이상 만들어 토끼 쌍의 수를 추적하세요. 이웃 항의 비는 어디로 가나요?",
+   "re": "황금비 1\\.618",
+   "do": "① 피보나치 확인 ② 10항 한 번에 ③ 이웃 비 값 읽기",
+   "hand": "8/5, 13/8, 21/13 을 손으로 계산해 값이 다가가는 곳 확인"
+  },
+  {
+   "t": "숨은 등비 — 점화식을 aₙ₊₁ = 2aₙ + 1 로 바꾸고 여러 항을 만드세요. 각 항에 1을 더하면 무엇이 보이나요?",
+   "re": "등비가 숨어 있습니다",
+   "do": "① 2aₙ+1 선택 ② 10항 한 번에 ③ 각 항 + 1 을 종이에 적어 비교",
+   "hand": "aₙ + 1 이 등비수열임을 보이고 일반항을 구하기"
+  },
+  {
+   "t": "(점화식, 처음 다섯 항, 자라는 속도) 표 네 줄 — 네 규칙을 모두 만들어 비교하세요."
+  },
+  {
+   "t": "심화 — 점화식에서 일반항으로: 등차 점화식(aₙ₊₁ = aₙ + 3)의 일반항을 구하고, 점화식만으로는 「100번째 항」을 바로 알 수 없는 이유를 설명하세요. 재귀 알고리즘의 계산량과도 이어 보세요.",
+   "re": "일반항 aₙ =",
+   "do": "① 등차 점화식 선택 ② 여섯 항 이상 만들기 ③ 화면의 일반항 안내 확인",
+   "hand": "a₁ 과 공차로 일반항을 세우고 n=100 을 대입"
+  }
+ ],
+ "126": [
+  {
+   "t": "1분 자유 탐색 — 막대 높이가 왼쪽이 높고 오른쪽이 낮습니다. 왜 그럴까요?"
+  },
+  {
+   "t": "오늘의 문제 — 매달 20만원, 연 3%, 12개월로 맞추세요. 만기 금액과 이자는 얼마인가요?",
+   "re": "만기에 24[0-9]\\.\\d만원",
+   "do": "① 세 슬라이더를 문제 값으로 ② 만기 금액·이자 읽기 ③ 첫 막대와 마지막 막대 비교",
+   "hand": "20×((1.0025)¹² − 1)/0.0025 를 어림 계산해 화면과 대조"
+  },
+  {
+   "t": "기간의 힘 — 기간만 24개월 이상으로 늘려 보세요. 이자 비중은 어떻게 변하나요?",
+   "re": "이자 비중이 눈에 띄게",
+   "do": "① 기간 24개월 이상 ② 이자 금액과 비율 기록 ③ 12개월과 비교",
+   "hand": "두 경우의 (원금, 이자, 비율)을 표로 적고 몇 배인지 계산"
+  },
+  {
+   "t": "(매달, 이자율, 기간, 만기, 이자) 표 다섯 줄 — 이자를 가장 크게 키우는 요인을 찾으세요."
+  },
+  {
+   "t": "심화 — 대출과 짝: 적금(LAB 126)과 대출(LAB 109)의 식을 나란히 놓고, 둘 다 등비수열의 합에서 나오지만 방향이 반대인 이유를 설명하세요. 첫 달 돈이 가장 높은 막대인 까닭도 함께."
+  }
  ]
 };
 
@@ -15135,7 +16898,7 @@ const PREDICT = {
 }};
 
 /* 카탈로그의 「제작 완료」 카드가 부른다 — 번호만 주면 그 실험실이 열린다 */
-const PROBLEMS={"1":{"sit":"구조 상황실 — 조난자의 휴대폰이 기지국까지의 거리를 알려 왔습니다: A까지 4.7 km, B까지 4.5 km, C까지 4.1 km (지도 1칸 = 1 km).","ask":"조난자는 지도 위 어디에 있을까? 기지국이 2곳뿐이라면 위치를 하나로 정할 수 있을까?"},"2":{"sit":"어제 온 문자 2통 — 「[Web발신] 무료 쿠폰 지급, 지금 클릭」은 스팸함으로, 「엄마: 무료할 때 전화해」는 정상함으로 갔습니다.","ask":"폰은 두 문자를 무슨 계산으로 갈랐을까? 「무료」가 든 엄마 문자는 왜 살아남았을까?"},"3":{"sit":"어떤 쇼츠 영상이 첫날 5천 뷰 → 3일 만에 4만 뷰가 되었습니다. 제작자는 \"일주일이면 100만\"이라고 주장합니다.","ask":"이 주장은 타당할까? 「며칠마다 2배」 규칙이면 언제 100만을 넘고, 그 성장은 언제까지 계속될 수 있을까?"},"4":{"sit":"A요금제: 기본 15,000원 + 분당 45원. B요금제: 기본 30,000원 + 분당 5원. 나는 한 달에 약 350분 통화합니다.","ask":"나는 어느 요금제가 유리할까? 몇 분부터 B가 이기게 될까?"},"5":{"sit":"우리 학교 본관까지 발걸음으로 50m. 그 자리에서 옥상 끝을 올려본 각이 40°였습니다 (내 눈높이 1.6m).","ask":"본관의 높이는 몇 m일까? 올라가 보지 않고 확실히 말할 수 있을까?"},"6":{"sit":"우리 반 12명의 하루 공부 시간과 수학 점수를 조사했더니 점들이 오른쪽 위로 흐릿하게 몰려 있습니다.","ask":"「공부 시간이 길수록 점수가 높다」— 이 흐릿한 경향을 숫자 하나로 잴 수 있을까?"},"7":{"sit":"구인 광고: 「평균 연봉 9,440만 원!」 — 입사해 보니 직원 9명은 3,200~4,600만 원, 사장만 6억이었습니다.","ask":"광고는 거짓말을 한 걸까? 「보통 직원」의 연봉을 대표하는 수는 무엇이어야 할까?"},"8":{"sit":"내 비밀번호는 숫자 4자리입니다. 해커 프로그램은 1초에 1억 개를 시도할 수 있다고 합니다.","ask":"내 비밀번호는 몇 초 만에 뚫릴까? 1000년 이상 버티게 만들려면 무엇을 바꿔야 할까?"},"9":{"sit":"뽑기 기계: 당첨 확률 0.5%. 친구가 \"200번 뽑으면 1번은 무조건 나오지\"라며 20만 원을 쓰려 합니다.","ask":"200번 뽑으면 정말 당첨될까? 「무조건」에 가까워지려면 몇 번이 필요할까?"},"10":{"sit":"수학·영어 두 시험 모두 78점. 반 평균은 둘 다 70점인데, 표준편차가 수학은 5점·영어는 25점입니다.","ask":"같은 78점인데 두 시험에서의 「내 위치」도 같을까? 어느 쪽이 더 대단한 점수일까?"},"11":{"sit":"세뱃돈 100만 원을 연 6% 복리 통장에 넣었습니다. 아빠는 \"12년이면 두 배\"라고 합니다.","ask":"정말 12년이면 두 배가 될까? 두 배 시점을 빨리 어림하는 방법이 있을까?"},"12":{"sit":"지진 규모 6·7·8 은 한 칸씩 차이지만, 방출 에너지는 대략 6만·200만·6300만 단위로 뜁니다. 막대그래프를 그리면 규모 6 이 아예 안 보입니다.","ask":"수만 배 차이 나는 값들을 한 그래프에 정직하게 담을 수 있을까? 눈금이란 무엇일까?"},"13":{"sit":"자율주행 시험차가 출발 t초 후 s(t) = 2t² + 3t (m) 지점을 지납니다. 구간단속 카메라가 잰 1초~3초 사이 평균속도는 11 m/s — 그런데 3초 순간의 속도계는 15 m/s를 가리켰습니다.","ask":"평균 11만 보고 「과속 아님」이라 말할 수 있을까? 순간의 속도는 어떻게 재는 걸까?"},"14":{"sit":"온라인 결제 중 카드번호를 한 자리 잘못 눌렀는데, 사이트가 결제 전에 「번호를 확인하세요」라고 즉시 알려 줍니다.","ask":"서버에 묻지도 않고 오타를 어떻게 알았을까? 카드번호 마지막 자리의 정체는?"},"15":{"sit":"카페 사장이 (기온, 아이스 판매량) 12일 치를 모았습니다. 내일 기온이 30°C라는 예보를 보고 재료를 준비하려 합니다.","ask":"점 12개로 내일 판매량을 예측하는 「가장 좋은 직선」은 어떻게 정할까?"},"16":{"sit":"안개 낀 골짜기에서 조난 — 보이는 건 발밑 경사뿐입니다. AI 도 이렇게 「기울기만 보고」 최적값을 찾는다고 합니다.","ask":"전체 지형을 못 보는데 가장 낮은 곳에 도착할 수 있을까? 보폭이 크면 무슨 일이 생길까?"},"17":{"sit":"원주율을 모른다고 상상합시다. 정사각형 안에 사분원을 그리고, 눈 감고 점을 마구 찍을 수 있습니다.","ask":"점 찍기만으로 π 를 몇 자리까지 알아낼 수 있을까? 점이 몇 개나 필요할까?"},"18":{"sit":"OTT 서비스가 나에게 「액션 9·로맨스 2」인 영화를 추천했습니다. 내 시청 기록은 액션 8·로맨스 3에 가깝습니다.","ask":"서비스는 나와 영화의 「취향 방향」을 무엇으로 비교했을까? 취향의 세기가 달라도 방향이 같으면 추천될까?"},"19":{"sit":"사진 앱의 「샤픈」 버튼 한 번에 흐릿한 글자가 또렷해졌습니다. 앱 속에는 3×3 숫자판 하나가 들어 있다고 합니다.","ask":"숫자 9개가 어떻게 사진을 바꾸는 걸까? 경계만 골라 강조하는 숫자판은 어떤 모양일까?"},"20":{"sit":"피아노와 기타가 같은 도(약 262Hz)를 냈는데 소리는 전혀 다릅니다. 파형을 보니 둘 다 1초에 262번 반복입니다.","ask":"높이가 같은데 음색은 왜 다를까? 파형의 무엇이 「악기다움」을 만들까?"},"21":{"sit":"y = 2x−3 은 「x를 넣으면 y가 나오는 기계」입니다. 거꾸로 y=7 이 나왔을 때 x 를 묻는 기계도 필요합니다.","ask":"거꾸로 기계의 그래프는 원래 기계와 어떤 관계일까? 아무 함수나 거꾸로 기계를 가질 수 있을까?"},"22":{"sit":"1/2 + 1/4 + 1/8 + 1/16 + … — 항은 끝없이 이어지는데 「합은 1」이라고 말합니다.","ask":"무한히 더하는데 합이 유한하다는 게 무슨 뜻일까? 어떤 무한합은 왜 터질까?"},"23":{"sit":"계산기에 sin 37° 를 누르면 0.6018… 이 즉시 나옵니다. 계산기 안에 삼각비 표가 통째로 들어 있는 걸까요?","ask":"계산기는 sin 을 무엇으로 계산할까? 다항식이 sin 을 흉내 낼 수 있을까?"},"24":{"sit":"와인잔에 물을 반쯤 따랐습니다. 잔의 옆모습 곡선은 알고 있지만 부피 공식은 없는 모양입니다.","ask":"공식이 없는 그릇의 부피를 어떻게 잴까? 「썰어서 더하기」는 얼마나 정확할까?"},"25":{"sit":"인터넷 결제의 자물쇠는 「83 × 89 = 7,387」은 클릭 두 번이면 끝나지만, 「7,387 = ? × ?」는 한참 걸린다는 사실 위에 서 있다고 합니다.","ask":"곱하기는 쉬운데 되돌리기는 왜 오래 걸릴까? 자릿수가 늘면 얼마나 더 힘들어질까?"},"26":{"sit":"새벽 기온 영하 5도. 낮에 8도 올랐다가 밤에 6도 내려갔습니다.","ask":"지금 기온은 몇 도일까? 「내려갔다」는 셈을 수직선 위의 움직임으로 그릴 수 있을까?"},"27":{"sit":"성냥개비로 정사각형을 한 줄로 이어 붙입니다: 1칸에 4개, 2칸에 7개, 3칸에 10개….","ask":"100칸이면 성냥개비가 몇 개 필요할까? 세지 않고 아는 방법이 있을까?"},"28":{"sit":"양팔저울 왼쪽에 「?가 든 주머니 2개와 3g 추」, 오른쪽에 「11g 추」 — 저울은 수평입니다.","ask":"주머니 하나의 무게를 알아내려면 저울에 어떤 조작까지 허용될까?"},"29":{"sit":"지렛대로 바위를 듭니다. 받침점에서 2 m 떨어진 곳을 누르면 힘 12가 필요했습니다. 4 m로 물러나 누르면 힘은 6이면 됩니다.","ask":"무게와 거리 사이에 어떤 거래가 성립할까? 곱일까, 합일까?"},"30":{"sit":"기찻길 두 레일은 평행인데, 사진 속에서는 한 점에서 만나 보입니다. 건널목의 비스듬한 차단기가 두 레일과 만드는 각이 보입니다.","ask":"평행선을 자르는 직선이 만드는 여덟 각 사이에는 어떤 약속이 있을까? 평행이 깨지면?"},"31":{"sit":"철탑·다리·자전거 프레임 — 큰 구조물은 온통 삼각형입니다. 사각형 프레임은 손으로도 찌그러집니다.","ask":"삼각형은 왜 안 찌그러질까? 세 변이 같으면 모양까지 같아질까?"},"32":{"sit":"하루 24시간 중 잠 8시간, 학교 7시간, 학원 3시간… 원그래프로 그리려니 「잠」 조각의 각도가 필요합니다.","ask":"8시간짜리 조각의 중심각은 몇 도여야 공정할까? 호의 길이·넓이도 같은 비율일까?"},"33":{"sit":"신발 가게 하루 판매: 250(1) 255(2) 260(5) 265(3) 270(1). 사장은 내일 「가장 잘 나갈 치수」를 더 들여놓으려 합니다.","ask":"사장에게 필요한 대푯값은 평균·중앙값·최빈값 중 무엇일까?"},"34":{"sit":"같은 키 자료로 A신문은 「고른 분포」, B신문은 「양극화!」 히스토그램을 실었습니다. 자료는 동일합니다.","ask":"같은 자료가 어떻게 다른 이야기를 하게 됐을까? 계급 폭은 어떻게 골라야 정직할까?"},"35":{"sit":"톱니 12개와 18개 두 기어가 맞물려 돕니다. 지금 맞닿은 두 이빨에 페인트 점을 찍었습니다.","ask":"두 점이 다시 만나는 것은 각각 몇 바퀴 돈 뒤일까? 두 수의 무엇이 그 답을 쥐고 있을까?"},"36":{"sit":"변 6cm·8cm·15cm 막대 세 개를 받았습니다. 목수는 보자마자 \"삼각형 안 나온다\"고 합니다.","ask":"만들어 보지 않고 어떻게 알았을까? 되는 세 변의 조건은 무엇일까?"},"37":{"sit":"화장실 바닥은 정사각형 타일, 벌집은 정육각형 — 그런데 정오각형 타일 바닥은 본 적이 없습니다.","ask":"정오각형은 왜 바닥이 되지 못할까? 빈틈없이 깔리는 정다각형의 조건은?"},"38":{"sit":"3D 프린터는 어떤 모양이든 얇은 층으로 썰어 쌓습니다. 축구공 같은 다면체에는 꼭짓점·모서리·면이 셀 수 있게 있습니다.","ask":"꼭짓점·모서리·면 사이에 모든 다면체가 지키는 약속이 있을까?"},"39":{"sit":"부피 1000cm³ 물건을 넣을 택배 상자를 주문 제작합니다. 종이값은 겉넓이에 비례합니다.","ask":"같은 부피인데 종이가 가장 적게 드는 상자는 어떤 모양일까?"},"40":{"sit":"우리 반 수학 점수 원자료가 필요한데, 히스토그램만 남아 있으면 「78점이 몇 명인지」는 알 수 없습니다.","ask":"자료를 정리하면서도 원래 값을 잃지 않는 그림이 있을까?"},"41":{"sit":"1반(28명)은 수학 90점 이상이 7명, 2반(35명)은 8명입니다. 2반 담임은 \"우리가 더 많다\"고 자랑합니다.","ask":"사람 수 비교는 공정할까? 크기가 다른 두 집단은 무엇으로 비교해야 할까?"},"42":{"sit":"전교생 800명의 등교 시간이 궁금하지만 전부 물을 수는 없습니다. 30명만 뽑아 물었더니 평균 25분이 나왔습니다.","ask":"30명의 답을 800명의 답이라고 말해도 될까? 뽑을 때마다 값이 다르면 어떡하지?"},"43":{"sit":"3x + 2 + 2x − 5 — 친구는 \"몽땅 더해서 2x\"라고 우깁니다.","ask":"식에서 「더해도 되는 것」과 「안 되는 것」의 경계는 무엇일까?"},"44":{"sit":"동생의 등굣길 그래프: 처음엔 가파르게, 중간에 수평, 다시 완만하게 올라 학교에 도착했습니다.","ask":"수평 구간에서 동생에게 무슨 일이 있었던 걸까? 그래프의 기울기는 무엇을 말할까?"},"45":{"sit":"한 변이 √2 인 정사각형과 √3 인 정사각형의 변을 이어 붙였습니다. 친구는 \"√5 막대와 같다\"고 합니다.","ask":"√2 + √3 = √5 일까? 자로 재지 않고도 판정할 수 있을까?"},"46":{"sit":"수직선 위에 「√2 의 정확한 위치」를 표시해야 합니다. 1.414는 어디까지나 반올림입니다.","ask":"무리수의 정확한 자리를 자와 컴퍼스만으로 짚을 수 있을까?"},"47":{"sit":"암산 대회 문제: 99×101. 옆 친구가 3초 만에 \"9999\"라고 외쳤습니다.","ask":"무슨 계산을 했길래 3초일까? 98×102, 95×105에도 통하는 기술일까?"},"48":{"sit":"y = x²−2x−3 의 그래프가 x축과 만나는 자리가 두 곳 보입니다. 눈대중으로는 −1과 3 근처입니다.","ask":"눈대중을 「정확한 값」으로 바꿔 주는 장치가 있을까?"},"49":{"sit":"게임 캐릭터가 포물선 y=x²−2x 궤적으로 점프합니다. 높이 k 에 수평 장애물이 있습니다.","ask":"부딪히는지(2번·1번·0번) 점프하기 전에 계산만으로 알 수 있을까?"},"50":{"sit":"x² + 6x = 7 — 인수분해가 바로 안 보입니다. 옛 수학자들은 이 식을 「타일 퍼즐」로 풀었다고 합니다.","ask":"기역자 타일을 정사각형으로 만들면 방정식이 풀린다는데, 무엇을 채워야 할까?"},"51":{"sit":"물로켓이 y=x² 포물선을 그리며 날았습니다. 다음 발사대는 오른쪽 3m, 위 2m 지점입니다.","ask":"같은 모양 포물선을 그 자리로 「배달」하는 식은 어떻게 쓸까? 괄호 안 부호는 왜 반대로 보일까?"},"52":{"sit":"울타리 재료가 딱 20m. 벽 없이 네 변을 모두 둘러 텃밭을 만듭니다.","ask":"가장 넓은 텃밭은 어떤 모양일까? 직사각형이면 충분할까?"},"53":{"sit":"가로 (a+b), 세로 (a+b)인 정사각형 땅을 네 구역으로 나눠 씁니다: 꽃밭 a², 채소밭 둘, 창고 b².","ask":"(a+b)² 을 전개한 식의 항 하나하나는 땅의 어느 조각일까? (a−b)² 은 어떤 그림이 될까?"},"54":{"sit":"삼각비 표를 보면 sin 30°=0.5 는 딱 떨어지는데 sin 31°=0.5150… 은 지저분합니다.","ask":"30°·45°·60° 만 값이 깔끔한 이유가 있을까? 그 값들은 어디서 태어났을까?"},"55":{"sit":"1594년 항해사는 계산기 없이 삼각비 표 한 장으로 배의 위치를 구했습니다. 표에는 5° 간격 값뿐입니다.","ask":"표에 없는 sin 37° 는 어떻게 구했을까? 이웃 값으로 어림하는 방법이 통할까?"},"56":{"sit":"축구장 골대를 정면·측면·대각선 어디서 봐도 「같은 각」으로 보이는 자리들이 있다고 코치가 말합니다.","ask":"그런 자리들이 정말 있을까? 있다면 어떤 도형을 이룰까?"},"57":{"sit":"통신위성이 고도를 높이면 지구의 더 넓은 면이 보입니다. 위성 회사는 \"3대면 전 지구 커버\"라고 광고합니다.","ask":"위성 하나는 지구의 몇 %까지 볼 수 있을까? 무한히 높이면 절반을 넘길 수 있을까?"},"58":{"sit":"네 유적지가 「같은 원형 성벽 위에 있었다」는 가설이 나왔습니다. 좌표만 남아 있습니다.","ask":"네 점이 한 원 위에 있는지 판정하는 시험이 있을까? 각도만으로 가능할까?"},"59":{"sit":"체력장 오래매달리기 기록(초): 12,14,15,16,17,18,18,19,20,21,22,24,26 — 한 명이 재측정에서 55초를 냈습니다.","ask":"55초는 「특별한 기록」일까 「의심스러운 기록」일까? 기준을 수로 정할 수 있을까?"},"60":{"sit":"「하루 수면시간과 성적」 조사에서 r=0.81 이 나왔는데, 기자가 자료에 축구선수(수면 10시간·성적 최하) 한 명을 추가했습니다.","ask":"한 명 때문에 결론이 뒤집힐 수 있을까? 그 한 명을 빼도 되는 걸까?"},"61":{"sit":"1부터 120까지에서 소수만 골라내야 합니다. 一一이 나눠 보기엔 너무 많습니다.","ask":"가장 적은 수고로 소수를 전부 남기는 방법은? 몇으로 거르는 것까지가 「필요한 일」일까?"},"62":{"sit":"두 기상캐스터의 5일 예보 오차: A는 +3,−3,+3,−3,0 / B는 +1,0,−1,+1,−1. 부호까지 더하면 둘 다 합계 0입니다.","ask":"합계 0이면 둘 다 만점일까? 실력 차이를 드러내는 공정한 채점은?"},"63":{"sit":"자판기 식 「2a」에 a=7 동전을 넣었더니 어떤 기계는 14를, 고장 기계는 27을 뱉었습니다.","ask":"고장 기계는 무엇을 잘못 읽었을까? 식의 「생략된 약속」은 무엇일까?"},"64":{"sit":"소금 20g에 물 180g을 부어 소금물 200g을 만들었습니다(농도 10%). 레시피는 5%를 요구합니다.","ask":"무엇을 얼마나 더하거나 빼야 정확히 5%가 될까? 물만 부으면 될까?"},"65":{"sit":"두 마을 A·B 사이에 공동 우물을 파려고 합니다 — 두 마을에서 정확히 같은 거리에.","ask":"같은 거리인 지점은 하나뿐일까? 그 지점들을 자와 컴퍼스로 찾을 수 있을까?"},"66":{"sit":"각도기 없이 케이크의 조각 각을 정확히 반으로 나눠야 합니다. 가진 것은 컴퍼스와 자뿐.","ask":"컴퍼스 몇 번이면 어떤 각이든 정확히 절반이 될까? 「정확히」를 어떻게 믿을까?"},"67":{"sit":"피자 반지름 12cm 조각의 호가 9cm입니다. 라벨에는 넓이가 없고, 원 전체 공식만 압니다.","ask":"조각(부채꼴)만의 넓이를 구하는 지름길이 있을까? 잘라 붙이면 무엇이 보일까?"},"68":{"sit":"주사위(정6), 4면체 주사위(d4), 20면체 주사위(d20)는 팔지만 「정7면체 주사위」는 어디에도 없습니다.","ask":"정다면체는 왜 다섯뿐일까? 일곱 번째를 만들 수는 없을까?"},"69":{"sit":"용돈 5,000원, 간식은 개당 800원. 계산대 앞에서 몇 개까지 담을지 정해야 합니다.","ask":"「살 수 있는 개수 전부」를 한 번에 표현할 수 있을까? 답이 하나가 아니라면?"},"70":{"sit":"새 학기 사물함 배정: 학번을 10으로 나눈 나머지 번호 방을 씁니다. 학번 23과 133은 같은 방입니다.","ask":"이 배정은 공평할까? 방 개수를 바꾸면 몰림이 생기거나 사라질까?"},"71":{"sit":"계산기에서 1/8 = 0.125 로 끝나는데 1/7 = 0.142857142857… 은 끝나지 않습니다.","ask":"끝나는 분수와 도는 분수의 갈림길은 분수의 어디에 있을까? 컴퓨터의 0.1+0.2≠0.3 과도 관련 있을까?"},"72":{"sit":"0.242424… 라는 무한소수를 친구는 \"분수로는 절대 못 쓴다\"고 합니다.","ask":"끝없는 소수를 유한한 분수로 붙잡을 수 있을까? 어떤 기술이 꼬리를 지울까?"},"73":{"sit":"두께 0.1mm 종이를 42번 접으면 달(38만 km)에 닿는다는 이야기가 있습니다.","ask":"믿기 힘든 이 주장, 계산으로 판정하면 참일까? 접기가 왜 이렇게 무서운 걸까?"},"74":{"sit":"용돈 협상: 「내 용돈 x는 동생의 2배 이상」— 양변에 −1을 곱해 정리하던 형이 갑자기 동생보다 적어졌습니다.","ask":"음수를 곱하면 부등호에 무슨 일이 일어날까? 등호와 무엇이 다를까?"},"75":{"sit":"문구점 A: 연필 2자루+지우개 1개 = 1,700원. 문구점 B의 전단: 연필 4자루+지우개 2개 = 3,400원.","ask":"두 정보로 연필값을 알아낼 수 있을까? 정보가 「두 개처럼 보이지만 하나」일 수도 있을까?"},"76":{"sit":"x+y=8, x−y=2 — 학원 형은 \"두 식을 그냥 더해 봐\"라고 힌트만 주고 갔습니다.","ask":"식끼리 더한다는 게 무슨 뜻일까? 더하면 왜 문제가 쉬워질까?"},"77":{"sit":"통신사 요금 그래프에서 「기본료 인상」과 「분당 요금 인상」은 직선을 다르게 움직인다고 합니다.","ask":"두 인상은 그래프에서 각각 어떤 운동일까? 서로 흉내 낼 수 있을까?"},"78":{"sit":"칠판의 식 y = (2/3)x + 1 — 선생님이 \"점 두 개면 끝\"이라며 분필 두 번으로 그래프를 그렸습니다.","ask":"어떤 두 점을 고르면 가장 빠르고 정확할까? 분수 기울기도 두 점으로 될까?"},"79":{"sit":"모둠 과제: 삼각형 합판을 손가락 하나로 수평 받치기. 아무 데나 받치면 기울어 떨어집니다.","ask":"받침점은 삼각형의 어디여야 할까? 그 점을 계산으로 찾을 수 있을까?"},"80":{"sit":"접이식 빨래건조대는 아무리 접었다 펴도 각 칸이 평행사변형을 유지합니다.","ask":"변형되는 내내 「평행사변형임」을 보증하는 조건은 무엇일까? 조건 하나면 충분할까?"},"81":{"sit":"1:25000 지도에서 학교와 집 사이가 4cm입니다. 내일 걸어가 볼 계획입니다.","ask":"실제 거리와 걸리는 시간은? 지도를 2배 확대 인쇄하면 축척은 어떻게 될까?"},"82":{"sit":"수업 시간에 빔프로젝터를 뒤로 밀었더니 화면이 훌쩍 커졌습니다.","ask":"거리와 화면 크기 사이의 규칙은? 프로젝터·그림자·바늘구멍 사진기는 같은 원리일까?"},"83":{"sit":"전자매장에서 「55인치」 TV를 재 보니 가로는 122cm뿐입니다. 55인치(140cm)가 아닌 것 같습니다.","ask":"55인치는 어디 길이일까? 가로·세로에서 대각선을 계산할 수 있을까?"},"84":{"sit":"공사장 목수가 줄자 하나로 「이 모서리 직각 맞네」라고 합니다. 각도기는 쓰지 않았습니다.","ask":"세 변 길이만으로 직각을 판정할 수 있을까? 직각이 아니면 무엇이 어긋날까?"},"85":{"sit":"고대 이집트 측량사는 매듭 12개짜리 밧줄로 완벽한 직각을 만들었습니다 — 3·4·5 간격이었다고 합니다.","ask":"세 변이 모두 자연수인 직각삼각형은 (3,4,5)뿐일까? 규칙적으로 더 찾을 수 있을까?"},"86":{"sit":"분식집 세트: 김밥 3종 중 하나 「그리고」 음료 2종 중 하나. 옆 가게는 김밥 3종 「또는」 라면 2종 중 하나만.","ask":"두 가게의 선택 가짓수는 각각 몇일까? 「그리고」와 「또는」은 셈을 어떻게 바꿀까?"},"87":{"sit":"2배 크기 피규어의 가격이 8배라 항의했더니, 사장님이 \"재료(부피)가 정말 8배\"라고 답했습니다.","ask":"길이 2배에 부피 8배 — 사실일까? 겉넓이(도색비)는 몇 배일까?"},"88":{"sit":"동전 3개를 던져 「적어도 하나 앞면」이면 이기는 게임 — 이길 확률을 묻자 친구는 8칸 표를 꺼냅니다.","ask":"8칸을 다 세는 것 말고 지름길이 있을까? 「적어도」의 반대말은 무엇일까?"},"89":{"sit":"룰렛에서 빨강이 5번 연속 나왔습니다. 옆 사람이 \"이제 검정 차례\"라며 판돈을 올립니다.","ask":"5연속 다음엔 정말 반대가 나올 「차례」일까? 동전·룰렛에게 기억이 있을까?"},"90":{"sit":"우리 반 24명 중 안경 5명. 「여학생 중에서」라고 조건을 붙이는 순간 분모가 달라진다고 합니다.","ask":"조건이 붙으면 확률의 무엇이 바뀔까? P(안경|여학생)과 P(여학생|안경)은 같을까?"},"91":{"sit":"트럼프에서 「하트(13장) 또는 그림카드(12장)」를 뽑을 확률 — 친구는 13+12=25장이라 우깁니다.","ask":"그냥 더한 25는 왜 틀릴까? 언제는 그냥 더해도 될까?"},"92":{"sit":"x³−2x²−5x+6 을 (x−1)로 나누라는 문제 — 세로셈은 지저분하고 시간도 오래 걸립니다.","ask":"계수 1,−2,−5,6 만 갖고 나눗셈을 끝내는 지름길이 있을까? 마지막 칸의 정체는?"},"93":{"sit":"f(x)=x³−4x²+x+6 을 (x−2)로 나눈 나머지가 급히 필요합니다. 나눌 시간은 없습니다.","ask":"나누지 않고 나머지를 아는 방법이 있을까? 나머지가 0이면 무엇을 얻을까?"},"94":{"sit":"게임 캐릭터를 시계 반대로 90° 돌리는 코드에 복소수 곱 「×i」 한 줄만 있다고 합니다.","ask":"수를 곱했는데 회전이 된다니 — i 는 평면에서 무슨 일을 하는 걸까?"},"95":{"sit":"문제: 「합이 5, 곱이 6인 두 수는?」 — 친구는 방정식도 안 세우고 \"2랑 3\"이라 답했습니다.","ask":"합·곱 정보만으로 두 수를 찾는 장치가 있을까? 계수와 근은 어떤 거래를 할까?"},"96":{"sit":"x³−3x+k=0 — k 값에 따라 해가 1개였다가 3개였다가 합니다.","ask":"몇 개인지 풀기 전에 알 수 있을까? 그래프의 산과 골짜기가 답을 쥐고 있을까?"},"97":{"sit":"놀이기구 안전 규정: 「탑승 게이지 x 가 x²−4x+3 < 0 을 만족하는 구간만 허용」이라 적혀 있습니다.","ask":"허용 구간은 어디부터 어디까지일까? 부등식의 해가 「구간」이 되는 이유는?"},"98":{"sit":"빵집 하루 생산: 오븐 한도 x+y≤6, 반죽 한도 x+2y≤8. 빵 이익 3, 케이크 이익 2입니다.","ask":"무엇을 몇 개 만들면 이익이 최대일까? 후보가 무한한데 다 따져야 할까?"},"99":{"sit":"학급 임원 선거(회장·부회장)와 청소 당번 짝 뽑기 — 둘 다 「4명 중 2명」이지만 느낌이 다릅니다.","ask":"두 뽑기의 가짓수는 같을까 다를까? 다르다면 정확히 몇 배 차이일까?"},"100":{"sit":"사진 앱의 「90° 회전」 버튼 뒤에는 숫자 4개짜리 표 [0 −1; 1 0] 하나가 있다고 합니다.","ask":"숫자 4개가 어떻게 사진 전체를 돌릴까? 내가 그 표를 직접 만들 수 있을까?"},"101":{"sit":"사진을 「회전 후 가로 늘리기」한 것과 「가로 늘리기 후 회전」한 것이 서로 다르게 나왔습니다.","ask":"같은 두 작업인데 순서만 바꿨는데 왜 다를까? 순서를 바꿔도 괜찮은 짝이 있을까?"},"102":{"sit":"책상 끝에 카드 4장 — 친구가 \"맨 위 카드를 통째로 책상 밖 허공에 띄울 수 있다\"고 내기를 겁니다.","ask":"받침 없이 허공에? 가능하다면 어떤 배치일까, 그리고 카드가 늘면 얼마나 더 나갈 수 있을까?"},"103":{"sit":"그림판에서 색을 고르니 코드 #4B96C8 이 떴습니다. 친구 폰에 이 색을 정확히 전달해야 합니다.","ask":"글자와 숫자가 섞인 이 코드의 정체는? 두 색을 「반씩 섞은」 색도 코드로 예측할 수 있을까?"},"104":{"sit":"색종이를 반으로 접어 2등분은 누구나 합니다. 그런데 3등분은? 게다가 「자와 컴퍼스로는 임의의 각을 3등분할 수 없다」가 수학의 오래된 정리입니다.","ask":"접기만으로 선분을 정확히 3등분·5등분할 수 있을까? 작도로 불가능한 각 3등분도 접기로는 가능할까?"},"105":{"sit":"새 마을로 매년 세대의 1/6 이 이주합니다. 지금 100세대가 살고, 손에는 주사위 100개가 있습니다 (1이 나오면 그 세대는 이주).","ask":"10년 뒤 몇 세대가 남을까? 10세대 이하로 줄어드는 해는 언제일까?"},"106":{"sit":"시험지에 sin 150° 를 구하라는 문제가 나왔습니다. 그런데 배운 것은 직각삼각형의 삼각비뿐 — 150°짜리 직각삼각형은 그릴 수 없습니다.","ask":"sin 150° 는 얼마일까? 90°를 넘는 각의 삼각비는 무엇으로 정의해야 할까?"},"107":{"sit":"대전의 일출 시각은 1월 7시 42분, 6월 5시 16분, 12월 7시 33분 — 1년을 주기로 물결칩니다.","ask":"열두 달의 일출을 식 하나로 쓸 수 있을까? 그 식으로 하지의 일출을 예측할 수 있을까?"},"108":{"sit":"강 건너 나무까지의 거리를 재야 합니다. 강은 건널 수 없고, 이쪽 기슭에서 잰 것은 기선 AB = 50 m 와 두 각 ∠A = 63°, ∠B = 55° 뿐입니다.","ask":"이 세 정보만으로 나무까지의 거리를 확정할 수 있을까?"},"109":{"sit":"학자금 1,200만 원을 연 6%로 빌려 24개월에 나눠 갚기로 했습니다. 은행 앱에는 「월 상환액」이 한 줄로 떠 있습니다.","ask":"이 금액은 어떤 계산에서 나왔을까? 기간을 늘리면 무엇이 이득이고 무엇이 손해일까?"},"110":{"sit":"초등학생 가우스는 「1부터 100까지 더하라」는 벌 문제를 몇 초 만에 5050 이라 답했다고 합니다.","ask":"하나씩 더하지 않고 답을 아는 방법은 무엇일까? 그 방법은 왜 늘 옳을까?"},"111":{"sit":"「모든 자연수 n 에 대하여 성립한다」를 증명해야 합니다. 그런데 자연수는 무한히 많아 하나씩 확인할 수가 없습니다.","ask":"무한히 많은 경우를 유한한 논증으로 덮으려면 무엇과 무엇을 보이면 될까?"}};
+const PROBLEMS={"1":{"sit":"구조 상황실 — 조난자의 휴대폰이 기지국까지의 거리를 알려 왔습니다: A까지 4.7 km, B까지 4.5 km, C까지 4.1 km (지도 1칸 = 1 km).","ask":"조난자는 지도 위 어디에 있을까? 기지국이 2곳뿐이라면 위치를 하나로 정할 수 있을까?"},"2":{"sit":"어제 온 문자 2통 — 「[Web발신] 무료 쿠폰 지급, 지금 클릭」은 스팸함으로, 「엄마: 무료할 때 전화해」는 정상함으로 갔습니다.","ask":"폰은 두 문자를 무슨 계산으로 갈랐을까? 「무료」가 든 엄마 문자는 왜 살아남았을까?"},"3":{"sit":"어떤 쇼츠 영상이 첫날 5천 뷰 → 3일 만에 4만 뷰가 되었습니다. 제작자는 \"일주일이면 100만\"이라고 주장합니다.","ask":"이 주장은 타당할까? 「며칠마다 2배」 규칙이면 언제 100만을 넘고, 그 성장은 언제까지 계속될 수 있을까?"},"4":{"sit":"A요금제: 기본 15,000원 + 분당 45원. B요금제: 기본 30,000원 + 분당 5원. 나는 한 달에 약 350분 통화합니다.","ask":"나는 어느 요금제가 유리할까? 몇 분부터 B가 이기게 될까?"},"5":{"sit":"우리 학교 본관까지 발걸음으로 50m. 그 자리에서 옥상 끝을 올려본 각이 40°였습니다 (내 눈높이 1.6m).","ask":"본관의 높이는 몇 m일까? 올라가 보지 않고 확실히 말할 수 있을까?"},"6":{"sit":"우리 반 12명의 하루 공부 시간과 수학 점수를 조사했더니 점들이 오른쪽 위로 흐릿하게 몰려 있습니다.","ask":"「공부 시간이 길수록 점수가 높다」— 이 흐릿한 경향을 숫자 하나로 잴 수 있을까?"},"7":{"sit":"구인 광고: 「평균 연봉 9,440만 원!」 — 입사해 보니 직원 9명은 3,200~4,600만 원, 사장만 6억이었습니다.","ask":"광고는 거짓말을 한 걸까? 「보통 직원」의 연봉을 대표하는 수는 무엇이어야 할까?"},"8":{"sit":"내 비밀번호는 숫자 4자리입니다. 해커 프로그램은 1초에 1억 개를 시도할 수 있다고 합니다.","ask":"내 비밀번호는 몇 초 만에 뚫릴까? 1000년 이상 버티게 만들려면 무엇을 바꿔야 할까?"},"9":{"sit":"뽑기 기계: 당첨 확률 0.5%. 친구가 \"200번 뽑으면 1번은 무조건 나오지\"라며 20만 원을 쓰려 합니다.","ask":"200번 뽑으면 정말 당첨될까? 「무조건」에 가까워지려면 몇 번이 필요할까?"},"10":{"sit":"수학·영어 두 시험 모두 78점. 반 평균은 둘 다 70점인데, 표준편차가 수학은 5점·영어는 25점입니다.","ask":"같은 78점인데 두 시험에서의 「내 위치」도 같을까? 어느 쪽이 더 대단한 점수일까?"},"11":{"sit":"세뱃돈 100만 원을 연 6% 복리 통장에 넣었습니다. 아빠는 \"12년이면 두 배\"라고 합니다.","ask":"정말 12년이면 두 배가 될까? 두 배 시점을 빨리 어림하는 방법이 있을까?"},"12":{"sit":"지진 규모 6·7·8 은 한 칸씩 차이지만, 방출 에너지는 대략 6만·200만·6300만 단위로 뜁니다. 막대그래프를 그리면 규모 6 이 아예 안 보입니다.","ask":"수만 배 차이 나는 값들을 한 그래프에 정직하게 담을 수 있을까? 눈금이란 무엇일까?"},"13":{"sit":"자율주행 시험차가 출발 t초 후 s(t) = 2t² + 3t (m) 지점을 지납니다. 구간단속 카메라가 잰 1초~3초 사이 평균속도는 11 m/s — 그런데 3초 순간의 속도계는 15 m/s를 가리켰습니다.","ask":"평균 11만 보고 「과속 아님」이라 말할 수 있을까? 순간의 속도는 어떻게 재는 걸까?"},"14":{"sit":"온라인 결제 중 카드번호를 한 자리 잘못 눌렀는데, 사이트가 결제 전에 「번호를 확인하세요」라고 즉시 알려 줍니다.","ask":"서버에 묻지도 않고 오타를 어떻게 알았을까? 카드번호 마지막 자리의 정체는?"},"15":{"sit":"카페 사장이 (기온, 아이스 판매량) 12일 치를 모았습니다. 내일 기온이 30°C라는 예보를 보고 재료를 준비하려 합니다.","ask":"점 12개로 내일 판매량을 예측하는 「가장 좋은 직선」은 어떻게 정할까?"},"16":{"sit":"안개 낀 골짜기에서 조난 — 보이는 건 발밑 경사뿐입니다. AI 도 이렇게 「기울기만 보고」 최적값을 찾는다고 합니다.","ask":"전체 지형을 못 보는데 가장 낮은 곳에 도착할 수 있을까? 보폭이 크면 무슨 일이 생길까?"},"17":{"sit":"원주율을 모른다고 상상합시다. 정사각형 안에 사분원을 그리고, 눈 감고 점을 마구 찍을 수 있습니다.","ask":"점 찍기만으로 π 를 몇 자리까지 알아낼 수 있을까? 점이 몇 개나 필요할까?"},"18":{"sit":"OTT 서비스가 나에게 「액션 9·로맨스 2」인 영화를 추천했습니다. 내 시청 기록은 액션 8·로맨스 3에 가깝습니다.","ask":"서비스는 나와 영화의 「취향 방향」을 무엇으로 비교했을까? 취향의 세기가 달라도 방향이 같으면 추천될까?"},"19":{"sit":"사진 앱의 「샤픈」 버튼 한 번에 흐릿한 글자가 또렷해졌습니다. 앱 속에는 3×3 숫자판 하나가 들어 있다고 합니다.","ask":"숫자 9개가 어떻게 사진을 바꾸는 걸까? 경계만 골라 강조하는 숫자판은 어떤 모양일까?"},"20":{"sit":"피아노와 기타가 같은 도(약 262Hz)를 냈는데 소리는 전혀 다릅니다. 파형을 보니 둘 다 1초에 262번 반복입니다.","ask":"높이가 같은데 음색은 왜 다를까? 파형의 무엇이 「악기다움」을 만들까?"},"21":{"sit":"y = 2x−3 은 「x를 넣으면 y가 나오는 기계」입니다. 거꾸로 y=7 이 나왔을 때 x 를 묻는 기계도 필요합니다.","ask":"거꾸로 기계의 그래프는 원래 기계와 어떤 관계일까? 아무 함수나 거꾸로 기계를 가질 수 있을까?"},"22":{"sit":"1/2 + 1/4 + 1/8 + 1/16 + … — 항은 끝없이 이어지는데 「합은 1」이라고 말합니다.","ask":"무한히 더하는데 합이 유한하다는 게 무슨 뜻일까? 어떤 무한합은 왜 터질까?"},"23":{"sit":"계산기에 sin 37° 를 누르면 0.6018… 이 즉시 나옵니다. 계산기 안에 삼각비 표가 통째로 들어 있는 걸까요?","ask":"계산기는 sin 을 무엇으로 계산할까? 다항식이 sin 을 흉내 낼 수 있을까?"},"24":{"sit":"와인잔에 물을 반쯤 따랐습니다. 잔의 옆모습 곡선은 알고 있지만 부피 공식은 없는 모양입니다.","ask":"공식이 없는 그릇의 부피를 어떻게 잴까? 「썰어서 더하기」는 얼마나 정확할까?"},"25":{"sit":"인터넷 결제의 자물쇠는 「83 × 89 = 7,387」은 클릭 두 번이면 끝나지만, 「7,387 = ? × ?」는 한참 걸린다는 사실 위에 서 있다고 합니다.","ask":"곱하기는 쉬운데 되돌리기는 왜 오래 걸릴까? 자릿수가 늘면 얼마나 더 힘들어질까?"},"26":{"sit":"새벽 기온 영하 5도. 낮에 8도 올랐다가 밤에 6도 내려갔습니다.","ask":"지금 기온은 몇 도일까? 「내려갔다」는 셈을 수직선 위의 움직임으로 그릴 수 있을까?"},"27":{"sit":"성냥개비로 정사각형을 한 줄로 이어 붙입니다: 1칸에 4개, 2칸에 7개, 3칸에 10개….","ask":"100칸이면 성냥개비가 몇 개 필요할까? 세지 않고 아는 방법이 있을까?"},"28":{"sit":"양팔저울 왼쪽에 「?가 든 주머니 2개와 3g 추」, 오른쪽에 「11g 추」 — 저울은 수평입니다.","ask":"주머니 하나의 무게를 알아내려면 저울에 어떤 조작까지 허용될까?"},"29":{"sit":"지렛대로 바위를 듭니다. 받침점에서 2 m 떨어진 곳을 누르면 힘 12가 필요했습니다. 4 m로 물러나 누르면 힘은 6이면 됩니다.","ask":"무게와 거리 사이에 어떤 거래가 성립할까? 곱일까, 합일까?"},"30":{"sit":"기찻길 두 레일은 평행인데, 사진 속에서는 한 점에서 만나 보입니다. 건널목의 비스듬한 차단기가 두 레일과 만드는 각이 보입니다.","ask":"평행선을 자르는 직선이 만드는 여덟 각 사이에는 어떤 약속이 있을까? 평행이 깨지면?"},"31":{"sit":"철탑·다리·자전거 프레임 — 큰 구조물은 온통 삼각형입니다. 사각형 프레임은 손으로도 찌그러집니다.","ask":"삼각형은 왜 안 찌그러질까? 세 변이 같으면 모양까지 같아질까?"},"32":{"sit":"하루 24시간 중 잠 8시간, 학교 7시간, 학원 3시간… 원그래프로 그리려니 「잠」 조각의 각도가 필요합니다.","ask":"8시간짜리 조각의 중심각은 몇 도여야 공정할까? 호의 길이·넓이도 같은 비율일까?"},"33":{"sit":"신발 가게 하루 판매: 250(1) 255(2) 260(5) 265(3) 270(1). 사장은 내일 「가장 잘 나갈 치수」를 더 들여놓으려 합니다.","ask":"사장에게 필요한 대푯값은 평균·중앙값·최빈값 중 무엇일까?"},"34":{"sit":"같은 키 자료로 A신문은 「고른 분포」, B신문은 「양극화!」 히스토그램을 실었습니다. 자료는 동일합니다.","ask":"같은 자료가 어떻게 다른 이야기를 하게 됐을까? 계급 폭은 어떻게 골라야 정직할까?"},"35":{"sit":"톱니 12개와 18개 두 기어가 맞물려 돕니다. 지금 맞닿은 두 이빨에 페인트 점을 찍었습니다.","ask":"두 점이 다시 만나는 것은 각각 몇 바퀴 돈 뒤일까? 두 수의 무엇이 그 답을 쥐고 있을까?"},"36":{"sit":"변 6cm·8cm·15cm 막대 세 개를 받았습니다. 목수는 보자마자 \"삼각형 안 나온다\"고 합니다.","ask":"만들어 보지 않고 어떻게 알았을까? 되는 세 변의 조건은 무엇일까?"},"37":{"sit":"화장실 바닥은 정사각형 타일, 벌집은 정육각형 — 그런데 정오각형 타일 바닥은 본 적이 없습니다.","ask":"정오각형은 왜 바닥이 되지 못할까? 빈틈없이 깔리는 정다각형의 조건은?"},"38":{"sit":"3D 프린터는 어떤 모양이든 얇은 층으로 썰어 쌓습니다. 축구공 같은 다면체에는 꼭짓점·모서리·면이 셀 수 있게 있습니다.","ask":"꼭짓점·모서리·면 사이에 모든 다면체가 지키는 약속이 있을까?"},"39":{"sit":"부피 1000cm³ 물건을 넣을 택배 상자를 주문 제작합니다. 종이값은 겉넓이에 비례합니다.","ask":"같은 부피인데 종이가 가장 적게 드는 상자는 어떤 모양일까?"},"40":{"sit":"우리 반 수학 점수 원자료가 필요한데, 히스토그램만 남아 있으면 「78점이 몇 명인지」는 알 수 없습니다.","ask":"자료를 정리하면서도 원래 값을 잃지 않는 그림이 있을까?"},"41":{"sit":"1반(28명)은 수학 90점 이상이 7명, 2반(35명)은 8명입니다. 2반 담임은 \"우리가 더 많다\"고 자랑합니다.","ask":"사람 수 비교는 공정할까? 크기가 다른 두 집단은 무엇으로 비교해야 할까?"},"42":{"sit":"전교생 800명의 등교 시간이 궁금하지만 전부 물을 수는 없습니다. 30명만 뽑아 물었더니 평균 25분이 나왔습니다.","ask":"30명의 답을 800명의 답이라고 말해도 될까? 뽑을 때마다 값이 다르면 어떡하지?"},"43":{"sit":"3x + 2 + 2x − 5 — 친구는 \"몽땅 더해서 2x\"라고 우깁니다.","ask":"식에서 「더해도 되는 것」과 「안 되는 것」의 경계는 무엇일까?"},"44":{"sit":"동생의 등굣길 그래프: 처음엔 가파르게, 중간에 수평, 다시 완만하게 올라 학교에 도착했습니다.","ask":"수평 구간에서 동생에게 무슨 일이 있었던 걸까? 그래프의 기울기는 무엇을 말할까?"},"45":{"sit":"한 변이 √2 인 정사각형과 √3 인 정사각형의 변을 이어 붙였습니다. 친구는 \"√5 막대와 같다\"고 합니다.","ask":"√2 + √3 = √5 일까? 자로 재지 않고도 판정할 수 있을까?"},"46":{"sit":"수직선 위에 「√2 의 정확한 위치」를 표시해야 합니다. 1.414는 어디까지나 반올림입니다.","ask":"무리수의 정확한 자리를 자와 컴퍼스만으로 짚을 수 있을까?"},"47":{"sit":"암산 대회 문제: 99×101. 옆 친구가 3초 만에 \"9999\"라고 외쳤습니다.","ask":"무슨 계산을 했길래 3초일까? 98×102, 95×105에도 통하는 기술일까?"},"48":{"sit":"y = x²−2x−3 의 그래프가 x축과 만나는 자리가 두 곳 보입니다. 눈대중으로는 −1과 3 근처입니다.","ask":"눈대중을 「정확한 값」으로 바꿔 주는 장치가 있을까?"},"49":{"sit":"게임 캐릭터가 포물선 y=x²−2x 궤적으로 점프합니다. 높이 k 에 수평 장애물이 있습니다.","ask":"부딪히는지(2번·1번·0번) 점프하기 전에 계산만으로 알 수 있을까?"},"50":{"sit":"x² + 6x = 7 — 인수분해가 바로 안 보입니다. 옛 수학자들은 이 식을 「타일 퍼즐」로 풀었다고 합니다.","ask":"기역자 타일을 정사각형으로 만들면 방정식이 풀린다는데, 무엇을 채워야 할까?"},"51":{"sit":"물로켓이 y=x² 포물선을 그리며 날았습니다. 다음 발사대는 오른쪽 3m, 위 2m 지점입니다.","ask":"같은 모양 포물선을 그 자리로 「배달」하는 식은 어떻게 쓸까? 괄호 안 부호는 왜 반대로 보일까?"},"52":{"sit":"울타리 재료가 딱 20m. 벽 없이 네 변을 모두 둘러 텃밭을 만듭니다.","ask":"가장 넓은 텃밭은 어떤 모양일까? 직사각형이면 충분할까?"},"53":{"sit":"가로 (a+b), 세로 (a+b)인 정사각형 땅을 네 구역으로 나눠 씁니다: 꽃밭 a², 채소밭 둘, 창고 b².","ask":"(a+b)² 을 전개한 식의 항 하나하나는 땅의 어느 조각일까? (a−b)² 은 어떤 그림이 될까?"},"54":{"sit":"삼각비 표를 보면 sin 30°=0.5 는 딱 떨어지는데 sin 31°=0.5150… 은 지저분합니다.","ask":"30°·45°·60° 만 값이 깔끔한 이유가 있을까? 그 값들은 어디서 태어났을까?"},"55":{"sit":"1594년 항해사는 계산기 없이 삼각비 표 한 장으로 배의 위치를 구했습니다. 표에는 5° 간격 값뿐입니다.","ask":"표에 없는 sin 37° 는 어떻게 구했을까? 이웃 값으로 어림하는 방법이 통할까?"},"56":{"sit":"축구장 골대를 정면·측면·대각선 어디서 봐도 「같은 각」으로 보이는 자리들이 있다고 코치가 말합니다.","ask":"그런 자리들이 정말 있을까? 있다면 어떤 도형을 이룰까?"},"57":{"sit":"통신위성이 고도를 높이면 지구의 더 넓은 면이 보입니다. 위성 회사는 \"3대면 전 지구 커버\"라고 광고합니다.","ask":"위성 하나는 지구의 몇 %까지 볼 수 있을까? 무한히 높이면 절반을 넘길 수 있을까?"},"58":{"sit":"네 유적지가 「같은 원형 성벽 위에 있었다」는 가설이 나왔습니다. 좌표만 남아 있습니다.","ask":"네 점이 한 원 위에 있는지 판정하는 시험이 있을까? 각도만으로 가능할까?"},"59":{"sit":"체력장 오래매달리기 기록(초): 12,14,15,16,17,18,18,19,20,21,22,24,26 — 한 명이 재측정에서 55초를 냈습니다.","ask":"55초는 「특별한 기록」일까 「의심스러운 기록」일까? 기준을 수로 정할 수 있을까?"},"60":{"sit":"「하루 수면시간과 성적」 조사에서 r=0.81 이 나왔는데, 기자가 자료에 축구선수(수면 10시간·성적 최하) 한 명을 추가했습니다.","ask":"한 명 때문에 결론이 뒤집힐 수 있을까? 그 한 명을 빼도 되는 걸까?"},"61":{"sit":"1부터 120까지에서 소수만 골라내야 합니다. 一一이 나눠 보기엔 너무 많습니다.","ask":"가장 적은 수고로 소수를 전부 남기는 방법은? 몇으로 거르는 것까지가 「필요한 일」일까?"},"62":{"sit":"두 기상캐스터의 5일 예보 오차: A는 +3,−3,+3,−3,0 / B는 +1,0,−1,+1,−1. 부호까지 더하면 둘 다 합계 0입니다.","ask":"합계 0이면 둘 다 만점일까? 실력 차이를 드러내는 공정한 채점은?"},"63":{"sit":"자판기 식 「2a」에 a=7 동전을 넣었더니 어떤 기계는 14를, 고장 기계는 27을 뱉었습니다.","ask":"고장 기계는 무엇을 잘못 읽었을까? 식의 「생략된 약속」은 무엇일까?"},"64":{"sit":"소금 20g에 물 180g을 부어 소금물 200g을 만들었습니다(농도 10%). 레시피는 5%를 요구합니다.","ask":"무엇을 얼마나 더하거나 빼야 정확히 5%가 될까? 물만 부으면 될까?"},"65":{"sit":"두 마을 A·B 사이에 공동 우물을 파려고 합니다 — 두 마을에서 정확히 같은 거리에.","ask":"같은 거리인 지점은 하나뿐일까? 그 지점들을 자와 컴퍼스로 찾을 수 있을까?"},"66":{"sit":"각도기 없이 케이크의 조각 각을 정확히 반으로 나눠야 합니다. 가진 것은 컴퍼스와 자뿐.","ask":"컴퍼스 몇 번이면 어떤 각이든 정확히 절반이 될까? 「정확히」를 어떻게 믿을까?"},"67":{"sit":"피자 반지름 12cm 조각의 호가 9cm입니다. 라벨에는 넓이가 없고, 원 전체 공식만 압니다.","ask":"조각(부채꼴)만의 넓이를 구하는 지름길이 있을까? 잘라 붙이면 무엇이 보일까?"},"68":{"sit":"주사위(정6), 4면체 주사위(d4), 20면체 주사위(d20)는 팔지만 「정7면체 주사위」는 어디에도 없습니다.","ask":"정다면체는 왜 다섯뿐일까? 일곱 번째를 만들 수는 없을까?"},"69":{"sit":"용돈 5,000원, 간식은 개당 800원. 계산대 앞에서 몇 개까지 담을지 정해야 합니다.","ask":"「살 수 있는 개수 전부」를 한 번에 표현할 수 있을까? 답이 하나가 아니라면?"},"70":{"sit":"새 학기 사물함 배정: 학번을 10으로 나눈 나머지 번호 방을 씁니다. 학번 23과 133은 같은 방입니다.","ask":"이 배정은 공평할까? 방 개수를 바꾸면 몰림이 생기거나 사라질까?"},"71":{"sit":"계산기에서 1/8 = 0.125 로 끝나는데 1/7 = 0.142857142857… 은 끝나지 않습니다.","ask":"끝나는 분수와 도는 분수의 갈림길은 분수의 어디에 있을까? 컴퓨터의 0.1+0.2≠0.3 과도 관련 있을까?"},"72":{"sit":"0.242424… 라는 무한소수를 친구는 \"분수로는 절대 못 쓴다\"고 합니다.","ask":"끝없는 소수를 유한한 분수로 붙잡을 수 있을까? 어떤 기술이 꼬리를 지울까?"},"73":{"sit":"두께 0.1mm 종이를 42번 접으면 달(38만 km)에 닿는다는 이야기가 있습니다.","ask":"믿기 힘든 이 주장, 계산으로 판정하면 참일까? 접기가 왜 이렇게 무서운 걸까?"},"74":{"sit":"용돈 협상: 「내 용돈 x는 동생의 2배 이상」— 양변에 −1을 곱해 정리하던 형이 갑자기 동생보다 적어졌습니다.","ask":"음수를 곱하면 부등호에 무슨 일이 일어날까? 등호와 무엇이 다를까?"},"75":{"sit":"문구점 A: 연필 2자루+지우개 1개 = 1,700원. 문구점 B의 전단: 연필 4자루+지우개 2개 = 3,400원.","ask":"두 정보로 연필값을 알아낼 수 있을까? 정보가 「두 개처럼 보이지만 하나」일 수도 있을까?"},"76":{"sit":"x+y=8, x−y=2 — 학원 형은 \"두 식을 그냥 더해 봐\"라고 힌트만 주고 갔습니다.","ask":"식끼리 더한다는 게 무슨 뜻일까? 더하면 왜 문제가 쉬워질까?"},"77":{"sit":"통신사 요금 그래프에서 「기본료 인상」과 「분당 요금 인상」은 직선을 다르게 움직인다고 합니다.","ask":"두 인상은 그래프에서 각각 어떤 운동일까? 서로 흉내 낼 수 있을까?"},"78":{"sit":"칠판의 식 y = (2/3)x + 1 — 선생님이 \"점 두 개면 끝\"이라며 분필 두 번으로 그래프를 그렸습니다.","ask":"어떤 두 점을 고르면 가장 빠르고 정확할까? 분수 기울기도 두 점으로 될까?"},"79":{"sit":"모둠 과제: 삼각형 합판을 손가락 하나로 수평 받치기. 아무 데나 받치면 기울어 떨어집니다.","ask":"받침점은 삼각형의 어디여야 할까? 그 점을 계산으로 찾을 수 있을까?"},"80":{"sit":"접이식 빨래건조대는 아무리 접었다 펴도 각 칸이 평행사변형을 유지합니다.","ask":"변형되는 내내 「평행사변형임」을 보증하는 조건은 무엇일까? 조건 하나면 충분할까?"},"81":{"sit":"1:25000 지도에서 학교와 집 사이가 4cm입니다. 내일 걸어가 볼 계획입니다.","ask":"실제 거리와 걸리는 시간은? 지도를 2배 확대 인쇄하면 축척은 어떻게 될까?"},"82":{"sit":"수업 시간에 빔프로젝터를 뒤로 밀었더니 화면이 훌쩍 커졌습니다.","ask":"거리와 화면 크기 사이의 규칙은? 프로젝터·그림자·바늘구멍 사진기는 같은 원리일까?"},"83":{"sit":"전자매장에서 「55인치」 TV를 재 보니 가로는 122cm뿐입니다. 55인치(140cm)가 아닌 것 같습니다.","ask":"55인치는 어디 길이일까? 가로·세로에서 대각선을 계산할 수 있을까?"},"84":{"sit":"공사장 목수가 줄자 하나로 「이 모서리 직각 맞네」라고 합니다. 각도기는 쓰지 않았습니다.","ask":"세 변 길이만으로 직각을 판정할 수 있을까? 직각이 아니면 무엇이 어긋날까?"},"85":{"sit":"고대 이집트 측량사는 매듭 12개짜리 밧줄로 완벽한 직각을 만들었습니다 — 3·4·5 간격이었다고 합니다.","ask":"세 변이 모두 자연수인 직각삼각형은 (3,4,5)뿐일까? 규칙적으로 더 찾을 수 있을까?"},"86":{"sit":"분식집 세트: 김밥 3종 중 하나 「그리고」 음료 2종 중 하나. 옆 가게는 김밥 3종 「또는」 라면 2종 중 하나만.","ask":"두 가게의 선택 가짓수는 각각 몇일까? 「그리고」와 「또는」은 셈을 어떻게 바꿀까?"},"87":{"sit":"2배 크기 피규어의 가격이 8배라 항의했더니, 사장님이 \"재료(부피)가 정말 8배\"라고 답했습니다.","ask":"길이 2배에 부피 8배 — 사실일까? 겉넓이(도색비)는 몇 배일까?"},"88":{"sit":"동전 3개를 던져 「적어도 하나 앞면」이면 이기는 게임 — 이길 확률을 묻자 친구는 8칸 표를 꺼냅니다.","ask":"8칸을 다 세는 것 말고 지름길이 있을까? 「적어도」의 반대말은 무엇일까?"},"89":{"sit":"룰렛에서 빨강이 5번 연속 나왔습니다. 옆 사람이 \"이제 검정 차례\"라며 판돈을 올립니다.","ask":"5연속 다음엔 정말 반대가 나올 「차례」일까? 동전·룰렛에게 기억이 있을까?"},"90":{"sit":"우리 반 24명 중 안경 5명. 「여학생 중에서」라고 조건을 붙이는 순간 분모가 달라진다고 합니다.","ask":"조건이 붙으면 확률의 무엇이 바뀔까? P(안경|여학생)과 P(여학생|안경)은 같을까?"},"91":{"sit":"트럼프에서 「하트(13장) 또는 그림카드(12장)」를 뽑을 확률 — 친구는 13+12=25장이라 우깁니다.","ask":"그냥 더한 25는 왜 틀릴까? 언제는 그냥 더해도 될까?"},"92":{"sit":"x³−2x²−5x+6 을 (x−1)로 나누라는 문제 — 세로셈은 지저분하고 시간도 오래 걸립니다.","ask":"계수 1,−2,−5,6 만 갖고 나눗셈을 끝내는 지름길이 있을까? 마지막 칸의 정체는?"},"93":{"sit":"f(x)=x³−4x²+x+6 을 (x−2)로 나눈 나머지가 급히 필요합니다. 나눌 시간은 없습니다.","ask":"나누지 않고 나머지를 아는 방법이 있을까? 나머지가 0이면 무엇을 얻을까?"},"94":{"sit":"게임 캐릭터를 시계 반대로 90° 돌리는 코드에 복소수 곱 「×i」 한 줄만 있다고 합니다.","ask":"수를 곱했는데 회전이 된다니 — i 는 평면에서 무슨 일을 하는 걸까?"},"95":{"sit":"문제: 「합이 5, 곱이 6인 두 수는?」 — 친구는 방정식도 안 세우고 \"2랑 3\"이라 답했습니다.","ask":"합·곱 정보만으로 두 수를 찾는 장치가 있을까? 계수와 근은 어떤 거래를 할까?"},"96":{"sit":"x³−3x+k=0 — k 값에 따라 해가 1개였다가 3개였다가 합니다.","ask":"몇 개인지 풀기 전에 알 수 있을까? 그래프의 산과 골짜기가 답을 쥐고 있을까?"},"97":{"sit":"놀이기구 안전 규정: 「탑승 게이지 x 가 x²−4x+3 < 0 을 만족하는 구간만 허용」이라 적혀 있습니다.","ask":"허용 구간은 어디부터 어디까지일까? 부등식의 해가 「구간」이 되는 이유는?"},"98":{"sit":"빵집 하루 생산: 오븐 한도 x+y≤6, 반죽 한도 x+2y≤8. 빵 이익 3, 케이크 이익 2입니다.","ask":"무엇을 몇 개 만들면 이익이 최대일까? 후보가 무한한데 다 따져야 할까?"},"99":{"sit":"학급 임원 선거(회장·부회장)와 청소 당번 짝 뽑기 — 둘 다 「4명 중 2명」이지만 느낌이 다릅니다.","ask":"두 뽑기의 가짓수는 같을까 다를까? 다르다면 정확히 몇 배 차이일까?"},"100":{"sit":"사진 앱의 「90° 회전」 버튼 뒤에는 숫자 4개짜리 표 [0 −1; 1 0] 하나가 있다고 합니다.","ask":"숫자 4개가 어떻게 사진 전체를 돌릴까? 내가 그 표를 직접 만들 수 있을까?"},"101":{"sit":"사진을 「회전 후 가로 늘리기」한 것과 「가로 늘리기 후 회전」한 것이 서로 다르게 나왔습니다.","ask":"같은 두 작업인데 순서만 바꿨는데 왜 다를까? 순서를 바꿔도 괜찮은 짝이 있을까?"},"102":{"sit":"책상 끝에 카드 4장 — 친구가 \"맨 위 카드를 통째로 책상 밖 허공에 띄울 수 있다\"고 내기를 겁니다.","ask":"받침 없이 허공에? 가능하다면 어떤 배치일까, 그리고 카드가 늘면 얼마나 더 나갈 수 있을까?"},"103":{"sit":"그림판에서 색을 고르니 코드 #4B96C8 이 떴습니다. 친구 폰에 이 색을 정확히 전달해야 합니다.","ask":"글자와 숫자가 섞인 이 코드의 정체는? 두 색을 「반씩 섞은」 색도 코드로 예측할 수 있을까?"},"104":{"sit":"색종이를 반으로 접어 2등분은 누구나 합니다. 그런데 3등분은? 게다가 「자와 컴퍼스로는 임의의 각을 3등분할 수 없다」가 수학의 오래된 정리입니다.","ask":"접기만으로 선분을 정확히 3등분·5등분할 수 있을까? 작도로 불가능한 각 3등분도 접기로는 가능할까?"},"105":{"sit":"새 마을로 매년 세대의 1/6 이 이주합니다. 지금 100세대가 살고, 손에는 주사위 100개가 있습니다 (1이 나오면 그 세대는 이주).","ask":"10년 뒤 몇 세대가 남을까? 10세대 이하로 줄어드는 해는 언제일까?"},"106":{"sit":"시험지에 sin 150° 를 구하라는 문제가 나왔습니다. 그런데 배운 것은 직각삼각형의 삼각비뿐 — 150°짜리 직각삼각형은 그릴 수 없습니다.","ask":"sin 150° 는 얼마일까? 90°를 넘는 각의 삼각비는 무엇으로 정의해야 할까?"},"107":{"sit":"대전의 일출 시각은 1월 7시 42분, 6월 5시 16분, 12월 7시 33분 — 1년을 주기로 물결칩니다.","ask":"열두 달의 일출을 식 하나로 쓸 수 있을까? 그 식으로 하지의 일출을 예측할 수 있을까?"},"108":{"sit":"강 건너 나무까지의 거리를 재야 합니다. 강은 건널 수 없고, 이쪽 기슭에서 잰 것은 기선 AB = 50 m 와 두 각 ∠A = 63°, ∠B = 55° 뿐입니다.","ask":"이 세 정보만으로 나무까지의 거리를 확정할 수 있을까?"},"109":{"sit":"학자금 1,200만 원을 연 6%로 빌려 24개월에 나눠 갚기로 했습니다. 은행 앱에는 「월 상환액」이 한 줄로 떠 있습니다.","ask":"이 금액은 어떤 계산에서 나왔을까? 기간을 늘리면 무엇이 이득이고 무엇이 손해일까?"},"110":{"sit":"초등학생 가우스는 「1부터 100까지 더하라」는 벌 문제를 몇 초 만에 5050 이라 답했다고 합니다.","ask":"하나씩 더하지 않고 답을 아는 방법은 무엇일까? 그 방법은 왜 늘 옳을까?"},"111":{"sit":"「모든 자연수 n 에 대하여 성립한다」를 증명해야 합니다. 그런데 자연수는 무한히 많아 하나씩 확인할 수가 없습니다.","ask":"무한히 많은 경우를 유한한 논증으로 덮으려면 무엇과 무엇을 보이면 될까?"},"112":{"sit":"연 6% 복리 통장에 목돈을 넣었습니다. 은행 앱은 「원금의 3배가 되면 알림」을 걸 수 있다고 합니다.","ask":"몇 해 뒤에 세 배가 될까? 지수 자리에 갇힌 x 를 어떻게 꺼낼 수 있을까?"},"113":{"sit":"계산기에는 log(상용로그) 단추만 있습니다. 그런데 문제는 log₂ 100 을 구하라고 합니다.","ask":"밑이 2인 로그를 밑 10짜리 계산기로 구할 수 있을까? 밑을 바꿔도 값은 그대로일까?"},"114":{"sit":"계산기에 log 0 을 넣으면 오류가 뜹니다. 음수를 넣어도 마찬가지입니다.","ask":"로그가 받아 주는 수는 왜 양수뿐일까? 지수함수와 로그함수는 어떤 사이일까?"},"115":{"sit":"2¹⁰⁰ 을 계산기에 넣으면 1.2676506e+30 처럼 뭉뚱그려 나옵니다. 정확한 값은 화면에 다 담기지도 않습니다.","ask":"이 수는 몇 자리일까? 맨 앞자리 숫자는 무엇일까?"},"116":{"sit":"식 y = 2^(x−3) + 2 의 그래프를 그리랬는데, 기준 곡선 y = 2^x 만 머리에 떠오릅니다.","ask":"괄호 안의 −3 과 뒤의 +2 는 그래프를 각각 어떻게 움직일까? 점근선은 어디로 갈까?"},"117":{"sit":"식 y = 2 sin(2x − π/2) + 1 의 그래프를 그리랬는데, 계수가 네 개나 붙어 있어 어디부터 손대야 할지 모르겠습니다.","ask":"네 계수는 각각 그래프의 무엇을 맡을까? 하나를 바꾸면 나머지도 흔들릴까?"},"118":{"sit":"관람차가 한 바퀴 도는 데 12분 걸립니다. 「높이가 정확히 절반인 순간」에 사진을 찍으려 합니다.","ask":"sin x = 0.5 를 만족하는 x 는 몇 개일까? 하루 종일 돌면 그런 순간은 몇 번 올까?"},"119":{"sit":"스피커 두 개가 같은 음을 내는데 하나는 sin, 하나는 cos 형태로 3 : 4 세기로 흔들립니다.","ask":"두 소리가 겹치면 얼마나 크게 들릴까? 합쳐진 파형도 여전히 사인 곡선일까?"},"120":{"sit":"땅 문서에는 삼각형 밭의 세 변 13 m, 14 m, 15 m 만 적혀 있습니다. 각도는 어디에도 없습니다.","ask":"각을 하나도 모르는데 넓이를 구할 수 있을까?"},"121":{"sit":"신시사이저의 사각파 소리는 사인파와 전혀 다르게 「각지게」 들립니다. 그런데 안에는 사인 발생기밖에 없다고 합니다.","ask":"각진 파형을 사인들만으로 만들 수 있을까? 어떤 비율로 섞어야 할까?"},"122":{"sit":"학교 강당의 첫 줄은 12석, 뒤로 갈수록 한 줄에 2석씩 늘어납니다. 모두 15줄입니다.","ask":"강당 전체 좌석은 몇 석일까? 한 줄씩 세지 않고 알 수 있을까?"},"123":{"sit":"저축 방식 둘 — A는 매달 10만원씩 더하고, B는 매달 5%씩 불립니다. 시작은 둘 다 100만원이고, 3년(36개월)을 봅니다.","ask":"지금은 A가 앞서는데, 3년 안에 B가 이길까? 이긴다면 몇 개월째일까?"},"124":{"sit":"학급 봉사 시간을 매일 기록했더니 막대그래프가 들쭉날쭉합니다. 담임은 「지금까지 총 몇 시간인지」를 묻습니다.","ask":"매일의 값에서 누적 총합으로 어떻게 넘어갈까? 누적선의 기울기는 무엇을 뜻할까?"},"125":{"sit":"토끼 한 쌍이 매달 새끼 한 쌍을 낳고, 태어난 쌍도 두 달 뒤부터 낳습니다. (피보나치의 토끼 문제)","ask":"몇 달 뒤 토끼는 몇 쌍이 될까? 다음 달 수를 지금 수로 말할 수 있을까?"},"126":{"sit":"매달 20만원씩 12개월 동안 연 3% 적금에 넣기로 했습니다. 은행은 「만기 금액」을 한 줄로 알려 줍니다.","ask":"같은 20만원인데 왜 첫 달과 마지막 달의 값이 다를까? 만기 금액은 어떻게 계산될까?"}};
 
 function openLab(i){ if(LABS[i]) open(LABS[i], i); }
 

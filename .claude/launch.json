@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "vlab-303",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["--yes", "http-server", "버전보관", "-p", "8799", "-c-1"],
+      "port": 8799
+    }
+  ]
+}

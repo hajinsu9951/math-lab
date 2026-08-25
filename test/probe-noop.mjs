@@ -24,7 +24,7 @@ async function openGate() {
   await p.waitForTimeout(220);
 }
 let bad = 0;
-for (let i = 0; i < 111; i++) {
+for (let i = 0; i < 126; i++) {
   await p.evaluate(n => openLab(n), i);
   await p.waitForTimeout(350);
   await openGate();

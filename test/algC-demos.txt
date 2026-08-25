@@ -1,0 +1,309 @@
+
+/* ---------- LAB 122 등차수열 — 극장 좌석과 사다리꼴 ---------- */
+function apDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ap1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">한 줄이 늘 때마다 좌석이 <b>d 개씩</b> 늘어납니다.
+      전체 좌석 수는 사다리꼴의 넓이와 같은 구조입니다.</div>
+    </div>
+    <div class="col">
+      ${slider('apF','첫째 줄 좌석 a₁',4,20,1,12,'석')}
+      ${slider('apD','한 줄마다 늘어나는 수 d',0,6,1,2,'석')}
+      ${slider('apN','줄 수 n',3,20,1,8,'줄')}
+      <div class="out" id="apout"></div>
+      <div class="note" style="margin-top:12px">Sₙ = n(a₁ + aₙ)/2 — 첫 줄과 끝 줄의 <b>평균</b>에 줄 수를 곱한 것입니다.</div>
+    </div></div>`;
+  const cv=$('#ap1'),ctx=cv.getContext('2d'),W=380,H=300,P=30;
+  function draw(){
+    const a1=+$('#apF').value, d=+$('#apD').value, n=+$('#apN').value;
+    $('#apFv').textContent=a1+'석'; $('#apDv').textContent=d+'석'; $('#apNv').textContent=n+'줄';
+    const an=a1+(n-1)*d, sum=n*(a1+an)/2;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const rowH=Math.min(20,(H-2*P)/n), maxSeat=Math.max(an,1);
+    for(let i=0;i<n;i++){
+      const seats=a1+i*d, w=(W-2*P)*seats/maxSeat;
+      ctx.fillStyle= i===0?'rgba(190,18,60,.4)': i===n-1?'rgba(14,147,132,.4)':'rgba(37,99,235,.32)';
+      ctx.fillRect(P, P+i*rowH, w, rowH-2);
+      ctx.strokeStyle='#C7D2E4'; ctx.lineWidth=0.8; ctx.strokeRect(P, P+i*rowH, w, rowH-2);
+    }
+    ctx.fillStyle='#374151'; ctx.font='11px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('첫 줄 '+a1+'석', P+4, P+13);
+    ctx.fillText('끝 줄 '+an+'석', P+4, P+(n-1)*rowH+13);
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif';
+    ctx.fillText('사다리꼴 모양 — 위·아래 변의 평균 × 높이', P, H-14);
+    $('#apout').innerHTML =
+      `<span class="mono">aₙ = a₁ + (n−1)d = ${a1} + ${n-1}×${d} = <b>${an}</b></span><br>`
+      + `<span class="mono">Sₙ = n(a₁ + aₙ)/2 = ${n}(${a1} + ${an})/2 = <b>${sum}</b></span><br>`
+      + `전체 좌석 <b style="color:#2563EB">${sum}석</b> · 평균 한 줄 <b>${(sum/n).toFixed(1)}석</b><br>`
+      + (d===0 ? `<b style="color:#7C3AED">공차 0 — 모든 줄이 같아 직사각형이 되었습니다 (Sₙ = n·a₁).</b><br>` : '')
+      + (a1===12 && d===2 && n===15 ? `<b style="color:#B45309">오늘의 문제 — 15줄이면 모두 ${sum}석입니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">첫 줄과 끝 줄의 평균이 「가운데 줄」과 같다는 것이 공식의 핵심입니다.</span>`;
+  }
+  ['apF','apD','apN'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'ap', title:'등차수열 — 사다리꼴로 세는 좌석',
+    q:['(a₁, d, n, aₙ, Sₙ) 을 여섯 줄 기록하세요. 공차 0 인 경우도 포함하세요.',
+       '첫 줄과 끝 줄의 평균이 전체 평균과 같은지 표에서 확인하세요.',
+       'Sₙ = n(a₁+aₙ)/2 를 사다리꼴 넓이 공식과 짝지어 손으로 설명하세요.'],
+    cols:['a₁','d','n','aₙ','Sₙ','평균'],
+    hint:'힌트 — 좌석 배치를 뒤집어 원래 배치 위에 얹으면 모든 줄이 (a₁+aₙ) 개인 직사각형이 됩니다.',
+    read:()=>{ const a1=+$('#apF').value,d=+$('#apD').value,n=+$('#apN').value,an=a1+(n-1)*d;
+      return [a1,d,n,an,n*(a1+an)/2,((a1+an)/2).toFixed(1)]; } });
+}
+
+/* ---------- LAB 123 등차 vs 등비 — 매달 1만원 vs 매달 1% ---------- */
+function apGpDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="ag1" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">파랑은 <b>매달 같은 금액</b>(등차), 초록은 <b>매달 같은 비율</b>(등비)입니다.
+      언제 뒤집히는지 보세요.</div>
+    </div>
+    <div class="col">
+      ${slider('agA','시작 금액',10,200,10,50,'만원')}
+      ${slider('agD','등차 — 매달 더하는 돈',1,20,1,5,'만원')}
+      ${slider('agR','등비 — 매달 늘어나는 비율',1,20,1,3,'%')}
+      ${slider('agN','개월 수',6,60,6,12,'개월')}
+      <div class="out" id="agout"></div>
+      <div class="note" style="margin-top:12px">처음에는 등차가 앞서지만, 등비는 <b>언젠가 반드시</b> 추월합니다 —
+      그 시점을 찾는 것이 오늘의 목표입니다.</div>
+    </div></div>`;
+  const cv=$('#ag1'),ctx=cv.getContext('2d'),W=380,H=300,P=42;
+  function draw(){
+    const a=+$('#agA').value, d=+$('#agD').value, r=+$('#agR').value/100, n=+$('#agN').value;
+    $('#agAv').textContent=a+'만원'; $('#agDv').textContent=d+'만원';
+    $('#agRv').textContent=(+$('#agR').value)+'%'; $('#agNv').textContent=n+'개월';
+    const ap=k=>a+d*k, gp=k=>a*Math.pow(1+r,k);
+    const maxV=Math.max(ap(n), gp(n))*1.08;
+    const X=k=>P+(W-P-16)*k/n, Y=v=>H-P-(H-2*P)*v/maxV;
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#F1F3F6';
+    for(let i=0;i<=4;i++){ const y=H-P-(H-2*P)*i/4; ctx.beginPath(); ctx.moveTo(P,y); ctx.lineTo(W-16,y); ctx.stroke(); }
+    const path=(f,col,w)=>{ ctx.strokeStyle=col; ctx.lineWidth=w; ctx.beginPath();
+      for(let k=0;k<=n;k+=n/200){ const px=X(k),py=Y(f(k)); k===0?ctx.moveTo(px,py):ctx.lineTo(px,py); } ctx.stroke(); };
+    path(ap,'#2563EB',2.4); path(gp,'#0E9384',2.6);
+    let cross=null;
+    for(let k=1;k<=n;k++){ if(gp(k)>=ap(k)){ cross=k; break; } }
+    if(cross){ ctx.strokeStyle='#BE123C'; ctx.setLineDash([4,3]); ctx.lineWidth=1.4;
+      ctx.beginPath(); ctx.moveTo(X(cross),P-8); ctx.lineTo(X(cross),H-P); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#BE123C'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(cross+'개월', X(cross), P-12); }
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-16,H-P); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='left'; ctx.fillText('개월 →',P,H-P+16);
+    $('#agout').innerHTML =
+      `<span class="mono">등차 aₙ = ${a} + ${d}n &nbsp;/&nbsp; 등비 aₙ = ${a}×${(1+r).toFixed(2)}ⁿ</span><br>`
+      + `${n}개월 뒤 — 등차 <b style="color:#2563EB">${ap(n).toFixed(0)}만원</b> · 등비 <b style="color:#0E9384">${gp(n).toFixed(0)}만원</b><br>`
+      + (cross ? `<b style="color:#BE123C">역전 시점 — ${cross}개월째에 등비가 등차를 앞질렀습니다.</b><br>`
+               : `<b style="color:#B45309">아직 역전 전 — 개월 수를 늘리면 언젠가 반드시 뒤집힙니다.</b><br>`)
+      + `<span style="color:#6B7280;font-size:12.5px">더하기는 직선, 곱하기는 휘는 곡선 — 처음의 앞섬은 오래가지 않습니다.</span>`;
+  }
+  ['agA','agD','agR','agN'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'ag', title:'등차 vs 등비 — 언제 뒤집힐까',
+    q:['(d, r, 역전 시점) 을 여섯 줄 기록하세요. 역전이 화면 안에서 일어나지 않는 경우도 넣으세요.',
+       '비율 r 을 올릴 때 역전 시점이 어떻게 변하는지 규칙을 찾으세요.',
+       '「곱하기는 결국 더하기를 이긴다」를 두 수열의 일반항으로 손으로 설명하세요.'],
+    cols:['시작','d','r','n개월 뒤 등차','n개월 뒤 등비','역전 시점'],
+    hint:'힌트 — 등차는 직선(일차), 등비는 지수입니다. 지수는 어떤 직선도 결국 넘어섭니다.',
+    read:()=>{ const a=+$('#agA').value,d=+$('#agD').value,r=+$('#agR').value/100,n=+$('#agN').value;
+      let c=null; for(let k=1;k<=n;k++){ if(a*Math.pow(1+r,k)>=a+d*k){ c=k; break; } }
+      return [a,d,(r*100)+'%',(a+d*n).toFixed(0),(a*Math.pow(1+r,n)).toFixed(0), c?c+'개월':'아직']; } });
+}
+
+/* ---------- LAB 124 시그마와 누적합 — 데이터 집계 ---------- */
+function sumDataDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sd2" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">위 막대는 <b>매일의 값</b>, 아래 꺾은선은 <b>누적합</b>입니다.
+      막대를 눌러 값을 바꿔 보세요.</div>
+    </div>
+    <div class="col">
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="b g sm" id="sdFlat">모두 같게 (하루 5)</button>
+        <button class="b g sm" id="sdUp">매일 2씩 증가</button>
+        <button class="b g sm" id="sdRnd">들쭉날쭉</button>
+      </div>
+      <div class="out" id="sd2out"></div>
+      <div class="note" style="margin-top:12px">시그마는 <b>더하라는 명령</b>입니다.
+      Σ(aₖ + bₖ) = Σaₖ + Σbₖ, Σc·aₖ = c·Σaₖ — 성질은 「먼저 더하나 나중에 더하나 같다」입니다.</div>
+    </div></div>`;
+  const cv=$('#sd2'),ctx=cv.getContext('2d'),W=380,H=300,P=34;
+  const S={ v:[3,5,2,6,4,7,3,5,6,4] };
+  function draw(){
+    const v=S.v, n=v.length;
+    const cum=[]; let acc=0; v.forEach(x=>{ acc+=x; cum.push(acc); });
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const bw=(W-2*P)/n, mid=140, maxV=Math.max(...v,1), maxC=Math.max(acc,1);
+    v.forEach((x,i)=>{ const h=(mid-P)*x/maxV;
+      ctx.fillStyle='rgba(37,99,235,.42)'; ctx.fillRect(P+i*bw+2, mid-h, bw-4, h);
+      ctx.strokeStyle='#2563EB'; ctx.lineWidth=1; ctx.strokeRect(P+i*bw+2, mid-h, bw-4, h);
+      ctx.fillStyle='#374151'; ctx.font='9.5px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(x, P+i*bw+bw/2, mid-h-4); });
+    ctx.strokeStyle='#9CA3AF'; ctx.beginPath(); ctx.moveTo(P,mid); ctx.lineTo(W-P,mid); ctx.stroke();
+    const Y=c=>H-P-(H-P-mid-24)*c/maxC;
+    ctx.strokeStyle='#0E9384'; ctx.lineWidth=2.4; ctx.beginPath();
+    cum.forEach((c,i)=>{ const px=P+i*bw+bw/2, py=Y(c); i?ctx.lineTo(px,py):ctx.moveTo(px,py); }); ctx.stroke();
+    cum.forEach((c,i)=>{ ctx.fillStyle='#0E9384'; ctx.beginPath(); ctx.arc(P+i*bw+bw/2,Y(c),3.4,0,7); ctx.fill(); });
+    ctx.fillStyle='#6B7280'; ctx.font='10.5px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('매일의 값', P, P-8); ctx.fillText('누적합 (지금까지 모두 더한 값)', P, mid+18);
+    const flat = v.every(x=>x===v[0]);
+    const inc = v.every((x,i)=>i===0||x-v[i-1]===v[1]-v[0]) && v[1]-v[0]!==0;
+    $('#sd2out').innerHTML =
+      `<span class="mono">Σ<sub>k=1</sub><sup>${n}</sup> a<sub>k</sub> = <b>${acc}</b></span> · 평균 <b>${(acc/n).toFixed(1)}</b><br>`
+      + `마지막 누적값이 곧 총합입니다.<br>`
+      + (flat ? `<b style="color:#7C3AED">모두 같은 값 — 누적합이 <b>직선</b>이 되었습니다 (Σc = nc).</b><br>` : '')
+      + (inc ? `<b style="color:#0E9384">일정하게 증가 — 누적합이 위로 휘는 <b>이차 곡선</b>이 됩니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">막대의 모양이 곧 누적선의 기울기입니다 — 집계는 「기울기 읽기」의 반대입니다.</span>`;
+  }
+  cv.style.touchAction='none';
+  cv.addEventListener('pointerdown',e=>{
+    const r=cv.getBoundingClientRect();
+    const x=(e.clientX-r.left)*W/r.width, y=(e.clientY-r.top)*H/r.height;
+    if(y>140) return;
+    const bw=(W-2*P)/S.v.length, i=Math.floor((x-P)/bw);
+    if(i<0||i>=S.v.length) return;
+    S.v[i] = S.v[i]>=9 ? 1 : S.v[i]+1; draw();
+  });
+  $('#sdFlat').onclick=()=>{ S.v=S.v.map(()=>5); draw(); };
+  $('#sdUp').onclick=()=>{ S.v=S.v.map((_,i)=>i+1); draw(); };
+  $('#sdRnd').onclick=()=>{ S.v=[3,5,2,6,4,7,3,5,6,4]; draw(); };
+  draw();
+  inquiry(root,{ id:'sd2', title:'시그마와 누적합 — 집계의 수학',
+    q:['막대를 눌러 자료를 바꿔 가며 (자료 모양, 총합, 누적선의 모양) 을 여섯 줄 기록하세요.',
+       '모두 같은 값일 때와 일정하게 증가할 때 누적선이 각각 어떤 모양인지 확인하세요.',
+       'Σ(aₖ+bₖ) = Σaₖ + Σbₖ 를 자료 두 벌로 검증하고, 성질이 성립하는 이유를 쓰세요.'],
+    cols:['자료 모양','총합','평균','누적선 모양'],
+    hint:'힌트 — 누적합의 「증가량」이 곧 그날의 값입니다. 미분과 적분의 관계와 같은 구조입니다.',
+    read:()=>{ const v=S.v, acc=v.reduce((a,b)=>a+b,0);
+      const flat=v.every(x=>x===v[0]);
+      return [flat?'모두 같음':'변동 있음', acc, (acc/v.length).toFixed(1), flat?'직선':'휘는 선']; } });
+}
+
+/* ---------- LAB 125 점화식 — 다음 항은 앞 항이 정한다 ---------- */
+function recurSeqDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="rq1" width="380" height="300"></canvas>
+      <div class="ctl" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+        <button class="b t" id="rqStep">다음 항 만들기 ▶</button>
+        <button class="b t sm" id="rqRun">10항 한 번에</button>
+        <button class="b g sm" id="rqRs">처음으로</button>
+      </div>
+    </div>
+    <div class="col">
+      <label class="ctl">점화식 고르기<select id="rqK" style="width:100%;padding:7px 9px;border:1px solid #E5E7EB;border-radius:8px;font:inherit">
+        <option value="add">aₙ₊₁ = aₙ + 3 (등차)</option>
+        <option value="mul">aₙ₊₁ = 2aₙ (등비)</option>
+        <option value="fib" selected>aₙ₊₁ = aₙ + aₙ₋₁ (피보나치)</option>
+        <option value="mix">aₙ₊₁ = 2aₙ + 1</option></select></label>
+      <div class="out" id="rqout"></div>
+      <div class="note" style="margin-top:12px">점화식은 <b>「다음을 만드는 규칙」</b>입니다.
+      토끼 쌍의 수, 예금 잔액, 재귀 알고리즘이 모두 이 꼴로 적힙니다.</div>
+    </div></div>`;
+  const cv=$('#rq1'),ctx=cv.getContext('2d'),W=380,H=300,P=36;
+  const S={ a:[1,1] };
+  function init(){ const k=$('#rqK').value;
+    S.a = k==='fib' ? [1,1] : k==='add' ? [2] : k==='mul' ? [1] : [1]; }
+  function next(){
+    const k=$('#rqK').value, a=S.a, n=a.length;
+    if(n>=14) return;
+    if(k==='add') a.push(a[n-1]+3);
+    else if(k==='mul') a.push(2*a[n-1]);
+    else if(k==='fib') a.push(a[n-1]+a[n-2]);
+    else a.push(2*a[n-1]+1);
+  }
+  function draw(){
+    const a=S.a, n=a.length, mx=Math.max(...a,1);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const bw=(W-2*P)/14;
+    a.forEach((v,i)=>{ const h=(H-2*P)*v/mx;
+      ctx.fillStyle= i>=n-1 ? 'rgba(190,18,60,.45)' : 'rgba(37,99,235,.38)';
+      ctx.fillRect(P+i*bw+2, H-P-h, bw-4, h);
+      ctx.fillStyle='#374151'; ctx.font='9.5px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(v, P+i*bw+bw/2, H-P-h-4); });
+    ctx.strokeStyle='#9CA3AF'; ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('항 번호 →', P, H-P+16);
+    const k=$('#rqK').value;
+    const names={add:'aₙ₊₁ = aₙ + 3', mul:'aₙ₊₁ = 2aₙ', fib:'aₙ₊₁ = aₙ + aₙ₋₁', mix:'aₙ₊₁ = 2aₙ + 1'};
+    const ratio = n>=3 ? (a[n-1]/a[n-2]) : null;
+    $('#rqout').innerHTML =
+      `<span class="mono">${names[k]}</span> · 지금까지 <b>${n}항</b><br>`
+      + `수열: <b>${a.join(', ')}</b><br>`
+      + (k==='fib' && n>=10 ? `<b style="color:#B45309">이웃 항의 비 = ${ratio.toFixed(4)} — 황금비 1.618 에 다가갑니다.</b><br>` : '')
+      + (k==='mix' && n>=6 ? `<b style="color:#7C3AED">각 항에 1을 더해 보세요 — 2, 4, 8, 16 … 등비가 숨어 있습니다.</b><br>` : '')
+      + (k==='add' && n>=6 ? `<b style="color:#0E9384">차가 늘 3 — 일반항 aₙ = ${a[0]} + 3(n−1) 로 한 번에 구할 수 있습니다.</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">점화식은 「다음」만 알려 줍니다. 먼 항을 바로 알려면 일반항이 필요합니다.</span>`;
+  }
+  $('#rqStep').onclick=()=>{ next(); draw(); };
+  $('#rqRun').onclick=()=>{ for(let i=0;i<10;i++) next(); draw(); };
+  $('#rqRs').onclick=()=>{ init(); draw(); };
+  $('#rqK').onchange=()=>{ init(); draw(); };
+  init(); draw();
+  inquiry(root,{ id:'rq', title:'점화식 — 다음 항을 만드는 규칙',
+    q:['네 점화식을 모두 10항까지 만들며 (규칙, 처음 다섯 항, 자라는 속도) 를 기록하세요.',
+       '피보나치에서 이웃 항의 비를 계산해 어디로 다가가는지 확인하세요.',
+       'aₙ₊₁ = 2aₙ + 1 의 각 항에 1을 더하면 등비가 되는 이유를 손으로 설명하세요.'],
+    cols:['점화식','항 수','마지막 항','이웃 비'],
+    hint:'힌트 — 점화식은 「씨앗(첫 항) + 만드는 규칙」입니다. 씨앗이 다르면 전혀 다른 수열이 됩니다.',
+    read:()=>{ const a=S.a,n=a.length,k=$('#rqK').value;
+      const names={add:'aₙ+3',mul:'2aₙ',fib:'aₙ+aₙ₋₁',mix:'2aₙ+1'};
+      return [names[k], n, a[n-1], n>=3?(a[n-1]/a[n-2]).toFixed(4):'—']; } });
+}
+
+/* ---------- LAB 126 적금의 수학 — 매달 넣으면 얼마가 될까 ---------- */
+function savingDemo(root){
+  root.innerHTML=`<div class="row"><div class="col">
+      <canvas id="sv2" width="380" height="300"></canvas>
+      <div class="note" style="margin-top:8px">막대 하나가 <b>그달에 넣은 돈이 만기에 갖는 가치</b>입니다.
+      먼저 넣은 돈일수록 이자를 오래 받습니다.</div>
+    </div>
+    <div class="col">
+      ${slider('svM','매달 넣는 돈',5,50,5,10,'만원')}
+      ${slider('svR','연이자율',1,8,0.5,2,'%')}
+      ${slider('svN','기간',6,36,6,6,'개월')}
+      <div class="out" id="sv2out"></div>
+      <div class="note" style="margin-top:12px">매달 같은 돈을 넣어도 <b>넣은 시점마다 이자 기간이 다릅니다</b> —
+      그래서 만기 금액이 등비수열의 합이 됩니다.</div>
+    </div></div>`;
+  const cv=$('#sv2'),ctx=cv.getContext('2d'),W=380,H=300,P=40;
+  function calc(){
+    const m=+$('#svM').value, r=+$('#svR').value/100/12, n=+$('#svN').value;
+    const parts=[]; let tot=0;
+    for(let k=0;k<n;k++){ const v=m*Math.pow(1+r,n-1-k); parts.push(v); tot+=v; }
+    return {m,r,n,parts,tot,principal:m*n};
+  }
+  function draw(){
+    const c=calc();
+    $('#svMv').textContent=c.m+'만원'; $('#svRv').textContent=(+$('#svR').value).toFixed(1)+'%'; $('#svNv').textContent=c.n+'개월';
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+    const bw=(W-2*P)/c.n, mx=Math.max(...c.parts);
+    c.parts.forEach((v,i)=>{ const h=(H-2*P)*v/mx;
+      ctx.fillStyle='rgba(37,99,235,.40)'; ctx.fillRect(P+i*bw+1, H-P-h, bw-2, h);
+      ctx.fillStyle='rgba(190,18,60,.35)';
+      const ih=(H-2*P)*(v-c.m)/mx; if(ih>0.6) ctx.fillRect(P+i*bw+1, H-P-h, bw-2, ih);
+    });
+    ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(P,H-P); ctx.lineTo(W-P,H-P); ctx.stroke();
+    ctx.fillStyle='#6B7280'; ctx.font='10px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('첫 달 (이자 오래)', P, H-P+16);
+    ctx.textAlign='right'; ctx.fillText('마지막 달', W-P, H-P+16);
+    ctx.textAlign='left'; ctx.fillStyle='#BE123C'; ctx.font='bold 10.5px sans-serif';
+    ctx.fillText('붉은 부분 = 이자', P, P-10);
+    const interest = c.tot - c.principal;
+    $('#sv2out').innerHTML =
+      `<span class="mono">S = m·((1+i)ⁿ − 1)/i</span> &nbsp;(i = 월이자율 ${(c.r*100).toFixed(3)}%)<br>`
+      + `원금 합계 <b>${c.principal}만원</b> → 만기 금액 <b style="color:#2563EB">${c.tot.toFixed(1)}만원</b>`
+      + ` · 이자 <b style="color:#BE123C">${interest.toFixed(1)}만원</b><br>`
+      + (c.m===20 && c.n===12 && Math.abs(+$('#svR').value-3)<0.01
+          ? `<b style="color:#B45309">오늘의 문제 — 만기에 ${c.tot.toFixed(1)}만원, 이자는 ${interest.toFixed(1)}만원입니다.</b><br>` : '')
+      + (c.n>=24 ? `<b style="color:#0E9384">기간이 길어질수록 이자 비중이 눈에 띄게 커집니다 (${(interest/c.principal*100).toFixed(1)}%).</b><br>` : '')
+      + `<span style="color:#6B7280;font-size:12.5px">첫 달에 넣은 돈이 가장 높은 막대입니다 — 시간이 곧 이자입니다.</span>`;
+  }
+  ['svM','svR','svN'].forEach(i=>$('#'+i).oninput=draw); draw();
+  inquiry(root,{ id:'sv2', title:'적금 — 등비수열로 자라는 저축',
+    q:['(매달 금액, 이자율, 기간, 만기 금액, 이자) 를 여섯 줄 기록하세요.',
+       '기간을 두 배로 늘리면 이자가 몇 배가 되는지 확인하세요(두 배보다 큰가요?).',
+       '만기 금액이 등비수열의 합인 이유를 「각 달의 돈이 받는 이자 기간」으로 손으로 설명하세요.'],
+    cols:['매달','이자율','기간','원금 합','만기 금액','이자'],
+    hint:'힌트 — 첫 달 돈은 (1+i)^(n−1) 배, 마지막 달 돈은 1 배. 이들을 더하면 등비수열의 합입니다.',
+    read:()=>{ const c=calc();
+      return [c.m+'만원',(+$('#svR').value).toFixed(1)+'%',c.n+'개월',c.principal,c.tot.toFixed(1),(c.tot-c.principal).toFixed(1)]; } });
+}
