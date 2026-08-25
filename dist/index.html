@@ -107,10 +107,15 @@ p.sub{margin:0 0 22px;color:var(--ink3);font-size:14.5px}
 .citem h5{margin:0;font-size:14.5px;font-weight:800;line-height:1.35;letter-spacing:-.2px}
 .cg{font-size:11.8px;color:var(--ink3)}
 .cq{margin:3px 0 0;font-size:12.8px;color:var(--ink2);line-height:1.6}
-.cb{margin:5px 0 0;font-size:12.2px;color:var(--rose,#BE123C);line-height:1.6;
-  background:var(--rose-s,#FFF1F4);border-radius:7px;padding:6px 9px}
-.cb span{display:block;font-size:10.5px;font-weight:800;opacity:.75;margin-bottom:1px}
-.cb.none{color:var(--ink3);background:var(--bg)}
+.cb{margin:6px 0 0;font-size:12.4px;line-height:1.62;color:#8A3348;
+  background:#FFF7F8;border:1px solid #F3D9DF;border-left:3px solid #E4899C;
+  border-radius:8px;padding:7px 10px}
+.cb .cbl{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.2px;
+  color:#A63A52;background:#FBE7EB;border-radius:999px;padding:1.5px 8px;margin-bottom:4px}
+.cb .cbt{display:block;color:#7A3B49}
+.cb.none{background:#F7F8FA;border-color:#E5E8EE;border-left-color:#C9CFDA;color:var(--ink3)}
+.cb.none .cbl{color:#6B7280;background:#EEF1F5}
+.cb.none .cbt{color:var(--ink3)}
 .ca{margin-top:auto;padding-top:7px;font-size:11.5px;color:var(--teal);font-weight:700}
 
 /* ===== 카탈로그 안의 「제작 완료」 항목 — 눌러서 그 실험실을 연다 ===== */
@@ -676,8 +681,8 @@ footer{padding:26px 0 40px;color:var(--ink3);font-size:12.5px;text-align:center}
 /* ===== 카탈로그 상태색 — 한눈에 「어디까지 만들었나」가 보이게 =====
    완료(제작됨·눌러서 열림)  연한 초록 | 미제작(설계만 있음)  연한 빨강
    왼쪽 세로줄은 과목색으로 남긴다 — 상태는 바탕, 과목은 줄. 역할이 겹치지 않는다. */
-.citem{background:#FFF5F6;border-color:#F4D9DD}                 /* 기본 = 미제작 */
-.citem:hover{border-color:#E4A9B4;box-shadow:0 4px 14px rgba(190,18,60,.07)}
+.citem{background:#FDFBF6;border-color:#EAE3D3}                 /* 기본 = 미제작(설계 재료) */
+.citem:hover{border-color:#D9C79B;box-shadow:0 4px 14px rgba(146,110,32,.08)}
 
 /* ===== 실험 사다리 (LAB 25~76) — 단계를 넘어야 다음이 열린다 ===== */
 .ldr{margin:0 0 16px;background:var(--card);border:1px solid var(--line);border-radius:13px;
@@ -741,6 +746,20 @@ footer{padding:26px 0 40px;color:var(--ink3);font-size:12.5px;text-align:center}
 .ghead{margin:16px 0 10px;font-size:13.5px;color:#4B5563}
 .ghead b{color:#1D4ED8}
 @media (prefers-reduced-motion:reduce){.gtog{transition:none}}
+
+/* 카탈로그 카드 — 상단 20종 카드와 같은 결 */
+.citem{padding:14px 15px 13px;border-radius:14px;gap:5px}
+.citem:hover{transform:translateY(-2px)}
+.citem .thumb{display:block;width:100%;height:auto;background:var(--bg);
+  border:1px solid var(--line);border-radius:10px;margin:2px 0 4px}
+.citem.made:hover .thumb{background:#fff;border-color:#C7D9FF}
+.citem h5{font-size:15.5px}
+.cno{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.cnum{font-variant-numeric:tabular-nums;color:var(--ink3)}
+.cplan{display:inline-block;font-size:10.5px;font-weight:800;color:#5B6472;
+  background:#EEF1F5;border-radius:999px;padding:1.5px 8px}
+.cgo{font-size:12.5px;font-weight:800;color:var(--blue);margin-top:6px}
+.ca{color:#0F766E}
 
 </style>
 </head>
@@ -20799,12 +20818,13 @@ function catDraw(){
       <div class="catgh"><h4>${g.n}<span>${items.length}종</span>${made?`<span class="gmade">제작 완료 ${made}</span>`:''}</h4><p>${g.d}</p></div>
       <div class="catgrid">${items.map(c=>`
         <article class="citem ${c.k}${c.lab!=null?' made':''}"${c.lab!=null?` data-lab="${c.lab}" tabindex="0" role="button"`:''}>
-          <div class="cno">${String(c._no).padStart(3,'0')}${c.lab!=null?`<span class="cmade">제작 완료 · LAB ${String(c.lab+1).padStart(2,'0')}</span>`:''}</div>
+          <div class="cno"><span class="cnum">${String(c._no).padStart(3,'0')}</span>${c.lab!=null?`<span class="cmade">제작 완료 · LAB ${String(c.lab+1).padStart(2,'0')}</span>`:`<span class="cplan">설계 재료</span>`}</div>
+          ${c.lab!=null && typeof THUMBS!=='undefined' && THUMBS[c.lab] ? THUMBS[c.lab] : ''}
           <h5>${c.t}</h5>
           <div class="cg">${c.g}</div>
           ${c.q ? `<p class="cq">${c.q}</p>` : ''}
-          ${c.b ? `<p class="cb"><span>R4 결함 후보</span>${c.b}</p>`
-                : `<p class="cb none"><span>R4 결함 후보</span>아직 설계되지 않음 — 만들기 전에 반드시 채울 것</p>`}
+          ${c.b ? `<div class="cb"><span class="cbl">ROUND 4 · 심을 결함</span><span class="cbt">${c.b}</span></div>`
+                : `<div class="cb none"><span class="cbl">ROUND 4 · 심을 결함</span><span class="cbt">아직 설계되지 않음 — 만들기 전에 채울 것</span></div>`}
           ${c.a ? `<div class="ca">${c.a}</div>` : ''}
           ${c.lab!=null ? `<div class="cgo">▶ 직접 조작해 보기</div>` : ''}
         </article>`).join('')}</div>

@@ -72,12 +72,13 @@ function catDraw(){
       <div class="catgh"><h4>${g.n}<span>${items.length}종</span>${made?`<span class="gmade">제작 완료 ${made}</span>`:''}</h4><p>${g.d}</p></div>
       <div class="catgrid">${items.map(c=>`
         <article class="citem ${c.k}${c.lab!=null?' made':''}"${c.lab!=null?` data-lab="${c.lab}" tabindex="0" role="button"`:''}>
-          <div class="cno">${String(c._no).padStart(3,'0')}${c.lab!=null?`<span class="cmade">제작 완료 · LAB ${String(c.lab+1).padStart(2,'0')}</span>`:''}</div>
+          <div class="cno"><span class="cnum">${String(c._no).padStart(3,'0')}</span>${c.lab!=null?`<span class="cmade">제작 완료 · LAB ${String(c.lab+1).padStart(2,'0')}</span>`:`<span class="cplan">설계 재료</span>`}</div>
+          ${c.lab!=null && typeof THUMBS!=='undefined' && THUMBS[c.lab] ? THUMBS[c.lab] : ''}
           <h5>${c.t}</h5>
           <div class="cg">${c.g}</div>
           ${c.q ? `<p class="cq">${c.q}</p>` : ''}
-          ${c.b ? `<p class="cb"><span>R4 결함 후보</span>${c.b}</p>`
-                : `<p class="cb none"><span>R4 결함 후보</span>아직 설계되지 않음 — 만들기 전에 반드시 채울 것</p>`}
+          ${c.b ? `<div class="cb"><span class="cbl">ROUND 4 · 심을 결함</span><span class="cbt">${c.b}</span></div>`
+                : `<div class="cb none"><span class="cbl">ROUND 4 · 심을 결함</span><span class="cbt">아직 설계되지 않음 — 만들기 전에 채울 것</span></div>`}
           ${c.a ? `<div class="ca">${c.a}</div>` : ''}
           ${c.lab!=null ? `<div class="cgo">▶ 직접 조작해 보기</div>` : ''}
         </article>`).join('')}</div>
