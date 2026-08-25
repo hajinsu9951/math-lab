@@ -4,7 +4,7 @@
    숫자를 본문에 손으로 적지 마십시오.
 
    카탈로그는 두 가지를 함께 싣습니다.
-     ① 제작 완료 — LABS 44종. 과목·단원과 결함은 LABCAT 에서, 제목·질문·AI 는 LABS 에서 읽습니다.
+     ① 제작 완료 — LABS 44종. 과목·단원은 LABCAT 에서, 핵심 개념은 LABS 의 m 에서, 제목·질문·AI 는 LABS 에서 읽습니다.
         (같은 문구를 두 곳에 적지 않기 위해서입니다. 실험실 이름을 고치면 카탈로그도 따라옵니다.)
      ② 설계 재료 — CATALOG. 아직 만들지 않은 후보입니다.
    상단 카드 그리드에는 LAB 01~20 만 보이고, 나머지 실험실은 여기 제 과목 자리에서 엽니다.  */
@@ -16,7 +16,7 @@ function labItems(){
   return LABS.map((L,i)=>{
     const c = LABCAT[i] || {};
     return { k:c.k||'', t:L.t, g:c.g||'', q:L.q||'',
-             b:c.b||'', a:(L.a||[]).join(' · '), lab:i };
+             b:c.b||'', c:(L.m||[]).slice(0,3), a:(L.a||[]).join(' · '), lab:i };
   });
 }
 /* 카탈로그에 실리는 전체 목록 — 과목별로 제작 완료가 먼저 온다 */
@@ -77,8 +77,9 @@ function catDraw(){
           <h5>${c.t}</h5>
           <div class="cg">${c.g}</div>
           ${c.q ? `<p class="cq">${c.q}</p>` : ''}
-          ${c.b ? `<div class="cb"><span class="cbl">ROUND 4 · 심을 결함</span><span class="cbt">${c.b}</span></div>`
-                : `<div class="cb none"><span class="cbl">ROUND 4 · 심을 결함</span><span class="cbt">아직 설계되지 않음 — 만들기 전에 채울 것</span></div>`}
+          ${(c.c && c.c.length)
+            ? `<div class="ck"><span class="ckl">핵심 개념</span><span class="ckt">${c.c.slice(0,3).map(x=>`<span class="tag m">${x}</span>`).join('')}</span></div>`
+            : `<div class="ck none"><span class="ckl">핵심 개념</span><span class="ckt">아직 정하지 않음</span></div>`}
           ${c.a ? `<div class="ca">${c.a}</div>` : ''}
           ${c.lab!=null ? `<div class="cgo">▶ 직접 조작해 보기</div>` : ''}
         </article>`).join('')}</div>
@@ -92,10 +93,10 @@ function catDraw(){
     a.onkeydown = e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } };
   });
 
-  const ready = ALL.filter(c=>c.b).length;
+  const ready = ALL.filter(c=>c.c && c.c.length).length;
   const nMade = ALL.filter(c=>c.lab!=null).length;
   $('#catcnt').innerHTML = `<b>${shown}종</b> 표시 중 · 전체 ${ALL.length}종 가운데 `
-    + `제작 완료 <b>${nMade}종</b> · 설계가 끝난 것 <b>${ready}종</b> · 주제만 잡힌 것 ${ALL.length - ready}종`;
+    + `제작 완료 <b>${nMade}종</b> · 핵심 개념이 적힌 것 <b>${ready}종</b>`;
   catCounts(ALL);
 }
 catDraw();

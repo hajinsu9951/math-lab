@@ -99,6 +99,12 @@ p.sub{margin:0 0 22px;color:var(--ink3);font-size:14.5px}
 .citem h5{margin:0;font-size:14.5px;font-weight:800;line-height:1.35;letter-spacing:-.2px}
 .cg{font-size:11.8px;color:var(--ink3)}
 .cq{margin:3px 0 0;font-size:12.8px;color:var(--ink2);line-height:1.6}
+/* 카탈로그 카드의 핵심 개념 */
+.ck{margin:7px 0 0}
+.ck .ckl{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.2px;
+  color:var(--ink3);margin-bottom:4px}
+.ck .ckt{display:flex;flex-wrap:wrap;gap:5px}
+.ck.none .ckt{color:var(--ink3);font-size:12px}
 .cb{margin:6px 0 0;font-size:12.4px;line-height:1.62;color:#8A3348;
   background:#FFF7F8;border:1px solid #F3D9DF;border-left:3px solid #E4899C;
   border-radius:8px;padding:7px 10px}

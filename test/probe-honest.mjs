@@ -2,7 +2,7 @@
 import { chromium } from 'playwright';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-const ROOT = dirname(fileURLToPath(import.meta.url));
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const URL = 'file://' + join(ROOT, 'dist', 'index.html');
 const b = await chromium.launch();
 const p = await b.newPage({ viewport: { width: 1300, height: 1200 } });
@@ -10,7 +10,6 @@ const errs = [];
 p.on('pageerror', e => errs.push('PAGE ' + e.message));
 await p.goto(URL);
 
-const clk = (id) => p.evaluate(i => { const e = document.getElementById(i); if (e) e.click(); }, id);
 const set = (id, v) => p.evaluate(([i, x]) => { const e = document.getElementById(i); e.value = x; e.dispatchEvent(new Event('input', { bubbles: true })); }, [id, v]);
 const clickManual = async () => { // 현재 단계가 수동이면 「해냈어요」
   await p.evaluate(() => { const el = document.querySelector('.ldi.now .ldk'); if (el && !el.disabled) el.click(); });
@@ -86,10 +85,10 @@ await run(7, '대푯값', [
   clickManual, clickManual,
 ]);
 
-/* LAB 09 */
+/* LAB 09 큰수 — S1 뽑기(적은 n) / S2 n 올려 절반 넘김 / S3~S5 수동 */
 await run(9, '큰수법칙', [
-  clickManual,
-  async () => { await set('lwn', 400); await clk('lwgo'); },
+  async () => { await set('lwp', 0.5); await set('lwn', 100); await p.evaluate(() => document.getElementById('lwgo') && document.getElementById('lwgo').click()); },
+  async () => { await set('lwn', 200); await p.evaluate(() => document.getElementById('lwgo') && document.getElementById('lwgo').click()); await set('lwn', 400); await p.evaluate(() => document.getElementById('lwgo') && document.getElementById('lwgo').click()); },
   clickManual, clickManual, clickManual,
 ]);
 
