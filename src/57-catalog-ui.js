@@ -8,7 +8,9 @@
         (같은 문구를 두 곳에 적지 않기 위해서입니다. 실험실 이름을 고치면 카탈로그도 따라옵니다.)
      ② 설계 재료 — CATALOG. 아직 만들지 않은 후보입니다.
    상단 카드 그리드에는 LAB 01~20 만 보이고, 나머지 실험실은 여기 제 과목 자리에서 엽니다.  */
-const CF = { key:'all', plan:false };   /* plan=false 면 설계 재료를 감춘다 */
+const CF = { key:'all', plan:{}, wall:{} };  /* plan[과목키]=true 면 그 과목의 설계 재료를 편다 */
+const planOn = k => !!CF.plan[k];
+const wallOn = k => CF.wall[k] !== false;   /* 썸네일 벽은 기본으로 편다 */
 
 /* 실험실 44종을 카탈로그 항목 모양으로 바꾼다 */
 function labItems(){
@@ -28,20 +30,14 @@ function allItems(){
 
 function catFilters(ALL){
   $('#catfil').innerHTML =
-    `<button class="cbtn${CF.key==='all'?' on':''}" data-g="all">전체 <b>${ALL.filter(c=>CF.plan||c.lab!=null).length}</b></button>`
+    `<button class="cbtn${CF.key==='all'?' on':''}" data-g="all">전체 <b>${ALL.filter(c=>c.lab!=null).length}</b></button>`
     + CAT_GROUPS.map(g=>{
-        const n = ALL.filter(c=>c.k===g.k && (CF.plan || c.lab!=null)).length;
+        const n = ALL.filter(c=>c.k===g.k && c.lab!=null).length;
         return `<button class="cbtn${CF.key===g.k?' on':''}" data-g="${g.k}">${g.n} <b>${n}</b></button>`;
       }).join('');
-  const nPlan = ALL.filter(c=>c.lab==null).length;
-  $('#catfil').insertAdjacentHTML('beforeend',
-    `<button class="cbtn plan${CF.plan?' on':''}" id="cplanTg">${CF.plan?'설계 재료 숨기기':'설계 재료 보기'} <b>${nPlan}</b></button>`);
   $('#catfil').querySelectorAll('.cbtn').forEach(b=>{
-    if(b.id==='cplanTg') return;
     b.onclick=()=>{ CF.key = b.dataset.g; catDraw(); };
   });
-  const tg = document.getElementById('cplanTg');
-  if(tg) tg.onclick = ()=>{ CF.plan = !CF.plan; catDraw(); };
 }
 
 /* 실험실 수 · 카탈로그 수 · 합계를 화면 곳곳에 반영 */
@@ -71,12 +67,28 @@ function catDraw(){
   const groups = CF.key==='all' ? CAT_GROUPS : CAT_GROUPS.filter(g=>g.k===CF.key);
   let shown = 0;
   $('#catbody').innerHTML = groups.map(g=>{
-    const items = ALL.filter(c=>c.k===g.k && (CF.plan || c.lab!=null));
-    if(!items.length) return '';
+    const all  = ALL.filter(c=>c.k===g.k);
+    const done = all.filter(c=>c.lab!=null);
+    const plan = all.filter(c=>c.lab==null);
+    const items = planOn(g.k) ? done.concat(plan) : done;
+    if(!all.length) return '';
     shown += items.length;
-    const made = items.filter(c=>c.lab!=null).length;
+    const made = done.length;
+    const wall = wallOn(g.k) && done.length
+      ? `<div class="catwall" data-g="${g.k}">${done.map(c=>`
+          <button class="cwx" data-lab="${c.lab}" title="LAB ${c.lab+1} · ${c.t.replace(/"/g,'')}">
+            ${(typeof THUMBS!=='undefined' && THUMBS[c.lab]) ? THUMBS[c.lab] : ''}
+            <span class="cwn">${c.lab+1}</span>
+          </button>`).join('')}</div>`
+      : '';
     return `<section class="catg">
-      <div class="catgh"><h4>${g.n}<span>${items.length}종</span>${made?`<span class="gmade">제작 완료 ${made}</span>`:''}</h4><p>${g.d}</p></div>
+      <div class="catgh"><h4>${g.n}<span>${done.length}종</span>${made?`<span class="gmade">제작 완료 ${made}</span>`:''}</h4><p>${g.d}</p>
+        <div class="catgbar">
+          ${done.length?`<button class="gtg wall${wallOn(g.k)?' on':''}" data-wall="${g.k}">${wallOn(g.k)?'썸네일 접기':'썸네일 한눈에 보기'} <b>${done.length}</b></button>`:''}
+          ${plan.length?`<button class="gtg plan${planOn(g.k)?' on':''}" data-plan="${g.k}">${planOn(g.k)?'설계 재료 접기':'설계 재료 보기'} <b>${plan.length}</b></button>`:''}
+        </div>
+      </div>
+      ${wall}
       <div class="catgrid">${items.map(c=>`
         <article class="citem ${c.k}${c.lab!=null?' made':''}"${c.lab!=null?` data-lab="${c.lab}" tabindex="0" role="button"`:''}>
           <div class="cno"><span class="cnum">${String(c._no).padStart(3,'0')}</span>${c.lab!=null?`<span class="cmade">제작 완료 · LAB ${String(c.lab+1).padStart(2,'0')}</span>`:`<span class="cplan">설계 재료</span>`}</div>
@@ -93,6 +105,19 @@ function catDraw(){
     </section>`;
   }).join('');
 
+  // 과목마다의 두 토글
+  $('#catbody').querySelectorAll('.gtg').forEach(b=>{
+    b.onclick = ()=>{
+      if(b.dataset.plan) CF.plan[b.dataset.plan] = !planOn(b.dataset.plan);
+      else CF.wall[b.dataset.wall] = !wallOn(b.dataset.wall);
+      catDraw();
+    };
+  });
+  // 썸네일 벽에서 바로 열기
+  $('#catbody').querySelectorAll('.cwx').forEach(b=>{
+    b.onclick = ()=>{ if(typeof openLab === 'function') openLab(+b.dataset.lab); };
+  });
+
   // 제작 완료 카드는 눌러서 그 실험실을 연다 (키보드로도)
   $('#catbody').querySelectorAll('.citem.made').forEach(a=>{
     const go = ()=>{ if(typeof openLab === 'function') openLab(+a.dataset.lab); };
@@ -100,13 +125,13 @@ function catDraw(){
     a.onkeydown = e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } };
   });
 
-  const ready = ALL.filter(c=>(CF.plan||c.lab!=null) && c.c && c.c.length).length;
+  const ready = ALL.filter(c=>(planOn(c.k)||c.lab!=null) && c.c && c.c.length).length;
   const nMade = ALL.filter(c=>c.lab!=null).length;
   const nPlanAll = ALL.length - nMade;
+  const opened = Object.keys(CF.plan).filter(k=>CF.plan[k]).length;
   $('#catcnt').innerHTML = `<b>${shown}종</b> 표시 중 · 제작 완료 <b>${nMade}종</b>`
-    + (CF.plan
-        ? ` · 설계 재료 <b>${nPlanAll}종</b>까지 함께 보는 중 — 설계 재료는 아직 실험실이 없는 수업 설계용 후보입니다`
-        : ` · 설계 재료 <b>${nPlanAll}종</b>은 감춰 두었습니다 (오른쪽 「설계 재료 보기」)`)
+    + ` · 설계 재료 <b>${nPlanAll}종</b>은 과목마다 「설계 재료 보기」를 눌러야 나옵니다`
+    + (opened?` (지금 ${opened}과목 펼침)`:'')
     + ` · 핵심 개념이 적힌 것 <b>${ready}종</b>`;
   catCounts(ALL);
 }
