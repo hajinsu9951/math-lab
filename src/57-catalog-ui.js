@@ -8,7 +8,7 @@
         (같은 문구를 두 곳에 적지 않기 위해서입니다. 실험실 이름을 고치면 카탈로그도 따라옵니다.)
      ② 설계 재료 — CATALOG. 아직 만들지 않은 후보입니다.
    상단 카드 그리드에는 LAB 01~20 만 보이고, 나머지 실험실은 여기 제 과목 자리에서 엽니다.  */
-const CF = { key:'all' };
+const CF = { key:'all', plan:false };   /* plan=false 면 설계 재료를 감춘다 */
 
 /* 실험실 44종을 카탈로그 항목 모양으로 바꾼다 */
 function labItems(){
@@ -28,14 +28,20 @@ function allItems(){
 
 function catFilters(ALL){
   $('#catfil').innerHTML =
-    `<button class="cbtn${CF.key==='all'?' on':''}" data-g="all">전체 <b>${ALL.length}</b></button>`
+    `<button class="cbtn${CF.key==='all'?' on':''}" data-g="all">전체 <b>${ALL.filter(c=>CF.plan||c.lab!=null).length}</b></button>`
     + CAT_GROUPS.map(g=>{
-        const n = ALL.filter(c=>c.k===g.k).length;
+        const n = ALL.filter(c=>c.k===g.k && (CF.plan || c.lab!=null)).length;
         return `<button class="cbtn${CF.key===g.k?' on':''}" data-g="${g.k}">${g.n} <b>${n}</b></button>`;
       }).join('');
-  $('#catfil').querySelectorAll('.cbtn').forEach(b=>b.onclick=()=>{
-    CF.key = b.dataset.g; catDraw();
+  const nPlan = ALL.filter(c=>c.lab==null).length;
+  $('#catfil').insertAdjacentHTML('beforeend',
+    `<button class="cbtn plan${CF.plan?' on':''}" id="cplanTg">${CF.plan?'설계 재료 숨기기':'설계 재료 보기'} <b>${nPlan}</b></button>`);
+  $('#catfil').querySelectorAll('.cbtn').forEach(b=>{
+    if(b.id==='cplanTg') return;
+    b.onclick=()=>{ CF.key = b.dataset.g; catDraw(); };
   });
+  const tg = document.getElementById('cplanTg');
+  if(tg) tg.onclick = ()=>{ CF.plan = !CF.plan; catDraw(); };
 }
 
 /* 실험실 수 · 카탈로그 수 · 합계를 화면 곳곳에 반영 */
@@ -65,7 +71,8 @@ function catDraw(){
   const groups = CF.key==='all' ? CAT_GROUPS : CAT_GROUPS.filter(g=>g.k===CF.key);
   let shown = 0;
   $('#catbody').innerHTML = groups.map(g=>{
-    const items = ALL.filter(c=>c.k===g.k);
+    const items = ALL.filter(c=>c.k===g.k && (CF.plan || c.lab!=null));
+    if(!items.length) return '';
     shown += items.length;
     const made = items.filter(c=>c.lab!=null).length;
     return `<section class="catg">
@@ -93,10 +100,14 @@ function catDraw(){
     a.onkeydown = e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } };
   });
 
-  const ready = ALL.filter(c=>c.c && c.c.length).length;
+  const ready = ALL.filter(c=>(CF.plan||c.lab!=null) && c.c && c.c.length).length;
   const nMade = ALL.filter(c=>c.lab!=null).length;
-  $('#catcnt').innerHTML = `<b>${shown}종</b> 표시 중 · 전체 ${ALL.length}종 가운데 `
-    + `제작 완료 <b>${nMade}종</b> · 핵심 개념이 적힌 것 <b>${ready}종</b>`;
+  const nPlanAll = ALL.length - nMade;
+  $('#catcnt').innerHTML = `<b>${shown}종</b> 표시 중 · 제작 완료 <b>${nMade}종</b>`
+    + (CF.plan
+        ? ` · 설계 재료 <b>${nPlanAll}종</b>까지 함께 보는 중 — 설계 재료는 아직 실험실이 없는 수업 설계용 후보입니다`
+        : ` · 설계 재료 <b>${nPlanAll}종</b>은 감춰 두었습니다 (오른쪽 「설계 재료 보기」)`)
+    + ` · 핵심 개념이 적힌 것 <b>${ready}종</b>`;
   catCounts(ALL);
 }
 catDraw();

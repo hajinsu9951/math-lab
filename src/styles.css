@@ -771,3 +771,8 @@ footer{padding:26px 0 40px;color:var(--ink3);font-size:12.5px;text-align:center}
   background:#EEF1F5;border-radius:999px;padding:1.5px 8px}
 .cgo{font-size:12.5px;font-weight:800;color:var(--blue);margin-top:6px}
 .ca{color:#0F766E}
+
+/* 확장 카탈로그 — 설계 재료 토글 */
+.cbtn.plan{margin-left:auto;border-style:dashed;color:var(--ink2);background:#fff}
+.cbtn.plan:hover{border-color:#B9CBF5;color:var(--blue)}
+.cbtn.plan.on{border-style:solid;background:var(--violet-s);color:var(--violet);border-color:#E2D6FB}
