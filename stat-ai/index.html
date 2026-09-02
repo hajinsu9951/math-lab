@@ -1,0 +1,131 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>머신러닝 관측소</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@300;400;500;600&display=swap">
+<style>
+:root{
+  --paper:#EDF1F5; --surface:#FFFFFF; --surface2:#F5F8FA;
+  --ink:#152029; --ink2:#43586A; --ink3:#7B8C9B;
+  --rule:#C9D5DE; --rule2:#DFE7ED;
+  --accent:#C64A17; --accent-soft:#FAE8DE; --accent-ink:#8F3210;
+  --c1:#2D6FA8; --c2:#C64A17; --c3:#1B8272;
+  --shadow:0 1px 0 rgba(21,32,41,.04), 0 14px 34px -24px rgba(21,32,41,.6);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#0D151C; --surface:#16212B; --surface2:#1B2833;
+  --ink:#E7EEF4; --ink2:#A7BAC8; --ink3:#6E8496;
+  --rule:#2B3D4C; --rule2:#22323F;
+  --accent:#F2793F; --accent-soft:#3A2015; --accent-ink:#FFB48C;
+  --c1:#5FA3D8; --c2:#F2793F; --c3:#3FB39B;
+  --shadow:0 1px 0 rgba(0,0,0,.3), 0 14px 34px -24px #000;
+}}
+:root[data-theme="dark"]{
+  --paper:#0D151C; --surface:#16212B; --surface2:#1B2833;
+  --ink:#E7EEF4; --ink2:#A7BAC8; --ink3:#6E8496;
+  --rule:#2B3D4C; --rule2:#22323F;
+  --accent:#F2793F; --accent-soft:#3A2015; --accent-ink:#FFB48C;
+  --c1:#5FA3D8; --c2:#F2793F; --c3:#3FB39B;
+  --shadow:0 1px 0 rgba(0,0,0,.3), 0 14px 34px -24px #000;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:'IBM Plex Sans KR',system-ui,sans-serif; line-height:1.75; -webkit-font-smoothing:antialiased}
+.wrap{max-width:900px; margin:0 auto; padding:0 20px 80px}
+header{border-bottom:2px solid var(--ink); padding:44px 0 18px; margin-bottom:30px}
+.eyebrow{font-size:.72rem; letter-spacing:.22em; text-transform:uppercase; color:var(--accent); font-weight:600}
+h1{font-family:'Gowun Batang',serif; font-weight:700; font-size:clamp(2rem,5.5vw,2.9rem); margin:.25em 0 .2em; text-wrap:balance}
+.dek{color:var(--ink2); font-weight:300; max-width:58ch; margin:0}
+.cards{display:flex; flex-direction:column; gap:18px}
+a.card{display:grid; grid-template-columns:64px 1fr auto; gap:18px; align-items:center;
+  background:var(--surface); border:1px solid var(--rule2); border-radius:4px; padding:22px 24px;
+  text-decoration:none; color:var(--ink); box-shadow:var(--shadow); transition:transform .15s, border-color .15s}
+a.card:hover{transform:translateY(-2px); border-color:var(--accent)}
+a.card:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+.badge{font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:.9rem; color:var(--accent);
+  border:1.5px solid var(--accent); border-radius:4px; width:64px; height:64px;
+  display:flex; align-items:center; justify-content:center; background:var(--accent-soft)}
+.card h2{font-family:'Gowun Batang',serif; font-size:1.28rem; margin:0 0 4px; line-height:1.35}
+.card p{margin:0; font-size:.9rem; color:var(--ink2); font-weight:300}
+.meta{font-family:'IBM Plex Mono',monospace; font-size:.74rem; color:var(--ink3); margin-top:7px; letter-spacing:.04em}
+.go{font-family:'IBM Plex Mono',monospace; font-size:1.3rem; color:var(--accent)}
+.howto{margin-top:34px; background:var(--surface2); border:1px solid var(--rule2); border-radius:4px; padding:18px 22px; font-size:.9rem; color:var(--ink2)}
+.howto b{color:var(--ink)}
+footer{border-top:1px solid var(--rule); margin-top:40px; padding-top:14px; font-size:.78rem; color:var(--ink3)}
+@media (max-width:600px){ a.card{grid-template-columns:52px 1fr; } .go{display:none} .badge{width:52px;height:52px} }
+
+.topnav{position:sticky; top:0; z-index:60; background:var(--surface);
+  border-bottom:1px solid var(--rule); box-shadow:0 4px 14px -12px rgba(21,32,41,.5)}
+.topnav .in{max-width:900px; margin:0 auto; padding:9px 20px; display:flex; gap:8px;
+  align-items:center; overflow-x:auto}
+.topnav a{white-space:nowrap; text-decoration:none; color:var(--ink2); font-size:.86rem;
+  font-weight:500; padding:7px 15px; border-radius:99px; border:1px solid transparent;
+  transition:background .15s, color .15s, border-color .15s}
+.topnav a:hover{color:var(--ink); border-color:var(--rule); background:var(--surface2)}
+.topnav a:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.topnav a.home{font-family:'Gowun Batang',serif; font-weight:700; color:var(--ink);
+  border-right:1px solid var(--rule); border-radius:0; padding-right:16px; margin-right:4px}
+.topnav a.on{background:var(--accent); color:#fff; font-weight:600; border-color:var(--accent)}
+.topnav a.home.on{background:var(--ink); color:var(--surface); border-radius:99px;
+  border-right-color:transparent; padding-right:15px}
+.topnav .tag{font-family:'IBM Plex Mono',monospace; font-size:.72rem; opacity:.75; margin-right:5px}
+</style>
+
+<nav class="topnav" aria-label="활동실 이동"><div class="in">
+  <a class="home on" href="index.html">머신러닝 관측소</a>
+  <a class="" href="learning-curve.html"><span class="tag">Ⅲ-1</span>학습곡선 관측소</a>
+  <a class="" href="decision-tree.html"><span class="tag">Ⅲ-2</span>갈림길 실험실</a>
+  <a class="" href="kmeans.html"><span class="tag">Ⅲ-3</span>무리 짓기 관측소</a>
+</div></nav>
+<div class="wrap">
+<header>
+  <div class="eyebrow">통계와 인공지능 · Ⅲ. 머신러닝 학생 활동</div>
+  <h1>머신러닝 관측소</h1>
+  <p class="dek">이 관측소에는 세 개의 활동실이 속해 있다 — <b>제1활동실 학습곡선 관측소</b>,
+  <b>제2활동실 갈림길 실험실</b>, <b>제3활동실 무리 짓기 관측소</b>.
+  교과서 Ⅲ-1 ~ Ⅲ-3의 손 계산을 진짜 자료로 이어 가며, 차시 순서대로 하나씩 들어간다.
+  모든 수치는 화면 안에서 실제로 계산된다.</p>
+</header>
+
+<nav class="cards" aria-label="차시별 활동">
+  <a class="card" href="learning-curve.html">
+    <span class="badge">Ⅲ-1</span>
+    <span>
+      <h2>제1활동실 · 학습곡선 관측소</h2>
+      <p>펭귄 344마리의 빈칸을 정리하고 셋으로 나눈 뒤, 깊이를 바꿔 가며 과적합의 시작점을 찾는다.
+      마지막에 평가 자료의 봉인을 딱 한 번 뜯는다.</p>
+      <span class="meta">1차시 · 45분 · [12데통03-01] · 기계는 어떻게 배우고 어떻게 무너지는가</span>
+    </span>
+    <span class="go" aria-hidden="true">→</span>
+  </a>
+  <a class="card" href="decision-tree.html">
+    <span class="badge">Ⅲ-2</span>
+    <span>
+      <h2>제2활동실 · 갈림길 실험실</h2>
+      <p>지니 불순도를 손으로 검산하고, 컴퓨터가 찾은 경계 207.5에 도전한다.
+      트리의 판단 경로를 걷고, 눈금 하나가 kNN의 이웃을 통째로 바꾸는 것을 본다.</p>
+      <span class="meta">2차시 · 45분 · [12데통03-02] · 원인과 예측, 질문의 갈림길</span>
+    </span>
+    <span class="go" aria-hidden="true">→</span>
+  </a>
+  <a class="card" href="kmeans.html">
+    <span class="badge">Ⅲ-3</span>
+    <span>
+      <h2>제3활동실 · 무리 짓기 관측소</h2>
+      <p>종 이름을 가린 펭귄 333마리를 배정과 이동으로 한 단계씩 묶고, 엘보우를 판단한다.
+      정답을 개봉해 견주고, 무리에 이름을 붙이는 책임을 토의한다.</p>
+      <span class="meta">3차시 · 45분 · [12데통03-04] · 99% 정확도의 거짓말과 비슷한 성향 찾기</span>
+    </span>
+    <span class="go" aria-hidden="true">→</span>
+  </a>
+</nav>
+
+<div class="howto">
+  <b>수업에서 쓰는 법</b> — 교사는 이 페이지를 칠판에 띄워 두고 차시에 맞는 활동실 하나만 연다.
+  학생에게는 해당 차시의 주소(또는 QR)만 배포한다. 각 활동실의 「활동지에 답하기」는
+  화면이 아니라 <b>종이 활동지에 손으로</b> 쓰게 한다.
+</div>
+
+<footer>자료 — palmerpenguins (CC0) · UCI Wine (CC BY 4.0) · 통계와 인공지능 Ⅲ영역 학생 활동 · 집필 하진수(대전대신고)</footer>
+</div>

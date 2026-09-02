@@ -1,0 +1,764 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>갈림길 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@300;400;500;600&display=swap">
+<style>:root{
+  --paper:#EDF1F5; --surface:#FFFFFF; --surface2:#F5F8FA; --sunk:#E4EAF0;
+  --ink:#152029; --ink2:#43586A; --ink3:#7B8C9B;
+  --rule:#C9D5DE; --rule2:#DFE7ED;
+  --accent:#C64A17; --accent-soft:#FAE8DE; --accent-ink:#8F3210;
+  --c1:#2D6FA8; --c2:#C64A17; --c3:#1B8272;
+  --good:#166E60; --good-soft:#DDF0EC; --warn:#8A5F00; --bad:#B5321F; --bad-soft:#F9E3DF;
+  --shadow:0 1px 0 rgba(21,32,41,.04), 0 10px 26px -20px rgba(21,32,41,.55);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#0D151C; --surface:#16212B; --surface2:#1B2833; --sunk:#101A22;
+  --ink:#E7EEF4; --ink2:#A7BAC8; --ink3:#6E8496;
+  --rule:#2B3D4C; --rule2:#22323F;
+  --accent:#F2793F; --accent-soft:#3A2015; --accent-ink:#FFB48C;
+  --c1:#5FA3D8; --c2:#F2793F; --c3:#3FB39B;
+  --good:#3FB39B; --good-soft:#12312B; --warn:#D3A24A; --bad:#E4664F; --bad-soft:#3B1712;
+  --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 26px -20px #000;
+}}
+:root[data-theme="dark"]{
+  --paper:#0D151C; --surface:#16212B; --surface2:#1B2833; --sunk:#101A22;
+  --ink:#E7EEF4; --ink2:#A7BAC8; --ink3:#6E8496;
+  --rule:#2B3D4C; --rule2:#22323F;
+  --accent:#F2793F; --accent-soft:#3A2015; --accent-ink:#FFB48C;
+  --c1:#5FA3D8; --c2:#F2793F; --c3:#3FB39B;
+  --good:#3FB39B; --good-soft:#12312B; --warn:#D3A24A; --bad:#E4664F; --bad-soft:#3B1712;
+  --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 26px -20px #000;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:'IBM Plex Sans KR',system-ui,sans-serif; line-height:1.78; -webkit-font-smoothing:antialiased}
+.mono{font-family:'IBM Plex Mono','IBM Plex Sans KR',monospace; font-variant-numeric:tabular-nums}
+h1,h2,h3,h4{font-family:'Gowun Batang',serif; font-weight:700; text-wrap:balance; line-height:1.35; margin:0}
+.wrap{max-width:1180px; margin:0 auto; padding:0 20px 96px}
+.masthead{border-bottom:2px solid var(--ink); margin-bottom:28px; padding:34px 0 16px}
+.eyebrow{font-size:.72rem; letter-spacing:.22em; text-transform:uppercase; color:var(--accent); font-weight:600}
+.masthead h1{font-size:clamp(2rem,5.2vw,3rem); margin:.28em 0 .2em}
+.dek{color:var(--ink2); font-weight:300; max-width:62ch; font-size:1.02rem; margin:0}
+.cols{display:grid; grid-template-columns:252px 1fr; gap:38px; align-items:start}
+@media (max-width:920px){ .cols{grid-template-columns:1fr; gap:22px} .rail{position:static !important} }
+.rail{position:sticky; top:74px; font-size:.86rem}
+.railbox{background:var(--surface); border:1px solid var(--rule2); border-radius:3px; padding:16px 16px 18px; box-shadow:var(--shadow)}
+.railbox + .railbox{margin-top:14px}
+.rail h2{font-size:.95rem; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid var(--rule2)}
+.rail dl{margin:0; display:grid; grid-template-columns:auto 1fr; gap:6px 12px}
+.rail dt{color:var(--ink3); font-size:.74rem; letter-spacing:.06em; padding-top:.15em}
+.rail dd{margin:0; color:var(--ink2)}
+.q{font-family:'Gowun Batang',serif; font-size:1.05rem; line-height:1.6; color:var(--ink); margin:0}
+.goal{margin:0; padding-left:1.15em; font-size:.85rem; color:var(--ink2)}
+.goal li{margin:4px 0}
+.goal li::marker{color:var(--accent)}
+.prog{list-style:none; margin:0; padding:0; font-size:.84rem}
+.prog li{display:flex; gap:9px; align-items:baseline; padding:3px 0; color:var(--ink3)}
+.prog li b{font-family:'IBM Plex Mono',monospace; font-size:.76rem; font-weight:500}
+.prog li.on{color:var(--ink)} .prog li.on b{color:var(--accent)}
+.step{background:var(--surface); border:1px solid var(--rule2); border-radius:3px; box-shadow:var(--shadow); margin-bottom:26px; overflow:hidden}
+.step > header{display:flex; gap:14px; align-items:baseline; padding:18px 22px 14px; border-bottom:1px solid var(--rule2); background:var(--surface2)}
+.num{font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:.8rem; color:var(--accent); letter-spacing:.08em; flex:none; padding-top:.2em}
+.step h2{font-size:1.24rem}
+.step header p{margin:.2em 0 0; font-size:.88rem; color:var(--ink2); font-weight:300}
+.body{padding:20px 22px 24px}
+.body > p{margin:0 0 14px; max-width:66ch}
+.body > p:last-child{margin-bottom:0}
+.instr{background:var(--sunk); border:1px solid var(--rule2); border-radius:3px; padding:14px 16px; margin:16px 0}
+.ctl{display:flex; flex-wrap:wrap; gap:14px 24px; align-items:center; padding-bottom:12px; border-bottom:1px dashed var(--rule); margin-bottom:14px}
+.ctl:last-child{border:0; margin:0; padding:0}
+label.f{display:flex; flex-direction:column; gap:3px; font-size:.78rem; color:var(--ink3); letter-spacing:.04em}
+label.f .val{font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:1rem; color:var(--ink); font-variant-numeric:tabular-nums}
+input[type=range]{accent-color:var(--accent); width:200px; cursor:pointer}
+select{font:inherit; font-size:.88rem; padding:6px 8px; border:1px solid var(--rule); border-radius:3px; background:var(--surface); color:var(--ink)}
+button{font:inherit; font-size:.86rem; font-weight:500; cursor:pointer; border-radius:3px;
+  border:1px solid var(--ink); background:var(--ink); color:var(--surface); padding:7px 15px; transition:opacity .15s}
+button:hover{opacity:.85}
+button.ghost{background:transparent; color:var(--ink); border-color:var(--rule)}
+button.warn{background:var(--accent); border-color:var(--accent); color:#fff}
+button[disabled]{opacity:.4; cursor:not-allowed}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.switch{display:inline-flex; align-items:center; gap:8px; font-size:.86rem; cursor:pointer; color:var(--ink2)}
+.switch input{accent-color:var(--accent); width:16px; height:16px; cursor:pointer}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse; font-size:.85rem; width:100%}
+th,td{padding:6px 10px; text-align:right; border-bottom:1px solid var(--rule2); white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+thead th{font-size:.72rem; letter-spacing:.08em; color:var(--ink3); font-weight:600; text-transform:uppercase; border-bottom:1px solid var(--rule)}
+td.n{font-family:'IBM Plex Mono',monospace; font-variant-numeric:tabular-nums}
+tr.hi td{background:var(--accent-soft)}
+td.na{color:var(--bad); font-weight:600}
+.readout{display:flex; flex-wrap:wrap; gap:10px}
+.chip{background:var(--surface); border:1px solid var(--rule2); border-radius:3px; padding:8px 13px; min-width:96px}
+.chip .k{font-size:.68rem; letter-spacing:.08em; color:var(--ink3); text-transform:uppercase; display:block}
+.chip .v{font-family:'IBM Plex Mono',monospace; font-size:1.28rem; font-weight:600; font-variant-numeric:tabular-nums; line-height:1.3}
+.chip.a .v{color:var(--c1)} .chip.b .v{color:var(--accent)} .chip.c .v{color:var(--good)}
+figure{margin:16px 0 0} figcaption{font-size:.8rem; color:var(--ink3); margin-top:8px; max-width:62ch}
+svg{display:block; max-width:100%; height:auto}
+.note{border-left:3px solid var(--rule); padding:2px 0 2px 14px; margin:16px 0; font-size:.9rem; color:var(--ink2)}
+.note.hot{border-color:var(--accent); color:var(--ink)}
+.note.good{border-color:var(--good); color:var(--ink)}
+.note b{color:var(--ink)}
+.formula{font-family:'IBM Plex Mono',monospace; font-size:.92rem; background:var(--sunk); border:1px solid var(--rule2);
+  border-radius:3px; padding:10px 14px; margin:14px 0; overflow-x:auto; white-space:nowrap}
+.ask{background:var(--accent-soft); border:1px solid var(--accent); border-radius:3px; padding:14px 16px; margin:18px 0 0}
+.ask h3{font-size:.98rem; margin-bottom:6px; color:var(--accent-ink)}
+.ask ol{margin:0; padding-left:1.3em; font-size:.9rem}
+.ask li{margin:5px 0}
+.ask li::marker{font-family:'IBM Plex Mono',monospace; color:var(--accent-ink)}
+.check{display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-top:10px}
+.check input[type=text]{font:inherit; font-family:'IBM Plex Mono',monospace; width:110px; padding:6px 9px;
+  border:1px solid var(--rule); border-radius:3px; background:var(--surface); color:var(--ink)}
+.verdict{font-size:.86rem; font-weight:500}
+.verdict.ok{color:var(--good)} .verdict.no{color:var(--bad)}
+/* 예측 카드 (POE) */
+.poe{border:1px solid var(--rule); border-radius:3px; margin:16px 0; overflow:hidden}
+.poe > .phead{background:var(--ink); color:var(--surface); font-size:.76rem; letter-spacing:.18em;
+  text-transform:uppercase; padding:7px 14px; font-weight:600}
+.poe > .pbody{padding:14px 16px; background:var(--surface)}
+.poe p{margin:0 0 10px; font-size:.92rem}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opts button{text-align:left; background:var(--surface2); color:var(--ink); border:1px solid var(--rule);
+  font-weight:400; padding:9px 13px; font-size:.89rem; line-height:1.5}
+.opts button:hover{border-color:var(--ink2); opacity:1}
+.opts button.sel{border-color:var(--accent); background:var(--accent-soft)}
+.opts button.correct{border-color:var(--good); background:var(--good-soft)}
+.opts button.wrong{border-color:var(--bad); background:var(--bad-soft)}
+.opts button[disabled]{opacity:.75; cursor:default}
+.fb{margin-top:10px; font-size:.88rem; display:none; padding:10px 13px; border-radius:3px}
+.fb.show{display:block}
+.fb.ok{background:var(--good-soft); color:var(--ink)}
+.fb.no{background:var(--bad-soft); color:var(--ink)}
+/* 퀴즈 */
+.quiz{counter-reset:qz}
+.quiz .qitem{border-top:1px dashed var(--rule); padding:14px 0}
+.quiz .qitem:first-child{border-top:0; padding-top:4px}
+.quiz .qtext{font-size:.94rem; margin:0 0 10px; max-width:64ch}
+.quiz .qtext::before{counter-increment:qz; content:counter(qz)". "; font-family:'IBM Plex Mono',monospace; color:var(--accent); font-weight:600}
+.score{font-family:'IBM Plex Mono',monospace; font-size:.9rem; color:var(--ink2); margin-top:12px}
+footer{border-top:1px solid var(--rule); margin-top:40px; padding-top:16px; font-size:.78rem; color:var(--ink3); line-height:1.7}
+.legend{display:flex; gap:14px; flex-wrap:wrap; font-size:.78rem; color:var(--ink2); margin-top:10px}
+.legend i{width:10px; height:10px; border-radius:2px; display:inline-block; margin-right:5px}
+.seal{margin-top:16px; border:2px dashed var(--accent); border-radius:3px; background:var(--accent-soft); padding:20px; text-align:center}
+.seal .tape{font-family:'IBM Plex Mono',monospace; font-size:.74rem; letter-spacing:.3em; text-transform:uppercase; color:var(--accent-ink); margin-bottom:10px}
+.seal.open{border-style:solid; background:var(--surface)}
+.opencount{font-size:.82rem; color:var(--ink3); margin-top:10px}
+.opencount.bad{color:var(--bad); font-weight:600}
+@media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important} }
+/* ── 상단 가로 내비게이션 ─────────────────── */
+.topnav{position:sticky; top:0; z-index:60; background:var(--surface);
+  border-bottom:1px solid var(--rule); box-shadow:0 4px 14px -12px rgba(21,32,41,.5)}
+.topnav .in{max-width:1180px; margin:0 auto; padding:9px 20px; display:flex; gap:8px;
+  align-items:center; overflow-x:auto; -webkit-overflow-scrolling:touch}
+.topnav a{white-space:nowrap; text-decoration:none; color:var(--ink2); font-size:.86rem;
+  font-weight:500; padding:7px 15px; border-radius:99px; border:1px solid transparent;
+  transition:background .15s, color .15s, border-color .15s}
+.topnav a:hover{color:var(--ink); border-color:var(--rule); background:var(--surface2)}
+.topnav a:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.topnav a.home{font-family:'Gowun Batang',serif; font-weight:700; color:var(--ink);
+  border-right:1px solid var(--rule); border-radius:0; padding-right:16px; margin-right:4px}
+.topnav a.home:hover{background:transparent; border-color:transparent; border-right-color:var(--rule); color:var(--accent)}
+.topnav a.on{background:var(--accent); color:#fff; font-weight:600; border-color:var(--accent)}
+.topnav a.on:hover{background:var(--accent); color:#fff}
+.topnav a.home.on{background:var(--ink); color:var(--surface); border-radius:99px;
+  border-right:1px solid transparent; padding-right:15px}
+.topnav .tag{font-family:'IBM Plex Mono',monospace; font-size:.72rem; opacity:.75; margin-right:5px}
+
+.pill{display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:.78rem; padding:2px 8px;
+  border:1px solid var(--rule); border-radius:99px; color:var(--ink2); background:var(--surface)}
+.walk{list-style:none; margin:14px 0 0; padding:0}
+.walk li{display:flex; gap:12px; align-items:flex-start; padding:9px 0; border-bottom:1px dashed var(--rule2); font-size:.9rem}
+.walk li:last-child{border:0}
+.walk .arrow{font-family:'IBM Plex Mono',monospace; color:var(--accent); flex:none; font-weight:600; font-size:.8rem; padding-top:.15em}
+.leafbar{display:flex; height:14px; border-radius:3px; overflow:hidden; margin-top:6px; max-width:260px}
+.numgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px; margin:12px 0}
+.numgrid label{display:flex; flex-direction:column; gap:4px; font-size:.76rem; color:var(--ink3)}
+.numgrid input{font:inherit; font-family:'IBM Plex Mono',monospace; padding:7px 9px; border:1px solid var(--rule);
+  border-radius:3px; background:var(--surface); color:var(--ink); width:100%}
+</style>
+
+<nav class="topnav" aria-label="활동실 이동"><div class="in">
+  <a class="home" href="index.html">머신러닝 관측소</a>
+  <a class="" href="learning-curve.html"><span class="tag">Ⅲ-1</span>학습곡선 관측소</a>
+  <a class=" on" href="decision-tree.html"><span class="tag">Ⅲ-2</span>갈림길 실험실</a>
+  <a class="" href="kmeans.html"><span class="tag">Ⅲ-3</span>무리 짓기 관측소</a>
+</div></nav>
+<div class="wrap">
+<header class="masthead">
+  <div class="eyebrow">머신러닝 관측소 ▸ 제2활동실 · Ⅲ-2 원인과 예측, 질문의 갈림길</div>
+  <h1>갈림길 실험실</h1>
+  <p class="dek">교과서에서 “통학 시간 30분”이라는 기준은 사람이 정해 주었다.
+  결정트리는 그 기준까지 스스로 찾는다. 이 페이지에서 <b>컴퓨터와 같은 계산</b>을 직접 하며
+  컴퓨터가 찾은 207.5를 이겨 보고, 눈금 하나가 kNN의 이웃을 통째로 바꾸는 것을 확인한다.
+  모든 수치는 이 화면에서 실제로 계산된다.</p>
+</header>
+
+<div class="cols">
+<aside class="rail">
+  <div class="railbox">
+    <h2>학습 목표</h2>
+    <ul class="goal">
+      <li>지니 불순도로 <b>좋은 질문</b>을 판정하고, 분기 기준을 탐색한다.</li>
+      <li>트리의 <b>판단 경로</b>를 단계별로 설명한다.</li>
+      <li>정규화가 kNN의 <b>이웃과 판정</b>을 바꾸는 까닭을 거리 공식으로 설명한다.</li>
+    </ul>
+  </div>
+  <div class="railbox">
+    <h2>오늘의 질문</h2>
+    <p class="q">“통학 시간 30분”은 사람이 정했다. 컴퓨터는 207.5를 어떻게 알아냈는가?</p>
+  </div>
+  <div class="railbox">
+    <h2>관측 기록</h2>
+    <dl>
+      <dt>자료</dt><dd>팔머 펭귄 233마리(훈련)<br>와인 178병 · 13성분</dd>
+      <dt>성취기준</dt><dd>[12데통03-02]</dd>
+      <dt>차시</dt><dd>2차시 · 45분</dd>
+    </dl>
+  </div>
+  <div class="railbox">
+    <h2>진행</h2>
+    <ol class="prog" id="prog">
+      <li data-s="1"><b>01</b><span>불순도 재기</span></li>
+      <li data-s="2"><b>02</b><span>207.5에 도전</span></li>
+      <li data-s="3"><b>03</b><span>트리 길 걷기</span></li>
+      <li data-s="4"><b>04</b><span>이웃이 바뀐다</span></li>
+      <li data-s="5"><b>05</b><span>점검</span></li>
+    </ol>
+  </div>
+</aside>
+
+<main>
+
+<!-- 01 ─────────────────────────────────────────────── -->
+<section class="step" id="s1">
+  <header><span class="num">01</span><div><h2>섞임을 숫자 하나로 — 지니 불순도 검산</h2>
+    <p>교과서에서 독서 2 · 체육 2로 0.5를 구했다. 같은 공식이 233마리에서도 통하는지 확인한다.</p></div></header>
+  <div class="body">
+    <p>훈련 자료 233마리의 종별 구성이다. 무작위로 두 마리를 뽑았을 때
+    <b>서로 다른 종일 확률</b>이 지니 불순도다.</p>
+    <div class="readout">
+      <div class="chip a"><span class="k">아델리</span><span class="v">102</span></div>
+      <div class="chip b"><span class="k">턱끈</span><span class="v">48</span></div>
+      <div class="chip c"><span class="k">젠투</span><span class="v">83</span></div>
+      <div class="chip"><span class="k">합</span><span class="v">233</span></div>
+    </div>
+
+    <div class="formula">G &nbsp;=&nbsp; 1 − ( p<sub>아델리</sub>² + p<sub>턱끈</sub>² + p<sub>젠투</sub>² )</div>
+
+    <div class="instr">
+      <p style="margin:0 0 10px; font-size:.9rem">비율부터 구한다. 소수 셋째 자리까지.</p>
+      <div class="check">
+        <span class="mono" style="font-size:.9rem">p<sub>아델리</sub> = 102 ÷ 233 =</span>
+        <input type="text" id="g1" inputmode="decimal" placeholder="0.___" aria-label="아델리 비율">
+        <span class="verdict" id="g1v"></span>
+      </div>
+      <div class="check">
+        <span class="mono" style="font-size:.9rem">G = 1 − (0.438² + 0.206² + 0.356²) =</span>
+        <input type="text" id="g2" inputmode="decimal" placeholder="0.___" aria-label="지니 불순도">
+        <button class="ghost" id="btnG">확인</button>
+        <span class="verdict" id="g2v"></span>
+      </div>
+    </div>
+
+    <div class="note good" id="gNote" hidden>정확히 <b>0.639</b> — 컴퓨터가 나무 그림 맨 위 상자에
+      적어 놓는 값과 같다. 자료가 8명에서 233마리로, 부류가 둘에서 셋으로 늘었을 뿐
+      <b>계산은 하나도 바뀌지 않았다.</b> 두 부류가 반반일 때 최댓값이 0.5였다면,
+      세 부류가 고르게 섞이면 1 − 3×(1/3)² = 0.667까지 커진다.</div>
+  </div>
+</section>
+
+<!-- 02 ─────────────────────────────────────────────── -->
+<section class="step" id="s2">
+  <header><span class="num">02</span><div><h2>207.5에 도전한다</h2>
+    <p>컴퓨터가 찾은 첫 질문보다 좋은 질문을 사람이 찾을 수 있는가.</p></div></header>
+  <div class="body">
+    <p>결정트리는 <b>모든 특성의 모든 경계</b>를 재어 보고, 나눈 뒤의 평균 불순도가
+    가장 낮아지는 질문을 고른다. 같은 일을 손으로 해 보자.
+    특성 하나와 경계 하나를 골라 233마리를 두 무리로 갈라 보라.</p>
+
+    <div class="formula">나눈 뒤 불순도 &nbsp;=&nbsp; (왼쪽 마리 수 ÷ 233) × G<sub>왼쪽</sub> &nbsp;+&nbsp; (오른쪽 마리 수 ÷ 233) × G<sub>오른쪽</sub></div>
+
+    <div class="instr">
+      <div class="ctl">
+        <label class="f"><span>질문에 쓸 특성</span>
+          <select id="feat">
+            <option value="0">부리 길이 (mm)</option>
+            <option value="1">부리 깊이 (mm)</option>
+            <option value="2" selected>지느러미 길이 (mm)</option>
+            <option value="3">몸무게 (g)</option>
+          </select></label>
+        <label class="f"><span>경계값 — “이 값 이하인가?”</span>
+          <input type="range" id="th" min="0" max="100" value="50" step="1">
+          <span class="val" id="thV">—</span></label>
+      </div>
+      <div class="readout">
+        <div class="chip"><span class="k">나누기 전</span><span class="v" style="color:var(--ink3)">0.639</span></div>
+        <div class="chip b"><span class="k">나눈 뒤 (내 질문)</span><span class="v" id="myG">—</span></div>
+        <div class="chip c"><span class="k">낮아진 양</span><span class="v" id="gain">—</span></div>
+      </div>
+    </div>
+
+    <figure>
+      <div id="strip"></div>
+      <figcaption>점 하나가 훈련 펭귄 한 마리다. 세로 점선이 내 경계값 —
+        왼쪽 무리와 오른쪽 무리 각각의 불순도가 실시간으로 계산된다.</figcaption>
+    </figure>
+    <div class="readout" id="sideOut" style="margin-top:12px"></div>
+
+    <div class="instr">
+      <div class="ctl">
+        <button class="warn" id="btnReveal">컴퓨터의 답 공개</button>
+        <span class="verdict" id="best" style="font-size:.88rem"></span>
+      </div>
+    </div>
+    <div class="note" id="revealNote" hidden></div>
+
+    <div class="ask">
+      <h3>활동지에 답하기</h3>
+      <ol>
+        <li>내가 찾은 가장 좋은 질문(특성 · 경계값 · 나눈 뒤 불순도)을 기록하시오.</li>
+        <li>컴퓨터의 경계는 207.5처럼 소수가 붙은 어중간한 수다.
+            훈련 자료의 관측값이 …, 207, 208, …임을 근거로 그 까닭을 쓰시오.</li>
+        <li>“인원을 반반으로 나누는 질문이 좋은 질문이다”가 왜 틀렸는지,
+            나눈 뒤 불순도의 식을 근거로 쓰시오.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- 03 ─────────────────────────────────────────────── -->
+<section class="step" id="s3">
+  <header><span class="num">03</span><div><h2>트리가 지나가는 길을 걷는다</h2>
+    <p>새로 잰 펭귄 한 마리를 넣고, 갈림길마다 어느 쪽으로 갔는지 따라간다.</p></div></header>
+  <div class="body">
+    <p>아래는 훈련 233마리로 학습을 마친 <b>실제 깊이 3 트리</b>다.
+    측정값을 넣으면 뿌리에서 잎까지의 길이 그대로 나타난다.</p>
+
+    <div class="instr">
+      <div class="numgrid">
+        <label>부리 길이 (mm)<input type="text" id="w0" inputmode="decimal" value="45.0"></label>
+        <label>부리 깊이 (mm)<input type="text" id="w1" inputmode="decimal" value="17.0"></label>
+        <label>지느러미 길이 (mm)<input type="text" id="w2" inputmode="decimal" value="200.0"></label>
+        <label>몸무게 (g)<input type="text" id="w3" inputmode="decimal" value="4200"></label>
+      </div>
+      <div class="ctl">
+        <button id="btnWalk">이 펭귄으로 길 걷기</button>
+        <button class="ghost" id="btnEx1">예시 ① 애매한 펭귄</button>
+        <button class="ghost" id="btnEx2">예시 ② 뚜렷한 펭귄</button>
+      </div>
+    </div>
+
+    <div id="walkOut" hidden>
+      <ol class="walk" id="walk"></ol>
+      <div class="readout" style="margin-top:14px" id="walkChips"></div>
+      <div class="note" id="walkNote" style="margin-top:14px"></div>
+    </div>
+
+    <div class="ask">
+      <h3>활동지에 답하기</h3>
+      <ol>
+        <li>예시 ①의 잎은 두 종이 <b>6 : 6</b>이다. 이 잎의 지니 불순도를 계산하시오.</li>
+        <li>배운 대로라면 이 잎은 더 나뉘어야 한다. 왜 멈추었는가?</li>
+        <li>확률 50%짜리 답을 확신처럼 통보하면 안 되는 상황을 하나 들어 쓰시오.</li>
+        <li>측정값을 바꿔 가며 <b>확률 100%가 되는 값</b>과 <b>반반이 되는 값</b>을 각각 찾아 기록하시오.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- 04 ─────────────────────────────────────────────── -->
+<section class="step" id="s4">
+  <header><span class="num">04</span><div><h2>눈금 하나가 이웃을 통째로 바꾼다</h2>
+    <p>교과서의 P·Q·R에서 일어난 일이, 실제 와인 자료에서 그대로 재현된다.</p></div></header>
+  <div class="body">
+    <p>이탈리아 한 지역 세 품종 와인 178병에서 성분 두 가지만 본다 —
+    <b>프롤린</b>(표준편차 315)과 <b>플라바노이드</b>(표준편차 1.0). 눈금이 약 <b>300배</b> 다르다.</p>
+
+    <div class="poe">
+      <div class="phead">먼저 예측한다</div>
+      <div class="pbody">
+        <p>이대로 유클리드 거리를 재면, 두 성분 중 어느 쪽이 “가깝다”를 결정하게 될까?</p>
+        <div class="opts" id="poe4">
+          <button data-k="a">두 성분이 반반씩 공평하게 결정한다</button>
+          <button data-k="b">눈금이 큰 프롤린이 거의 혼자 결정한다</button>
+          <button data-k="c">품종을 잘 가르는 성분이 자동으로 더 세게 반영된다</button>
+        </div>
+        <div class="fb" id="poe4fb"></div>
+      </div>
+    </div>
+
+    <div class="instr">
+      <div class="ctl">
+        <label class="switch"><input type="checkbox" id="norm">
+          <span>표준화 — 두 성분의 눈금을 맞춘다 <span class="mono" style="color:var(--ink3)">(기준은 훈련 자료로만)</span></span></label>
+        <span class="pill" id="kpill">k = 5 · 다수결</span>
+      </div>
+      <div class="readout" id="knnOut"></div>
+    </div>
+
+    <figure>
+      <div id="knnPlot"></div>
+      <figcaption>◆ 가 판정을 기다리는 평가 와인이다. 선으로 이어진 다섯 병이 “가장 가까운 이웃” —
+        표준화를 켜고 끄며 <b>이웃 다섯이 통째로 바뀌는지</b> 보라.</figcaption>
+    </figure>
+
+    <div class="note" id="knnNote"></div>
+
+    <div class="instr">
+      <p style="margin:0 0 8px; font-size:.9rem"><b>왜 바뀌는가 — 거리를 항별로 뜯어 본다.</b>
+        표준화 전, ◆에서 가장 가까운 병까지의 거리 제곱을 성분별로 나누면:</p>
+      <div class="scroll"><table id="distTbl">
+        <thead><tr><th>성분</th><th>차이</th><th>차이²</th><th>거리²에서의 몫</th></tr></thead>
+        <tbody></tbody></table></div>
+      <p style="margin:10px 0 0; font-size:.84rem; color:var(--ink3)" id="distCap"></p>
+    </div>
+
+    <div class="ask">
+      <h3>활동지에 답하기</h3>
+      <ol>
+        <li>표준화 전후로 다섯 이웃 중 몇 병이 겹치는가? 그 수가 뜻하는 바를 쓰시오.</li>
+        <li>거리²에서 프롤린의 몫이 몇 %인지 표에서 읽고,
+            “k만 잘 고르면 된다”는 생각이 왜 틀렸는지 쓰시오.</li>
+        <li>표준화 기준을 <b>훈련 자료로만</b> 잡는 까닭은? 평가 자료까지 합치면 무슨 사고인가?</li>
+        <li>결정트리에는 표준화가 거의 영향이 없다. 트리는 거리를 재는가, 경계를 긋는가?</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- 05 ─────────────────────────────────────────────── -->
+<section class="step" id="s5">
+  <header><span class="num">05</span><div><h2>배운 내용 점검하기</h2>
+    <p>고르면 바로 채점된다.</p></div></header>
+  <div class="body quiz" id="quiz"></div>
+</section>
+
+<footer>
+  자료 — palmerpenguins (Gorman et al., 2014 · CC0) ·
+  Aeberhard &amp; Forina (1992). <i>Wine</i> [Data set]. UCI Machine Learning Repository (CC BY 4.0).<br>
+  이 페이지의 트리 구조·불순도·거리는 화면 안에서 직접 계산되며, 공개 라이브러리(scikit-learn 1.9.0,
+  <span class="mono">random_state=42</span>) 결과와 대조 검증하였다. · 통계와 인공지능 Ⅲ-2 학생 활동 · 집필 하진수(대전대신고)
+</footer>
+</main>
+</div>
+</div>
+
+<script>
+const PEN = {"features": ["bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"], "featuresKo": ["부리 길이", "부리 깊이", "지느러미 길이", "몸무게"], "X": [[39.1, 18.7, 181.0, 3750.0], [39.5, 17.4, 186.0, 3800.0], [40.3, 18.0, 195.0, 3250.0], [36.7, 19.3, 193.0, 3450.0], [39.3, 20.6, 190.0, 3650.0], [38.9, 17.8, 181.0, 3625.0], [39.2, 19.6, 195.0, 4675.0], [41.1, 17.6, 182.0, 3200.0], [38.6, 21.2, 191.0, 3800.0], [34.6, 21.1, 198.0, 4400.0], [36.6, 17.8, 185.0, 3700.0], [38.7, 19.0, 195.0, 3450.0], [42.5, 20.7, 197.0, 4500.0], [34.4, 18.4, 184.0, 3325.0], [46.0, 21.5, 194.0, 4200.0], [37.8, 18.3, 174.0, 3400.0], [37.7, 18.7, 180.0, 3600.0], [35.9, 19.2, 189.0, 3800.0], [38.2, 18.1, 185.0, 3950.0], [38.8, 17.2, 180.0, 3800.0], [35.3, 18.9, 187.0, 3800.0], [40.6, 18.6, 183.0, 3550.0], [40.5, 17.9, 187.0, 3200.0], [37.9, 18.6, 172.0, 3150.0], [40.5, 18.9, 180.0, 3950.0], [39.5, 16.7, 178.0, 3250.0], [37.2, 18.1, 178.0, 3900.0], [39.5, 17.8, 188.0, 3300.0], [40.9, 18.9, 184.0, 3900.0], [36.4, 17.0, 195.0, 3325.0], [39.2, 21.1, 196.0, 4150.0], [38.8, 20.0, 190.0, 3950.0], [42.2, 18.5, 180.0, 3550.0], [37.6, 19.3, 181.0, 3300.0], [39.8, 19.1, 184.0, 4650.0], [36.5, 18.0, 182.0, 3150.0], [40.8, 18.4, 195.0, 3900.0], [36.0, 18.5, 186.0, 3100.0], [44.1, 19.7, 196.0, 4400.0], [37.0, 16.9, 185.0, 3000.0], [39.6, 18.8, 190.0, 4600.0], [41.1, 19.0, 182.0, 3425.0], [36.0, 17.9, 190.0, 3450.0], [42.3, 21.2, 191.0, 4150.0], [39.6, 17.7, 186.0, 3500.0], [40.1, 18.9, 188.0, 4300.0], [35.0, 17.9, 190.0, 3450.0], [42.0, 19.5, 200.0, 4050.0], [34.5, 18.1, 187.0, 2900.0], [41.4, 18.6, 191.0, 3700.0], [39.0, 17.5, 186.0, 3550.0], [40.6, 18.8, 193.0, 3800.0], [36.5, 16.6, 181.0, 2850.0], [37.6, 19.1, 194.0, 3750.0], [35.7, 16.9, 185.0, 3150.0], [41.3, 21.1, 195.0, 4400.0], [37.6, 17.0, 185.0, 3600.0], [41.1, 18.2, 192.0, 4050.0], [36.4, 17.1, 184.0, 2850.0], [41.6, 18.0, 192.0, 3950.0], [35.5, 16.2, 195.0, 3350.0], [41.1, 19.1, 188.0, 4100.0], [35.9, 16.6, 190.0, 3050.0], [41.8, 19.4, 198.0, 4450.0], [33.5, 19.0, 190.0, 3600.0], [39.7, 18.4, 190.0, 3900.0], [39.6, 17.2, 196.0, 3550.0], [45.8, 18.9, 197.0, 4150.0], [35.5, 17.5, 190.0, 3700.0], [42.8, 18.5, 195.0, 4250.0], [40.9, 16.8, 191.0, 3700.0], [37.2, 19.4, 184.0, 3900.0], [36.2, 16.1, 187.0, 3550.0], [42.1, 19.1, 195.0, 4000.0], [34.6, 17.2, 189.0, 3200.0], [42.9, 17.6, 196.0, 4700.0], [36.7, 18.8, 187.0, 3800.0], [35.1, 19.4, 193.0, 4200.0], [37.3, 17.8, 191.0, 3350.0], [41.3, 20.3, 194.0, 3550.0], [36.3, 19.5, 190.0, 3800.0], [36.9, 18.6, 189.0, 3500.0], [38.3, 19.2, 189.0, 3950.0], [38.9, 18.8, 190.0, 3600.0], [35.7, 18.0, 202.0, 3550.0], [41.1, 18.1, 205.0, 4300.0], [34.0, 17.1, 185.0, 3400.0], [39.6, 18.1, 186.0, 4450.0], [36.2, 17.3, 187.0, 3300.0], [40.8, 18.9, 208.0, 4300.0], [38.1, 18.6, 190.0, 3700.0], [40.3, 18.5, 196.0, 4350.0], [33.1, 16.1, 178.0, 2900.0], [43.2, 18.5, 192.0, 4100.0], [35.0, 17.9, 192.0, 3725.0], [41.0, 20.0, 203.0, 4725.0], [37.7, 16.0, 183.0, 3075.0], [37.8, 20.0, 190.0, 4250.0], [37.9, 18.6, 193.0, 2925.0], [39.7, 18.9, 184.0, 3550.0], [38.6, 17.2, 199.0, 3750.0], [38.2, 20.0, 190.0, 3900.0], [38.1, 17.0, 181.0, 3175.0], [43.2, 19.0, 197.0, 4775.0], [38.1, 16.5, 198.0, 3825.0], [45.6, 20.3, 191.0, 4600.0], [39.7, 17.7, 193.0, 3200.0], [42.2, 19.5, 197.0, 4275.0], [39.6, 20.7, 191.0, 3900.0], [42.7, 18.3, 196.0, 4075.0], [38.6, 17.0, 188.0, 2900.0], [37.3, 20.5, 199.0, 3775.0], [35.7, 17.0, 189.0, 3350.0], [41.1, 18.6, 189.0, 3325.0], [36.2, 17.2, 187.0, 3150.0], [37.7, 19.8, 198.0, 3500.0], [40.2, 17.0, 176.0, 3450.0], [41.4, 18.5, 202.0, 3875.0], [35.2, 15.9, 186.0, 3050.0], [40.6, 19.0, 199.0, 4000.0], [38.8, 17.6, 191.0, 3275.0], [41.5, 18.3, 195.0, 4300.0], [39.0, 17.1, 191.0, 3050.0], [44.1, 18.0, 210.0, 4000.0], [38.5, 17.9, 190.0, 3325.0], [43.1, 19.2, 197.0, 3500.0], [36.8, 18.5, 193.0, 3500.0], [37.5, 18.5, 199.0, 4475.0], [38.1, 17.6, 187.0, 3425.0], [41.1, 17.5, 190.0, 3900.0], [35.6, 17.5, 191.0, 3175.0], [40.2, 20.1, 200.0, 3975.0], [37.0, 16.5, 185.0, 3400.0], [39.7, 17.9, 193.0, 4250.0], [40.2, 17.1, 193.0, 3400.0], [40.6, 17.2, 187.0, 3475.0], [32.1, 15.5, 188.0, 3050.0], [40.7, 17.0, 190.0, 3725.0], [37.3, 16.8, 192.0, 3000.0], [39.0, 18.7, 185.0, 3650.0], [39.2, 18.6, 190.0, 4250.0], [36.6, 18.4, 184.0, 3475.0], [36.0, 17.8, 195.0, 3450.0], [37.8, 18.1, 193.0, 3750.0], [36.0, 17.1, 187.0, 3700.0], [41.5, 18.5, 201.0, 4000.0], [46.5, 17.9, 192.0, 3500.0], [50.0, 19.5, 196.0, 3900.0], [51.3, 19.2, 193.0, 3650.0], [45.4, 18.7, 188.0, 3525.0], [52.7, 19.8, 197.0, 3725.0], [45.2, 17.8, 198.0, 3950.0], [46.1, 18.2, 178.0, 3250.0], [51.3, 18.2, 197.0, 3750.0], [46.0, 18.9, 195.0, 4150.0], [51.3, 19.9, 198.0, 3700.0], [46.6, 17.8, 193.0, 3800.0], [51.7, 20.3, 194.0, 3775.0], [47.0, 17.3, 185.0, 3700.0], [52.0, 18.1, 201.0, 4050.0], [45.9, 17.1, 190.0, 3575.0], [50.5, 19.6, 201.0, 4050.0], [50.3, 20.0, 197.0, 3300.0], [58.0, 17.8, 181.0, 3700.0], [46.4, 18.6, 190.0, 3450.0], [49.2, 18.2, 195.0, 4400.0], [42.4, 17.3, 181.0, 3600.0], [48.5, 17.5, 191.0, 3400.0], [43.2, 16.6, 187.0, 2900.0], [50.6, 19.4, 193.0, 3800.0], [46.7, 17.9, 195.0, 3300.0], [52.0, 19.0, 197.0, 4150.0], [50.5, 18.4, 200.0, 3400.0], [49.5, 19.0, 200.0, 3800.0], [46.4, 17.8, 191.0, 3700.0], [52.8, 20.0, 205.0, 4550.0], [40.9, 16.6, 187.0, 3200.0], [54.2, 20.8, 201.0, 4300.0], [42.5, 16.7, 187.0, 3350.0], [51.0, 18.8, 203.0, 4100.0], [49.7, 18.6, 195.0, 3600.0], [47.5, 16.8, 199.0, 3900.0], [47.6, 18.3, 195.0, 3850.0], [52.0, 20.7, 210.0, 4800.0], [46.9, 16.6, 192.0, 2700.0], [53.5, 19.9, 205.0, 4500.0], [49.0, 19.5, 210.0, 3950.0], [46.2, 17.5, 187.0, 3650.0], [50.9, 19.1, 196.0, 3550.0], [45.5, 17.0, 196.0, 3500.0], [50.9, 17.9, 196.0, 3675.0], [50.8, 18.5, 201.0, 4450.0], [50.1, 17.9, 190.0, 3400.0], [49.0, 19.6, 212.0, 4300.0], [51.5, 18.7, 187.0, 3250.0], [49.8, 17.3, 198.0, 3675.0], [48.1, 16.4, 199.0, 3325.0], [51.4, 19.0, 201.0, 3950.0], [45.7, 17.3, 193.0, 3600.0], [50.7, 19.7, 203.0, 4050.0], [42.5, 17.3, 187.0, 3350.0], [52.2, 18.8, 197.0, 3450.0], [45.2, 16.6, 191.0, 3250.0], [49.3, 19.9, 203.0, 4050.0], [50.2, 18.8, 202.0, 3800.0], [45.6, 19.4, 194.0, 3525.0], [51.9, 19.5, 206.0, 3950.0], [46.8, 16.5, 189.0, 3650.0], [45.7, 17.0, 195.0, 3650.0], [55.8, 19.8, 207.0, 4000.0], [43.5, 18.1, 202.0, 3400.0], [49.6, 18.2, 193.0, 3775.0], [50.8, 19.0, 210.0, 4100.0], [50.2, 18.7, 198.0, 3775.0], [46.1, 13.2, 211.0, 4500.0], [50.0, 16.3, 230.0, 5700.0], [48.7, 14.1, 210.0, 4450.0], [50.0, 15.2, 218.0, 5700.0], [47.6, 14.5, 215.0, 5400.0], [46.5, 13.5, 210.0, 4550.0], [45.4, 14.6, 211.0, 4800.0], [46.7, 15.3, 219.0, 5200.0], [43.3, 13.4, 209.0, 4400.0], [46.8, 15.4, 215.0, 5150.0], [40.9, 13.7, 214.0, 4650.0], [49.0, 16.1, 216.0, 5550.0], [45.5, 13.7, 214.0, 4650.0], [48.4, 14.6, 213.0, 5850.0], [45.8, 14.6, 210.0, 4200.0], [49.3, 15.7, 217.0, 5850.0], [42.0, 13.5, 210.0, 4150.0], [49.2, 15.2, 221.0, 6300.0], [46.2, 14.5, 209.0, 4800.0], [48.7, 15.1, 222.0, 5350.0], [50.2, 14.3, 218.0, 5700.0], [45.1, 14.5, 215.0, 5000.0], [46.5, 14.5, 213.0, 4400.0], [46.3, 15.8, 215.0, 5050.0], [42.9, 13.1, 215.0, 5000.0], [46.1, 15.1, 215.0, 5100.0], [47.8, 15.0, 215.0, 5650.0], [48.2, 14.3, 210.0, 4600.0], [50.0, 15.3, 220.0, 5550.0], [47.3, 15.3, 222.0, 5250.0], [42.8, 14.2, 209.0, 4700.0], [45.1, 14.5, 207.0, 5050.0], [59.6, 17.0, 230.0, 6050.0], [49.1, 14.8, 220.0, 5150.0], [48.4, 16.3, 220.0, 5400.0], [42.6, 13.7, 213.0, 4950.0], [44.4, 17.3, 219.0, 5250.0], [44.0, 13.6, 208.0, 4350.0], [48.7, 15.7, 208.0, 5350.0], [42.7, 13.7, 208.0, 3950.0], [49.6, 16.0, 225.0, 5700.0], [45.3, 13.7, 210.0, 4300.0], [49.6, 15.0, 216.0, 4750.0], [50.5, 15.9, 222.0, 5550.0], [43.6, 13.9, 217.0, 4900.0], [45.5, 13.9, 210.0, 4200.0], [50.5, 15.9, 225.0, 5400.0], [44.9, 13.3, 213.0, 5100.0], [45.2, 15.8, 215.0, 5300.0], [46.6, 14.2, 210.0, 4850.0], [48.5, 14.1, 220.0, 5300.0], [45.1, 14.4, 210.0, 4400.0], [50.1, 15.0, 225.0, 5000.0], [46.5, 14.4, 217.0, 4900.0], [45.0, 15.4, 220.0, 5050.0], [43.8, 13.9, 208.0, 4300.0], [45.5, 15.0, 220.0, 5000.0], [43.2, 14.5, 208.0, 4450.0], [50.4, 15.3, 224.0, 5550.0], [45.3, 13.8, 208.0, 4200.0], [46.2, 14.9, 221.0, 5300.0], [45.7, 13.9, 214.0, 4400.0], [54.3, 15.7, 231.0, 5650.0], [45.8, 14.2, 219.0, 4700.0], [49.8, 16.8, 230.0, 5700.0], [49.5, 16.2, 229.0, 5800.0], [43.5, 14.2, 220.0, 4700.0], [50.7, 15.0, 223.0, 5550.0], [47.7, 15.0, 216.0, 4750.0], [46.4, 15.6, 221.0, 5000.0], [48.2, 15.6, 221.0, 5100.0], [46.5, 14.8, 217.0, 5200.0], [46.4, 15.0, 216.0, 4700.0], [48.6, 16.0, 230.0, 5800.0], [47.5, 14.2, 209.0, 4600.0], [51.1, 16.3, 220.0, 6000.0], [45.2, 13.8, 215.0, 4750.0], [45.2, 16.4, 223.0, 5950.0], [49.1, 14.5, 212.0, 4625.0], [52.5, 15.6, 221.0, 5450.0], [47.4, 14.6, 212.0, 4725.0], [50.0, 15.9, 224.0, 5350.0], [44.9, 13.8, 212.0, 4750.0], [50.8, 17.3, 228.0, 5600.0], [43.4, 14.4, 218.0, 4600.0], [51.3, 14.2, 218.0, 5300.0], [47.5, 14.0, 212.0, 4875.0], [52.1, 17.0, 230.0, 5550.0], [47.5, 15.0, 218.0, 4950.0], [52.2, 17.1, 228.0, 5400.0], [45.5, 14.5, 212.0, 4750.0], [49.5, 16.1, 224.0, 5650.0], [44.5, 14.7, 214.0, 4850.0], [50.8, 15.7, 226.0, 5200.0], [49.4, 15.8, 216.0, 4925.0], [46.9, 14.6, 222.0, 4875.0], [48.4, 14.4, 203.0, 4625.0], [51.1, 16.5, 225.0, 5250.0], [48.5, 15.0, 219.0, 4850.0], [55.9, 17.0, 228.0, 5600.0], [47.2, 15.5, 215.0, 4975.0], [49.1, 15.0, 228.0, 5500.0], [46.8, 16.1, 215.0, 5500.0], [41.7, 14.7, 210.0, 4700.0], [53.4, 15.8, 219.0, 5500.0], [43.3, 14.0, 208.0, 4575.0], [48.1, 15.1, 209.0, 5500.0], [50.5, 15.2, 216.0, 5000.0], [49.8, 15.9, 229.0, 5950.0], [43.5, 15.2, 213.0, 4650.0], [51.5, 16.3, 230.0, 5500.0], [46.2, 14.1, 217.0, 4375.0], [55.1, 16.0, 230.0, 5850.0], [48.8, 16.2, 222.0, 6000.0], [47.2, 13.7, 214.0, 4925.0], [46.8, 14.3, 215.0, 4850.0], [50.4, 15.7, 222.0, 5750.0], [45.2, 14.8, 212.0, 5200.0], [49.9, 16.1, 213.0, 5400.0]], "y": ["Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Adelie", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Chinstrap", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo", "Gentoo"], "split": {"train": [0, 4, 5, 7, 9, 10, 11, 12, 15, 16, 18, 19, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 33, 34, 35, 36, 39, 40, 42, 43, 44, 45, 47, 49, 51, 53, 55, 56, 60, 62, 64, 65, 66, 67, 68, 69, 70, 73, 76, 77, 78, 80, 81, 82, 83, 84, 85, 86, 93, 94, 95, 96, 97, 98, 101, 104, 110, 111, 113, 114, 115, 117, 119, 120, 122, 123, 128, 129, 133, 134, 135, 137, 138, 139, 141, 142, 144, 146, 148, 150, 153, 154, 155, 156, 157, 159, 161, 162, 163, 164, 165, 166, 169, 170, 171, 172, 176, 178, 179, 180, 183, 185, 186, 189, 191, 192, 194, 195, 198, 199, 201, 203, 204, 205, 207, 209, 210, 212, 217, 218, 219, 220, 221, 222, 223, 225, 226, 227, 228, 231, 234, 235, 238, 239, 240, 241, 242, 243, 244, 247, 248, 250, 254, 255, 256, 258, 259, 260, 261, 262, 264, 271, 273, 274, 275, 276, 277, 278, 279, 285, 287, 289, 290, 291, 292, 294, 295, 296, 297, 302, 304, 306, 307, 311, 312, 313, 315, 316, 317, 318, 319, 322, 323, 324, 325, 329, 330, 331, 332], "valid": [2, 3, 6, 8, 13, 17, 21, 46, 58, 59, 61, 74, 75, 87, 88, 89, 92, 99, 100, 102, 103, 105, 108, 109, 112, 124, 126, 140, 143, 147, 149, 151, 160, 173, 175, 184, 187, 188, 190, 196, 202, 206, 211, 215, 216, 224, 230, 232, 249, 257, 268, 270, 272, 280, 282, 283, 284, 286, 288, 299, 300, 309, 310, 314, 321, 326, 327], "test": [1, 14, 20, 32, 37, 38, 41, 48, 50, 52, 54, 57, 63, 71, 72, 79, 90, 91, 106, 107, 116, 118, 121, 125, 127, 130, 131, 132, 136, 145, 152, 158, 167, 168, 174, 177, 181, 182, 193, 197, 200, 208, 213, 214, 229, 233, 236, 237, 245, 246, 251, 252, 253, 263, 265, 266, 267, 269, 281, 293, 298, 301, 303, 305, 308, 320, 328]}, "curve": [{"d": 1, "train": 0.789, "valid": 0.761, "test": 0.791}, {"d": 2, "train": 0.975, "valid": 0.955, "test": 0.925}, {"d": 3, "train": 0.98, "valid": 0.97, "test": 0.925}, {"d": 4, "train": 0.995, "valid": 0.94, "test": 0.97}, {"d": 5, "train": 1.0, "valid": 0.97, "test": 0.955}, {"d": 6, "train": 1.0, "valid": 0.97, "test": 0.955}, {"d": 7, "train": 1.0, "valid": 0.97, "test": 0.955}, {"d": 8, "train": 1.0, "valid": 0.97, "test": 0.955}, {"d": 9, "train": 1.0, "valid": 0.97, "test": 0.955}, {"d": 10, "train": 1.0, "valid": 0.97, "test": 0.955}], "raw6": [{"species": "Adelie", "island": "Torgersen", "v": [39.1, 18.7, 181.0, 3750.0], "sex": "Male"}, {"species": "Adelie", "island": "Torgersen", "v": [39.5, 17.4, 186.0, 3800.0], "sex": "Female"}, {"species": "Adelie", "island": "Torgersen", "v": [40.3, 18.0, 195.0, 3250.0], "sex": "Female"}, {"species": "Adelie", "island": "Torgersen", "v": [null, null, null, null], "sex": null}, {"species": "Adelie", "island": "Torgersen", "v": [36.7, 19.3, 193.0, 3450.0], "sex": "Female"}, {"species": "Adelie", "island": "Torgersen", "v": [39.3, 20.6, 190.0, 3650.0], "sex": "Male"}], "rawN": 344, "rawNa": {"bill_length_mm": 2, "bill_depth_mm": 2, "flipper_length_mm": 2, "body_mass_g": 2, "sex": 11}, "splitCounts": {"train": {"Adelie": 87, "Chinstrap": 41, "Gentoo": 71}, "valid": {"Adelie": 29, "Chinstrap": 14, "Gentoo": 24}, "test": {"Adelie": 30, "Chinstrap": 13, "Gentoo": 24}}, "noStratify": {"seed": 12, "train": {"Adelie": 88, "Chinstrap": 53, "Gentoo": 58}, "valid": {"Adelie": 30, "Chinstrap": 7, "Gentoo": 30}, "test": {"Adelie": 28, "Chinstrap": 8, "Gentoo": 31}, "sizes": [199, 67, 67]}, "fullCounts": {"Adelie": 146, "Chinstrap": 68, "Gentoo": 119}};
+const TREE = {"classes": ["Adelie", "Chinstrap", "Gentoo"], "root": {"n": 233, "gini": 0.639, "value": [102, 48, 83], "f": 2, "th": 207.5, "L": {"n": 144, "gini": 0.424, "value": [100, 44, 0], "f": 0, "th": 42.35, "L": {"n": 95, "gini": 0.021, "value": [94, 1, 0], "f": 1, "th": 16.65, "L": {"n": 7, "gini": 0.245, "value": [6, 1, 0], "pred": "Adelie"}, "R": {"n": 88, "gini": 0.0, "value": [88, 0, 0], "pred": "Adelie"}}, "R": {"n": 49, "gini": 0.215, "value": [6, 43, 0], "f": 3, "th": 4075.0, "L": {"n": 37, "gini": 0.0, "value": [0, 37, 0], "pred": "Chinstrap"}, "R": {"n": 12, "gini": 0.5, "value": [6, 6, 0], "pred": "Adelie"}}}, "R": {"n": 89, "gini": 0.128, "value": [2, 4, 83], "f": 1, "th": 17.65, "L": {"n": 83, "gini": 0.0, "value": [0, 0, 83], "pred": "Gentoo"}, "R": {"n": 6, "gini": 0.444, "value": [2, 4, 0], "f": 0, "th": 46.55, "L": {"n": 2, "gini": 0.0, "value": [2, 0, 0], "pred": "Adelie"}, "R": {"n": 4, "gini": 0.0, "value": [0, 4, 0], "pred": "Chinstrap"}}}}, "trainAcc": 0.97, "testAcc": 0.94, "importance": [0.363, 0.064, 0.541, 0.032], "trainIdx": [0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17, 18, 19, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 33, 34, 35, 36, 38, 39, 40, 42, 43, 44, 45, 47, 49, 51, 53, 55, 56, 60, 62, 64, 65, 66, 67, 68, 69, 70, 72, 73, 76, 77, 78, 80, 81, 82, 83, 84, 85, 86, 89, 93, 94, 95, 96, 97, 98, 100, 101, 104, 105, 110, 111, 112, 113, 114, 115, 117, 118, 119, 120, 122, 123, 124, 127, 128, 129, 131, 133, 134, 135, 137, 138, 139, 141, 142, 144, 146, 147, 148, 150, 151, 153, 154, 155, 156, 157, 159, 161, 162, 163, 164, 165, 166, 169, 170, 171, 172, 173, 176, 178, 179, 180, 183, 185, 186, 189, 191, 192, 193, 194, 195, 198, 199, 200, 201, 202, 203, 204, 205, 207, 209, 210, 212, 213, 217, 218, 219, 220, 221, 222, 223, 225, 226, 227, 228, 231, 234, 235, 236, 238, 239, 240, 241, 242, 243, 244, 246, 247, 248, 250, 252, 253, 254, 255, 256, 258, 259, 260, 261, 262, 263, 264, 265, 270, 271, 273, 274, 275, 276, 277, 278, 279, 284, 285, 287, 289, 290, 291, 292, 294, 295, 296, 297, 298, 301, 302, 304, 306, 307, 308, 311, 312, 313, 315, 316, 317, 318, 319, 322, 323, 324, 325, 327, 329, 330, 331, 332]};
+const WINE = {"cols": ["alcohol", "malic_acid", "ash", "alcalinity_of_ash", "magnesium", "total_phenols", "flavanoids", "nonflavanoid_phenols", "proanthocyanins", "color_intensity", "hue", "od280/od315_of_diluted_wines", "proline"], "X": [[14.23, 1.71, 2.43, 15.6, 127.0, 2.8, 3.06, 0.28, 2.29, 5.64, 1.04, 3.92, 1065.0], [13.2, 1.78, 2.14, 11.2, 100.0, 2.65, 2.76, 0.26, 1.28, 4.38, 1.05, 3.4, 1050.0], [13.16, 2.36, 2.67, 18.6, 101.0, 2.8, 3.24, 0.3, 2.81, 5.68, 1.03, 3.17, 1185.0], [14.37, 1.95, 2.5, 16.8, 113.0, 3.85, 3.49, 0.24, 2.18, 7.8, 0.86, 3.45, 1480.0], [13.24, 2.59, 2.87, 21.0, 118.0, 2.8, 2.69, 0.39, 1.82, 4.32, 1.04, 2.93, 735.0], [14.2, 1.76, 2.45, 15.2, 112.0, 3.27, 3.39, 0.34, 1.97, 6.75, 1.05, 2.85, 1450.0], [14.39, 1.87, 2.45, 14.6, 96.0, 2.5, 2.52, 0.3, 1.98, 5.25, 1.02, 3.58, 1290.0], [14.06, 2.15, 2.61, 17.6, 121.0, 2.6, 2.51, 0.31, 1.25, 5.05, 1.06, 3.58, 1295.0], [14.83, 1.64, 2.17, 14.0, 97.0, 2.8, 2.98, 0.29, 1.98, 5.2, 1.08, 2.85, 1045.0], [13.86, 1.35, 2.27, 16.0, 98.0, 2.98, 3.15, 0.22, 1.85, 7.22, 1.01, 3.55, 1045.0], [14.1, 2.16, 2.3, 18.0, 105.0, 2.95, 3.32, 0.22, 2.38, 5.75, 1.25, 3.17, 1510.0], [14.12, 1.48, 2.32, 16.8, 95.0, 2.2, 2.43, 0.26, 1.57, 5.0, 1.17, 2.82, 1280.0], [13.75, 1.73, 2.41, 16.0, 89.0, 2.6, 2.76, 0.29, 1.81, 5.6, 1.15, 2.9, 1320.0], [14.75, 1.73, 2.39, 11.4, 91.0, 3.1, 3.69, 0.43, 2.81, 5.4, 1.25, 2.73, 1150.0], [14.38, 1.87, 2.38, 12.0, 102.0, 3.3, 3.64, 0.29, 2.96, 7.5, 1.2, 3.0, 1547.0], [13.63, 1.81, 2.7, 17.2, 112.0, 2.85, 2.91, 0.3, 1.46, 7.3, 1.28, 2.88, 1310.0], [14.3, 1.92, 2.72, 20.0, 120.0, 2.8, 3.14, 0.33, 1.97, 6.2, 1.07, 2.65, 1280.0], [13.83, 1.57, 2.62, 20.0, 115.0, 2.95, 3.4, 0.4, 1.72, 6.6, 1.13, 2.57, 1130.0], [14.19, 1.59, 2.48, 16.5, 108.0, 3.3, 3.93, 0.32, 1.86, 8.7, 1.23, 2.82, 1680.0], [13.64, 3.1, 2.56, 15.2, 116.0, 2.7, 3.03, 0.17, 1.66, 5.1, 0.96, 3.36, 845.0], [14.06, 1.63, 2.28, 16.0, 126.0, 3.0, 3.17, 0.24, 2.1, 5.65, 1.09, 3.71, 780.0], [12.93, 3.8, 2.65, 18.6, 102.0, 2.41, 2.41, 0.25, 1.98, 4.5, 1.03, 3.52, 770.0], [13.71, 1.86, 2.36, 16.6, 101.0, 2.61, 2.88, 0.27, 1.69, 3.8, 1.11, 4.0, 1035.0], [12.85, 1.6, 2.52, 17.8, 95.0, 2.48, 2.37, 0.26, 1.46, 3.93, 1.09, 3.63, 1015.0], [13.5, 1.81, 2.61, 20.0, 96.0, 2.53, 2.61, 0.28, 1.66, 3.52, 1.12, 3.82, 845.0], [13.05, 2.05, 3.22, 25.0, 124.0, 2.63, 2.68, 0.47, 1.92, 3.58, 1.13, 3.2, 830.0], [13.39, 1.77, 2.62, 16.1, 93.0, 2.85, 2.94, 0.34, 1.45, 4.8, 0.92, 3.22, 1195.0], [13.3, 1.72, 2.14, 17.0, 94.0, 2.4, 2.19, 0.27, 1.35, 3.95, 1.02, 2.77, 1285.0], [13.87, 1.9, 2.8, 19.4, 107.0, 2.95, 2.97, 0.37, 1.76, 4.5, 1.25, 3.4, 915.0], [14.02, 1.68, 2.21, 16.0, 96.0, 2.65, 2.33, 0.26, 1.98, 4.7, 1.04, 3.59, 1035.0], [13.73, 1.5, 2.7, 22.5, 101.0, 3.0, 3.25, 0.29, 2.38, 5.7, 1.19, 2.71, 1285.0], [13.58, 1.66, 2.36, 19.1, 106.0, 2.86, 3.19, 0.22, 1.95, 6.9, 1.09, 2.88, 1515.0], [13.68, 1.83, 2.36, 17.2, 104.0, 2.42, 2.69, 0.42, 1.97, 3.84, 1.23, 2.87, 990.0], [13.76, 1.53, 2.7, 19.5, 132.0, 2.95, 2.74, 0.5, 1.35, 5.4, 1.25, 3.0, 1235.0], [13.51, 1.8, 2.65, 19.0, 110.0, 2.35, 2.53, 0.29, 1.54, 4.2, 1.1, 2.87, 1095.0], [13.48, 1.81, 2.41, 20.5, 100.0, 2.7, 2.98, 0.26, 1.86, 5.1, 1.04, 3.47, 920.0], [13.28, 1.64, 2.84, 15.5, 110.0, 2.6, 2.68, 0.34, 1.36, 4.6, 1.09, 2.78, 880.0], [13.05, 1.65, 2.55, 18.0, 98.0, 2.45, 2.43, 0.29, 1.44, 4.25, 1.12, 2.51, 1105.0], [13.07, 1.5, 2.1, 15.5, 98.0, 2.4, 2.64, 0.28, 1.37, 3.7, 1.18, 2.69, 1020.0], [14.22, 3.99, 2.51, 13.2, 128.0, 3.0, 3.04, 0.2, 2.08, 5.1, 0.89, 3.53, 760.0], [13.56, 1.71, 2.31, 16.2, 117.0, 3.15, 3.29, 0.34, 2.34, 6.13, 0.95, 3.38, 795.0], [13.41, 3.84, 2.12, 18.8, 90.0, 2.45, 2.68, 0.27, 1.48, 4.28, 0.91, 3.0, 1035.0], [13.88, 1.89, 2.59, 15.0, 101.0, 3.25, 3.56, 0.17, 1.7, 5.43, 0.88, 3.56, 1095.0], [13.24, 3.98, 2.29, 17.5, 103.0, 2.64, 2.63, 0.32, 1.66, 4.36, 0.82, 3.0, 680.0], [13.05, 1.77, 2.1, 17.0, 107.0, 3.0, 3.0, 0.28, 2.03, 5.04, 0.88, 3.35, 885.0], [14.21, 4.04, 2.44, 18.9, 111.0, 2.85, 2.65, 0.3, 1.25, 5.24, 0.87, 3.33, 1080.0], [14.38, 3.59, 2.28, 16.0, 102.0, 3.25, 3.17, 0.27, 2.19, 4.9, 1.04, 3.44, 1065.0], [13.9, 1.68, 2.12, 16.0, 101.0, 3.1, 3.39, 0.21, 2.14, 6.1, 0.91, 3.33, 985.0], [14.1, 2.02, 2.4, 18.8, 103.0, 2.75, 2.92, 0.32, 2.38, 6.2, 1.07, 2.75, 1060.0], [13.94, 1.73, 2.27, 17.4, 108.0, 2.88, 3.54, 0.32, 2.08, 8.9, 1.12, 3.1, 1260.0], [13.05, 1.73, 2.04, 12.4, 92.0, 2.72, 3.27, 0.17, 2.91, 7.2, 1.12, 2.91, 1150.0], [13.83, 1.65, 2.6, 17.2, 94.0, 2.45, 2.99, 0.22, 2.29, 5.6, 1.24, 3.37, 1265.0], [13.82, 1.75, 2.42, 14.0, 111.0, 3.88, 3.74, 0.32, 1.87, 7.05, 1.01, 3.26, 1190.0], [13.77, 1.9, 2.68, 17.1, 115.0, 3.0, 2.79, 0.39, 1.68, 6.3, 1.13, 2.93, 1375.0], [13.74, 1.67, 2.25, 16.4, 118.0, 2.6, 2.9, 0.21, 1.62, 5.85, 0.92, 3.2, 1060.0], [13.56, 1.73, 2.46, 20.5, 116.0, 2.96, 2.78, 0.2, 2.45, 6.25, 0.98, 3.03, 1120.0], [14.22, 1.7, 2.3, 16.3, 118.0, 3.2, 3.0, 0.26, 2.03, 6.38, 0.94, 3.31, 970.0], [13.29, 1.97, 2.68, 16.8, 102.0, 3.0, 3.23, 0.31, 1.66, 6.0, 1.07, 2.84, 1270.0], [13.72, 1.43, 2.5, 16.7, 108.0, 3.4, 3.67, 0.19, 2.04, 6.8, 0.89, 2.87, 1285.0], [12.37, 0.94, 1.36, 10.6, 88.0, 1.98, 0.57, 0.28, 0.42, 1.95, 1.05, 1.82, 520.0], [12.33, 1.1, 2.28, 16.0, 101.0, 2.05, 1.09, 0.63, 0.41, 3.27, 1.25, 1.67, 680.0], [12.64, 1.36, 2.02, 16.8, 100.0, 2.02, 1.41, 0.53, 0.62, 5.75, 0.98, 1.59, 450.0], [13.67, 1.25, 1.92, 18.0, 94.0, 2.1, 1.79, 0.32, 0.73, 3.8, 1.23, 2.46, 630.0], [12.37, 1.13, 2.16, 19.0, 87.0, 3.5, 3.1, 0.19, 1.87, 4.45, 1.22, 2.87, 420.0], [12.17, 1.45, 2.53, 19.0, 104.0, 1.89, 1.75, 0.45, 1.03, 2.95, 1.45, 2.23, 355.0], [12.37, 1.21, 2.56, 18.1, 98.0, 2.42, 2.65, 0.37, 2.08, 4.6, 1.19, 2.3, 678.0], [13.11, 1.01, 1.7, 15.0, 78.0, 2.98, 3.18, 0.26, 2.28, 5.3, 1.12, 3.18, 502.0], [12.37, 1.17, 1.92, 19.6, 78.0, 2.11, 2.0, 0.27, 1.04, 4.68, 1.12, 3.48, 510.0], [13.34, 0.94, 2.36, 17.0, 110.0, 2.53, 1.3, 0.55, 0.42, 3.17, 1.02, 1.93, 750.0], [12.21, 1.19, 1.75, 16.8, 151.0, 1.85, 1.28, 0.14, 2.5, 2.85, 1.28, 3.07, 718.0], [12.29, 1.61, 2.21, 20.4, 103.0, 1.1, 1.02, 0.37, 1.46, 3.05, 0.906, 1.82, 870.0], [13.86, 1.51, 2.67, 25.0, 86.0, 2.95, 2.86, 0.21, 1.87, 3.38, 1.36, 3.16, 410.0], [13.49, 1.66, 2.24, 24.0, 87.0, 1.88, 1.84, 0.27, 1.03, 3.74, 0.98, 2.78, 472.0], [12.99, 1.67, 2.6, 30.0, 139.0, 3.3, 2.89, 0.21, 1.96, 3.35, 1.31, 3.5, 985.0], [11.96, 1.09, 2.3, 21.0, 101.0, 3.38, 2.14, 0.13, 1.65, 3.21, 0.99, 3.13, 886.0], [11.66, 1.88, 1.92, 16.0, 97.0, 1.61, 1.57, 0.34, 1.15, 3.8, 1.23, 2.14, 428.0], [13.03, 0.9, 1.71, 16.0, 86.0, 1.95, 2.03, 0.24, 1.46, 4.6, 1.19, 2.48, 392.0], [11.84, 2.89, 2.23, 18.0, 112.0, 1.72, 1.32, 0.43, 0.95, 2.65, 0.96, 2.52, 500.0], [12.33, 0.99, 1.95, 14.8, 136.0, 1.9, 1.85, 0.35, 2.76, 3.4, 1.06, 2.31, 750.0], [12.7, 3.87, 2.4, 23.0, 101.0, 2.83, 2.55, 0.43, 1.95, 2.57, 1.19, 3.13, 463.0], [12.0, 0.92, 2.0, 19.0, 86.0, 2.42, 2.26, 0.3, 1.43, 2.5, 1.38, 3.12, 278.0], [12.72, 1.81, 2.2, 18.8, 86.0, 2.2, 2.53, 0.26, 1.77, 3.9, 1.16, 3.14, 714.0], [12.08, 1.13, 2.51, 24.0, 78.0, 2.0, 1.58, 0.4, 1.4, 2.2, 1.31, 2.72, 630.0], [13.05, 3.86, 2.32, 22.5, 85.0, 1.65, 1.59, 0.61, 1.62, 4.8, 0.84, 2.01, 515.0], [11.84, 0.89, 2.58, 18.0, 94.0, 2.2, 2.21, 0.22, 2.35, 3.05, 0.79, 3.08, 520.0], [12.67, 0.98, 2.24, 18.0, 99.0, 2.2, 1.94, 0.3, 1.46, 2.62, 1.23, 3.16, 450.0], [12.16, 1.61, 2.31, 22.8, 90.0, 1.78, 1.69, 0.43, 1.56, 2.45, 1.33, 2.26, 495.0], [11.65, 1.67, 2.62, 26.0, 88.0, 1.92, 1.61, 0.4, 1.34, 2.6, 1.36, 3.21, 562.0], [11.64, 2.06, 2.46, 21.6, 84.0, 1.95, 1.69, 0.48, 1.35, 2.8, 1.0, 2.75, 680.0], [12.08, 1.33, 2.3, 23.6, 70.0, 2.2, 1.59, 0.42, 1.38, 1.74, 1.07, 3.21, 625.0], [12.08, 1.83, 2.32, 18.5, 81.0, 1.6, 1.5, 0.52, 1.64, 2.4, 1.08, 2.27, 480.0], [12.0, 1.51, 2.42, 22.0, 86.0, 1.45, 1.25, 0.5, 1.63, 3.6, 1.05, 2.65, 450.0], [12.69, 1.53, 2.26, 20.7, 80.0, 1.38, 1.46, 0.58, 1.62, 3.05, 0.96, 2.06, 495.0], [12.29, 2.83, 2.22, 18.0, 88.0, 2.45, 2.25, 0.25, 1.99, 2.15, 1.15, 3.3, 290.0], [11.62, 1.99, 2.28, 18.0, 98.0, 3.02, 2.26, 0.17, 1.35, 3.25, 1.16, 2.96, 345.0], [12.47, 1.52, 2.2, 19.0, 162.0, 2.5, 2.27, 0.32, 3.28, 2.6, 1.16, 2.63, 937.0], [11.81, 2.12, 2.74, 21.5, 134.0, 1.6, 0.99, 0.14, 1.56, 2.5, 0.95, 2.26, 625.0], [12.29, 1.41, 1.98, 16.0, 85.0, 2.55, 2.5, 0.29, 1.77, 2.9, 1.23, 2.74, 428.0], [12.37, 1.07, 2.1, 18.5, 88.0, 3.52, 3.75, 0.24, 1.95, 4.5, 1.04, 2.77, 660.0], [12.29, 3.17, 2.21, 18.0, 88.0, 2.85, 2.99, 0.45, 2.81, 2.3, 1.42, 2.83, 406.0], [12.08, 2.08, 1.7, 17.5, 97.0, 2.23, 2.17, 0.26, 1.4, 3.3, 1.27, 2.96, 710.0], [12.6, 1.34, 1.9, 18.5, 88.0, 1.45, 1.36, 0.29, 1.35, 2.45, 1.04, 2.77, 562.0], [12.34, 2.45, 2.46, 21.0, 98.0, 2.56, 2.11, 0.34, 1.31, 2.8, 0.8, 3.38, 438.0], [11.82, 1.72, 1.88, 19.5, 86.0, 2.5, 1.64, 0.37, 1.42, 2.06, 0.94, 2.44, 415.0], [12.51, 1.73, 1.98, 20.5, 85.0, 2.2, 1.92, 0.32, 1.48, 2.94, 1.04, 3.57, 672.0], [12.42, 2.55, 2.27, 22.0, 90.0, 1.68, 1.84, 0.66, 1.42, 2.7, 0.86, 3.3, 315.0], [12.25, 1.73, 2.12, 19.0, 80.0, 1.65, 2.03, 0.37, 1.63, 3.4, 1.0, 3.17, 510.0], [12.72, 1.75, 2.28, 22.5, 84.0, 1.38, 1.76, 0.48, 1.63, 3.3, 0.88, 2.42, 488.0], [12.22, 1.29, 1.94, 19.0, 92.0, 2.36, 2.04, 0.39, 2.08, 2.7, 0.86, 3.02, 312.0], [11.61, 1.35, 2.7, 20.0, 94.0, 2.74, 2.92, 0.29, 2.49, 2.65, 0.96, 3.26, 680.0], [11.46, 3.74, 1.82, 19.5, 107.0, 3.18, 2.58, 0.24, 3.58, 2.9, 0.75, 2.81, 562.0], [12.52, 2.43, 2.17, 21.0, 88.0, 2.55, 2.27, 0.26, 1.22, 2.0, 0.9, 2.78, 325.0], [11.76, 2.68, 2.92, 20.0, 103.0, 1.75, 2.03, 0.6, 1.05, 3.8, 1.23, 2.5, 607.0], [11.41, 0.74, 2.5, 21.0, 88.0, 2.48, 2.01, 0.42, 1.44, 3.08, 1.1, 2.31, 434.0], [12.08, 1.39, 2.5, 22.5, 84.0, 2.56, 2.29, 0.43, 1.04, 2.9, 0.93, 3.19, 385.0], [11.03, 1.51, 2.2, 21.5, 85.0, 2.46, 2.17, 0.52, 2.01, 1.9, 1.71, 2.87, 407.0], [11.82, 1.47, 1.99, 20.8, 86.0, 1.98, 1.6, 0.3, 1.53, 1.95, 0.95, 3.33, 495.0], [12.42, 1.61, 2.19, 22.5, 108.0, 2.0, 2.09, 0.34, 1.61, 2.06, 1.06, 2.96, 345.0], [12.77, 3.43, 1.98, 16.0, 80.0, 1.63, 1.25, 0.43, 0.83, 3.4, 0.7, 2.12, 372.0], [12.0, 3.43, 2.0, 19.0, 87.0, 2.0, 1.64, 0.37, 1.87, 1.28, 0.93, 3.05, 564.0], [11.45, 2.4, 2.42, 20.0, 96.0, 2.9, 2.79, 0.32, 1.83, 3.25, 0.8, 3.39, 625.0], [11.56, 2.05, 3.23, 28.5, 119.0, 3.18, 5.08, 0.47, 1.87, 6.0, 0.93, 3.69, 465.0], [12.42, 4.43, 2.73, 26.5, 102.0, 2.2, 2.13, 0.43, 1.71, 2.08, 0.92, 3.12, 365.0], [13.05, 5.8, 2.13, 21.5, 86.0, 2.62, 2.65, 0.3, 2.01, 2.6, 0.73, 3.1, 380.0], [11.87, 4.31, 2.39, 21.0, 82.0, 2.86, 3.03, 0.21, 2.91, 2.8, 0.75, 3.64, 380.0], [12.07, 2.16, 2.17, 21.0, 85.0, 2.6, 2.65, 0.37, 1.35, 2.76, 0.86, 3.28, 378.0], [12.43, 1.53, 2.29, 21.5, 86.0, 2.74, 3.15, 0.39, 1.77, 3.94, 0.69, 2.84, 352.0], [11.79, 2.13, 2.78, 28.5, 92.0, 2.13, 2.24, 0.58, 1.76, 3.0, 0.97, 2.44, 466.0], [12.37, 1.63, 2.3, 24.5, 88.0, 2.22, 2.45, 0.4, 1.9, 2.12, 0.89, 2.78, 342.0], [12.04, 4.3, 2.38, 22.0, 80.0, 2.1, 1.75, 0.42, 1.35, 2.6, 0.79, 2.57, 580.0], [12.86, 1.35, 2.32, 18.0, 122.0, 1.51, 1.25, 0.21, 0.94, 4.1, 0.76, 1.29, 630.0], [12.88, 2.99, 2.4, 20.0, 104.0, 1.3, 1.22, 0.24, 0.83, 5.4, 0.74, 1.42, 530.0], [12.81, 2.31, 2.4, 24.0, 98.0, 1.15, 1.09, 0.27, 0.83, 5.7, 0.66, 1.36, 560.0], [12.7, 3.55, 2.36, 21.5, 106.0, 1.7, 1.2, 0.17, 0.84, 5.0, 0.78, 1.29, 600.0], [12.51, 1.24, 2.25, 17.5, 85.0, 2.0, 0.58, 0.6, 1.25, 5.45, 0.75, 1.51, 650.0], [12.6, 2.46, 2.2, 18.5, 94.0, 1.62, 0.66, 0.63, 0.94, 7.1, 0.73, 1.58, 695.0], [12.25, 4.72, 2.54, 21.0, 89.0, 1.38, 0.47, 0.53, 0.8, 3.85, 0.75, 1.27, 720.0], [12.53, 5.51, 2.64, 25.0, 96.0, 1.79, 0.6, 0.63, 1.1, 5.0, 0.82, 1.69, 515.0], [13.49, 3.59, 2.19, 19.5, 88.0, 1.62, 0.48, 0.58, 0.88, 5.7, 0.81, 1.82, 580.0], [12.84, 2.96, 2.61, 24.0, 101.0, 2.32, 0.6, 0.53, 0.81, 4.92, 0.89, 2.15, 590.0], [12.93, 2.81, 2.7, 21.0, 96.0, 1.54, 0.5, 0.53, 0.75, 4.6, 0.77, 2.31, 600.0], [13.36, 2.56, 2.35, 20.0, 89.0, 1.4, 0.5, 0.37, 0.64, 5.6, 0.7, 2.47, 780.0], [13.52, 3.17, 2.72, 23.5, 97.0, 1.55, 0.52, 0.5, 0.55, 4.35, 0.89, 2.06, 520.0], [13.62, 4.95, 2.35, 20.0, 92.0, 2.0, 0.8, 0.47, 1.02, 4.4, 0.91, 2.05, 550.0], [12.25, 3.88, 2.2, 18.5, 112.0, 1.38, 0.78, 0.29, 1.14, 8.21, 0.65, 2.0, 855.0], [13.16, 3.57, 2.15, 21.0, 102.0, 1.5, 0.55, 0.43, 1.3, 4.0, 0.6, 1.68, 830.0], [13.88, 5.04, 2.23, 20.0, 80.0, 0.98, 0.34, 0.4, 0.68, 4.9, 0.58, 1.33, 415.0], [12.87, 4.61, 2.48, 21.5, 86.0, 1.7, 0.65, 0.47, 0.86, 7.65, 0.54, 1.86, 625.0], [13.32, 3.24, 2.38, 21.5, 92.0, 1.93, 0.76, 0.45, 1.25, 8.42, 0.55, 1.62, 650.0], [13.08, 3.9, 2.36, 21.5, 113.0, 1.41, 1.39, 0.34, 1.14, 9.4, 0.57, 1.33, 550.0], [13.5, 3.12, 2.62, 24.0, 123.0, 1.4, 1.57, 0.22, 1.25, 8.6, 0.59, 1.3, 500.0], [12.79, 2.67, 2.48, 22.0, 112.0, 1.48, 1.36, 0.24, 1.26, 10.8, 0.48, 1.47, 480.0], [13.11, 1.9, 2.75, 25.5, 116.0, 2.2, 1.28, 0.26, 1.56, 7.1, 0.61, 1.33, 425.0], [13.23, 3.3, 2.28, 18.5, 98.0, 1.8, 0.83, 0.61, 1.87, 10.52, 0.56, 1.51, 675.0], [12.58, 1.29, 2.1, 20.0, 103.0, 1.48, 0.58, 0.53, 1.4, 7.6, 0.58, 1.55, 640.0], [13.17, 5.19, 2.32, 22.0, 93.0, 1.74, 0.63, 0.61, 1.55, 7.9, 0.6, 1.48, 725.0], [13.84, 4.12, 2.38, 19.5, 89.0, 1.8, 0.83, 0.48, 1.56, 9.01, 0.57, 1.64, 480.0], [12.45, 3.03, 2.64, 27.0, 97.0, 1.9, 0.58, 0.63, 1.14, 7.5, 0.67, 1.73, 880.0], [14.34, 1.68, 2.7, 25.0, 98.0, 2.8, 1.31, 0.53, 2.7, 13.0, 0.57, 1.96, 660.0], [13.48, 1.67, 2.64, 22.5, 89.0, 2.6, 1.1, 0.52, 2.29, 11.75, 0.57, 1.78, 620.0], [12.36, 3.83, 2.38, 21.0, 88.0, 2.3, 0.92, 0.5, 1.04, 7.65, 0.56, 1.58, 520.0], [13.69, 3.26, 2.54, 20.0, 107.0, 1.83, 0.56, 0.5, 0.8, 5.88, 0.96, 1.82, 680.0], [12.85, 3.27, 2.58, 22.0, 106.0, 1.65, 0.6, 0.6, 0.96, 5.58, 0.87, 2.11, 570.0], [12.96, 3.45, 2.35, 18.5, 106.0, 1.39, 0.7, 0.4, 0.94, 5.28, 0.68, 1.75, 675.0], [13.78, 2.76, 2.3, 22.0, 90.0, 1.35, 0.68, 0.41, 1.03, 9.58, 0.7, 1.68, 615.0], [13.73, 4.36, 2.26, 22.5, 88.0, 1.28, 0.47, 0.52, 1.15, 6.62, 0.78, 1.75, 520.0], [13.45, 3.7, 2.6, 23.0, 111.0, 1.7, 0.92, 0.43, 1.46, 10.68, 0.85, 1.56, 695.0], [12.82, 3.37, 2.3, 19.5, 88.0, 1.48, 0.66, 0.4, 0.97, 10.26, 0.72, 1.75, 685.0], [13.58, 2.58, 2.69, 24.5, 105.0, 1.55, 0.84, 0.39, 1.54, 8.66, 0.74, 1.8, 750.0], [13.4, 4.6, 2.86, 25.0, 112.0, 1.98, 0.96, 0.27, 1.11, 8.5, 0.67, 1.92, 630.0], [12.2, 3.03, 2.32, 19.0, 96.0, 1.25, 0.49, 0.4, 0.73, 5.5, 0.66, 1.83, 510.0], [12.77, 2.39, 2.28, 19.5, 86.0, 1.39, 0.51, 0.48, 0.64, 9.9, 0.57, 1.63, 470.0], [14.16, 2.51, 2.48, 20.0, 91.0, 1.68, 0.7, 0.44, 1.24, 9.7, 0.62, 1.71, 660.0], [13.71, 5.65, 2.45, 20.5, 95.0, 1.68, 0.61, 0.52, 1.06, 7.7, 0.64, 1.74, 740.0], [13.4, 3.91, 2.48, 23.0, 102.0, 1.8, 0.75, 0.43, 1.41, 7.3, 0.7, 1.56, 750.0], [13.27, 4.28, 2.26, 20.0, 120.0, 1.59, 0.69, 0.43, 1.35, 10.2, 0.59, 1.56, 835.0], [13.17, 2.59, 2.37, 20.0, 120.0, 1.65, 0.68, 0.53, 1.46, 9.3, 0.6, 1.62, 840.0], [14.13, 4.1, 2.74, 24.5, 96.0, 2.05, 0.76, 0.56, 1.35, 9.2, 0.61, 1.6, 560.0]], "y": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2], "split": {"train": [0, 3, 4, 5, 6, 8, 9, 11, 12, 13, 15, 16, 17, 19, 24, 25, 26, 27, 30, 31, 32, 33, 34, 36, 41, 44, 45, 47, 49, 50, 53, 54, 55, 56, 57, 59, 61, 63, 65, 67, 69, 70, 71, 74, 75, 77, 78, 79, 80, 82, 83, 85, 86, 88, 90, 91, 95, 96, 97, 99, 101, 103, 104, 106, 109, 110, 111, 113, 114, 115, 116, 117, 119, 120, 123, 125, 126, 131, 133, 135, 137, 139, 140, 141, 145, 146, 147, 149, 150, 151, 152, 153, 154, 157, 158, 159, 161, 162, 163, 167, 168, 170, 171, 172, 174, 175], "valid": [1, 18, 20, 28, 29, 35, 37, 39, 40, 43, 46, 52, 64, 72, 73, 76, 89, 93, 94, 102, 107, 108, 118, 121, 122, 127, 134, 136, 138, 144, 155, 160, 164, 165, 169, 176], "test": [2, 7, 10, 14, 21, 22, 23, 38, 42, 48, 51, 58, 60, 62, 66, 68, 81, 84, 87, 92, 98, 100, 105, 112, 124, 128, 129, 130, 132, 142, 143, 148, 156, 166, 173, 177]}};
+const $ = s => document.querySelector(s);
+const KO = {Adelie:'아델리', Chinstrap:'턱끈', Gentoo:'젠투'};
+const CVAR = {Adelie:'var(--c1)', Chinstrap:'var(--c2)', Gentoo:'var(--c3)'};
+const FKO = ['부리 길이','부리 깊이','지느러미 길이','몸무게'];
+const UNIT = ['mm','mm','mm','g'];
+const done = new Set();
+function mark(n){ done.add(n); document.querySelectorAll('#prog li').forEach(li=>
+  li.classList.toggle('on', done.has(+li.dataset.s))); }
+function poe(id, correct, fbOk, fbNo){
+  const box=$('#'+id), fb=$('#'+id+'fb');
+  box.querySelectorAll('button').forEach(b=> b.onclick=()=>{
+    box.querySelectorAll('button').forEach(x=>{ x.disabled=true;
+      if(x.dataset.k===correct) x.classList.add('correct'); else if(x===b) x.classList.add('wrong'); });
+    fb.className='fb show '+(b.dataset.k===correct?'ok':'no');
+    fb.innerHTML=b.dataset.k===correct?fbOk:fbNo;
+  });
+}
+
+/* ── 훈련 자료 (트리와 동일한 233마리) ── */
+const trIdx = TREE.trainIdx;
+const TX = trIdx.map(i => PEN.X[i]);
+const TY = trIdx.map(i => PEN.y[i]);
+const SP = ['Adelie','Chinstrap','Gentoo'];
+
+function gini(counts){
+  const n = counts.reduce((a,b)=>a+b,0);
+  if(!n) return 0;
+  return 1 - counts.reduce((a,c)=>a+(c/n)**2, 0);
+}
+function splitEval(f, th){
+  const L=[0,0,0], R=[0,0,0];
+  TX.forEach((row,i)=>{ (row[f]<=th ? L : R)[SP.indexOf(TY[i])]++; });
+  const nL=L.reduce((a,b)=>a+b,0), nR=R.reduce((a,b)=>a+b,0);
+  return {L,R,nL,nR, w:(nL/233)*gini(L)+(nR/233)*gini(R), gL:gini(L), gR:gini(R)};
+}
+
+/* ── 01 지니 검산 ─────────────────────── */
+$('#g1').addEventListener('input', e=>{
+  const v=parseFloat(e.target.value); const o=$('#g1v');
+  if(isNaN(v)){o.textContent='';return;}
+  if(Math.abs(v-0.438)<.0015){o.className='verdict ok';o.textContent='맞다';}
+  else{o.className='verdict no';o.textContent='102 ÷ 233을 다시';}
+});
+$('#btnG').onclick=()=>{
+  const v=parseFloat($('#g2').value); const o=$('#g2v');
+  if(isNaN(v)){o.className='verdict';o.textContent='숫자를 넣어 보라.';return;}
+  if(Math.abs(v-0.639)<.002){o.className='verdict ok';o.textContent='맞다 — 0.639';
+    $('#gNote').hidden=false; mark(1);}
+  else{o.className='verdict no';o.textContent='제곱을 먼저, 합을 그다음, 1에서 빼는 것을 마지막에.';}
+};
+
+/* ── 02 분기 탐색기 ───────────────────── */
+const ranges = [[32,60],[13,22],[172,231],[2700,6300]];
+let curFeat = 2;
+function thVal(){
+  const [lo,hi]=ranges[curFeat];
+  return lo + (+$('#th').value/100)*(hi-lo);
+}
+function drawStrip(){
+  const f=curFeat, th=thVal();
+  const [lo,hi]=ranges[f];
+  const W=680,H=150,L=14,R=14,T=12,B=30;
+  const x=v=>L+(v-lo)/(hi-lo)*(W-L-R);
+  // 결정적 지터
+  let s=`<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="특성 분포와 경계">`;
+  s+=`<line x1="${L}" x2="${W-R}" y1="${H-B}" y2="${H-B}" stroke="var(--rule)"/>`;
+  for(let t=0;t<=4;t++){
+    const v=lo+t*(hi-lo)/4;
+    s+=`<text x="${x(v)}" y="${H-10}" text-anchor="middle" font-size="10" fill="var(--ink3)" font-family="IBM Plex Mono">${f===3?Math.round(v):v.toFixed(0)}</text>`;
+  }
+  TX.forEach((row,i)=>{
+    const j=(i*2654435761 % 97)/97;           // 고정 지터
+    const y=T+8+j*(H-B-T-22);
+    s+=`<circle cx="${x(row[f])}" cy="${y}" r="3.1" fill="${CVAR[TY[i]]}" opacity=".75"/>`;
+  });
+  s+=`<line x1="${x(th)}" x2="${x(th)}" y1="${T}" y2="${H-B}" stroke="var(--ink)" stroke-width="2" stroke-dasharray="5 4"/>`;
+  s+=`<text x="${x(th)}" y="${T+2}" text-anchor="middle" font-size="10" fill="var(--ink)" font-family="IBM Plex Mono"></text>`;
+  $('#strip').innerHTML=s+'</svg>';
+
+  const e=splitEval(f,th);
+  $('#thV').textContent=(f===3?Math.round(th):th.toFixed(1))+' '+UNIT[f];
+  $('#myG').textContent=e.w.toFixed(3);
+  $('#gain').textContent=(0.639-e.w).toFixed(3);
+  const side=(name,c,g,n)=>`<div class="chip" style="min-width:200px"><span class="k">${name} · ${n}마리 · G=${g.toFixed(3)}</span>
+    <span class="v" style="font-size:.92rem; line-height:1.5; display:block">
+      <span style="color:var(--c1)">아델리 ${c[0]}</span> ·
+      <span style="color:var(--c2)">턱끈 ${c[1]}</span> ·
+      <span style="color:var(--c3)">젠투 ${c[2]}</span></span></div>`;
+  $('#sideOut').innerHTML = side('왼쪽 (이하)',e.L,e.gL,e.nL)+side('오른쪽 (초과)',e.R,e.gR,e.nR);
+  mark(2);
+}
+$('#feat').onchange=e=>{ curFeat=+e.target.value; drawStrip(); };
+$('#th').oninput=drawStrip;
+drawStrip();
+$('#btnReveal').onclick=()=>{
+  // 전 특성 전 경계 탐색 (관측값 중간점)
+  let best={w:9};
+  for(let f=0;f<4;f++){
+    const vals=[...new Set(TX.map(r=>r[f]))].sort((a,b)=>a-b);
+    for(let i=0;i<vals.length-1;i++){
+      const th=(vals[i]+vals[i+1])/2;
+      const e=splitEval(f,th);
+      if(e.w<best.w-1e-12) best={f,th,w:e.w};
+    }
+  }
+  $('#best').className='verdict ok';
+  $('#best').textContent=`${FKO[best.f]} ≤ ${best.th.toFixed(2)}${UNIT[best.f]} — 나눈 뒤 불순도 ${best.w.toFixed(3)}`;
+  const myW=splitEval(curFeat,thVal()).w;
+  const n=$('#revealNote'); n.hidden=false;
+  n.className='note hot';
+  n.innerHTML = (myW<=best.w+0.002)
+    ? `내 질문(${myW.toFixed(3)})이 컴퓨터의 답에 사실상 도달했다. 컴퓨터가 한 일은 특별한 것이 아니라
+       <b>이 탐색을 모든 특성의 모든 경계에서 빠짐없이 반복한 것</b>뿐이다.`
+    : `컴퓨터의 답은 ${best.w.toFixed(3)}, 내 질문은 ${myW.toFixed(3)}이다.
+       컴퓨터가 똑똑해서가 아니다 — <b>모든 특성의 모든 경계를 빠짐없이 재어 본 것</b>뿐이다.
+       경계 ${best.th.toFixed(2)}가 어중간한 수인 까닭은 이웃한 두 관측값의 <b>한가운데</b>이기 때문이다.`;
+};
+
+/* ── 03 트리 길 걷기 ──────────────────── */
+function leafBar(v){
+  const n=v.reduce((a,b)=>a+b,0);
+  const cols=['var(--c1)','var(--c2)','var(--c3)'];
+  return `<div class="leafbar" role="img" aria-label="잎의 구성">`+
+    v.map((c,i)=>c?`<div style="flex:${c}; background:${cols[i]}" title="${KO[TREE.classes[i]]} ${c}"></div>`:'').join('')+`</div>`;
+}
+function walk(vals){
+  const steps=[]; let node=TREE.root;
+  while(node.f!==undefined){
+    const yes = vals[node.f] <= node.th;
+    steps.push({f:node.f, th:node.th, v:vals[node.f], yes});
+    node = yes ? node.L : node.R;
+  }
+  return {steps, leaf:node};
+}
+function runWalk(){
+  const vals=[0,1,2,3].map(i=>parseFloat($('#w'+i).value));
+  if(vals.some(isNaN)){ alert('네 칸 모두 숫자를 넣어 보라.'); return; }
+  const {steps,leaf}=walk(vals);
+  const ol=$('#walk'); ol.innerHTML='';
+  steps.forEach((st,i)=>{
+    const li=document.createElement('li');
+    li.innerHTML=`<span class="arrow">${i+1}▸</span>
+      <span><b>${FKO[st.f]} ≤ ${st.th}${UNIT[st.f]} ?</b> &nbsp;내 값 <span class="mono">${st.v}</span>
+      → <b style="color:${st.yes?'var(--good)':'var(--accent)'}">${st.yes?'예':'아니오'}</b></span>`;
+    ol.appendChild(li);
+  });
+  const li=document.createElement('li');
+  const n=leaf.value.reduce((a,b)=>a+b,0);
+  const probs=leaf.value.map(c=>c/n);
+  const pi=probs.indexOf(Math.max(...probs));
+  li.innerHTML=`<span class="arrow">도착</span>
+    <span>이 잎의 훈련 자료 ${n}마리 —
+    ${TREE.classes.map((c,i)=>`<span style="color:${CVAR[c]}">${KO[c]} ${leaf.value[i]}</span>`).join(' · ')}
+    ${leafBar(leaf.value)}</span>`;
+  ol.appendChild(li);
+  $('#walkChips').innerHTML =
+    `<div class="chip b"><span class="k">예측</span><span class="v" style="font-size:1.05rem">${KO[leaf.pred]}</span></div>`+
+    TREE.classes.map((c,i)=>`<div class="chip"><span class="k">${KO[c]} 확률</span><span class="v" style="color:${CVAR[c]}">${Math.round(100*probs[i])}%</span></div>`).join('');
+  const g=gini(leaf.value);
+  const note=$('#walkNote');
+  if(Math.max(...probs)<0.6){
+    note.className='note hot';
+    note.innerHTML=`이 잎의 지니 불순도는 <b>${g.toFixed(3)}</b> — 아직 많이 섞여 있다.
+    그런데도 트리는 “${KO[leaf.pred]}”라고 <b>딱 잘라</b> 답했다. 예측은 늘 하나의 답을 내놓지만
+    <b>그 근거가 반반일 수도 있다.</b> 정확도 숫자 하나만 보면 이 사실이 전혀 드러나지 않는다.`;
+  } else {
+    note.className='note good';
+    note.innerHTML=`이 잎의 지니 불순도는 <b>${g.toFixed(3)}</b> — 거의 순수하다.
+    같은 “예측”이라도 근거의 단단함이 다르다. 확률을 함께 읽는 습관이 필요한 까닭이다.`;
+  }
+  $('#walkOut').hidden=false; mark(3);
+}
+$('#btnWalk').onclick=runWalk;
+$('#btnEx1').onclick=()=>{ ['45.0','17.0','200.0','4200'].forEach((v,i)=>$('#w'+i).value=v); runWalk(); };
+$('#btnEx2').onclick=()=>{ ['50.0','15.0','220.0','5500'].forEach((v,i)=>$('#w'+i).value=v); runWalk(); };
+
+/* ── 04 kNN ──────────────────────────── */
+poe('poe4','b',
+  '<b>그렇다.</b> 거리는 차이를 제곱해 더한다. 300 단위로 움직이는 프롤린의 제곱 앞에서 1 단위 플라바노이드는 사라진다. 아래에서 확인하라.',
+  '거리 공식을 보라 — 차이를 <b>제곱해</b> 더한다. 프롤린이 300 차이 나면 90,000, 플라바노이드가 1 차이 나면 1이다. 공평하지도, 품종을 잘 가르는 쪽이 반영되지도 않는다. 눈금이 큰 쪽이 이긴다.');
+
+const PRO=12, FLA=6;                       // proline, flavanoids
+const wTr=WINE.split.train, wTe=WINE.split.test;
+const mean=f=>wTr.reduce((a,i)=>a+WINE.X[i][f],0)/wTr.length;
+const sd=(f,m)=>Math.sqrt(wTr.reduce((a,i)=>a+(WINE.X[i][f]-m)**2,0)/(wTr.length-1));
+const mP=mean(PRO), sP=sd(PRO,mP), mF=mean(FLA), sF=sd(FLA,mF);
+function feat2(i,norm){
+  const x=WINE.X[i];
+  return norm? [(x[PRO]-mP)/sP,(x[FLA]-mF)/sF] : [x[PRO],x[FLA]];
+}
+function knn5(ti,norm){
+  const q=feat2(ti,norm);
+  const ds=wTr.map(i=>{ const p=feat2(i,norm);
+    return {i, d:Math.hypot(p[0]-q[0],p[1]-q[1])}; }).sort((a,b)=>a.d-b.d).slice(0,5);
+  const vote=[0,0,0]; ds.forEach(o=>vote[WINE.y[o.i]]++);
+  return {ds, pred:vote.indexOf(Math.max(...vote))};
+}
+// 정규화 전후 예측이 갈리고 후가 정답인 평가 와인 선택
+let TI=wTe[0];
+for(const t of wTe){
+  const a=knn5(t,false), b=knn5(t,true);
+  if(a.pred!==b.pred && b.pred===WINE.y[t]){ TI=t; break; }
+}
+const WCOL=['var(--c1)','var(--warn)','var(--c3)'];
+function drawKnn(norm){
+  const r=knn5(TI,norm);
+  const pts=wTr.map(i=>({p:feat2(i,norm), y:WINE.y[i], i}));
+  const q=feat2(TI,norm);
+  const xs=pts.map(o=>o.p[0]).concat([q[0]]), ys=pts.map(o=>o.p[1]).concat([q[1]]);
+  const lo0=Math.min(...xs), hi0=Math.max(...xs), lo1=Math.min(...ys), hi1=Math.max(...ys);
+  const W=680,H=330,L=56,R=14,T=14,B=44;
+  const x=v=>L+(v-lo0)/(hi0-lo0)*(W-L-R), y=v=>H-B-(v-lo1)/(hi1-lo1)*(H-T-B);
+  let s=`<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="와인 산점도와 다섯 이웃">`;
+  for(let t=0;t<=4;t++){
+    const vx=lo0+t*(hi0-lo0)/4, vy=lo1+t*(hi1-lo1)/4;
+    s+=`<text x="${x(vx)}" y="${H-24}" text-anchor="middle" font-size="10" fill="var(--ink3)" font-family="IBM Plex Mono">${norm?vx.toFixed(1):Math.round(vx)}</text>`;
+    s+=`<text x="${L-8}" y="${y(vy)+3}" text-anchor="end" font-size="10" fill="var(--ink3)" font-family="IBM Plex Mono">${norm?vy.toFixed(1):vy.toFixed(1)}</text>`;
+    s+=`<line x1="${L}" x2="${W-R}" y1="${y(vy)}" y2="${y(vy)}" stroke="var(--rule2)"/>`;
+  }
+  s+=`<text x="${(L+W-R)/2}" y="${H-4}" text-anchor="middle" font-size="11" fill="var(--ink3)">프롤린${norm?' (표준화)':' (mg/L)'}</text>`;
+  s+=`<text x="14" y="${(T+H-B)/2}" text-anchor="middle" font-size="11" fill="var(--ink3)" transform="rotate(-90 14 ${(T+H-B)/2})">플라바노이드${norm?' (표준화)':''}</text>`;
+  r.ds.forEach(o=>{ const p=feat2(o.i,norm);
+    s+=`<line x1="${x(q[0])}" y1="${y(q[1])}" x2="${x(p[0])}" y2="${y(p[1])}" stroke="var(--accent)" stroke-width="1.4" opacity=".8"/>`; });
+  pts.forEach(o=>{ const nb=r.ds.some(d=>d.i===o.i);
+    s+=`<circle cx="${x(o.p[0])}" cy="${y(o.p[1])}" r="${nb?5:3.4}" fill="${WCOL[o.y]}" opacity="${nb?1:.55}" ${nb?'stroke="var(--ink)" stroke-width="1.4"':''}/>`; });
+  s+=`<path d="M ${x(q[0])} ${y(q[1])-8} L ${x(q[0])+8} ${y(q[1])} L ${x(q[0])} ${y(q[1])+8} L ${x(q[0])-8} ${y(q[1])} Z"
+       fill="var(--accent)" stroke="var(--ink)" stroke-width="1.6"/>`;
+  $('#knnPlot').innerHTML=s+'</svg>';
+
+  const truth=WINE.y[TI];
+  $('#knnOut').innerHTML=
+    `<div class="chip"><span class="k">실제 품종</span><span class="v" style="font-size:1rem; color:${WCOL[truth]}">품종 ${truth+1}</span></div>`+
+    `<div class="chip b"><span class="k">다수결 판정</span><span class="v" style="font-size:1rem; color:${WCOL[r.pred]}">품종 ${r.pred+1} ${r.pred===truth?'○':'✗'}</span></div>`+
+    `<div class="chip"><span class="k">다섯 이웃의 품종</span><span class="v" style="font-size:.95rem">${r.ds.map(o=>WINE.y[o.i]+1).join(' · ')}</span></div>`;
+  const rawSet=new Set(knn5(TI,false).ds.map(o=>o.i));
+  const overlap=knn5(TI,true).ds.filter(o=>rawSet.has(o.i)).length;
+  const note=$('#knnNote');
+  note.className='note '+(norm?'good':'hot');
+  const sameCnt = r.ds.filter(o=>WINE.y[o.i]===truth).length;
+  note.innerHTML = norm
+    ? `표준화 후 — 다섯 이웃 중 <b>${sameCnt}병</b>이 실제 품종과 같은 무리에서 뽑혀
+       다수결 판정이 <b>맞았다.</b> 표준화 전과 겹치는 이웃은 다섯 중 <b>${overlap}병</b>.
+       자료도 알고리즘도 k도 그대로인데 <b>눈금 하나</b>가 이웃을 갈아치웠다.`
+    : `표준화 전 — 판정이 <b>${r.pred===truth?'맞았지만 우연에 가깝다':'틀렸다'}</b>.
+       가로축(프롤린)의 범위가 세로축의 수백 배라서, 세로로 아무리 멀어도 가로로 가까우면 “이웃”이 된다.
+       그래프가 사실상 <b>가로 한 줄</b>로 읽히고 있는 것이다. 이제 표준화를 켜 보라.`;
+  // 거리 분해표 (항상 표준화 전 기준)
+  const near=knn5(TI,false).ds[0];
+  const dx=WINE.X[TI][PRO]-WINE.X[near.i][PRO], dy=WINE.X[TI][FLA]-WINE.X[near.i][FLA];
+  const s1=dx*dx, s2=dy*dy, tot=s1+s2;
+  $('#distTbl tbody').innerHTML=
+    `<tr><td>프롤린</td><td class="n">${dx.toFixed(1)}</td><td class="n">${s1.toFixed(1)}</td><td class="n" style="color:var(--accent); font-weight:600">${(100*s1/tot).toFixed(2)}%</td></tr>`+
+    `<tr><td>플라바노이드</td><td class="n">${dy.toFixed(2)}</td><td class="n">${s2.toFixed(2)}</td><td class="n">${(100*s2/tot).toFixed(2)}%</td></tr>`;
+  $('#distCap').textContent=`차이를 제곱하는 순간 승부가 끝난다. 플라바노이드는 거리의 ${(100*s2/tot).toFixed(2)}%만 발언한다 — 있으나 마나다.`;
+  mark(4);
+}
+$('#norm').onchange=e=>drawKnn(e.target.checked);
+drawKnn(false);
+
+/* ── 05 형성평가 ──────────────────────── */
+const QUIZ=[
+ {q:'결정트리의 “좋은 질문”에 대한 설명으로 옳은 것은?',
+  o:['인원을 최대한 반반으로 고르게 나누는 질문',
+     '나뉜 각 무리 안이 한 부류로 채워지게 하는 질문',
+     '가장 많은 특성을 한꺼번에 쓰는 질문'],
+  a:1, fb:'반반으로 나누면 지니가 0.5로 최대 — 가장 나쁜 질문이다. 좋은 질문은 나눈 뒤의 <b>불순도를 낮추는</b> 질문이다.'},
+ {q:'컴퓨터가 찾은 경계 207.5는 어떻게 정해졌는가?',
+  o:['사람이 실험을 통해 정해 준 값이다',
+     '이웃한 두 관측값(207, 208)의 한가운데로, 불순도를 가장 많이 낮추는 자리다',
+     '지느러미 길이의 평균값이다'],
+  a:1, fb:'트리는 모든 경계 후보(이웃 관측값의 중간점)를 다 재어 보고 불순도가 가장 많이 줄어드는 자리를 고른다. <b>자료가 정해 준 숫자</b>다.'},
+ {q:'특성 중요도 1위였던 지느러미 길이를 빼고 다시 학습했더니 정확도가 오히려 올랐다. 옳은 해석은?',
+  o:['중요도 계산이 잘못된 것이다',
+     '비슷한 정보를 가진 다른 특성이 그 자리를 대신했다 — 중요도는 “없으면 안 된다”는 뜻이 아니다',
+     '지느러미 길이는 종과 무관한 특성이었다'],
+  a:1, fb:'지느러미가 긴 펭귄은 부리도 길다. 중요도는 <b>이 트리가 얼마나 썼는가</b>일 뿐, 원인의 크기가 아니다. 상관을 인과로 읽으면 안 되듯 중요도도 인과로 읽으면 안 된다.'},
+ {q:'kNN에서 표준화 기준(평균·표준편차)을 훈련+평가 전체로 잡으면?',
+  o:['더 정확한 기준이 되므로 바람직하다',
+     '평가 자료의 정보가 훈련 과정에 스며든다 — 데이터 유출이다',
+     '아무 차이가 없다'],
+  a:1, fb:'평가 자료의 평균이 기준에 섞이는 순간, 평가는 “처음 보는 자료”가 아니게 된다. 기준은 <b>훈련 자료로만</b> 잡는다.'},
+ {q:'정규화 없이 k를 1부터 21까지 바꿔 봐도 정확도가 0.78을 넘지 못했다. 옳은 결론은?',
+  o:['k를 더 크게 키우면 해결된다',
+     '눈금 문제는 k로 고칠 수 없다 — 먼저 표준화해야 한다',
+     'kNN 자체가 이 자료에 맞지 않는 알고리즘이다'],
+  a:1, fb:'거리 자체가 한 성분에 지배당하고 있다. 몇 명에게 물어볼지(k)를 바꿔도, <b>잘못된 거리로 뽑은 이웃</b>이라는 사실은 변하지 않는다.'},
+];
+(function(){
+  const host=$('#quiz'); let score=0, answered=0;
+  QUIZ.forEach(item=>{
+    const div=document.createElement('div'); div.className='qitem';
+    div.innerHTML=`<p class="qtext">${item.q}</p><div class="opts"></div><div class="fb"></div>`;
+    const opts=div.querySelector('.opts'), fb=div.querySelector('.fb');
+    item.o.forEach((t,oi)=>{
+      const b=document.createElement('button'); b.textContent=t;
+      b.onclick=()=>{
+        opts.querySelectorAll('button').forEach((x,xi)=>{ x.disabled=true;
+          if(xi===item.a) x.classList.add('correct'); else if(x===b) x.classList.add('wrong'); });
+        if(oi===item.a) score++;
+        answered++;
+        fb.className='fb show '+(oi===item.a?'ok':'no'); fb.innerHTML=item.fb;
+        if(answered===QUIZ.length){
+          const s=document.createElement('p'); s.className='score';
+          s.textContent=`${QUIZ.length}문항 중 ${score}문항 정답.`;
+          host.appendChild(s); mark(5);
+        }
+      };
+      opts.appendChild(b);
+    });
+    host.appendChild(div);
+  });
+})();
+</script>
