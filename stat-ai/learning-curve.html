@@ -165,6 +165,25 @@ footer{border-top:1px solid var(--rule); margin-top:40px; padding-top:16px; font
 .topnav a.home.on{background:var(--ink); color:var(--surface); border-radius:99px;
   border-right:1px solid transparent; padding-right:15px}
 .topnav .tag{font-family:'IBM Plex Mono',monospace; font-size:.72rem; opacity:.75; margin-right:5px}
+
+details.more{margin:14px 22px 20px; border:1px solid var(--rule); border-radius:3px;
+  background:var(--surface2); overflow:hidden}
+details.more summary{cursor:pointer; padding:9px 14px; font-size:.78rem; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--accent-ink);
+  background:var(--accent-soft); user-select:none; list-style:none}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::before{content:"▸ "}
+details.more[open] summary::before{content:"▾ "}
+details.more .mbody{padding:14px 16px 6px; font-size:.9rem; line-height:1.75; color:var(--ink)}
+details.more .mbody p{margin:0 0 11px}
+details.more .mbody b{color:var(--accent-ink)}
+details.more .fm{display:block; font-family:'IBM Plex Mono','IBM Plex Sans KR',monospace;
+  font-size:.86rem; background:var(--sunk); border-radius:3px; padding:9px 13px;
+  margin:10px 0; overflow-x:auto}
+details.more pre.code{font-family:'IBM Plex Mono',monospace; font-size:.8rem; line-height:1.65;
+  background:var(--sunk); border:1px solid var(--rule2); border-radius:3px; padding:11px 13px;
+  margin:10px 0 12px; overflow-x:auto; white-space:pre}
+details.more pre.code .cm{color:var(--ink3)}
 </style>
 
 <nav class="topnav" aria-label="활동실 이동"><div class="in">
@@ -258,7 +277,17 @@ footer{border-top:1px solid var(--rule); margin-top:40px; padding-top:16px; font
       버리면 자료가 줄고, 채우면 없는 값을 지어내는 셈이다. 오늘은 통일해서 버리고 <b>333마리</b>로 간다 —
       다만 이것이 <b>선택</b>이었음을 기억하라. 전처리는 언제나 선택이고, 선택에는 근거가 붙어야 한다.</div>
   </div>
-</section>
+<details class="more"><summary>더 알아보기 — 왜 버려도 되는가 — 결측 처리의 통계적 근거</summary><div class="mbody">
+<p>버리기 전에 두 가지를 계산해야 한다. <b>① 얼마나 잃는가</b>: 빈칸 있는 줄은 11개, 11 ÷ 344 ≈ 3.2%다.
+표본의 97%가 남으므로 손실은 작다. <b>② 빠짐이 무작위인가</b>: 만약 빈칸이 한 종에만, 또는 유난히 작은
+펭귄에게만 몰려 있다면 남은 333마리는 원래 무리를 대표하지 못하는 <b>편향된 표본</b>이 된다. 그래서 버리기 전에
+종별 결측 개수를 반드시 세어 본다. 반대 선택지인 '평균으로 채우기'는 표본 수를 지키는 대신 세상에 없는 값을
+발명하는 것이라, 자료의 퍼짐(분산)을 실제보다 작게 왜곡한다 — 공짜인 쪽은 없다.</p>
+<pre class="code">import pandas as pd
+df = pd.read_csv("penguins.csv")          <span class="cm"># 344행</span>
+df.isna().sum()                           <span class="cm"># 열마다 빈칸 개수 확인 — 판단의 근거</span>
+df = df.dropna()                          <span class="cm"># 빈칸이 하나라도 있는 행 삭제 → 333행</span></pre>
+</div></details></section>
 
 <!-- 02 ─────────────────────────────────────────────── -->
 <section class="step" id="s2">
@@ -299,7 +328,18 @@ footer{border-top:1px solid var(--rule); margin-top:40px; padding-top:16px; font
       </ol>
     </div>
   </div>
-</section>
+<details class="more"><summary>더 알아보기 — 기준선 43.8%의 수학</summary><div class="mbody">
+<p>아무것도 배우지 않은 채 답을 하나만 골라야 한다면, 종 k를 답할 때의 기대 정확도는 그 종의 비율
+p<sub>k</sub>다. 기대 정확도를 최대로 만드는 전략은 <b>가장 흔한 종만 말하기</b>:</p>
+<div class="fm">기준선 = max(146, 68, 119) ÷ 333 = 146 ÷ 333 ≈ 0.438</div>
+<p>세 종이 정확히 ⅓씩이었다면 기준선은 33.3%였을 것이다. 자료가 <b>불균형할수록 기준선이 올라간다</b>
+— "정확도 44%"가 사실은 0점짜리 모델일 수 있는 이유이고, 다음 소단원 '정확도의 역설'의 뿌리다.
+sklearn에는 이 '아무것도 안 하는 모델'이 실제로 들어 있다.</p>
+<pre class="code">from sklearn.dummy import DummyClassifier
+base = DummyClassifier(strategy="most_frequent")   <span class="cm"># 무조건 최빈 종만 답한다</span>
+base.fit(X_train, y_train)
+base.score(X_test, y_test)                <span class="cm"># ≈ 0.44 — 모든 모델이 넘어야 할 출발선</span></pre>
+</div></details></section>
 
 <!-- 03 ─────────────────────────────────────────────── -->
 <section class="step" id="s3">
@@ -350,7 +390,25 @@ footer{border-top:1px solid var(--rule); margin-top:40px; padding-top:16px; font
       </ol>
     </div>
   </div>
-</section>
+<details class="more"><summary>더 알아보기 — 199 : 67 : 67 — 크기와 층화의 수학</summary><div class="mbody">
+<p><b>왜 검증·평가에 20%씩인가.</b> 검증·평가 묶음의 일은 '점수 재기'다. 67마리에서 한 마리의 값어치는
+1 ÷ 67 ≈ 0.015 — 점수는 1.5점 단위로만 움직인다. 비율 p를 n마리로 잴 때의 표준오차는
+√(p(1−p)/n)이므로, p = 0.93, n = 67이면 약 0.031. 즉 <b>±3점 정도는 우연만으로 흔들리는 폭</b>이다.
+묶음을 더 줄이면 이 오차가 커져 점수를 믿을 수 없게 되고, 더 키우면 훈련 재료가 모자란다.
+60 : 20 : 20은 그 사이의 타협이다.</p>
+<p><b>층화(stratify)의 근거.</b> 턱끈은 68 ÷ 333 ≈ 20.4%이므로 검증 67마리에 기대값
+67 × 0.204 ≈ 13.7마리가 있어야 한다. 층화 없이 무작위로 뽑으면 이 수는 표준편차 약 3.0마리로 출렁여서,
+7마리(기대보다 2σ 넘게 아래)까지 떨어지는 일이 실제로 일어난다. 층화는 세 묶음의 종 비율을 전체와
+같게 <b>강제</b>해서 이 우연을 원천 봉쇄한다.</p>
+<pre class="code">from sklearn.model_selection import train_test_split
+X_tmp, X_test, y_tmp, y_test = train_test_split(
+    X, y, test_size=0.2, stratify=y, random_state=42)
+X_train, X_val, y_train, y_val = train_test_split(
+    X_tmp, y_tmp, test_size=0.25, stratify=y_tmp, random_state=42)
+<span class="cm"># 남은 80%의 25% → 전체의 20%. 최종 60 : 20 : 20</span>
+<span class="cm"># stratify=y → 층화,  random_state=42 → 누가 돌려도 같은 분할(재현성)</span>
+len(X_train), len(X_val), len(X_test)     <span class="cm"># (199, 67, 67) — 333×0.6=199.8 검산</span></pre>
+</div></details></section>
 
 <!-- 04 ─────────────────────────────────────────────── -->
 <section class="step" id="s4">
@@ -403,7 +461,21 @@ footer{border-top:1px solid var(--rule); margin-top:40px; padding-top:16px; font
       </ol>
     </div>
   </div>
-</section>
+<details class="more"><summary>더 알아보기 — 훈련 곡선은 왜 절대 내려가지 않는가</summary><div class="mbody">
+<p>깊이 d 트리의 잎은 많아야 2<sup>d</sup>개다. 깊이를 하나 늘린 트리는 <b>이전 트리가 그릴 수 있는 모든
+경계를 그대로 그릴 수 있고, 추가로 더 자를 수도 있다</b>. 선택지가 늘기만 하므로 훈련 정확도는 수학적으로
+내려갈 수 없다(단조 증가). 깊이 5쯤이면 잎이 최대 32개 — 잎마다 한 종만 남도록 훈련 199마리를 다
+갈라 넣을 수 있어 훈련 정확도가 1.000에 붙는다. 이것은 실력이 아니라 <b>암기</b>다.</p>
+<p>검증 곡선은 다르다. 검증 자료는 분할을 정하는 데 쓰인 적이 없으므로, 규칙이 종의 '진짜 구조'를 잡는
+만큼만 오르고, 훈련 표본 하나하나의 우연을 외우기 시작하면 내려간다. 두 곡선의 <b>간격(훈련 − 검증)</b>이
+과적합의 계기판인 이유다. 이 페이지의 곡선은 아래 반복문의 출력 그대로다.</p>
+<pre class="code">from sklearn.tree import DecisionTreeClassifier
+for depth in range(1, 11):
+    tree = DecisionTreeClassifier(max_depth=depth, random_state=42)
+    tree.fit(X_train, y_train)
+    print(depth, tree.score(X_train, y_train), tree.score(X_val, y_val))
+<span class="cm"># max_depth 가 유일하게 바뀌는 값 — 복잡도를 조종하는 손잡이</span></pre>
+</div></details></section>
 
 <!-- 05 ─────────────────────────────────────────────── -->
 <section class="step" id="s5">
@@ -438,7 +510,19 @@ footer{border-top:1px solid var(--rule); margin-top:40px; padding-top:16px; font
       <div class="note hot" id="sealNote"></div>
     </div>
   </div>
-</section>
+<details class="more"><summary>더 알아보기 — 검증 0.970은 왜 부풀어 있나 — 최댓값의 편향</summary><div class="mbody">
+<p>후보 10개(깊이 1~10)의 검증 점수는 각각 <b>실력 + 우연</b>이다. 그중 최댓값을 고르면 '우연히 좋게
+나온 후보'가 뽑히기 쉬우므로, 뽑힌 점수의 기댓값은 실력보다 크다. 주사위로 보면: 한 명의 기대값은 3.5지만,
+<b>10명이 던져 최댓값을 취하면 기대값이 약 5.8</b>로 뛴다. 검증 0.970에는 이 '최댓값 프리미엄'이 섞여 있다.</p>
+<p>평가 자료 67마리는 어떤 선택에도 쓰이지 않았으므로 0.925가 부풀지 않은 실력 추정값이다. 차이
+0.045는 앞에서 계산한 표준오차(±0.03)와 비슷한 크기 — 실망할 일이 아니라 <b>수학이 예고한 수축</b>이다.
+그리고 0.925를 보고 깊이를 다시 고르는 순간, 평가 자료도 '후보를 고르는 데 쓰인 자료'가 되어
+같은 편향에 오염된다. 그것이 데이터 유출이다.</p>
+<pre class="code">best = max(range(1, 11), key=lambda d: val_score[d])   <span class="cm"># 검증만으로 고른다 → 3</span>
+final = DecisionTreeClassifier(max_depth=best, random_state=42)
+final.fit(X_train, y_train)
+final.score(X_test, y_test)     <span class="cm"># 0.925 — 실험 끝. 이 줄을 두 번 쓰는 순간 유출</span></pre>
+</div></details></section>
 
 <!-- 06 ─────────────────────────────────────────────── -->
 <section class="step" id="s6">

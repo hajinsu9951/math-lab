@@ -176,6 +176,25 @@ footer{border-top:1px solid var(--rule); margin-top:40px; padding-top:16px; font
 .namec dt{color:var(--ink3)} .namec dd{margin:0; font-family:'IBM Plex Mono',monospace; text-align:right}
 .namec input{font:inherit; width:100%; padding:7px 9px; border:1px solid var(--rule); border-radius:3px;
   background:var(--surface2); color:var(--ink)}
+
+details.more{margin:14px 22px 20px; border:1px solid var(--rule); border-radius:3px;
+  background:var(--surface2); overflow:hidden}
+details.more summary{cursor:pointer; padding:9px 14px; font-size:.78rem; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--accent-ink);
+  background:var(--accent-soft); user-select:none; list-style:none}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::before{content:"▸ "}
+details.more[open] summary::before{content:"▾ "}
+details.more .mbody{padding:14px 16px 6px; font-size:.9rem; line-height:1.75; color:var(--ink)}
+details.more .mbody p{margin:0 0 11px}
+details.more .mbody b{color:var(--accent-ink)}
+details.more .fm{display:block; font-family:'IBM Plex Mono','IBM Plex Sans KR',monospace;
+  font-size:.86rem; background:var(--sunk); border-radius:3px; padding:9px 13px;
+  margin:10px 0; overflow-x:auto}
+details.more pre.code{font-family:'IBM Plex Mono',monospace; font-size:.8rem; line-height:1.65;
+  background:var(--sunk); border:1px solid var(--rule2); border-radius:3px; padding:11px 13px;
+  margin:10px 0 12px; overflow-x:auto; white-space:pre}
+details.more pre.code .cm{color:var(--ink3)}
 </style>
 
 <nav class="topnav" aria-label="활동실 이동"><div class="in">
@@ -287,7 +306,19 @@ footer{border-top:1px solid var(--rule); margin-top:40px; padding-top:16px; font
       </ol>
     </div>
   </div>
-</section>
+<details class="more"><summary>더 알아보기 — 두 동작이 SSE를 반드시 줄이는 증명</summary><div class="mbody">
+<p>SSE = 모든 점에 대한 ‖점 − 자기 중심‖² 의 합. <b>배정</b>이 SSE를 늘리지 않는 이유: 각 점을 가장
+가까운 중심에 붙이면 합의 각 항이 최소가 된다. <b>이동</b>이 늘리지 않는 이유: 한 무리에서
+f(c) = Σ(xᵢ − c)² 를 최소로 하는 c를 미분으로 찾으면</p>
+<div class="fm">f′(c) = −2 Σ(xᵢ − c) = 0  →  c = (Σxᵢ) ÷ n = 평균</div>
+<p>— "평균은 편차 제곱합을 최소화한다"는 Ⅰ단원의 사실 그대로다. 두 동작 모두 SSE를 늘리지 않고
+SSE는 0 아래로 못 내려가므로, 이 과정은 <b>반드시 멈춘다</b>(수렴). 다만 도착지는 출발점에 딸린
+<b>지역 최소</b>일 뿐이라 370.8도 나오고 475.5도 나온다 — 그래서 시작점을 바꿔 여러 번 돌린다.</p>
+<pre class="code">from sklearn.cluster import KMeans
+km = KMeans(n_clusters=3, n_init=10, random_state=42)  <span class="cm"># 시작점 10번 시도</span>
+km.fit(X_scaled)               <span class="cm"># y 없이 X만 준다 — 비지도학습의 정의</span>
+km.inertia_                    <span class="cm"># 370.8 — 10번 중 가장 작은 SSE 를 자동 선택</span></pre>
+</div></details></section>
 
 <!-- 02 ─────────────────────────────────────────────── -->
 <section class="step" id="s2">
@@ -313,7 +344,17 @@ footer{border-top:1px solid var(--rule); margin-top:40px; padding-top:16px; font
       </ol>
     </div>
   </div>
-</section>
+<details class="more"><summary>더 알아보기 — SSE는 왜 항상 내려가는가 — 그런데 왜 최소가 답이 아닌가</summary><div class="mbody">
+<p>k를 하나 늘릴 때, 기존 중심들을 그대로 두고 새 중심을 아무 점 위에 얹기만 해도 SSE는 최소한
+그대로다. 따라서 <b>최적 SSE는 k에 대해 단조 감소</b>한다. 극단으로 k = 333이면 점마다 중심이 하나씩
+— SSE = 0이지만 아무것도 요약하지 못한다. 그러므로 'SSE가 작은 k'는 답이 될 수 없고,
+<b>더 늘려도 별로 안 주는 지점</b>을 찾는다. 감소폭 779.3 → 181.9 → 76.9 — 이 감소폭의 급감이
+팔꿈치다. 어디까지가 '급감'인지는 수학이 정해 주지 않는 판단의 몫이라, k = 2와 k = 3 모두
+근거를 갖출 수 있다.</p>
+<pre class="code">sse = [KMeans(n_clusters=k, n_init=10, random_state=42)
+       .fit(X_scaled).inertia_ for k in range(1, 9)]
+<span class="cm"># [1332.0, 552.7, 370.8, 293.9, 228.5, …] — 이 페이지의 엘보우 그림이 이 목록이다</span></pre>
+</div></details></section>
 
 <!-- 03 ─────────────────────────────────────────────── -->
 <section class="step" id="s3">
@@ -356,7 +397,16 @@ footer{border-top:1px solid var(--rule); margin-top:40px; padding-top:16px; font
       </div>
     </div>
   </div>
-</section>
+<details class="more"><summary>더 알아보기 — 교차표 읽는 법 — 정확도가 아니라 구조</summary><div class="mbody">
+<p>군집에는 정답표가 없으므로 '몇 점'이 존재하지 않는다. 무리 번호는 임의라서(0번과 2번을 바꿔 불러도
+같은 결과) 대각선을 세는 정확도 계산은 애초에 무의미하다. 볼 것은 <b>한 무리에 한 종이 얼마나 순수하게
+모였는가</b>다: 젠투 119마리는 한 무리에 통째로(완벽 분리), 아델리 124 + 턱끈 5가 한 무리,
+아델리 22 + 턱끈 63이 한 무리 — 네 측정값만으로는 아델리와 턱끈의 경계가 흐리다는 것까지가
+컴퓨터가 찾아낸 구조다.</p>
+<pre class="code">import pandas as pd
+pd.crosstab(km.labels_, y)     <span class="cm"># 행 = 무리 번호, 열 = 실제 종</span>
+<span class="cm"># km.fit(X_scaled) 에 y 가 없었다 — 컴퓨터가 종 이름을 몰랐다는 증거는 코드에 있다</span></pre>
+</div></details></section>
 
 <!-- 04 ─────────────────────────────────────────────── -->
 <section class="step" id="s4">
@@ -382,7 +432,16 @@ footer{border-top:1px solid var(--rule); margin-top:40px; padding-top:16px; font
       </ol>
     </div>
   </div>
-</section>
+<details class="more"><summary>더 알아보기 — 중심을 원래 단위로 되돌리는 계산</summary><div class="mbody">
+<p>학습은 표준화된 눈금(z)에서 했으므로 중심 좌표도 z 단위다. 사람이 읽으려면 역변환
+<b>x = z·σ + μ</b> 로 되돌린다. 되돌린 무리 1의 중심은 부리 47.6mm · 지느러미 217.2mm ·
+몸무게 5092g — "지느러미 길고 무거운 무리"라는 서술이 되고, 여기에 '젠투'라는 이름을 붙이는 것은
+이 숫자를 읽은 사람이다. 이 중심이 젠투의 종별 평균과 소수점까지 같은 이유는 그 무리에 젠투만
+들어 있기 때문이다. 다른 종이 섞인 무리는 <b>중심이 어느 종의 평균과도 일치하지 않는다</b> —
+중심은 무리의 평균이지 종의 평균이 아니다.</p>
+<pre class="code">centers = sc.inverse_transform(km.cluster_centers_)  <span class="cm"># z → 원래 단위(mm, g)</span>
+<span class="cm"># 무리마다 (부리길이, 부리깊이, 지느러미, 몸무게) — 이름 붙이기 토의의 재료</span></pre>
+</div></details></section>
 
 <!-- 05 ─────────────────────────────────────────────── -->
 <section class="step" id="s5">
