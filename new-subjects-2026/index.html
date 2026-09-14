@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2022 개정 신설과목 × 수업 연결 지도 — 인공지능 수학 · 고급 대수 · 고급 기하 · 고급 미적분</title>
+<style>
+:root{--ink:#1b2430;--mute:#5b6675;--line:#dfe4ea;--bg:#f6f7f9;--card:#fff;--navy:#16325c;--blue:#2b5fd9;--soft:#eaf0ff;--amber:#b7791f;--amberbg:#fff6e0;--green:#2f7d4f;--greenbg:#e8f5ec;--red:#b23a3a;--redbg:#fdecec}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:"나눔고딕","NanumGothic","맑은 고딕","Malgun Gothic","Noto Sans KR",system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+a{color:var(--blue)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+header{background:linear-gradient(120deg,#0f2447,#1f4e9e);color:#fff;padding:34px 0 26px}
+header .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:3px 12px;font-size:13px;margin-bottom:12px}
+header h1{margin:0 0 8px;font-size:30px;line-height:1.25}
+header p{margin:0;opacity:.92}
+.hbtn{display:inline-block;margin:14px 8px 0 0;padding:9px 14px;border-radius:8px;background:#fff;color:var(--navy);font-weight:700;text-decoration:none;font-size:14px}
+.hbtn.o{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.6)}
+nav.tabs{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+nav.tabs .wrap{display:flex;gap:4px;overflow-x:auto}
+nav.tabs button{background:none;border:0;border-bottom:3px solid transparent;padding:14px 12px;font:inherit;font-size:14.5px;color:var(--mute);cursor:pointer;white-space:nowrap}
+nav.tabs button.on{color:var(--blue);border-bottom-color:var(--blue);font-weight:700}
+section.pane{display:none;padding:26px 0 60px}
+section.pane.on{display:block}
+h2{font-size:23px;margin:6px 0 14px}
+h3{font-size:17px;margin:22px 0 10px;color:var(--navy)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:0 0 16px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.kv b{display:block;color:var(--mute);font-size:12.5px;font-weight:700;letter-spacing:.02em}
+.note{background:var(--amberbg);border:1px solid #f1dfae;border-radius:10px;padding:12px 14px;font-size:14px}
+.ok{background:var(--greenbg);border:1px solid #bfe3c9;border-radius:10px;padding:12px 14px;font-size:14px}
+.gap{background:var(--redbg);border:1px dashed #e4a6a6;border-radius:10px;padding:10px 12px;font-size:13.5px}
+table{width:100%;border-collapse:collapse;background:#fff;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:8px 9px;vertical-align:top;text-align:left}
+th{background:#f0f3f8;font-weight:700;white-space:nowrap}
+td.area{font-weight:700;color:var(--navy);white-space:nowrap}
+.tbl{overflow-x:auto;margin:0 0 14px;border-radius:10px;border:1px solid var(--line)}
+.chip{display:inline-block;background:var(--soft);color:var(--navy);border-radius:6px;padding:2px 8px;font-size:12.5px;margin:2px 4px 2px 0;text-decoration:none;border:1px solid #cfdbff}
+.chip.ai{background:#eefaf1;color:#1f5f3a;border-color:#bfe3c9}
+.chip.new{background:#fff1f1;color:#8b2c2c;border-color:#e4a6a6}
+.chip:hover{filter:brightness(.96)}
+.mission{border-left:4px solid var(--blue);background:#f7f9ff;padding:10px 12px;border-radius:0 8px 8px 0;margin:8px 0;font-size:14px}
+.mission b{color:var(--blue)}
+.steps{counter-reset:s;padding:0;margin:0;list-style:none}
+.steps li{counter-increment:s;position:relative;padding:8px 0 8px 40px;border-bottom:1px dashed var(--line)}
+.steps li:before{content:counter(s);position:absolute;left:0;top:8px;width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;font-weight:700;text-align:center;line-height:28px;font-size:13px}
+.prompt{background:#111827;color:#e5e7eb;border-radius:10px;padding:12px 14px;font-size:13px;white-space:pre-wrap;font-family:"Consolas","D2Coding","나눔고딕",monospace;line-height:1.5}
+.prompt .r{color:#93c5fd;font-weight:700}
+.small{font-size:12.5px;color:var(--mute)}
+.timeline td:first-child{white-space:nowrap;font-weight:700;color:var(--navy)}
+.check label{display:block;padding:6px 0;border-bottom:1px dashed var(--line);cursor:pointer}
+.check input{margin-right:8px}
+.big{font-size:40px;font-weight:800;color:var(--navy);line-height:1}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--mute);font-size:13px}
+.base{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px}
+.base input{font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:6px;min-width:320px}
+@media print{nav.tabs,.hbtn,.base{display:none!important} section.pane{display:block!important;page-break-after:always}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="tag">전남광주통합특별시교육청광주교육연수원 · 「고등학교 신설과목의 이해 및 실제(수학)」 직무연수 · 2026. 10. 17.(토)</div>
+    <h1>2022 개정 신설과목 × 수업 연결 지도</h1>
+    <p>인공지능 수학 · 고급 대수 · 고급 기하 · 고급 미적분 — 내용 체계 한 줄마다 <b>바로 열리는 수업 자료</b>와 <b>3분 실습 미션</b>을 붙였습니다. 강사 하진수(대전대신고등학교)</p>
+    <a class="hbtn" href="https://hajinsu9951.github.io/AI_MATH/" target="_blank" rel="noopener">AI 수학 37차시 웹 열기</a>
+    <a class="hbtn" href="https://hajinsu9951.github.io/math-lab/" target="_blank" rel="noopener">일상 속 수학 실험실 356종 열기</a>
+    <a class="hbtn o" href="#" onclick="showTab('p5');return false;">실습·설계 도구</a>
+  </div>
+</header>
+
+<nav class="tabs"><div class="wrap">
+  <button class="on" data-p="p0" onclick="showTab('p0')">사용법</button>
+  <button data-p="p1" onclick="showTab('p1')">1차시 · 인공지능 수학</button>
+  <button data-p="p2" onclick="showTab('p2')">2차시 · 고급 대수</button>
+  <button data-p="p3" onclick="showTab('p3')">2차시 · 고급 기하</button>
+  <button data-p="p4" onclick="showTab('p4')">2차시 · 고급 미적분</button>
+  <button data-p="p5" onclick="showTab('p5')">실습·설계 도구</button>
+  <button data-p="p6" onclick="showTab('p6')">출처·안내</button>
+</div></nav>
+
+<!-- ───────── p0 사용법 ───────── -->
+<section class="pane on" id="p0"><div class="wrap">
+  <h2>이 페이지는 무엇인가</h2>
+  <div class="grid g3">
+    <div class="card"><div class="big">4</div><b>신설 과목</b><p class="small">인공지능 수학(진로 선택) · 고급 대수 · 고급 기하 · 고급 미적분(과학 계열 전문 교과)</p></div>
+    <div class="card"><div class="big">37 + 356</div><b>바로 열리는 자료</b><p class="small">AI 수학 37차시 웹 수업 · 일상 속 수학 실험실 356종. 성취기준 줄마다 링크가 붙어 있습니다.</p></div>
+    <div class="card"><div class="big">3분</div><b>실습 미션</b><p class="small">모든 줄에 「무엇을 만지고 → 무엇을 보고 → 무엇을 묻는가」가 적혀 있습니다. 연수장에서 그대로 합니다.</p></div>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0">링크 규칙 — 자료 하나를 곧장 가리킵니다</h3>
+    <ul>
+      <li><b>수학 실험실</b> — <code>…/math-lab/#lab=249</code> 처럼 <b>번호</b>를 붙이면 LAB 249 가 열린 채로 뜹니다. 탭까지 지정하려면 <code>#tab=p2</code>(바이브 코딩) · <code>#tab=p4</code>(수업·평가 설계).</li>
+      <li><b>AI 수학</b> — <code>…/AI_MATH/#sim</code> 처럼 <b>차시 이름</b>을 붙이면 그 차시로 바로 갑니다. 첫 로딩에 몇 초 걸립니다(37차시를 한 번에 읽어 옵니다).</li>
+      <li>연수장 와이파이가 불안하면 <b>실험실 파일(index.html) 을 미리 내려받아</b> 더블클릭으로 여세요. 아래 「링크 기준」에 그 파일 경로를 넣으면 이 페이지의 모든 실험실 링크가 그 파일을 가리킵니다.</li>
+    </ul>
+    <div class="base"><b>링크 기준</b> 실험실: <input id="baseLab" value="https://hajinsu9951.github.io/math-lab/"> AI 수학: <input id="baseAi" value="https://hajinsu9951.github.io/AI_MATH/"> <button onclick="rebase()">적용</button> <span class="small">(저장되지 않습니다 — 새로고침하면 원래대로)</span></div>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0">오늘 3시간의 구조 — 한 줄로</h3>
+    <div class="tbl"><table class="timeline">
+      <tr><th>시간</th><th>차시</th><th>무엇을 하는가</th><th>가지고 나가는 것</th></tr>
+      <tr><td>50분</td><td>1차시 · 인공지능 수학</td><td>5개 영역을 「성취기준 → 차시 웹 → 3분 미션」으로 훑고, 프로젝트형 평가와 세특까지 한 번에 봅니다.</td><td>단원 하나의 수업 설계표(표제부·STEP1~3) 초안</td></tr>
+      <tr><td>100분</td><td>2차시 · 고급 대수·기하·미적분</td><td>세 과목의 내용 체계를 실험실로 체험 → 하나를 개조 → 없는 실험실 하나를 생성형 AI로 만듭니다.</td><td>과목별 수업 연결표 + 내가 만든 실험실 1종(HTML) + 루브릭</td></tr>
+    </table></div>
+  </div>
+</div></section>
+
+<!-- ───────── p1 인공지능 수학 ───────── -->
+<section class="pane" id="p1"><div class="wrap">
+  <h2>1차시 · 「인공지능 수학」 교육과정 이해와 수업·평가의 실제</h2>
+  <div class="grid g4">
+    <div class="card kv"><b>과목 성격</b>진로 선택 과목. 인공지능의 원리를 <b>수학의 언어</b>로 이해하고 실생활 문제 해결에 활용</div>
+    <div class="card kv"><b>선이수</b>공통수학1·2 필수, 원활한 수업을 위해 대수·미적분Ⅰ 선이수 권장</div>
+    <div class="card kv"><b>내용 영역 5</b>인공지능과 빅데이터 · 텍스트 데이터 처리 · 이미지 데이터 처리 · 예측과 최적화 · 인공지능과 수학 탐구</div>
+    <div class="card kv"><b>2015 대비</b>4영역(인공지능과 수학·자료의 표현·분류와 예측·최적화) → 5영역. 텍스트·이미지가 <b>데이터 유형별</b>로 분리되고 탐구 영역 신설</div>
+  </div>
+
+  <h3>영역별 수업 연결표 — 성취기준 한 줄에 자료 하나, 미션 하나</h3>
+  <div class="tbl"><table id="t-ai">
+    <tr><th>영역</th><th>내용 요소(지식·이해)</th><th>성취기준 요지</th><th>AI 수학 차시</th><th>수학 실험실</th><th>3분 미션 · 발문</th><th>평가 포인트</th></tr>
+    <tr><td class="area">Ⅰ 인공지능과 빅데이터</td><td>인공지능의 개념과 역사 · 인공지능에서 수학의 활용 · 빅데이터의 개념과 활용</td><td>[12인수01-01~03] 인공지능의 발전 과정과 수학의 역할, 빅데이터의 특성과 활용을 사례로 설명</td>
+      <td><a class="chip ai" data-ai="intro">1차시 개념과 역사</a><a class="chip ai" data-ai="mlplay">2차시 학습 방식</a><a class="chip ai" data-ai="perceptron">4차시 퍼셉트론</a><a class="chip ai" data-ai="bias">5차시 편향</a><a class="chip ai" data-ai="dataeth">6차시 데이터·윤리</a></td>
+      <td><a class="chip" data-lab="355">LAB 355 혼동행렬</a><a class="chip" data-lab="2">LAB 02 베이즈 분류기</a></td>
+      <td><div class="mission"><b>5차시 편향</b> — 데이터 구성을 바꿔 「정확도 95%의 함정」을 직접 만든다. <br>발문: "정확도가 높은데 왜 쓸모없는 모델이 되었나?"</div></td>
+      <td>혼동행렬 4칸을 학교 데이터로 채우고 정확도·재현율을 말로 해석</td></tr>
+    <tr><td class="area">Ⅱ 텍스트 데이터 처리</td><td>텍스트 데이터의 표현 · 텍스트 데이터의 분석</td><td>[12인수02-01~03] 텍스트를 집합·벡터로 표현하고, 벡터 연산과 유사도로 문서를 비교·분석</td>
+      <td><a class="chip ai" data-ai="text">7·8차시 집합·벡터</a><a class="chip ai" data-ai="tfidf">9차시 TF-IDF</a><a class="chip ai" data-ai="vecop">10차시 벡터 연산</a><a class="chip ai" data-ai="sim">11차시 유사도</a><a class="chip ai" data-ai="review">13차시 리뷰 프로젝트</a></td>
+      <td><a class="chip" data-lab="18">LAB 18 코사인 유사도</a><a class="chip" data-lab="189">LAB 189 원-핫·빈도수</a></td>
+      <td><div class="mission"><b>11차시 유사도</b> — 같은 데이터에서 거리 1위와 방향 1위가 <b>뒤집히는</b> 순간을 만든다.<br>발문: "왜 유튜브는 거리가 아니라 각을 잴까?"</div></td>
+      <td>내적 공식 a·b=|a||b|cosθ 를 추천 근거 문장으로 번역</td></tr>
+    <tr><td class="area">Ⅲ 이미지 데이터 처리</td><td>이미지 데이터의 표현 · 이미지 데이터의 분석</td><td>[12인수03-01~03] 이미지를 행렬로 표현하고, 행렬 연산으로 변환·분류 원리를 설명</td>
+      <td><a class="chip ai" data-ai="imgop">14차시 이미지=행렬</a><a class="chip ai" data-ai="transpose">16차시 전치</a><a class="chip ai" data-ai="matmul">17차시 행렬의 곱</a><a class="chip ai" data-ai="imgcls">18차시 손글씨 분류</a><a class="chip ai" data-ai="cnn">20차시 CNN 종합</a></td>
+      <td><a class="chip" data-lab="19">LAB 19 합성곱 필터</a><a class="chip" data-lab="100">LAB 100 행렬과 변환</a></td>
+      <td><div class="mission"><b>17차시 행렬의 곱</b> — 0·1 행렬 하나로 사진을 한 칸 옮기고 좌우로 뒤집는다. 어느 쪽에 곱하느냐를 표로 발견.<br>발문: "AB 와 BA 가 다른 사진을 만든 이유는?"</div></td>
+      <td>3×3 커널 하나가 「특징 추출」임을 손계산(9칸 곱의 합)으로 확인</td></tr>
+    <tr><td class="area">Ⅳ 예측과 최적화</td><td>데이터에 기반한 예측 · 최적화</td><td>[12인수04-01~04] 확률·추세선으로 예측하고, 손실함수를 정의해 경사하강법으로 최적화</td>
+      <td><a class="chip ai" data-ai="prob">21·22차시 확률·스팸</a><a class="chip ai" data-ai="trend">23·24차시 추세선</a><a class="chip ai" data-ai="optim">25·27·28차시 손실·미분·경사하강</a><a class="chip ai" data-ai="gdsheet">29차시 아이스티 예측</a></td>
+      <td><a class="chip" data-lab="16">LAB 16 경사하강법</a><a class="chip" data-lab="15">LAB 15 최소제곱</a><a class="chip" data-lab="353">LAB 353 정규방정식</a></td>
+      <td><div class="mission"><b>28차시 경사하강법</b> — 학습률을 올려 <b>발산</b>시키고, 수렴 조건을 한 문장으로 쓴다.<br>발문: "미분계수의 부호가 왜 '갈 방향'이 되는가?"</div></td>
+      <td>L(a) 를 이차함수로 세우고 최솟값을 손으로 구한 값과 스프레드시트 값 일치 확인</td></tr>
+    <tr><td class="area">Ⅴ 인공지능과 수학 탐구</td><td>합리적 의사 결정 · 인공지능과 수학 탐구</td><td>[12인수05-01~02] 인공지능을 활용한 의사 결정 사례를 분석하고 수학 탐구를 수행·공유</td>
+      <td><a class="chip ai" data-ai="inquiry">31차시 탐구의 다섯 걸음</a><a class="chip ai" data-ai="decision">32차시 의사 결정</a><a class="chip ai" data-ai="datalab">33차시 데이터·모델링</a><a class="chip ai" data-ai="project">34차시 100초 발표</a></td>
+      <td><a class="chip" data-lab="3">LAB 03 확산 시뮬레이터</a><a class="chip" data-lab="15">LAB 15 회귀</a></td>
+      <td><div class="mission"><b>34차시 프로젝트</b> — 「우리 동네 문제 해결 AI 모델」 발표 루브릭을 읽고, 내 학교 주제 하나를 적는다.<br>발문: "데이터 출처·가공을 어디까지 밝혀야 공정한가?"</div></td>
+      <td>주제·데이터·수학 원리·검증·한계 5요소 보고서 + 100초 발표 + 동료평가</td></tr>
+    <tr><td class="area">Ⅵ 생성형 AI (선택 심화)</td><td colspan="2">평가 제외 심화 — 언어를 벡터로, 잡음에서 그림으로, 확률 기계의 한계(환각·저작권·편향)</td>
+      <td><a class="chip ai" data-ai="genvec">35차시</a><a class="chip ai" data-ai="genimg">36차시</a><a class="chip ai" data-ai="genethics">37차시</a></td><td>—</td>
+      <td><div class="mission">교실 규칙 만들기 — 생성형 AI 로 과제를 할 때 <b>밝혀야 할 것 3가지</b></div></td><td>윤리 점검표(수행 태도)</td></tr>
+  </table></div>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3 style="margin-top:0">한 차시의 뼈대 — AI 수학 37차시가 모두 따르는 틀</h3>
+      <ol class="steps">
+        <li><b>표제부</b> — 학습 목표(성취기준 코드 연계) · 핵심 개념 · 핵심 질문</li>
+        <li><b>STEP 1 도입</b> — 디딤 영상 슬롯 + 마중 퀴즈(2~3문항)</li>
+        <li><b>STEP 2 전개</b> — 탐구 활동 2~4개. 관찰 → 단계별 토글로 정리 → 정의 확인. 정답은 시도 후 공개</li>
+        <li><b>STEP 3 정리</b> — 핵심 질문에 답하기 + 형성평가 + 다음 차시 예고 · 학습지 인쇄/저장</li>
+      </ol>
+      <p class="small">교사가 할 일은 「디딤 영상 URL 연결」과 「발문 고르기」뿐입니다. 손계산 장면(작은 표·작은 행렬)을 반드시 남기세요 — 자료만 만지면 수학이 남지 않습니다.</p>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">평가 — 프로젝트형 수행평가 사례</h3>
+      <p><b>「디지털 코딩 도구를 활용한 우리 동네 문제 해결 AI 모델 형성 및 분석」</b> (대전대신고 3학년, 80팀 출품·70팀 시상)</p>
+      <div class="tbl"><table>
+        <tr><th>루브릭 요소</th><th>상</th><th>하</th></tr>
+        <tr><td>데이터 출처·가공</td><td>출처·전처리 과정을 재현 가능하게 기록</td><td>출처 불명, 가공 과정 없음</td></tr>
+        <tr><td>수학 원리의 자기주도 탐구</td><td>모델의 대수식(손실·가중치·유사도)을 손계산 예로 설명</td><td>도구 출력만 나열</td></tr>
+        <tr><td>모델 검증</td><td>분리 검증·혼동행렬·RMSE 등 수치로 한계 제시</td><td>검증 없음</td></tr>
+        <tr><td>공유·윤리</td><td>편향·개인정보 점검, 100초 발표·동료평가 참여</td><td>점검 없음</td></tr>
+      </table></div>
+      <p class="small">세특 문장 구조: <b>맥락(문제) → 수학 원리(식) → 도구·검증 → 한계·확장</b>. 네 칸이 다 있으면 문장이 저절로 나옵니다.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- ───────── p2 고급 대수 ───────── -->
+<section class="pane" id="p2"><div class="wrap">
+  <h2>2차시 · 「고급 대수」 — 벡터공간 · 행렬과 선형변환 · 행렬의 대각화</h2>
+  <div class="grid g4">
+    <div class="card kv"><b>과목 성격</b>과학 계열 전문 교과(진로 선택). 2015 「고급 수학Ⅰ」의 벡터·행렬·일차변환을 <b>선형대수</b>로 재편</div>
+    <div class="card kv"><b>선이수</b>공통수학1·2, 원활한 수업을 위해 「기하」 선이수 권장</div>
+    <div class="card kv"><b>핵심 아이디어</b>n차원 벡터공간은 n개의 기저로 설명되며, 선형성을 보존하는 변환은 행렬로 표시되고, 대각화는 행렬의 성질을 파악하는 도구</div>
+    <div class="card kv"><b>AI 와의 연결</b>완전연결층 = 행렬의 곱(AI 수학 19차시) · 주성분분석 = 공분산행렬의 고유벡터 · 페이지랭크 = 고윳값 1 의 고유벡터</div>
+  </div>
+
+  <h3>내용 체계 × 실험실 연결표</h3>
+  <div class="tbl"><table>
+    <tr><th>영역</th><th>내용 요소</th><th>성취기준 요지</th><th>수학 실험실</th><th>3분 미션 · 발문</th><th>수업 장면 · 평가</th></tr>
+    <tr><td class="area">벡터공간</td><td>벡터공간</td><td>벡터공간의 뜻과 성질, 부분공간의 뜻과 성질을 탐구 (평면·공간벡터를 벡터공간으로 일반화)</td>
+      <td><a class="chip" data-lab="253">LAB 253 생성</a><a class="chip" data-lab="254">LAB 254 부분공간 판정</a><a class="chip" data-lab="255">LAB 255 일차독립과 차원</a></td>
+      <td><div class="mission"><b>LAB 253</b> — 두 화살표를 나란히 만들어 평면이 <b>직선으로 무너지는</b> 순간을 만든다.<br>발문: "벡터를 하나 더 넣으면 차원이 늘어나나?"</div></td>
+      <td>span·일차독립을 「만들 수 있는 방향의 개수」로 학생 말로 정의하기</td></tr>
+    <tr><td class="area"></td><td>벡터의 내적과 정사영</td><td>정규직교기저를 이해하고 그람-슈미트 직교화로 구하기</td>
+      <td><a class="chip" data-lab="259">LAB 259 그람-슈미트</a><a class="chip" data-lab="165">LAB 165 정사영의 길이</a><a class="chip" data-lab="260">LAB 260 최소제곱과 직각</a></td>
+      <td><div class="mission"><b>LAB 259</b> — 두 번째 벡터에서 (v·u)/(u·u)u 만큼 덜어 낸 뒤 내적이 0 이 되는지 손으로 확인.<br>발문: "왜 '딱 그만큼'만 빼야 직각이 되나?"</div></td>
+      <td>2차원 손계산 → 3차원은 스프레드시트로 확장(과정 평가)</td></tr>
+    <tr><td class="area">행렬과 선형변환</td><td>행렬과 연립일차방정식</td><td>행렬이 연립일차방정식을 푸는 도구임을 알고 해의 존재·개수를 판정</td>
+      <td><a class="chip" data-lab="247">LAB 247 역행렬과 해의 개수</a><a class="chip" data-lab="252">LAB 252 가우스 소거법</a><a class="chip" data-lab="248">LAB 248 행렬식의 뜻</a></td>
+      <td><div class="mission"><b>LAB 252</b> — 피벗이 0 인 순간을 만들어 행 교환이 왜 필수인지 본다.<br>발문: "컴퓨터는 어떤 순서로 연립방정식을 풀까?"</div></td>
+      <td>ad−bc=0 일 때 두 직선의 위치 관계를 그림과 식으로 함께 서술</td></tr>
+    <tr><td class="area"></td><td>행렬과 선형변환</td><td>선형변환을 행렬과 연결하고, 대칭·닮음·회전변환과 행렬의 관계를 설명</td>
+      <td><a class="chip" data-lab="100">LAB 100 행렬과 변환</a><a class="chip" data-lab="257">LAB 257 선형변환과 합성</a><a class="chip" data-lab="101">LAB 101 곱의 비가환</a><a class="chip" data-lab="94">LAB 94 복소평면 회전</a></td>
+      <td><div class="mission"><b>LAB 100</b> — 기저 화살표 두 개를 끌어 90° 회전행렬을 만들어 유령 도형에 겹친다. det=0 의 붕괴까지.<br>발문: "열이 곧 기저의 목적지란 무슨 뜻인가?"</div></td>
+      <td>회전→확대와 확대→회전을 행렬곱 두 개로 계산해 AB≠BA 서술</td></tr>
+    <tr><td class="area">행렬의 대각화</td><td>행렬의 대각화</td><td>고윳값·고유벡터를 구하고 행렬을 대각화</td>
+      <td><a class="chip" data-lab="249">LAB 249 고유벡터와 고윳값</a></td>
+      <td><div class="mission"><b>LAB 249</b> — 방향을 돌리며 「휘지 않는 화살표」 두 개를 찾고, λ²−5λ+5=0 을 손으로 풀어 화면의 배율과 견준다.<br>발문: "변환이 붙잡아 두는 방향은 몇 개인가?"</div></td>
+      <td>특성방정식 풀이(손) ↔ 화면 배율(도구) 일치 확인을 보고서 표로</td></tr>
+    <tr><td class="area"></td><td>대각화의 활용</td><td>대각화를 활용해 여러 문제 해결 (피보나치 수열, 간단한 마르코프 체인)</td>
+      <td><a class="chip" data-lab="251">LAB 251 피보나치의 행렬</a><a class="chip" data-lab="258">LAB 258 마르코프 정상상태</a><a class="chip" data-lab="261">LAB 261 주성분과 차원 축소</a></td>
+      <td><div class="mission"><b>LAB 258</b> — 출발 분포를 바꿔도 같은 곳으로 모이는 것을 보고, π=Pπ 를 고윳값 1 의 고유벡터로 다시 읽는다.<br>발문: "오래 지나면 출발점은 잊히는가?"</div></td>
+      <td>Aⁿ 을 대각화로 계산하는 과제 → LAB 261 로 AI(PCA)까지 확장 탐구</td></tr>
+  </table></div>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3 style="margin-top:0">실습 사다리 (20분) — 체험 → 개조 → 생성</h3>
+      <ol class="steps">
+        <li><b>체험 5분</b> — LAB 100 을 학생처럼 조작. 미션 카드의 발문 두 개에 답을 적는다.</li>
+        <li><b>개조 8분</b> — LAB 249 의 「잠긴 원리」를 열기 전에 특성방정식을 손으로 푼다. 값이 맞으면 화면이 열린다.</li>
+        <li><b>생성 7분</b> — 없는 실험실을 만든다: 「대각화로 Aⁿ 을 한 번에 계산하는 실험실」. 아래 프롬프트 카드 ①로 시작(탭② 바이브 코딩).</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">50분 지도안 견본 — 「오래 지나면 어디에」 (대각화의 활용)</h3>
+      <div class="tbl"><table class="timeline">
+        <tr><td>도입 8'</td><td>페이지랭크·고객 이동 사례. "출발점이 결과를 정할까?" 예상 먼저 쓰기</td></tr>
+        <tr><td>전개1 15'</td><td>LAB 258 조작 — 전이행렬 거듭제곱, 출발 분포 3종에서 같은 극한 관찰, 기록표</td></tr>
+        <tr><td>전개2 15'</td><td><b>손계산</b> 2×2 전이행렬의 고윳값 1 고유벡터 → π 계산 → 화면값과 일치 확인</td></tr>
+        <tr><td>정리 12'</td><td>"왜 고윳값 1 인가"를 Pπ=π 로 설명 · 형성평가 2문항 · 세특 문장 한 줄 쓰기</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ───────── p3 고급 기하 ───────── -->
+<section class="pane" id="p3"><div class="wrap">
+  <h2>2차시 · 「고급 기하」 — 작도와 평면기하 · 곡선의 성질 · 곡면의 성질</h2>
+  <div class="grid g4">
+    <div class="card kv"><b>과목 성격</b>과학 계열 전문 교과. 유클리드 평면기하의 증명과 <b>미분기하</b>(곡률·곡면)를 잇는 과목</div>
+    <div class="card kv"><b>선이수</b>공통수학1·2, 대수, 미적분Ⅰ·Ⅱ, 기하</div>
+    <div class="card kv"><b>핵심 아이디어</b>작도 가능성은 대수적으로 설명되고, 곡선은 매개변수로 미적분을 써서 탐구하며, 곡면은 공간좌표로 대수적으로 표현</div>
+    <div class="card kv"><b>도구</b>GeoGebra(작도·3D) · 실험실(자취·항법·회전면) · 없는 것은 오늘 만든다(바이브 코딩)</div>
+  </div>
+
+  <h3>내용 체계 × 실험실 연결표</h3>
+  <div class="tbl"><table>
+    <tr><th>영역</th><th>내용 요소</th><th>성취기준 요지</th><th>수학 실험실</th><th>3분 미션 · 발문</th><th>수업 장면 · 평가</th></tr>
+    <tr><td class="area">작도와 평면기하</td><td>작도</td><td>자와 컴퍼스 작도, 작도 가능성의 대수적 설명(각의 3등분 등)</td>
+      <td><a class="chip" data-lab="66">LAB 66 각의 이등분선 작도</a><a class="chip" data-lab="104">LAB 104 종이접기 3등분</a><a class="chip" data-lab="31">LAB 31 삼각형의 합동·작도</a></td>
+      <td><div class="mission"><b>LAB 104</b> — 자·컴퍼스로 안 되는 3등분을 접기로 해 본다.<br>발문: "안 되는 것을 안 된다고 어떻게 증명하나?"(체의 확장 맛보기)</div></td>
+      <td>작도 절차를 「왜 그 점이 그 점인가」 근거와 함께 서술</td></tr>
+    <tr><td class="area"></td><td>평면기하</td><td>평면도형의 성질에 대한 정리를 논리적으로 증명 (사영·복비 등 확장 가능)</td>
+      <td><a class="chip" data-lab="335">LAB 335 소실점과 무한원점</a><a class="chip" data-lab="285">LAB 285 복비</a><a class="chip" data-lab="237">LAB 237 대칭과 문양</a></td>
+      <td><div class="mission"><b>LAB 335</b> — 선의 위치가 아니라 <b>방향</b>이 소실점을 정함을 확인.<br>발문: "평행선이 만나 보이는데 정말 만나는가?"</div></td>
+      <td>증명 과제(체바·메넬라오스 등)를 GeoGebra 로 실험한 뒤 증명 쓰기</td></tr>
+    <tr><td class="area">곡선의 성질</td><td>자취</td><td>조건을 만족하는 점의 자취를 구하고 매개변수 방정식으로 표현(사이클로이드 등)</td>
+      <td><a class="chip" data-lab="170">LAB 170 원뿔곡선의 통일</a><a class="chip" data-lab="157">LAB 157 포물선의 초점</a><a class="chip" data-lab="158">LAB 158 타원</a><a class="chip" data-lab="160">LAB 160 쌍곡선 항법</a><a class="chip" data-lab="161">LAB 161 접선의 조건</a></td>
+      <td><div class="mission"><b>LAB 170</b> — 원뿔을 자르는 각만 바꿔 원→타원→포물선→쌍곡선을 차례로 만들고 이심률 경계를 적는다.<br>발문: "세 곡선은 다른 도형인가, 같은 도형의 다른 얼굴인가?"</div></td>
+      <td><span class="gap">빈칸: 사이클로이드 실험실 — 프롬프트 카드 ②로 오늘 제작</span></td></tr>
+    <tr><td class="area"></td><td>정칙곡선과 곡률</td><td>좌표공간의 곡선을 매개변수로 표현하고 곡률·곡률반경을 구함</td>
+      <td><a class="chip" data-lab="180">LAB 180 음함수·매개변수 미분</a><a class="chip" data-lab="184">LAB 184 속도·가속도 벡터</a></td>
+      <td><div class="mission"><b>LAB 184</b> — 속력이 일정한데 가속도가 있는 원운동을 보고, 가속도 벡터의 방향을 말로 쓴다.<br>발문: "가속도 크기가 곡률과 어떻게 이어질까?"</div></td>
+      <td><span class="gap">빈칸: 곡률원 실험실(κ=|x'y''−y'x''|/(x'²+y'²)^{3/2}) — 프롬프트 카드 ②</span></td></tr>
+    <tr><td class="area">곡면의 성질</td><td>이차곡면</td><td>이차곡면(타원면·일엽/이엽 쌍곡면·이차뿔면)의 식과 그래프를 연결</td>
+      <td><a class="chip" data-lab="289">LAB 289 회전면 만들기</a><a class="chip" data-lab="286">LAB 286 평면의 방정식</a><a class="chip" data-lab="287">LAB 287 두 평면이 이루는 각</a></td>
+      <td><div class="mission"><b>LAB 289</b> — 같은 곡선을 다른 축으로 돌려 전혀 다른 입체를 만든다. y²+z²=f(x)² 를 손으로 쓴다.<br>발문: "쌍곡선을 어느 축으로 돌리면 일엽, 어느 축이면 이엽인가?"</div></td>
+      <td>GeoGebra 3D 로 단면(z=k) 을 잘라 이차곡선 계열 확인 → 보고서</td></tr>
+    <tr><td class="area"></td><td>구면기하</td><td>구면코사인법칙·구면사인법칙을 이해하고 활용</td>
+      <td><span class="chip new">실험실 없음</span></td>
+      <td><div class="mission"><b>만들기</b> — 「지구 위 두 도시의 최단 거리」 실험실: 위도·경도 입력 → 대원 거리 → 구면코사인법칙 확인.<br>발문: "평면 삼각형의 내각의 합이 구면에서는 왜 180° 를 넘나?"</div></td>
+      <td><span class="gap">빈칸: 구면삼각형 실험실 — 프롬프트 카드 ③</span></td></tr>
+  </table></div>
+
+  <div class="card">
+    <h3 style="margin-top:0">실습 사다리 (20분) — 고급 기하는 「빈칸」이 셋, 그래서 생성 실습에 가장 좋은 과목</h3>
+    <ol class="steps">
+      <li><b>체험 5분</b> — LAB 170 조작. 이심률 경계값(e&lt;1, =1, &gt;1)을 기록표에 쓴다.</li>
+      <li><b>개조 5분</b> — LAB 160 쌍곡선 항법에서 마이크를 셋으로 늘려 「한 점으로 좁혀지는」 장면을 만든다(GPS 와 연결).</li>
+      <li><b>생성 10분</b> — 프롬프트 카드 ② 「사이클로이드·곡률원 실험실」 7라운드 중 1~4라운드까지. 4라운드의 결함을 <b>증상으로 말해</b> 고친다.</li>
+    </ol>
+  </div>
+</div></section>
+
+<!-- ───────── p4 고급 미적분 ───────── -->
+<section class="pane" id="p4"><div class="wrap">
+  <h2>2차시 · 「고급 미적분」 — 미적분의 활용 · 극좌표와 극곡선 · 급수 · 미분방정식</h2>
+  <div class="grid g4">
+    <div class="card kv"><b>과목 성격</b>과학 계열 전문 교과. 2015 「고급 수학Ⅱ」(미적분의 활용·급수·모델링)를 <b>대학 미적분학</b> 수준으로 재편</div>
+    <div class="card kv"><b>선이수</b>공통수학1·2, 대수, 미적분Ⅰ·Ⅱ</div>
+    <div class="card kv"><b>핵심 아이디어</b>이상적분·극좌표·급수 판정법·테일러급수·미분방정식 모델은 자연·사회 현상을 해석하는 도구</div>
+    <div class="card kv"><b>AI 와의 연결</b>경사하강법 점화식 ↔ 미분방정식 · 테일러 전개 ↔ 함수 근사 · 급수 수렴 ↔ 반복 알고리즘의 종료</div>
+  </div>
+
+  <h3>내용 체계 × 실험실 연결표</h3>
+  <div class="tbl"><table>
+    <tr><th>영역</th><th>내용 요소</th><th>성취기준 요지</th><th>수학 실험실</th><th>3분 미션 · 발문</th><th>수업 장면 · 평가</th></tr>
+    <tr><td class="area">미적분의 활용</td><td>미분의 활용</td><td>쌍곡선함수·역쌍곡선함수의 도함수, 매개변수·음함수 미분의 활용</td>
+      <td><a class="chip" data-lab="239">LAB 239 현수선과 포물선</a><a class="chip" data-lab="180">LAB 180 음함수·매개변수 미분</a><a class="chip" data-lab="184">LAB 184 속도·가속도</a></td>
+      <td><div class="mission"><b>LAB 239</b> — 늘어진 줄이 포물선인지 현수선(cosh)인지 눈으로 구분하고 급수 전개로 차이를 본다.<br>발문: "2차항까지는 같은데 왜 갈라지나?"</div></td>
+      <td>cosh·sinh 의 도함수를 정의(e^x 조합)로 유도하는 손계산</td></tr>
+    <tr><td class="area"></td><td>적분의 활용</td><td>이상적분을 이해하고 구함, 쌍곡선함수의 부정적분, 넓이·부피의 활용</td>
+      <td><a class="chip" data-lab="141">LAB 141 회전체와 원판</a><a class="chip" data-lab="263">LAB 263 p-급수와 적분판정</a></td>
+      <td><div class="mission"><b>LAB 263</b> — ∫1/xᵖ 의 넓이가 유한한지 p 를 움직이며 본다(이상적분의 수렴).<br>발문: "끝없이 뻗는 영역의 넓이가 유한할 수 있나?"</div></td>
+      <td>이상적분 = 극한으로 정의하기(교과서 표기 그대로 쓰기)</td></tr>
+    <tr><td class="area">극좌표와 극곡선</td><td>극좌표</td><td>극좌표를 이해하고 직교좌표와의 관계를 설명</td>
+      <td><a class="chip" data-lab="273">LAB 273 극좌표와 야코비안</a><a class="chip" data-lab="316">LAB 316 오일러 공식</a><a class="chip" data-lab="317">LAB 317 복소함수 z²</a></td>
+      <td><div class="mission"><b>LAB 273</b> — 작은 조각의 넓이가 r·dr·dθ 인 이유를 바깥쪽 조각이 커지는 그림으로 확인.<br>발문: "좌표를 바꾸면 넓이도 바뀌는가?"</div></td>
+      <td>점 (r,θ)↔(x,y) 변환표 + 같은 곡선의 두 식 비교</td></tr>
+    <tr><td class="area"></td><td>극곡선</td><td>극곡선의 접선, 길이, 극곡선으로 둘러싸인 영역의 넓이</td>
+      <td><span class="chip new">실험실 없음</span></td>
+      <td><div class="mission"><b>만들기</b> — 「r=1+cosθ 심장형 그리기」 실험실: θ 슬라이더로 점이 찍히고 부채꼴 조각 넓이 ½r²dθ 가 쌓이는 화면.<br>발문: "왜 넓이가 ½∫r²dθ 인가?"</div></td>
+      <td><span class="gap">빈칸: 극곡선 실험실 — 프롬프트 카드 ④</span></td></tr>
+    <tr><td class="area">급수</td><td>급수의 수렴과 발산</td><td>단조수렴정리, 여러 판정법, 절대수렴·조건수렴, 교대급수판정법</td>
+      <td><a class="chip" data-lab="22">LAB 22 급수의 부분합</a><a class="chip" data-lab="102">LAB 102 카드 쌓기와 조화급수</a><a class="chip" data-lab="263">LAB 263 p-급수</a></td>
+      <td><div class="mission"><b>LAB 102</b> — 카드 4장으로 맨 위 카드를 책상 밖 허공에 띄운다. ½Hₙ 이 왜 무한히 커지는지 적는다.<br>발문: "항이 0 으로 가는데 왜 합은 무한한가?"</div></td>
+      <td>수렴 필요조건 vs 충분조건을 반례(조화급수)로 서술</td></tr>
+    <tr><td class="area"></td><td>멱급수와 테일러급수</td><td>멱급수와 수렴반경, 테일러다항식·테일러급수, 근삿값(sin 20° 등)과 극한 계산</td>
+      <td><a class="chip" data-lab="23">LAB 23 테일러 근사</a><a class="chip" data-lab="264">LAB 264 수렴반경</a><a class="chip" data-lab="316">LAB 316 오일러 공식</a></td>
+      <td><div class="mission"><b>LAB 23</b> — 3차·5차 테일러다항식으로 sin 20° 를 손으로 구하고 계산기 값과 오차를 잰다. ln(1+x) 로 바꿔 수렴반경 밖에서 무너지는 것을 본다.<br>발문: "항을 늘리면 늘 좋아지는가?"</div></td>
+      <td>오차의 상한(나머지항)을 어림하는 과정 평가</td></tr>
+    <tr><td class="area">미분방정식</td><td>미분방정식</td><td>미분방정식의 뜻, 방향장으로 해 표현, 변수분리형·선형 미분방정식의 해</td>
+      <td><a class="chip" data-lab="186">LAB 186 미분방정식 맛보기(기울기장)</a><a class="chip" data-lab="16">LAB 16 경사하강법</a></td>
+      <td><div class="mission"><b>LAB 186</b> — 같은 규칙에서 출발점만 바꿔 다른 곡선을 얻는다. 초기조건이 무엇을 정하는지 쓴다.<br>발문: "규칙 하나로 미래가 정해지나?"</div></td>
+      <td>y'=ky 를 변수분리로 풀고 방향장 위에 해 곡선을 겹쳐 확인</td></tr>
+    <tr><td class="area"></td><td>미분방정식의 활용</td><td>인구·감염·냉각 등 현상을 미분방정식으로 모델링하고 해석</td>
+      <td><a class="chip" data-lab="3">LAB 03 확산 시뮬레이터(지수·로지스틱)</a><a class="chip" data-lab="11">LAB 11 복리와 72의 법칙</a></td>
+      <td><div class="mission"><b>LAB 03</b> — 지수 모형이 무너지고 로지스틱이 맞는 지점을 데이터로 찾는다.<br>발문: "왜 성장에는 상한이 있고, 식에는 (1−y/K) 가 붙나?"</div></td>
+      <td>모델 선택 근거 + 매개변수 추정 + 예측 오차 보고서(탐구 평가)</td></tr>
+  </table></div>
+
+  <div class="card">
+    <h3 style="margin-top:0">실습 사다리 (20분)</h3>
+    <ol class="steps">
+      <li><b>체험 6분</b> — LAB 23: sin 20° 를 5차 테일러다항식으로 손계산(20°=π/9 ≈ 0.349) → 화면값·계산기값과 비교.</li>
+      <li><b>개조 6분</b> — LAB 264: 수렴반경 밖에서 항을 늘릴수록 나빠지는 장면을 만들고, 「근사의 유효 범위」를 한 문장으로.</li>
+      <li><b>생성 8분</b> — 프롬프트 카드 ④ 「극곡선 실험실」 1~4라운드.</li>
+    </ol>
+  </div>
+</div></section>
+
+<!-- ───────── p5 실습·설계 도구 ───────── -->
+<section class="pane" id="p5"><div class="wrap">
+  <h2>실습·설계 도구 — 오늘 손에 쥐고 나가는 것</h2>
+
+  <h3>2차시 100분 운영표</h3>
+  <div class="tbl"><table class="timeline">
+    <tr><th>시간</th><th>내용</th><th>방법</th></tr>
+    <tr><td>0–15'</td><td>전문 교과 신설 과목의 위상 · 편성 방식 · 선이수 위계(표) · 세 과목 내용 체계 한눈에</td><td>강의</td></tr>
+    <tr><td>15–35'</td><td>고급 대수 — 연결표 읽기 → 실습 사다리(LAB 100 → 249 → 생성 Aⁿ)</td><td>실습·사례</td></tr>
+    <tr><td>35–55'</td><td>고급 기하 — 연결표 읽기 → 실습 사다리(LAB 170 → 160 → 생성 곡률원)</td><td>실습·사례</td></tr>
+    <tr><td>55–60'</td><td>휴식</td><td></td></tr>
+    <tr><td>60–80'</td><td>고급 미적분 — 연결표 읽기 → 실습 사다리(LAB 23 → 264 → 생성 극곡선)</td><td>실습·사례</td></tr>
+    <tr><td>80–95'</td><td>교수·학습 자료 개발 실습 마무리 — 내 실험실 7라운드 완주 · 지도안 6칸 · 루브릭 4요소</td><td>실습·토의</td></tr>
+    <tr><td>95–100'</td><td>학교 편성 시 유의점 · 질의응답 · 모음집(탭⑤)에 결과물 올리기</td><td>토의</td></tr>
+  </table></div>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3 style="margin-top:0">바이브 코딩 7라운드 — 한 라운드에 한 가지만</h3>
+      <ol class="steps">
+        <li>뼈대 만들기 — HTML 한 파일 · 외부 라이브러리 금지 · 지금 할 것만</li>
+        <li>수학 원리 심기 — 식을 교과서 표기 그대로 지정</li>
+        <li>학생이 만질 것 — 무엇을 만지면 무엇이 바뀌는지 명시</li>
+        <li>눈에 보이게 — 그리고 <b>반드시 눌러 본다</b></li>
+        <li><b>잘못된 곳 고치기 ★</b> — 증상을 화면 기준으로 말한다("각도를 90으로 놓았는데 도형이 사라진다")</li>
+        <li>활동·피드백 붙이기 — 판정 기준을 숫자로</li>
+        <li>교실에 내보내기 — 모바일 · 안내문 3줄 · 학습 목표</li>
+      </ol>
+      <p class="small">실험실 탭② 「바이브 코딩 실습」은 인터넷 없이도 7라운드를 시뮬레이션합니다. 실제 생성형 AI 계정이 있으면 같은 프롬프트를 그대로 쓰면 됩니다.</p>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">지도안 6칸 · 루브릭 4요소 · 세특 4단</h3>
+      <div class="tbl"><table>
+        <tr><th>지도안 6칸</th><td>① 성취기준 ② 도입 발문(실생활 질문) ③ 조작 미션(무엇을 만지나) ④ 손계산 장면(작은 표·작은 행렬) ⑤ 판정 기준(숫자) ⑥ 정리 발문</td></tr>
+        <tr><th>루브릭 4요소</th><td>수식 유도의 정확성 · 손계산↔도구 결과의 일치 검증 · 결과의 재현성(시드·기록표) · 해석과 한계·확장</td></tr>
+        <tr><th>세특 4단</th><td>맥락(문제) → 수학 원리(식) → 도구·검증 → 한계·확장. 네 칸이 채워지면 문장은 저절로 나온다</td></tr>
+      </table></div>
+      <div class="check">
+        <label><input type="checkbox">담당 과목·단원 1개를 정했다</label>
+        <label><input type="checkbox">연결표에서 실험실 1개를 체험하고 발문 2개에 답했다</label>
+        <label><input type="checkbox">「잠긴 원리」를 손계산으로 열었다</label>
+        <label><input type="checkbox">프롬프트 카드로 4라운드까지 만들고 결함 1개를 고쳤다</label>
+        <label><input type="checkbox">지도안 6칸·루브릭 4요소를 채웠다</label>
+        <label><input type="checkbox">HTML 파일을 저장했다(가장 흔한 사고는 저장 안 함)</label>
+      </div>
+    </div>
+  </div>
+
+  <h3>프롬프트 카드 — 신설 과목의 「빈칸」을 오늘 채우는 네 장</h3>
+  <div class="grid g2">
+    <div class="card"><b>① 고급 대수 · 대각화로 Aⁿ 한 번에</b>
+<div class="prompt"><span class="r">ROUND 1</span> 고등학교 「고급 대수」 수업용 학습자료를 만들 거야. HTML 파일 하나, 외부 라이브러리 없이. 제목은 "한 번에 뛰어넘기 — 대각화로 Aⁿ 계산". 지금은 빈 화면과 제목만.
+<span class="r">ROUND 2</span> 2×2 행렬 A=[[a,b],[c,d]] 에 대해 특성방정식 λ²−(a+d)λ+(ad−bc)=0 의 두 실근 λ₁, λ₂ 와 고유벡터를 구하고, A = PDP⁻¹ 을 교과서 표기로 화면에 보여 줘.
+<span class="r">ROUND 3</span> 학생이 만질 것: a,b,c,d 숫자 칸과 n 슬라이더(1~20). 바꾸면 Aⁿ 을 (1) 직접 n번 곱한 값 (2) PDⁿP⁻¹ 로 구한 값을 나란히 표시.
+<span class="r">ROUND 4</span> 피보나치 행렬 [[1,1],[1,0]] 을 기본값으로 넣고, Aⁿ 의 (1,1) 성분과 피보나치 수열을 표로 비교해 줘. (눌러 본다)
+<span class="r">ROUND 5</span> (증상) 실근이 없는 행렬을 넣으면 화면이 NaN 으로 깨진다 — 판별식이 음수면 "실수 범위에서 대각화 불가" 안내를 띄우고 계산을 멈춰 줘.
+<span class="r">ROUND 6</span> 미션 3개: 대각화 가능/불가능 행렬 각 1개 찾기, n=10 에서 두 값 일치 확인, 비네 공식과 비교. 정답 판정은 두 값의 차이가 10⁻⁶ 미만이면 통과.
+<span class="r">ROUND 7</span> 모바일에서도 보이게, 맨 위에 학습 목표와 안내문 3줄.</div></div>
+    <div class="card"><b>② 고급 기하 · 사이클로이드와 곡률원</b>
+<div class="prompt"><span class="r">ROUND 1</span> 「고급 기하」 수업용 학습자료. HTML 하나, 외부 라이브러리 없음. 제목 "구르는 바퀴의 점은 어떤 길을 가나 — 사이클로이드와 곡률".
+<span class="r">ROUND 2</span> 매개변수 x=r(t−sin t), y=r(1−cos t) 와 곡률 κ=|x'y''−y'x''|/(x'²+y'²)^(3/2), 곡률반경 1/κ 를 교과서 표기로 보여 줘.
+<span class="r">ROUND 3</span> 학생이 만질 것: t 슬라이더(0~4π), r 숫자 칸, 「곡률원 보기」 체크. 점 P 와 접선, 곡률원이 함께 그려진다.
+<span class="r">ROUND 4</span> 바퀴가 굴러가는 애니메이션 버튼을 넣고, 아래에 t·κ·곡률반경 값을 표시. (눌러 본다)
+<span class="r">ROUND 5</span> (증상) t=2π 근처에서 곡률반경이 무한대로 튀어 화면이 사라진다 — 뾰족점(cusp)에서는 "정칙이 아님"을 표시하고 원을 그리지 마.
+<span class="r">ROUND 6</span> 미션: 곡률이 최소인 t 찾기, 곡률반경이 4r 이 되는 지점 확인(정답 t=π), 사이클로이드 한 아치의 길이 8r 을 수치적분으로 확인.
+<span class="r">ROUND 7</span> 모바일 대응, 학습 목표, 안내문 3줄.</div></div>
+    <div class="card"><b>③ 고급 기하 · 지구 위 최단 거리(구면삼각형)</b>
+<div class="prompt"><span class="r">ROUND 1</span> 「고급 기하」 수업용. HTML 하나. 제목 "비행기는 왜 북쪽으로 돌아가나 — 대원과 구면코사인법칙".
+<span class="r">ROUND 2</span> 두 점의 위도·경도로 중심각 c 를 구하는 구면코사인법칙 cos c = sin φ₁ sin φ₂ + cos φ₁ cos φ₂ cos Δλ 와 거리 = R·c 를 교과서 표기로.
+<span class="r">ROUND 3</span> 학생이 만질 것: 도시 두 개 선택(서울·LA·시드니·런던·상파울루), 직접 위경도 입력. 결과: 중심각, 대원 거리, 평면 근사 거리와의 차이.
+<span class="r">ROUND 4</span> 구를 정사영으로 그리고 두 점과 대원 호를 그려 줘. (눌러 본다)
+<span class="r">ROUND 5</span> (증상) 서울–LA 가 8,000km 대신 12,000km 로 나온다 — 경도 부호(서경)가 뒤집혔다. 서경은 음수로 처리해.
+<span class="r">ROUND 6</span> 미션: 세 도시로 구면삼각형의 내각의 합을 구해 180° 초과 확인(구면과잉), 적도 위 두 점은 평면 근사와 얼마나 다른가.
+<span class="r">ROUND 7</span> 모바일 대응, 학습 목표, 안내문 3줄.</div></div>
+    <div class="card"><b>④ 고급 미적분 · 극곡선 그리기와 넓이</b>
+<div class="prompt"><span class="r">ROUND 1</span> 「고급 미적분」 수업용. HTML 하나. 제목 "심장은 왜 r=1+cosθ 인가 — 극곡선의 넓이".
+<span class="r">ROUND 2</span> 극곡선 r=f(θ) 와 넓이 A=½∫r²dθ, 접선의 기울기 dy/dx=(r'sinθ+r cosθ)/(r'cosθ−r sinθ) 를 교과서 표기로.
+<span class="r">ROUND 3</span> 학생이 만질 것: 곡선 선택(심장형·장미 r=cos3θ·아르키메데스 나선), θ 슬라이더(0~2π), 조각 수 n 슬라이더. 부채꼴 조각 ½r²Δθ 가 쌓이며 넓이 근삿값이 표시된다.
+<span class="r">ROUND 4</span> 극좌표 격자(동심원·방사선)를 배경에 그리고, 현재 θ 에서의 접선을 표시. (눌러 본다)
+<span class="r">ROUND 5</span> (증상) 장미곡선에서 n 을 키우면 넓이가 두 배로 나온다 — 꽃잎이 겹쳐 세어진다. r&lt;0 구간 처리를 확인하고 한 바퀴 범위를 바로잡아.
+<span class="r">ROUND 6</span> 미션: 심장형 넓이 3π/2 확인, 장미 한 잎 넓이 π/12 확인, 나선의 θ∈[0,2π] 넓이 손계산과 비교. 판정은 상대오차 1% 이내.
+<span class="r">ROUND 7</span> 모바일 대응, 학습 목표, 안내문 3줄.</div></div>
+  </div>
+  <div class="note">모든 카드의 <b>ROUND 5</b>는 지우지 마세요. "AI 는 한 번에 맞히지 않는다, 증상을 화면 기준으로 말하면 고쳐진다"를 교사가 몸으로 겪는 지점입니다.</div>
+</div></section>
+
+<!-- ───────── p6 출처 ───────── -->
+<section class="pane" id="p6"><div class="wrap">
+  <h2>출처 · 안내</h2>
+  <div class="card">
+    <ul>
+      <li>교육부(2022). <b>수학과 교육과정</b>. 교육부 고시 제2022-33호 [별책 8]. — 과목 체계, 내용 체계(핵심 아이디어·내용 요소), 성취기준. 이 페이지의 「성취기준 요지」는 고시 원문을 요약한 것이며 코드·문구는 원문으로 확인하십시오.</li>
+      <li>하진수(2026). <b>AI_MATH — 인공지능 수학 37차시 수업 웹</b>. https://hajinsu9951.github.io/AI_MATH/ (GitHub: hajinsu9951/AI_MATH)</li>
+      <li>하진수(2026). <b>일상 속 수학 실험실 356종</b>(2026 대전광역시교육청 인공지능 활용 선도교사 연수·중등 수학). https://hajinsu9951.github.io/math-lab/ (GitHub: hajinsu9951/math-lab)</li>
+      <li>하진수(2026). 2026 인공지능 수학 프로젝트 「우리 동네 문제 해결 AI 모델」 성과 아카이브(대전대신고, 비공개 저장소 — 학생 개인정보 포함).</li>
+      <li>글꼴: 나눔고딕(네이버, OFL) 등 안심글꼴만 사용. 이미지는 강사 제작 화면 캡처와 도형만 사용(초상권 해당 없음).</li>
+    </ul>
+    <p class="small">이 페이지는 단일 HTML 파일이며 외부 라이브러리·저장소를 쓰지 않습니다. 인쇄(Ctrl+P)하면 탭이 모두 펼쳐져 출력됩니다.</p>
+  </div>
+</div></section>
+
+<footer><div class="wrap">2026 광주 「고등학교 신설과목의 이해 및 실제(수학)」 직무연수 · 강사 하진수(대전대신고등학교) · 연수 목적 자료</div></footer>
+
+<script>
+function showTab(id){
+  document.querySelectorAll('section.pane').forEach(s=>s.classList.toggle('on', s.id===id));
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('on', b.dataset.p===id));
+  window.scrollTo(0,0);
+}
+function rebase(){
+  var L=document.getElementById('baseLab').value.trim(), A=document.getElementById('baseAi').value.trim();
+  document.querySelectorAll('a[data-lab]').forEach(a=>{ a.href=L+'#lab='+a.dataset.lab; a.target='_blank'; a.rel='noopener'; });
+  document.querySelectorAll('a[data-ai]').forEach(a=>{ a.href=A+'#'+a.dataset.ai; a.target='_blank'; a.rel='noopener'; });
+}
+rebase();
+(function(){ var h=(location.hash||'').replace('#',''); if(/^p[0-6]$/.test(h)) showTab(h); })();
+</script>
+</body>
+</html>
