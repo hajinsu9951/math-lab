@@ -798,6 +798,19 @@ footer{padding:26px 0 40px;color:var(--ink3);font-size:12.5px;text-align:center}
 .cwn{position:absolute;left:3px;top:3px;font-size:9.5px;font-weight:800;line-height:1;
   padding:2px 4px;border-radius:5px;background:rgba(17,24,39,.62);color:#fff;
   font-variant-numeric:tabular-nums}
+/* 썸네일 벽 — 번호 배지·그림에 마우스를 올리면 제목이 위로 떠오른다 (2026-09-18) */
+.cwx:hover,.cwx:focus-visible{overflow:visible;z-index:7}
+.cwx:hover .cwn,.cwx:focus-visible .cwn{background:var(--blue)}
+.cwx::after{content:attr(data-t);position:absolute;left:0;bottom:calc(100% + 5px);z-index:8;
+  min-width:100%;width:max-content;max-width:230px;padding:5px 8px;border-radius:7px;
+  background:rgba(17,24,39,.92);color:#fff;font-size:11.5px;font-weight:600;line-height:1.35;
+  text-align:left;white-space:normal;box-shadow:0 4px 12px rgba(17,24,39,.18);
+  opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s;pointer-events:none}
+.cwx:hover::after,.cwx:focus-visible::after{opacity:1;transform:none}
+.cwx::before{content:"";position:absolute;left:12px;bottom:100%;z-index:8;border:5px solid transparent;
+  border-top-color:rgba(17,24,39,.92);opacity:0;transition:opacity .12s;pointer-events:none}
+.cwx:hover::before,.cwx:focus-visible::before{opacity:1}
+@media (hover:none){ .cwx::after,.cwx::before{display:none} }
 
 /* ===== 문제 해결 수업 모형 — 7단계 스테퍼 ===== */
 .lsn{margin:0}
@@ -53317,7 +53330,7 @@ function catDraw(){
     const made = done.length;
     const wall = wallOn(g.k) && done.length
       ? `<div class="catwall" data-g="${g.k}">${done.map(c=>`
-          <button class="cwx" data-lab="${c.lab}" title="LAB ${c.lab+1} · ${c.t.replace(/"/g,'')}">
+          <button class="cwx" data-lab="${c.lab}" data-t="LAB ${c.lab+1} · ${c.t.replace(/"/g,'')}" aria-label="LAB ${c.lab+1} · ${c.t.replace(/"/g,'')}">
             ${(typeof THUMBS!=='undefined' && THUMBS[c.lab]) ? THUMBS[c.lab] : ''}
             <span class="cwn">${c.lab+1}</span>
           </button>`).join('')}</div>`
