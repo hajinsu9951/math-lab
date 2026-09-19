@@ -1,0 +1,1426 @@
+[
+{
+"i": 0,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 여기 어디지? GPS 위치 추정. Everyday question it answers: 스마트폰은 내가 어디 있는지 어떻게 알까? Math idea to hint visually: 좌표평면·두 점 사이의 거리 · 원의 방정식 · 연립방정식."
+},
+{
+"i": 1,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 이 문자, 스팸일까? 베이즈 분류기. Everyday question it answers: 왜 어떤 문자는 스팸함으로 갈까? Math idea to hint visually: 조건부확률 · 베이즈 정리 · 독립사건."
+},
+{
+"i": 2,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 왜 순식간에 퍼질까? 확산 시뮬레이터. Everyday question it answers: 어떤 영상은 왜 하루 만에 천만 뷰가 될까? Math idea to hint visually: 지수함수와 로그 · 증가율(미분의 직관) · 로지스틱 S곡선."
+},
+{
+"i": 3,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 어느 요금제가 이득일까? 손익분기. Everyday question it answers: 두 요금제, 몇 분부터 갈아타야 이득일까? Math idea to hint visually: 일차함수 · 기울기와 y절편 · 연립방정식(교점)."
+},
+{
+"i": 4,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 저 건물 몇 층일까? 드론으로 높이 재기. Everyday question it answers: 올라가지 않고 건물 높이를 어떻게 잴까? Math idea to hint visually: 삼각비 tan · 직각삼각형 · 각도와 라디안."
+},
+{
+"i": 5,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 정말 관계가 있을까? 산점도와 상관계수. Everyday question it answers: 공부 시간과 성적, 정말 관계가 있을까? Math idea to hint visually: 산점도 · 상관계수 r · 평균·표준편차."
+},
+{
+"i": 6,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 평균 연봉의 함정 — 대푯값과 이상치. Everyday question it answers: 평균 연봉 8천만 원, 이 회사 정말 좋은 회사일까? Math idea to hint visually: 평균·중앙값·최빈값 · 이상치 · 자료의 분포."
+},
+{
+"i": 7,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 내 비밀번호 안전할까? 경우의 수. Everyday question it answers: 내 비밀번호, 몇 초 만에 뚫릴까? Math idea to hint visually: 경우의 수 · 중복순열 kⁿ · 지수의 위력."
+},
+{
+"i": 8,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 0.5% 뽑기, 200번이면 나올까?. Everyday question it answers: 확률 0.5%짜리를 200번 뽑으면 나올까? Math idea to hint visually: 확률의 뜻 · 여사건 · 큰 수의 법칙."
+},
+{
+"i": 9,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 내 점수는 몇 등급? 정규분포와 표준점수. Everyday question it answers: 같은 78점인데 왜 등급이 다를까? Math idea to hint visually: 정규분포 · 표준편차 · 표준점수 z."
+},
+{
+"i": 10,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 복리가 왜 무서울까? 72의 법칙. Everyday question it answers: 적금과 대출, 두 배가 되는 데 몇 년 걸릴까? Math idea to hint visually: 지수함수 · 로그 · 등비수열."
+},
+{
+"i": 11,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 왜 로그로 그릴까? 로그 스케일. Everyday question it answers: 지진 규모 7과 8은 몇 배 차이일까? Math idea to hint visually: 로그의 뜻 · 자릿수 · 로그 그래프."
+},
+{
+"i": 12,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 단속 카메라는 어떻게 알까? 순간속도. Everyday question it answers: 한 순간의 속도를 어떻게 잴 수 있을까? Math idea to hint visually: 평균변화율 · 미분계수 · 극한."
+},
+{
+"i": 13,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 카드번호 검증기 (룬 알고리즘). Everyday question it answers: 오타 난 카드번호를 왜 즉시 잡아낼까? Math idea to hint visually: 나머지·합동식 · 자릿수 분해 · 모듈러 연산."
+},
+{
+"i": 14,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 최소제곱 회귀 — AI 예측의 출발점. Everyday question it answers: 점들 사이로 “가장 알맞은 직선”은 어떻게 정할까? Math idea to hint visually: 일차함수 · 평균·분산·상관 · 최소제곱법."
+},
+{
+"i": 15,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 경사하강법 — AI는 어떻게 학습하나. Everyday question it answers: 컴퓨터는 최솟값을 어떻게 찾아갈까? Math idea to hint visually: 이차함수 · 미분계수·접선의 기울기 · 수열의 극한."
+},
+{
+"i": 16,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 몬테카를로 π 추정. Everyday question it answers: 주사위를 던져서 원주율을 구할 수 있을까? Math idea to hint visually: 확률과 넓이 · 대수의 법칙 · 원의 넓이."
+},
+{
+"i": 17,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 추천 알고리즘과 코사인 유사도. Everyday question it answers: 유튜브는 내 취향을 어떻게 알까? Math idea to hint visually: 벡터와 성분 · 내적 · 벡터가 이루는 각."
+},
+{
+"i": 18,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 이미지 필터와 합성곱(행렬). Everyday question it answers: AI는 사진에서 윤곽선을 어떻게 찾을까? Math idea to hint visually: 행렬 · 성분별 곱과 합 · 일차변환의 직관."
+},
+{
+"i": 19,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 소리와 삼각함수 — 파형 합성. Everyday question it answers: 같은 “도”인데 피아노와 기타는 왜 다르게 들릴까? Math idea to hint visually: 삼각함수 · 주기·진폭·위상 · 함수의 합성."
+},
+{
+"i": 20,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: y = x 대칭의 발견 역함수와 무리함수. Everyday question it answers: 무리함수 y = √(x−2)+1 은 어떤 함수의 역함수일까? Math idea to hint visually: 역함수 · 무리함수 · y = x 대칭이동."
+},
+{
+"i": 21,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 무한히 더하면 어디로? 급수의 부분합. Everyday question it answers: 항을 끝없이 더하면 값이 정해질까? Math idea to hint visually: 수열의 극한 · 급수의 수렴·발산 · 등비급수."
+},
+{
+"i": 22,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 계산기는 sin을 어떻게 알까? 테일러 근사. Everyday question it answers: 다항식만으로 sin을 흉내 낼 수 있을까? Math idea to hint visually: 멱급수 · 테일러 급수 · 수렴반경."
+},
+{
+"i": 23,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 이 그릇의 부피는? 회전체와 원판. Everyday question it answers: 곡선을 돌려 만든 입체의 부피는 어떻게 구할까? Math idea to hint visually: 정적분의 활용 · 구분구적법 · 회전체의 부피."
+},
+{
+"i": 24,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 큰 수를 못 쪼개서 안전하다니? 소인수분해와 암호. Everyday question it answers: 곱하기는 쉬운데 왜 되돌리기는 어려울까? Math idea to hint visually: 소인수분해 · 소수와 합성수 · 제곱근의 어림."
+},
+{
+"i": 25,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 영하 5도에서 3도 오르면? 수직선 위의 정수. Everyday question it answers: 빼기는 왜 반대 방향으로 가는 걸까? Math idea to hint visually: 정수와 유리수 · 수직선 · 덧셈과 뺄셈의 관계."
+},
+{
+"i": 26,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 규칙을 어떻게 한 줄로 적을까? 문자와 식. Everyday question it answers: 성냥개비 100번째 도형에는 몇 개가 필요할까? Math idea to hint visually: 문자의 사용 · 식의 값 · 대입."
+},
+{
+"i": 27,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 저울이 균형을 이루려면? 등식의 성질. Everyday question it answers: 왜 양변에 똑같이 해야 할까? Math idea to hint visually: 일차방정식 · 등식의 성질 · 이항."
+},
+{
+"i": 28,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 지렛대는 왜 힘이 덜 들까? 정비례와 반비례. Everyday question it answers: 거리를 두 배로 하면 힘은 왜 절반이 될까? Math idea to hint visually: 정비례와 반비례 · 그래프 · 비례관계의 식."
+},
+{
+"i": 29,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 그림의 원근법은 어떤 원리일까? 평행선과 각. Everyday question it answers: 평행선을 가로지르면 왜 같은 각이 생길까? Math idea to hint visually: 평행선의 성질 · 동위각과 엇각 · 각의 크기."
+},
+{
+"i": 30,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 구조물은 왜 삼각형일까? 삼각형의 합동. Everyday question it answers: 무엇을 알아야 삼각형이 하나로 정해질까? Math idea to hint visually: 삼각형의 합동 조건 · 작도 · 반례."
+},
+{
+"i": 31,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 원그래프의 각도는 어떻게 정할까? 부채꼴. Everyday question it answers: 32%는 몇 도로 그려야 할까? Math idea to hint visually: 부채꼴의 호의 길이 · 부채꼴의 넓이 · 중심각."
+},
+{
+"i": 32,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 신발은 어느 치수를 더 들여놔야 할까? 대푯값. Everyday question it answers: 평균 치수의 신발은 정말 잘 팔릴까? Math idea to hint visually: 평균·중앙값·최빈값 · 자료의 분포 · 대푯값의 선택."
+},
+{
+"i": 33,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 구간을 몇 개로 나눠야 할까? 도수분포표와 히스토그램. Everyday question it answers: 같은 점수인데 왜 그래프가 달라 보일까? Math idea to hint visually: 도수분포표 · 히스토그램 · 계급과 계급값."
+},
+{
+"i": 34,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 톱니바퀴는 언제 다시 만날까? 최대공약수와 최소공배수. Everyday question it answers: 두 바퀴가 처음 자리로 돌아오는 때는 언제일까? Math idea to hint visually: 소인수분해 · 최대공약수 · 최소공배수."
+},
+{
+"i": 35,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 자와 컴퍼스만으로 무엇까지 될까? 삼각형의 작도. Everyday question it answers: 세 변만 주면 삼각형이 하나로 정해질까? Math idea to hint visually: 작도 · 삼각부등식 · 원의 뜻."
+},
+{
+"i": 36,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 바닥 타일은 왜 그 모양들뿐일까? 다각형의 성질. Everyday question it answers: 한 점에 모인 각이 360°가 되려면? Math idea to hint visually: 다각형의 내각 · 내각의 합 · 외각의 합."
+},
+{
+"i": 37,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 3D 프린터는 어떻게 모양을 만들까? 다면체와 회전체. Everyday question it answers: 단면을 보면 그 입체를 알 수 있을까? Math idea to hint visually: 다면체 · 회전체 · 오일러 공식."
+},
+{
+"i": 38,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 택배 상자는 왜 그 크기일까? 겉넓이와 부피. Everyday question it answers: 같은 부피면 종이도 같이 들까? Math idea to hint visually: 겉넓이 · 부피 · 전개도."
+},
+{
+"i": 39,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 원자료를 잃지 않고 정리하려면? 줄기와 잎 그림. Everyday question it answers: 그래프로 바꾸면 무엇을 얻고 무엇을 잃을까? Math idea to hint visually: 줄기와 잎 그림 · 도수분포표 · 히스토그램·도수분포다각형."
+},
+{
+"i": 40,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 크기가 다른 두 반을 어떻게 비교할까? 상대도수. Everyday question it answers: 인원이 3배면 막대도 3배인데, 이걸 비교라 할 수 있을까? Math idea to hint visually: 상대도수 · 도수분포 · 비율."
+},
+{
+"i": 41,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 몇 명에게 물어야 할까? 통계적 탐구. Everyday question it answers: 우리 반 30명으로 학교 전체를 말할 수 있을까? Math idea to hint visually: 통계적 탐구 · 표본과 모집단 · 평균·표준편차."
+},
+{
+"i": 42,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 3x와 2를 왜 5로 못 묶을까? 일차식의 덧셈과 뺄셈. Everyday question it answers: 같은 것끼리만 묶인다는 게 무슨 뜻일까? Math idea to hint visually: 일차식 · 동류항 · 분배법칙."
+},
+{
+"i": 43,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 이 그래프는 무슨 이야기일까? 순서쌍과 그래프 해석. Everyday question it answers: 평평한 구간은 멈춘 걸까, 돌아온 걸까? Math idea to hint visually: 순서쌍과 좌표 · 그래프의 해석 · 변화율의 직관."
+},
+{
+"i": 44,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: √2+√3 은 √5 일까? 제곱근과 무리수. Everyday question it answers: 근호끼리는 왜 더하지 못할까? Math idea to hint visually: 제곱근 · 무리수 · 근호의 연산."
+},
+{
+"i": 45,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: √2 의 정확한 자리 테오도루스의 나선. Everyday question it answers: √2 는 수직선 어디에 있을까? Math idea to hint visually: 무리수의 작도 · 피타고라스 정리 · 수직선."
+},
+{
+"i": 46,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 99×101 을 3초에 인수분해 암산. Everyday question it answers: 99×101 을 한눈에 계산할 수 있을까? Math idea to hint visually: 인수분해 · 합차 공식 · 곱셈공식의 활용."
+},
+{
+"i": 47,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 근을 찍고 공식으로 검산 근의 공식. Everyday question it answers: 이차방정식의 해는 어디서 오는 걸까? Math idea to hint visually: 이차방정식 · 근의 공식 · 그래프와 근."
+},
+{
+"i": 48,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 풀기 전에 개수를 안다 판별식. Everyday question it answers: 해가 몇 개인지 미리 알 수 있을까? Math idea to hint visually: 판별식 · 이차방정식의 근 · 접선."
+},
+{
+"i": 49,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 구멍을 채워라 완전제곱식. Everyday question it answers: 근의 공식은 어디서 나왔을까? Math idea to hint visually: 완전제곱식 · 이차방정식 · 근의 공식 유도."
+},
+{
+"i": 50,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 꼭짓점 택배 이차함수의 평행이동. Everyday question it answers: y=(x−p)²+q 의 p, q 는 무엇일까? Math idea to hint visually: 이차함수 · 평행이동 · 꼭짓점."
+},
+{
+"i": 51,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 울타리 20m 의 최대 넓이 이차함수 최적화. Everyday question it answers: 울타리 20m 로 가장 넓은 땅을 만들려면? Math idea to hint visually: 이차함수의 최대·최소 · 완전제곱식 · 정의역."
+},
+{
+"i": 52,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 전개를 그림으로 곱셈공식의 넓이 모형. Everyday question it answers: 식의 전개를 그림으로 볼 수 있을까? Math idea to hint visually: 곱셈공식 · (a+b)²·(a−b)² · 다항식의 전개."
+},
+{
+"i": 53,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 왜 하필 그 수일까 특수각의 삼각비. Everyday question it answers: 30°·45°·60° 의 값은 왜 그 수일까? Math idea to hint visually: 삼각비 · 특수각 · 정삼각형·정사각형."
+},
+{
+"i": 54,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 계산기 이전의 계산기 삼각비의 표와 보간. Everyday question it answers: 계산기 없던 시절엔 어떻게 구했을까? Math idea to hint visually: 삼각비의 표 · 일차 보간 · 함수의 증가."
+},
+{
+"i": 55,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 어디서 봐도 같은 각 원주각. Everyday question it answers: 카메라의 시야각은 어디서 같아질까? Math idea to hint visually: 원주각 · 중심각 · 탈레스의 정리."
+},
+{
+"i": 56,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 위성은 어디까지 보나 원의 접선. Everyday question it answers: 위성은 지구의 어디까지 보일까? Math idea to hint visually: 접선 · 접선의 길이 · 피타고라스 정리."
+},
+{
+"i": 57,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 네 점이 한 원 위에 있다면 내접 사각형. Everyday question it answers: 네 점이 한 원 위에 있으면 무엇이 정해질까? Math idea to hint visually: 원에 내접하는 사각형 · 원주각 · 대각의 합."
+},
+{
+"i": 58,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 이상치를 자동으로 찾는 그림 상자그림. Everyday question it answers: 이상치를 눈으로 찾으려면? Math idea to hint visually: 상자그림 · 사분위수·IQR · 이상치 판정."
+},
+{
+"i": 59,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 점 하나의 권력 이상치와 상관. Everyday question it answers: 점 하나가 결론을 바꿀 수 있을까? Math idea to hint visually: 산점도 · 상관계수 · 자료의 정제."
+},
+{
+"i": 60,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 소수를 어떻게 다 찾지? 에라토스테네스의 체. Everyday question it answers: 2부터 120까지의 소수를 빠짐없이 찾는 가장 빠른 방법은? Math idea to hint visually: 소수와 합성수 · 배수 · 제곱근의 어림."
+},
+{
+"i": 61,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 오차는 어떻게 재야 공평할까? 절댓값과 평균 오차. Everyday question it answers: +3 과 −3 을 더하면 0 — 그럼 예보가 만점일까? Math idea to hint visually: 절댓값 · 정수의 덧셈 · 평균."
+},
+{
+"i": 62,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 기계에 식을 넣으면? 식의 값과 대입. Everyday question it answers: 2a 에 a = 7 을 넣으면 27일까 14일까? Math idea to hint visually: 문자의 사용 · 식의 값 · 대입."
+},
+{
+"i": 63,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 소금물을 5%로 맞춰라 비율·농도와 방정식. Everyday question it answers: 물을 부으면 농도는 왜 낮아질까 — 소금은 그대로인데? Math idea to hint visually: 비율과 백분율 · 일차방정식 · 농도."
+},
+{
+"i": 64,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 접지 않고 반 나누기 수직이등분선의 작도. Everyday question it answers: 자로 재지 않고 선분의 한가운데를 어떻게 찾을까? Math idea to hint visually: 작도 · 수직이등분선 · 거리."
+},
+{
+"i": 65,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 각도기 없이 절반 각의 이등분선 작도. Everyday question it answers: 각도기가 없는데 어떤 각이든 정확히 반으로 나눌 수 있을까? Math idea to hint visually: 작도 · 각의 이등분선 · 합동(SSS)."
+},
+{
+"i": 66,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 부채꼴을 펼치면 보인다 S = ½rl 의 발견. Everyday question it answers: 부채꼴 넓이 공식은 어디서 왔을까? Math idea to hint visually: 부채꼴의 호와 넓이 · 원의 넓이 · 극한의 직관."
+},
+{
+"i": 67,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 왜 5개뿐일까? 정다면체와 꼭짓점의 각. Everyday question it answers: 주사위 모양(정다면체)은 왜 다섯 가지뿐일까? Math idea to hint visually: 정다면체 · 다각형의 내각 · 입체도형."
+},
+{
+"i": 68,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 예산 안에서 몇 개까지? 일차부등식. Everyday question it answers: 5,000원으로 800원짜리 간식을 몇 개까지 살 수 있을까? Math idea to hint visually: 일차부등식 · 부등호의 성질 · 수직선의 해."
+},
+{
+"i": 69,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 내 사물함은 몇 번? 나머지와 해시. Everyday question it answers: 수천 명의 자료를 컴퓨터는 어느 서랍에 넣을까? Math idea to hint visually: 나머지 · 배수와 약수 · 나눗셈의 원리."
+},
+{
+"i": 70,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 0.1 + 0.2 는 왜 0.3 이 아닐까? 순환소수와 부동소수점. Everyday question it answers: 유한소수와 순환소수는 무엇이 가를까? Math idea to hint visually: 유리수와 순환소수 · 분모의 소인수 · 나머지."
+},
+{
+"i": 71,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 0.242424… 를 분수로 순환마디 복원. Everyday question it answers: 무한히 이어지는 꼬리를 어떻게 없앨까? Math idea to hint visually: 순환소수 · 분수 변환 · 자릿수 정렬."
+},
+{
+"i": 72,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 42번 접으면 달까지 지수법칙. Everyday question it answers: 종이를 반씩 접으면 두께는 어떻게 자랄까? Math idea to hint visually: 거듭제곱 · 지수법칙 · 기하급수적 증가."
+},
+{
+"i": 73,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: −2 를 곱하는 순간 부등호의 반전. Everyday question it answers: 양변에 음수를 곱하면 왜 부등호가 뒤집힐까? Math idea to hint visually: 부등식의 성질 · 수직선 · 반사."
+},
+{
+"i": 74,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 만나거나, 평행하거나, 겹치거나 연립방정식의 해. Everyday question it answers: 해가 없다는 건 그림으로 무엇일까? Math idea to hint visually: 연립일차방정식 · 일차함수의 그래프 · 교점."
+},
+{
+"i": 75,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 문자를 하나씩 지운다 소거법 시뮬레이터. Everyday question it answers: 미지수 두 개를 어떻게 하나씩 지울까? Math idea to hint visually: 연립일차방정식 · 소거법 · 등식의 성질."
+},
+{
+"i": 76,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 회전과 평행이동 기울기와 절편. Everyday question it answers: 기울기를 바꾸면 직선은 어디를 축으로 돌까? Math idea to hint visually: 일차함수 · 기울기 · y절편."
+},
+{
+"i": 77,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 식을 읽고 직선을 놓아라 식 ↔ 그래프 왕복. Everyday question it answers: 식만 보고 그래프를 그릴 수 있을까? Math idea to hint visually: 일차함수의 그래프 · 두 점 · 절편과 기울기."
+},
+{
+"i": 78,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 균형점을 찾아라 삼각형의 무게중심. Everyday question it answers: 종이 삼각형은 어디를 받쳐야 균형이 잡힐까? Math idea to hint visually: 삼각형의 무게중심 · 중선 · 2:1 내분."
+},
+{
+"i": 79,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 사다리꼴은 왜 탈락일까 평행사변형의 조건. Everyday question it answers: 어떤 조건이면 반드시 평행사변형일까? Math idea to hint visually: 평행사변형의 성질 · 사각형의 판별 · 대각선."
+},
+{
+"i": 80,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 2배로 키우면 4배 무거워진다 닮음과 축척. Everyday question it answers: 지도 1:25000 에서 넓이는 몇 배일까? Math idea to hint visually: 도형의 닮음 · 닮음비 · 넓이의 비."
+},
+{
+"i": 81,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 빔프로젝터의 원리 닮음의 중심. Everyday question it answers: 확대·축소의 중심을 옮기면 어떻게 될까? Math idea to hint visually: 닮음의 위치 · 닮음의 중심 · 대응점."
+},
+{
+"i": 82,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 55인치의 정체 피타고라스 정리. Everyday question it answers: “55인치 TV”의 55는 어디를 잰 걸까? Math idea to hint visually: 피타고라스 정리 · 직각삼각형 · 제곱근."
+},
+{
+"i": 83,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 직각인지 재지 않고 알기 피타고라스의 역. Everyday question it answers: 각도기 없이 직각을 어떻게 확인할까? Math idea to hint visually: 피타고라스 정리의 역 · 예각·둔각 판정 · 삼각부등식."
+},
+{
+"i": 84,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 자연수 보물찾기 피타고라스 수. Everyday question it answers: 변이 모두 자연수인 직각삼각형은 몇 개나 있을까? Math idea to hint visually: 피타고라스 수 · 제곱수 · 서로소."
+},
+{
+"i": 85,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 또는은 더하고 그리고는 곱한다 경우의 수. Everyday question it answers: 「또는」과 「그리고」는 왜 계산이 다를까? Math idea to hint visually: 경우의 수 · 합의 법칙 · 곱의 법칙."
+},
+{
+"i": 86,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 2배 모형은 8배 무겁다 닮음비와 넓이·부피비. Everyday question it answers: 축소 모형의 무게는 몇 분의 1일까? Math idea to hint visually: 닮음비 · 넓이의 비 · 부피의 비."
+},
+{
+"i": 87,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 적어도 하나의 지름길 — 여사건. Everyday question it answers: “적어도 하나”는 어떻게 셀까? Math idea to hint visually: 여사건 · 확률의 기본 성질 · 경우의 수."
+},
+{
+"i": 88,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 이제 나올 때가 됐다? 독립시행. Everyday question it answers: 앞면이 다섯 번 연속이면 다음은 뒷면일까? Math idea to hint visually: 독립시행 · 확률의 곱 · 도박사의 오류."
+},
+{
+"i": 89,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 조건은 새로운 전체다 조건부확률. Everyday question it answers: 조건을 알고 나면 확률이 왜 변할까? Math idea to hint visually: 조건부확률 · 분모의 축소 · 비율."
+},
+{
+"i": 90,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 겹침을 두 번 세지 마라 확률의 덧셈. Everyday question it answers: 두 사건을 함께 볼 때는? Math idea to hint visually: 확률의 덧셈정리 · 배반사건 · 벤다이어그램."
+},
+{
+"i": 91,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 계수만으로 나눗셈 조립제법. Everyday question it answers: 나눗셈을 계수만으로 할 수 있을까? Math idea to hint visually: 다항식의 나눗셈 · 조립제법 · 몫과 나머지."
+},
+{
+"i": 92,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 나누지 않고 아는 나머지 나머지정리. Everyday question it answers: 직접 나누지 않고 나머지를 알 수 있을까? Math idea to hint visually: 나머지정리 · 인수정리 · 삼차식의 인수분해."
+},
+{
+"i": 93,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: i 를 곱하면 90° 회전 복소평면. Everyday question it answers: i 를 곱한다는 건 그림에서 무엇일까? Math idea to hint visually: 복소수 · 복소평면 · 켤레복소수."
+},
+{
+"i": 94,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 구하지 않고 아는 합과 곱 근과 계수. Everyday question it answers: 근을 구하지 않고 두 근의 합을 알 수 있을까? Math idea to hint visually: 이차방정식 · 근과 계수의 관계 · 두 수 찾기."
+},
+{
+"i": 95,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 산과 골짜기가 정하는 근의 수 삼차방정식. Everyday question it answers: 삼차식은 실근이 몇 개일까? Math idea to hint visually: 삼차방정식 · 그래프와 실근 · 극값."
+},
+{
+"i": 96,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 해집합이 칠해진다 이차부등식. Everyday question it answers: 부등식의 해는 그림에서 어디일까? Math idea to hint visually: 이차부등식 · 이차함수의 그래프 · 해집합."
+},
+{
+"i": 97,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 답은 늘 꼭짓점에 있다 선형계획. Everyday question it answers: 한정된 자원으로 이익을 최대로 하려면? Math idea to hint visually: 연립일차부등식 · 부등식의 영역 · 최적화."
+},
+{
+"i": 98,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 순서의 값은 2! 배 순열과 조합. Everyday question it answers: 순서를 따지느냐가 왜 그렇게 중요할까? Math idea to hint visually: 순열 · 조합 · 같은 것이 있는 순열."
+},
+{
+"i": 99,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 사진을 움직이는 숫자판 행렬과 변환. Everyday question it answers: 사진 회전·확대는 왜 행렬 곱셈일까? Math idea to hint visually: 행렬 · 일차변환 · 행렬식."
+},
+{
+"i": 100,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 순서를 타는 곱셈 행렬 곱의 비가환. Everyday question it answers: 순서를 바꾸면 결과가 달라지는 곱셈이 있을까? Math idea to hint visually: 행렬의 곱셈 · 합성 변환 · 교환법칙."
+},
+{
+"i": 101,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 책상 밖으로 무한히 카드 쌓기와 조화급수. Everyday question it answers: 카드를 얼마나 멀리 내밀 수 있을까? Math idea to hint visually: 무한급수 · 조화급수의 발산 · 무게중심."
+},
+{
+"i": 102,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 색은 좌표다 RGB 색 좌표 실험실. Everyday question it answers: 그림판의 색 코드는 무슨 뜻일까? Math idea to hint visually: 16진법 · 내분점 · 무게중심 좌표."
+},
+{
+"i": 103,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 접으면 3등분 종이접기 등분 실험실. Everyday question it answers: 자와 컴퍼스로 못 하는 일을 접기로 할 수 있을까? Math idea to hint visually: 닮음비 · 내분점 · 합동 · 작도 불가능 문제."
+},
+{
+"i": 104,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 주사위 100개 실험으로 만드는 지수 감소. Everyday question it answers: 매년 1/6이 떠나면 10년 뒤 몇 세대가 남을까? Math idea to hint visually: 지수함수 · 로그 · 실험과 이론의 오차."
+},
+{
+"i": 105,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 90°가 넘으면? 단위원으로 넓힌 삼각비. Everyday question it answers: sin 150° 는 얼마이고, 왜 그럴까? Math idea to hint visually: 단위원 · 삼각함수의 정의 · 주기."
+},
+{
+"i": 106,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 해는 왜 물결처럼 뜰까? 일출 시각 모형. Everyday question it answers: 1년의 일출을 식 하나로 쓸 수 있을까? Math idea to hint visually: 삼각함수의 그래프 · 진폭·주기·위상 · 모형화."
+},
+{
+"i": 107,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 강 건너까지 몇 m? 사인·코사인법칙 측량. Everyday question it answers: 갈 수 없는 곳까지의 거리를 어떻게 잴까? Math idea to hint visually: 사인법칙 · 코사인법칙 · ASA."
+},
+{
+"i": 108,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 월 상환액은 어떻게 정해질까? 대출과 등비수열. Everyday question it answers: 1,200만원을 24개월에 나눠 갚으면 매달 얼마? Math idea to hint visually: 등비수열의 합 · 현재가치 · 원리금균등상환."
+},
+{
+"i": 109,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 1부터 100까지를 한 번에 시그마와 계단. Everyday question it answers: 가우스는 어떻게 순식간에 5050 을 말했을까? Math idea to hint visually: 수열의 합 · 시그마 · 도형적 증명."
+},
+{
+"i": 110,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 도미노가 다 무너지려면 수학적 귀납법. Everyday question it answers: 무한히 많은 경우를 어떻게 다 확인할까? Math idea to hint visually: 수학적 귀납법 · 증명의 구조."
+},
+{
+"i": 111,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 몇 해 뒤에 세 배? 지수방정식과 부등식. Everyday question it answers: 지수에 갇힌 x 를 어떻게 꺼낼까? Math idea to hint visually: 지수방정식 · 지수부등식 · 로그의 정의."
+},
+{
+"i": 112,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 계산기에 없는 밑 로그의 밑 변환. Everyday question it answers: log₂ 100 을 상용로그만으로 구할 수 있을까? Math idea to hint visually: 로그의 밑 변환 · 상용로그."
+},
+{
+"i": 113,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 좌표를 맞바꾼 짝 지수와 로그의 대칭. Everyday question it answers: 로그에 음수를 넣을 수 없는 이유는? Math idea to hint visually: 역함수 · y = x 대칭 · 정의역과 치역."
+},
+{
+"i": 114,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 2의 100제곱은 몇 자리? 상용로그의 지표와 가수. Everyday question it answers: 계산기가 넘치는 수의 자릿수를 알 수 있을까? Math idea to hint visually: 상용로그 · 지표와 가수 · 자릿수."
+},
+{
+"i": 115,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 밑을 바꾸면 곡선이 뒤집힌다 지수함수의 변신. Everyday question it answers: 점근선은 어디로 움직일까? Math idea to hint visually: 지수함수의 그래프 · 평행이동 · 점근선."
+},
+{
+"i": 116,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 무엇이 무엇을 바꿨나 주기·진폭·위상. Everyday question it answers: 계수 넷은 각각 그래프의 무엇을 맡을까? Math idea to hint visually: 삼각함수의 그래프 · 주기와 진폭 · 위상 이동."
+},
+{
+"i": 117,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 해가 왜 무한히 많을까 삼각방정식. Everyday question it answers: sin x = 0.5 의 해는 몇 개일까? Math idea to hint visually: 삼각방정식 · 주기성 · 일반해."
+},
+{
+"i": 118,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 두 파동을 더하면 삼각함수의 합성. Everyday question it answers: 3 sin x + 4 cos x 의 최댓값은? Math idea to hint visually: 삼각함수의 합성 · R sin(x+α) · 최대·최소."
+},
+{
+"i": 119,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 각 없이 넓이 구하기 헤론의 공식. Everyday question it answers: 세 변만 알아도 넓이를 구할 수 있을까? Math idea to hint visually: 헤론의 공식 · 삼각부등식 · SSS."
+},
+{
+"i": 120,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 소리를 성분으로 쪼개다 푸리에의 직관. Everyday question it answers: 각진 파형은 어떤 사인들의 합일까? Math idea to hint visually: 삼각함수의 합 · 배음 · 스펙트럼."
+},
+{
+"i": 121,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 극장 좌석은 모두 몇 석? 등차수열과 사다리꼴. Everyday question it answers: 줄마다 늘어나는 좌석을 한 번에 셀 수 있을까? Math idea to hint visually: 등차수열 · 일반항 · 수열의 합."
+},
+{
+"i": 122,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 매달 1만원 vs 매달 1% 등차와 등비의 대결. Everyday question it answers: 언제 뒤집힐까? Math idea to hint visually: 등차수열 · 등비수열 · 증가 속도."
+},
+{
+"i": 123,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 집계란 무엇인가 시그마와 누적합. Everyday question it answers: 매일의 값과 누적선은 어떤 사이일까? Math idea to hint visually: 시그마 · 수열의 합 · 누적합."
+},
+{
+"i": 124,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 다음 항은 앞 항이 정한다 점화식. Everyday question it answers: 토끼 쌍은 몇 달 뒤 몇 쌍이 될까? Math idea to hint visually: 점화식 · 수열의 귀납적 정의 · 피보나치."
+},
+{
+"i": 125,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 매달 넣으면 만기에 얼마? 적금과 등비수열. Everyday question it answers: 같은 돈인데 왜 이자가 다를까? Math idea to hint visually: 등비수열의 합 · 원리합계 · 미래가치."
+},
+{
+"i": 126,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 정각에 나가면 얼마? 좌극한과 우극한. Everyday question it answers: 왼쪽에서 갈 때와 오른쪽에서 갈 때가 다를 수 있을까? Math idea to hint visually: 함수의 극한 · 좌극한·우극한 · 극한의 존재."
+},
+{
+"i": 127,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 계산기가 오류를 낸다 0/0 꼴의 정체. Everyday question it answers: 0 ÷ 0 은 왜 답이 정해지지 않을까? Math idea to hint visually: 부정형 · 인수분해 · 유리화."
+},
+{
+"i": 128,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 이 끊김은 고칠 수 있을까 불연속의 세 종류. Everyday question it answers: 끊긴 그래프에도 종류가 있을까? Math idea to hint visually: 연속의 정의 · 제거 가능한 불연속 · 점프·무한 불연속."
+},
+{
+"i": 129,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 근이 어디 있는지 부호만으로 사잇값 정리. Everyday question it answers: 값을 몰라도 있다는 것은 알 수 있을까? Math idea to hint visually: 사잇값 정리 · 연속 · 이분법."
+},
+{
+"i": 130,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 구간을 열어 두면 최댓값이 사라진다 최대·최소 정리. Everyday question it answers: 가장 큰 값은 언제 보장될까? Math idea to hint visually: 최대·최소 정리 · 닫힌구간 · 연속."
+},
+{
+"i": 131,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 여기엔 접선을 못 그린다 미분 불가능한 점. Everyday question it answers: 이어져 있는데도 기울기를 못 정하는 곳이 있을까? Math idea to hint visually: 미분계수 · 좌·우 미분계수 · 미분 가능성."
+},
+{
+"i": 132,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 면은 어디를 바라보나 접선과 법선. Everyday question it answers: 곡선 위 한 점에서의 방향은 어떻게 정할까? Math idea to hint visually: 접선의 방정식 · 법선 · 수직 조건."
+},
+{
+"i": 133,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 봉우리는 어디서 생기나 도함수의 부호. Everyday question it answers: 그래프의 오르내림을 식만 보고 알 수 있을까? Math idea to hint visually: 도함수 · 증가와 감소 · 극값."
+},
+{
+"i": 134,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 종이 한 장으로 가장 큰 상자 최적화. Everyday question it answers: 얼마를 잘라야 부피가 가장 클까? Math idea to hint visually: 최대·최소 · 도함수의 활용 · 정의역."
+},
+{
+"i": 135,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 엘리베이터는 언제 가장 빨랐나 위치·속도·가속도. Everyday question it answers: 세 그래프는 어떤 사이일까? Math idea to hint visually: 속도 · 가속도 · 도함수의 활용."
+},
+{
+"i": 136,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 곡선 아래 넓이를 어떻게 재나 구분구적법. Everyday question it answers: 직사각형으로 곡선을 메울 수 있을까? Math idea to hint visually: 구분구적법 · 정적분의 정의 · 극한."
+},
+{
+"i": 137,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 넓이를 미분하면 높이 미적분의 기본정리. Everyday question it answers: 미분과 적분은 왜 서로 반대일까? Math idea to hint visually: 미적분의 기본정리 · 넓이 함수 · 도함수."
+},
+{
+"i": 138,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 어디에 있나, 얼마나 움직였나 정적분과 누적. Everyday question it answers: 속도 그래프의 넓이는 무엇을 뜻할까? Math idea to hint visually: 정적분의 활용 · 변위와 거리 · 부호 있는 넓이."
+},
+{
+"i": 139,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 두 그래프 사이는 얼마나 넓나 위아래가 바뀌는 자리. Everyday question it answers: 한 번에 적분하면 왜 넓이가 작게 나올까? Math idea to hint visually: 두 곡선 사이의 넓이 · 교점 · 절댓값."
+},
+{
+"i": 140,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 이 그릇의 부피는? 회전체와 원판. Everyday question it answers: 곡선을 돌려 만든 그릇의 부피를 어떻게 잴까? Math idea to hint visually: 회전체의 부피 · 원판법 · 정적분."
+},
+{
+"i": 141,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 10명에서 3명 뽑기 조합과 파스칼 삼각형. Everyday question it answers: 뽑는 방법의 수를 표에서 바로 읽을 수 있을까? Math idea to hint visually: 조합 · 파스칼 삼각형 · 이항계수."
+},
+{
+"i": 142,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 똑같은 사탕을 나눠 담기 중복조합. Everyday question it answers: 같은 것을 나누는 방법은 몇 가지일까? Math idea to hint visually: 중복조합 · 별과 칸막이 · 조합."
+},
+{
+"i": 143,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 전개하지 않고 계수 찾기 이항정리. Everyday question it answers: (x+2)⁵ 에서 x² 의 계수는? Math idea to hint visually: 이항정리 · 일반항 · 이항계수."
+},
+{
+"i": 144,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 배반이면 독립일까 헷갈리는 두 낱말. Everyday question it answers: 함께 못 일어난다와 서로 영향 없다는 같은 말일까? Math idea to hint visually: 배반사건 · 독립 · 조건부확률."
+},
+{
+"i": 145,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 10분만 기다려 주면 기하적 확률. Everyday question it answers: 셀 수 없이 많은 경우의 확률은 어떻게 정할까? Math idea to hint visually: 기하적 확률 · 넓이의 비 · 시뮬레이션."
+},
+{
+"i": 146,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 정확도 99% 인데 왜 안심하라 할까 조건부확률. Everyday question it answers: 양성이면 정말 환자일까? Math idea to hint visually: 조건부확률 · 베이즈 정리 · 자연빈도."
+},
+{
+"i": 147,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 정말 관계가 있을까 2×2 표로 독립 판정. Everyday question it answers: 두 항목이 서로 영향을 준다는 걸 어떻게 확인할까? Math idea to hint visually: 독립 · 기댓값 · 카이제곱."
+},
+{
+"i": 148,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 보험료는 어떻게 정할까 확률분포와 기댓값. Everyday question it answers: 한 번도 안 일어날 수 있는 일에 얼마를 낼까? Math idea to hint visually: 확률변수 · 확률분포 · 기댓값."
+},
+{
+"i": 149,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 평균이 같은 두 반은 정말 같을까 분산과 표준편차. Everyday question it answers: 평균 말고 무엇을 더 봐야 할까? Math idea to hint visually: 분산 · 표준편차 · 편차."
+},
+{
+"i": 150,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 100번에 60번 앞면, 의심할까 이항분포. Everyday question it answers: 얼마나 치우쳐야 이상하다고 말할 수 있을까? Math idea to hint visually: 이항분포 · 평균과 표준편차 · 꼬리 확률."
+},
+{
+"i": 151,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 몇 번 던지면 종 모양이 될까 이항분포의 정규 근사. Everyday question it answers: 막대를 곡선으로 바꿔도 될 때는 언제일까? Math idea to hint visually: 이항분포 · 정규분포 · 근사 조건."
+},
+{
+"i": 152,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 평균에서 2σ 안에는 몇 % 68·95·99.7 법칙. Everyday question it answers: 표준편차는 어떤 자일까? Math idea to hint visually: 정규분포 · 표준편차 · 표준화."
+},
+{
+"i": 153,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 왜 평균은 안정될까 표본평균의 분포. Everyday question it answers: 치우친 자료의 평균도 종 모양이 될까? Math idea to hint visually: 표본평균 · 중심극한정리 · 표준오차."
+},
+{
+"i": 154,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 95% 신뢰란 무슨 뜻일까 신뢰구간. Everyday question it answers: 참값이 그 안에 있을 확률이 95%라는 말이 맞을까? Math idea to hint visually: 신뢰구간 · 신뢰수준 · 표본오차."
+},
+{
+"i": 155,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 몇 명에게 물어야 하나 표본 크기와 오차한계. Everyday question it answers: 오차를 절반으로 줄이려면 몇 배를 조사해야 할까? Math idea to hint visually: 오차한계 · 표본 크기 · 신뢰수준."
+},
+{
+"i": 156,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 위성 안테나는 왜 접시 모양일까 포물선의 초점. Everyday question it answers: 나란히 들어온 전파는 어디로 모일까? Math idea to hint visually: 포물선 · 초점과 준선 · 반사 성질."
+},
+{
+"i": 157,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 두 압정과 실로 그리는 궤도 타원. Everyday question it answers: 행성의 궤도는 왜 원이 아닐까? Math idea to hint visually: 타원 · 초점 · 이심률."
+},
+{
+"i": 158,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 다가가지만 닿지 않는다 쌍곡선과 점근선. Everyday question it answers: 간격이 0 이 되는 곳이 있을까? Math idea to hint visually: 쌍곡선 · 점근선 · 극한."
+},
+{
+"i": 159,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 소리가 언제 도착했나로 위치 찾기 쌍곡선 항법. Everyday question it answers: 시간 차만으로 어디인지 알 수 있을까? Math idea to hint visually: 쌍곡선의 정의 · 거리 차 · 위치 추적."
+},
+{
+"i": 160,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 스치듯 닿는 순간 접선의 조건. Everyday question it answers: 직선이 곡선에 접할 조건은 무엇일까? Math idea to hint visually: 이차곡선과 직선 · 판별식 · 접선."
+},
+{
+"i": 161,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 물살을 거슬러 어디로 향할까 벡터의 합성. Everyday question it answers: 실제로 가는 방향은 어떻게 정해질까? Math idea to hint visually: 벡터의 덧셈 · 성분 · 합성."
+},
+{
+"i": 162,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 나란한지 어떻게 아나 실수배와 평행 조건. Everyday question it answers: 두 화살표가 같은 방향인지 어떻게 확인할까? Math idea to hint visually: 벡터의 실수배 · 평행 조건 · 성분."
+},
+{
+"i": 163,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 두 도로는 몇 도로 만날까 내적과 사잇각. Everyday question it answers: 각을 재지 않고 계산으로 알 수 있을까? Math idea to hint visually: 내적 · 사잇각 · 수직 조건."
+},
+{
+"i": 164,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 비스듬한 그림자는 얼마나 짧아질까 정사영의 길이. Everyday question it answers: 각과 그림자 길이는 비례할까? Math idea to hint visually: 정사영 · 내적 · 코사인."
+},
+{
+"i": 165,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 기울어진 판의 그림자 넓이는 정사영의 넓이. Everyday question it answers: 넓이는 cos 을 몇 번 곱할까? Math idea to hint visually: 정사영의 넓이 · 공간도형 · 코사인."
+},
+{
+"i": 166,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 공간에서 수직을 어떻게 확인하나 삼수선 정리. Everyday question it answers: 수직이 다른 선으로 옮겨 갈까? Math idea to hint visually: 공간도형 · 수직 · 삼수선 정리."
+},
+{
+"i": 167,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 드론은 지금 어디에 공간좌표와 거리. Everyday question it answers: 좌표 세 개로 거리를 어떻게 잴까? Math idea to hint visually: 공간좌표 · 두 점 사이 거리 · 피타고라스."
+},
+{
+"i": 168,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 공을 자르면 무슨 모양 구의 방정식과 절단. Everyday question it answers: 자르는 높이에 따라 단면이 어떻게 변할까? Math idea to hint visually: 구의 방정식 · 평면의 절단 · 단면."
+},
+{
+"i": 169,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 하나의 원뿔, 네 가지 곡선 원뿔곡선의 통일. Everyday question it answers: 타원·포물선·쌍곡선은 서로 다른 도형일까? Math idea to hint visually: 원뿔곡선 · 이심률 · 단면."
+},
+{
+"i": 170,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 편대의 자리를 정하라 위치벡터와 내분점. Everyday question it answers: 비가 왜 엇갈려 붙을까? Math idea to hint visually: 위치벡터 · 내분점 · 무게중심."
+},
+{
+"i": 171,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 끝없이 가면 어디로 수열의 극한. Everyday question it answers: 모이는 수열과 아닌 수열은 어떻게 다를까? Math idea to hint visually: 수열의 극한 · 수렴과 발산 · 진동."
+},
+{
+"i": 172,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 공비 하나가 운명을 가른다 등비수열의 수렴 조건. Everyday question it answers: 경계는 어디일까? Math idea to hint visually: 등비수열 · 수렴 조건 · 극한."
+},
+{
+"i": 173,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 무한히 더하면 어디로 급수의 부분합. Everyday question it answers: 항이 0 으로 가면 합은 반드시 모일까? Math idea to hint visually: 급수 · 부분합 · 수렴 판정."
+},
+{
+"i": 174,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 0.999… 는 1인가 순환소수와 무한등비급수. Everyday question it answers: 한없이 가까워지는 것과 같은 것은 다를까? Math idea to hint visually: 무한등비급수 · 순환소수 · 극한."
+},
+{
+"i": 175,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 왜 라디안을 쓰는가 sin x / x 의 극한. Everyday question it answers: 각의 단위가 계산을 바꿀까? Math idea to hint visually: 삼각함수의 극한 · 라디안 · 호의 길이."
+},
+{
+"i": 176,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 미분해도 그대로인 함수 e 는 어디서 오나. Everyday question it answers: 밑이 얼마일 때 곡선과 도함수가 포개질까? Math idea to hint visually: 지수함수의 미분 · 자연상수 e · 로그."
+},
+{
+"i": 177,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 네 번 미분하면 제자리 삼각함수의 미분. Everyday question it answers: 미분이 그래프를 어떻게 옮길까? Math idea to hint visually: 삼각함수의 미분 · 주기 · 도함수."
+},
+{
+"i": 178,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 사슬처럼 이어 붙이기 합성함수의 미분. Everyday question it answers: 안쪽 함수는 어디에 곱해질까? Math idea to hint visually: 합성함수 · 연쇄법칙 · 도함수."
+},
+{
+"i": 179,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: y 로 풀 수 없어도 음함수와 매개변수 미분. Everyday question it answers: 식을 정리하지 않고 기울기를 구할 수 있을까? Math idea to hint visually: 음함수 미분 · 매개변수 미분 · 접선."
+},
+{
+"i": 180,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 휘는 방향이 바뀌는 자리 변곡점. Everyday question it answers: f″ = 0 이면 다 변곡점일까? Math idea to hint visually: 이계도함수 · 변곡점 · 곡선의 개형."
+},
+{
+"i": 181,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 변수를 바꾸면 넓이도 바뀔까 치환적분. Everyday question it answers: 무엇을 함께 바꿔야 할까? Math idea to hint visually: 치환적분 · 미분소 · 적분 구간."
+},
+{
+"i": 182,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 곱을 나누어 넘기기 부분적분. Everyday question it answers: u 를 무엇으로 잡아야 쉬워질까? Math idea to hint visually: 부분적분 · 도함수 · 적분 전략."
+},
+{
+"i": 183,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 속력이 일정한데 가속도가 있다 속도·가속도 벡터. Everyday question it answers: 가속도는 빨라지는 정도일까? Math idea to hint visually: 매개변수 미분 · 속도 벡터 · 가속도 벡터."
+},
+{
+"i": 184,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 구부러진 길의 길이 곡선의 길이. Everyday question it answers: 자로 잴 수 없는 길이를 어떻게 구할까? Math idea to hint visually: 곡선의 길이 · 정적분 · 근사."
+},
+{
+"i": 185,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 변화율이 미래를 정한다 미분방정식 맛보기. Everyday question it answers: 규칙 하나로 곡선이 정해질까? Math idea to hint visually: 미분방정식 · 기울기장 · 초기조건."
+},
+{
+"i": 186,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 직선 하나로 가를 수 있을까 퍼셉트론과 XOR의 벽. Everyday question it answers: AI 의 첫 겨울은 왜 왔을까? Math idea to hint visually: 가중합 · 부등식 · 선형 분리."
+},
+{
+"i": 187,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 정확도 95%인데 쓸모가 없다 무엇을 재고 있나. Everyday question it answers: 좋은 모형의 기준은 무엇일까? Math idea to hint visually: 정확도 · 정밀도 · 재현율."
+},
+{
+"i": 188,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 문장을 숫자로 원-핫과 빈도수 벡터. Everyday question it answers: 컴퓨터는 글을 어떻게 계산할까? Math idea to hint visually: 단어집합 · 벡터 표현 · 원-핫."
+},
+{
+"i": 189,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 흔한 단어는 깎는다 TF-IDF. Everyday question it answers: 어떤 단어가 그 글의 특징일까? Math idea to hint visually: TF-IDF · 로그 · 가중치."
+},
+{
+"i": 190,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 겹치는 만큼 비슷하다 자카드 유사도. Everyday question it answers: 두 리뷰가 얼마나 닮았는지 어떻게 잴까? Math idea to hint visually: 집합 · 교집합과 합집합 · 유사도."
+},
+{
+"i": 191,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 사진은 숫자 표다 이미지와 행렬. Everyday question it answers: 밝기와 대비는 어떤 연산일까? Math idea to hint visually: 행렬 · 원소별 연산 · 화소."
+},
+{
+"i": 192,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 컬러는 세 장이다 R·G·B 세 개의 행렬. Everyday question it answers: 흑백으로 바꿀 때 왜 단순 평균이 아닐까? Math idea to hint visually: 행렬 · 가중 평균 · 색 채널."
+},
+{
+"i": 193,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 행과 열을 맞바꾸면 전치행렬. Everyday question it answers: 전치와 회전은 같은 걸까? Math idea to hint visually: 전치행렬 · 대칭 · 행렬 연산."
+},
+{
+"i": 194,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 좌표를 옮기는 규칙 행렬의 곱셈. Everyday question it answers: 네 수가 도형을 어떻게 바꿀까? Math idea to hint visually: 행렬의 곱 · 일차변환 · 행렬식."
+},
+{
+"i": 195,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 가장 가까운 본보기로 해밍 거리 분류. Everyday question it answers: 글씨가 흐트러져도 알아볼 수 있을까? Math idea to hint visually: 해밍 거리 · 최근접 이웃 · 분류."
+},
+{
+"i": 196,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 층 하나 = 행렬 하나 완전연결층. Everyday question it answers: 신경망은 무엇을 계산하고 있을까? Math idea to hint visually: 행렬의 곱 · 가중치와 편향 · 활성함수."
+},
+{
+"i": 197,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 오차를 하나의 수로 손실함수 L(a). Everyday question it answers: 어떤 직선이 가장 좋은지 어떻게 정할까? Math idea to hint visually: 손실함수 · 제곱오차 · 이차함수."
+},
+{
+"i": 198,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 무엇을 오차로 볼까 MSE 와 MAE. Everyday question it answers: 이상치 하나가 답을 바꿀 수 있을까? Math idea to hint visually: 제곱오차 · 절대오차 · 이상치."
+},
+{
+"i": 199,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 보폭을 얼마로 학습률과 수렴·발산. Everyday question it answers: 너무 크면 왜 못 내려갈까? Math idea to hint visually: 경사하강법 · 학습률 · 수렴 조건."
+},
+{
+"i": 200,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 절편까지 배운다 기울기만으로는 부족할 때. Everyday question it answers: 원점을 지나야만 한다면? Math idea to hint visually: 일차함수 · 절편 · 손실 비교."
+},
+{
+"i": 201,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 연 12%는 월 1%와 같을까 실효이자율. Everyday question it answers: 이자를 자주 붙이면 무엇이 달라질까? Math idea to hint visually: 복리 · 실효이자율 · 극한."
+},
+{
+"i": 202,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 구간이 오르면 손해일까 누진세. Everyday question it answers: 경계를 넘으면 전체 소득에 높은 세율이 붙을까? Math idea to hint visually: 구간별 계산 · 한계세율 · 실효세율."
+},
+{
+"i": 203,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 두 번 바꾸면 손해일까 환율과 교차환율. Everyday question it answers: 손해의 정체는 무엇일까? Math idea to hint visually: 비와 비율 · 나눗셈 · 교차환율."
+},
+{
+"i": 204,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 10년 전 만 원은 지금 얼마 물가와 실질가치. Everyday question it answers: 통장 잔고가 늘면 부자가 될까? Math idea to hint visually: 지수 · 물가지수 · 실질가치."
+},
+{
+"i": 205,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 지금 90만원 vs 3년 뒤 100만원 현재가치. Everyday question it answers: 시점이 다른 돈을 어떻게 비교할까? Math idea to hint visually: 현재가치 · 할인율 · 거듭제곱."
+},
+{
+"i": 206,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 가격은 어디서 정해지나 수요와 공급. Everyday question it answers: 남거나 모자라면 무슨 일이 생길까? Math idea to hint visually: 연립방정식 · 일차함수 · 균형."
+},
+{
+"i": 207,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 값을 올리면 더 벌까 가격탄력성. Everyday question it answers: 매출이 가장 큰 가격은 어디일까? Math idea to hint visually: 탄력성 · 이차함수의 최대 · 변화율."
+},
+{
+"i": 208,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 가격을 누르면 어떻게 될까 가격 상한. Everyday question it answers: 싸게 만들면 모두에게 좋을까? Math idea to hint visually: 부등식 · 초과수요 · 시장 균형."
+},
+{
+"i": 209,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 하나를 고르면 하나를 잃는다 기회비용. Everyday question it answers: 포기한 것의 값은 얼마일까? Math idea to hint visually: 기회비용 · 생산가능곡선 · 기울기."
+},
+{
+"i": 210,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 몇 개를 팔아야 본전일까 손익분기점. Everyday question it answers: 고정비와 변동비는 어떻게 다를까? Math idea to hint visually: 일차함수의 교점 · 손익분기 · 공헌이익."
+},
+{
+"i": 211,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 한 바구니에 담지 말라 분산투자. Everyday question it answers: 나눠 담으면 무엇이 좋아질까? Math idea to hint visually: 분산 · 이차함수 · 상관."
+},
+{
+"i": 212,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 기댓값이 같은데 왜 다를까 위험 회피. Everyday question it answers: 확실한 100만원과 도박, 어느 쪽? Math idea to hint visually: 기댓값 · 효용 · 볼록성."
+},
+{
+"i": 213,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 불평등을 하나의 수로 지니계수. Everyday question it answers: 얼마나 고르게 나뉘었는지 어떻게 잴까? Math idea to hint visually: 넓이의 비 · 누적 비율 · 로렌츠 곡선."
+},
+{
+"i": 214,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 명목과 실질, 그리고 두 배가 되는 해 성장률. Everyday question it answers: 로그 눈금에서 직선이면 무슨 뜻일까? Math idea to hint visually: 지수 성장 · 로그 눈금 · 실질 성장률."
+},
+{
+"i": 215,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 중고차 값은 어떻게 떨어질까 감가상각. Everyday question it answers: 같은 금액씩일까, 같은 비율씩일까? Math idea to hint visually: 등차수열 · 등비수열 · 로그."
+},
+{
+"i": 216,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 곱할까 나눌까 단위 환산 사슬. Everyday question it answers: 72 km/h 는 몇 m/s 일까? Math idea to hint visually: 단위 환산 · 비례 · 약분."
+},
+{
+"i": 217,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 도면 1cm 는 실제로 몇 m 축척. Everyday question it answers: 길이가 N 배면 넓이도 N 배일까? Math idea to hint visually: 축척 · 닮음비 · 넓이비."
+},
+{
+"i": 218,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 30% 두 번은 60%일까 할인의 함정. Everyday question it answers: 할인율은 더해질까? Math idea to hint visually: 비율 · 곱셈 · 백분율."
+},
+{
+"i": 219,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 몇 개를 넣어야 100개가 나올까 손실률. Everyday question it answers: 손실률을 곱할까 나눌까? Math idea to hint visually: 비율 · 역산 · 불량률."
+},
+{
+"i": 220,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 계산기의 소수 여덟 자리 유효숫자. Everyday question it answers: 어디까지가 아는 값일까? Math idea to hint visually: 유효숫자 · 측정 오차 · 반올림."
+},
+{
+"i": 221,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 평균의 평균은 평균이 아니다 가중평균. Everyday question it answers: 인원이 다르면 어떻게 될까? Math idea to hint visually: 가중평균 · 비율 · 대푯값."
+},
+{
+"i": 222,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 사람을 두 배로 하면 절반일까 작업 시간과 인원. Everyday question it answers: 반비례는 어디까지 맞을까? Math idea to hint visually: 반비례 · 효율 · 최적화."
+},
+{
+"i": 223,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 언제 공정을 멈출까 불량률과 관리도. Everyday question it answers: 우연과 이상을 어떻게 가를까? Math idea to hint visually: 이항분포 · 3σ · 관리 한계."
+},
+{
+"i": 224,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 두 용액을 섞으면 농도는 혼합 문제. Everyday question it answers: 농도도 그냥 더하면 될까? Math idea to hint visually: 농도 · 가중평균 · 비율."
+},
+{
+"i": 225,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 몇 %가 규격 안에 드나 공정능력. Everyday question it answers: 산포가 작으면 다 좋을까? Math idea to hint visually: 정규분포 · 규격 · 공정능력지수."
+},
+{
+"i": 226,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 건물 높이를 자 없이 삼각비 현장 측량. Everyday question it answers: 눈높이를 빠뜨리면 어떻게 될까? Math idea to hint visually: 삼각비 · tan · 측정 오차."
+},
+{
+"i": 227,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 남는 토막을 줄이려면 자재 재단. Everyday question it answers: 같은 자재로 더 많이 쓰는 방법은? Math idea to hint visually: 나눗셈의 나머지 · 조합 · 최적화."
+},
+{
+"i": 228,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 10kWh 더 썼을 뿐인데 누진 전기 요금. Everyday question it answers: 평균 단가와 마지막 단가는 왜 다를까? Math idea to hint visually: 구간별 계산 · 평균 · 기본요금."
+},
+{
+"i": 229,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 위도 1도는 몇 km GPS 좌표와 거리. Everyday question it answers: 가로와 세로를 같은 자로 재도 될까? Math idea to hint visually: 호의 길이 · 코사인 · 좌표."
+},
+{
+"i": 230,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 페인트 몇 통을 살까 도포량과 올림. Everyday question it answers: 넓이는 실수인데 통은 왜 자연수일까? Math idea to hint visually: 넓이 · 나눗셈 · 올림."
+},
+{
+"i": 231,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 어디서 시작해도 같은 곳으로 황금비와 피보나치. Everyday question it answers: 이웃한 두 수의 비는 어디로 갈까? Math idea to hint visually: 피보나치 · 황금비 · 극한."
+},
+{
+"i": 232,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 평면을 빈틈없이 채우려면 테셀레이션. Everyday question it answers: 왜 정오각형으로는 안 될까? Math idea to hint visually: 정다각형의 내각 · 약수 · 평면 채우기."
+},
+{
+"i": 233,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 스스로를 닮은 도형 프랙탈. Everyday question it answers: 둘레가 무한인데 넓이는 유한할 수 있을까? Math idea to hint visually: 자기닮음 · 등비수열 · 프랙탈 차원."
+},
+{
+"i": 234,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 왜 그 두 음은 어울릴까 음정과 진동수 비. Everyday question it answers: 어울림은 취향일까 수일까? Math idea to hint visually: 비와 비율 · 로그 · 평균율."
+},
+{
+"i": 235,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 평행선이 만나는 곳 원근법과 소실점. Everyday question it answers: 같은 간격이 왜 좁아 보일까? Math idea to hint visually: 반비례 · 닮음 · 사영."
+},
+{
+"i": 236,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 단청은 왜 어긋나지 않을까 대칭과 문양. Everyday question it answers: 문양이 제자리에 겹치는 방법은 몇 가지일까? Math idea to hint visually: 회전 대칭 · 반사 대칭 · 대칭군."
+},
+{
+"i": 237,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 그린란드는 왜 그렇게 클까 지도 투영법. Everyday question it answers: 평면 지도는 무엇을 잃을까? Math idea to hint visually: 삼각비 · 확대율 · 로그."
+},
+{
+"i": 238,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 다리의 줄은 포물선일까 현수선과 포물선. Everyday question it answers: 제 무게로 늘어진 줄은 어떤 곡선일까? Math idea to hint visually: 쌍곡선함수 · 급수 전개 · 근사."
+},
+{
+"i": 239,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 잘라도 모양 그대로 종이의 비 √2. Everyday question it answers: 반으로 잘라도 닮은 종이가 있을까? Math idea to hint visually: 비례식 · 무리수 · 등비수열."
+},
+{
+"i": 240,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 그날은 무슨 요일일까 달력과 나머지. Everyday question it answers: 요일은 무엇이 정할까? Math idea to hint visually: 합동식 · 나머지 · 주기."
+},
+{
+"i": 241,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 시계는 왜 60 일까 진법과 자릿값. Everyday question it answers: 같은 수를 다르게 쓰면 무엇이 달라질까? Math idea to hint visually: 진법 변환 · 자릿값 · 로그."
+},
+{
+"i": 242,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 모든 줄의 합이 같게 마방진. Everyday question it answers: 한 줄의 합은 왜 미리 정해질까? Math idea to hint visually: 등차수열의 합 · 조합적 구성 · 불변량."
+},
+{
+"i": 243,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 안팎에서 조여 오는 수 원주율의 역사. Everyday question it answers: π 의 값을 어떻게 확신할 수 있을까? Math idea to hint visually: 삼각비 · 부등식 · 극한."
+},
+{
+"i": 244,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 하나 늘렸는데 줄어든다 의석 배분의 역설. Everyday question it answers: 공정한 나눔은 하나뿐일까? Math idea to hint visually: 비례배분 · 반올림 · 최적화."
+},
+{
+"i": 245,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 가장 잦은 글자 암호와 빈도분석. Everyday question it answers: 열쇠를 모르고도 풀 수 있을까? Math idea to hint visually: 합동식 · 통계적 분포 · 주기."
+},
+{
+"i": 246,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 풀리는지 먼저 묻는다 역행렬과 해의 개수. Everyday question it answers: 계수만 보고 해가 있는지 알 수 있을까? Math idea to hint visually: 역행렬 · 행렬식 · 연립일차방정식."
+},
+{
+"i": 247,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 넓이가 몇 배가 되는가 행렬식의 뜻. Everyday question it answers: 행렬식이라는 수 하나가 말하는 것은? Math idea to hint visually: 행렬식 · 넓이 배율 · 방향."
+},
+{
+"i": 248,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 휘지 않는 화살표 고유벡터와 고윳값. Everyday question it answers: 변환해도 방향이 그대로인 벡터가 있을까? Math idea to hint visually: 고유벡터 · 고윳값 · 특성방정식."
+},
+{
+"i": 249,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 백 번 곱하지 않는 법 대각화와 거듭제곱. Everyday question it answers: A¹⁰⁰ 을 빨리 구할 수 있을까? Math idea to hint visually: 대각화 · 고윳값 · 거듭제곱."
+},
+{
+"i": 250,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 한 번에 뛰어넘기 피보나치의 행렬 표현. Everyday question it answers: 점화식을 곱셈 한 번으로 바꿀 수 있을까? Math idea to hint visually: 점화식 · 행렬 거듭제곱 · 비네 공식."
+},
+{
+"i": 251,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 계단으로 만들면 풀린다 가우스 소거법. Everyday question it answers: 컴퓨터는 연립방정식을 어떤 순서로 풀까? Math idea to hint visually: 행 조작 · 피벗 · 첨가행렬."
+},
+{
+"i": 252,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 화살표 둘로 어디까지 생성. Everyday question it answers: 두 방향만으로 평면을 다 덮을 수 있을까? Math idea to hint visually: 일차결합 · 생성 · 벡터공간."
+},
+{
+"i": 253,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 원점을 지나야 하는 이유 부분공간 판정. Everyday question it answers: 덧셈만 검사하면 왜 안 될까? Math idea to hint visually: 부분공간 · 실수배 · 영벡터."
+},
+{
+"i": 254,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 개수와 차원은 다르다 일차독립과 차원. Everyday question it answers: 벡터를 늘리면 차원도 늘어날까? Math idea to hint visually: 일차독립 · 기저 · 차원."
+},
+{
+"i": 255,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 같은 점, 다른 좌표 기저와 좌표. Everyday question it answers: 좌표는 점의 성질일까? Math idea to hint visually: 기저 · 좌표변환 · 일차결합."
+},
+{
+"i": 256,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 돌리고 늘이면 다르다 선형변환과 합성. Everyday question it answers: 변환의 순서를 바꾸면 결과도 바뀔까? Math idea to hint visually: 선형변환 · 표현행렬 · 합성."
+},
+{
+"i": 257,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 오래 지나면 어디에 마르코프 연쇄의 정상상태. Everyday question it answers: 출발점이 결과를 정할까? Math idea to hint visually: 전이행렬 · 거듭제곱 · 고윳값 1."
+},
+{
+"i": 258,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 기울어진 축을 곧게 그람-슈미트 직교화. Everyday question it answers: 얼마만큼 덜어 내야 직각이 될까? Math idea to hint visually: 내적 · 정사영 · 직교화."
+},
+{
+"i": 259,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 딱 맞는 답이 없을 때 최소제곱과 직각. Everyday question it answers: 가장 가까운 답은 어떻게 찾을까? Math idea to hint visually: 최소제곱 · 정사영 · 잔차."
+},
+{
+"i": 260,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 가장 퍼진 방향 주성분과 차원 축소. Everyday question it answers: 축을 줄여도 정보를 지킬 수 있을까? Math idea to hint visually: 공분산 · 고유벡터 · 분산."
+},
+{
+"i": 261,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 비를 보면 안다 수렴판정. Everyday question it answers: 더해 보지 않고 수렴을 알 수 있을까? Math idea to hint visually: 비판정법 · 근판정법 · 등비 비교."
+},
+{
+"i": 262,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 0 으로 가는데도 무한 p-급수와 적분판정. Everyday question it answers: 항이 0 으로 가면 합도 유한할까? Math idea to hint visually: p-급수 · 적분판정 · 필요조건."
+},
+{
+"i": 263,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 항을 늘려도 나빠진다 수렴반경. Everyday question it answers: 근사는 어디까지 통할까? Math idea to hint visually: 멱급수 · 수렴반경 · 근사 오차."
+},
+{
+"i": 264,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 어느 길로 가느냐에 따라 다변수 극한. Everyday question it answers: 가까이 가면 값이 정해질까? Math idea to hint visually: 다변수 극한 · 경로 의존 · 존재 판정."
+},
+{
+"i": 265,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 촘촘한 곳이 가파른 곳 등고선 읽기. Everyday question it answers: 지도의 등고선은 무엇을 말할까? Math idea to hint visually: 등위선 · 기울기 벡터 · 이차형식."
+},
+{
+"i": 266,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 하나만 붙잡고 보면 편미분. Everyday question it answers: 변수가 둘이면 기울기는 몇 개일까? Math idea to hint visually: 편미분 · 단면 · 방향도함수."
+},
+{
+"i": 267,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 가까이서는 평평하다 접평면. Everyday question it answers: 곡면을 일차식으로 대신할 수 있을까? Math idea to hint visually: 접평면 · 국소 선형화 · 이차 오차."
+},
+{
+"i": 268,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 어느 쪽이 가장 가파른가 그래디언트. Everyday question it answers: 가장 빨리 오르는 방향은 어디일까? Math idea to hint visually: 그래디언트 · 방향도함수 · 내적."
+},
+{
+"i": 269,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 0 인데 극값이 아니다 안장점. Everyday question it answers: 기울기가 0 이면 극값일까? Math idea to hint visually: 임계점 · 헤세 행렬 · 이계도함수 판정."
+},
+{
+"i": 270,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 조건이 붙은 최댓값 라그랑주 승수법. Everyday question it answers: 울타리 안에서만 움직일 때 최댓값은? Math idea to hint visually: 제약 최적화 · 라그랑주 승수 · 접선 조건."
+},
+{
+"i": 271,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 순서를 바꾸면 구간도 중적분. Everyday question it answers: 어느 변수부터 적분해도 될까? Math idea to hint visually: 중적분 · 적분 순서 · 영역."
+},
+{
+"i": 272,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 왜 r 을 곱하나 극좌표와 야코비안. Everyday question it answers: 좌표를 바꾸면 넓이도 바뀔까? Math idea to hint visually: 극좌표 · 야코비안 · 넓이 배율."
+},
+{
+"i": 273,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 바람을 거슬러 갈 때 벡터장의 선적분. Everyday question it answers: 드는 힘을 어떻게 셀까? Math idea to hint visually: 벡터장 · 선적분 · 내적."
+},
+{
+"i": 274,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 어느 길로 가든 같은가 보존장. Everyday question it answers: 경로에 상관없는 힘이 있을까? Math idea to hint visually: 보존장 · 회전 · 퍼텐셜."
+},
+{
+"i": 275,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 둘레만 돌아 넓이 재기 그린 정리. Everyday question it answers: 안을 보지 않고 넓이를 알 수 있을까? Math idea to hint visually: 그린 정리 · 선적분 · 넓이."
+},
+{
+"i": 276,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 한 점에서 만나려면 체바 정리. Everyday question it answers: 세 선분이 한 점에서 만나는 조건은? Math idea to hint visually: 체바 정리 · 분점의 비 · 공점."
+},
+{
+"i": 277,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 부호가 있어야 한다 메넬라우스 정리. Everyday question it answers: 세 점이 한 직선 위인지 어떻게 알까? Math idea to hint visually: 메넬라우스 정리 · 부호 있는 비 · 공선."
+},
+{
+"i": 278,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 중심이 왜 여럿일까 삼각형의 중심들. Everyday question it answers: 무엇을 기준으로 삼느냐에 따라 달라질까? Math idea to hint visually: 무게중심 · 외심·수심 · 내심."
+},
+{
+"i": 279,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 세 점이 한 줄에 오일러 직선. Everyday question it answers: 모양이 변해도 남는 관계가 있을까? Math idea to hint visually: 오일러 직선 · 불변 관계 · 닮음."
+},
+{
+"i": 280,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 어떤 할선이든 같은 곱 방멱. Everyday question it answers: 점 하나가 원에 대해 갖는 값은? Math idea to hint visually: 방멱 · 할선과 접선 · 부호."
+},
+{
+"i": 281,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 힘이 같은 점들 두 원의 근축. Everyday question it answers: 두 원에 대해 같은 힘을 갖는 점은 어디일까? Math idea to hint visually: 방멱 · 근축 · 소거."
+},
+{
+"i": 282,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 직선이 원이 되는 순간 반전변환. Everyday question it answers: 거리를 뒤집으면 도형은 어떻게 될까? Math idea to hint visually: 반전 · 원과 직선 · 등각 사상."
+},
+{
+"i": 283,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 어려운 배치를 단순하게 반전으로 풀기. Everyday question it answers: 문제를 푸는 대신 바꿀 수 있을까? Math idea to hint visually: 반전 · 접하는 원 · 문제 변환."
+},
+{
+"i": 284,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 비스듬히 찍어도 남는 값 복비. Everyday question it answers: 사영에서 살아남는 것은 무엇일까? Math idea to hint visually: 사영 · 복비 · 불변량."
+},
+{
+"i": 285,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 방향만으로는 부족하다 평면의 방정식. Everyday question it answers: 평면 하나를 정하려면 무엇이 필요할까? Math idea to hint visually: 법선벡터 · 평면의 방정식 · 점과 평면의 거리."
+},
+{
+"i": 286,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 지붕의 각을 재려면 두 평면이 이루는 각. Everyday question it answers: 법선 사이의 각을 그대로 써도 될까? Math idea to hint visually: 법선벡터 · 내적 · 예각 약속."
+},
+{
+"i": 287,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 자른 면만 보고 알아맞히기 이차곡면의 단면. Everyday question it answers: 단면 하나로 입체를 정할 수 있을까? Math idea to hint visually: 이차곡면 · 단면 · 분류."
+},
+{
+"i": 288,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 곡선을 돌리면 회전면 만들기. Everyday question it answers: 축을 바꾸면 무엇이 달라질까? Math idea to hint visually: 회전면 · 대칭축 · 곡면."
+},
+{
+"i": 289,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 180°를 넘는 삼각형 구면 기하. Everyday question it answers: 지구 위 삼각형의 내각의 합은? Math idea to hint visually: 대원 · 구면 삼각형 · 구면 초과."
+},
+{
+"i": 290,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 평행선이 여럿인 세계 쌍곡기하 맛보기. Everyday question it answers: 공준 하나를 바꾸면 어떻게 될까? Math idea to hint visually: 평행선 공준 · 푸앵카레 원판 · 비유클리드."
+},
+{
+"i": 291,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 스위치 두 개로 전등을 진리표와 논리 회로. Everyday question it answers: 회로를 완전히 아는 방법이 있을까? Math idea to hint visually: 명제 · 논리 연산 · 진리표."
+},
+{
+"i": 292,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 둘 다는 아니다 vs 둘 다 아니다 드모르간 법칙. Everyday question it answers: 부정을 괄호 안에 넣으면? Math idea to hint visually: 집합의 연산 · 드모르간 · 여집합."
+},
+{
+"i": 293,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 겹친 사람을 몇 번 셀까 포함배제의 원리. Everyday question it answers: 중복 가입자를 어떻게 뺄까? Math idea to hint visually: 집합의 크기 · 포함배제 · 경우의 수."
+},
+{
+"i": 294,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 반드시 겹친다 비둘기집 원리. Everyday question it answers: 세는 것만으로 증명할 수 있을까? Math idea to hint visually: 비둘기집 원리 · 올림 · 존재 증명."
+},
+{
+"i": 295,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 원반 하나에 두 배씩 하노이 탑. Everyday question it answers: 원반 20개면 몇 번 옮겨야 할까? Math idea to hint visually: 점화식 · 재귀 · 지수적 증가."
+},
+{
+"i": 296,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 한 번에 그릴 수 있을까 한붓그리기. Everyday question it answers: 그려 보지 않고 판정할 수 있을까? Math idea to hint visually: 그래프 · 차수 · 오일러 경로."
+},
+{
+"i": 297,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 같은 것을 두 방법으로 세기 악수 정리. Everyday question it answers: 차수의 합은 왜 짝수일까? Math idea to hint visually: 그래프 · 차수 · 이중 계산."
+},
+{
+"i": 298,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 모든 마을을 가장 싸게 최소 신장 트리. Everyday question it answers: 사이클 검사를 빼면 어떻게 될까? Math idea to hint visually: 그래프 · 탐욕 알고리즘 · 트리."
+},
+{
+"i": 299,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 큐냐 스택이냐 너비 우선과 깊이 우선. Everyday question it answers: 먼저 찾으면 가장 짧은 길일까? Math idea to hint visually: 그래프 탐색 · 큐와 스택 · 최단 경로."
+},
+{
+"i": 300,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 하나씩 확정해 나가기 다익스트라. Everyday question it answers: 내비게이션은 최단 경로를 어떻게 찾을까? Math idea to hint visually: 최단 경로 · 탐욕 알고리즘 · 확정."
+},
+{
+"i": 301,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 매번 최선인데 왜 손해일까 탐욕법의 실패. Everyday question it answers: 눈앞의 최선이 전체의 최선일까? Math idea to hint visually: 탐욕 알고리즘 · 반례 · 최적화."
+},
+{
+"i": 302,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 자주 쓰면 짧게 허프만 부호. Everyday question it answers: 글자마다 길이를 다르게 하면? Math idea to hint visually: 부호화 · 이진 트리 · 빈도."
+},
+{
+"i": 303,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 어디가 뒤집혔는지까지 오류 검출·정정. Everyday question it answers: 한 비트가 뒤집혀도 고칠 수 있을까? Math idea to hint visually: 패리티 · 해밍 부호 · 이진 표현."
+},
+{
+"i": 304,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 열 배가 되면 몇 배일까 복잡도 비교. Everyday question it answers: n 이 작을 때는 왜 비슷해 보일까? Math idea to hint visually: 증가율 · 로그 · 복잡도."
+},
+{
+"i": 305,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 어느 정렬이 빠른가 자료의 모양이 정한다. Everyday question it answers: 같은 알고리즘도 상황에 따라 다를까? Math idea to hint visually: 정렬 · 비교 횟수 · 최선·최악."
+},
+{
+"i": 306,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 아니라고 하면 무엇이 무너지나 귀류법. Everyday question it answers: 없다는 것을 어떻게 증명할까? Math idea to hint visually: 귀류법 · 모순 · 무리수."
+},
+{
+"i": 307,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 젖었으니 비가 왔다는 왜 틀릴까. Everyday question it answers: 타당한 추론과 아닌 것을 어떻게 가릴까? Math idea to hint visually: 조건문 · 대우 · 추론 규칙."
+},
+{
+"i": 308,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 분수는 자연수만큼 있을까 가산집합. Everyday question it answers: 무한끼리도 크기를 견줄 수 있을까? Math idea to hint visually: 일대일 대응 · 가산집합 · 대각선 열거."
+},
+{
+"i": 309,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 목록에 없는 수 만들기 칸토어 대각선 논법. Everyday question it answers: 실수도 줄 세울 수 있을까? Math idea to hint visually: 대각선 논법 · 비가산 · 실수."
+},
+{
+"i": 310,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 최댓값이 없어도 울타리는 있다 상한. Everyday question it answers: 가장 낮은 위쪽 울타리는 무엇일까? Math idea to hint visually: 상한과 하한 · 유계 · 완비성."
+},
+{
+"i": 311,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 좁혀 가도 닿지 않는다 유리수의 구멍. Everyday question it answers: 분수만으로 수직선을 다 채울 수 있을까? Math idea to hint visually: 완비성 · 구간 축소 · 무리수."
+},
+{
+"i": 312,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: ε 을 주면 δ 를 찾는다 엡실론-델타. Everyday question it answers: 「가까워진다」를 숫자로 어떻게 말할까? Math idea to hint visually: 극한의 정의 · 엡실론-델타 · 부등식."
+},
+{
+"i": 313,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: δ 가 점마다 달라도 될까 균등연속. Everyday question it answers: 연속과 균등연속은 무엇이 다를까? Math idea to hint visually: 연속 · 균등연속 · 일양성."
+},
+{
+"i": 314,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 점마다 0 인데 오차는 1 함수열의 수렴. Everyday question it answers: 점마다 수렴하면 전체도 수렴일까? Math idea to hint visually: 각점수렴 · 균등수렴 · 최대 오차."
+},
+{
+"i": 315,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 급수가 원을 그린다 오일러 공식. Everyday question it answers: e^(iθ) 는 왜 원 위의 점일까? Math idea to hint visually: 멱급수 · 복소수 · 삼각함수."
+},
+{
+"i": 316,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 각을 두 배로 복소함수 z². Everyday question it answers: 제곱하면 평면이 어떻게 움직일까? Math idea to hint visually: 복소수의 곱 · 극형식 · 사상."
+},
+{
+"i": 317,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 12시 다음이 1시 시계 산술의 군. Everyday question it answers: 나머지의 셈에도 규칙이 있을까? Math idea to hint visually: 합동식 · 군의 조건 · 역원."
+},
+{
+"i": 318,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 돌리고 뒤집기 정삼각형의 대칭군. Everyday question it answers: 순서를 바꾸면 결과도 바뀔까? Math idea to hint visually: 대칭군 · 합성 · 비가환."
+},
+{
+"i": 319,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 가정을 하나 바꾸면 모형의 민감도. Everyday question it answers: 같은 자료로 다른 결론이 나올까? Math idea to hint visually: 수학적 모델링 · 가정 · 민감도."
+},
+{
+"i": 320,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 어디까지 믿어도 될까 외삽의 위험. Everyday question it answers: 잘 맞는 곡선이 잘 예측할까? Math idea to hint visually: 회귀 · 외삽 · 과적합."
+},
+{
+"i": 321,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 만날까 나란할까 평행과 수직 조건. Everyday question it answers: 그림 없이 계수만으로 알 수 있을까? Math idea to hint visually: 평행 조건 · 수직 조건 · 기울기의 곱."
+},
+{
+"i": 322,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 얼마나 떨어져 있나 점과 직선 사이의 거리. Everyday question it answers: 분모의 √(a²+b²) 는 왜 필요할까? Math idea to hint visually: 점과 직선의 거리 · 수선의 발 · 식의 정규화."
+},
+{
+"i": 323,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 만날까 스칠까 비켜 갈까 원과 직선. Everyday question it answers: 판별식을 풀지 않고 판정할 수 있을까? Math idea to hint visually: 원과 직선의 위치 관계 · 중심과의 거리 · 판별식."
+},
+{
+"i": 324,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 옮겨도 남는 것 도형의 평행이동. Everyday question it answers: 옮기면 식의 무엇이 바뀌고 무엇이 남을까? Math idea to hint visually: 도형의 평행이동 · 원의 방정식 · 직선의 방정식."
+},
+{
+"i": 325,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 무엇이 바뀌는가 대칭이동 네 가지. Everyday question it answers: x축·y축·원점·y=x 는 어떻게 다를까? Math idea to hint visually: 대칭이동 · 좌표의 부호 · 합성."
+},
+{
+"i": 326,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 어디를 칠할까 집합의 연산 네 가지. Everyday question it answers: 차집합과 대칭차는 무엇이 다를까? Math idea to hint visually: 합집합과 교집합 · 차집합 · 여집합."
+},
+{
+"i": 327,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 안이냐 밖이냐 내분점과 외분점. Everyday question it answers: 부호 하나가 점을 어디로 보낼까? Math idea to hint visually: 내분점 · 외분점 · 평면좌표."
+},
+{
+"i": 328,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 반드시 있는 자리 평균값 정리. Everyday question it answers: 할선과 나란한 접선이 늘 있을까? Math idea to hint visually: 평균 변화율 · 순간 변화율 · 평균값 정리."
+},
+{
+"i": 329,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 하나면 충분하다 반례와 충분·필요조건. Everyday question it answers: 몇 개를 확인해야 참이라고 말할 수 있을까? Math idea to hint visually: 반례 · 충분조건 · 필요조건."
+},
+{
+"i": 330,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 짝이 하나씩 맞는가 일대일 대응. Everyday question it answers: 역함수는 언제 생길까? Math idea to hint visually: 일대일함수 · 일대일 대응 · 역함수."
+},
+{
+"i": 331,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 닿지 않는 선 유리함수의 점근선. Everyday question it answers: 점근선은 왜 그 자리에 생길까? Math idea to hint visually: 유리함수 · 점근선 · 정의역."
+},
+{
+"i": 332,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 여기서부터 시작 무리함수의 정의역. Everyday question it answers: 그래프는 왜 한쪽에서만 그려질까? Math idea to hint visually: 무리함수 · 정의역 · 시작점."
+},
+{
+"i": 333,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 조금 흔들었을 뿐인데 나쁜 조건의 연립방정식. Everyday question it answers: 같은 방법으로 풀어도 왜 어떤 해는 못 믿을까? Math idea to hint visually: 연립방정식의 해 · 조건수 · 오차의 증폭."
+},
+{
+"i": 334,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 나란한 것이 만나는 곳 소실점과 무한원점. Everyday question it answers: 평행선은 왜 한 점에서 만나 보일까? Math idea to hint visually: 소실점 · 무한원점 · 사영기하."
+},
+{
+"i": 335,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 접선을 따라 내려가기 뉴턴 방법. Everyday question it answers: 방정식을 못 풀 때 해를 어떻게 찾을까? Math idea to hint visually: 접선 · 반복법 · 수렴 속도."
+},
+{
+"i": 336,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 같은 시간에 둘 수 없다 그래프 색칠과 시간표. Everyday question it answers: 시간대를 몇 개까지 줄일 수 있을까? Math idea to hint visually: 그래프 색칠 · 채색수 · 완전 부분그래프."
+},
+{
+"i": 337,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 넓이는 그대로인데 함수는 사라진다 극한과 적분. Everyday question it answers: 극한과 적분의 순서를 바꿔도 될까? Math idea to hint visually: 극한과 적분의 교환 · 넓이 · 반례."
+},
+{
+"i": 338,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 어느 질문을 먼저 할까 엔트로피와 결정트리. Everyday question it answers: 좋은 질문과 소용없는 질문은 무엇이 다를까? Math idea to hint visually: 엔트로피 · 정보 이득 · 결정트리."
+},
+{
+"i": 339,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 본 적 없다고 없는 건 아니다 라플라스 보정. Everyday question it answers: 확률 하나가 0 이면 무슨 일이 생길까? Math idea to hint visually: 조건부확률 · 확률의 곱 · 보정."
+},
+{
+"i": 340,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 외운 것과 배운 것 과적합과 검증 분리. Everyday question it answers: 배운 자료에서의 점수는 실력일까? Math idea to hint visually: 과적합 · 검증 자료 · 모형 선택."
+},
+{
+"i": 341,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 줄이면서 남기기 풀링. Everyday question it answers: 최대와 평균은 무엇을 남기고 무엇을 버릴까? Math idea to hint visually: 풀링 · 최댓값과 평균 · 특징 추출."
+},
+{
+"i": 342,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 점수를 확률로 시그모이드와 로지스틱. Everyday question it answers: w 와 b 는 각각 무엇을 정할까? Math idea to hint visually: 시그모이드 · 판정 경계 · 로지스틱 회귀."
+},
+{
+"i": 343,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 붙이고 옮기고 K-평균 군집. Everyday question it answers: k 는 누가 정해 줄까? Math idea to hint visually: 군집화 · 중심의 이동 · 거리 제곱합."
+},
+{
+"i": 344,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 놓칠까 헛짚을까 ROC 곡선. Everyday question it answers: 기준값 하나로 무엇이 정해질까? Math idea to hint visually: 민감도와 특이도 · ROC 곡선 · AUC."
+},
+{
+"i": 345,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 새처럼 날까 길을 따라갈까 두 가지 거리. Everyday question it answers: 가깝다는 말은 어떻게 재느냐에 달렸을까? Math idea to hint visually: 유클리드 거리 · 맨해튼 거리 · 노름."
+},
+{
+"i": 346,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 왜 늘 한쪽이 크나 산술평균과 기하평균. Everyday question it answers: 두 평균 사이에 늘 성립하는 관계가 있을까? Math idea to hint visually: 산술평균 · 기하평균 · 절대부등식."
+},
+{
+"i": 347,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 따로 더하면 왜 틀릴까 삼각함수의 덧셈정리. Everyday question it answers: sin 은 왜 나누어 더할 수 없을까? Math idea to hint visually: 덧셈정리 · 배각공식 · 단위원."
+},
+{
+"i": 348,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 나눗셈만으로 찾는다 유클리드 호제법. Everyday question it answers: 소인수분해를 못 할 만큼 큰 수라면? Math idea to hint visually: 최대공약수 · 나머지 · 호제법."
+},
+{
+"i": 349,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 두 조건을 한꺼번에 연립부등식. Everyday question it answers: 따로 푼 답을 어떻게 합칠까? Math idea to hint visually: 일차부등식 · 해집합 · 교집합."
+},
+{
+"i": 350,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 스치듯 지나가는 순간 원의 접선과 반지름. Everyday question it answers: 접선은 왜 하필 반지름과 수직일까? Math idea to hint visually: 원의 접선 · 반지름 · 수직."
+},
+{
+"i": 351,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 몇 칸이면 알아볼까 해상도와 사라지는 것. Everyday question it answers: 칸을 줄이면 무엇이 먼저 없어질까? Math idea to hint visually: 해상도 · 표본화 · 에일리어싱."
+},
+{
+"i": 352,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 걸어갈까 풀어 갈까 정규방정식. Everyday question it answers: 되풀이하지 않고 한 번에 구할 수 있을까? Math idea to hint visually: 최소제곱 · 정규방정식 · 편미분."
+},
+{
+"i": 353,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 관성을 주면 빨라진다 모멘텀. Everyday question it answers: 좁은 골짜기에서 왜 갈지자로 흔들릴까? Math idea to hint visually: 경사하강법 · 모멘텀 · 수렴 속도."
+},
+{
+"i": 354,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 정확도 99%의 함정 혼동행렬. Everyday question it answers: 많이 맞혔다는 말은 잘했다는 뜻일까? Math idea to hint visually: 혼동행렬 · 재현율 · 정밀도."
+},
+{
+"i": 355,
+"prompt": "Flat minimal vector illustration for a math lab card, clean white background, thin navy (#16325c) line art with soft accents of blue (#2b5fd9), teal (#1b7f79), amber (#e07a1f) and rose (#b23a3a), lots of white space, one clear central object, no text, no letters, no numbers, no people's faces. Subject: 상자를 열지 않고 알아낸다 논리 회로 탐정. Everyday question it answers: 계단 전등은 왜 위·아래 어디서든 켜고 끌 수 있을까? Math idea to hint visually: 진리표 · 논리 회로 · 스위치의 직렬·병렬."
+}
+]

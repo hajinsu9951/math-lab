@@ -1,3 +1,11 @@
 node_modules/
 *.log
 .DS_Store
+
+# 용량이 큰 원본·스냅샷은 저장소에 넣지 않는다 (2026-09-18)
+# webp 만 있으면 패치 스크립트가 돌아간다. png 원본은 외장하드에만 둔다.
+docs/썸네일_힉스필드/png원본/
+docs/썸네일_힉스필드/상황삽화/png/
+docs/LAB01_고도화/*.png
+버전보관/
+dist/index_*.html
