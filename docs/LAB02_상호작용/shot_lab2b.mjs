@@ -1,0 +1,21 @@
+import { createRequire } from 'node:module';
+import { pathToFileURL } from 'node:url';
+import { resolve } from 'node:path';
+const require = createRequire('X:/이것저것/수학관련/2026_AI+수업 우수사례+데이터 리터러시/2026_대전교육청_인공지능 연수 설계안 개발 연구회/math-lab/package.json');
+const { chromium } = require('playwright');
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: 1240, height: 1150 } });
+await p.goto(pathToFileURL(resolve(process.argv[2])).href, { waitUntil: 'load' });
+await p.waitForTimeout(1300);
+await p.evaluate(() => {
+  document.body.innerHTML = '';
+  const box = document.createElement('div');
+  box.style.cssText = 'width:1200px;background:#fff;padding:14px';
+  document.body.appendChild(box);
+  LESSON[2].demo(box);
+  box.querySelector('#lb2q1').click();
+});
+await p.waitForTimeout(500);
+await p.screenshot({ path: process.argv[3] + '/lab2b.png', fullPage: true });
+console.log('찍음');
+await b.close();

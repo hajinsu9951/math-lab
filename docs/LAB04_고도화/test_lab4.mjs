@@ -1,0 +1,54 @@
+import { createRequire } from 'node:module';
+import { pathToFileURL } from 'node:url';
+import { resolve } from 'node:path';
+const require = createRequire('X:/이것저것/수학관련/2026_AI+수업 우수사례+데이터 리터러시/2026_대전교육청_인공지능 연수 설계안 개발 연구회/math-lab/package.json');
+const { chromium } = require('playwright');
+const idx = process.argv[2], out = process.argv[3];
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: 1280, height: 1000 } });
+const errs = []; p.on('pageerror', e => errs.push(String(e))); p.on('console', m => { if (m.type() === 'error') errs.push(m.text()); });
+await p.goto(pathToFileURL(resolve(idx)).href, { waitUntil: 'load' });
+await p.waitForTimeout(1300);
+
+const res = await p.evaluate(async () => {
+  const box = document.createElement('div');
+  box.style.cssText = 'position:fixed;left:0;top:0;width:1240px;background:#fff;z-index:99999;padding:10px';
+  document.body.appendChild(box);
+  const api = LESSON[4].demo(box);
+  const log = [];
+  const outT = () => box.querySelector('#l4o').innerText;
+  const note = k => box.querySelector('.eqc[data-n="' + k + '"]');
+  const put = (k, vals) => { const el = note(k);
+    Object.entries(vals).forEach(([f, v]) => { const i = el.querySelector('[data-f=' + f + ']'); if (i) i.value = String(v); });
+    el.querySelector('.eqk').click(); return el.querySelector('.eqr').innerText; };
+  const goX = v => { box.querySelector('#l4x').value = String(v); box.querySelector('#l4go').click(); };
+
+  goX(20);  log.push('20분 → ' + outT().split('\n').pop().slice(0, 40));
+  goX(280); log.push('280분 → ' + outT().split('\n').pop().slice(0, 40));
+  log.push('노트① 뒤바꾼 오답 → ' + put(0, { a0: 120, a1: 8000, b0: 40, b1: 20000 }).slice(0, 60));
+  log.push('노트① 바른 값 → ' + put(0, { a0: 8000, a1: 120, b0: 20000, b1: 40 }).slice(0, 50));
+  log.push('미션1: ' + outT().includes('미션1 달성'));
+  log.push('노트② 열림: ' + (note(1).hidden === false));
+  log.push('자석 안내(통과 전) → ' + box.querySelector('#l4lock').textContent);
+  log.push('노트② 식 어긋난 오답 → ' + put(1, { c: 160, d: 12000, x: 150 }).slice(0, 60));
+  log.push('노트② 바른 값 → ' + put(1, { c: 80, d: 12000, x: 150 }).slice(0, 50));
+  log.push('미션2: ' + outT().includes('미션2 달성') + ' | 자석 안내 → ' + box.querySelector('#l4lock').textContent);
+  log.push('노트③ 열림: ' + (note(2).hidden === false));
+  goX(150);
+  log.push('150분 → ' + outT().split('\n')[1].slice(0, 46));
+  log.push('노트③ 오답(26500) → ' + put(2, { v: 26500 }).slice(0, 40));
+  log.push('노트③ 26000 → ' + put(2, { v: 26000 }).slice(0, 50));
+  log.push('미션3: ' + outT().includes('미션3 달성'));
+
+  const box2 = document.createElement('div'); box2.style.cssText = 'position:fixed;left:-9999px;top:0;width:1200px';
+  document.body.appendChild(box2); LESSON[4].demo(box2);
+  log.push('무조작 자동완료: ' + /미션\d 달성/.test(box2.querySelector('#l4o').innerText));
+  log.push('처음엔 노트②③ 숨김: ' + (box2.querySelector('.eqc[data-n="1"]').hidden && box2.querySelector('.eqc[data-n="2"]').hidden));
+  box2.remove();
+  log.push('read: ' + JSON.stringify(api.read()));
+  return log;
+});
+console.log(res.join('\n'));
+await p.screenshot({ path: out + '/t4.png', clip: { x: 0, y: 0, width: 1240, height: 700 } });
+console.log('errors', errs);
+await b.close();

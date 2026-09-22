@@ -76,7 +76,7 @@ function catDraw(){
     const made = done.length;
     const wall = wallOn(g.k) && done.length
       ? `<div class="catwall" data-g="${g.k}">${done.map(c=>`
-          <button class="cwx" data-lab="${c.lab}" title="LAB ${c.lab+1} · ${c.t.replace(/"/g,'')}">
+          <button class="cwx" data-lab="${c.lab}" data-t="LAB ${c.lab+1} · ${c.t.replace(/"/g,'')}" aria-label="LAB ${c.lab+1} · ${c.t.replace(/"/g,'')}">
             ${(typeof THUMBS!=='undefined' && THUMBS[c.lab]) ? THUMBS[c.lab] : ''}
             <span class="cwn">${c.lab+1}</span>
           </button>`).join('')}</div>`

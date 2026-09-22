@@ -94,7 +94,26 @@ function drawDesign(){
              <p>${x.d}</p>${x.f?`<span class="fform">형성평가 · ${x.f}</span>`:''}</div>`).join('')}</td></tr>
     </table>
 
-    <div class="dsec"><div class="dnum">2</div><h4>평가 설계하기 — 학습자 루브릭</h4></div>
+    ${S.plan?`
+    <div class="dsec"><div class="dnum">2</div><h4>수업 구성 지도서 — 차시별 운영</h4></div>
+    <div class="dplan">
+      <p class="dplanh">${S.plan.head}</p>
+      <div class="dprep"><b>준비물</b><ul>${S.plan.준비물.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+      ${S.plan.차시.map(c=>`
+        <div class="dper">
+          <header class="dperh"><span class="dpern">${c.n}</span><b>${c.t}</b></header>
+          <p class="dpergoal"><b>학습 목표</b> ${c.goal}</p>
+          <table class="dpert"><tbody>${c.flow.map(f=>
+            `<tr><td class="dperm">${f.m}</td><td>${f.d}</td></tr>`).join('')}</tbody></table>
+          <div class="dperg">
+            <div class="dpergi ask"><div class="dpergt">핵심 발문</div><p>${c.ask}</p></div>
+            <div class="dpergi miss"><div class="dpergt">예상되는 오개념</div><p>${c.miss}</p></div>
+            <div class="dpergi watch"><div class="dpergt">교사가 볼 지점</div><p>${c.watch}</p></div>
+          </div>
+        </div>`).join('')}
+      <p class="dplantie">${S.plan.tie}</p>
+    </div>`:''}
+    <div class="dsec"><div class="dnum">${S.plan?3:2}</div><h4>평가 설계하기 — 학습자 루브릭</h4></div>
     <p class="dintent"><b>평가 의도</b> ${S.intent}</p>
     ${S.worth?`<p class="dworth"><b>이 수행평가의 유의미성</b> ${S.worth}</p>`:''}
     ${S.diff?`<p class="ddiff"><b>설계의 차별화 지점</b> ${S.diff}</p>`:''}
@@ -116,7 +135,7 @@ function drawDesign(){
     <div class="dcau"><b>평가 기준 및 유의사항</b><ol>${S.caution.map(x=>`<li>${x}</li>`).join('')}</ol>
       <p class="dcau-f">※ 수업 시간 내 실시하며, 학교교육과정의 범위·수준을 벗어나지 않도록 합니다.</p></div>
 
-    <div class="dsec"><div class="dnum">3</div><h4>학생 활동지 — 실험실로 탐구하고 단계별로 기록하기</h4></div>
+    <div class="dsec"><div class="dnum">${S.plan?4:3}</div><h4>학생 활동지 — 실험실로 탐구하고 단계별로 기록하기</h4></div>
     <p class="dnote">각 STEP은 <b>웹 실험실에서 무엇을 조작하고 무엇을 기록할지</b>가 짝지어져 있습니다.
     조작만 하고 끝나지 않도록, 화면에서 본 값을 반드시 손계산과 대조하게 했습니다.</p>
     <div class="subm">
@@ -170,7 +189,7 @@ function drawDesign(){
     <div class="dsec"><div class="dnum">논</div><h4>심화 논술 근거 — 왜 그 식이 나오는가</h4></div>
     <div class="deep">${S.deep.map(x=>`<div class="dpi"><b>${x.t}</b><p>${x.d}</p></div>`).join('')}</div>`:''}
 
-    <div class="dsec"><div class="dnum">4</div><h4>세특 기재 예시</h4></div>
+    <div class="dsec"><div class="dnum">${S.plan?5:4}</div><h4>세특 기재 예시</h4></div>
     <div class="sets">${S.sets.map((x,i)=>`<div class="set"><div class="setn">${'ㄱㄴㄷ'[i]}</div><p>${x}</p></div>`).join('')}</div>
   </div>`;
 
