@@ -10,7 +10,7 @@ await p.goto(pathToFileURL(resolve(process.argv[2])).href, { waitUntil: 'load' }
 await p.waitForTimeout(1400);
 const out = await p.evaluate(() => {
   const log = [];
-  for (const k of [5,6,7,8,9]) {
+  for (const k of [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]) {
     const box = document.createElement('div');
     box.style.cssText='position:fixed;left:-9999px;top:0;width:1150px';
     document.body.appendChild(box);

@@ -1,0 +1,27 @@
+import { createRequire } from 'node:module';
+import { pathToFileURL } from 'node:url';
+import { resolve } from 'node:path';
+const require = createRequire('X:/이것저것/수학관련/2026_AI+수업 우수사례+데이터 리터러시/2026_대전교육청_인공지능 연수 설계안 개발 연구회/math-lab/package.json');
+const { chromium } = require('playwright');
+const b = await chromium.launch();
+const [,, file, out, labStr] = process.argv;
+const lab = +labStr;
+const p = await b.newPage({ viewport: { width: 1000, height: 900 } });
+await p.goto(pathToFileURL(resolve(file)).href, { waitUntil: 'load' });
+await p.waitForTimeout(1300);
+await p.evaluate((k) => {
+  document.body.innerHTML = '';
+  const box = document.createElement('div');
+  box.style.cssText = 'width:960px;background:#fff;padding:14px';
+  document.body.appendChild(box);
+  const api = LESSON[k].demo(box) || {};
+  mathNote(box, LESSON[k], api);
+  const n = box.querySelector('.lsnnote');
+  if (n) n.scrollIntoView({ block: 'start' });
+}, lab);
+await p.waitForTimeout(400);
+await p.evaluate(() => { const n=document.querySelector('.lsnnote'); if(n) n.scrollIntoView({block:'start'}); });
+await p.waitForTimeout(200);
+await p.screenshot({ path: `${out}/note${lab}.png` });
+console.log('찍음 LAB', lab);
+await b.close();
