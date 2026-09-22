@@ -1117,3 +1117,26 @@ table.lb2tbl.calc td{text-align:center}
 .nopts{display:flex;flex-direction:column;gap:3px;margin:4px 0 2px}
 .nopts label{font-size:12.3px;color:var(--ink2);display:flex;gap:6px;align-items:flex-start;cursor:pointer}
 .nopts input{margin-top:3px}
+
+/* 퀘스트 표시 — 지금 할 것은 깜박이고, 아직 못 여는 것은 잠겨 보인다 (2026-09-22) */
+@keyframes qpulse{0%,100%{box-shadow:0 0 0 0 rgba(37,99,235,.50)}
+                  50%    {box-shadow:0 0 0 8px rgba(37,99,235,0)}}
+@keyframes qglow{0%,100%{background:var(--blue-s)} 50%{background:#DBE8FF}}
+.ldi.now{animation:qglow 1.7s ease-in-out infinite}
+.ldi.now .ldk{animation:qpulse 1.7s ease-in-out infinite}
+.ldi.lock .ldn::after{content:' 🔒'}
+.lsnchip.now{animation:qglow 2s ease-in-out infinite}
+.lsnchip.lock .lsnn{font-size:0}
+.lsnchip.lock .lsnn::before{content:'🔒';font-size:9.5px}
+.eqc.qlock{opacity:.45;filter:grayscale(.5)}
+.eqc.qlock .eqi,.eqc.qlock .nek,.eqc.qlock .nopts{pointer-events:none}
+.eqc.qlock .eqt::after{content:attr(data-need);display:inline-block;margin-left:6px;
+  font-size:11px;font-weight:800;color:var(--warn,#B45309)}
+.eqc.qnow{border-color:#93B4F5;box-shadow:0 0 0 3px rgba(37,99,235,.12);
+  animation:qpulse 1.8s ease-in-out infinite}
+.eqc.qnow .nek{animation:qpulse 1.8s ease-in-out infinite}
+.eqc.qdone{border-color:#9CD9C9;background:#F6FEFA}
+.qgo{animation:qpulse 1.6s ease-in-out infinite}
+@media(prefers-reduced-motion:reduce){
+  .ldi.now,.ldi.now .ldk,.lsnchip.now,.eqc.qnow,.eqc.qnow .nek,.qgo{animation:none}
+}
