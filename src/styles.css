@@ -1107,3 +1107,13 @@ table.lb2tbl.calc td{text-align:center}
 .lcok{color:#0E9384;font-weight:800}
 .lcng{color:#BE123C;font-weight:800}
 .lcpbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px}
+
+/* 탐구 노트 — 기록·생각·판단 (2026-09-22) */
+.lsnnote{margin-top:12px;background:#FBFCFE;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.lsnnh{font-size:12.5px;font-weight:800;color:var(--ink);margin-bottom:8px;
+       padding-bottom:6px;border-bottom:1px dashed var(--line)}
+.lsnnote .eqf{line-height:2.1}
+.lsnnote .out{margin-top:2px}
+.nopts{display:flex;flex-direction:column;gap:3px;margin:4px 0 2px}
+.nopts label{font-size:12.3px;color:var(--ink2);display:flex;gap:6px;align-items:flex-start;cursor:pointer}
+.nopts input{margin-top:3px}

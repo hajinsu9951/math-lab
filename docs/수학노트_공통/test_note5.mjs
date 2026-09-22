@@ -1,0 +1,47 @@
+import { createRequire } from 'node:module';
+import { pathToFileURL } from 'node:url';
+import { resolve } from 'node:path';
+const require = createRequire('X:/이것저것/수학관련/2026_AI+수업 우수사례+데이터 리터러시/2026_대전교육청_인공지능 연수 설계안 개발 연구회/math-lab/package.json');
+const { chromium } = require('playwright');
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: 1200, height: 1000 } });
+const errs = []; p.on('pageerror', e => errs.push(String(e))); p.on('console', m => { if (m.type()==='error') errs.push(m.text()); });
+await p.goto(pathToFileURL(resolve(process.argv[2])).href, { waitUntil: 'load' });
+await p.waitForTimeout(1300);
+const out = await p.evaluate(() => {
+  const log = [];
+  const box = document.createElement('div');
+  box.style.cssText='position:fixed;left:0;top:0;width:1150px;background:#fff;z-index:99;padding:12px';
+  document.body.appendChild(box);
+  // 실제 데모를 올리고, 화면 값만 우리가 쥐고 흔든다
+  const api = LESSON[5].demo(box);
+  log.push('조준 전 read(): ' + JSON.stringify(api.read()));
+  let stub = null;
+  mathNote(box, LESSON[5], { read: () => stub });
+  const card = k => box.querySelectorAll('.lsnnote .eqc')[k];
+  const fill = (k, vals) => { const ins=[...card(k).querySelectorAll('.eqi')];
+    vals.forEach((v,i)=>{ if(ins[i]) ins[i].value=String(v); }); };
+  const hit = k => { card(k).querySelector('.nek').click(); return card(k).querySelector('.eqr').innerText.replace(/\s+/g,' ').slice(0,86); };
+  const sig = () => box.querySelector('.nout').innerText.replace(/\s+/g,' ').slice(0,44);
+
+  log.push('① 조준 전 → ' + hit(0));
+  stub = ['50 m','38.7°','0.800','40.0 m','명중'];
+  fill(0, [45, 38.7]); log.push('① 거리를 잘못 적음 → ' + hit(0));
+  fill(0, [50, 38.7]); log.push('① 화면대로 적음 → ' + hit(0));
+  fill(1, [0.80, 35]);  log.push('② 높이가 어긋남 → ' + hit(1));
+  fill(1, [0.80, 40.0]); log.push('② 내 값으로 계산 → ' + hit(1));
+  log.push('③ 거리 안 바꾸고 → ' + hit(2));
+  stub = ['70 m','29.8°','0.573','40.1 m','명중'];
+  fill(2, [40.1, 0.1]);
+  log.push('③ 보기 안 고름 → ' + hit(2));
+  card(2).querySelectorAll('input[type=radio]')[0].checked = true;
+  log.push('③ 보기 틀림 → ' + hit(2));
+  card(2).querySelectorAll('input[type=radio]')[0].checked = false;
+  card(2).querySelectorAll('input[type=radio]')[1].checked = true;
+  log.push('③ 바르게 판단 → ' + hit(2));
+  log.push('신호 → ' + sig());
+  return log;
+});
+console.log(out.join('\n'));
+console.log('errors', errs.slice(0,3));
+await b.close();
