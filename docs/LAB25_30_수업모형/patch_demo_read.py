@@ -28,7 +28,10 @@ FNS = ['primeDemo', 'intDemo', 'letterDemo', 'scaleDemo', 'propDemo', 'paraDemo'
        'iaDemo', 'tnDemo', 'cyDemo', 'bxDemo', 'ocDemo',
        # LAB 61~70
        'sieveDemo', 'absErrDemo', 'substDemo', 'saltDemo', 'pbisectDemo',
-       'abisectDemo', 'arcAreaDemo', 'platonicDemo', 'ineqDemo', 'hashDemo']
+       'abisectDemo', 'arcAreaDemo', 'platonicDemo', 'ineqDemo', 'hashDemo',
+       # LAB 71~80
+       'fracDecDemo', 'recurDemo', 'foldDemo', 'flipDemo', 'sysDemo',
+       'elimDemo', 'slopeDemo', 'lineFitDemo', 'centroidDemo', 'paragramDemo']
 
 TAIL = """};
   /* 수업 모형 안에서는 기록 단계가 보고서를 따로 만든다 — 두 벌이 되지 않게 */
