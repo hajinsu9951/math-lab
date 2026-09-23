@@ -11,7 +11,7 @@ const errs = []; p.on('pageerror', e => errs.push(String(e))); p.on('console', m
 await p.goto(pathToFileURL(resolve(idx)).href, { waitUntil: 'load' });
 await p.waitForTimeout(1300);
 
-for (const n of [5,10,13,17,20]) {
+for (const n of [22,23,24]) {
   const r = await p.evaluate(k => {
     const m = document.getElementById('mask'); if (m) m.classList.remove('on');
     openLab(k - 1);
