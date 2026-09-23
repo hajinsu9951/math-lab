@@ -22,7 +22,13 @@ FNS = ['primeDemo', 'intDemo', 'letterDemo', 'scaleDemo', 'propDemo', 'paraDemo'
        'constructDemo', 'polyDemo', 'solidDemo', 'boxDemo', 'stemDemo',
        # LAB 41~50
        'relfreqDemo', 'statInqDemo', 'linexprDemo', 'coordDemo', 'sqrtAddDemo',
-       'spiralDemo', 'mentalDemo', 'quadRootDemo', 'discrimDemo', 'complSqDemo']
+       'spiralDemo', 'mentalDemo', 'quadRootDemo', 'discrimDemo', 'complSqDemo',
+       # LAB 51~60
+       'parabShiftDemo', 'fenceDemo', 'xpDemo', 'taDemo', 'tbDemo',
+       'iaDemo', 'tnDemo', 'cyDemo', 'bxDemo', 'ocDemo',
+       # LAB 61~70
+       'sieveDemo', 'absErrDemo', 'substDemo', 'saltDemo', 'pbisectDemo',
+       'abisectDemo', 'arcAreaDemo', 'platonicDemo', 'ineqDemo', 'hashDemo']
 
 TAIL = """};
   /* 수업 모형 안에서는 기록 단계가 보고서를 따로 만든다 — 두 벌이 되지 않게 */
@@ -65,7 +71,8 @@ def main(path):
         h = h[:i] + nb + h[j:]
         done.append(fn)
     open(path, 'w', encoding='utf-8').write(h)
-    print('read() 를 내주도록 고침 —', ' · '.join(done))
+    sys.stdout.write('read() ok: ' + ' '.join(done))
+    sys.stdout.write(chr(10))
 
 
 if __name__ == '__main__':
