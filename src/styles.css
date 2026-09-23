@@ -1140,3 +1140,6 @@ table.lb2tbl.calc td{text-align:center}
 @media(prefers-reduced-motion:reduce){
   .ldi.now,.ldi.now .ldk,.lsnchip.now,.eqc.qnow,.eqc.qnow .nek,.qgo{animation:none}
 }
+
+/* 생각 열기 그림이 한 장뿐이면 폭을 잡아 준다 — 안 그러면 화면 전체로 늘어난다 (2026-09-23) */
+.lsnfigs figure:only-child{max-width:470px;margin-left:auto;margin-right:auto}
