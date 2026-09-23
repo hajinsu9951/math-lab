@@ -19,7 +19,10 @@ import sys
 FNS = ['primeDemo', 'intDemo', 'letterDemo', 'scaleDemo', 'propDemo', 'paraDemo',
        # LAB 31~40
        'congDemo', 'sectDemo', 'repM1Demo', 'histDemo', 'gcdDemo',
-       'constructDemo', 'polyDemo', 'solidDemo', 'boxDemo', 'stemDemo']
+       'constructDemo', 'polyDemo', 'solidDemo', 'boxDemo', 'stemDemo',
+       # LAB 41~50
+       'relfreqDemo', 'statInqDemo', 'linexprDemo', 'coordDemo', 'sqrtAddDemo',
+       'spiralDemo', 'mentalDemo', 'quadRootDemo', 'discrimDemo', 'complSqDemo']
 
 TAIL = """};
   /* 수업 모형 안에서는 기록 단계가 보고서를 따로 만든다 — 두 벌이 되지 않게 */
