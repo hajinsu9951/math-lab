@@ -43,6 +43,10 @@ td.area{font-weight:700;color:var(--navy);white-space:nowrap}
 .chip.ai{background:#eefaf1;color:#1f5f3a;border-color:#bfe3c9}
 .chip.new{background:#fff1f1;color:#8b2c2c;border-color:#e4a6a6}
 .chip:hover{filter:brightness(.96)}
+.chip .lsn{display:inline-block;margin-left:6px;padding:0 5px;border-radius:4px;background:var(--navy);color:#fff;font-size:10.5px;font-weight:700;vertical-align:1px;letter-spacing:.02em}
+.lsnflow{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 4px}
+.lsnflow span{background:var(--soft);border:1px solid #cfdbff;color:var(--navy);border-radius:999px;padding:4px 11px;font-size:13px;font-weight:700}
+.lsnflow i{color:var(--mute);font-style:normal;align-self:center}
 .mission{border-left:4px solid var(--blue);background:#f7f9ff;padding:10px 12px;border-radius:0 8px 8px 0;margin:8px 0;font-size:14px}
 .mission b{color:var(--blue)}
 .steps{counter-reset:s;padding:0;margin:0;list-style:none}
@@ -96,7 +100,20 @@ header{background:linear-gradient(120deg,rgba(15,36,71,.86),rgba(31,78,158,.86))
   <div class="grid g3">
     <div class="card"><div class="big">4</div><b>신설 과목</b><p class="small">인공지능 수학(진로 선택) · 고급 대수 · 고급 기하 · 고급 미적분(과학 계열 전문 교과)</p></div>
     <div class="card"><div class="big">37 + 356</div><b>바로 열리는 자료</b><p class="small">AI 수학 37차시 웹 수업 · 일상 속 수학 실험실 356종. 성취기준 줄마다 링크가 붙어 있습니다.</p></div>
+    <div class="card"><div class="big">70</div><b>7단계 수업 모형</b><p class="small">문제 → 예상 → 실험 → 기록·발견 → 원리 → 적용 → 정리. 아래 표에서 <span class="chip" style="cursor:default">LAB 000<span class="lsn">수업모형</span></span> 표가 붙은 것이 그것입니다. <b>학생 활동지(A4)</b>도 같은 70종.</p></div>
     <div class="card"><div class="big">3분</div><b>실습 미션</b><p class="small">모든 줄에 「무엇을 만지고 → 무엇을 보고 → 무엇을 묻는가」가 적혀 있습니다. 연수장에서 그대로 합니다.</p></div>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0">「수업모형」 표가 붙은 실험실 — 한 차시가 통째로 들어 있습니다</h3>
+    <p class="small" style="margin-top:0">2026. 9. 30. 에 <b>고급 대수·기하·미적분 48종</b>을 더해 모두 <b>70종</b>이 한 차시 수업의 꼴을 갖추었습니다. 실험실을 열면 단계 표가 먼저 뜨고, <b>앞 단계를 마쳐야 다음이 열립니다</b> — 조작만 하다 끝나지 않게 하는 장치입니다.</p>
+    <div class="lsnflow"><span>① 문제</span><i>→</i><span>② 예상</span><i>→</i><span>③ 실험</span><i>→</i><span>④ 기록·발견</span><i>→</i><span>⑤ 원리</span><i>→</i><span>⑥ 적용</span><i>→</i><span>⑦ 정리</span></div>
+    <ul class="small" style="margin:10px 0 0">
+      <li><b>② 예상</b> — 손글씨로 먼저 적어야 실험이 열립니다. 틀려도 됩니다. 뒤에서 자기 예상과 견주게 됩니다.</li>
+      <li><b>③ 실험</b> — 탐구 사다리 다섯 단계. <b>두 개 이상</b> 해내야 기록으로 갑니다.</li>
+      <li><b>④ 기록·발견</b> — 값을 바꿔 가며 표에 쌓습니다. <b>세 줄 이상</b>이어야 원리가 열립니다. 같은 값은 담기지 않습니다.</li>
+      <li><b>⑥ 적용</b> — 답이 수 하나인 문제. 자동 채점되고 틀리면 힌트가 나옵니다.</li>
+    </ul>
+    <div class="ok" style="margin-top:12px"><b>학생 활동지</b> — 같은 70종에서 「🖨 학생 활동지 내려받기」를 누르면 <b>A4 인쇄용 HTML</b> 한 장이 나옵니다. 오늘의 문제 · 예상 칸 · 기록표(화면과 같은 칸) · 원리 · 적용 문제가 그대로 들어 있어, <b>태블릿이 없는 교실에서도 종이로 같은 수업</b>을 합니다.</div>
   </div>
   <div class="card">
     <h3 style="margin-top:0">링크 규칙 — 자료 하나를 곧장 가리킵니다</h3>
@@ -190,6 +207,7 @@ header{background:linear-gradient(120deg,rgba(15,36,71,.86),rgba(31,78,158,.86))
 <!-- ───────── p2 고급 대수 ───────── -->
 <section class="pane" id="p2"><div class="wrap">
   <h2>2차시 · 「고급 대수」 — 벡터공간 · 행렬과 선형변환 · 행렬의 대각화</h2>
+  <div class="ok" style="margin:0 0 14px"><b>이 과목의 실험실 16종은 모두 7단계 수업 모형과 학생 활동지를 갖추었습니다</b>(LAB 247~261 · 334 · 2026. 9. 30.). 아래 표의 <span class="chip" style="cursor:default">LAB 000<span class="lsn">수업모형</span></span> 표가 그 표시입니다 — 눌러서 열면 곧장 한 차시가 됩니다.</div>
   <figure class="art"><img src="art/a2.webp" alt="「고급 대수」 — 격자는 휘어도 방향이 그대로인 화살표(고유벡터)를 찾는다" loading="lazy"><figcaption>「고급 대수」 — 격자는 휘어도 방향이 그대로인 화살표(고유벡터)를 찾는다</figcaption></figure>
   <div class="grid g4">
     <div class="card kv"><b>과목 성격</b>과학 계열 전문 교과(진로 선택). 2015 「고급 수학Ⅰ」의 벡터·행렬·일차변환을 <b>선형대수</b>로 재편</div>
@@ -251,6 +269,7 @@ header{background:linear-gradient(120deg,rgba(15,36,71,.86),rgba(31,78,158,.86))
 <!-- ───────── p3 고급 기하 ───────── -->
 <section class="pane" id="p3"><div class="wrap">
   <h2>2차시 · 「고급 기하」 — 작도와 평면기하 · 곡선의 성질 · 곡면의 성질</h2>
+  <div class="ok" style="margin:0 0 14px"><b>이 과목의 실험실 16종은 모두 7단계 수업 모형과 학생 활동지를 갖추었습니다</b>(LAB 277~291 · 335 · 2026. 9. 30.). 아래 표의 <span class="chip" style="cursor:default">LAB 000<span class="lsn">수업모형</span></span> 표가 그 표시입니다 — 눌러서 열면 곧장 한 차시가 됩니다.</div>
   <figure class="art"><img src="art/a3.webp" alt="「고급 기하」 — 하나의 원뿔에서 원·타원·포물선·쌍곡선, 그리고 구면삼각형" loading="lazy"><figcaption>「고급 기하」 — 하나의 원뿔에서 원·타원·포물선·쌍곡선, 그리고 구면삼각형</figcaption></figure>
   <div class="grid g4">
     <div class="card kv"><b>과목 성격</b>과학 계열 전문 교과. 유클리드 평면기하의 증명과 <b>미분기하</b>(곡률·곡면)를 잇는 과목</div>
@@ -301,6 +320,7 @@ header{background:linear-gradient(120deg,rgba(15,36,71,.86),rgba(31,78,158,.86))
 <!-- ───────── p4 고급 미적분 ───────── -->
 <section class="pane" id="p4"><div class="wrap">
   <h2>2차시 · 「고급 미적분」 — 미적분의 활용 · 극좌표와 극곡선 · 급수 · 미분방정식</h2>
+  <div class="ok" style="margin:0 0 14px"><b>이 과목의 실험실 16종은 모두 7단계 수업 모형과 학생 활동지를 갖추었습니다</b>(LAB 262~276 · 336 · 2026. 9. 30.). 아래 표의 <span class="chip" style="cursor:default">LAB 000<span class="lsn">수업모형</span></span> 표가 그 표시입니다 — 눌러서 열면 곧장 한 차시가 됩니다.</div>
   <figure class="art"><img src="art/a4.webp" alt="「고급 미적분」 — 테일러다항식이 sin에 붙고, 장미곡선이 돌고, 방향장을 따라 곡선이 정해진다" loading="lazy"><figcaption>「고급 미적분」 — 테일러다항식이 sin에 붙고, 장미곡선이 돌고, 방향장을 따라 곡선이 정해진다</figcaption></figure>
   <div class="grid g4">
     <div class="card kv"><b>과목 성격</b>과학 계열 전문 교과. 2015 「고급 수학Ⅱ」(미적분의 활용·급수·모델링)를 <b>대학 미적분학</b> 수준으로 재편</div>
@@ -471,8 +491,25 @@ function rebase(){
   var L=document.getElementById('baseLab').value.trim(), A=document.getElementById('baseAi').value.trim();
   document.querySelectorAll('a[data-lab]').forEach(a=>{ a.href=L+'#lab='+a.dataset.lab; a.target='_blank'; a.rel='noopener'; });
   document.querySelectorAll('a[data-ai]').forEach(a=>{ a.href=A+'#'+a.dataset.ai; a.target='_blank'; a.rel='noopener'; });
+  if (typeof markLessons === 'function') markLessons();
 }
-rebase();
+/* 대전 실험실에서 7단계 수업 모형 + 학생 활동지가 붙은 번호 (2026. 9. 30. 기준 70종) */
+var LESSON_LABS = new Set([356, 334, 335, 336]);
+for (var i = 1;   i <= 21;  i++) LESSON_LABS.add(i);    /* 중1~고1 수업 모형 22종 */
+for (var i = 247; i <= 291; i++) LESSON_LABS.add(i);    /* 고급 대수·미적분·기하 48종 */
+function markLessons(){
+  document.querySelectorAll('a[data-lab]').forEach(function(a){
+    if (!LESSON_LABS.has(+a.dataset.lab)) return;
+    if (a.querySelector('.lsn')) return;                 /* 두 번 달지 않는다 */
+    var s = document.createElement('span');
+    s.className = 'lsn'; s.textContent = '수업모형';
+    a.appendChild(s);
+    a.title = '7단계 수업 모형과 학생 활동지(A4 인쇄용)가 있는 실험실입니다';
+  });
+}
+
+rebase();   /* 링크를 만들고, 그 안에서 「수업모형」 표까지 단다 */
+
 (function(){ var h=(location.hash||'').replace('#',''); if(/^p[0-6]$/.test(h)) showTab(h); })();
 </script>
 </body>
