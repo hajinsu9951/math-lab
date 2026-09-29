@@ -47,6 +47,18 @@ td.area{font-weight:700;color:var(--navy);white-space:nowrap}
 .lsnflow{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 4px}
 .lsnflow span{background:var(--soft);border:1px solid #cfdbff;color:var(--navy);border-radius:999px;padding:4px 11px;font-size:13px;font-weight:700}
 .lsnflow i{color:var(--mute);font-style:normal;align-self:center}
+.lsncards{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:10px}
+.lsncard{border:1px solid var(--line);border-radius:10px;background:#fff;padding:10px;text-decoration:none;color:inherit;display:block}
+.lsncard:hover{border-color:var(--blue);box-shadow:0 1px 7px rgba(43,95,217,.15)}
+.lsncard svg.thumb{width:100%;height:auto;display:block;background:#fbfcfe;border:1px solid var(--line);border-radius:7px}
+.lsncard .n{font-size:12px;font-weight:800;color:var(--blue);margin:9px 0 3px}
+.lsncard .t{font-size:13.5px;font-weight:700;line-height:1.35}
+.lsncard .q{font-size:12.3px;color:var(--mute);margin-top:4px;line-height:1.45}
+.lsncard .u{font-size:12px;color:var(--navy);background:var(--soft);border:1px solid #cfdbff;border-radius:6px;padding:6px 8px;margin-top:8px;line-height:1.45}
+.lsngrp{margin:0 0 20px}
+.lsngrp > h3{margin:0 0 9px}
+.lsnstrip{margin:0 0 18px}
+.lsnstrip > h3{margin:0 0 9px}
 .mission{border-left:4px solid var(--blue);background:#f7f9ff;padding:10px 12px;border-radius:0 8px 8px 0;margin:8px 0;font-size:14px}
 .mission b{color:var(--blue)}
 .steps{counter-reset:s;padding:0;margin:0;list-style:none}
@@ -141,6 +153,7 @@ header{background:linear-gradient(120deg,rgba(15,36,71,.86),rgba(31,78,158,.86))
     <div class="card kv"><b>2015 대비</b>4영역(인공지능과 수학·자료의 표현·분류와 예측·최적화) → 5영역. 텍스트·이미지가 <b>데이터 유형별</b>로 분리되고 탐구 영역 신설</div>
   </div>
 
+  <div class="lsnstrip" data-grp="ai"></div>
   <h3>영역별 수업 연결표 — 성취기준 한 줄에 자료 하나, 미션 하나</h3>
   <div class="tbl"><table id="t-ai">
     <tr><th>영역</th><th>내용 요소(지식·이해)</th><th>성취기준 요지</th><th>AI 수학 차시</th><th>수학 실험실</th><th>3분 미션 · 발문</th><th>평가 포인트</th></tr>
@@ -212,6 +225,7 @@ header{background:linear-gradient(120deg,rgba(15,36,71,.86),rgba(31,78,158,.86))
     <div class="card kv"><b>AI 와의 연결</b>완전연결층 = 행렬의 곱(AI 수학 19차시) · 주성분분석 = 공분산행렬의 고유벡터 · 페이지랭크 = 고윳값 1 의 고유벡터</div>
   </div>
 
+  <div class="lsnstrip" data-grp="alg"></div>
   <h3>내용 체계 × 실험실 연결표</h3>
   <div class="tbl"><table>
     <tr><th>영역</th><th>내용 요소</th><th>성취기준 요지</th><th>수학 실험실</th><th>3분 미션 · 발문</th><th>수업 장면 · 평가</th></tr>
@@ -274,6 +288,7 @@ header{background:linear-gradient(120deg,rgba(15,36,71,.86),rgba(31,78,158,.86))
     <div class="card kv"><b>도구</b>GeoGebra(작도·3D) · 실험실(자취·항법·회전면) · 없는 것은 오늘 만든다(바이브 코딩)</div>
   </div>
 
+  <div class="lsnstrip" data-grp="geo"></div>
   <h3>내용 체계 × 실험실 연결표</h3>
   <div class="tbl"><table>
     <tr><th>영역</th><th>내용 요소</th><th>성취기준 요지</th><th>수학 실험실</th><th>3분 미션 · 발문</th><th>수업 장면 · 평가</th></tr>
@@ -325,6 +340,7 @@ header{background:linear-gradient(120deg,rgba(15,36,71,.86),rgba(31,78,158,.86))
     <div class="card kv"><b>AI 와의 연결</b>경사하강법 점화식 ↔ 미분방정식 · 테일러 전개 ↔ 함수 근사 · 급수 수렴 ↔ 반복 알고리즘의 종료</div>
   </div>
 
+  <div class="lsnstrip" data-grp="cal"></div>
   <h3>내용 체계 × 실험실 연결표</h3>
   <div class="tbl"><table>
     <tr><th>영역</th><th>내용 요소</th><th>성취기준 요지</th><th>수학 실험실</th><th>3분 미션 · 발문</th><th>수업 장면 · 평가</th></tr>
@@ -505,39 +521,80 @@ function markLessons(){
   });
 }
 
-/* 표가 붙은 실험실만 모아 맨 위에 목록으로 세운다.
-   표에서 직접 읽어 만들므로, 표가 늘거나 줄면 목록도 따라온다. */
-function buildLessonIndex(){
-  var box = document.getElementById('lsnIndex'); if (!box) return;
-  box.innerHTML = '';
-  var groups = [
-    { t:'1차시 · 인공지능 수학에서 함께 쓰는 실험실', has:function(n){ return n <= 21; }, list:[] },
-    { t:'2차시 · 고급 대수',   has:function(n){ return (n >= 247 && n <= 261) || n === 334; }, list:[] },
-    { t:'2차시 · 고급 기하',   has:function(n){ return (n >= 277 && n <= 291) || n === 335; }, list:[] },
-    { t:'2차시 · 고급 미적분', has:function(n){ return (n >= 262 && n <= 276) || n === 336; }, list:[] }
-  ];
-  var seen = {};
-  document.querySelectorAll('a[data-lab]').forEach(function(a){
-    if (box.contains(a)) return;                       /* 목록 자신은 세지 않는다 */
+/* 실험실의 원래 카드 썸네일(인라인 SVG)과 제목·발문 —
+   실험실 쪽 THUMBS·LABS 에서 그대로 옮겨 온 것이다. */
+var LAB_THUMB = {"2":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"사전확률 막대가 사후확률로 크게 갱신되는 그림\"><rect x=\"22\" y=\"18\" width=\"76\" height=\"8\" rx=\"4\" fill=\"#E8ECF2\"/>\n   <rect x=\"22\" y=\"18\" width=\"20\" height=\"8\" rx=\"4\" fill=\"#2563EB\"/>\n   <rect x=\"22\" y=\"38\" width=\"76\" height=\"8\" rx=\"4\" fill=\"#E8ECF2\"/>\n   <rect x=\"22\" y=\"38\" width=\"56\" height=\"8\" rx=\"4\" fill=\"#BE123C\"/>\n   <path d=\"M60 29 V35 M56.5 32 L60 35.5 L63.5 32\" stroke=\"#111827\" stroke-width=\"1.8\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\" opacity=\".45\"/></svg>","3":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"느리게 시작해 급격히 치솟는 확산 곡선\"><path d=\"M14 54 H108 M14 54 V10\" stroke=\"#E8ECF2\" stroke-width=\"1.2\" fill=\"none\"/>\n   <path d=\"M14 54 C42 54 50 18 76 13 S100 10 106 10 V54 Z\" fill=\"#0E9384\" opacity=\".13\"/>\n   <path d=\"M14 54 C42 54 50 18 76 13 S100 10 106 10\" stroke=\"#0E9384\" stroke-width=\"2.6\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n   <circle cx=\"55\" cy=\"30\" r=\"4\" fill=\"#0E9384\"/></svg>","11":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"단리 직선과 복리 곡선이 벌어지는 그래프와 두 배 지점\"><path d=\"M14 54 H108 M14 54 V10\" stroke=\"#E8ECF2\" stroke-width=\"1.2\" fill=\"none\"/>\n   <path d=\"M14 50 C46 47 70 34 106 11 L106 54 L14 54 Z\" fill=\"#2563EB\" opacity=\".10\"/>\n   <path d=\"M14 50 L106 30\" stroke=\"#C3CBD6\" stroke-width=\"1.8\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n   <path d=\"M14 50 C46 47 70 34 106 11\" stroke=\"#2563EB\" stroke-width=\"2.6\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n   <path d=\"M64 54 V33\" stroke=\"#BE123C\" stroke-width=\"1.2\" stroke-dasharray=\"3 2.5\"/>\n   <circle cx=\"64\" cy=\"33\" r=\"4.4\" fill=\"#BE123C\"/></svg>","15":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"점들 사이를 지나는 직선과 빨간 잔차\"><path d=\"M14 54 H108 M14 54 V10\" stroke=\"#E8ECF2\" stroke-width=\"1.2\" fill=\"none\"/>\n   <path d=\"M28 48 V45.2\" stroke=\"#BE123C\" stroke-width=\"1.8\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M44 37 V39.6\" stroke=\"#BE123C\" stroke-width=\"1.8\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M58 35 V34.7\" stroke=\"#BE123C\" stroke-width=\"1.8\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M74 25 V29.1\" stroke=\"#BE123C\" stroke-width=\"1.8\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M92 21 V22.8\" stroke=\"#BE123C\" stroke-width=\"1.8\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n   <path d=\"M18 51 L104 15\" stroke=\"#2563EB\" stroke-width=\"2.6\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n   <circle cx=\"28\" cy=\"48\" r=\"3.2\" fill=\"#111827\"/><circle cx=\"44\" cy=\"37\" r=\"3.2\" fill=\"#111827\"/><circle cx=\"58\" cy=\"35\" r=\"3.2\" fill=\"#111827\"/><circle cx=\"74\" cy=\"25\" r=\"3.2\" fill=\"#111827\"/><circle cx=\"92\" cy=\"21\" r=\"3.2\" fill=\"#111827\"/></svg>","16":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"포물선을 따라 최솟값으로 내려가는 점\"><path d=\"M18 12 Q60 66 102 12 L102 54 L18 54 Z\" fill=\"#2563EB\" opacity=\".08\"/>\n   <path d=\"M18 12 Q60 66 102 12\" stroke=\"#2563EB\" stroke-width=\"2.6\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n   <circle cx=\"29\" cy=\"25\" r=\"3.2\" fill=\"#B45309\" opacity=\".6\"/><circle cx=\"40\" cy=\"34\" r=\"3.2\" fill=\"#B45309\" opacity=\".6\"/><circle cx=\"51\" cy=\"39\" r=\"3.2\" fill=\"#B45309\" opacity=\".6\"/>\n   <circle cx=\"60\" cy=\"41\" r=\"4.8\" fill=\"#BE123C\"/>\n   <path d=\"M12 54 H108\" stroke=\"#E8ECF2\" stroke-width=\"1.2\"/></svg>","18":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"원점에서 뻗은 두 벡터와 사잇각\"><path d=\"M24 50 L96 16 L88 40 Z\" fill=\"#2563EB\" opacity=\".09\"/>\n   <path d=\"M24 50 L96 16\" stroke=\"#2563EB\" stroke-width=\"2.6\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n   <path d=\"M24 50 L88 40\" stroke=\"#0E9384\" stroke-width=\"2.6\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n   <path d=\"M46 45 A24 24 0 0 0 43 37\" stroke=\"#B45309\" stroke-width=\"1.8\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n   <circle cx=\"24\" cy=\"50\" r=\"3.4\" fill=\"#111827\"/></svg>","19":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"3×3 커널이 이미지에 적용되어 윤곽이 드러나는 그림\"><rect x=\"14\" y=\"19\" width=\"8.6\" height=\"8.6\" rx=\"1.5\"\n       fill=\"#2563EB\" opacity=\"0.22\"/><rect x=\"24\" y=\"19\" width=\"8.6\" height=\"8.6\" rx=\"1.5\"\n       fill=\"#2563EB\" opacity=\"0.22\"/><rect x=\"34\" y=\"19\" width=\"8.6\" height=\"8.6\" rx=\"1.5\"\n       fill=\"#2563EB\" opacity=\"0.22\"/><rect x=\"14\" y=\"29\" width=\"8.6\" height=\"8.6\" rx=\"1.5\"\n       fill=\"#2563EB\" opacity=\"0.22\"/><rect x=\"24\" y=\"29\" width=\"8.6\" height=\"8.6\" rx=\"1.5\"\n       fill=\"#2563EB\" opacity=\"1\"/><rect x=\"34\" y=\"29\" width=\"8.6\" height=\"8.6\" rx=\"1.5\"\n       fill=\"#2563EB\" opacity=\"0.22\"/><rect x=\"14\" y=\"39\" width=\"8.6\" height=\"8.6\" rx=\"1.5\"\n       fill=\"#2563EB\" opacity=\"0.22\"/><rect x=\"24\" y=\"39\" width=\"8.6\" height=\"8.6\" rx=\"1.5\"\n       fill=\"#2563EB\" opacity=\"0.22\"/><rect x=\"34\" y=\"39\" width=\"8.6\" height=\"8.6\" rx=\"1.5\"\n       fill=\"#2563EB\" opacity=\"0.22\"/>\n   <path d=\"M50 33 H64 M60 29 L64 33 L60 37\" stroke=\"#111827\" stroke-width=\"1.8\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\" opacity=\".5\"/>\n   <rect x=\"72\" y=\"19\" width=\"7.6\" height=\"7.6\" rx=\"1.2\"\n       fill=\"#111827\" opacity=\"0.9\"/><rect x=\"81\" y=\"19\" width=\"7.6\" height=\"7.6\" rx=\"1.2\"\n       fill=\"#111827\" opacity=\"0.9\"/><rect x=\"90\" y=\"19\" width=\"7.6\" height=\"7.6\" rx=\"1.2\"\n       fill=\"#111827\" opacity=\"0.9\"/><rect x=\"99\" y=\"19\" width=\"7.6\" height=\"7.6\" rx=\"1.2\"\n       fill=\"#111827\" opacity=\"0.9\"/><rect x=\"72\" y=\"28\" width=\"7.6\" height=\"7.6\" rx=\"1.2\"\n       fill=\"#111827\" opacity=\"0.9\"/><rect x=\"81\" y=\"28\" width=\"7.6\" height=\"7.6\" rx=\"1.2\"\n       fill=\"#E8ECF2\" opacity=\"1\"/><rect x=\"90\" y=\"28\" width=\"7.6\" height=\"7.6\" rx=\"1.2\"\n       fill=\"#E8ECF2\" opacity=\"1\"/><rect x=\"99\" y=\"28\" width=\"7.6\" height=\"7.6\" rx=\"1.2\"\n       fill=\"#111827\" opacity=\"0.9\"/><rect x=\"72\" y=\"37\" width=\"7.6\" height=\"7.6\" rx=\"1.2\"\n       fill=\"#111827\" opacity=\"0.9\"/><rect x=\"81\" y=\"37\" width=\"7.6\" height=\"7.6\" rx=\"1.2\"\n       fill=\"#E8ECF2\" opacity=\"1\"/><rect x=\"90\" y=\"37\" width=\"7.6\" height=\"7.6\" rx=\"1.2\"\n       fill=\"#E8ECF2\" opacity=\"1\"/><rect x=\"99\" y=\"37\" width=\"7.6\" height=\"7.6\" rx=\"1.2\"\n       fill=\"#111827\" opacity=\"0.9\"/><rect x=\"72\" y=\"46\" width=\"7.6\" height=\"7.6\" rx=\"1.2\"\n       fill=\"#111827\" opacity=\"0.9\"/><rect x=\"81\" y=\"46\" width=\"7.6\" height=\"7.6\" rx=\"1.2\"\n       fill=\"#111827\" opacity=\"0.9\"/><rect x=\"90\" y=\"46\" width=\"7.6\" height=\"7.6\" rx=\"1.2\"\n       fill=\"#111827\" opacity=\"0.9\"/><rect x=\"99\" y=\"46\" width=\"7.6\" height=\"7.6\" rx=\"1.2\"\n       fill=\"#111827\" opacity=\"0.9\"/></svg>","247":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"나란히 놓여 만나지 않는 두 직선 그림\"><g transform=\"translate(18.75 -1.00) scale(0.6875)\"><line x1=\"16\" y1=\"70\" x2=\"104\" y2=\"26\" stroke=\"#2563EB\" stroke-width=\"2.91\"/>\n   <line x1=\"16\" y1=\"60\" x2=\"104\" y2=\"16\" stroke=\"#BE123C\" stroke-width=\"2.91\" stroke-dasharray=\"5.8 4.4\"/>\n   <line x1=\"10\" y1=\"80\" x2=\"110\" y2=\"80\" stroke=\"#6B7280\" stroke-width=\"1.45\" opacity=\".5\"/></g></svg>","248":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"단위정사각형과 그것이 옮겨 간 평행사변형\"><g transform=\"translate(4.56 -19.92) scale(0.8800)\"><rect x=\"20\" y=\"34\" width=\"34\" height=\"34\" fill=\"none\" stroke=\"#6B7280\" stroke-width=\"1.36\" stroke-dasharray=\"4.5 3.4\"/>\n   <polygon points=\"58,68 92,68 106,34 72,34\" fill=\"#2563EB\" opacity=\".28\" stroke=\"#2563EB\" stroke-width=\"1.82\"/>\n   <text x=\"37\" y=\"82\" font-size=\"8\" font-weight=\"800\" fill=\"#6B7280\" text-anchor=\"middle\">1</text>\n   <text x=\"82\" y=\"82\" font-size=\"8\" font-weight=\"800\" fill=\"#2563EB\" text-anchor=\"middle\">|det|</text></g></svg>","249":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"한 직선 위에 겹쳐 놓인 v 와 Av 화살표\"><g transform=\"translate(9.23 -6.92) scale(0.8462)\"><line x1=\"18\" y1=\"72\" x2=\"102\" y2=\"20\" stroke=\"#6B7280\" stroke-width=\"1.42\" stroke-dasharray=\"5.9 4.7\" opacity=\".7\"/>\n   <line x1=\"60\" y1=\"48\" x2=\"86\" y2=\"32\" stroke=\"#2563EB\" stroke-width=\"2.84\"/>\n   <line x1=\"60\" y1=\"48\" x2=\"100\" y2=\"23\" stroke=\"#BE123C\" stroke-width=\"2.84\"/>\n   <circle cx=\"60\" cy=\"48\" r=\"3\" fill=\"#6B7280\"/></g></svg>","251":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"피보나치 수가 커지는 막대와 행렬 표시\"><g transform=\"translate(10.92 -12.00) scale(0.8462)\"><g fill=\"#2563EB\" opacity=\".6\">\n   <rect x=\"18\" y=\"72\" width=\"10\" height=\"6\"/><rect x=\"32\" y=\"70\" width=\"10\" height=\"8\"/>\n   <rect x=\"46\" y=\"66\" width=\"10\" height=\"12\"/><rect x=\"60\" y=\"58\" width=\"10\" height=\"20\"/>\n   <rect x=\"74\" y=\"46\" width=\"10\" height=\"32\"/></g>\n   <rect x=\"88\" y=\"26\" width=\"10\" height=\"52\" fill=\"#BE123C\" opacity=\".7\"/></g></svg>","252":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"왼쪽 아래가 0 으로 채워진 계단 모양 행렬\"><g transform=\"translate(18.16 -7.02) scale(0.7213)\"><g font-size=\"11\" font-weight=\"700\" fill=\"#6B7280\" text-anchor=\"middle\">\n   <text x=\"28\" y=\"34\">2</text><text x=\"54\" y=\"34\">1</text><text x=\"80\" y=\"34\">3</text>\n   <text x=\"54\" y=\"58\">2</text><text x=\"80\" y=\"58\">1</text>\n   <text x=\"80\" y=\"82\">4</text></g>\n   <g font-size=\"11\" font-weight=\"700\" fill=\"#0E9384\" text-anchor=\"middle\">\n   <text x=\"28\" y=\"58\">0</text><text x=\"28\" y=\"82\">0</text><text x=\"54\" y=\"82\">0</text></g>\n   <path d=\"M20 42 L96 42\" stroke=\"#6B7280\" stroke-width=\"1.11\" opacity=\".3\"/>\n   <path d=\"M20 66 L96 66\" stroke=\"#6B7280\" stroke-width=\"1.11\" opacity=\".3\"/></g></svg>","253":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"두 방향으로 평면 전체를 덮는 화살표 그림\"><g transform=\"translate(20.00 0.67) scale(0.6667)\"><rect x=\"12\" y=\"14\" width=\"96\" height=\"66\" fill=\"#2563EB\" opacity=\".08\"/>\n   <line x1=\"60\" y1=\"52\" x2=\"94\" y2=\"30\" stroke=\"#2563EB\" stroke-width=\"3.60\"/>\n   <line x1=\"60\" y1=\"52\" x2=\"40\" y2=\"22\" stroke=\"#0E9384\" stroke-width=\"3.60\"/>\n   <line x1=\"60\" y1=\"52\" x2=\"88\" y2=\"70\" stroke=\"#BE123C\" stroke-width=\"3.60\"/>\n   <circle cx=\"60\" cy=\"52\" r=\"3\" fill=\"#6B7280\"/></g></svg>","254":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"직선 밖으로 튀어나간 실수배 점 그림\"><g transform=\"translate(16.29 0.09) scale(0.7285)\"><line x1=\"16\" y1=\"74\" x2=\"104\" y2=\"26\" stroke=\"#2563EB\" stroke-width=\"2.75\"/>\n   <circle cx=\"46\" cy=\"58\" r=\"4.4\" fill=\"#0E9384\"/>\n   <circle cx=\"86\" cy=\"18\" r=\"4.4\" fill=\"#BE123C\"/>\n   <line x1=\"46\" y1=\"58\" x2=\"86\" y2=\"18\" stroke=\"#BE123C\" stroke-width=\"1.65\" stroke-dasharray=\"5.5 4.1\"/>\n   <circle cx=\"60\" cy=\"60\" r=\"3\" fill=\"#6B7280\"/></g></svg>","255":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"네 개의 화살표 가운데 둘만 진한 그림\"><g transform=\"translate(8.38 -8.62) scale(0.8462)\"><line x1=\"60\" y1=\"54\" x2=\"94\" y2=\"34\" stroke=\"#2563EB\" stroke-width=\"2.84\"/>\n   <line x1=\"60\" y1=\"54\" x2=\"42\" y2=\"22\" stroke=\"#0E9384\" stroke-width=\"2.84\"/>\n   <line x1=\"60\" y1=\"54\" x2=\"26\" y2=\"74\" stroke=\"#6B7280\" stroke-width=\"2.13\" opacity=\".45\"/>\n   <line x1=\"60\" y1=\"54\" x2=\"96\" y2=\"72\" stroke=\"#6B7280\" stroke-width=\"2.13\" opacity=\".45\"/>\n   <circle cx=\"60\" cy=\"54\" r=\"3\" fill=\"#6B7280\"/></g></svg>","257":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"순서를 바꾸면 어긋나는 두 변환 결과\"><g transform=\"translate(13.07 -0.27) scale(0.7333)\"><rect x=\"20\" y=\"44\" width=\"34\" height=\"30\" fill=\"none\" stroke=\"#6B7280\" stroke-width=\"1.64\" stroke-dasharray=\"5.5 4.1\"/>\n   <polygon points=\"62,74 96,74 108,44 74,44\" fill=\"#2563EB\" opacity=\".25\" stroke=\"#2563EB\" stroke-width=\"2.18\"/>\n   <polygon points=\"60,38 92,30 100,14 68,22\" fill=\"none\" stroke=\"#BE123C\" stroke-width=\"1.91\" stroke-dasharray=\"5.5 4.1\"/></g></svg>","258":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"점선에 다가가 붙는 수렴 곡선\"><g transform=\"translate(3.61 -14.40) scale(0.9244)\"><path d=\"M18 74 C36 40 56 30 102 28\" stroke=\"#2563EB\" stroke-width=\"2.38\" fill=\"none\"/>\n   <line x1=\"14\" y1=\"28\" x2=\"108\" y2=\"28\" stroke=\"#BE123C\" stroke-width=\"1.51\" stroke-dasharray=\"4.3 3.2\"/>\n   <circle cx=\"70\" cy=\"30\" r=\"3.6\" fill=\"#0E9384\"/></g></svg>","259":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"정사영을 덜어 내 직각이 된 벡터 그림\"><g transform=\"translate(3.17 -6.50) scale(0.9167)\"><line x1=\"24\" y1=\"66\" x2=\"100\" y2=\"52\" stroke=\"#2563EB\" stroke-width=\"2.62\"/>\n   <line x1=\"24\" y1=\"66\" x2=\"52\" y2=\"18\" stroke=\"#6B7280\" stroke-width=\"1.75\" opacity=\".5\"/>\n   <line x1=\"24\" y1=\"66\" x2=\"42\" y2=\"24\" stroke=\"#0E9384\" stroke-width=\"2.62\"/>\n   <line x1=\"42\" y1=\"24\" x2=\"52\" y2=\"18\" stroke=\"#BE123C\" stroke-width=\"1.31\" stroke-dasharray=\"3.3 3.3\"/>\n   <path d=\"M32 62 L36 63 L35 59\" fill=\"none\" stroke=\"#0E9384\" stroke-width=\"1.31\"/></g></svg>","260":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"직선에서 위아래로 뻗은 세 오차 선분\"><g transform=\"translate(1.65 -14.87) scale(0.9565)\"><line x1=\"16\" y1=\"72\" x2=\"106\" y2=\"26\" stroke=\"#2563EB\" stroke-width=\"2.09\"/>\n   <circle cx=\"36\" cy=\"54\" r=\"4\" fill=\"#6B7280\"/><line x1=\"36\" y1=\"54\" x2=\"36\" y2=\"62\" stroke=\"#BE123C\" stroke-width=\"1.88\"/>\n   <circle cx=\"62\" cy=\"36\" r=\"4\" fill=\"#6B7280\"/><line x1=\"62\" y1=\"36\" x2=\"62\" y2=\"49\" stroke=\"#BE123C\" stroke-width=\"1.88\"/>\n   <circle cx=\"88\" cy=\"42\" r=\"4\" fill=\"#6B7280\"/><line x1=\"88\" y1=\"42\" x2=\"88\" y2=\"35\" stroke=\"#BE123C\" stroke-width=\"1.88\"/></g></svg>","261":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"길게 늘어선 점들과 그 방향을 따르는 축\"><g transform=\"translate(7.20 -11.12) scale(0.8800)\"><g fill=\"#2563EB\" opacity=\".75\">\n   <circle cx=\"30\" cy=\"66\" r=\"3\"/><circle cx=\"40\" cy=\"58\" r=\"3\"/><circle cx=\"48\" cy=\"62\" r=\"3\"/>\n   <circle cx=\"56\" cy=\"50\" r=\"3\"/><circle cx=\"64\" cy=\"46\" r=\"3\"/><circle cx=\"72\" cy=\"38\" r=\"3\"/>\n   <circle cx=\"80\" cy=\"42\" r=\"3\"/><circle cx=\"88\" cy=\"30\" r=\"3\"/></g>\n   <line x1=\"22\" y1=\"74\" x2=\"98\" y2=\"24\" stroke=\"#0E9384\" stroke-width=\"2.50\"/>\n   <line x1=\"70\" y1=\"70\" x2=\"46\" y2=\"34\" stroke=\"#BE123C\" stroke-width=\"1.36\" stroke-dasharray=\"3.4 3.4\"/></g></svg>","263":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"끝없이 자라는 부분합과 적분 곡선\"><g transform=\"translate(15.27 -4.67) scale(0.7333)\"><path d=\"M16 76 C40 62 62 46 106 20\" stroke=\"#2563EB\" stroke-width=\"3.00\" fill=\"none\"/>\n   <path d=\"M16 78 C42 68 66 56 106 34\" stroke=\"#B45309\" stroke-width=\"2.05\" fill=\"none\" stroke-dasharray=\"5.5 4.1\"/>\n   <line x1=\"12\" y1=\"80\" x2=\"110\" y2=\"80\" stroke=\"#6B7280\" stroke-width=\"1.36\" opacity=\".5\"/></g></svg>","264":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"수렴반경 띠 안에서만 겹치는 두 곡선\"><g transform=\"translate(22.67 0.67) scale(0.6667)\"><rect x=\"34\" y=\"14\" width=\"52\" height=\"66\" fill=\"#2563EB\" opacity=\".08\"/>\n   <line x1=\"34\" y1=\"14\" x2=\"34\" y2=\"80\" stroke=\"#BE123C\" stroke-width=\"1.80\" stroke-dasharray=\"6.0 4.5\"/>\n   <line x1=\"86\" y1=\"14\" x2=\"86\" y2=\"80\" stroke=\"#BE123C\" stroke-width=\"1.80\" stroke-dasharray=\"6.0 4.5\"/>\n   <path d=\"M20 72 C44 66 60 48 76 22\" stroke=\"#6B7280\" stroke-width=\"3.00\" fill=\"none\"/>\n   <path d=\"M20 74 C44 68 62 52 92 62\" stroke=\"#2563EB\" stroke-width=\"2.70\" fill=\"none\"/></g></svg>","273":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"바깥으로 갈수록 커지는 부채꼴 조각들\"><g transform=\"translate(16.00 -1.73) scale(0.7333)\"><g stroke=\"#fff\" stroke-width=\"1.09\">\n   <path d=\"M60 46 L60 16 A30 30 0 0 1 81 25 Z\" fill=\"#2563EB\" opacity=\".7\"/>\n   <path d=\"M60 46 L81 25 A30 30 0 0 1 90 46 Z\" fill=\"#2563EB\" opacity=\".55\"/>\n   <path d=\"M60 46 L60 26 A20 20 0 0 1 74 32 Z\" fill=\"#2563EB\" opacity=\".4\"/>\n   <path d=\"M60 46 L60 34 A12 12 0 0 1 68 37 Z\" fill=\"#2563EB\" opacity=\".25\"/></g>\n   <circle cx=\"60\" cy=\"46\" r=\"30\" fill=\"none\" stroke=\"#0E9384\" stroke-width=\"2.18\"/></g></svg>","285":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"한 시점에서 두 직선으로 옮겨진 네 점\"><g transform=\"translate(26.15 4.36) scale(0.5641)\"><circle cx=\"60\" cy=\"14\" r=\"4\" fill=\"#6B7280\"/>\n   <line x1=\"60\" y1=\"14\" x2=\"16\" y2=\"76\" stroke=\"#6B7280\" stroke-width=\"1.42\" opacity=\".5\"/>\n   <line x1=\"60\" y1=\"14\" x2=\"42\" y2=\"76\" stroke=\"#6B7280\" stroke-width=\"1.42\" opacity=\".5\"/>\n   <line x1=\"60\" y1=\"14\" x2=\"72\" y2=\"76\" stroke=\"#6B7280\" stroke-width=\"1.42\" opacity=\".5\"/>\n   <line x1=\"60\" y1=\"14\" x2=\"104\" y2=\"76\" stroke=\"#6B7280\" stroke-width=\"1.42\" opacity=\".5\"/>\n   <line x1=\"10\" y1=\"76\" x2=\"110\" y2=\"76\" stroke=\"#2563EB\" stroke-width=\"3.19\"/>\n   <line x1=\"16\" y1=\"88\" x2=\"106\" y2=\"44\" stroke=\"#0E9384\" stroke-width=\"3.19\"/></g></svg>","286":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"법선벡터가 꽂힌 기울어진 평면 격자\"><g transform=\"translate(12.86 -2.57) scale(0.7857)\"><g stroke=\"#2563EB\" stroke-width=\"1.27\" opacity=\".7\">\n   <path d=\"M22 62 L60 44 L98 58\"/><path d=\"M22 72 L60 54 L98 68\"/>\n   <path d=\"M22 62 L22 72\"/><path d=\"M60 44 L60 54\"/><path d=\"M98 58 L98 68\"/></g>\n   <line x1=\"60\" y1=\"50\" x2=\"60\" y2=\"16\" stroke=\"#0E9384\" stroke-width=\"3.05\"/>\n   <circle cx=\"60\" cy=\"50\" r=\"3.4\" fill=\"#6B7280\"/></g></svg>","287":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"두 지붕면과 각각의 법선이 이루는 각\"><g transform=\"translate(20.00 3.33) scale(0.6667)\"><line x1=\"60\" y1=\"30\" x2=\"16\" y2=\"76\" stroke=\"#2563EB\" stroke-width=\"3.60\"/>\n   <line x1=\"60\" y1=\"30\" x2=\"104\" y2=\"76\" stroke=\"#0E9384\" stroke-width=\"3.60\"/>\n   <line x1=\"60\" y1=\"30\" x2=\"34\" y2=\"10\" stroke=\"#2563EB\" stroke-width=\"2.40\"/>\n   <line x1=\"60\" y1=\"30\" x2=\"86\" y2=\"10\" stroke=\"#0E9384\" stroke-width=\"2.40\"/>\n   <path d=\"M42 48 A24 24 0 0 0 78 48\" fill=\"none\" stroke=\"#BE123C\" stroke-width=\"2.10\"/></g></svg>","289":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"직선을 축 둘레로 돌려 만든 원뿔\"><g transform=\"translate(25.26 4.21) scale(0.5789)\"><line x1=\"60\" y1=\"10\" x2=\"60\" y2=\"86\" stroke=\"#BE123C\" stroke-width=\"3.11\"/>\n   <path d=\"M60 78 L100 30\" stroke=\"#2563EB\" stroke-width=\"3.60\"/>\n   <path d=\"M60 78 L20 30\" stroke=\"#0E9384\" stroke-width=\"2.76\" opacity=\".6\"/>\n   <ellipse cx=\"60\" cy=\"30\" rx=\"40\" ry=\"12\" fill=\"none\" stroke=\"#0E9384\" stroke-width=\"2.76\"/></g></svg>","335":"<svg class=\"thumb\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"지평선 위 두 소실점으로 모이는 선들\"><line x1=\"12\" y1=\"24\" x2=\"108\" y2=\"24\" stroke=\"#C3CBD6\" stroke-width=\"1.6\"/>\n   <line x1=\"60\" y1=\"24\" x2=\"14\" y2=\"54\" stroke=\"#2563EB\" stroke-width=\"2.6\"/>\n   <line x1=\"60\" y1=\"24\" x2=\"106\" y2=\"54\" stroke=\"#2563EB\" stroke-width=\"2.6\"/>\n   <line x1=\"60\" y1=\"24\" x2=\"34\" y2=\"54\" stroke=\"#2563EB\" stroke-width=\"1.8\" opacity=\".5\"/>\n   <line x1=\"60\" y1=\"24\" x2=\"86\" y2=\"54\" stroke=\"#2563EB\" stroke-width=\"1.8\" opacity=\".5\"/>\n   <line x1=\"26\" y1=\"46\" x2=\"94\" y2=\"46\" stroke=\"#0E9384\" stroke-width=\"1.8\"/>\n   <line x1=\"38\" y1=\"36\" x2=\"82\" y2=\"36\" stroke=\"#0E9384\" stroke-width=\"1.8\" opacity=\".6\"/>\n   <circle cx=\"60\" cy=\"24\" r=\"3.8\" fill=\"#BE123C\"/></svg>"};
+var LAB_INFO  = {"2":["“이 문자, 스팸일까?” 베이즈 분류기","왜 어떤 문자는 스팸함으로 갈까?","AI 수학 <b>21·22차시 「확률·스팸」</b> — 사전확률이 문자 한 통으로 어떻게 갱신되는지를 막대 두 줄로 본다."],"3":["“왜 순식간에 퍼질까?” 확산 시뮬레이터","어떤 영상은 왜 하루 만에 천만 뷰가 될까?","AI 수학 <b>34차시 「프로젝트」</b> — 퍼짐의 계수 하나로 폭발과 소멸이 갈리는 지점을 찾는다."],"11":["“복리가 왜 무서울까?” 72의 법칙","적금과 대출, 두 배가 되는 데 몇 년 걸릴까?","대수 <b>「지수·로그」</b> — 72를 이자율로 나누면 두 배 되는 해가 나오는 까닭을 로그로 확인한다."],"15":["최소제곱 회귀 — AI 예측의 출발점","점들 사이로 “가장 알맞은 직선”은 어떻게 정할까?","AI 수학 <b>23·24차시 「추세선」</b> — 잔차 제곱합을 가장 작게 하는 직선을 손으로 옮겨 가며 찾는다."],"16":["경사하강법 — AI는 어떻게 “학습”하나","컴퓨터는 최솟값을 어떻게 찾아갈까?","AI 수학 <b>25·27·28차시 「손실·미분·경사하강」</b> — 학습률을 올려 일부러 발산시키고 수렴 조건을 한 문장으로 쓴다."],"18":["추천 알고리즘과 코사인 유사도","유튜브는 내 취향을 어떻게 알까?","AI 수학 <b>11차시 「유사도」</b> — 같은 자료에서 거리 1위와 각 1위가 뒤집히는 순간을 만든다."],"19":["이미지 필터와 합성곱(행렬)","AI는 사진에서 윤곽선을 어떻게 찾을까?","AI 수학 <b>17·20차시 「행렬의 곱·CNN」</b> — 3×3 커널 하나가 윤곽선을 뽑아내는 것을 9칸 손계산으로 확인한다."],"247":["“풀리는지 먼저 묻는다” 역행렬과 해의 개수","계수만 보고 해가 있는지 알 수 있을까?"],"248":["“넓이가 몇 배가 되는가” 행렬식의 뜻","행렬식이라는 수 하나가 말하는 것은?"],"249":["“휘지 않는 화살표” 고유벡터와 고윳값","변환해도 방향이 그대로인 벡터가 있을까?"],"251":["“한 번에 뛰어넘기” 피보나치의 행렬 표현","점화식을 곱셈 한 번으로 바꿀 수 있을까?"],"252":["“계단으로 만들면 풀린다” 가우스 소거법","컴퓨터는 연립방정식을 어떤 순서로 풀까?"],"253":["“화살표 둘로 어디까지” 생성","두 방향만으로 평면을 다 덮을 수 있을까?"],"254":["“원점을 지나야 하는 이유” 부분공간 판정","덧셈만 검사하면 왜 안 될까?"],"255":["“개수와 차원은 다르다” 일차독립과 차원","벡터를 늘리면 차원도 늘어날까?"],"257":["“돌리고 늘이면 다르다” 선형변환과 합성","변환의 순서를 바꾸면 결과도 바뀔까?"],"258":["“오래 지나면 어디에” 마르코프 연쇄의 정상상태","출발점이 결과를 정할까?"],"259":["“기울어진 축을 곧게” 그람-슈미트 직교화","얼마만큼 덜어 내야 직각이 될까?"],"260":["“딱 맞는 답이 없을 때” 최소제곱과 직각","가장 가까운 답은 어떻게 찾을까?"],"261":["“가장 퍼진 방향” 주성분과 차원 축소","축을 줄여도 정보를 지킬 수 있을까?"],"263":["“0 으로 가는데도 무한” p-급수와 적분판정","항이 0 으로 가면 합도 유한할까?"],"264":["“항을 늘려도 나빠진다” 수렴반경","근사는 어디까지 통할까?"],"273":["“왜 r 을 곱하나” 극좌표와 야코비안","좌표를 바꾸면 넓이도 바뀔까?"],"285":["“비스듬히 찍어도 남는 값” 복비","사영에서 살아남는 것은 무엇일까?"],"286":["“방향만으로는 부족하다” 평면의 방정식","평면 하나를 정하려면 무엇이 필요할까?"],"287":["“지붕의 각을 재려면” 두 평면이 이루는 각","법선 사이의 각을 그대로 써도 될까?"],"289":["“곡선을 돌리면” 회전면 만들기","축을 바꾸면 무엇이 달라질까?"],"335":["“나란한 것이 만나는 곳” 소실점과 무한원점","평행선은 왜 한 점에서 만나 보일까?"]};
+
+function labNo(n){ return n < 100 ? ("0" + n).slice(-2) : String(n); }
+function lessonCard(n){
+  var i = LAB_INFO[n] || ["LAB " + n, "", ""];
+  var a = document.createElement("a");
+  a.className = "lsncard"; a.dataset.lab = n;
+  a.innerHTML = (LAB_THUMB[n] || "")
+    + `<div class="n">LAB ` + labNo(n) + ` <span class="lsn">수업모형</span></div>`
+    + `<div class="t">` + i[0] + `</div>`
+    + (i[1] ? `<div class="q">` + i[1] + `</div>` : "")
+    + (i[2] ? `<div class="u">` + i[2] + `</div>` : "");
+  return a;
+}
+
+/* 표가 붙은 실험실을 과목별로 모은다. 연결표에서 직접 읽으므로 표가 늘고 줄면 따라온다. */
+var LSN_GROUPS = [
+  { key:"ai",  t:"1차시 · 인공지능 수학에서 함께 쓰는 실험실", has:function(n){ return n <= 21; } },
+  { key:"alg", t:"2차시 · 고급 대수",   has:function(n){ return (n >= 247 && n <= 261) || n === 334; } },
+  { key:"geo", t:"2차시 · 고급 기하",   has:function(n){ return (n >= 277 && n <= 291) || n === 335; } },
+  { key:"cal", t:"2차시 · 고급 미적분", has:function(n){ return (n >= 262 && n <= 276) || n === 336; } }
+];
+function lessonNumbers(){
+  var seen = {}, out = {};
+  LSN_GROUPS.forEach(function(g){ out[g.key] = []; });
+  document.querySelectorAll("a[data-lab]").forEach(function(a){
+    if (a.classList.contains("lsncard")) return;        /* 내가 만든 카드는 세지 않는다 */
     var n = +a.dataset.lab;
     if (!LESSON_LABS.has(n) || seen[n]) return;
     seen[n] = 1;
-    for (var i = 0; i < groups.length; i++) if (groups[i].has(n)) { groups[i].list.push(a); break; }
+    for (var i = 0; i < LSN_GROUPS.length; i++) if (LSN_GROUPS[i].has(n)) { out[LSN_GROUPS[i].key].push(n); break; }
   });
-  var total = 0;
-  groups.forEach(function(g){
-    if (!g.list.length) return;
-    total += g.list.length;
-    g.list.sort(function(x, y){ return (+x.dataset.lab) - (+y.dataset.lab); });
-    var c = document.createElement('div'); c.className = 'card';
-    var h = document.createElement('h3'); h.style.marginTop = '0';
-    h.textContent = g.t + ' — ' + g.list.length + '종';
-    c.appendChild(h);
-    g.list.forEach(function(a){ c.appendChild(a.cloneNode(true)); });
-    box.appendChild(c);
+  Object.keys(out).forEach(function(k){ out[k].sort(function(x, y){ return x - y; }); });
+  return out;
+}
+function buildLessonIndex(){
+  var nums = lessonNumbers(), total = 0;
+  var box = document.getElementById("lsnIndex");
+  if (box) {
+    box.innerHTML = "";
+    LSN_GROUPS.forEach(function(g){
+      var list = nums[g.key]; if (!list.length) return;
+      total += list.length;
+      var sec = document.createElement("div"); sec.className = "lsngrp";
+      var h = document.createElement("h3"); h.textContent = g.t + " — " + list.length + "종";
+      var grid = document.createElement("div"); grid.className = "lsncards";
+      list.forEach(function(n){ grid.appendChild(lessonCard(n)); });
+      sec.appendChild(h); sec.appendChild(grid); box.appendChild(sec);
+    });
+    var cnt = document.getElementById("lsnCount");
+    if (cnt) cnt.textContent = "모두 " + total + "종입니다.";
+  }
+  /* 차시 탭마다 그 과목 것만 띠로 세운다 */
+  document.querySelectorAll(".lsnstrip").forEach(function(strip){
+    var list = nums[strip.dataset.grp] || [];
+    strip.innerHTML = "";
+    if (!list.length) return;
+    var h = document.createElement("h3");
+    h.textContent = "수업 모형으로 열리는 실험실 — " + list.length + "종";
+    var grid = document.createElement("div"); grid.className = "lsncards";
+    list.forEach(function(n){ grid.appendChild(lessonCard(n)); });
+    strip.appendChild(h); strip.appendChild(grid);
   });
-  var cnt = document.getElementById('lsnCount');
-  if (cnt) cnt.textContent = '모두 ' + total + '종입니다.';
+  rebaseCards();
+}
+/* 카드는 목록을 세운 뒤에 생기므로 링크를 따로 한 번 더 입힌다 */
+function rebaseCards(){
+  var L = document.getElementById("baseLab").value.trim();
+  document.querySelectorAll("a.lsncard").forEach(function(a){
+    a.href = L + "#lab=" + a.dataset.lab; a.target = "_blank"; a.rel = "noopener";
+  });
 }
 
 rebase();   /* 링크를 만들고, 표를 달고, 목록까지 세운다 */
