@@ -96,13 +96,9 @@ header{background:linear-gradient(120deg,rgba(15,36,71,.86),rgba(31,78,158,.86))
 
 <!-- ───────── p0 사용법 ───────── -->
 <section class="pane on" id="p0"><div class="wrap">
-  <h2>이 페이지는 무엇인가</h2>
-  <div class="grid g3">
-    <div class="card"><div class="big">4</div><b>신설 과목</b><p class="small">인공지능 수학(진로 선택) · 고급 대수 · 고급 기하 · 고급 미적분(과학 계열 전문 교과)</p></div>
-    <div class="card"><div class="big">37 + 356</div><b>바로 열리는 자료</b><p class="small">AI 수학 37차시 웹 수업 · 일상 속 수학 실험실 356종. 성취기준 줄마다 링크가 붙어 있습니다.</p></div>
-    <div class="card"><div class="big">70</div><b>7단계 수업 모형</b><p class="small">문제 → 예상 → 실험 → 기록·발견 → 원리 → 적용 → 정리. 아래 표에서 <span class="chip" style="cursor:default">LAB 000<span class="lsn">수업모형</span></span> 표가 붙은 것이 그것입니다. <b>학생 활동지(A4)</b>도 같은 70종.</p></div>
-    <div class="card"><div class="big">3분</div><b>실습 미션</b><p class="small">모든 줄에 「무엇을 만지고 → 무엇을 보고 → 무엇을 묻는가」가 적혀 있습니다. 연수장에서 그대로 합니다.</p></div>
-  </div>
+  <h2>수업 모형이 붙은 실험실</h2>
+  <p class="small" style="margin:-8px 0 14px">이 페이지가 가리키는 실험실 가운데 <b>7단계 수업 모형과 학생 활동지</b>를 갖춘 것만 모았습니다. 눌러서 열면 곧장 한 차시가 됩니다. <span id="lsnCount"></span></p>
+  <div class="grid g2" id="lsnIndex"></div>
   <div class="card">
     <h3 style="margin-top:0">「수업모형」 표가 붙은 실험실 — 한 차시가 통째로 들어 있습니다</h3>
     <p class="small" style="margin-top:0">2026. 9. 30. 에 <b>고급 대수·기하·미적분 48종</b>을 더해 모두 <b>70종</b>이 한 차시 수업의 꼴을 갖추었습니다. 실험실을 열면 단계 표가 먼저 뜨고, <b>앞 단계를 마쳐야 다음이 열립니다</b> — 조작만 하다 끝나지 않게 하는 장치입니다.</p>
@@ -492,6 +488,7 @@ function rebase(){
   document.querySelectorAll('a[data-lab]').forEach(a=>{ a.href=L+'#lab='+a.dataset.lab; a.target='_blank'; a.rel='noopener'; });
   document.querySelectorAll('a[data-ai]').forEach(a=>{ a.href=A+'#'+a.dataset.ai; a.target='_blank'; a.rel='noopener'; });
   if (typeof markLessons === 'function') markLessons();
+  if (typeof buildLessonIndex === 'function') buildLessonIndex();
 }
 /* 대전 실험실에서 7단계 수업 모형 + 학생 활동지가 붙은 번호 (2026. 9. 30. 기준 70종) */
 var LESSON_LABS = new Set([356, 334, 335, 336]);
@@ -508,7 +505,42 @@ function markLessons(){
   });
 }
 
-rebase();   /* 링크를 만들고, 그 안에서 「수업모형」 표까지 단다 */
+/* 표가 붙은 실험실만 모아 맨 위에 목록으로 세운다.
+   표에서 직접 읽어 만들므로, 표가 늘거나 줄면 목록도 따라온다. */
+function buildLessonIndex(){
+  var box = document.getElementById('lsnIndex'); if (!box) return;
+  box.innerHTML = '';
+  var groups = [
+    { t:'1차시 · 인공지능 수학에서 함께 쓰는 실험실', has:function(n){ return n <= 21; }, list:[] },
+    { t:'2차시 · 고급 대수',   has:function(n){ return (n >= 247 && n <= 261) || n === 334; }, list:[] },
+    { t:'2차시 · 고급 기하',   has:function(n){ return (n >= 277 && n <= 291) || n === 335; }, list:[] },
+    { t:'2차시 · 고급 미적분', has:function(n){ return (n >= 262 && n <= 276) || n === 336; }, list:[] }
+  ];
+  var seen = {};
+  document.querySelectorAll('a[data-lab]').forEach(function(a){
+    if (box.contains(a)) return;                       /* 목록 자신은 세지 않는다 */
+    var n = +a.dataset.lab;
+    if (!LESSON_LABS.has(n) || seen[n]) return;
+    seen[n] = 1;
+    for (var i = 0; i < groups.length; i++) if (groups[i].has(n)) { groups[i].list.push(a); break; }
+  });
+  var total = 0;
+  groups.forEach(function(g){
+    if (!g.list.length) return;
+    total += g.list.length;
+    g.list.sort(function(x, y){ return (+x.dataset.lab) - (+y.dataset.lab); });
+    var c = document.createElement('div'); c.className = 'card';
+    var h = document.createElement('h3'); h.style.marginTop = '0';
+    h.textContent = g.t + ' — ' + g.list.length + '종';
+    c.appendChild(h);
+    g.list.forEach(function(a){ c.appendChild(a.cloneNode(true)); });
+    box.appendChild(c);
+  });
+  var cnt = document.getElementById('lsnCount');
+  if (cnt) cnt.textContent = '모두 ' + total + '종입니다.';
+}
+
+rebase();   /* 링크를 만들고, 표를 달고, 목록까지 세운다 */
 
 (function(){ var h=(location.hash||'').replace('#',''); if(/^p[0-6]$/.test(h)) showTab(h); })();
 </script>
