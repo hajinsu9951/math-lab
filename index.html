@@ -1189,20 +1189,30 @@ table.lsnevt tbody th{width:48px;text-align:center;color:#92400E;background:#FFF
 .lsnguide .lsgk{margin-left:6px;font-size:11.5px;color:#0F766E;font-weight:700}
 .lsnguide .lsgt,.lsnguide .lsgs{display:inline-block;min-width:34px;text-align:center;margin-right:5px;padding:0 6px;border-radius:999px;font-size:11px;font-weight:800;color:#fff;background:#0E9384}
 .lsnguide .lsgs{background:#2563EB}
-.lsnslide{position:sticky;bottom:12px;z-index:6;margin:18px 0 4px}
-.lsnslide[hidden]{display:none}
-.lsnst{position:relative;height:54px;border-radius:27px;border:1.5px solid #CBD5E1;background:#F1F5F9;overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none;box-shadow:0 6px 18px rgba(15,23,42,.14)}
-.lsnst.ready{border-color:#0E9384;background:#E6F7F4}
-.lsnst .lsnsl{position:absolute;left:58px;right:16px;top:0;bottom:0;display:flex;align-items:center;justify-content:center;text-align:center;font-size:13.3px;font-weight:800;color:#64748B;line-height:1.3;pointer-events:none}
-.lsnst.ready .lsnsl{color:#0F766E}
-.lsnsh{position:absolute;left:4px;top:4px;width:44px;height:44px;border-radius:50%;border:0;background:#94A3B8;color:#fff;font-size:17px;font-weight:900;letter-spacing:-2px;cursor:grab;touch-action:none;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:transform .22s ease}
-.lsnst.ready .lsnsh{background:#0E9384}
-.lsnst.drag .lsnsh{transition:none;cursor:grabbing}
-.lsnst.shake{animation:lsnshake .42s}
+.lsnnav{position:sticky;bottom:10px;z-index:6;margin:18px 0 4px;padding:9px 12px 10px;background:rgba(255,255,255,.96);border:1px solid #CBD5E1;border-radius:16px;box-shadow:0 8px 24px rgba(15,23,42,.16)}
+.lsncond{margin:0 2px 8px;font-size:12.8px;font-weight:800}
+.lsncond[hidden]{display:none}
+.lsnchk{display:inline-block;color:#B45309;background:#FFFBEB;border:1px solid #FCD34D;border-radius:999px;padding:3px 11px}
+.lsnchk.ok{color:#0F766E;background:#ECFDF5;border-color:#86EFAC}
+.lsnrow{display:flex;align-items:center;gap:12px}
+.lsnprev{flex:0 0 auto;height:48px;padding:0 16px;border-radius:12px;border:1.5px solid #CBD5E1;background:#fff;color:#334155;font:800 14px/1 inherit;cursor:pointer}
+.lsnprev:disabled{opacity:.35;cursor:default}
+.lsndots{flex:0 0 auto;display:flex;gap:7px}
+.lsndot{width:11px;height:11px;border-radius:50%;background:#E2E8F0;cursor:default}
+.lsndot.open{background:#99D5CB;cursor:pointer}
+.lsndot.done{background:#0E9384;cursor:pointer}
+.lsndot.now{background:#2563EB;box-shadow:0 0 0 3px #BFDBFE}
+.lsnnext{flex:1 1 auto;min-width:0;height:48px;border-radius:12px;border:0;font:800 15px/1.2 inherit;cursor:pointer;background:#CBD5E1;color:#64748B;padding:0 14px}
+.lsnnext[hidden]{display:none}
+.lsnnext.ready{background:#0E9384;color:#fff;box-shadow:0 3px 10px rgba(14,147,132,.35);animation:lsnpulse 1.8s ease-in-out infinite}
+.lsnnext.lock{cursor:not-allowed}
+@keyframes lsnpulse{0%,100%{box-shadow:0 3px 10px rgba(14,147,132,.35)}50%{box-shadow:0 3px 18px rgba(14,147,132,.7)}}
+.lsnnav.shake{animation:lsnshake .42s}
 @keyframes lsnshake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@media(max-width:560px){.lsnrow{gap:8px}.lsndots{display:none}.lsnprev{padding:0 12px}}
 /* 스티키가 먹으려면 조상이 스크롤 틀이 아니어야 한다 — hidden 대신 clip */
 .modal{overflow:clip}
-@media print{.lsnslide,.lsnguide{display:none!important}}
+@media print{.lsnnav,.lsnguide{display:none!important}}
 </style>
 </head>
 <body>
@@ -35852,15 +35862,31 @@ function lessonFlow(root, spec, P){
     {subtree:true,childList:true,attributes:true,attributeFilter:['disabled','hidden']});
   qgo();
 
-  /* ── 밀어서 다음 단계 — 화면 아래에 붙어 있어, 긴 실험 화면에서도 손이 닿는다 ──
-     조건을 채운 「다음 단계」 단추와 같은 일을 한다. 잠겨 있으면 이유를 보여 주고 흔들린다. */
-  const sl=document.createElement('div'); sl.className='lsnslide';
-  sl.innerHTML='<div class="lsnst"><span class="lsnsl"></span><button type="button" class="lsnsh" aria-label="밀어서 다음 단계로">›››</button></div>';
+  /* ── 다음 단계 바 — 화면 아래에 붙어 있어 긴 실험 화면에서도 손이 닿는다 ──
+     [← 이전] [진행 점] [다음 단계 →]. 잠겨 있으면 남은 조건을 체크 항목으로 보여 준다.
+     단추는 각 단계의 「다음」 단추와 같은 일을 한다. 키보드 ← → 로도 간다. */
+  const sl=document.createElement('div'); sl.className='lsnnav';
+  sl.innerHTML='<div class="lsncond"></div><div class="lsnrow">'
+    +'<button type="button" class="lsnprev">← 이전</button>'
+    +'<div class="lsndots">'+PH.map(function(p,k){ return '<span class="lsndot" title="'+(k+1)+' '+p[0]+'"></span>'; }).join('')+'</div>'
+    +'<button type="button" class="lsnnext"></button></div>';
   box.appendChild(sl);
-  const st=sl.querySelector('.lsnst'), hd=sl.querySelector('.lsnsh'), lb=sl.querySelector('.lsnsl');
+  const cEl=sl.querySelector('.lsncond'), pv=sl.querySelector('.lsnprev'), nx=sl.querySelector('.lsnnext'), dots=[...sl.querySelectorAll('.lsndot')];
   function nextBtn(){
     const bs=[...phs[G.cur].querySelectorAll('button')].filter(b=>/(go|open)$/.test(b.id||'') && b.offsetParent!==null);
     return bs.length ? bs[bs.length-1] : null;
+  }
+  /* 단계마다 열리는 조건 — 글과 충족 여부 */
+  function cond(){
+    const p4=phs[4].querySelector('#lsPrin');
+    switch(G.cur){
+      case 1: return {t:'예상을 손글씨로 쓰기', ok:!phs[1].querySelector('#ls1go').disabled};
+      case 2: return {t:'실험 미션 2개 이상 넘기기 ('+G.ladder.n+'/'+G.ladder.tot+')', ok:G.ladder.n>=Math.min(2,G.ladder.tot)};
+      case 3: return {t:'기록 3줄 이상 남기기 ('+Math.min(G.rows.n,3)+'/3)', ok:G.rows.n>=3};
+      case 4: return {t:'내 말로 원리를 쓰고 「수식·유도 열기」', ok:!!(p4&&p4.style.display==='block')};
+      case 5: return {t:'적용 문제의 답을 맞히기', ok:!!G.applyOK};
+      default: return null;
+    }
   }
   function syncGuide(){
     const g=GUIDE[G.cur]; if(!g) return;
@@ -35870,27 +35896,41 @@ function lessonFlow(root, spec, P){
     syncSlide();
   }
   function syncSlide(){
+    dots.forEach((d,k)=>{ const c='lsndot '+(k<G.cur?'done':k===G.cur?'now':(k<=G.unlocked?'open':'')); if(d.className!==c) d.className=c; });
+    pv.disabled=G.cur===0;
     const b=nextBtn();
-    sl.hidden=!b;
-    if(!b) return;
-    const t=(b.textContent||'').trim();
+    nx.hidden=!b;
+    const c=cond();
+    let ch='';
+    if(b && c){ ch='<span class="lsnchk '+(c.ok?'ok':'')+'">'+(c.ok?'✔':'☐')+' '+c.t+'</span>'; }
+    if(cEl.innerHTML!==ch) cEl.innerHTML=ch;
+    cEl.hidden=!ch;
+    if(!b){ return; }
     const lock=b.disabled;
-    const txt=lock ? '🔒 '+t : '밀어서 → '+t.replace(/\s*→\s*$/,'');
-    if(lb.textContent!==txt) lb.textContent=txt;
-    st.classList.toggle('lock',lock); st.classList.toggle('ready',!lock);
+    const t=(b.textContent||'').trim();
+    const txt=lock ? (t.split(' — ')[0]+' 🔒') : t;
+    if(nx.textContent!==txt) nx.textContent=txt;
+    nx.classList.toggle('lock',lock); nx.classList.toggle('ready',!lock);
+    nx.setAttribute('aria-disabled',lock?'true':'false');
   }
-  let dr=null;
-  const maxDx=()=>Math.max(1,st.clientWidth-hd.offsetWidth-8);
-  function fire(){
+  function goNext(){
     const b=nextBtn(); if(!b) return;
-    if(b.disabled){ st.classList.add('shake'); setTimeout(()=>st.classList.remove('shake'),450); return; }
+    if(b.disabled){ sl.classList.add('shake'); setTimeout(()=>sl.classList.remove('shake'),450); return; }
     b.click();
   }
-  hd.addEventListener('pointerdown',e=>{ dr={x0:e.clientX,dx:0}; try{hd.setPointerCapture(e.pointerId);}catch(_){} st.classList.add('drag'); e.preventDefault(); });
-  hd.addEventListener('pointermove',e=>{ if(!dr) return; dr.dx=Math.max(0,Math.min(maxDx(),e.clientX-dr.x0)); hd.style.transform='translateX('+dr.dx+'px)'; });
-  hd.addEventListener('pointerup',()=>{ if(!dr) return; const ok=dr.dx>=maxDx()*0.8; dr=null; st.classList.remove('drag'); hd.style.transform=''; if(ok) fire(); });
-  hd.addEventListener('pointercancel',()=>{ dr=null; st.classList.remove('drag'); hd.style.transform=''; });
-  hd.addEventListener('keydown',e=>{ if(e.key==='ArrowRight'||e.key==='Enter'||e.key===' '){ e.preventDefault(); fire(); } });
+  nx.addEventListener('click',goNext);
+  pv.addEventListener('click',()=>{ if(G.cur>0){ show(G.cur-1); box.scrollIntoView({behavior:'smooth',block:'start'}); } });
+  dots.forEach((d,k)=>d.addEventListener('click',()=>{ if(k<=G.unlocked) show(k); }));
+  /* ← → 키 — 글쓰기 칸·슬라이더·입력창에서는 쓰지 않는다 (그쪽이 먼저 쓴다) */
+  document.addEventListener('keydown',e=>{
+    if(!box.isConnected || e.altKey||e.ctrlKey||e.metaKey||e.shiftKey) return;
+    if(e.key!=='ArrowRight' && e.key!=='ArrowLeft') return;
+    const t=e.target, tag=(t&&t.tagName||'').toLowerCase();
+    if(t&&(t.isContentEditable||tag==='input'||tag==='textarea'||tag==='select'||tag==='canvas')) return;
+    if(!box.offsetParent) return;
+    e.preventDefault();
+    if(e.key==='ArrowRight') goNext(); else pv.click();
+  });
   let rq=0; const later=()=>{ if(rq) return; rq=requestAnimationFrame(()=>{ rq=0; syncSlide(); }); };
   phs.forEach(p=>new MutationObserver(later).observe(p,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['disabled','hidden','style']}));
 
