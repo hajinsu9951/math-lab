@@ -1149,13 +1149,30 @@ table.lb2tbl.calc td{text-align:center}
   .ldi.now,.ldi.now .ldk,.lsnchip.now,.eqc.qnow,.eqc.qnow .nek,.qgo{animation:none}
 }
 
+/* 학생 활동지 단추 — 모든 실험실 · 수업·평가 연결 (2026-09-30) */
+.wsdl{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 12px;padding:8px 12px;
+      background:#F4F7FB;border:1px solid #D9E1EC;border-radius:10px}
+.wsdlh{font-weight:800;color:#16325C;font-size:13px;margin-right:2px}
+.wsdl .pgn{flex:1;min-width:180px}
+button.wsb{white-space:nowrap}
+.lsnev{margin-top:14px;border:1px solid #F3D9A4;background:#FFFBF2;border-radius:10px;padding:9px 13px}
+.lsnev summary{cursor:pointer;font-weight:800;color:#92400E;font-size:13px}
+.lsnevb{margin-top:8px;font-size:12.5px;line-height:1.6;color:var(--ink2)}
+.lsnevh{font-weight:800;color:#16325C;margin:8px 0 3px}
+.lsnevb ul{margin:0;padding-left:18px}
+table.lsnevt{width:100%;border-collapse:collapse;margin-top:3px;background:#fff}
+table.lsnevt th,table.lsnevt td{border:1px solid #EADBBE;padding:5px 8px;vertical-align:top;text-align:left}
+table.lsnevt thead th{background:#FFF1D6;color:#92400E}
+table.lsnevt tbody th{width:48px;text-align:center;color:#92400E;background:#FFF8EA}
+.lsnevtip{margin:8px 0 0;color:var(--ink3)}
+
 </style>
 </head>
 <body>
 
 <header class="top">
   <div class="wrap">
-    <div class="kicker">2026 대전광역시교육청 · 인공지능 활용 선도교사 연수 (중등 수학)</div>
+    <div class="kicker">중등 수학 인공지능 활용 연수 자료</div>
     <h1>일상 속 수학 실험실</h1>
     <p>AI·디지털 기반 교수학습 설계 및 자료 제작 — 대전대신고 하진수</p>
   </div>
@@ -35075,11 +35092,21 @@ function noteFrac(v){
 /* ══ NOTE-END ══ */
 
 
-/* ══ WS-START ══ 학생 활동지 — 화면에서 만들어 내려받는다 (2026-09-21) ══
-   파일을 따로 두지 않는다. LESSON/PRINS 에서 뽑아 인쇄용 A4 HTML 한 장을 만든다.
-   삽화는 실험실이 이미 갖고 있는 힉스필드 그림(base64 webp)을 그대로 옮긴다 —
-   장당 20~35 KB 라 파일이 무겁지 않고, 흰 바탕 선화라 흑백 인쇄에도 뭉개지지 않는다. */
-/* 수업 모형이 있는 실험실 전부 — LESSON 에 있으면 활동지가 나온다 */
+/* ══ WS-START ══ 학생 활동지 — 화면에서 만들어 내려받는다 (2026-09-21 · 2026-09-30 PDF·전 실험실) ══
+   파일을 따로 두지 않는다. LESSON/PRINS(수업 모형) 또는 PROBLEMS/MISSIONS/PRINS(기본)에서 뽑아
+   인쇄용 A4 HTML 을 만든다. 삽화는 실험실이 이미 갖고 있는 힉스필드 그림(base64 webp)을 그대로 옮긴다.
+
+   ── 두 가지 활동지 ──
+     lessonSheet(spec, P, n)   수업 모형(LESSON[n])이 있는 실험실 — 7단계 그대로
+     basicSheet(n, root)       수업 모형이 없는 실험실 — 문제·예상·사다리·기록표·원리·확장·정리
+   ── 두 가지 파일 ──
+     HTML   dl() 로 그대로 내려받는다
+     PDF    wsPdf(html, name) — 외부 라이브러리 없이 만든다.
+            숨긴 iframe 에 A4 폭으로 앉혀 블록 위치를 재고(블록을 쪼개지 않게 쪽 나눔),
+            쪽마다 SVG foreignObject → 캔버스(2배) → JPEG, PDF 1.4 를 손으로 조립한다.
+            캔버스가 오염되거나 foreignObject 가 안 되면 인쇄 창(대상: PDF로 저장)으로 물러선다.
+   단추는 wsBtns() 로 그리고 wsBind() 로 잇는다 — 수업 모형 ① 단계와 일반 실험실 모두 같은 단추. */
+/* 예전에 활동지를 막던 목록 — 이제 모든 실험실에 활동지가 있다. 이름만 남긴다(다른 파일이 push 한다). */
 const WS_LABS = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,356];
 /* 「생각 열기」에 붙은 설명 그림을 그대로 읽어 온다 — 그림은 실험실에만 두고, 여기서는 빌려 쓴다 */
 function wsFigs(sit){
@@ -35113,6 +35140,126 @@ function wsSvg(html, mm){
   if(!m) return '';
   return '<div class="fig svg" style="--h:'+(mm||44)+'mm">'+m[0]+'</div>';
 }
+function wsPad(n){ return String(n).padStart(2,'0'); }
+function wsFile(n, ext){ return 'LAB'+wsPad(n)+'_학생활동지.'+ext; }
+
+/* 두 활동지가 함께 쓰는 A4 인쇄 모양 */
+const WS_CSS = `
+ @page{size:A4;margin:14mm}
+ *{box-sizing:border-box}
+ body{margin:0;font-family:"Freesentation 4 Regular","Pretendard","맑은 고딕","Malgun Gothic",system-ui,sans-serif;
+      color:#111827;font-size:11.2pt;line-height:1.6;background:#fff}
+ .wrap{max-width:186mm;margin:0 auto;padding:6mm 0}
+ header{border-bottom:2.4px solid #16325C;padding-bottom:5px;margin-bottom:9px}
+ .no{font-size:9.6pt;color:#2563EB;font-weight:800;letter-spacing:.4px}
+ h1{font-size:16.5pt;margin:2px 0 4px;color:#16325C}
+ .sub{font-size:9.6pt;color:#6B7280}
+ .lead{font-size:10.4pt;color:#374151;margin-top:2px}
+ .who{display:flex;gap:8px;margin-top:7px;font-size:9.6pt;color:#374151}
+ .who span{flex:1;border:1px solid #D9E1EC;border-radius:5px;padding:4px 7px}
+ section{margin:11px 0;break-inside:avoid}
+ h2{font-size:11.6pt;margin:0 0 5px;color:#16325C;display:flex;align-items:center;gap:6px}
+ h2 em{font-style:normal;background:#2563EB;color:#fff;border-radius:50%;width:19px;height:19px;
+       display:inline-flex;align-items:center;justify-content:center;font-size:9.6pt;flex:none}
+ .q{background:#F4F7FB;border-left:3px solid #2563EB;padding:7px 9px;border-radius:0 6px 6px 0;margin-bottom:6px}
+ .sit{margin:0 0 6px}
+ ol,ul{margin:4px 0 0;padding-left:18px}
+ li{margin-bottom:5px}
+ .hand{color:#92400E;font-size:9.6pt;margin-top:2px}
+ .ln i{display:block;border-bottom:1px solid #D9E1EC;height:8.2mm}
+ table.rec{width:100%;border-collapse:collapse;margin-top:5px}
+ table.rec th{background:#EFF4FF;border:1px solid #C7D8F7;font-size:9.6pt;padding:4px;color:#1D4ED8}
+ table.rec td{border:1px solid #D9E1EC;height:8.6mm}
+ .box{border:1px solid #D9E1EC;border-radius:6px;padding:7px 9px;margin-top:5px}
+ .boxh{font-size:9.6pt;font-weight:800;color:#374151}
+ .fig{margin:5px 0 6px;text-align:center}
+ .fig .wsimg{max-width:100%;max-height:var(--h);height:auto;border:1px solid #D9E1EC;border-radius:6px}
+ .fig.svg svg{width:100%;max-width:150mm;height:auto;max-height:var(--h)}
+ .figcap{font-size:9.2pt;color:#374151;margin-top:3px;line-height:1.45}
+ .fig2{display:flex;gap:9px;align-items:flex-start;margin:7px 0;break-inside:avoid}
+ .fig2 .wsimg2{width:46mm;flex:none;border:1px solid #D9E1EC;border-radius:6px}
+ .fig2 .figcap{margin-top:0;flex:1}
+ .eq{font-family:"Cambria Math","Times New Roman",serif;font-size:12.5pt;color:#16325C;text-align:center;margin:4px 0}
+ .tip{font-size:9.4pt;color:#6B7280;margin-top:4px}
+ ul.chk{list-style:none;padding-left:0}
+ ul.chk li{display:flex;gap:7px;align-items:flex-start}
+ .cb{flex:none;width:4.2mm;height:4.2mm;border:1.4px solid #16325C;border-radius:3px;margin-top:1.3mm}
+ .lv{display:inline-block;font-size:8.6pt;font-weight:800;border-radius:4px;padding:0 5px;margin-right:5px;
+     background:#EFF4FF;color:#1D4ED8}
+ .evh{font-size:9.8pt;font-weight:800;color:#374151;margin-top:6px}
+ ul.std{font-size:9.8pt}
+ ul.std b{color:#16325C}
+ table.ev{width:100%;border-collapse:collapse;margin-top:6px;font-size:9.8pt}
+ table.ev th{background:#FFF7E6;border:1px solid #F3D9A4;color:#92400E;padding:4px 6px;width:15mm}
+ table.ev thead th{width:auto}
+ table.ev thead th:first-child{width:15mm}
+ table.ev td{border:1px solid #D9E1EC;padding:4px 7px;vertical-align:top;line-height:1.5}
+ footer{margin-top:12px;border-top:1px solid #D9E1EC;padding-top:5px;font-size:8.8pt;color:#9CA3AF;
+        display:flex;justify-content:space-between}
+ /* 기본 활동지(.c) — A4 두 쪽 안에 들도록 촘촘하게 */
+ .wrap.c{font-size:10.2pt;line-height:1.5}
+ .c section{margin:8px 0}
+ .c header{margin-bottom:6px}
+ .c h2{font-size:11pt;margin-bottom:3px}
+ .c li{margin-bottom:3px}
+ .c .ln i{height:6.8mm}
+ .c table.rec td{height:7mm}
+ .c .q{padding:5px 9px;margin-bottom:4px}
+ .c .box{padding:5px 9px}
+ .c .hand{font-size:9pt;margin-top:0}
+ .c .tip{font-size:9pt}
+ .c .cb{width:3.8mm;height:3.8mm;margin-top:1mm}
+ ul.chk2{display:grid;grid-template-columns:1fr 1fr;column-gap:12px}
+ @media print{ .wrap{padding:0} *{-webkit-print-color-adjust:exact;print-color-adjust:exact} }
+`;
+/* 머리 · 몸 · 꼬리를 한 장으로 */
+function wsDoc(n, title, sub, lead, body, cls){
+  return `<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LAB ${wsPad(n)} 학생 활동지 — ${wsEsc(title)}</title>
+<style>${WS_CSS}</style></head><body><div class="wrap${cls?' '+cls:''}">
+<header>
+  <div class="no">LAB ${wsPad(n)} · 학생 활동지</div>
+  <h1>${wsEsc(title)}</h1>
+  <div class="sub">${sub}</div>
+  ${lead?`<div class="lead">${lead}</div>`:''}
+  <div class="who"><span>학년 반 번호</span><span>이름</span><span>날짜</span></div>
+</header>
+${body}
+<footer><span>일상 속 수학 실험실 · 2026 대전광역시교육청 AI·디지털 기반 교육혁신 역량강화 연수</span><span>대전대신고 하진수</span></footer>
+</div></body></html>`;
+}
+
+/* 수업·평가 연결 — spec.eval = {std:[{c,d}], elems, rub:[{lv,d}], tip}. 없으면 아무것도 그리지 않는다. */
+function wsEvStd(ev){ return [].concat(ev.std||[]).map(s=>typeof s==='string'?{c:'',d:s}:(s||{})); }
+function wsEvalSheet(ev){
+  if(!ev) return '';
+  const std = wsEvStd(ev).map(s=>`<li>${s.c?`<b>${wsEsc(wsText(s.c))}</b> `:''}${wsEsc(wsText(s.d))}</li>`).join('');
+  const el  = [].concat(ev.elems||[]).map(t=>`<li>${wsEsc(wsText(t))}</li>`).join('');
+  const rub = [].concat(ev.rub||[]).map(r=>`<tr><th>${wsEsc(wsText(r.lv))}</th><td>${wsEsc(wsText(r.d))}</td></tr>`).join('');
+  if(!std && !el && !rub) return '';
+  return `<section class="evs">
+  <h2><em>✓</em>이렇게 평가합니다</h2>
+  ${std?`<div class="evh">성취기준</div><ul class="std">${std}</ul>`:''}
+  ${el?`<div class="evh">평가 요소</div><ul class="std">${el}</ul>`:''}
+  ${rub?`<table class="ev"><thead><tr><th>수준</th><th>채점 기준</th></tr></thead><tbody>${rub}</tbody></table>`:''}
+</section>`;
+}
+/* 수업 모형 ⑦ 정리 — 교사용 접이식 블록 */
+function wsEvalPanel(ev){
+  if(!ev) return '';
+  const std = wsEvStd(ev).map(s=>`<li>${s.c?`<b>${s.c}</b> `:''}${s.d||''}</li>`).join('');
+  const el  = [].concat(ev.elems||[]).map(t=>`<li>${t}</li>`).join('');
+  const rub = [].concat(ev.rub||[]).map(r=>`<tr><th>${r.lv||''}</th><td>${r.d||''}</td></tr>`).join('');
+  if(!std && !el && !rub && !ev.tip) return '';
+  return `<details class="lsnev"><summary>📋 수업·평가 연결 — 성취기준 · 평가 요소 · 채점 기준</summary>
+    <div class="lsnevb">
+      ${std?`<div class="lsnevh">성취기준</div><ul>${std}</ul>`:''}
+      ${el?`<div class="lsnevh">평가 요소</div><ul>${el}</ul>`:''}
+      ${rub?`<div class="lsnevh">채점 기준</div><table class="lsnevt"><thead><tr><th>수준</th><th>기준</th></tr></thead><tbody>${rub}</tbody></table>`:''}
+      ${ev.tip?`<p class="lsnevtip">👩‍🏫 ${ev.tip}</p>`:''}
+    </div></details>`;
+}
 
 function lessonSheet(spec, P, n){
   const L = (typeof LABS!=='undefined' && LABS[n-1]) ? LABS[n-1] : null;
@@ -35132,55 +35279,9 @@ function lessonSheet(spec, P, n){
   const pre = (spec.predict && spec.predict.q) || [];
   const eq = P && P.eq ? wsEsc(wsText(P.eq)) : '';
   const grade = L && L.m ? wsEsc(L.m.join(' · ')) : '';
+  const ap = spec.apply || {};
 
-  return `<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LAB ${String(n).padStart(2,'0')} 학생 활동지 — ${wsEsc(title)}</title>
-<style>
- @page{size:A4;margin:14mm}
- *{box-sizing:border-box}
- body{margin:0;font-family:"Freesentation 4 Regular","Pretendard","맑은 고딕",system-ui,sans-serif;
-      color:#111827;font-size:11.2pt;line-height:1.6}
- .wrap{max-width:186mm;margin:0 auto;padding:6mm 0}
- header{border-bottom:2.4px solid #16325C;padding-bottom:5px;margin-bottom:9px}
- .no{font-size:9.6pt;color:#2563EB;font-weight:800;letter-spacing:.4px}
- h1{font-size:16.5pt;margin:2px 0 4px;color:#16325C}
- .sub{font-size:9.6pt;color:#6B7280}
- .who{display:flex;gap:8px;margin-top:7px;font-size:9.6pt;color:#374151}
- .who span{flex:1;border:1px solid #D9E1EC;border-radius:5px;padding:4px 7px}
- section{margin:11px 0;break-inside:avoid}
- h2{font-size:11.6pt;margin:0 0 5px;color:#16325C;display:flex;align-items:center;gap:6px}
- h2 em{font-style:normal;background:#2563EB;color:#fff;border-radius:50%;width:19px;height:19px;
-       display:inline-flex;align-items:center;justify-content:center;font-size:9.6pt}
- .q{background:#F4F7FB;border-left:3px solid #2563EB;padding:7px 9px;border-radius:0 6px 6px 0;margin-bottom:6px}
- ol,ul{margin:4px 0 0;padding-left:18px}
- li{margin-bottom:5px}
- .hand{color:#92400E;font-size:9.6pt;margin-top:2px}
- .ln i{display:block;border-bottom:1px solid #D9E1EC;height:8.2mm}
- table.rec{width:100%;border-collapse:collapse;margin-top:5px}
- table.rec th{background:#EFF4FF;border:1px solid #C7D8F7;font-size:9.6pt;padding:4px;color:#1D4ED8}
- table.rec td{border:1px solid #D9E1EC;height:8.6mm}
- .box{border:1px solid #D9E1EC;border-radius:6px;padding:7px 9px;margin-top:5px}
- .fig{margin:5px 0 6px;text-align:center}
- .fig .wsimg{max-width:100%;max-height:var(--h);height:auto;border:1px solid #D9E1EC;border-radius:6px}
- .fig.svg svg{width:100%;max-width:150mm;height:auto;max-height:var(--h)}
- .figcap{font-size:9.2pt;color:#374151;margin-top:3px;line-height:1.45}
- .fig2{display:flex;gap:9px;align-items:flex-start;margin:7px 0;break-inside:avoid}
- .fig2 .wsimg2{width:46mm;flex:none;border:1px solid #D9E1EC;border-radius:6px}
- .fig2 .figcap{margin-top:0;flex:1}
- .eq{font-family:"Cambria Math","Times New Roman",serif;font-size:12.5pt;color:#16325C;text-align:center;margin:4px 0}
- .tip{font-size:9.4pt;color:#6B7280;margin-top:4px}
- footer{margin-top:12px;border-top:1px solid #D9E1EC;padding-top:5px;font-size:8.8pt;color:#9CA3AF;
-        display:flex;justify-content:space-between}
- @media print{ .wrap{padding:0} *{-webkit-print-color-adjust:exact;print-color-adjust:exact} }
-</style></head><body><div class="wrap">
-<header>
-  <div class="no">LAB ${String(n).padStart(2,'0')} · 학생 활동지</div>
-  <h1>${wsEsc(title)}</h1>
-  <div class="sub">${grade}</div>
-  <div class="who"><span>학년 반 번호</span><span>이름</span><span>날짜</span></div>
-</header>
-
+  return wsDoc(n, title, grade, '', `
 <section>
   <h2><em>1</em>오늘의 문제</h2>
   <div class="q">${wsEsc(wsText(spec.problem.q))}</div>
@@ -35225,14 +35326,289 @@ ${figs.length ? `<section>
 
 <section>
   <h2><em>7</em>적용 문제</h2>
-  ${wsImg(spec.apply.q, 34)}
-  <div class="q">${wsEsc(wsText(spec.apply.q))}</div>
+  ${wsImg(ap.q, 34)}
+  <div class="q">${wsEsc(wsText(ap.q))}</div>
   <div class="box">풀이${wsLines(4)}<div style="margin-top:4px">답 ______________</div></div>
-  ${spec.apply.hint?`<div class="tip">힌트 — ${wsEsc(wsText(spec.apply.hint))}</div>`:''}
+  ${ap.hint?`<div class="tip">힌트 — ${wsEsc(wsText(ap.hint))}</div>`:''}
+</section>
+${wsEvalSheet(spec.eval)}`);
+}
+
+/* 수업 모형이 없는 실험실의 기본 활동지.
+   탐구 보고서(.iqb)는 실험실이 스스로 만들므로, 열려 있는 모달(root)에서 열·질문을 읽는다. */
+function basicSheet(n, root){
+  const L = (typeof LABS!=='undefined' && LABS[n-1]) || {t:'LAB '+n, m:[]};
+  const PB = (typeof PROBLEMS!=='undefined') && PROBLEMS[n];
+  const MS = (typeof MISSIONS!=='undefined' && MISSIONS[n]) || [];
+  const P  = (typeof PRINS!=='undefined') && PRINS[n-1];
+  const PR = (typeof PREDICT!=='undefined' && PREDICT[n] && PREDICT[n].q) || null;
+  const title = wsText(L.t);
+  const grade = L.m ? wsEsc(L.m.join(' · ')) : '';
+
+  /* 기록표 — 실험실의 탐구 보고서에서 그대로 읽는다 */
+  const R = root || (typeof document!=='undefined' && document.getElementById('mBody'));
+  const iqb = R && R.querySelector ? R.querySelector('.iqb') : null;
+  let cols = [], qs = [];
+  if(iqb){
+    cols = [].slice.call(iqb.querySelectorAll('thead th'), 1).map(th=>th.textContent.trim()).filter(Boolean);
+    qs = [].slice.call(iqb.querySelectorAll('.iqq li'))
+           .map(li=>li.textContent.replace(/^(관찰|규칙 찾기|설명·일반화)\s*/, '').trim()).slice(0,3);
+  }
+  if(!cols.length) cols = ['바꾼 것','그때의 값','눈에 띈 점'];
+  if(qs.length < 3) qs = ['관찰 — 무엇을 바꾸었을 때 무엇이 달라졌나요? 기록표에서 찾아 쓰세요.',
+                          '규칙 찾기 — 기록에서 보이는 규칙을 말이나 식으로 쓰세요.',
+                          '설명·일반화 — 왜 그런 규칙이 생기는지, 다른 경우에도 성립하는지 설명하세요.'];
+  const table = `<table class="rec"><thead><tr><th style="width:9mm">#</th>${
+      cols.map(c=>`<th>${wsEsc(wsText(c))}</th>`).join('')}</tr></thead><tbody>${
+      Array.from({length:8},(_,i)=>`<tr><td style="text-align:center;color:#9CA3AF;font-size:9pt">${i+1}</td>${cols.map(()=>'<td></td>').join('')}</tr>`).join('')
+    }</tbody></table>`;
+
+  const preLab = ['예상','까닭','확인할 것'];
+  const preQ = PR && PR.length ? PR.slice(0,3) : [
+    '실험하기 전에 답을 먼저 적어 보세요 — 수·식·그림 무엇이든 좋습니다.',
+    '왜 그렇게 생각했나요? 떠올린 방법이나 비슷한 경험을 적으세요.',
+    '실험에서 무엇을 보면 내 예상이 맞는지 알 수 있을까요? 지켜볼 것 하나를 정하세요.'];
+  const eq = P && P.eq ? wsEsc(wsText(P.eq)) : '';
+  const next = (P && P.next) || [];
+  let k = 0; const no = ()=>String(++k);
+
+  return wsDoc(n, title, grade, wsEsc(wsText(L.q||'')), `
+${PB ? `<section>
+  <h2><em>${no()}</em>오늘의 문제</h2>
+  <p class="sit">${wsEsc(wsText(PB.sit))}</p>
+  <div class="q">${wsEsc(wsText(PB.ask))}</div>
+</section>` : ''}
+
+<section>
+  <h2><em>${no()}</em>나의 예상 — 정답이 아니라 지금 생각을 적습니다</h2>
+  <ol>${preQ.map((t,i)=>`<li><b>${preLab[i]||''}</b> ${wsEsc(wsText(t))}${wsLines(2)}</li>`).join('')}</ol>
 </section>
 
-<footer><span>일상 속 수학 실험실 · 2026 대전광역시교육청 AI·디지털 기반 교육혁신 역량강화 연수</span><span>대전대신고 하진수</span></footer>
-</div></body></html>`;
+${MS.length ? `<section>
+  <h2><em>${no()}</em>탐구 사다리 — 해낸 단계에 ✓</h2>
+  <ul class="chk">${MS.map((m,i)=>`<li><span class="cb"></span><div><b>STEP ${i+1}</b> ${wsEsc(wsText(m.t))}${
+      m.hand?`<div class="hand">✍ 손으로 — ${wsEsc(wsText(m.hand))}</div>`:''}</div></li>`).join('')}</ul>
+</section>` : ''}
+
+<section>
+  <h2><em>${no()}</em>관찰 기록표</h2>
+  ${table}
+  <div class="tip">실험 화면의 「지금 값 기록」과 같은 열입니다 — 값을 바꿀 때마다 한 줄씩 적으세요.</div>
+</section>
+
+<section>
+  <h2><em>${no()}</em>규칙 찾기 · 설명하기</h2>
+  <ol>${qs.map(t=>`<li>${wsEsc(wsText(t))}${wsLines(2)}</li>`).join('')}</ol>
+</section>
+
+<section>
+  <h2><em>${no()}</em>수학 원리 — 내 말로 먼저, 그다음 견주기</h2>
+  <div class="box"><div class="boxh">내 말로 먼저 — 찾은 규칙을 말과 식으로</div>${wsLines(4)}</div>
+  ${P ? `<div class="box"><div class="boxh">교과서의 말 — 내 설명과 같은 말을 하고 있나요?</div>
+    ${wsImg(P.what, 34)}
+    ${eq?`<div class="eq">${eq}</div>`:''}
+    <div class="tip" style="color:#374151">${wsEsc(wsText(P.what))}</div></div>` : ''}
+</section>
+
+${next.length ? `<section>
+  <h2><em>${no()}</em>확장 과제 — 더 가 보고 싶다면</h2>
+  <ul class="chk">${next.map(x=>`<li><span class="cb"></span><div><span class="lv">${wsEsc(wsText(x.lv))}</span><b>${wsEsc(wsText(x.t))}</b> — ${wsEsc(wsText(x.d))}</div></li>`).join('')}</ul>
+</section>` : ''}
+
+<section>
+  <h2><em>${no()}</em>정리</h2>
+  <div class="box"><div class="boxh">오늘 알게 된 것 한 문장</div>${wsLines(2)}
+    <div class="boxh" style="margin-top:4px">아직 궁금한 것</div>${wsLines(1)}</div>
+  <ul class="chk chk2" style="margin-top:5px;font-size:9.4pt">
+    <li><span class="cb"></span>실험 전에 예상을 먼저 적었다</li>
+    <li><span class="cb"></span>탐구 사다리를 ___ 단계까지 올랐다</li>
+    <li><span class="cb"></span>기록표에 3줄 이상 적고 규칙을 찾았다</li>
+    <li><span class="cb"></span>원리를 내 말로 먼저 쓰고 교과서와 견주었다</li>
+  </ul>
+</section>`, 'c');
+}
+
+/* ── PDF — 외부 라이브러리 없이 ─────────────────────────────── */
+const WS_PX = 96/25.4;                              // 1 mm 의 CSS 픽셀
+const WS_A4 = {w:210, h:297, m:12, sc:2};           // A4 · 여백 12 mm · 2배로 그린다
+function wsFrame(html, wmm){
+  return new Promise(res=>{
+    const f = document.createElement('iframe');
+    f.setAttribute('aria-hidden','true'); f.tabIndex = -1;
+    f.style.cssText = 'position:fixed;left:-12000px;top:0;width:'+wmm+'mm;height:600px;border:0;opacity:0;pointer-events:none';
+    let ok = false; const fin = ()=>{ if(!ok){ ok = true; res(f); } };
+    f.onload = fin; setTimeout(fin, 20000);
+    f.srcdoc = html;
+    document.body.appendChild(f);
+  });
+}
+function wsLoadImg(src){
+  return new Promise((res,rej)=>{ const im = new Image();
+    im.onload = ()=>res(im); im.onerror = ()=>rej(new Error('foreignObject 그림을 읽지 못함')); im.src = src; });
+}
+function wsJpeg(cv, q){
+  return new Promise((res,rej)=>{
+    try{ cv.toBlob(b=>{ if(!b) return rej(new Error('JPEG 실패'));
+      b.arrayBuffer().then(a=>res(new Uint8Array(a)), rej); }, 'image/jpeg', q||0.9); }
+    catch(e){ rej(e); }                              // 오염된 캔버스는 여기서 SecurityError
+  });
+}
+/* 블록을 쪼개지 않게 쪽을 나눈다. 한 블록이 한 쪽보다 길 때만 그 안의 줄(li·tr 등) 경계에서 자른다. */
+function wsPages(blocks, pageH){
+  const pages = []; let s = null, e = null;
+  for(const B of blocks){
+    if(!(B.b > B.t)) continue;
+    if(s === null) s = B.t;
+    if(B.b - s <= pageH){ e = B.b; continue; }
+    if(e !== null && e > s){ pages.push([s, e]); s = B.t; }
+    while(B.b - s > pageH){
+      const lim = s + pageH; let c = 0;
+      for(const y of B.cuts) if(y > s + pageH*0.4 && y <= lim && y > c) c = y;
+      if(!c) c = lim;
+      pages.push([s, c]); s = c;
+    }
+    e = B.b;
+  }
+  if(s !== null && e !== null && e > s) pages.push([s, e]);
+  return pages;
+}
+/* PDF 1.4 — 쪽마다 DCTDecode 이미지 XObject 하나 */
+function wsPdfBytes(pages, title){
+  const enc = s=>{ const u = new Uint8Array(s.length); for(let i=0;i<s.length;i++) u[i] = s.charCodeAt(i) & 255; return u; };
+  const parts = [], off = []; let pos = 0;
+  const put = u=>{ if(typeof u === 'string') u = enc(u); parts.push(u); pos += u.length; };
+  const hex16 = s=>{ let h = 'FEFF'; for(let i=0;i<s.length;i++) h += s.charCodeAt(i).toString(16).toUpperCase().padStart(4,'0'); return '<'+h+'>'; };
+  const N = 4 + pages.length*3;                      // 0 · 카탈로그 · 쪽 묶음 · 정보 · (쪽·내용·그림) × 쪽 수
+  const W = '595.28', H = '841.89';
+  put('%PDF-1.4\n%âãÏÓ\n');
+  off[1] = pos; put('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n');
+  off[2] = pos; put('2 0 obj\n<< /Type /Pages /Kids ['+pages.map((_,k)=>(4+k*3)+' 0 R').join(' ')+'] /Count '+pages.length+' >>\nendobj\n');
+  off[3] = pos; put('3 0 obj\n<< /Title '+hex16(title||'')+' /Producer (math-lab worksheet) >>\nendobj\n');
+  pages.forEach((p,k)=>{
+    const pg = 4+k*3, ct = pg+1, im = pg+2;
+    const cs = 'q\n'+W+' 0 0 '+H+' 0 0 cm\n/Im'+k+' Do\nQ';
+    off[pg] = pos; put(pg+' 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+W+' '+H+'] /Resources << /XObject << /Im'+k+' '+im+' 0 R >> /ProcSet [/PDF /ImageC] >> /Contents '+ct+' 0 R >>\nendobj\n');
+    off[ct] = pos; put(ct+' 0 obj\n<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream\nendobj\n');
+    off[im] = pos; put(im+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+p.w+' /Height '+p.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+p.jpg.length+' >>\nstream\n');
+    put(p.jpg); put('\nendstream\nendobj\n');
+  });
+  const xref = pos;
+  let x = 'xref\n0 '+N+'\n0000000000 65535 f \n';
+  for(let i=1;i<N;i++) x += String(off[i]).padStart(10,'0')+' 00000 n \n';
+  put(x+'trailer\n<< /Size '+N+' /Root 1 0 R /Info 3 0 R >>\nstartxref\n'+xref+'\n%%EOF\n');
+  return new Blob(parts, {type:'application/pdf'});
+}
+function wsSave(blob, name){
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = name.replace(/[\\/:*?"<>|]/g,''); document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+}
+/* 활동지 HTML → PDF 파일. 실패하면 throw — 부르는 쪽이 인쇄 창으로 물러선다. */
+async function wsPdf(html, name){
+  const A = WS_A4, CW = A.w - 2*A.m, SC = A.sc;
+  const f = await wsFrame(html, CW);
+  try{
+    const d = f.contentDocument, w = f.contentWindow;
+    if(!d || !d.body) throw new Error('활동지 틀을 열지 못함');
+    const fit = d.createElement('style');
+    fit.textContent = 'html,body{margin:0;padding:0;background:#fff}.wrap{max-width:none!important;margin:0!important;padding:0!important;display:flow-root}';
+    d.head.appendChild(fit);
+    await Promise.all([].map.call(d.images, im=>im.decode ? im.decode().catch(()=>{}) : null));
+    if(d.fonts && d.fonts.ready) await d.fonts.ready;
+    const wrap = d.querySelector('.wrap') || d.body;
+    const r0 = wrap.getBoundingClientRect(), top0 = r0.top, W = Math.ceil(r0.width);
+    /* 그림 크기를 못 박아 둔다 — 쪽 밖의 그림을 빈 그림으로 바꿔도 자리가 그대로이게 */
+    const imgs = [].slice.call(wrap.querySelectorAll('img'));
+    const ibox = imgs.map(im=>{ const r = im.getBoundingClientRect();
+      im.style.width = r.width+'px'; im.style.height = r.height+'px'; im.style.maxWidth = 'none'; im.style.maxHeight = 'none';
+      return {t:r.top-top0, b:r.bottom-top0}; });
+    const blocks = [].map.call(wrap.children, el=>{
+      const r = el.getBoundingClientRect(), cuts = [];
+      el.querySelectorAll('li,tr,p,figure,.fig,.fig2,.box,.ln i,h2,div').forEach(c=>{ const b = c.getBoundingClientRect().bottom - top0; if(b > 0) cuts.push(b); });
+      return {t:r.top-top0, b:r.bottom-top0, cuts};
+    });
+    const pageH = (A.h - 2*A.m) * WS_PX;
+    const pages = wsPages(blocks, pageH);
+    if(!pages.length) throw new Error('쪽이 없음');
+    /* body 에 걸린 글꼴·줄 간격을 그대로 물려받게 body 규칙을 뿌리 상자(.wsbody)로 옮긴다.
+       계산값(px)을 복사하면 line-height 1.6 이 고정 px 로 굳어 작은 글씨 줄이 늘어나고, 쪽 나눔이 어긋난다. */
+    const css = [].map.call(d.querySelectorAll('style'), s=>s.textContent).join('\n')
+                  .replace(/(^|[\s,{}])body(?=[\s,{.:#\[])/g, '$1.wsbody');
+    const xs = new XMLSerializer();
+    const BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+    const out = [];
+    for(let k=0;k<pages.length;k++){
+      const s = pages[k][0], e = pages[k][1], h = Math.ceil(e - s) + 1;
+      const root = d.createElement('div');
+      root.setAttribute('class', 'wsbody');
+      root.setAttribute('style', 'width:'+W+'px;height:'+h+'px;overflow:hidden;position:relative;background:#fff;margin:0');
+      const st = d.createElement('style'); st.textContent = css; root.appendChild(st);
+      const cl = wrap.cloneNode(true);
+      cl.style.position = 'absolute'; cl.style.left = '0'; cl.style.top = (-s)+'px'; cl.style.width = W+'px'; cl.style.margin = '0';
+      [].forEach.call(cl.querySelectorAll('img'), (im,i)=>{ const b = ibox[i]; if(b && (b.b < s || b.t > e)) im.setAttribute('src', BLANK); });
+      root.appendChild(cl);
+      const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="'+(W*SC)+'" height="'+(h*SC)+'" viewBox="0 0 '+W+' '+h+'">'
+        + '<foreignObject x="0" y="0" width="'+W+'" height="'+h+'">'+xs.serializeToString(root)+'</foreignObject></svg>';
+      const im = await wsLoadImg('data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg));
+      const cv = document.createElement('canvas');
+      cv.width = Math.round(A.w*WS_PX*SC); cv.height = Math.round(A.h*WS_PX*SC);
+      const c = cv.getContext('2d');
+      c.fillStyle = '#fff'; c.fillRect(0,0,cv.width,cv.height);
+      const mx = Math.round(A.m*WS_PX*SC);
+      c.drawImage(im, mx, mx, W*SC, h*SC);
+      if(k === 0){                                    // 아무것도 안 그려졌으면(foreignObject 미지원) 물러선다
+        const t = document.createElement('canvas'); t.width = 60; t.height = 85;
+        const tc = t.getContext('2d'); tc.drawImage(cv, 0, 0, 60, 85);
+        const px = tc.getImageData(0,0,60,85).data; let ink = 0;   // 오염됐으면 여기서 SecurityError
+        for(let i=0;i<px.length;i+=4) if(px[i]+px[i+1]+px[i+2] < 600) ink++;
+        if(ink < 8) throw new Error('빈 쪽 — foreignObject 미지원');
+      }
+      c.fillStyle = '#9CA3AF'; c.font = (9*SC)+'px "Malgun Gothic","맑은 고딕",sans-serif'; c.textAlign = 'center';
+      c.fillText((k+1)+' / '+pages.length, cv.width/2, cv.height - Math.round(5*WS_PX*SC));
+      out.push({jpg: await wsJpeg(cv, 0.9), w: cv.width, h: cv.height});
+    }
+    wsSave(wsPdfBytes(out, d.title || name), name);
+    return {pages: out.length};
+  } finally { f.remove(); }
+}
+/* 대체 경로 — 숨긴 iframe 의 print() 로 인쇄 창을 띄운다 */
+function wsPrint(html){
+  const f = document.createElement('iframe');
+  f.setAttribute('aria-hidden','true');
+  f.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0';
+  f.onload = ()=>setTimeout(()=>{ try{ f.contentWindow.focus(); f.contentWindow.print(); }catch(e){}
+    setTimeout(()=>f.remove(), 60000); }, 250);
+  f.srcdoc = html; document.body.appendChild(f);
+}
+/* 단추 두 개 + 안내. ids = [HTML, PDF, 안내] */
+function wsBtns(note, ids){
+  ids = ids || [];
+  const id = i=>ids[i] ? ' id="'+ids[i]+'"' : '';
+  return `<button class="b g wsb"${id(0)} data-ws="html" title="A4 인쇄용 HTML — 브라우저로 열어 Ctrl+P">🖨 활동지 HTML</button>`
+       + `<button class="b g wsb"${id(1)} data-ws="pdf" title="A4 PDF 파일로 바로 내려받기">📄 활동지 PDF</button>`
+       + `<span class="pgn"${id(2)} data-ws="note">${note||''}</span>`;
+}
+function wsBind(box, n, make){
+  const bh = box.querySelector('[data-ws="html"]'), bp = box.querySelector('[data-ws="pdf"]'), nt = box.querySelector('[data-ws="note"]');
+  const say = t=>{ if(nt) nt.textContent = t; };
+  if(bh) bh.onclick = ()=>{
+    dl(make(), wsFile(n,'html'), 'text/html');
+    say('HTML 을 내려받았습니다 — 브라우저로 열어 Ctrl+P 로 인쇄하세요.');
+  };
+  if(bp) bp.onclick = async ()=>{
+    if(bp.dataset.busy) return;
+    bp.dataset.busy = '1'; const t0 = bp.textContent;
+    bp.textContent = '📄 PDF 만드는 중…'; say('A4 쪽을 나누어 그리는 중입니다 — 몇 초 걸립니다.');
+    const html = make();
+    try{
+      const r = await wsPdf(html, wsFile(n,'pdf'));
+      say('PDF '+r.pages+'쪽을 내려받았습니다 — '+wsFile(n,'pdf'));
+    }catch(e){
+      console.warn('활동지 PDF → 인쇄 창으로 대체:', e && e.message);
+      say('이 브라우저는 PDF 를 바로 만들지 못합니다 — 열린 인쇄 창에서 대상을 「PDF로 저장」으로 고르세요.');
+      wsPrint(html);
+    }finally{ bp.textContent = t0; delete bp.dataset.busy; }
+  };
 }
 /* ══ WS-END ══ */
 
@@ -35267,20 +35643,10 @@ function lessonFlow(root, spec, P){
      ${spec.problem.svg ? `<div class="lsnfig">${spec.problem.svg}</div>` : ''}
      <div class="lsnsit">${spec.problem.sit}</div>
      <div class="pgbar"><button class="b t" id="ls0go">예상하러 가기 →</button>
-       <button class="b g" id="ls0ws" hidden>🖨 학생 활동지 내려받기 (인쇄용 HTML)</button>
-       <span class="pgn" id="ls0wsn" hidden>수업 시간에 나눠 줄 A4 한 장 — 문제·예상·기록표·적용까지</span></div>`;
+       ${wsBtns('수업 시간에 나눠 줄 A4 활동지 — 문제·예상·기록표·적용까지', ['ls0ws','ls0wsp','ls0wsn'])}</div>`;
   phs[0].querySelector('#ls0go').onclick=()=>unlock(1);
-  /* 학생 활동지 — 파일을 따로 두지 않고 이 자리에서 만들어 내려받는다 */
-  (function(){
-    const no=wsNo(spec); if(!WS_LABS.includes(no)) return;
-    const wb=phs[0].querySelector('#ls0ws'), wn=phs[0].querySelector('#ls0wsn');
-    wb.hidden=false; wn.hidden=false;
-    wb.onclick=()=>{
-      dl(lessonSheet(spec, P, no),
-         'LAB'+String(no).padStart(2,'0')+'_학생활동지_'+wsText(spec.title)+'.html', 'text/html');
-      wn.textContent='내려받았습니다 — 브라우저로 열어 Ctrl+P 로 인쇄하세요.';
-    };
-  })();
+  /* 학생 활동지 — 파일을 따로 두지 않고 이 자리에서 만들어 내려받는다 (HTML · PDF) */
+  wsBind(phs[0], wsNo(spec), ()=>lessonSheet(spec, P, wsNo(spec)));
 
   /* ── ② 예상 ── */
   phs[1].innerHTML =
@@ -35412,7 +35778,8 @@ function lessonFlow(root, spec, P){
        ${(P&&P.next?P.next:[]).map(x=>`
          <div class="nxi ${x.lv==='바로'?'l1':x.lv==='심화'?'l2':'l3'}">
            <span class="nxl">${x.lv}</span><div><b>${x.t}</b><p>${x.d}</p></div></div>`).join('')}
-     </div>`;
+     </div>
+     ${wsEvalPanel(spec.eval)}`;
   phs[6].querySelector('#lsBack').onclick=()=>show(3);
   new MutationObserver(()=>{
     const d1=phs[6].querySelector('#lsD1'), d2=phs[6].querySelector('#lsD2');
@@ -50399,6 +50766,13 @@ function open(L,i){
   if(PBX){ const pd=document.createElement('div'); pd.className='probx';
     pd.innerHTML='<div class="probh">📌 오늘의 문제</div><p class="probs">'+PBX.sit+'</p><p class="probq">'+PBX.ask+'</p>';
     $('#mBody').prepend(pd); }
+  // 학생 활동지 — 수업 모형이 없는 실험실도 HTML·PDF 로 내려받는다 (오늘의 문제 바로 아래)
+  { const bar=document.createElement('div'); bar.className='wsdl';
+    bar.innerHTML='<span class="wsdlh">🖨 학생 활동지</span>'
+      + wsBtns('A4 1~2쪽 — 문제·예상·탐구 사다리·기록표·원리까지', ['wsdlH','wsdlP','wsdlN']);
+    const pdx=$('#mBody').querySelector(':scope > .probx');
+    if(pdx) pdx.after(bar); else $('#mBody').prepend(bar);
+    wsBind(bar, i+1, ()=>basicSheet(i+1, $('#mBody'))); }
   $('#mask').classList.add('on');
 }
 $('#mX').onclick=()=>{$('#mask').classList.remove('on');audioStop();};
@@ -51221,6 +51595,13 @@ const ADV_LESSON = {
 };
 
 /* 표 한 벌에서 LESSON 스펙을 찍어 낸다 — 손으로 적는 곳은 표뿐이다.
+   표 항목이 받는 것 (2026-09-30 확장, 모두 선택 — 없으면 예전대로):
+     pr cols iq ap     (필수) 예상 3줄 · 기록표 열 · 탐구 질문 · 적용 문제
+     q                 오늘의 문제 발문   (없으면 PROBLEMS[n].ask)
+     sit               상황 글           (없으면 PROBLEMS[n].sit)
+     svg               ① 단계 그림(img/svg HTML)
+     figs              [{src:dataURI, cap:HTML}] → sit 뒤에 <div class="lsnfigs"><figure>… 로 붙는다
+     eval              {std:[{c,d}], elems:[…], rub:[{lv,d}], tip} → ⑦ 교사용 「수업·평가 연결」 + 활동지 「이렇게 평가합니다」
    과목별 표는 파일을 나누어 두고(46·47) 이 함수를 불러 쓴다. */
 function applyAdvLesson(table){
   if(typeof LESSON === 'undefined' || typeof LABS === 'undefined') return;
@@ -51237,19 +51618,31 @@ function applyAdvLesson(table){
     if(qs.length === 3) spec.inquiry.q = qs;
   }
 
+  /* 생각 열기 그림 — LAB 01~21 과 똑같은 마크업. 활동지(wsFigs)가 이것을 그대로 읽어 간다. */
+  function figsHTML(figs){
+    if(!figs || !figs.length) return '';
+    return '<div class="lsnfigs">' + figs.map(function(f){
+      const alt = String(f.cap || '').replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim()
+                    .replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return '<figure><img src="' + f.src + '" alt="' + alt + '"><figcaption>' + (f.cap || '') + '</figcaption></figure>';
+    }).join('') + '</div>';
+  }
+
   Object.keys(table).forEach(function(key){
     const n = +key, A = table[key], L = LABS[n-1];
     const PB = (typeof PROBLEMS !== 'undefined') && PROBLEMS[n];
-    if(!L || !PB) return;                                  // 자료가 없으면 건너뛴다
+    if(!L || (!PB && !(A.q && A.sit))) return;             // 자료가 없으면 건너뛴다
     const spec = {
       title: L.t,
-      problem:{ q: PB.ask, sit: PB.sit, svg: A.svg || '' },
+      problem:{ q: A.q || PB.ask, sit: (A.sit || PB.sit) + figsHTML(A.figs), svg: A.svg || '' },
       predict:{ q: A.pr },
       demo: function(root){ L.build(root); syncSheet(spec, root); },
       missions: (typeof MISSIONS !== 'undefined' && MISSIONS[n]) || [],
       inquiry:{ id:'adv'+n, title:L.t, q:A.iq, cols:A.cols },
       apply: A.ap
     };
+    if(A.eval) spec.eval = A.eval;                         // 수업·평가 연결 — ⑦ 교사용 블록과 활동지
+
     LESSON[n] = spec;
     if(typeof WS_LABS !== 'undefined' && WS_LABS.indexOf(n) < 0) WS_LABS.push(n);
   });
