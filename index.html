@@ -16,6 +16,10 @@ html.deep body{background:#f5f7fb}
 html.deep body::before{content:'실험실을 여는 중…';display:block;padding:48px 16px;text-align:center;color:#64748b;font:600 15px/1.6 system-ui,sans-serif}
 html.deep body.deepon::before{content:none}
 html.deep .mask{background:#f5f7fb;padding:0}
+html.deep .dthumb{flex:0 0 auto;width:150px}
+html.deep .dthumb img{width:100%;height:auto;aspect-ratio:360/192;object-fit:cover;border-radius:8px;border:1px solid var(--line);display:block}
+html.deep .modal .mh>div:nth-child(2){flex:1 1 auto;min-width:0}
+@media(max-width:560px){html.deep .dthumb{width:96px}}
 html.deep .modal{margin:0 auto;border-radius:0;box-shadow:none;min-height:100vh}
 </style>
 
@@ -58772,6 +58776,13 @@ $('#gPull').onclick = async ()=>{
     if(o.lab){ var n=parseInt(o.lab,10);
       if(typeof openLab==='function' && typeof LABS!=='undefined' && n>=1 && n<=LABS.length){
         openLab(n-1); document.body.classList.add('deepon');
+        /* 직접 열린 화면에는 홈 카드가 없으므로, 그 실험실의 카드 썸네일(힉스필드)을 머리에 붙인다 */
+        var mh=document.querySelector('#mask .mh'), old=mh&&mh.querySelector('.dthumb');
+        if(old) old.remove();
+        if(mh && typeof THUMBS!=='undefined' && THUMBS[n-1] && /<img/.test(THUMBS[n-1])){
+          var d=document.createElement('div'); d.className='dthumb'; d.innerHTML=THUMBS[n-1].replace(' loading="lazy"','');
+          mh.insertBefore(d, mh.firstChild);
+        }
         var t=document.getElementById('mTitle'); if(t) t.scrollIntoView({block:'start'});
       } else home();
     }
