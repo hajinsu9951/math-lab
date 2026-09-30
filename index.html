@@ -4,6 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>일상 속 수학 실험실 · AI·디지털 기반 교수학습 설계 및 자료 제작(수학)</title>
+<script>
+/* 딥링크(#lab=N)로 들어오면 홈을 거치지 않고 그 실험실만 곧장 보인다.
+   파일이 커서 내려받는 동안 홈이 먼저 그려졌다가 실험실이 뒤늦게 뜨던 것을 막는다.
+   × 로 닫으면 홈이 나타난다. 실제 여는 일은 99-foot.html 의 딥링크 처리기가 한다. */
+if(/(^#|&)lab=\d+/.test(location.hash)) document.documentElement.className+=' deep';
+</script>
+<style>
+html.deep body>*:not(.mask){display:none!important}
+html.deep body{background:#f5f7fb}
+html.deep body::before{content:'실험실을 여는 중…';display:block;padding:48px 16px;text-align:center;color:#64748b;font:600 15px/1.6 system-ui,sans-serif}
+html.deep body.deepon::before{content:none}
+html.deep .mask{background:#f5f7fb;padding:0}
+html.deep .modal{margin:0 auto;border-radius:0;box-shadow:none;min-height:100vh}
+</style>
 
 <style>
 :root{
@@ -58757,12 +58771,23 @@ $('#gPull').onclick = async ()=>{
     if(o.tab){ var b=document.querySelector('nav.tabs button[data-p="'+o.tab+'"]'); if(b) b.click(); }
     if(o.lab){ var n=parseInt(o.lab,10);
       if(typeof openLab==='function' && typeof LABS!=='undefined' && n>=1 && n<=LABS.length){
-        setTimeout(function(){ openLab(n-1); var t=document.getElementById('mTitle'); if(t) t.scrollIntoView({block:'start'}); }, 60);
-      }
+        openLab(n-1); document.body.classList.add('deepon');
+        var t=document.getElementById('mTitle'); if(t) t.scrollIntoView({block:'start'});
+      } else home();
     }
   }
+  /* 실험실만 보이던 상태(html.deep)에서 닫으면 홈으로 — 주소의 #lab 도 지워 새로 고침해도 홈이 뜨게 */
+  function home(){
+    var r=document.documentElement; if(!/\bdeep\b/.test(r.className)) return;
+    r.className=r.className.replace(/\s*\bdeep\b/,''); document.body.classList.remove('deepon');
+    if(history.replaceState) history.replaceState(null,'',location.pathname+location.search);
+    window.scrollTo(0,0);
+  }
+  document.getElementById('mX').addEventListener('click', home);
+  document.getElementById('mask').addEventListener('click', function(e){ if(e.target.id==='mask') home(); });
   window.addEventListener('hashchange', apply);
-  if(document.readyState==='complete') apply(); else window.addEventListener('load', apply);
+  /* load(그림까지 다)가 아니라 DOMContentLoaded(스크립트까지 다)에 연다 — 한 박자 빨라진다 */
+  if(document.readyState!=='loading') apply(); else document.addEventListener('DOMContentLoaded', apply);
 })();
 </script>
 </body>
