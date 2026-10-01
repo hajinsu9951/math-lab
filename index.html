@@ -35663,18 +35663,48 @@ function wsBtns(note, ids){
        + `<button class="b g wsb"${id(1)} data-ws="pdf" title="A4 PDF 파일로 바로 내려받기">📄 활동지 PDF</button>`
        + `<span class="pgn"${id(2)} data-ws="note">${note||''}</span>`;
 }
+/* ══ 고등 실험의 각도 표기 — 라디안 우선, 도 병기 (2026-10-01) ══════════════════
+   하진수 선생님 지시: 고등 과정 실험은 각을 라디안으로 보이고 도(°)는 괄호에 병기한다.
+   중학교 실험(중1~3)은 도 그대로, 위도·경도(지리 좌표)도 도 그대로.
+   안쪽 계산(슬라이더 값)은 건드리지 않고 <b>화면 글만</b> 바꾼다 — 슬라이더는 그대로 도 단위 정수로 움직이고,
+   보이는 글은 「π/4 rad (45°)」 꼴이다. 바꾼 글에는 보이지 않는 표지(U+2060)을 표지로 넣어 두 번 바꾸지 않는다. */
+const RAD_LABS = new Set([15,23,94,100,101,106,108,118,119,158,162,164,165,166,170,176,178,194,195,227,233,237,244,249,257,269,271,274,285,287,288,290,316,317,319,322,335,348]);
+function radStr(n){
+  if(n===0) return '0';
+  const sg=n<0?'-':'', a=Math.abs(n);
+  const gcd=(x,y)=>y?gcd(y,x%y):x;
+  for(const q of [1,2,3,4,6,8,9,12,18,36]){
+    const p=a*q/180;
+    if(Math.abs(p-Math.round(p))<1e-9){
+      let pp=Math.round(p), qq=q; const g=gcd(pp,qq); pp/=g; qq/=g;
+      return sg+(pp===1?'π':pp+'π')+(qq>1?'/'+qq:'');
+    }
+  }
+  return sg+(a*Math.PI/180).toFixed(2);
+}
+function radText(s, compact){
+  if(!s || s.indexOf('°')<0 || /위도|경도/.test(s)) return s;
+  const NUM='(-?\\d+(?:\\.\\d+)?)';
+  s=s.replace(new RegExp('각을 (\\d+)\\s*(으로|로)','g'),(m,n,j)=>'각을 '+radStr(+n)+(compact?'':' rad (\u2060'+n+'°)')+' '+j);
+  s=s.replace(new RegExp('(sin|cos|tan|cot)\\s*'+NUM+'°(?![CF])','g'),(m,f,n)=>f+' '+radStr(+n)+(compact?'':' (\u2060'+n+'°)'));
+  s=s.replace(new RegExp('(?<![\\u2060\\d.])'+NUM+'°(?![CF])','g'),(m,n)=>radStr(+n)+(compact?'':' rad (\u2060'+n+'°)'));
+  return s;
+}
+function radHTML(html){ return html.split(/(<[^>]*>)/).map((x,i)=>i%2?x:radText(x)).join(''); }
+function wsRad(n, html){ return RAD_LABS.has(n) ? radHTML(html) : html; }
+
 function wsBind(box, n, make){
   const bh = box.querySelector('[data-ws="html"]'), bp = box.querySelector('[data-ws="pdf"]'), nt = box.querySelector('[data-ws="note"]');
   const say = t=>{ if(nt) nt.textContent = t; };
   if(bh) bh.onclick = ()=>{
-    dl(make(), wsFile(n,'html'), 'text/html');
+    dl(wsRad(n, make()), wsFile(n,'html'), 'text/html');
     say('HTML 을 내려받았습니다 — 브라우저로 열어 Ctrl+P 로 인쇄하세요.');
   };
   if(bp) bp.onclick = async ()=>{
     if(bp.dataset.busy) return;
     bp.dataset.busy = '1'; const t0 = bp.textContent;
     bp.textContent = '📄 PDF 만드는 중…'; say('A4 쪽을 나누어 그리는 중입니다 — 몇 초 걸립니다.');
-    const html = make();
+    const html = wsRad(n, make());
     try{
       const r = await wsPdf(html, wsFile(n,'pdf'));
       say('PDF '+r.pages+'쪽을 내려받았습니다 — '+wsFile(n,'pdf'));
@@ -52228,10 +52258,10 @@ const ADV_GEO = {
  iq:['두 기울기를 바꿔 가며 (법선 각, 예각 약속 값) 을 여섯 줄 기록하세요.',
      '법선 각과 예각 약속 값이 어긋나는 경우를 찾으세요.',
      '언제 보각으로 고쳐야 하는지 조건을 쓰세요.'],
- ap:{q:'법선 사이의 각이 120° 일 때 두 평면이 이루는 각은? (예각 약속 · 단위 °)',
-     a:60, tol:0.5,
-     why:'180° − 120° = 60°. 둔각이 나오면 보각으로 고쳐 적습니다.',
-     hint:'두 평면이 이루는 각은 90° 를 넘지 않게 약속합니다.'}},
+ ap:{q:'법선 사이의 각이 120° 일 때 두 평면이 이루는 각은? (예각 약속 · 단위 rad, 소수 둘째 자리까지)',
+     a:1.05, tol:0.02,
+     why:'π − 2π/3 = π/3 ≈ 1.05 rad. 둔각이 나오면 보각으로 고쳐 적습니다.',
+     hint:'두 평면이 이루는 각은 π/2 를 넘지 않게 약속합니다. π ≈ 3.14 로 계산해 보세요.'}},
 
 288:{
  pr:['단면 한 장만 보고 입체를 알아맞힐 수 있을까요? 있다 / 없다를 고르고 적으세요.',
@@ -52267,10 +52297,10 @@ const ADV_GEO = {
  iq:['크기를 바꿔 가며 (경도 폭, 내각의 합) 을 여섯 줄 기록하세요.',
      '삼각형이 작아지면 합이 어디로 가는지 확인하세요.',
      '구면 초과와 넓이의 관계를 쓰세요.'],
- ap:{q:'구면 삼각형의 세 각이 모두 90° 일 때 <b>내각의 합</b>은? (단위 °)',
-     a:270, tol:0.5,
-     why:'270° — 평면보다 90° 많습니다. 이 초과가 넓이에 비례합니다.',
-     hint:'90° 를 세 번 더하세요.'}},
+ ap:{q:'구면 삼각형의 세 각이 모두 90° 일 때 <b>내각의 합</b>은? (단위 rad, 소수 둘째 자리까지)',
+     a:4.71, tol:0.02,
+     why:'3π/2 ≈ 4.71 rad — 평면의 삼각형(π)보다 π/2 만큼 많습니다. 이 초과가 넓이에 비례합니다.',
+     hint:'π/2 ≈ 1.57 을 세 번 더하세요.'}},
 
 291:{
  pr:['평행선 공준을 바꾸면 모순이 생길까요? 생긴다 / 다른 기하가 된다를 고르고 적으세요.',
@@ -58996,6 +59026,38 @@ $('#gPull').onclick = async ()=>{
   window.addEventListener('hashchange', apply);
   /* load(그림까지 다)가 아니라 DOMContentLoaded(스크립트까지 다)에 연다 — 한 박자 빨라진다 */
   if(document.readyState!=='loading') apply(); else document.addEventListener('DOMContentLoaded', apply);
+})();
+</script>
+<script>
+/* 고등 실험의 각도 글을 「라디안 우선 + 도 병기」로 바꾼다 — 규칙은 40-demos.js 의 radText 에 있다 (2026-10-01).
+   실험이 만드는 값(슬라이더를 움직일 때마다 새로 쓰이는 글)도 따라 바꾸도록 지켜본다. */
+(function(){
+  const mask=document.getElementById('mask'); if(!mask||typeof RAD_LABS==='undefined') return;
+  const curLab=()=>{ const m=/^LAB\s*(\d+)/.exec((document.getElementById('mTitle')||{}).textContent||''); return m?+m[1]:0; };
+  /* 숫자와 ° 가 서로 다른 글 조각에 있는 경우 (<b>30</b>°) 도 모은다 */
+  function joinSplit(n){
+    const v=n.nodeValue, p=n.parentNode;
+    if(!p||!/^\s*°/.test(v)) return;
+    const prev=n.previousSibling; if(!prev||prev.nodeType!==1) return;
+    const t=(prev.textContent||'').trim(); if(!/^-?\d+(\.\d+)?$/.test(t)) return;
+    const lab=(prev.parentNode&&prev.parentNode.textContent)||''; if(/위도|경도/.test(lab)) return;
+    const compact=!!(p.closest&&p.closest('svg'));
+    prev.textContent=radStr(+t);
+    n.nodeValue=v.replace(/^(\s*)°/, '$1 rad (\u2060'+t+'°)');
+  }
+  function walk(){
+    if(!RAD_LABS.has(curLab())) return;
+    const tw=document.createTreeWalker(mask,NodeFilter.SHOW_TEXT,{acceptNode:n=>{
+      const p=n.parentNode; if(!p) return NodeFilter.FILTER_REJECT;
+      const t=p.nodeName; if(t==='SCRIPT'||t==='STYLE'||t==='TEXTAREA') return NodeFilter.FILTER_REJECT;
+      return n.nodeValue.indexOf('°')>=0 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT; }});
+    const list=[]; while(tw.nextNode()) list.push(tw.currentNode);
+    list.forEach(n=>{
+      const compact=!!(n.parentNode.closest&&n.parentNode.closest('svg'));
+      const v=radText(n.nodeValue,compact); if(v!==n.nodeValue){ n.nodeValue=v; } else joinSplit(n);
+    });
+  }
+  new MutationObserver(walk).observe(mask,{childList:true,subtree:true,characterData:true});
 })();
 </script>
 </body>
