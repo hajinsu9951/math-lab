@@ -1205,7 +1205,7 @@ table.lsnevt tbody th{width:48px;text-align:center;color:#92400E;background:#FFF
 .lsnnext{flex:1 1 auto;min-width:0;height:48px;border-radius:12px;border:0;font:800 15px/1.2 inherit;cursor:pointer;background:#CBD5E1;color:#64748B;padding:0 14px}
 .lsnnext[hidden]{display:none}
 .lsnnext.ready{background:#0E9384;color:#fff;box-shadow:0 3px 10px rgba(14,147,132,.35);animation:lsnpulse 1.8s ease-in-out infinite}
-.lsnnext.lock{cursor:not-allowed}
+.lsnnext.lock{background:#FEF3C7;color:#92400E;border:1.5px solid #FCD34D}
 @keyframes lsnpulse{0%,100%{box-shadow:0 3px 10px rgba(14,147,132,.35)}50%{box-shadow:0 3px 18px rgba(14,147,132,.7)}}
 .lsnnav.shake{animation:lsnshake .42s}
 @keyframes lsnshake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
@@ -36012,14 +36012,14 @@ function lessonFlow(root, spec, P){
     if(!b){ return; }
     const lock=b.disabled;
     const t=(b.textContent||'').trim();
-    const txt=lock ? (t.split(' — ')[0]+' 🔒') : t;
+    const txt=lock ? ('건너뛰고 '+(G.cur===4 ? '적용 문제 풀러 가기' : t.split(' — ')[0].replace(/\s*→\s*$/,''))+' →') : t;
     if(nx.textContent!==txt) nx.textContent=txt;
     nx.classList.toggle('lock',lock); nx.classList.toggle('ready',!lock);
-    nx.setAttribute('aria-disabled',lock?'true':'false');
+    
   }
   function goNext(){
     const b=nextBtn(); if(!b) return;
-    if(b.disabled){ sl.classList.add('shake'); setTimeout(()=>sl.classList.remove('shake'),450); return; }
+    if(b.disabled){ unlock(G.cur+1); return; }            /* 활동을 빼먹었어도 넘어간다 — 조건은 참고용 */
     b.click();
   }
   nx.addEventListener('click',goNext);
