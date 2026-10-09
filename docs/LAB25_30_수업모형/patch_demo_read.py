@@ -40,7 +40,10 @@ FNS = ['primeDemo', 'intDemo', 'letterDemo', 'scaleDemo', 'propDemo', 'paraDemo'
        'cbDemo', 'qiDemo', 'lpDemo', 'pmDemo', 'mxDemo',
        # LAB 101~110
        'ncDemo', 'ovDemo', 'clDemo', 'origamiDemo', 'decayDemo',
-       'unitCircleDemo', 'sunriseDemo', 'lawsDemo', 'loanDemo', 'sigmaDemo']
+       'unitCircleDemo', 'sunriseDemo', 'lawsDemo', 'loanDemo', 'sigmaDemo',
+       # LAB 111~120
+       'dominoDemo', 'expEqDemo', 'logBaseDemo', 'expLogDemo', 'log10Demo',
+       'expMoveDemo', 'trigParamDemo', 'trigEqDemo', 'trigSumDemo', 'heronDemo']
 
 TAIL = """};
   /* 수업 모형 안에서는 기록 단계가 보고서를 따로 만든다 — 두 벌이 되지 않게 */
