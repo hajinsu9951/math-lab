@@ -128,8 +128,8 @@ def bx135():
            % curve(V, 0.1, 14.6, X, Y),
            '<circle cx="%.1f" cy="%.1f" r="5.4" fill="#BE123C"/>' % (X(best[1]), Y(best[0])),
            '<path d="M%.1f %.1f V146" stroke="#BE123C" stroke-width="1.3" stroke-dasharray="4 3"/>' % (X(best[1]), Y(best[0])),
-           '<text x="%.1f" y="%.1f" font-size="10.5" font-weight="800" fill="#BE123C" text-anchor="middle"%s>x = %g 에서 %g cm³</text>'
-           % (X(best[1]) + 46, Y(best[0]) - 8, HALO, best[1], best[0]),
+           '<text x="%.1f" y="%.1f" font-size="10.5" font-weight="800" fill="#BE123C"%s>x = %g 에서 %g cm³</text>'
+           % (X(best[1]) + 30, Y(best[0]), HALO, best[1], best[0]),
            '<text x="%.1f" y="160" font-size="10" fill="#6B7280" text-anchor="middle"%s>잘라내는 길이 x →</text>' % (X(7), HALO),
            '<text x="200" y="18" font-size="10.5" fill="#6B7280" text-anchor="middle"%s>조금 자르면 낮고, 많이 자르면 좁다 — 어디가 가장 클까</text>' % HALO]
     return ''.join(out)
@@ -154,7 +154,7 @@ def mo136():
     out.append('<circle cx="%.1f" cy="%.1f" r="4.6" fill="#BE123C"/>' % (X(top), Ys(s(top))))
     out.append('<circle cx="%.1f" cy="%.1f" r="4.6" fill="#BE123C"/>' % (X(top), Yv(0)))
     out.append('<path d="M%.1f %.1f V%.1f" stroke="#BE123C" stroke-width="1.2" stroke-dasharray="4 3"/>' % (X(top), Ys(s(top)), Yv(0)))
-    out.append('<text x="%.1f" y="%.1f" font-size="10" font-weight="800" fill="#BE123C" text-anchor="end"%s>여기서 멈춘다</text>' % (X(top) - 7, Ys(s(top)) - 6, HALO))
+    out.append('<text x="%.1f" y="%.1f" font-size="10" font-weight="800" fill="#BE123C" text-anchor="end"%s>여기서 멈춘다</text>' % (X(top) - 7, Ys(s(top)) + 16, HALO))
     out.append('<text x="60" y="34" font-size="10" font-weight="800" fill="#1D4ED8"%s>위치 s</text>' % HALO)
     out.append('<text x="60" y="110" font-size="10" font-weight="800" fill="#0B6E63"%s>속도 v</text>' % HALO)
     out.append('<text x="200" y="18" font-size="10.5" fill="#6B7280" text-anchor="middle"%s>위치 그래프의 봉우리에서 속도는 얼마일까</text>' % HALO)
@@ -247,13 +247,13 @@ def bt140():
         band.append('L%.1f %.1f' % (X(x), Y(x * x)))
     out.append('<path d="%s Z" fill="#2563EB" opacity=".18"/>' % ' '.join(band))
     out.append('<path d="%s" stroke="#0E9384" stroke-width="2.2" fill="none" stroke-linecap="round"/>'
-               % curve(lambda x: a * x, -0.5, 1.7, X, Y))
+               % curve(lambda x: a * x, -0.5, 1.45, X, Y))
     out.append('<path d="%s" stroke="#BE123C" stroke-width="2.2" fill="none" stroke-linecap="round"/>'
-               % curve(lambda x: x * x, -0.5, 1.4, X, Y))
+               % curve(lambda x: x * x, -0.5, 1.2, X, Y))
     for t in (0.0, 1.0):
         out.append('<circle cx="%.1f" cy="%.1f" r="4.4" fill="#111827"/>' % (X(t), Y(t * t)))
     out.append('<text x="%.1f" y="%.1f" font-size="10.5" font-weight="800" fill="#1D4ED8" text-anchor="middle"%s>넓이 = 1/6</text>' % (X(0.55), Y(0.36), HALO))
-    out.append('<text x="%.1f" y="%.1f" font-size="10" font-weight="800" fill="#0B6E63"%s>y = x</text>' % (X(1.3) + 4, Y(1.3), HALO))
-    out.append('<text x="%.1f" y="%.1f" font-size="10" font-weight="800" fill="#BE123C"%s>y = x²</text>' % (X(1.25) + 4, Y(1.25 ** 2) + 14, HALO))
+    out.append('<text x="%.1f" y="%.1f" font-size="10" font-weight="800" fill="#0B6E63"%s>y = x</text>' % (X(1.42) + 5, Y(1.42) + 4, HALO))
+    out.append('<text x="%.1f" y="%.1f" font-size="10" font-weight="800" fill="#BE123C" text-anchor="end"%s>y = x²</text>' % (X(1.2) - 6, Y(1.2 ** 2) + 12, HALO))
     out.append('<text x="200" y="18" font-size="10.5" fill="#6B7280" text-anchor="middle"%s>어느 쪽이 위인지 바뀌면 그냥 적분은 틀린다</text>' % HALO)
     return ''.join(out)
