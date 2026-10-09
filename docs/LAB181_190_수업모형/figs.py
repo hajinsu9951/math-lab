@@ -348,7 +348,7 @@ def tf190():
     assert tf_top == '영화' and abs(idf['영화']) < 1e-12
     assert ti_top != tf_top, (tf_top, ti_top)
 
-    base, top = 128.0, 44.0
+    base, top = 116.0, 42.0          # df 꼬리표가 아래 설명과 겹치지 않도록 막대를 올린다
     mx = max(max(o[1] for o in W), max(tfidf.values()))
     S = (base - top) / mx
     X = lambda i: 52 + 62.0 * i
