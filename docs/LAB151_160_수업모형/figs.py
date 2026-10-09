@@ -53,7 +53,7 @@ def bd151():
     assert sum(ps[lo:hi + 1]) > 0.999
     BW = 300.0 / (hi - lo + 1)
     X = lambda i: 50 + BW * (i - lo)
-    base, top = 132.0, 40.0
+    base, top = 132.0, 52.0
     S = (base - top) / max(ps)
     out = ['<path d="M44 %g H364" stroke="#9CA3AF" stroke-width="1.2"/>' % base]
     for i in range(lo, hi + 1):
@@ -181,8 +181,8 @@ def ci155():
     assert len(miss) == 1 and miss[0] == 8, miss   # 20번 중 한 번만 놓친다
 
     X = lambda v: 200 + 1700.0 * (v - true_p)
-    out = ['<path d="M%.1f 28 V148" stroke="#BE123C" stroke-width="1.6"/>' % X(true_p)]
-    out.append('<text x="%.1f" y="24" font-size="10" font-weight="800" fill="#BE123C" text-anchor="middle"%s>참값</text>'
+    out = ['<path d="M%.1f 34 V148" stroke="#BE123C" stroke-width="1.6"/>' % X(true_p)]
+    out.append('<text x="%.1f" y="31" font-size="10" font-weight="800" fill="#BE123C" text-anchor="middle"%s>참값</text>'
                % (X(true_p), HALO))
     for i, c in enumerate(cent):
         y = 36 + i * 5.6
@@ -322,7 +322,7 @@ def hy159():
         out.append('<text x="%.1f" y="150" font-size="9.5" fill="#6B7280" text-anchor="middle"%s>x = %g</text>'
                    % (X(x), HALO, x))
     out.append('<text x="%.1f" y="%.1f" font-size="10" font-weight="800" fill="#6B7280"%s>점근선 y = (b/a)x</text>'
-               % (X(6.4), Y(ya(6.4)) - 8, HALO))
+               % (X(2.2) + 6, Y(ya(2.2)) + 16, HALO))
     out.append('<text x="364" y="44" font-size="10.5" font-weight="800" fill="#BE123C" text-anchor="end"%s>'
                '간격 %.3f → %.3f (0 으로 간다)</text>' % (HALO, g1, g2))
     out.append(cap('가까워지는데 끝내 만나지 않는다 — 그런 선이 있을까'))
@@ -360,14 +360,14 @@ def td160():
         out.append('<path d="%s" stroke="%s" stroke-width="2.2" fill="none"/>'
                    % (' '.join('%s%.1f %.1f' % ('M' if i == 0 else 'L', X(x), Y(y))
                                for i, (x, y) in enumerate(pts) if 18 < Y(y) < 160), col))
-    for P, nm in ((A, 'A'), (B, 'B'), (C, 'C')):
+    for P, nm, dx, anc in ((A, 'A', -9, 'end'), (B, 'B', 9, 'start'), (C, 'C', 9, 'start')):
         out.append('<rect x="%.1f" y="%.1f" width="10" height="10" fill="#111827"/>' % (X(P[0]) - 5, Y(P[1]) - 5))
-        out.append('<text x="%.1f" y="%.1f" font-size="10" font-weight="800" fill="#374151" text-anchor="middle"%s>%s</text>'
-                   % (X(P[0]), Y(P[1]) + 20, HALO, nm))
+        out.append('<text x="%.1f" y="%.1f" font-size="10" font-weight="800" fill="#374151" text-anchor="%s"%s>%s</text>'
+                   % (X(P[0]) + dx, Y(P[1]) + 4, anc, HALO, nm))
     out.append('<circle cx="%.1f" cy="%.1f" r="5.4" fill="#BE123C"/>' % (X(src[0]), Y(src[1])))
     out.append('<text x="%.1f" y="%.1f" font-size="10" font-weight="800" fill="#BE123C"%s>소리가 난 곳</text>'
                % (X(src[0]) + 9, Y(src[1]) - 6, HALO))
-    out.append('<text x="36" y="40" font-size="10.5" font-weight="800" fill="#1D4ED8"%s>'
+    out.append('<text x="36" y="54" font-size="10.5" font-weight="800" fill="#1D4ED8"%s>'
                '시간 차 %g ms → 거리 차 0.343 × %g = %.3f m</text>' % (HALO, dt, dt, dd))
     out.append('<text x="36" y="158" font-size="10" fill="#6B7280"%s>마이크 두 개면 곡선 하나 · 세 개면 한 점</text>' % HALO)
     out.append(cap('소리가 몇 밀리초 먼저 닿았는지만으로 어디인지 알 수 있을까'))
