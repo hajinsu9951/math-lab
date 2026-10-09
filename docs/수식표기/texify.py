@@ -169,11 +169,18 @@ def protected(seg):
     """손대면 안 되는 구간.
        · svg:`…`  — MathML 이 <svg> 안에 들어갈 수 없다
        · ${…}     — 템플릿 보간. $ 를 건드리면 코드가 통째로 깨진다
+       · re:'…'   — 미션 달성 신호. 화면 문구와 글자 그대로 맞아야 하고,
+                    $ 나 ^ 가 섞이면 정규식 앵커가 되어 영영 매칭되지 않는다
+       · id:'…'   — 탐구 보고서의 식별자
     """
     sp = []
     for m in re.finditer(r'svg:`', seg):
         k = seg.find('`', m.end())
         sp.append((m.start(), k + 1))
+    for m in re.finditer(r"(?:re|id):'", seg):
+        k = seg.find("'", m.end())
+        if k > 0:
+            sp.append((m.start(), k + 1))
     i = 0
     while True:
         i = seg.find('${', i)
