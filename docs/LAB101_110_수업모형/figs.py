@@ -46,10 +46,10 @@ def nc101():
 # ── 102 · 카드 쌓기 ½Hₙ ─────────────────────────────────────────────
 def ov102():
     n = 5
-    off = [sum(1.0 / (2 * k) for k in range(1, i + 1)) for i in range(n)]
+    # 맨 아래 카드도 책상 밖으로 1/(2n) 만큼 나갈 수 있다 — 그래야 한계가 ½Hₙ 이 된다
+    off = [1.0 / (2 * n) + sum(1.0 / (2 * k) for k in range(1, i + 1)) for i in range(n)]
     Hn = sum(1.0 / (i + 1) for i in range(n))
-    assert abs(off[-1] - (Hn - 1.0 / n) / 2 - 1.0 / (2 * n) + 1.0 / (2 * n)) < 1e-9
-    assert abs(off[-1] - sum(1.0 / (2 * k) for k in range(1, n))) < 1e-9 or True
+    assert abs(off[-1] - Hn / 2) < 1e-12, (off[-1], Hn / 2)
     CW, CH = 96.0, 15.0
     edge = 150.0                      # 책상 끝 x
     base = 140.0

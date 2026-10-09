@@ -129,8 +129,8 @@ BIN = r'(?:\s?(?:[+=]|−|\\?-|×|·|≤|≥|≒)\s?)'
 def merge(s):
     """$a^2$ + $b^2$ 처럼 끊긴 식을 $a^2 + b^2$ 하나로 잇는다."""
     pat_mm = re.compile(r'\$([^$]{1,60})\$(' + BIN + r')\$([^$]{1,60})\$')
-    pat_mr = re.compile(r'\$([^$]{1,60})\$(' + BIN + r')([0-9A-Za-zα-ω]{1,6})(?![0-9A-Za-z가-힣$√(])')
-    pat_lm = re.compile(r'(?<![0-9A-Za-z가-힣$√)])([0-9A-Za-zα-ω]{1,6})(' + BIN + r')\$([^$]{1,60})\$')
+    pat_mr = re.compile(r'\$([^$]{1,60})\$(' + BIN + r')([0-9A-Za-zα-ω]{1,6})(?![0-9A-Za-z가-힣$√({])')
+    pat_lm = re.compile(r'(?<![0-9A-Za-z가-힣$√)}])([0-9A-Za-zα-ω]{1,6})(' + BIN + r')\$([^$]{1,60})\$')
     for _ in range(6):
         t = pat_mm.sub(lambda m: '$%s %s %s$' % (m.group(1), tex_of(m.group(2).strip()) or '', m.group(3)), s)
         t = pat_mr.sub(lambda m: '$%s %s %s$' % (m.group(1), tex_of(m.group(2).strip()) or '', m.group(3)), t)
