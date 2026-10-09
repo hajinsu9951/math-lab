@@ -4,8 +4,28 @@
     {
       "name": "vlab-303",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["--yes", "http-server", "버전보관", "-p", "8799", "-c-1"],
+      "runtimeArgs": [
+        "--yes",
+        "http-server",
+        "버전보관",
+        "-p",
+        "8799",
+        "-c-1"
+      ],
       "port": 8799
+    },
+    {
+      "name": "math-lab",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "--yes",
+        "http-server",
+        "dist",
+        "-p",
+        "8765",
+        "-c-1"
+      ],
+      "port": 8765
     }
   ]
 }

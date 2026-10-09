@@ -1143,3 +1143,7 @@ table.lb2tbl.calc td{text-align:center}
 
 /* 생각 열기 그림이 한 장뿐이면 폭을 잡아 준다 — 안 그러면 화면 전체로 늘어난다 (2026-09-23) */
 .lsnfigs figure:only-child{max-width:470px;margin-left:auto;margin-right:auto}
+
+/* 글 속에 끼워 넣은 수식 — 글줄 높이를 흔들지 않게 (2026-10-08) */
+.mx{display:inline-block;vertical-align:-0.12em}
+.mx math{font-size:1.02em}
