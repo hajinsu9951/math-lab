@@ -52,7 +52,10 @@ FNS = ['primeDemo', 'intDemo', 'letterDemo', 'scaleDemo', 'propDemo', 'paraDemo'
        'motionDemo', 'riemannDemo', 'ftcDemo', 'accumDemo', 'betweenDemo',
        # LAB 141~150
        'diskVolDemo', 'pascalDemo', 'starsBarsDemo', 'binomExpDemo', 'exclIndepDemo',
-       'meetProbDemo', 'falsePosDemo', 'chiIndepDemo', 'expectDemo', 'varSpreadDemo']
+       'meetProbDemo', 'falsePosDemo', 'chiIndepDemo', 'expectDemo', 'varSpreadDemo',
+       # LAB 151~160
+       'binomDistDemo', 'deMoivreDemo', 'sigmaRuleDemo', 'clTheoremDemo', 'ciMeaningDemo',
+       'sampleSizeDemo', 'paraFocusDemo', 'ellipsePinDemo', 'hyperAsymDemo', 'tdoaDemo']
 
 TAIL = """};
   /* 수업 모형 안에서는 기록 단계가 보고서를 따로 만든다 — 두 벌이 되지 않게 */

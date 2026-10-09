@@ -91,12 +91,14 @@ def pa142():
     for r in (1, 2):
         out.append('<path d="M%.1f %.1f L%.1f %.1f" stroke="#0E9384" stroke-width="1.3" stroke-dasharray="3 3"/>'
                    % (Xp(5, r), Yp(5) + 3, Xp(6, 2), Yp(6) - 11))
-    out.append('<text x="%.1f" y="%.1f" font-size="10" font-weight="800" fill="#0B6E63" text-anchor="end"%s>%d + %d</text>'
-               % (Xp(5, 1) - 13, Yp(5), HALO, comb(5, 1), comb(5, 2)))
-    out.append('<text x="%.1f" y="%.1f" font-size="10" font-weight="800" fill="#BE123C"%s>= %d = C(6, 2)</text>'
-               % (Xp(6, 2) + 14, Yp(6), HALO, comb(6, 2)))
-    out.append('<text x="36" y="%.0f" font-size="10" fill="#6B7280"%s>n = 6 줄의 합 = %d = 2⁶</text>'
-               % (Yp(6) + 20, HALO, sum(comb(6, r) for r in range(7))))
+    out.append('<text x="36" y="58" font-size="10" font-weight="800" fill="#0B6E63"%s>위 두 수 %d + %d</text>'
+               % (HALO, comb(5, 1), comb(5, 2)))
+    out.append('<text x="36" y="74" font-size="10" font-weight="800" fill="#BE123C"%s>= %d = C(6, 2)</text>'
+               % (HALO, comb(6, 2)))
+    out.append('<path d="M118 70 L%.1f %.1f" stroke="#BE123C" stroke-width="1.1" stroke-dasharray="3 3"/>'
+               % (Xp(6, 2) - 12, Yp(6) - 6))
+    out.append('<text x="364" y="162" font-size="10" fill="#6B7280" text-anchor="end"%s>n = 6 줄의 합 = %d = 2⁶</text>'
+               % (HALO, sum(comb(6, r) for r in range(7))))
     out.append(cap('바로 위의 두 수를 더하면 아래 수가 된다 — 왜 그럴까'))
     return ''.join(out)
 
@@ -166,8 +168,8 @@ def be144():
                    % (X(r) + 20, base - S * v - 5, '#BE123C' if hot else '#1D4ED8', HALO, v))
         out.append('<text x="%.1f" y="%.0f" font-size="10" fill="#374151" text-anchor="middle"%s>x%s</text>'
                    % (X(r) + 20, base + 13, HALO, '⁵⁴³²¹⁰'[n - r]))
-    out.append('<text x="%.1f" y="%.0f" font-size="10" font-weight="800" fill="#BE123C" text-anchor="middle"%s>C(5,%d)·2%s</text>'
-               % (X(r_want) + 20, base + 26, HALO, r_want, '³'))
+    out.append('<text x="44" y="%.0f" font-size="10" font-weight="800" fill="#BE123C"%s>x² 의 계수 = C(5,%d)·2³</text>'
+               % (base + 26, HALO, r_want))
     out.append('<text x="364" y="%.0f" font-size="10" fill="#6B7280" text-anchor="end"%s>계수를 모두 더하면 %d = 3⁵</text>'
                % (base + 26, HALO, sum(co)))
     out.append(cap('(x + 2)⁵ 를 전개하지 않고 x² 의 계수만 집어낼 수 있을까'))
@@ -313,10 +315,10 @@ def ci148():
             out.append('<text x="%.1f" y="%.1f" font-size="11" font-weight="%s" fill="%s" text-anchor="middle"%s>%d</text>'
                        % (x + CW / 2, y + 17, '800' if (i, j) == (0, 0) else '400',
                           '#BE123C' if (i, j) == (0, 0) else '#111827', HALO, cells[i][j]))
-    out.append('<text x="%.1f" y="%.1f" font-size="10" font-weight="800" fill="#BE123C" text-anchor="middle"%s>'
-               '기대 %g = %d × %d ÷ %d</text>' % (X0 + CW / 2, Y0 + CH * 3 + 18, HALO, Ea, colm[0], row[0], n))
-    out.append('<text x="%.1f" y="%.1f" font-size="10" fill="#6B7280" text-anchor="middle"%s>'
-               '관측 %d — 기대보다 %.1f 많다</text>' % (X0 + CW * 2.1, Y0 + CH * 3 + 18, HALO, a, a - Ea))
+    out.append('<text x="40" y="%.1f" font-size="10" font-weight="800" fill="#BE123C"%s>'
+               '기대 %g = %d × %d ÷ %d</text>' % (Y0 + CH * 3 + 18, HALO, Ea, colm[0], row[0], n))
+    out.append('<text x="364" y="%.1f" font-size="10" fill="#6B7280" text-anchor="end"%s>'
+               '관측 %d — 기대보다 %.1f 많다</text>' % (Y0 + CH * 3 + 18, HALO, a, a - Ea))
     out.append(cap('아침을 먹는 것과 지각하는 것 — 정말 관계가 있을까'))
     return ''.join(out)
 
