@@ -38,8 +38,8 @@ def pv171():
     assert abs(ap / pb - m / n) < 1e-9
     assert abs(P[0] - 4.0 / 3) < 1e-9 and abs(P[1] - 4.0 / 3) < 1e-9
 
-    X = lambda x: 200 + 32.0 * x
-    Y = lambda y: 90 - 22.0 * y
+    X = lambda x: 200 + 26.0 * x
+    Y = lambda y: 96 - 20.0 * y
     out = ['<path d="M%.1f %.1f L%.1f %.1f" stroke="#9CA3AF" stroke-width="1.6"/>'
            % (X(A[0]), Y(A[1]), X(B[0]), Y(B[1]))]
     out.append('<path d="M%.1f %.1f L%.1f %.1f" stroke="#2563EB" stroke-width="3"/>'
@@ -49,17 +49,17 @@ def pv171():
     for q, nm, col in ((A, 'A (−4, −2)', '#111827'), (B, 'B (4, 3)', '#111827')):
         out.append('<circle cx="%.1f" cy="%.1f" r="4.6" fill="%s"/>' % (X(q[0]), Y(q[1]), col))
         out.append('<text x="%.1f" y="%.1f" font-size="10" font-weight="800" fill="#374151" text-anchor="middle"%s>%s</text>'
-                   % (X(q[0]), Y(q[1]) + (18 if q is A else -9), HALO, nm))
+                   % (X(q[0]), Y(q[1]) + 18, HALO, nm))
     out.append('<circle cx="%.1f" cy="%.1f" r="5.4" fill="#BE123C"/>' % (X(P[0]), Y(P[1])))
     out.append('<text x="%.1f" y="%.1f" font-size="10.5" font-weight="800" fill="#BE123C"%s>P (%.2f, %.2f)</text>'
-               % (X(P[0]) + 9, Y(P[1]) + 4, HALO, P[0], P[1]))
+               % (X(P[0]) + 9, Y(P[1]) + 18, HALO, P[0], P[1]))
     out.append('<text x="%.1f" y="%.1f" font-size="10" font-weight="800" fill="#1D4ED8" text-anchor="middle"%s>%g</text>'
                % ((X(A[0]) + X(P[0])) / 2, (Y(A[1]) + Y(P[1])) / 2 + 16, HALO, m))
     out.append('<text x="%.1f" y="%.1f" font-size="10" font-weight="800" fill="#0B6E63" text-anchor="middle"%s>%g</text>'
-               % ((X(P[0]) + X(B[0])) / 2, (Y(P[1]) + Y(B[1])) / 2 + 16, HALO, n))
-    out.append('<text x="364" y="40" font-size="10.5" font-weight="800" fill="#BE123C" text-anchor="end"%s>'
+               % ((X(P[0]) + X(B[0])) / 2, (Y(P[1]) + Y(B[1])) / 2 - 14, HALO, n))
+    out.append('<text x="364" y="150" font-size="10.5" font-weight="800" fill="#BE123C" text-anchor="end"%s>'
                'AP : PB = %.2f : %.2f = %g : %g</text>' % (HALO, ap, pb, m, n))
-    out.append('<text x="364" y="56" font-size="10" fill="#6B7280" text-anchor="end"%s>'
+    out.append('<text x="364" y="164" font-size="10" fill="#6B7280" text-anchor="end"%s>'
                'P = (nA + mB) ÷ (m + n)</text>' % HALO)
     out.append(cap('두 드론 사이를 %g : %g 로 나누는 자리는 어디일까' % (m, n)))
     return ''.join(out)
@@ -178,7 +178,7 @@ def sn176():
     deg = [sin(x) / (x * 180 / pi) for x in xs]
     assert rad[-1] > 0.9999 and abs(deg[-1] - pi / 180) < 1e-6
 
-    cx, cy, R = 120.0, 128.0, 86.0
+    cx, cy, R = 96.0, 128.0, 72.0
     th = 0.62
     out = ['<path d="M%.1f %.1f A%.1f %.1f 0 0 0 %.1f %.1f" stroke="#C7D2E4" stroke-width="1.6" fill="none"/>'
            % (cx + R, cy, R, R, cx + R * cos(1.1), cy - R * sin(1.1))]
@@ -192,10 +192,10 @@ def sn176():
         t = th * i / 32
         arc.append('L%.1f %.1f' % (cx + R * cos(t), cy - R * sin(t)))
     out.append('<path d="%s" stroke="#0E9384" stroke-width="2.8" fill="none"/>' % ' '.join(arc))
-    out.append('<text x="%.1f" y="%.1f" font-size="10" font-weight="800" fill="#BE123C"%s>sin x</text>'
-               % (px + 6, (py + cy) / 2, HALO))
-    out.append('<text x="%.1f" y="%.1f" font-size="10" font-weight="800" fill="#0B6E63"%s>호 x</text>'
-               % (cx + (R + 6) * cos(th / 2) - 4, cy - (R + 6) * sin(th / 2) - 6, HALO))
+    out.append('<text x="%.1f" y="%.1f" font-size="10" font-weight="800" fill="#BE123C" text-anchor="end"%s>sin x</text>'
+               % (px - 6, (py + cy) / 2, HALO))
+    out.append('<text x="%.1f" y="%.1f" font-size="10" font-weight="800" fill="#0B6E63" text-anchor="end"%s>호 x</text>'
+               % (cx + (R + 6) * cos(th / 2) - 10, cy - (R + 6) * sin(th / 2) + 18, HALO))
     out.append('<text x="364" y="38" font-size="10" fill="#6B7280" text-anchor="end"%s>x 가 작아질수록 호와 현이 포개진다</text>' % HALO)
     for i, x in enumerate(xs):
         out.append('<text x="364" y="%d" font-size="10" font-weight="800" fill="#1D4ED8" text-anchor="end"%s>'

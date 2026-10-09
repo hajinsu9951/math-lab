@@ -61,7 +61,10 @@ FNS = ['primeDemo', 'intDemo', 'letterDemo', 'scaleDemo', 'propDemo', 'paraDemo'
        'projAreaDemo', 'threePerpDemo', 'space3dDemo', 'sphereCutDemo', 'coneCutDemo',
        # LAB 171~180
        'posVecDemo', 'seqLimitDemo', 'gpConvDemo', 'seriesPartDemo', 'repeatDecDemo',
-       'sincLimitDemo', 'expDerivDemo', 'trigDerivDemo', 'chainRuleDemo', 'implicitDemo']
+       'sincLimitDemo', 'expDerivDemo', 'trigDerivDemo', 'chainRuleDemo', 'implicitDemo',
+       # LAB 181~190
+       'inflectDemo', 'substIntDemo', 'byPartsDemo', 'motionVecDemo', 'arcLenDemo',
+       'diffEqDemo', 'perceptronDemo', 'accTrapDemo', 'textVecDemo', 'tfidfDemo']
 
 TAIL = """};
   /* 수업 모형 안에서는 기록 단계가 보고서를 따로 만든다 — 두 벌이 되지 않게 */
