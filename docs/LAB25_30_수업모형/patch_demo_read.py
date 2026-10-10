@@ -107,7 +107,14 @@ FNS = ['primeDemo', 'intDemo', 'letterDemo', 'scaleDemo', 'propDemo', 'paraDemo'
        # LAB 311~320
        'supremumDemo', 'completeDemo', 'epsDeltaDemo', 'uniformContDemo',
        'funcSeqDemo', 'eulerFormulaDemo', 'complexMapDemo', 'modGroupDemo',
-       'symGroupDemo', 'sensitivityDemo']
+       'symGroupDemo', 'sensitivityDemo',
+       # LAB 321~330
+       'extrapolateDemo', 'paraPerpDemo', 'pointLineDemo', 'circleLineDemo',
+       'figShiftDemo', 'reflectDemo', 'setOpDemo', 'divPointDemo',
+       'mvtDemo', 'counterExDemo',
+       'oneToOneDemo', 'rationalDemo', 'irrationalDemo', 'illCondDemo', 'vanishPointDemo',
+       'newtonMethodDemo', 'graphColorDemo', 'limitIntegralDemo', 'entropySplitDemo',
+       'laplaceSmoothDemo']
 
 TAIL = """};
   /* 수업 모형 안에서는 기록 단계가 보고서를 따로 만든다 — 두 벌이 되지 않게 */
