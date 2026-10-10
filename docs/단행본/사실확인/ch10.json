@@ -1,0 +1,56 @@
+[
+ {
+  "id": "epicurean_ass",
+  "claim": "에피쿠로스 학파는 「삼각형의 두 변의 합은 나머지 한 변보다 크다」(『원론』 제1권 명제 20)를 두고 «당나귀에게도 뻔한 일이라 증명이 필요 없다» 고 비웃었다. 한 꼭짓점에 먹이를 놓고 다른 꼭짓점에 당나귀를 두면, 당나귀는 두 변을 돌지 않고 곧장 간다는 것이 그들의 예였다.",
+  "source": "Proclus. <i>A Commentary on the First Book of Euclid’s Elements</i> (G. R. Morrow, Trans., 1970, pp. 251–252). Princeton University Press. / Heath, T. L. (1925). <i>The Thirteen Books of Euclid’s Elements</i> (2nd ed., Vol. 1, pp. 287–288). Cambridge University Press.",
+  "checked": "2026-10-11"
+ },
+ {
+  "id": "proclus_reply",
+  "claim": "프로클로스는 이렇게 답했다 — 그 사실이 «감각에는» 분명하더라도 «학문을 만드는 추론에는» 분명하지 않다. 불이 따뜻하다는 것은 감각으로 알지만 왜 따뜻한지를 밝히는 것은 학문의 일이라는 비유를 들었다.",
+  "source": "Proclus. <i>A Commentary on the First Book of Euclid’s Elements</i> (G. R. Morrow, Trans., 1970, pp. 251–252). Princeton University Press.",
+  "checked": "2026-10-11",
+  "note": "히스는 이 구분을 지지하며, 사비유가 에피쿠로스 학파를 두고 「당나귀와 건초를 나눠 먹을 만하다」(digni ipsi, qui cum Asino foenum essent)고 적은 말을 옮겼다."
+ },
+ {
+  "id": "pons_asinorum",
+  "claim": "흔히 「당나귀의 다리(pons asinorum)」라 불리는 것은 이 명제가 아니라 『원론』 제1권 **명제 5**(이등변삼각형의 두 밑각은 같다)이다. 두 이야기는 서로 다른 명제에 붙은 것이다.",
+  "source": "Heath, T. L. (1925). <i>The Thirteen Books of Euclid’s Elements</i> (2nd ed., Vol. 1, pp. 251–255, 287–288). Cambridge University Press.",
+  "checked": "2026-10-11",
+  "note": "널리 섞여 쓰이는 자리라 본문에서 따로 갈라 적었다."
+ },
+ {
+  "id": "euclid_i20",
+  "claim": "유클리드는 명제 20 을 한 변을 늘여 그 늘인 부분이 다른 한 변과 같게 만드는 작도로 증명했다. 프로클로스는 헤론과 포르피리오스가 변을 늘이지 않는 다른 증명을 했다고 전한다.",
+  "source": "Euclid. <i>Elements</i>, Book I, Proposition 20. (Heath, T. L., Trans., 1925, Vol. 1, pp. 286–288, 323–326.) Cambridge University Press.",
+  "checked": "2026-10-11"
+ },
+ {
+  "id": "sss_congruence",
+  "claim": "세 변의 길이가 정해지면 삼각형의 모양은 하나로 정해진다(SSS). 유클리드 『원론』 제1권 명제 22 가 주어진 세 선분으로 삼각형을 작도하는 방법이고, 그 작도가 가능하려면 두 선분의 합이 나머지보다 커야 한다는 단서가 붙어 있다.",
+  "source": "Euclid. <i>Elements</i>, Book I, Propositions 8 and 22. (Heath, T. L., Trans., 1925, Vol. 1.) Cambridge University Press.",
+  "checked": "2026-10-11",
+  "note": "명제 22 의 단서가 곧 삼각부등식이다 — 유클리드는 작도가 «언제 되는가» 를 명제 안에 적어 두었다."
+ },
+ {
+  "id": "billingsley1570",
+  "claim": "유클리드 『원론』이 처음 영어로 옮겨진 것은 1570년 헨리 빌링슬리의 번역이다.",
+  "source": "Euclid. (1570). <i>The Elements of Geometrie of the Most Auncient Philosopher Euclide of Megara</i> (H. Billingsley, Trans.). London: John Daye.",
+  "checked": "2026-10-11",
+  "note": "표제에 「메가라의 에우클레이데스」라 적혀 있는데, 이는 동명이인인 철학자와 혼동한 것이다."
+ },
+ {
+  "id": "frechet1906",
+  "claim": "1906년 프레셰가 «거리공간» 을 정의하면서, 삼각부등식을 거리가 갖추어야 할 조건 가운데 하나로 넣었다.",
+  "source": "Fréchet, M. (1906). Sur quelques points du calcul fonctionnel. <i>Rendiconti del Circolo Matematico di Palermo, 22</i>, 1–74.",
+  "checked": "2026-10-11",
+  "note": "오늘날 d(A,C) ≤ d(A,B) + d(B,C) 를 거리의 세 조건 가운데 하나로 적는 것이 여기서 비롯한다."
+ },
+ {
+  "id": "astar1968",
+  "claim": "1968년에 발표된 A* 알고리즘은 「여기서 목적지까지 적어도 이만큼은 걸린다」는 어림값을 쓰는데, 그 어림이 실제보다 크지 않아야 최단 경로를 보장한다.",
+  "source": "Hart, P. E., Nilsson, N. J., &amp; Raphael, B. (1968). A formal basis for the heuristic determination of minimum cost paths. <i>IEEE Transactions on Systems Science and Cybernetics, 4</i>(2), 100–107.",
+  "checked": "2026-10-11",
+  "note": "직선거리를 어림값으로 쓸 수 있는 근거가 삼각부등식이다."
+ }
+]

@@ -1169,5 +1169,318 @@ def ch09_vanish():
     s.append('</svg>')
     return ''.join(s)
 
+
+def _arc_meet(a, b, c):
+    """밑변 a 의 두 끝에서 반지름 b·c 인 두 원이 만나는 점(위쪽). 못 만나면 None."""
+    if b + c <= a or abs(b - c) >= a:
+        return None
+    x = (a * a + b * b - c * c) / (2.0 * a)
+    h2 = b * b - x * x
+    if h2 <= 0:
+        return None
+    return x, math.sqrt(h2)
+
+
+@fig('ch10_arcs', '밑변을 긋고 두 끝에서 컴퍼스로 호를 그리는 세 경우입니다. **두 호가 '
+     '만나야** 세 번째 꼭짓점이 생깁니다. 두 짧은 변의 합이 밑변보다 길면 만나고(①), '
+     '꼭 같으면 한 점에서 닿기만 하고(②), 짧으면 서로 닿지 못합니다(③). ② 와 ③ 에서는 '
+     '삼각형이 「그리기 어려운」 것이 아니라 **아예 없습니다.**')
+def ch10_arcs():
+    W, H = 700, 282
+    cases = [(140.0, 110.0, 90.0, '① 110 + 90 = 200 > 140', TEAL, '만난다 — 삼각형이 된다'),
+             (200.0, 110.0, 90.0, '② 110 + 90 = 200 = 200', AMBER, '한 점에서 닿는다 — 납작하다'),
+             (240.0, 110.0, 90.0, '③ 110 + 90 = 200 < 240', RED, '못 만난다 — 삼각형이 없다')]
+    assert _arc_meet(*cases[0][:3]) is not None
+    assert _arc_meet(*cases[1][:3]) is None
+    assert _arc_meet(*cases[2][:3]) is None
+    sc = 0.55
+
+    def arc(cx, cy, r, a0, a1, col):
+        """중심 (cx,cy) · 반지름 r 인 호를 각 a0→a1(도, 위가 +) 로 그린다."""
+        p0 = (cx + r * math.cos(math.radians(a0)), cy - r * math.sin(math.radians(a0)))
+        p1 = (cx + r * math.cos(math.radians(a1)), cy - r * math.sin(math.radians(a1)))
+        return ('<path d="M %.1f %.1f A %.1f %.1f 0 0 0 %.1f %.1f" fill="none" '
+                'stroke="%s" stroke-width="1.5" stroke-dasharray="3 3"/>'
+                % (p0[0], p0[1], r, r, p1[0], p1[1], col))
+    s = [head(W, H)]
+    s.append(txt(20, 24, '두 호가 만나는가 — 삼각형이 되는 조건', 12.5, NAVY, 'start', 800))
+    for i, (a, b, c, lab, col, say) in enumerate(cases):
+        ox, oy = 66 + i * 216, 175
+        s.append(line(ox, oy, ox + a * sc, oy, NAVY, 2.4))
+        s.append(arc(ox, oy, b * sc, -10, 150, SKY))
+        s.append(arc(ox + a * sc, oy, c * sc, 30, 190, TEAL))
+        p = _arc_meet(a, b, c)
+        if p:
+            px, py = ox + p[0] * sc, oy - p[1] * sc
+            s.append(line(ox, oy, px, py, SKY, 2.2))
+            s.append(line(ox + a * sc, oy, px, py, TEAL, 2.2))
+            s.append('<circle cx="%.1f" cy="%.1f" r="3.4" fill="#fff" stroke="%s" '
+                     'stroke-width="2"/>' % (px, py, col))
+        elif b + c == a:
+            px = ox + b * sc
+            s.append('<circle cx="%.1f" cy="%.1f" r="3.4" fill="#fff" stroke="%s" '
+                     'stroke-width="2"/>' % (px, oy, col))
+            s.append(txt(px, oy - 12, '↓ 여기서 겨우 닿는다', 8.6, col, 'middle', 700))
+        else:
+            s.append(txt((ox + b * sc + ox + (a - c) * sc) / 2, oy - 14, '✕ 사이가 비어 있다',
+                         8.8, RED, 'middle', 800))
+        s.append(txt(ox, oy + 20, 'a = %g' % a, 9.2, NAVY, 'start', 700))
+        s.append(txt(ox, oy + 42, lab, 9.6, col, 'start', 800))
+        s.append(txt(ox, oy + 58, say, 9, GRAY, 'start'))
+    s.append(txt(20, 266, '컴퍼스로 호를 그리는 일은 「한 끝에서 그만큼 떨어진 곳을 '
+                          '모두 표시하는 일」입니다. 두 표시가 겹치는 자리가 꼭짓점입니다.',
+                 9.4, GRAY, 'start'))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch10_range', '두 변이 5 와 9 일 때 나머지 한 변 a 가 가질 수 있는 값입니다. '
+     'a 가 가장 긴 변이면 a < 5 + 9 = 14 이어야 하고, 9 가 가장 긴 변이면 9 < 5 + a 에서 '
+     'a > 4 여야 합니다. 두 조건을 겹치면 **4 < a < 14** — 양끝은 들어가지 않습니다. '
+     '정수는 5 부터 13 까지 아홉 개입니다.')
+def ch10_range():
+    W, H = 700, 272
+    b, c = 5, 9
+    lo, hi = c - b, c + b
+    assert (lo, hi) == (4, 14)
+    ok = [n for n in range(1, 20) if lo < n < hi]
+    assert ok == [5, 6, 7, 8, 9, 10, 11, 12, 13] and len(ok) == 9
+    s = [head(W, H)]
+    s.append(txt(20, 24, '두 변이 5 와 9 일 때, 나머지 한 변이 될 수 있는 값', 12.5, NAVY,
+                 'start', 800))
+    GX, GY, GW = 60, 150, 584
+    def px(v):
+        return GX + GW * v / 19.0
+    s.append(line(GX, GY, GX + GW, GY, GRAY, 1.6))
+    for v in range(0, 20):
+        s.append(line(px(v), GY - 4, px(v), GY + 4, GRAY, 1))
+        if v % 2 == 0:
+            s.append(txt(px(v), GY + 28, str(v), 8.8, GRAY, 'middle'))
+    s.append(rect(px(lo), GY - 16, px(hi) - px(lo), 32, '#EAF4F1'))
+    for n in ok:
+        s.append('<circle cx="%.1f" cy="%.1f" r="4.2" fill="%s"/>' % (px(n), GY, TEAL))
+        s.append(txt(px(n), GY - 22, str(n), 9, TEAL, 'middle', 800))
+    for v, why in ((lo, 'a = 4 이면 9 = 5 + 4 — 납작해진다'),
+                   (hi, 'a = 14 이면 14 = 5 + 9 — 납작해진다')):
+        s.append('<circle cx="%.1f" cy="%.1f" r="4.6" fill="#fff" stroke="%s" '
+                 'stroke-width="2"/>' % (px(v), GY, RED))
+        s.append(txt(px(v), GY + 50, why, 8.8, RED, 'middle', 700))
+    s.append(txt(px(9), GY - 46, '4 < a < 14', 13, TEAL, 'middle', 800))
+    s.append(rect(34, 218, 632, 38, '#FBFCFE', LINE, 1, 7))
+    s.append(txt(350, 236, '|9 − 5| < a < 9 + 5   —   두 변의 «차» 와 «합» 사이', 12,
+                 NAVY, 'middle', 800))
+    s.append(txt(350, 251, '어느 변이 가장 긴지 미리 알 수 없으므로 두 쪽을 다 따진다',
+                 9, GRAY, 'middle', 700))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch10_donkey', '에피쿠로스 학파가 들었다는 예입니다. 당나귀는 먹이까지 **곧장** '
+     '갑니다. 세 변이 300·400·500 인 자리에서, 두 변을 돌아가면 700 이고 곧장 가면 500 — '
+     '200 만큼 덜 걷습니다. 당나귀가 아는 것은 **그 한 경우**이고, 유클리드가 보인 것은 '
+     '**모든 삼각형에서 늘 그렇다**는 것입니다.')
+def ch10_donkey():
+    W, H = 700, 300
+    a, b, c = 300.0, 400.0, 500.0           # 직각삼각형 — 곧장 500, 돌아서 700
+    assert a + b - c == 200.0
+    assert round(a * a + b * b) == round(c * c)
+    sc = 0.46
+    ox, oy = 110.0, 210.0
+    A = (ox, oy)                            # 당나귀
+    B = (ox + b * sc, oy)                   # 모퉁이
+    C = (ox + b * sc, oy - a * sc)          # 먹이
+    s = [head(W, H)]
+    s.append(txt(20, 24, '당나귀는 곧장 간다 — 두 변을 돌아가지 않는다', 12.5, NAVY,
+                 'start', 800))
+    s.append(line(A[0], A[1], B[0], B[1], GRAY, 2, '5 4'))
+    s.append(line(B[0], B[1], C[0], C[1], GRAY, 2, '5 4'))
+    s.append(line(A[0], A[1], C[0], C[1], TEAL, 3))
+    s.append(txt((A[0] + B[0]) / 2, oy + 20, '400', 10, GRAY, 'middle', 700))
+    s.append(txt(B[0] + 16, (B[1] + C[1]) / 2, '300', 10, GRAY, 'middle', 700))
+    s.append(txt((A[0] + C[0]) / 2 - 14, (A[1] + C[1]) / 2 - 10, '500', 11.4, TEAL,
+                 'middle', 800))
+    s.append('<circle cx="%.1f" cy="%.1f" r="4.4" fill="%s"/>' % (A[0], A[1], NAVY))
+    s.append(txt(A[0], oy + 20, '당나귀', 9.2, NAVY, 'middle', 800))
+    s.append('<circle cx="%.1f" cy="%.1f" r="4.4" fill="%s"/>' % (C[0], C[1], AMBER))
+    s.append(txt(C[0] + 10, C[1] - 6, '먹이', 9.2, AMBER, 'start', 800))
+    bx = 446
+    s.append(rect(bx - 16, 68, 236, 150, '#FBFCFE', LINE, 1, 7))
+    rows = [('돌아가면', '400 + 300', '= 700', GRAY),
+            ('곧장 가면', '', '= 500', TEAL),
+            ('아낀 거리', '700 − 500', '= 200', AMBER)]
+    for i, (what, how, ans, col) in enumerate(rows):
+        y = 100 + i * 44
+        s.append(txt(bx, y, what, 10.2, col, 'start', 800))
+        if how:
+            s.append(txt(bx, y + 17, how, 9.2, GRAY, 'start'))
+        s.append(txt(bx + 212, y + 6, ans, 12.4, col, 'end', 800))
+        if i < 2:
+            s.append(line(bx - 6, y + 30, bx + 216, y + 30, LINE, 0.9))
+    s.append(rect(34, 250, 632, 38, '#FBFCFE', LINE, 1, 7))
+    s.append(txt(350, 268, '한 경우를 아는 것과, 모든 경우에 그렇다고 «보이는» 것은 다른 '
+                           '일이다', 11.6, NAVY, 'middle', 800))
+    s.append(txt(350, 282, '프로클로스의 답 — 「감각에는 뻔해도, 학문을 만드는 추론에는 '
+                           '아니다」', 9, GRAY, 'middle', 700))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch11_ssa', '∠A = 30°, AB = 100, BC = 60 — 값은 셋 다 정해졌는데 삼각형이 **두 개** '
+     '그려집니다. B 에서 반직선까지의 거리가 100 × sin 30° = 50 이고, 60 은 그보다 크고 '
+     '100 보다 작기 때문입니다. 두 교점까지의 거리는 86.6 ∓ 33.2 로 계산되어 '
+     'AC 가 53.4 인 것과 119.8 인 것이 함께 나옵니다. **같은 값인데 다른 모양** — '
+     'SSA 가 합동 조건이 되지 못하는 까닭입니다.')
+def ch11_ssa():
+    W, H = 700, 340
+    A, c, a = 30.0, 100.0, 60.0
+    h = c * math.sin(math.radians(A))
+    foot = c * math.cos(math.radians(A))
+    half = math.sqrt(a * a - h * h)
+    b1, b2 = foot - half, foot + half
+    assert round(h, 1) == 50.0
+    assert h < a < c                               # 두 점에서 만나는 조건
+    assert round(foot, 1) == 86.6 and round(half, 1) == 33.2
+    assert round(b1, 1) == 53.4 and round(b2, 1) == 119.8
+    s = [head(W, H)]
+    s.append(txt(20, 24, '같은 값으로 삼각형이 둘 — SSA 가 조건이 아닌 까닭', 12.5, NAVY,
+                 'start', 800))
+    sc = 2.3
+    ax, ay = 70.0, 262.0
+    def on_ray(t):
+        r = math.radians(A)
+        return ax + t * sc * math.cos(r), ay - t * sc * math.sin(r)
+    B = (ax + c * sc, ay)
+    C1, C2 = on_ray(b1), on_ray(b2)
+    F = on_ray(foot)
+    s.append(line(ax, ay, B[0], B[1], NAVY, 2.4))              # AB
+    s.append(line(ax, ay, on_ray(140)[0], on_ray(140)[1], GRAY, 1.4, '5 4'))
+    # 원 전체를 그리면 그림 밖으로 나간다 — 두 교점을 품는 «윗부분 호» 만 그린다
+    _r = a * sc
+    _p = [(B[0] + _r * math.cos(math.radians(t)), B[1] - _r * math.sin(math.radians(t)))
+          for t in (70.0, 170.0)]
+    s.append('<path d="M %.1f %.1f A %.1f %.1f 0 0 0 %.1f %.1f" fill="none" '
+             'stroke="%s" stroke-width="1.4" stroke-dasharray="3 3"/>'
+             % (_p[0][0], _p[0][1], _r, _r, _p[1][0], _p[1][1], AMBER))
+    s.append(line(B[0], B[1], F[0], F[1], LINE, 1, '2 3'))
+    for C, col, nm in ((C1, SKY, '①'), (C2, TEAL, '②')):
+        s.append(line(ax, ay, C[0], C[1], col, 2.6))
+        s.append(line(B[0], B[1], C[0], C[1], col, 2.6))
+        s.append('<circle cx="%.1f" cy="%.1f" r="3.6" fill="#fff" stroke="%s" '
+                 'stroke-width="2"/>' % (C[0], C[1], col))
+        s.append(txt(C[0] - 4, C[1] - 10, nm, 10, col, 'end', 800))
+    s.append(txt(ax - 6, ay + 6, 'A', 11, NAVY, 'end', 800))
+    s.append(txt(B[0] + 8, ay + 6, 'B', 11, NAVY, 'start', 800))
+    s.append(txt((ax + B[0]) / 2, ay + 20, 'AB = 100', 9.4, NAVY, 'middle', 700))
+    s.append(txt(ax + 30, ay - 10, '30°', 9.4, GRAY, 'middle', 700))
+    s.append(txt(90, 128, '주황 호 — B 에서 60 만큼 떨어진 자리', 9, AMBER, 'start', 700))
+    bx = 452
+    s.append(rect(bx - 16, 56, 232, 178, '#FBFCFE', LINE, 1, 7))
+    rows = [('B 에서 반직선까지', '100 × sin 30°', '= 50', GRAY),
+            ('A 에서 수선의 발까지', '100 × cos 30°', '≒ 86.6', GRAY),
+            ('그 양옆으로', '√(60² − 50²)', '≒ 33.2', GRAY),
+            ('① AC', '86.6 − 33.2', '≒ 53.4', SKY),
+            ('② AC', '86.6 + 33.2', '≒ 119.8', TEAL)]
+    for i, (what, how, ans, col) in enumerate(rows):
+        y = 80 + i * 32
+        s.append(txt(bx, y, what, 9.4, col, 'start', 800))
+        s.append(txt(bx + 104, y, how, 8.8, GRAY, 'start'))
+        s.append(txt(bx + 212, y, ans, 10.4, col, 'end', 800))
+    s.append(rect(34, 292, 632, 34, '#FFF6F5', '#E6C4C0', 1, 7))
+    s.append(txt(350, 314, '세 값(100 · 60 · 30°)이 같은데 모양이 둘 — 반례가 하나만 '
+                           '있어도 「조건」이 되지 못한다', 11.4, RED, 'middle', 800))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch11_table', '네 가지를 나란히 놓고 「그 값으로 삼각형이 몇 개 그려지는가」만 셉니다. '
+     '하나면 조건이고, 둘이면 조건이 아닙니다. 이름을 외우는 것보다 **개수를 세는 것**이 '
+     '먼저입니다. AA(두 각만)는 크기가 정해지지 않아 무수히 많습니다 — 닮음일 뿐 합동이 '
+     '아닙니다.')
+def ch11_table():
+    W, H = 700, 300
+    rows = [('SSS', '세 변', '1 개', True, '두 호가 만나는 점이 하나로 굳는다'),
+            ('SAS', '두 변과 그 끼인각', '1 개', True, '각이 두 변 사이에 끼어 있다'),
+            ('ASA', '한 변과 그 양 끝 각', '1 개', True, '두 반직선이 한 점에서 만난다'),
+            ('SSA', '두 변과 끼이지 «않은» 각', '2 개', False, '원과 반직선이 두 점에서 만난다'),
+            ('AA', '두 각만', '무수히', False, '크기가 정해지지 않는다 — 닮음')]
+    assert sum(1 for r in rows if r[3]) == 3
+    s = [head(W, H)]
+    s.append(txt(20, 24, '몇 개가 그려지는가 — 그것만 세면 된다', 12.5, NAVY, 'start', 800))
+    heads = ['', '무엇을 아는가', '그려지는 삼각형', '합동 조건인가', '까닭']
+    xs = [56, 150, 320, 430, 520]
+    for x, hd in zip(xs, heads):
+        s.append(txt(x, 60, hd, 9.2, GRAY, 'start', 800))
+    s.append(line(34, 68, 666, 68, LINE, 1.2))
+    for i, (nm, know, cnt, ok, why) in enumerate(rows):
+        y = 94 + i * 38
+        col = TEAL if ok else RED
+        s.append(rect(34, y - 18, 632, 32, '#F6FBF9' if ok else '#FFF6F5'))
+        s.append(txt(xs[0], y, nm, 11.6, col, 'start', 800))
+        s.append(txt(xs[1], y, know, 9.6, NAVY, 'start'))
+        s.append(txt(xs[2], y, cnt, 10.4, col, 'start', 800))
+        s.append(txt(xs[3], y, '○ 조건' if ok else '✕ 아니다', 9.8, col, 'start', 800))
+        s.append(txt(xs[4], y, why, 8.6, GRAY, 'start'))
+    s.append(txt(20, 284, '「조건이 된다」는 말은 «그 값들로 모양이 하나로 정해진다» 는 '
+                          '뜻입니다. 두 개가 나오면 정해진 것이 아닙니다.', 9.6, NAVY,
+                 'start', 700))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch11_fermat', '페르마는 2^(2ⁿ)+1 꼴의 수가 모두 소수일 것이라 여겼습니다. 다섯 개까지는 '
+     '맞았습니다. 1732년 오일러가 **여섯 번째**를 깼습니다 — 4294967297 = 641 × 6700417. '
+     '오일러는 아무 수나 나눠 보지 않았습니다. 「F₅ 의 소인수는 반드시 64k + 1 꼴」임을 '
+     '먼저 증명해, 후보를 193 · 257 · 449 · 577 · 641 다섯 개로 줄였습니다. '
+     '**다섯 번째 후보가 답이었습니다.**')
+def ch11_fermat():
+    W, H = 700, 330
+    F = [2 ** (2 ** n) + 1 for n in range(6)]
+    assert F == [3, 5, 17, 257, 65537, 4294967297]
+    assert 641 * 6700417 == F[5]
+
+    def is_p(m):
+        if m < 2:
+            return False
+        for d in range(2, int(m ** 0.5) + 1):
+            if m % d == 0:
+                return False
+        return True
+    cands = [64 * k + 1 for k in range(1, 11) if is_p(64 * k + 1)]
+    assert cands == [193, 257, 449, 577, 641]
+    assert all(is_p(x) for x in F[:5])        # 앞의 다섯은 정말 소수다
+    assert F[5] % 641 == 0 and F[5] // 641 == 6700417
+    s = [head(W, H)]
+    s.append(txt(20, 24, '다섯 번 맞았다고 여섯 번째도 맞는 것은 아니다', 12.5, NAVY,
+                 'start', 800))
+    for n, v in enumerate(F):
+        y = 64 + n * 30
+        ok = n < 5
+        col = TEAL if ok else RED
+        s.append(rect(34, y - 17, 420, 26, '#F6FBF9' if ok else '#FFF6F5'))
+        s.append(txt(52, y, 'F%d' % n, 10.4, col, 'start', 800))
+        s.append(txt(96, y, '= 2^%d + 1' % (2 ** n), 9.2, GRAY, 'start'))
+        s.append(txt(300, y, '{:,}'.format(v), 10.4, NAVY, 'end', 700))
+        s.append(txt(318, y, '소수' if ok else '소수가 아니다', 9.6, col, 'start', 800))
+    s.append(txt(52, 248, '4,294,967,297 = 641 × 6,700,417', 13, RED, 'start', 800))
+    s.append(txt(52, 266, '1732년 오일러 — 추측이 깨지는 데 필요한 것은 반례 «하나»',
+                 9.4, GRAY, 'start', 700))
+    bx = 476
+    s.append(rect(bx - 16, 56, 206, 170, '#FBFCFE', LINE, 1, 7))
+    s.append(txt(bx, 80, '오일러가 줄인 후보', 10.2, NAVY, 'start', 800))
+    s.append(txt(bx, 98, 'F₅ 의 소인수는 64k + 1 꼴', 8.8, GRAY, 'start'))
+    for i, v in enumerate(cands):
+        y = 124 + i * 20
+        last = (v == 641)
+        s.append(txt(bx + 16, y, '%d' % v, 10.2, RED if last else GRAY, 'start',
+                     800 if last else 400))
+        if last:
+            s.append(txt(bx + 70, y, '← 나눠떨어진다', 9, RED, 'start', 800))
+    s.append(txt(bx, 240, '다섯 번만 나눠 보면 됐다', 9, GRAY, 'start', 700))
+    s.append(rect(34, 286, 632, 32, '#FBFCFE', LINE, 1, 7))
+    s.append(txt(350, 306, '「지금까지 다 맞았다」는 증명이 아니다 — 반례 하나면 끝난다',
+                 11.6, NAVY, 'middle', 800))
+    s.append('</svg>')
+    return ''.join(s)
+
 if __name__ == '__main__':
     write_all(sys.argv[1] if len(sys.argv) > 1 else None)

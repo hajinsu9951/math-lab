@@ -83,6 +83,23 @@ def main(volpath):
         miss = [k for k in NEED if k not in kinds]
         if miss:
             bad2.append((no, '빠진 토막: ' + ' · '.join(miss)))
+        # ② 그림 블록이 «이야기 한가운데» 에 끼어 이야기 글이 .story 밖으로 새는 자리.
+        #    @photo·@chart 는 제 블록이라 그 뒤에 적은 글은 본문 글씨가 된다 — 절 안에서는
+        #    그래도 괜찮지만, @story 안에서는 글씨 크기가 중간에 바뀐다. 이야기 구간만 본다.
+        ENDS = ('sec', 'sub', 'fig', 'deep', 'history', 'hook', 'predict', 'screen')
+        in_story = False
+        for b in blks:
+            if b['kind'] == 'story':
+                in_story = True
+                continue
+            if b['kind'] in ENDS:
+                in_story = False
+                continue
+            if in_story and b['kind'] in ('photo', 'chart', 'shot') and                     any(l.strip() for l in b['lines']):
+                bad2.append((no, '이야기 한가운데의 @%s %s 뒤에 이야기 글이 이어져 있음 '
+                             '— 그림 토막을 이야기 끝으로 옮길 것'
+                             % (b['kind'], (b['arg'] or '')[:20])))
+
         # ② 확인 안 된 성취기준 코드
         whole = io.open(path, encoding='utf-8').read()
         if CODE.search(whole):

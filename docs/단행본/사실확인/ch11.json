@@ -1,0 +1,57 @@
+[
+ {
+  "id": "fermat1640",
+  "claim": "페르마는 1640년 12월 메르센에게 보낸 편지에서 2^(2ⁿ)+1 꼴의 수를 다루며 3 · 5 · 17 · 257 · 65537 이 모두 소수인 까닭을 물었다. 그는 이 꼴이 늘 소수라고 «믿었지만 증명하지는 못했다» 고 적었다.",
+  "source": "Fermat, P. de. (1640, December 25). Letter to Marin Mersenne. In <i>Œuvres de Fermat</i> (Vol. 2, pp. 212–217). Paris: Gauthier-Villars, 1894. / Křížek, M., Luca, F., &amp; Somer, L. (2001). <i>17 Lectures on Fermat Numbers</i>. Springer.",
+  "checked": "2026-10-11",
+  "note": "페르마 자신은 이것을 사실로 «단정하지 않았다». 뒷날 「페르마의 추측」으로 불리게 된 것이다. 편지 날짜를 1640년 8월로 적는 자료도 있다."
+ },
+ {
+  "id": "euler1732",
+  "claim": "1732년 오일러가 여섯 번째 수 F₅ = 2³² + 1 = 4294967297 을 641 × 6700417 로 인수분해해 페르마의 추측을 무너뜨렸다.",
+  "source": "Euler, L. (1738). Observationes de theoremate quodam Fermatiano aliisque ad numeros primos spectantibus. <i>Commentarii academiae scientiarum Petropolitanae, 6</i>, 103–107. (1732년 발표) / Křížek, M., Luca, F., &amp; Somer, L. (2001). <i>17 Lectures on Fermat Numbers</i>. Springer.",
+  "checked": "2026-10-11",
+  "note": "곱을 직접 확인했다 — 641 × 6,700,417 = 4,294,967,297."
+ },
+ {
+  "id": "euler_method",
+  "claim": "오일러는 아무 수나 나눠 보지 않았다. 「Fₙ 의 소인수는 반드시 2^(n+1)·k + 1 꼴」임을 먼저 보여, F₅ 의 경우 64k + 1 꼴만 따지면 되게 했다. 그 꼴의 소수는 193 · 257 · 449 · 577 · 641 순으로 나오며 다섯 번째가 답이었다.",
+  "source": "Křížek, M., Luca, F., &amp; Somer, L. (2001). <i>17 Lectures on Fermat Numbers</i> (Ch. 3). Springer. / Conrad, K. (n.d.). <i>Fermat numbers and factors</i>. University of Connecticut.",
+  "checked": "2026-10-11",
+  "note": "후보 목록을 파이썬으로 다시 계산해 그림에 넣었다."
+ },
+ {
+  "id": "fermat_status",
+  "claim": "오늘까지 알려진 페르마 소수는 처음 다섯 개(3, 5, 17, 257, 65537)뿐이다. F₅ 부터 F₃₂ 까지는 모두 합성수임이 밝혀졌다.",
+  "source": "Keller, W. (2026). <i>Fermat factoring status</i>. Prime Pages (prothsearch.com). / Křížek, M., Luca, F., &amp; Somer, L. (2001). <i>17 Lectures on Fermat Numbers</i>. Springer.",
+  "checked": "2026-10-11",
+  "note": "기록이 갱신될 수 있는 사실이라 본문에도 「2026년 현재」로 때를 밝혀 적었다."
+ },
+ {
+  "id": "gauss17gon",
+  "claim": "1796년 가우스는 정십칠각형을 자와 컴퍼스로 작도할 수 있음을 보였다. 자와 컴퍼스로 작도할 수 있는 정다각형은 변의 수가 2의 거듭제곱과 서로 다른 페르마 소수들의 곱일 때뿐이다.",
+  "source": "Gauss, C. F. (1801). <i>Disquisitiones Arithmeticae</i>, §365–366. / Wantzel, P. L. (1837). Recherches sur les moyens de reconnaître si un problème de géométrie peut se résoudre avec la règle et le compas. <i>Journal de Mathématiques Pures et Appliquées, 2</i>, 366–372.",
+  "checked": "2026-10-11",
+  "note": "가우스는 가능함을 보였고, 「그때뿐임」(필요조건)은 1837년 방첼이 증명했다."
+ },
+ {
+  "id": "euclid_sss",
+  "claim": "세 변이 각각 같은 두 삼각형은 합동이다(SSS). 유클리드 『원론』 제1권 명제 8 이 이 사실이다.",
+  "source": "Euclid. <i>Elements</i>, Book I, Proposition 8. (Heath, T. L., Trans., 1925, Vol. 1.) Cambridge University Press.",
+  "checked": "2026-10-11"
+ },
+ {
+  "id": "lander1966",
+  "claim": "오일러는 「n 제곱수는 n 개보다 적은 수의 n 제곱수의 합으로 쓸 수 없다」고 추측했으나, 1966년 랜더와 파킨이 컴퓨터로 반례를 찾았다 — 27⁵ + 84⁵ + 110⁵ + 133⁵ = 144⁵.",
+  "source": "Lander, L. J., &amp; Parkin, T. R. (1966). Counterexample to Euler’s conjecture on sums of like powers. <i>Bulletin of the American Mathematical Society, 72</i>(6), 1079.",
+  "checked": "2026-10-11",
+  "note": "양변을 직접 계산해 확인했다 — 둘 다 61,917,364,224 이다. 논문은 두 문장짜리로 유명하다."
+ },
+ {
+  "id": "maxwell1864",
+  "claim": "평면 위에서 꼭짓점이 n 개인 뼈대가 모양이 굳으려면 막대가 적어도 2n − 3 개 필요하다. 맥스웰이 1864년에 이 셈법을 내놓았다.",
+  "source": "Maxwell, J. C. (1864). On the calculation of the equilibrium and stiffness of frames. <i>Philosophical Magazine, 27</i>(182), 294–299.",
+  "checked": "2026-10-11",
+  "note": "개수가 맞아도 «어디에 넣는가» 에 따라 흔들릴 수 있다 — 필요조건이지 충분조건이 아니다. 본문에도 그렇게 적었다."
+ }
+]
