@@ -114,7 +114,11 @@ FNS = ['primeDemo', 'intDemo', 'letterDemo', 'scaleDemo', 'propDemo', 'paraDemo'
        'mvtDemo', 'counterExDemo',
        'oneToOneDemo', 'rationalDemo', 'irrationalDemo', 'illCondDemo', 'vanishPointDemo',
        'newtonMethodDemo', 'graphColorDemo', 'limitIntegralDemo', 'entropySplitDemo',
-       'laplaceSmoothDemo']
+       'laplaceSmoothDemo',
+       'holdoutDemo', 'poolingDemo', 'sigmoidLogitDemo', 'kmeansStepDemo', 'rocCurveDemo',
+       'distMetricDemo', 'amgmDemo', 'addFormulaDemo', 'euclidGcdDemo', 'simulIneqDemo',
+       'tangentRadiusDemo', 'resolutionDemo', 'normalEqDemo', 'momentumDemo',
+       'confusionDemo']
 
 TAIL = """};
   /* 수업 모형 안에서는 기록 단계가 보고서를 따로 만든다 — 두 벌이 되지 않게 */
