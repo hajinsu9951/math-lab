@@ -1482,5 +1482,226 @@ def ch11_fermat():
     s.append('</svg>')
     return ''.join(s)
 
+
+def _poly(pts, fill, stroke=NAVY, sw=1.6):
+    return ('<polygon points="%s" fill="%s" stroke="%s" stroke-width="%s" '
+            'stroke-linejoin="round"/>'
+            % (' '.join('%.2f,%.2f' % p for p in pts), fill, stroke, sw))
+
+
+@fig('ch12_table', '정n각형의 한 내각을 n = 3 부터 12 까지 계산한 것입니다. 한 점을 빈틈없이 '
+     '메우려면 같은 각이 몇 개 모여 꼭 360° 가 되어야 하므로, **360 ÷ (한 내각)** 이 '
+     '정수여야 합니다. 정수가 되는 것은 **정삼각형 · 정사각형 · 정육각형 셋뿐**입니다. '
+     'n 이 7 보다 커지면 한 내각이 120° 를 넘어 세 개도 붙일 수 없습니다.')
+def ch12_table():
+    W, H = 700, 356
+    rows = []
+    for n in range(3, 13):
+        tot = 180 * (n - 2)
+        one = tot / n
+        q = 360.0 / one
+        ok = abs(q - round(q)) < 1e-9
+        rows.append((n, tot, one, q, ok))
+    assert [r[0] for r in rows if r[4]] == [3, 4, 6]
+    assert rows[0][2] == 60 and rows[1][2] == 90 and rows[3][2] == 120
+    assert abs(rows[2][2] - 108) < 1e-9 and abs(rows[2][3] - 10.0 / 3) < 1e-9
+    s = [head(W, H)]
+    s.append(txt(20, 24, '한 종류로 바닥을 채울 수 있는 정다각형은 셋뿐이다', 12.5, NAVY,
+                 'start', 800))
+    xs = [66, 170, 300, 430, 566]
+    heads = ['n', '내각의 합', '한 내각', '360 ÷ 한 내각', '한 종류로 채우기']
+    for x, hd in zip(xs, heads):
+        s.append(txt(x, 60, hd, 9.2, GRAY, 'middle', 800))
+    s.append(line(34, 68, 666, 68, LINE, 1.2))
+    for i, (n, tot, one, q, ok) in enumerate(rows):
+        y = 92 + i * 25
+        col = TEAL if ok else GRAY
+        if ok:
+            s.append(rect(34, y - 17, 632, 23, '#F0F7F4'))
+        s.append(txt(xs[0], y, str(n), 10.2, NAVY if ok else GRAY, 'middle',
+                     800 if ok else 400))
+        s.append(txt(xs[1], y, '%d°' % tot, 9.6, GRAY, 'middle'))
+        s.append(txt(xs[2], y, ('%g°' % one) if one == int(one) else '%.1f°' % one,
+                     10, NAVY if ok else GRAY, 'middle', 700 if ok else 400))
+        s.append(txt(xs[3], y, ('%g' % q) if ok else '%.2f…' % q, 10, col, 'middle',
+                     800 if ok else 400))
+        s.append(txt(xs[4], y, '○ 된다' if ok else '✕', 9.6, col, 'middle',
+                     800 if ok else 400))
+    s.append(txt(20, 344, '정오각형의 한 내각은 108° 입니다. 360 ÷ 108 = 3.33… — 세 개를 '
+                          '붙이면 324° 로 36° 가 남고, 네 개는 432° 로 넘칩니다.', 9.4,
+                 GRAY, 'start'))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch12_gap', '같은 정다각형을 한 점에 모아 본 것입니다. 정육각형은 세 개가 꼭 360° 를 '
+     '메우고(120 × 3), 정오각형은 세 개가 324° 밖에 되지 않아 **36° 가 남습니다.** '
+     '네 개를 넣으면 432° 로 넘쳐 겹칩니다. 빈틈도 겹침도 허락되지 않으므로 정오각형으로는 '
+     '바닥을 채울 수 없습니다.')
+def ch12_gap():
+    W, H = 700, 320
+    assert 120 * 3 == 360 and 108 * 3 == 324 and 360 - 324 == 36
+
+    def reg(n, cx, cy, r, start):
+        """꼭짓점 하나가 (cx,cy) 에 오도록 정n각형을 놓는다."""
+        ia = 180.0 * (n - 2) / n
+        pts = []
+        ang = start
+        x, y = cx, cy
+        pts.append((x, y))
+        for k in range(n - 1):
+            x += r * math.cos(math.radians(ang))
+            y -= r * math.sin(math.radians(ang))
+            pts.append((x, y))
+            ang -= 180.0 - ia
+        return pts
+    s = [head(W, H)]
+    s.append(txt(20, 24, '한 점에 모아 보면 — 360° 가 되는가', 12.5, NAVY, 'start', 800))
+    panels = [(6, 180.0, 120.0, TEAL, '정육각형 120° × 3 = 360°', '빈틈이 없다'),
+              (5, 480.0, 108.0, AMBER, '정오각형 108° × 3 = 324°', '36° 가 남는다')]
+    for n, cx, ia, col, lab, say in panels:
+        cy, r = 196.0, 62.0
+        for k in range(3):
+            st = 90.0 + k * ia
+            s.append(_poly(reg(n, cx, cy, r, st), '#EAF4F1' if n == 6 else '#FDF4E3',
+                           col, 1.6))
+        s.append('<circle cx="%.1f" cy="%.1f" r="3.2" fill="%s"/>' % (cx, cy, NAVY))
+        s.append(txt(cx, 268, lab, 11, col, 'middle', 800))
+        s.append(txt(cx, 286, say, 9.4, GRAY, 'middle'))
+        if n == 5:
+            # 남는 36° 를 부채꼴로 칠한다
+            a0 = 90.0 + 3 * ia
+            a1 = 90.0 + 360.0
+            p0 = (cx + 44 * math.cos(math.radians(a0)), cy - 44 * math.sin(math.radians(a0)))
+            p1 = (cx + 44 * math.cos(math.radians(a1)), cy - 44 * math.sin(math.radians(a1)))
+            s.append('<path d="M %.1f %.1f L %.1f %.1f A 44 44 0 0 0 %.1f %.1f Z" '
+                     'fill="#FBDADA" stroke="%s" stroke-width="1.2"/>'
+                     % (cx, cy, p0[0], p0[1], p1[0], p1[1], RED))
+            mid = math.radians((a0 + a1) / 2.0)
+            s.append(txt(cx + 62 * math.cos(mid), cy - 62 * math.sin(mid) + 4,
+                         '36°', 11, RED, 'middle', 800))
+    s.append(txt(20, 308, '한 점에서 각이 모자라면 빈틈이 생기고, 넘치면 겹칩니다. '
+                          '«꼭» 360° 여야 합니다.', 9.4, GRAY, 'start'))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch12_hexsplit', '**정오각형**은 바닥을 못 채우지만, **오각형**은 채웁니다. '
+     '정육각형을 가운데 점에서 세 조각으로 가르면 합동인 오각형 셋이 나옵니다 — '
+     '변의 길이가 0.87 · 0.5 · 1 · 0.5 · 0.87 로 세 조각이 모두 같습니다. '
+     '정육각형이 바닥을 채우므로 이 오각형도 채웁니다. 「정다각형이 아니면 된다」는 것이 '
+     '이 장의 반전입니다.')
+def ch12_hexsplit():
+    W, H = 700, 330
+    R = 1.0
+    V = [(math.cos(math.radians(60 * k)), math.sin(math.radians(60 * k)))
+         for k in range(6)]
+
+    def mid(a, b):
+        return ((a[0] + b[0]) / 2.0, (a[1] + b[1]) / 2.0)
+    M = [mid(V[0], V[1]), mid(V[2], V[3]), mid(V[4], V[5])]
+    O = (0.0, 0.0)
+    pents = [[O, M[0], V[1], V[2], M[1]],
+             [O, M[1], V[3], V[4], M[2]],
+             [O, M[2], V[5], V[0], M[0]]]
+
+    def sides(p):
+        return [round(math.hypot(p[(i + 1) % 5][0] - p[i][0],
+                                 p[(i + 1) % 5][1] - p[i][1]), 4) for i in range(5)]
+    base = sides(pents[0])
+    assert base == [0.866, 0.5, 1.0, 0.5, 0.866], base
+    assert all(sides(p) == base for p in pents)
+    s = [head(W, H)]
+    s.append(txt(20, 24, '정오각형은 못 채워도, 오각형은 채운다', 12.5, NAVY, 'start', 800))
+    cols = [SKY, TEAL, AMBER]
+    fills = ['#E8F0FA', '#EAF4F1', '#FDF4E3']
+    # ① 한 육각형을 셋으로
+    cx, cy, sc = 160.0, 180.0, 96.0
+
+    def P(p):
+        return (cx + p[0] * sc, cy - p[1] * sc)
+    for i, pent in enumerate(pents):
+        s.append(_poly([P(p) for p in pent], fills[i], cols[i], 1.8))
+    s.append('<circle cx="%.1f" cy="%.1f" r="3" fill="%s"/>' % (cx, cy, NAVY))
+    s.append(txt(cx, 300, '정육각형 하나 = 합동인 오각형 셋', 10, NAVY, 'middle', 800))
+    s.append(txt(cx, 316, '변 0.87 · 0.5 · 1 · 0.5 · 0.87 (셋 다 같다)', 8.8, GRAY,
+                 'middle'))
+    # ② 그 육각형을 늘어놓으면 바닥이 채워진다
+    bx, by, bs = 470.0, 174.0, 46.0
+    s.append(txt(bx, 54, '그 육각형을 늘어놓으면 — 바닥이 채워진다', 10, GRAY, 'middle', 800))
+    for (ux, uy) in ((0, 0), (1, 0), (-1, 0), (0.5, 1), (-0.5, 1), (0.5, -1), (-0.5, -1)):
+        hx = bx + ux * (math.sqrt(3) * bs)
+        hy = by - uy * (1.5 * bs)
+
+        def Q(p, hx=hx, hy=hy):
+            return (hx + p[0] * bs, hy - p[1] * bs)
+        for i, pent in enumerate(pents):
+            s.append(_poly([Q(p) for p in pent], fills[i], cols[i], 0.9))
+    s.append(txt(bx, 300, '같은 오각형 하나로 평면이 덮인다', 10, NAVY, 'middle', 800))
+    s.append(txt(bx, 316, '정다각형이 아니어도 된다 — 조건은 «한 점에서 360°» 뿐이다',
+                 8.8, GRAY, 'middle'))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch12_count', '바닥을 채우는 «볼록 오각형» 이 몇 종류인지는 100년 동안 늘어 왔습니다. '
+     '1918년 라인하르트가 다섯을 찾은 뒤, 1968년 커슈너가 셋을 더하며 「이것이 전부」라 했고, '
+     '1975년 가드너의 칼럼을 읽은 **아마추어들**이 다섯을 더 찾아냈습니다. 열다섯 번째는 '
+     '**2015년**에 나왔고, 2017년 라오가 「열다섯이 전부」라는 컴퓨터 증명을 내놓았습니다.')
+def ch12_count():
+    W, H = 700, 330
+    pts = [(1918, 5, '라인하르트', '박사 논문 — 다섯 가지'),
+           (1968, 8, '커슈너', '셋을 더하고 「전부」라 함'),
+           (1975, 9, '제임스', '가드너의 칼럼을 읽은 독자'),
+           (1977, 13, '라이스', '주부 — 혼자 넷을 찾음'),
+           (1985, 14, '슈타인', '대학원생'),
+           (2015, 15, '맨과 동료들', '컴퓨터로 탐색'),
+           (2017, 15, '라오', '「열다섯이 전부」 증명')]
+    assert [p[1] for p in pts] == [5, 8, 9, 13, 14, 15, 15]
+    GX, GY, GW, GH = 72, 246, 572, 172
+    X0, X1, YMAX = 1910, 2025, 16
+    s = [head(W, H)]
+    s.append(txt(20, 24, '알려진 종류의 수 — 100년 동안 늘어났다', 12.5, NAVY, 'start', 800))
+
+    def px(t):
+        return GX + GW * (t - X0) / float(X1 - X0)
+
+    def py(v):
+        return GY - GH * v / float(YMAX)
+    for v in (0, 5, 10, 15):
+        s.append(line(GX, py(v), GX + GW, py(v), LINE, 0.9))
+        s.append(txt(GX - 8, py(v) + 3.4, str(v), 8.8, GRAY, 'end'))
+    for t in (1920, 1940, 1960, 1980, 2000, 2020):
+        s.append(txt(px(t), GY + 17, str(t), 8.8, GRAY, 'middle'))
+    s.append(line(GX, GY, GX + GW, GY, GRAY, 1.3))
+    # 계단
+    path = []
+    prev = None
+    for t, v, nm, why in pts:
+        if prev is not None:
+            path.append((px(t), py(prev)))
+        path.append((px(t), py(v)))
+        prev = v
+    path.append((px(X1 - 2), py(prev)))
+    s.append('<polyline fill="none" stroke="%s" stroke-width="2.6" points="%s"/>'
+             % (BLUE, ' '.join('%.1f,%.1f' % p for p in path)))
+    ups = [True, False, True, False, True, False, True]
+    for i, (t, v, nm, why) in enumerate(pts):
+        s.append('<circle cx="%.1f" cy="%.1f" r="3.6" fill="#fff" stroke="%s" '
+                 'stroke-width="2"/>' % (px(t), py(v), AMBER if '라이스' in nm else BLUE))
+        dy = -14 if ups[i] else 20
+        s.append(txt(px(t), py(v) + dy, '%d · %s' % (t, nm), 8.8,
+                     AMBER if '라이스' in nm else NAVY, 'middle', 800))
+        s.append(txt(px(t), py(v) + dy + (-12 if ups[i] else 12), why, 8,
+                     GRAY, 'middle'))
+    s.append(txt(GX + GW, py(15) - 26, '15', 13, BLUE, 'end', 800))
+    s.append(rect(34, 278, 632, 40, '#FBFCFE', LINE, 1, 7))
+    s.append(txt(350, 296, '「이것이 전부」라는 말이 두 번 나왔고, 두 번 다 아니었다',
+                 11.6, NAVY, 'middle', 800))
+    s.append(txt(350, 311, '세 번째 「전부」(2017)는 컴퓨터 증명이며 아직 정식 심사를 '
+                           '거치지 않았다', 9, GRAY, 'middle', 700))
+    s.append('</svg>')
+    return ''.join(s)
+
 if __name__ == '__main__':
     write_all(sys.argv[1] if len(sys.argv) > 1 else None)

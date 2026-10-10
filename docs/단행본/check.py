@@ -100,6 +100,21 @@ def main(volpath):
                              '— 그림 토막을 이야기 끝으로 옮길 것'
                              % (b['kind'], (b['arg'] or '')[:20])))
 
+        # ② 식에 LaTeX 가 날것으로 남지 않았는가
+        #    build.texify() 가 읽지 못한 명령은 책에 «코드 그대로» 찍힌다.
+        #    (화면 쪽 활동지에서 똑같은 결함이 401 토막 나왔던 적이 있다)
+        raw = io.open(path, encoding='utf-8').read()
+        for ln in raw.split(chr(10)):
+            t = ln.strip()
+            if chr(92) not in t:
+                continue
+            probe = B.texify(t)
+            left = re.findall(chr(92) + r'[A-Za-z]+', probe)
+            left = [x for x in left if x != chr(92) + 'n']
+            if left:
+                bad2.append((no, '식에 LaTeX 가 그대로 남음: %s  ← %s'
+                             % (' '.join(sorted(set(left))), t[:52])))
+
         # ② 확인 안 된 성취기준 코드
         whole = io.open(path, encoding='utf-8').read()
         if CODE.search(whole):

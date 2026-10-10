@@ -1,0 +1,68 @@
+[
+ {
+  "id": "regular_tilings",
+  "claim": "한 종류의 정다각형만으로 평면을 빈틈없이 덮을 수 있는 것은 정삼각형·정사각형·정육각형 셋뿐이다. 한 점에 모인 각이 꼭 360° 가 되어야 하므로 360 ÷ (한 내각) 이 정수여야 하기 때문이다.",
+  "source": "Grünbaum, B., &amp; Shephard, G. C. (1987). <i>Tilings and Patterns</i> (pp. 58–61). W. H. Freeman.",
+  "checked": "2026-10-11",
+  "note": "n = 3 부터 12 까지 한 내각과 360 ÷ (한 내각) 을 파이썬으로 모두 계산해 그림의 assert 로 묶었다 — 정수가 되는 것은 n = 3, 4, 6 뿐이다."
+ },
+ {
+  "id": "reinhardt1918",
+  "claim": "1918년 카를 라인하르트가 박사 논문에서 평면을 덮는 볼록 오각형 다섯 가지를 찾았다. 그는 그 다섯이 전부인지는 증명하지 못했다고 밝혔다.",
+  "source": "Reinhardt, K. (1918). <i>Über die Zerlegung der Ebene in Polygone</i> [박사 논문]. Universität Frankfurt. / Schattschneider, D. (1978). Tiling the plane with congruent pentagons. <i>Mathematics Magazine, 51</i>(1), 29–44.",
+  "checked": "2026-10-11"
+ },
+ {
+  "id": "kershner1968",
+  "claim": "1968년 리처드 커슈너가 세 가지를 더 찾아 여덟 가지로 늘리고, 「이것이 전부」라고 주장했다. 다만 그 증명은 논문에 싣지 않았다.",
+  "source": "Kershner, R. B. (1968). On paving the plane. <i>American Mathematical Monthly, 75</i>(8), 839–844. / Schattschneider, D. (1978). <i>Mathematics Magazine, 51</i>(1), 29–44.",
+  "checked": "2026-10-11",
+  "note": "「전부」라는 주장은 틀린 것으로 드러났다 — 일곱 해 뒤에 아홉 번째가 나온다."
+ },
+ {
+  "id": "gardner1975",
+  "claim": "1975년 마틴 가드너가 『사이언티픽 아메리칸』의 「수학 게임」 난에 커슈너의 여덟 가지를 소개했고, 그 글을 읽은 «전문 수학자가 아닌 독자들» 이 새로운 것을 찾아내기 시작했다.",
+  "source": "Gardner, M. (1975, July). Mathematical Games: On tessellating the plane with convex polygon tiles. <i>Scientific American, 233</i>(1), 112–117. / Schattschneider, D. (1978). <i>Mathematics Magazine, 51</i>(1), 29–44.",
+  "checked": "2026-10-11"
+ },
+ {
+  "id": "james1975",
+  "claim": "그 글을 읽은 컴퓨터 기술자 리처드 제임스 3세가 커슈너가 놓친 아홉 번째를 찾아냈다.",
+  "source": "Schattschneider, D. (1978). Tiling the plane with congruent pentagons. <i>Mathematics Magazine, 51</i>(1), 29–44.",
+  "checked": "2026-10-11"
+ },
+ {
+  "id": "rice_amateur",
+  "claim": "샌디에이고의 주부 마조리 라이스는 고등학교에서 배운 수학이 전부였지만, 가드너의 글을 읽고 스스로 기호를 만들어 가며 1976~77년에 네 가지를 더 찾아냈다. 종류는 열셋이 되었다.",
+  "source": "Schattschneider, D. (1978). In praise of amateurs. In D. A. Klarner (Ed.), <i>The Mathematical Gardner</i> (pp. 140–166). Prindle, Weber &amp; Schmidt. / Schattschneider, D. (1978). <i>Mathematics Magazine, 51</i>(1), 29–44.",
+  "checked": "2026-10-11",
+  "note": "라이스가 찾은 수를 셋으로 적은 자료도 있으나, 샤트슈나이더의 기록은 넷이다. 라이스는 2017년에 세상을 떠났다."
+ },
+ {
+  "id": "stein1985",
+  "claim": "1985년 롤프 슈타인이 열네 번째를 찾았다.",
+  "source": "Stein, R. (1985). A new pentagon tiler. <i>Mathematics Magazine, 58</i>(5), 308.",
+  "checked": "2026-10-11"
+ },
+ {
+  "id": "mann2015",
+  "claim": "2015년 케이시 맨, 제니퍼 매클라우드, 데이비드 폰 데라우가 컴퓨터 탐색으로 열다섯 번째를 찾았다. 서른 해 만이었다.",
+  "source": "Mann, C., McLoud-Mann, J., &amp; Von Derau, D. (2018). Convex pentagons that admit i-block transitive tilings. <i>Geometriae Dedicata, 194</i>, 141–167. (2015년 프리프린트로 먼저 알려짐)",
+  "checked": "2026-10-11",
+  "note": "매클라우드의 성 표기가 자료마다 McLoud 와 McLoud-Mann 으로 갈린다. 논문 표기를 따랐다."
+ },
+ {
+  "id": "rao2017",
+  "claim": "2017년 미카엘 라오가 「열다섯이 전부」라는 컴퓨터 증명을 내놓았다. 평면을 덮는 볼록 오각형이 있다면 371 가지 꼴 가운데 하나여야 함을 먼저 보이고, 각 꼴을 컴퓨터로 모두 따져 19 가지만 남겼는데 그중 15 가지가 이미 알려진 것이고 나머지 넷은 그 특수한 경우였다.",
+  "source": "Rao, M. (2017). <i>Exhaustive search of convex pentagons which tile the plane</i> (arXiv:1708.00274). / Wolchover, N. (2017, July 11). Pentagon tiling proof solves century-old math problem. <i>Quanta Magazine</i>.",
+  "checked": "2026-10-11",
+  "note": "토머스 헤일스가 증명의 앞부분을 독립적으로 확인했으나, 2026년 현재까지 «정식 동료 심사를 거친 학술지에 실리지는 않았다». 본문에도 그대로 적었다."
+ },
+ {
+  "id": "hex_three_pents",
+  "claim": "정육각형은 가운데 점과 서로 엇갈린 세 변의 중점을 이어 «합동인 오각형 셋» 으로 가를 수 있다. 정육각형이 평면을 덮으므로 이 오각형도 평면을 덮는다.",
+  "source": "Grünbaum, B., &amp; Shephard, G. C. (1987). <i>Tilings and Patterns</i> (Ch. 9). W. H. Freeman.",
+  "checked": "2026-10-11",
+  "note": "세 조각의 변 길이를 파이썬으로 계산해 0.866 · 0.5 · 1 · 0.5 · 0.866 로 모두 같음을 확인했다(그림의 assert)."
+ }
+]

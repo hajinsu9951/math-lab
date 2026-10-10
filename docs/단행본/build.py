@@ -127,7 +127,10 @@ def esc(t):
 def inline(t):
     """원고의 짧은 표기를 HTML 로 — **굵게** 와 「」 만 쓴다."""
     t = esc(t)
+    # 역슬래시로 막아 둔 별표(A\* 알고리즘)는 굵게 처리에서 빼 두었다가 되살린다
+    t = t.replace(BS2 + '*', chr(0))
     t = re.sub(r'\*\*([^*]+)\*\*', r'<b>\1</b>', t)
+    t = t.replace(chr(0), '*')
     # [red]…[/red] — 손글씨의 틀린 줄에 빨간 밑줄을 긋는다
     t = t.replace('[red]', '<span class="red">').replace('[/red]', '</span>')
 
@@ -196,6 +199,136 @@ def paras(lines):
     return out
 
 
+
+# ── 식 상자의 LaTeX 를 «교과서 꼴» 로 바꾼다 ──────────────────────
+# 쓰는 범위를 일부러 좁게 잡았다. 책에 실제로 쓰는 것만 다루고, 모르는 명령은 건드리지
+# 않은 채 남긴다 — 남으면 check.py 가 ②로 잡아 주므로 조용히 새지 않는다.
+BS2 = chr(92)
+TEX_SYM = {
+    r'\neq': '≠', r'\leq': '≤', r'\geq': '≥', r'\approx': '≒',
+    r'\Leftrightarrow': '⇔', r'\Rightarrow': '⇒', r'\nRightarrow': '⇏',
+    r'\leftrightarrow': '↔', r'\rightarrow': '→', r'\to': '→',
+    r'\parallel': '∥', r'\perp': '⊥', r'\angle': '∠',
+    r'\times': '×', r'\div': '÷', r'\cdot': '·', r'\pm': '±',
+    r'\cap': '∩', r'\cup': '∪', r'\in': '∈', r'\subset': '⊂',
+    r'\dots': '…', r'\ldots': '…', r'\cdots': '…',
+    r'\infty': '∞', r'\circ': '°', r'\degree': '°',
+    r'\mathbb{N}': '자연수', r'\mathbb{Z}': '정수', r'\mathbb{R}': '실수',
+}
+TEX_SPACE = [(r'\qquad', '<span class="sp2"></span>'),
+             (r'\quad', '<span class="sp1"></span>'),
+             (r'\,', '<span class="sp0"></span>'),
+             (r'\;', '<span class="sp0"></span>'),
+             (r'\:', '<span class="sp0"></span>'),
+             (r'\!', ''),
+             (r'\ ', ' ')]
+SUPS = {'0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵',
+        '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹', '+': '⁺', '-': '⁻', 'n': 'ⁿ'}
+SUBS = {'0': '₀', '1': '₁', '2': '₂', '3': '₃', '4': '₄', '5': '₅',
+        '6': '₆', '7': '₇', '8': '₈', '9': '₉', 'n': 'ₙ', 'k': 'ₖ'}
+
+
+def _braced(s, i):
+    """s[i] 가 '{' 일 때 짝이 맞는 '}' 까지를 돌려준다 → (안쪽, 다음자리)."""
+    assert s[i] == '{'
+    d, j = 0, i
+    while j < len(s):
+        if s[j] == '{':
+            d += 1
+        elif s[j] == '}':
+            d -= 1
+            if d == 0:
+                return s[i + 1:j], j + 1
+        j += 1
+    return s[i + 1:], len(s)
+
+
+def _frac(s):
+    """\frac{A}{B} 를 가로줄로 쌓은 분수로. 안쪽에 또 있어도 되도록 되돌아 돈다."""
+    out, i = [], 0
+    while True:
+        k = s.find('\\frac', i)
+        if k < 0:
+            out.append(s[i:])
+            break
+        out.append(s[i:k])
+        j = k + 5
+        while j < len(s) and s[j] == ' ':
+            j += 1
+        if j >= len(s) or s[j] != '{':
+            out.append(s[k:j])
+            i = j
+            continue
+        num, j = _braced(s, j)
+        while j < len(s) and s[j] == ' ':
+            j += 1
+        if j >= len(s) or s[j] != '{':
+            out.append(s[k:j])
+            i = j
+            continue
+        den, j = _braced(s, j)
+        out.append('<span class="fr"><span class="nu">%s</span>'
+                   '<span class="de">%s</span></span>'
+                   % (_frac(num), _frac(den)))
+        i = j
+    return ''.join(out)
+
+
+def _script(s):
+    """x^2 · x^{32} · F_5 를 윗첨자·아랫첨자로. 숫자가 아니면 태그로 올린다."""
+    out, i = [], 0
+    while i < len(s):
+        ch = s[i]
+        if ch in '^_' and i + 1 < len(s):
+            tab = SUPS if ch == '^' else SUBS
+            tag = 'sup' if ch == '^' else 'sub'
+            if s[i + 1] == '{':
+                inner, j = _braced(s, i + 1)
+            else:
+                inner, j = s[i + 1], i + 2
+            if inner == r'\circ':
+                out.append('°')
+            elif inner and all(c in tab for c in inner):
+                out.append(''.join(tab[c] for c in inner))
+            else:
+                out.append('<%s>%s</%s>' % (tag, inner, tag))
+            i = j
+            continue
+        out.append(ch)
+        i += 1
+    return ''.join(out)
+
+
+def texify(s):
+    """책의 식 상자에 쓰는 좁은 범위의 LaTeX 를 교과서 꼴 HTML 로 바꾼다."""
+    if '\\' not in s:
+        return s
+    s = s.replace(r'\left', '').replace(r'\right', '')
+    s = _frac(s)
+    # \mathbf{...} → 굵게, \text{...}·\mathrm{...} → 그대로
+    for cmd, pre, post in ((r'\mathbf', '<b>', '</b>'),
+                           (r'\text', '', ''), (r'\mathrm', '', '')):
+        while True:
+            k = s.find(cmd)
+            if k < 0:
+                break
+            j = k + len(cmd)
+            while j < len(s) and s[j] == ' ':
+                j += 1
+            if j >= len(s) or s[j] != '{':
+                s = s[:k] + s[k + len(cmd):]
+                continue
+            inner, j = _braced(s, j)
+            s = s[:k] + pre + inner + post + s[j:]
+    for k, v in TEX_SYM.items():
+        s = s.replace(k, v)
+    s = _script(s)
+    for k, v in TEX_SPACE:
+        s = s.replace(k, v)
+    for ch in (chr(123), chr(125), chr(37), chr(36), chr(38), chr(35), chr(95)):
+        s = s.replace(BS2 + ch, ch)          # 뒤에 붙은 역슬래시 escape 를 푼다
+    return s
+
 def body_html(lines):
     h = []
     for blk in paras(lines):
@@ -205,9 +338,9 @@ def body_html(lines):
             if '|' in inner:
                 f, cap = inner.split('|', 1)
                 h.append('<div class="eq">%s<span class="cap">%s</span></div>'
-                         % (inline(f.strip()), inline(cap.strip())))
+                         % (texify(inline(f.strip())), inline(cap.strip())))
             else:
-                h.append('<div class="eq">%s</div>' % inline(inner.strip()))
+                h.append('<div class="eq">%s</div>' % texify(inline(inner.strip())))
             continue
         if first.startswith('> '):
             txt = ' '.join(x.strip().lstrip('> ') for x in blk)
