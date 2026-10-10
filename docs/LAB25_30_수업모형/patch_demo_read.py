@@ -91,7 +91,11 @@ FNS = ['primeDemo', 'intDemo', 'letterDemo', 'scaleDemo', 'propDemo', 'paraDemo'
        'contourDemo', 'partialDemo', 'tangentPlaneDemo', 'gradDemo', 'saddleDemo',
        # LAB 271~280
        'lagrangeDemo', 'doubleIntDemo', 'jacobianDemo', 'lineIntDemo', 'conservDemo',
-       'greenDemo', 'cevaDemo', 'menelausDemo', 'centersDemo', 'eulerLineDemo']
+       'greenDemo', 'cevaDemo', 'menelausDemo', 'centersDemo', 'eulerLineDemo',
+       # LAB 281~290
+       'powerPointDemo', 'radicalDemo', 'inversionDemo', 'inversionSolveDemo',
+       'crossRatioDemo', 'planeDemo', 'planeAngleDemo', 'quadSurfDemo',
+       'revolveSurfDemo', 'sphericalDemo']
 
 TAIL = """};
   /* 수업 모형 안에서는 기록 단계가 보고서를 따로 만든다 — 두 벌이 되지 않게 */
