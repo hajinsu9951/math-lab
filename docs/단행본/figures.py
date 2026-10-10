@@ -1703,5 +1703,148 @@ def ch12_count():
     s.append('</svg>')
     return ''.join(s)
 
+
+def _sector(cx, cy, r, a0, a1, fill, stroke='#fff', sw=1.2):
+    """중심 (cx,cy)·반지름 r 인 부채꼴. 각은 도, 12시에서 시계 방향."""
+    def pt(a):
+        t = math.radians(a - 90.0)
+        return cx + r * math.cos(t), cy + r * math.sin(t)
+    p0, p1 = pt(a0), pt(a1)
+    big = 1 if (a1 - a0) % 360 > 180 else 0
+    return ('<path d="M %.2f %.2f L %.2f %.2f A %.2f %.2f 0 %d 1 %.2f %.2f Z" '
+            'fill="%s" stroke="%s" stroke-width="%s"/>'
+            % (cx, cy, p0[0], p0[1], r, r, big, p1[0], p1[1], fill, stroke, sw))
+
+
+@fig('ch13_pie', '25 명에게 물은 결과를 원그래프로 옮긴 것입니다. 비율에 **360 을 곱하면** '
+     '중심각이 나옵니다 — 32 % 는 115.2° 입니다. 네 중심각을 더하면 꼭 360° 가 되고, '
+     '호의 길이와 넓이도 **같은 비율**입니다. 원그래프가 성립하는 근거가 이 한 줄입니다.')
+def ch13_pie():
+    W, H = 700, 330
+    data = [('걸어서', 8, SKY), ('버스로', 7, TEAL), ('자전거로', 6, AMBER),
+            ('그 밖에', 4, GRAY)]
+    tot = sum(d[1] for d in data)
+    assert tot == 25
+    rows = [(nm, n, n / tot * 100.0, 360.0 * n / tot, c) for nm, n, c in data]
+    assert round(rows[0][2], 1) == 32.0 and round(rows[0][3], 1) == 115.2
+    assert round(sum(r[3] for r in rows), 6) == 360.0
+    s = [head(W, H)]
+    s.append(txt(20, 24, '비율 × 360 = 중심각', 12.5, NAVY, 'start', 800))
+    cx, cy, r = 160.0, 180.0, 96.0
+    a = 0.0
+    for nm, n, pct, ang, col in rows:
+        s.append(_sector(cx, cy, r, a, a + ang, col))
+        mid = math.radians(a + ang / 2 - 90.0)
+        s.append(txt(cx + (r * 0.62) * math.cos(mid),
+                     cy + (r * 0.62) * math.sin(mid) + 4,
+                     '%.0f%%' % pct, 11, '#fff', 'middle', 800))
+        a += ang
+    s.append(txt(cx, 300, '전체 25 명', 9.6, GRAY, 'middle', 700))
+    # ── 표
+    tx, ty = 326, 72
+    cols = ['', '사람', '비율', '중심각']
+    for j, c in enumerate(cols):
+        s.append(txt(tx + 24 + j * 86, ty, c, 9.2, GRAY, 'middle', 800))
+    s.append(line(tx - 16, ty + 8, tx + 330, ty + 8, LINE, 1))
+    for i, (nm, n, pct, ang, col) in enumerate(rows):
+        y = ty + 34 + i * 30
+        s.append('<rect x="%.1f" y="%.1f" width="9" height="9" fill="%s" rx="2"/>'
+                 % (tx - 6, y - 8, col))
+        s.append(txt(tx + 24, y, nm, 9.8, NAVY, 'middle'))
+        s.append(txt(tx + 110, y, '%d' % n, 9.8, GRAY, 'middle'))
+        s.append(txt(tx + 196, y, '%.0f %%' % pct, 9.8, NAVY, 'middle', 700))
+        s.append(txt(tx + 282, y, '%.1f°' % ang, 10.4, col, 'middle', 800))
+    s.append(line(tx - 16, ty + 148, tx + 330, ty + 148, LINE, 1))
+    s.append(txt(tx + 24, ty + 168, '합계', 9.8, NAVY, 'middle', 800))
+    s.append(txt(tx + 110, ty + 168, '25', 9.8, GRAY, 'middle', 700))
+    s.append(txt(tx + 196, ty + 168, '100 %', 9.8, NAVY, 'middle', 800))
+    s.append(txt(tx + 282, ty + 168, '360.0°', 10.4, NAVY, 'middle', 800))
+    s.append(rect(310, 266, 356, 44, '#FBFCFE', LINE, 1, 7))
+    s.append(txt(488, 286, '32 % → 360 × 0.32 = 115.2°', 12.4, SKY, 'middle', 800))
+    s.append(txt(488, 302, '호의 길이도 넓이도 같은 32 % — 반지름은 크기만 바꾼다',
+                 8.8, GRAY, 'middle', 700))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch13_radius', '반지름을 2 배로 하면 넓이는 **4 배**가 됩니다. 넓이가 반지름의 '
+     '**제곱**에 비례하기 때문입니다. 그래서 값을 반지름으로 나타내면 눈에는 '
+     '«값의 제곱» 으로 보입니다 — 2 배 차이가 4 배로, 3 배 차이가 9 배로 부풀어 보입니다.')
+def ch13_radius():
+    W, H = 700, 300
+    rs = [1, 2, 3]
+    assert [r * r for r in rs] == [1, 4, 9]
+    s = [head(W, H)]
+    s.append(txt(20, 24, '반지름 2 배 → 넓이 4 배', 12.5, NAVY, 'start', 800))
+    unit, gap, cy = 26.0, 20.0, 146.0
+    cx = 36.0
+    for r in rs:
+        R = r * unit
+        cx += R
+        s.append('<circle cx="%.1f" cy="%.1f" r="%.1f" fill="%s" opacity="0.24"/>'
+                 % (cx, cy, R, SKY))
+        s.append('<circle cx="%.1f" cy="%.1f" r="%.1f" fill="none" stroke="%s" '
+                 'stroke-width="1.8"/>' % (cx, cy, R, BLUE))
+        s.append(line(cx, cy, cx + R, cy, NAVY, 1.1, '3 3'))
+        s.append(txt(cx + R / 2, cy - 5, '%d' % r, 9.2, NAVY, 'middle', 800))
+        s.append(txt(cx, cy + R + 18, '반지름 %d' % r, 9.2, NAVY, 'middle', 700))
+        s.append(txt(cx, cy + R + 34, '넓이 %d' % (r * r), 10.6, BLUE, 'middle', 800))
+        cx += R + gap
+    bx = 448
+    s.append(rect(bx - 20, 56, 238, 156, '#FBFCFE', LINE, 1, 7))
+    s.append(txt(bx, 84, '넓이 = π r²', 12.6, NAVY, 'start', 800))
+    for i, (a, b) in enumerate((('반지름 1 배', '넓이 1 배'),
+                                ('반지름 2 배', '넓이 4 배'),
+                                ('반지름 3 배', '넓이 9 배'))):
+        y = 116 + i * 28
+        s.append(txt(bx, y, a, 9.8, GRAY, 'start'))
+        s.append(txt(bx + 208, y, b, 10.4, BLUE, 'end', 800))
+    s.append(txt(bx, 202, '눈은 넓이로 본다 — 그래서 부풀어 보인다', 8.8, RED,
+                 'start', 700))
+    s.append(txt(20, 268, '값을 반지름에 실으면 차이가 과장되고, 넓이에 실으면 '
+                          '본 대로 읽힙니다.', 9.4, GRAY, 'start'))
+    s.append(txt(20, 284, '같은 자료라도 «무엇에 실었는가» 가 그림의 뜻을 바꿉니다.',
+                 9.4, GRAY, 'start'))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch13_rose', '열두 칸(한 달씩)에 같은 보기 자료를 올려 두 가지로 그린 것입니다. '
+     '왼쪽은 값을 **반지름**에 실었고, 오른쪽은 **넓이**에 실었습니다(반지름을 √값에 비례시킴). '
+     '가장 큰 달과 가장 작은 달의 값 차이는 6 배인데, 왼쪽 그림에서 눈에 들어오는 넓이 차이는 '
+     '**36 배**입니다. 나이팅게일이 쓴 「쐐기 그림」이 왼쪽 꼴이고, 오늘날 이 점이 논쟁거리입니다. '
+     '(값은 꼴을 보이려고 지어낸 보기 자료입니다)')
+def ch13_rose():
+    W, H = 700, 352
+    vals = [12, 18, 30, 48, 60, 72, 66, 54, 36, 24, 18, 12]
+    assert len(vals) == 12
+    assert max(vals) / min(vals) == 6
+    assert (max(vals) / min(vals)) ** 2 == 36
+    s = [head(W, H)]
+    s.append(txt(20, 24, '같은 자료, 두 가지로 그리기', 12.5, NAVY, 'start', 800))
+    panels = [('값을 반지름에 실으면', lambda v: v / float(max(vals)), AMBER,
+               '넓이 차이가 36 배로 보인다'),
+              ('값을 넓이에 실으면', lambda v: math.sqrt(v / float(max(vals))), TEAL,
+               '넓이 차이가 6 배 — 값 그대로다')]
+    for i, (name, f, col, say) in enumerate(panels):
+        cx, cy, R = 200.0 + i * 300.0, 190.0, 108.0
+        s.append(txt(cx, 56, name, 10.6, col, 'middle', 800))
+        for k in (0.5, 1.0):
+            s.append('<circle cx="%.1f" cy="%.1f" r="%.1f" fill="none" stroke="%s" '
+                     'stroke-width="0.9" stroke-dasharray="2 3"/>'
+                     % (cx, cy, R * k, LINE))
+        for m, v in enumerate(vals):
+            a0 = m * 30.0
+            s.append(_sector(cx, cy, R * f(v), a0, a0 + 30.0, col, '#fff', 1.0))
+        s.append('<circle cx="%.1f" cy="%.1f" r="2.4" fill="%s"/>' % (cx, cy, NAVY))
+        s.append(txt(cx, cy + R + 28, say, 9.4, col, 'middle', 800))
+    s.append(rect(34, 300, 632, 40, '#FBFCFE', LINE, 1, 7))
+    s.append(txt(350, 318, '가장 큰 달 72, 가장 작은 달 12 — 값으로는 6 배',
+                 11.6, NAVY, 'middle', 800))
+    s.append(txt(350, 333, '반지름에 실으면 눈에 보이는 넓이는 6² = 36 배가 된다',
+                 9, GRAY, 'middle', 700))
+    s.append('</svg>')
+    return ''.join(s)
+
 if __name__ == '__main__':
     write_all(sys.argv[1] if len(sys.argv) > 1 else None)

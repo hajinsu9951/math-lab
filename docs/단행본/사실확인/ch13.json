@@ -1,0 +1,49 @@
+[
+ {
+  "id": "nightingale1858",
+  "claim": "1858년 플로렌스 나이팅게일은 『영국 육군의 건강·효율·병원 행정에 관한 기록』을 펴내면서, 색을 칠한 통계 그림을 함께 실었다. 전쟁부 장관의 요청으로 제출한 보고서였고 비공개로 인쇄되었다.",
+  "source": "Nightingale, F. (1858). <i>Notes on Matters Affecting the Health, Efficiency, and Hospital Administration of the British Army</i>. London: Harrison and Sons. / Florence Nightingale Museum, 소장 자료 해제.",
+  "checked": "2026-10-11"
+ },
+ {
+  "id": "nightingale_wedges",
+  "claim": "그 그림은 열두 칸으로 나눈 원 두 개로, 1854년 4월부터 1856년 3월까지 달마다의 사망을 나타냈다. 파란 칸이 «막을 수 있었던 병» 으로 인한 죽음이고, 붉은 칸이 전투에서 입은 상처로 인한 죽음이다. 파란 칸이 훨씬 크다.",
+  "source": "Nightingale, F. (1858). <i>Notes on Matters Affecting the Health…</i> (Diagram of the Causes of Mortality in the Army in the East). / Cohen, I. B. (1984). Florence Nightingale. <i>Scientific American, 250</i>(3), 128–137.",
+  "checked": "2026-10-11",
+  "note": "색 지정은 자료마다 조금씩 다르게 적는다(붉은색을 주황으로 적은 곳도 있다). 나이팅게일 자신은 이 그림을 «쐐기(wedges)» 라 불렀다고 전한다."
+ },
+ {
+  "id": "nightingale_not_pie",
+  "claim": "나이팅게일의 그림은 원그래프가 아니다. 원그래프는 중심각이 값을 나타내고 반지름이 일정한데, 그의 그림은 «중심각이 모두 30° 로 같고 반지름이 값을 나타낸다». 이런 그림을 극좌표 면적 도표(polar area diagram)라 한다.",
+  "source": "Friendly, M. (2008). The golden age of statistical graphics. <i>Statistical Science, 23</i>(4), 502–535. / Brasseur, L. (2005). Florence Nightingale’s visual rhetoric in the rose diagrams. <i>Technical Communication Quarterly, 14</i>(2), 161–182.",
+  "checked": "2026-10-11",
+  "note": "원그래프를 처음 쓴 사람은 1801년의 플레이페어다(제7장). 나이팅게일에게 원그래프를 만든 공을 돌리는 글이 많은데 잘못이다."
+ },
+ {
+  "id": "nightingale_rss",
+  "claim": "나이팅게일은 1858년 왕립통계학회의 첫 여성 회원이 되었다.",
+  "source": "Royal Statistical Society. <i>Florence Nightingale and the RSS</i>. / Cohen, I. B. (1984). <i>Scientific American, 250</i>(3), 128–137.",
+  "checked": "2026-10-11"
+ },
+ {
+  "id": "playfair_pie_first",
+  "claim": "원그래프가 처음 나온 것은 1801년 플레이페어의 『통계 요람』이다 — 나이팅게일보다 57년 앞선다.",
+  "source": "Playfair, W. (1801). <i>The Statistical Breviary</i>. London: Wallis. / Spence, I. (2005). No humble pie. <i>Journal of Educational and Behavioral Statistics, 30</i>(4), 353–368.",
+  "checked": "2026-10-11",
+  "note": "제7장의 대장 항목과 같은 사실이다. 이 장에서는 「나이팅게일이 원그래프를 만든 것이 아니다」를 밝히는 데 쓴다."
+ },
+ {
+  "id": "area_perception",
+  "claim": "값을 반지름에 실으면 사람 눈에 들어오는 «넓이» 는 값의 제곱에 비례한다. 넓이가 반지름의 제곱에 비례하기 때문이다. 그래서 값 차이가 6 배이면 넓이 차이는 36 배로 보인다.",
+  "source": "Tufte, E. R. (2001). <i>The Visual Display of Quantitative Information</i> (2nd ed., pp. 69–77). Graphics Press. / Cleveland, W. S., &amp; McGill, R. (1984). Graphical perception. <i>Journal of the American Statistical Association, 79</i>(387), 531–554.",
+  "checked": "2026-10-11",
+  "note": "클리블랜드와 맥길의 실험은 사람이 길이보다 넓이·각도를 덜 정확하게 읽는다는 것도 보였다 — 원그래프를 조심해서 쓰라는 근거다."
+ },
+ {
+  "id": "sector_ratio",
+  "claim": "부채꼴의 호의 길이와 넓이는 중심각에 비례한다. 중심각이 x° 일 때 호의 길이는 2πr × x/360, 넓이는 πr² × x/360 이고, 두 식에서 S = ½rℓ 가 따라 나온다.",
+  "source": "Euclid. <i>Elements</i>, Book VI, Proposition 33. (Heath, T. L., Trans., 1925.) / 교육부 (2022). 『수학과 교육과정』 중학교 1학년 「도형과 측정」.",
+  "checked": "2026-10-11",
+  "note": "「호의 길이는 중심각에 비례한다」는 유클리드 VI-33 의 내용이다. 넓이에 대한 같은 사실도 같은 방식으로 따라 나온다."
+ }
+]

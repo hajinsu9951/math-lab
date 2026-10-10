@@ -53,5 +53,12 @@
   "source": "Maxwell, J. C. (1864). On the calculation of the equilibrium and stiffness of frames. <i>Philosophical Magazine, 27</i>(182), 294–299.",
   "checked": "2026-10-11",
   "note": "개수가 맞아도 «어디에 넣는가» 에 따라 흔들릴 수 있다 — 필요조건이지 충분조건이 아니다. 본문에도 그렇게 적었다."
+ },
+ {
+  "id": "gauss_monument",
+  "claim": "가우스의 고향 브라운슈바이크에 1880년 프리츠 샤퍼가 만든 기념비가 세워졌고, 거기에 십칠각 꼴이 새겨져 있다. 가우스가 자기 묘비에 정십칠각형을 새겨 달라 했다는 이야기는 널리 퍼져 있으나 확인되지 않았다.",
+  "source": "Stadt Braunschweig, Gauß-Denkmal (Fritz Schaper, 1880년 6월 27일 제막) 안내. / Dunnington, G. W. (2004). <i>Carl Friedrich Gauss: Titan of Science</i>. Mathematical Association of America.",
+  "checked": "2026-10-11",
+  "note": "새김이 정십칠각형인지 십칠각별인지는 자료마다 다르게 적는다. 묘비 이야기는 출처를 찾지 못해 「확인되지 않았다」고 적었다."
  }
 ]
