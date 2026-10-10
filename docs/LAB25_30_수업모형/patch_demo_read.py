@@ -82,7 +82,10 @@ FNS = ['primeDemo', 'intDemo', 'letterDemo', 'scaleDemo', 'propDemo', 'paraDemo'
        'perspectiveDemo', 'symmetryDemo', 'mercatorDemo', 'chainCurveDemo', 'paperRatioDemo',
        # LAB 241~250
        'weekdayDemo', 'baseDemo', 'magicDemo', 'piPolyDemo', 'apportionDemo',
-       'cipherDemo', 'inverseSolveDemo', 'detAreaDemo', 'eigenDemo', 'matPowDemo']
+       'cipherDemo', 'inverseSolveDemo', 'detAreaDemo', 'eigenDemo', 'matPowDemo',
+       # LAB 251~260
+       'fibMatDemo', 'gaussDemo', 'spanDemo', 'subspaceDemo', 'dimDemo',
+       'basisDemo', 'linTransDemo', 'markovDemo', 'gramDemo', 'lsqDemo']
 
 TAIL = """};
   /* 수업 모형 안에서는 기록 단계가 보고서를 따로 만든다 — 두 벌이 되지 않게 */
