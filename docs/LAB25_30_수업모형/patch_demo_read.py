@@ -103,7 +103,11 @@ FNS = ['primeDemo', 'intDemo', 'letterDemo', 'scaleDemo', 'propDemo', 'paraDemo'
        # LAB 301~310
        'dijkstraDemo', 'greedyFailDemo', 'huffmanDemo', 'hamming74Demo',
        'complexityDemo', 'sortRaceDemo', 'reductioDemo', 'fallacyDemo',
-       'countableDemo', 'diagonalDemo']
+       'countableDemo', 'diagonalDemo',
+       # LAB 311~320
+       'supremumDemo', 'completeDemo', 'epsDeltaDemo', 'uniformContDemo',
+       'funcSeqDemo', 'eulerFormulaDemo', 'complexMapDemo', 'modGroupDemo',
+       'symGroupDemo', 'sensitivityDemo']
 
 TAIL = """};
   /* 수업 모형 안에서는 기록 단계가 보고서를 따로 만든다 — 두 벌이 되지 않게 */
