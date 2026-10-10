@@ -1,0 +1,59 @@
+[
+ {
+  "id": "pascal_neg",
+  "claim": "파스칼은 0 에서 4 를 빼면 −4 가 된다는 생각을 말이 되지 않는다고 여겼다고 전해진다.",
+  "source": "Kline, M. (1972). <i>Mathematical Thought from Ancient to Modern Times</i> (pp. 252–253). Oxford University Press.",
+  "checked": "2026-10-10",
+  "note": "클라인이 전하는 이야기다. 파스칼이 직접 쓴 문장은 확인되지 않으므로 본문에도 「전해집니다」로 적었다."
+ },
+ {
+  "id": "descartes_false",
+  "claim": "데카르트는 음수 해를 「거짓 뿌리(fausses racines)」라 불렀고, 『기하학』에서 음수를 「아무것도 아닌 것보다 작은(moindres que rien)」 것으로 적었다.",
+  "source": "Descartes, R. (1637). <i>La Géométrie</i>. Leiden: Jan Maire. / Kline, M. (1972). <i>Mathematical Thought from Ancient to Modern Times</i>. Oxford University Press.",
+  "checked": "2026-10-10"
+ },
+ {
+  "id": "demorgan1831",
+  "claim": "드 모르간은 1831년 책에서 3 − 8 을 「3 안에 있는 것보다 더 많이 빼라는 것이므로 불가능하고 터무니없다」고 적었다. 다만 그는 그런 식을 뜻이 있는 것처럼 다루면 옳은 결론에 이를 수 있다고도 보았다.",
+  "source": "De Morgan, A. (1831). <i>On the Study and Difficulties of Mathematics</i>. London: Society for the Diffusion of Useful Knowledge.",
+  "checked": "2026-10-10"
+ },
+ {
+  "id": "maseres1758",
+  "claim": "1758년 프랜시스 매서리스는 음수가 「방정식의 가르침을 통째로 어둡게 만든다」고 적으며 음수의 존재를 부정했다.",
+  "source": "Maseres, F. (1758). <i>A Dissertation on the Use of the Negative Sign in Algebra</i>. London: Samuel Richardson.",
+  "checked": "2026-10-10"
+ },
+ {
+  "id": "stifel_absurd",
+  "claim": "미하엘 슈티펠(1487–1567)은 음수를 「터무니없는 수(numeri absurdi)」라 불렀다.",
+  "source": "Kline, M. (1972). <i>Mathematical Thought from Ancient to Modern Times</i>. Oxford University Press.",
+  "checked": "2026-10-10"
+ },
+ {
+  "id": "jiuzhang",
+  "claim": "『구장산술』 제8권 「방정」 장에서 음수가 쓰였고, 3세기 유휘의 주석에 붉은 산가지는 양수, 검은 산가지는 음수라는 약속이 적혀 있다. 0 에서 양수를 빼면 음수, 0 에서 음수를 빼면 양수라는 규칙도 들어 있다.",
+  "source": "Shen, K., Crossley, J. N., &amp; Lun, A. W.-C. (1999). <i>The Nine Chapters on the Mathematical Art: Companion and Commentary</i>. Oxford University Press &amp; Science Press.",
+  "checked": "2026-10-10",
+  "note": "본문이 지금 모습을 갖춘 시기는 대체로 1세기로 본다. 색 약속은 유휘(3세기) 주석에서 확인된다."
+ },
+ {
+  "id": "brahmagupta628",
+  "claim": "브라마굽타는 628년 『브라마스푸타싯단타』에서 양수를 「재산」, 음수를 「빚」이라 부르며 부호 있는 수의 사칙연산 규칙을 적었다. 그 가운데 「0 에서 빚을 빼면 재산이 된다」가 있다.",
+  "source": "Plofker, K. (2009). <i>Mathematics in India</i> (pp. 151–155). Princeton University Press.",
+  "checked": "2026-10-10",
+  "note": "「처음」이라는 말은 피했다 — 『구장산술』이 더 이르다."
+ },
+ {
+  "id": "celsius1742",
+  "claim": "셀시우스는 1742년에 온도 눈금을 제안했는데, 처음에는 0 이 끓는점, 100 이 어는점이었다. 뒤에 거꾸로 바뀌었다.",
+  "source": "Celsius, A. (1742). Observationer om twänne beständiga grader på en thermometer. <i>Kungliga Svenska Vetenskapsakademiens Handlingar, 3</i>, 171–180.",
+  "checked": "2026-10-10"
+ },
+ {
+  "id": "twos_complement",
+  "claim": "오늘날 컴퓨터는 뺄셈 회로를 따로 두지 않고, 2의 보수로 음수를 만들어 더하는 방식으로 뺄셈을 처리한다.",
+  "source": "Patterson, D. A., &amp; Hennessy, J. L. (2020). <i>Computer Organization and Design: The Hardware/Software Interface</i> (RISC-V ed., Ch. 3). Morgan Kaufmann.",
+  "checked": "2026-10-10"
+ }
+]

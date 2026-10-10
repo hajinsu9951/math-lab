@@ -1,0 +1,68 @@
+[
+ {
+  "id": "khwarizmi820",
+  "claim": "9세기의 알콰리즈미는 식을 모두 «말로» 적었다. 그의 대표 예제는 「제곱 하나와 그 근 열 개가 서른아홉과 같다」로, 오늘날 x² + 10x = 39 라 적는다.",
+  "source": "Katz, V. J. (2009). <i>A History of Mathematics: An Introduction</i> (3rd ed., pp. 271–275). Addison-Wesley.",
+  "checked": "2026-10-11",
+  "note": "알콰리즈미의 책 『알자브르와 알무카발라의 계산에 관한 간략한 책』(약 820년)에 나온다."
+ },
+ {
+  "id": "aljabr_mean",
+  "claim": "「대수(algebra)」는 알콰리즈미 책 제목의 «알자브르(al-jabr)» 에서 왔고, 그 말은 본래 「흩어진 것을 제자리로 돌려놓음·접골」을 뜻한다.",
+  "source": "Katz, V. J. (2009). <i>A History of Mathematics: An Introduction</i> (3rd ed., p. 271). Addison-Wesley.",
+  "checked": "2026-10-11",
+  "note": "이 뜻은 제6장에서 등식의 성질과 함께 다시 다룬다."
+ },
+ {
+  "id": "diophantus",
+  "claim": "3세기 무렵 디오판토스는 낱말을 줄여 쓰는 기호를 썼으나, 일반적인 수를 나타내는 문자는 쓰지 않았다(생략 대수).",
+  "source": "Katz, V. J. (2009). <i>A History of Mathematics: An Introduction</i> (3rd ed., pp. 172–178). Addison-Wesley.",
+  "checked": "2026-10-11"
+ },
+ {
+  "id": "recorde1557",
+  "claim": "등호 = 는 1557년 로버트 레코드가 『지혜의 숫돌』에서 처음 썼다. 「길이가 같은 두 평행선보다 더 같은 것은 없다」는 까닭을 들었다.",
+  "source": "Cajori, F. (1929). <i>A History of Mathematical Notations</i> (Vol. 1, §263). Chicago: Open Court.",
+  "checked": "2026-10-11"
+ },
+ {
+  "id": "viete1591",
+  "claim": "비에트는 1591년 『해석학 입문』에서 «모르는 수는 모음, 아는 수는 자음» 으로 문자를 쓰는 방식을 체계로 세웠다. 다만 곱셈은 여전히 in, 등호는 aequale 라고 말로 적었고, 음수는 다루지 않았다.",
+  "source": "Viète, F. (1591). <i>In artem analyticem isagoge</i>. Tours. / Cajori, F. (1929). <i>A History of Mathematical Notations</i> (Vol. 1, §176–178). Open Court.",
+  "checked": "2026-10-11",
+  "note": "문자를 쓴 사람이 비에트가 처음은 아니다(13세기 요르다누스, 16세기 슈티펠·카르다노). 비에트의 몫은 그것을 «대수의 바탕» 으로 삼은 것이다."
+ },
+ {
+  "id": "descartes1637notation",
+  "claim": "오늘날의 약속 — 아는 수는 a, b, c, 모르는 수는 x, y, z — 은 데카르트가 1637년 『기하학』에서 쓴 것이 굳어진 것이다. 그는 까닭을 적지 않았다. x 를 모르는 수로 쓴 것은 늦어도 1629년 원고에서 보인다.",
+  "source": "Cajori, F. (1929). <i>A History of Mathematical Notations</i> (Vol. 1, §339–341). Open Court. / Descartes, R. (1637). <i>La Géométrie</i>. Leiden: Jan Maire.",
+  "checked": "2026-10-11",
+  "note": "「인쇄소에 x 활자가 많아서」라는 이야기가 널리 퍼져 있으나 확인되지 않았다. 본문에도 적지 않았다."
+ },
+ {
+  "id": "viete_vowel_gone",
+  "claim": "비에트의 «모음=모르는 수» 약속은 살아남지 못했고, 데카르트의 약속이 오늘까지 쓰인다.",
+  "source": "O’Connor, J. J., &amp; Robertson, E. F. (2000). François Viète. <i>MacTutor History of Mathematics Archive</i>. University of St Andrews.",
+  "checked": "2026-10-11"
+ },
+ {
+  "id": "widmann1489",
+  "claim": "+ 와 − 기호가 인쇄물에 처음 나온 것은 1489년 요하네스 비드만의 독일어 산술책에서다. 본래는 창고의 과부족을 나타내던 표시였다.",
+  "source": "Cajori, F. (1929). <i>A History of Mathematical Notations</i> (Vol. 1, §201). Chicago: Open Court.",
+  "checked": "2026-10-11"
+ },
+ {
+  "id": "oughtred1631",
+  "claim": "곱셈 기호 × 는 1631년 윌리엄 오트레드의 『수학의 열쇠』에서 쓰였다.",
+  "source": "Cajori, F. (1929). <i>A History of Mathematical Notations</i> (Vol. 1, §186–187). Chicago: Open Court.",
+  "checked": "2026-10-11",
+  "note": "뒷날 미지수 x 와 닮았다는 까닭으로 수학에서는 점(·)이나 생략이 더 많이 쓰이게 되었다."
+ },
+ {
+  "id": "moser_circle",
+  "claim": "원 위에 점을 n 개 찍고 모든 점을 선분으로 이으면 생기는 조각의 수는 n = 1,2,3,4,5 에서 1, 2, 4, 8, 16 이지만 n = 6 에서는 32 가 아니라 31 이다.",
+  "source": "Conway, J. H., &amp; Guy, R. K. (1996). <i>The Book of Numbers</i> (pp. 76–79). New York: Copernicus.",
+  "checked": "2026-10-11",
+  "note": "「몇 개 보고 짐작한 규칙」이 깨지는 가장 유명한 예다(모저의 원 문제)."
+ }
+]

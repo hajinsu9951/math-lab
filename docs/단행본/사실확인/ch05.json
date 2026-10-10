@@ -1,0 +1,34 @@
+[
+ {
+  "id": "mco_loss",
+  "claim": "화성 기후 궤도선은 1999년 9월 23일 궤도 진입 연소 중 교신이 끊겼다. 사고조사위원회는 지상 프로그램이 추력 자료를 파운드힘 단위로 내보내고 비행 프로그램은 그것을 뉴턴으로 읽은 것을 근본 원인으로 지목했다.",
+  "source": "Mars Climate Orbiter Mishap Investigation Board. (1999, November 10). <i>Phase I Report</i>. NASA.",
+  "checked": "2026-10-11",
+  "note": "1 파운드힘 = 약 4.45 뉴턴이다."
+ },
+ {
+  "id": "mco_altitude",
+  "claim": "계획한 근접 고도는 약 226 km 였고 살아남을 수 있는 가장 낮은 높이는 약 80 km 로 보았는데, 실제로는 약 57 km 까지 내려가 대기의 힘을 견디지 못한 것으로 추정된다.",
+  "source": "Mars Climate Orbiter Mishap Investigation Board. (1999, November 10). <i>Phase I Report</i>. NASA.",
+  "checked": "2026-10-11"
+ },
+ {
+  "id": "mco_cost",
+  "claim": "궤도선 자체의 제작비는 약 1억 2500만 달러였고, 발사와 운영을 포함한 임무 전체 비용은 약 3억 2760만 달러로 집계된다.",
+  "source": "NASA. (1999). <i>Mars Climate Orbiter mission fact sheet</i>. Jet Propulsion Laboratory.",
+  "checked": "2026-10-11",
+  "note": "자료에 따라 1억 2500만과 3억 2760만이 섞여 인용된다. 앞은 궤도선 값, 뒤는 임무 전체 값이다."
+ },
+ {
+  "id": "mco_review",
+  "claim": "NASA 의 에드워드 와일러는 「문제는 그 오류 자체가 아니라, 그것을 걸러 내지 못한 검토 절차였다」고 말했다.",
+  "source": "NASA. (1999, September 30). <i>Mars Climate Orbiter failure board releases report</i> [보도자료].",
+  "checked": "2026-10-11"
+ },
+ {
+  "id": "si_history",
+  "claim": "미터법은 1793년 프랑스에서 정해졌고, 1875년 미터협약으로 국제 기준이 되었으며, 1960년에 국제단위계(SI)가 확정되었다. 2019년에는 킬로그램의 정의가 금속 원기에서 플랑크 상수로 바뀌었다.",
+  "source": "Bureau International des Poids et Mesures. (2019). <i>The International System of Units (SI)</i> (9th ed.). BIPM.",
+  "checked": "2026-10-11"
+ }
+]

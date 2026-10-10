@@ -1,0 +1,93 @@
+[
+ {
+  "id": "gardner1977",
+  "claim": "1977년 8월 《사이언티픽 아메리칸》에 마틴 가드너의 칼럼 「수백만 년이 걸려야 풀 수 있는 새로운 암호」가 실렸고, 129자리 수와 암호문, 100달러 상금이 함께 실렸다.",
+  "source": "Gardner, M. (1977, August). Mathematical games: A new kind of cipher that would take millions of years to break. <i>Scientific American, 237</i>(2), 120–124.",
+  "checked": "2026-10-10",
+  "note": "칼럼 제목·게재 연월·상금 100달러를 여러 자료에서 확인"
+ },
+ {
+  "id": "rsa40quad",
+  "claim": "리베스트는 63자리 소수 두 개의 곱을 쪼개는 데 약 4경(4 × 10의 16승) 년이 걸린다고 어림했고, 가드너의 칼럼이 그 어림을 인용했다.",
+  "source": "Gardner, M. (1977, August). Mathematical games. <i>Scientific American, 237</i>(2), 120–124. — 리베스트의 어림 인용.",
+  "checked": "2026-10-10",
+  "note": "같은 칼럼을 두고 「2만 년」이라는 다른 어림을 전하는 자료도 있다. 본문은 널리 인용되는 4경 년 쪽을 리베스트의 어림으로 밝혀 적었다."
+ },
+ {
+  "id": "rsa129crack",
+  "claim": "RSA-129 는 1994년 4월에 데릭 앳킨스·마이클 그라프·아르옌 렌스트라·폴 레일런드가 이끄는 팀이 쪼갰다. 20여 개 나라의 자원자 약 600명이 컴퓨터 약 1600대를 빌려주었고, 체질(다항식 이차 체) 단계에 여덟 달이 걸렸다. 답은 64자리 소수와 65자리 소수였다.",
+  "source": "Atkins, D., Graff, M., Lenstra, A. K., &amp; Leyland, P. C. (1995). The magic words are squeamish ossifrage. In <i>Advances in Cryptology — ASIACRYPT ’94</i> (LNCS 917, pp. 263–277). Springer.",
+  "checked": "2026-10-10",
+  "note": "앳킨스의 발표 메일은 1994년 4월 26일자다. 1993년이라 적은 자료가 있으나 이는 체질을 시작한 해로 보인다."
+ },
+ {
+  "id": "ossifrage",
+  "claim": "RSA-129 의 평문은 「THE MAGIC WORDS ARE SQUEAMISH OSSIFRAGE」 였고, 상금 100달러는 자유소프트웨어재단에 기부되었다.",
+  "source": "Atkins, D., Graff, M., Lenstra, A. K., &amp; Leyland, P. C. (1995). The magic words are squeamish ossifrage. <i>ASIACRYPT ’94</i>, 263–277.",
+  "checked": "2026-10-10",
+  "note": "ossifrage 는 수염수리를 가리키는 옛말이다."
+ },
+ {
+  "id": "euclidinf",
+  "claim": "유클리드는 『원론』 제9권 명제 20 에서 소수가 무한히 많음을 증명했다.",
+  "source": "Euclid. (c. 300 BCE). <i>Elements</i>, Book IX, Proposition 20. (Heath, T. L., Trans., 1908, Cambridge University Press.)",
+  "checked": "2026-10-10"
+ },
+ {
+  "id": "gauss1801",
+  "claim": "가우스는 1801년 『정수론 연구』에서 소인수분해의 유일성(산술의 기본정리)을 엄밀하게 다루었다.",
+  "source": "Gauss, C. F. (1801). <i>Disquisitiones Arithmeticae</i>. Leipzig: Fleischer.",
+  "checked": "2026-10-10",
+  "note": "가우스는 1777년생이므로 출간 당시 스물넷이었다."
+ },
+ {
+  "id": "pnt1896",
+  "claim": "소수정리는 1896년 아다마르와 드 라 발레 푸생이 각각 독립적으로 증명했다.",
+  "source": "Hadamard, J. (1896). Sur la distribution des zéros de la fonction ζ(s). <i>Bulletin de la SMF, 24</i>, 199–220. / de la Vallée Poussin, C. (1896). Recherches analytiques sur la théorie des nombres premiers. <i>Annales de la Société Scientifique de Bruxelles, 20</i>, 183–256.",
+  "checked": "2026-10-10"
+ },
+ {
+  "id": "shor1994",
+  "claim": "피터 쇼어는 1994년에 양자컴퓨터로 소인수분해를 다항 시간에 할 수 있는 알고리즘을 발표했다.",
+  "source": "Shor, P. W. (1994). Algorithms for quantum computation: Discrete logarithms and factoring. In <i>Proceedings 35th Annual Symposium on Foundations of Computer Science</i> (pp. 124–134). IEEE.",
+  "checked": "2026-10-10"
+ },
+ {
+  "id": "rsa250",
+  "claim": "250자리(829비트) 수 RSA-250 은 2020년 2월에 수체 체로 쪼개졌고, 계산량은 약 2700 코어-년이었다.",
+  "source": "Boudot, F., Gaudry, P., Guillevic, A., Heninger, N., Thomé, E., &amp; Zimmermann, P. (2020, February 28). <i>Factorization of RSA-250</i> [공개 발표]. cado-nfs 메일링 리스트.",
+  "checked": "2026-10-10"
+ },
+ {
+  "id": "mersenne2024",
+  "claim": "2024년 10월 현재 알려진 가장 큰 소수는 2의 136279841승 − 1 이며 10진법으로 41,024,320 자리다.",
+  "source": "Great Internet Mersenne Prime Search. (2024, October 21). <i>GIMPS discovers largest known prime number: 2^136,279,841 − 1</i>. mersenne.org",
+  "checked": "2026-10-10",
+  "note": "기록은 갱신될 수 있으므로 본문에 「2024년에」라고 때를 밝혀 적었다."
+ },
+ {
+  "id": "rsa1977",
+  "claim": "RSA 암호는 1977년 매사추세츠공과대학의 론 리베스트·아디 샤미르·레너드 애들먼이 고안했고, 1978년 학술지에 발표되었다.",
+  "source": "Rivest, R. L., Shamir, A., &amp; Adleman, L. (1978). A method for obtaining digital signatures and public-key cryptosystems. <i>Communications of the ACM, 21</i>(2), 120–126.",
+  "checked": "2026-10-10"
+ },
+ {
+  "id": "eratosthenes",
+  "claim": "에라토스테네스(기원전 276~194년경)는 소수의 배수를 차례로 지워 소수를 가려내는 「체」를 고안했다.",
+  "source": "Heath, T. L. (1921). <i>A History of Greek Mathematics</i> (Vol. 1, pp. 100–104). Oxford: Clarendon Press.",
+  "checked": "2026-10-10"
+ },
+ {
+  "id": "fermat1640",
+  "claim": "페르마는 1640년 프레니클에게 보낸 편지에서, a 가 소수 p 로 나누어떨어지지 않으면 a의 (p−1)승을 p 로 나눈 나머지가 1 임을 적었다(페르마의 소정리).",
+  "source": "Fermat, P. de. (1640, October 18). Letter to Frénicle de Bessy. In <i>Œuvres de Fermat</i> (Vol. 2, pp. 206–212). Paris: Gauthier-Villars, 1894.",
+  "checked": "2026-10-10",
+  "note": "증명은 1736년 오일러가 처음 공개했다."
+ },
+ {
+  "id": "qs_sieve",
+  "claim": "RSA-129 를 쪼개는 데 쓰인 방법은 다항식 이차 체(multiple polynomial quadratic sieve)이며, 여러 대의 컴퓨터가 나눠 맡을 수 있다는 점이 핵심이었다.",
+  "source": "Pomerance, C. (1996). A tale of two sieves. <i>Notices of the AMS, 43</i>(12), 1473–1485.",
+  "checked": "2026-10-10"
+ }
+]

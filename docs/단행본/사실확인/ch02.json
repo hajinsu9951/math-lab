@@ -1,0 +1,62 @@
+[
+ {
+  "id": "cicada_period",
+  "claim": "북아메리카의 주기매미(Magicicada)는 13년 또는 17년을 애벌레로 땅속에서 보낸 뒤 한꺼번에 나온다.",
+  "source": "Williams, K. S., &amp; Simon, C. (1995). The ecology, behavior, and evolution of periodical cicadas. <i>Annual Review of Entomology, 40</i>, 269–295.",
+  "checked": "2026-10-10"
+ },
+ {
+  "id": "cicada_satiation",
+  "claim": "한꺼번에 나오는 까닭으로 가장 잘 뒷받침되는 설명은 「포식자 포화」다 — 한 번에 너무 많이 나와 포식자가 다 먹지 못한다는 것이다.",
+  "source": "Koenig, W. D., &amp; Liebhold, A. M. (2013). Avian predation pressure as a potential driver of periodical cicada cycle length. <i>The American Naturalist, 181</i>(1), 145–149.",
+  "checked": "2026-10-10",
+  "note": "현장 자료로 뒷받침된 쪽은 「한꺼번에 나온다」이지 「왜 하필 소수냐」가 아니다."
+ },
+ {
+  "id": "cicada_prime",
+  "claim": "주기가 하필 소수인 까닭으로는 ① 이웃 무리와 섞이는 것(혼종)을 피한다 ② 포식자의 주기와 겹치는 것을 피한다 두 가설이 제시되었다. 13년 무리와 17년 무리가 같은 해에 나오는 것은 221년에 한 번뿐이다.",
+  "source": "Tanaka, Y., Yoshimura, J., Simon, C., Cooley, J. R., &amp; Tainaka, K. (2009). Allee effect in the selection for prime-numbered cycles in periodical cicadas. <i>PNAS, 106</i>(22), 8975–8979.",
+  "checked": "2026-10-10",
+  "note": "221 = 13 × 17 이다."
+ },
+ {
+  "id": "cicada_doubt",
+  "claim": "소수 주기를 고르게 만드는 생태적 기작이 분명하지 않다는 비판이 있으며, 생리적·유전적 제약 때문일 수 있다는 견해도 있다. 아직 결론이 나지 않은 논쟁이다.",
+  "source": "Lehmann-Ziebarth, N., Heideman, P. P., Shapiro, R. A., Stoddart, S. L., Hsiao, C. C. L., Stephenson, G. R., Milewski, P. A., &amp; Ives, A. R. (2005). Evolution of periodicity in periodical cicadas. <i>Ecology, 86</i>(12), 3200–3211.",
+  "checked": "2026-10-10",
+  "note": "본문은 이 설명을 「가설」로만 적고, 교사 이야기에서 모형과 사실을 가르는 물음을 함께 둔다."
+ },
+ {
+  "id": "euclid_gcd",
+  "claim": "유클리드는 『원론』 제7권 명제 1~2 에서 두 수의 최대공약수를 구하는 방법(호제법)을 적었다.",
+  "source": "Euclid. (c. 300 BCE). <i>Elements</i>, Book VII, Propositions 1–2. (Heath, T. L., Trans., 1908, Cambridge University Press.)",
+  "checked": "2026-10-10"
+ },
+ {
+  "id": "meton",
+  "claim": "기원전 5세기 그리스의 메톤이 19 태양년이 235 삭망월과 거의 같음을 정리했다(메톤 주기). 음력에 윤달을 넣는 규칙의 바탕이 되었다.",
+  "source": "Neugebauer, O. (1975). <i>A History of Ancient Mathematical Astronomy</i> (Vol. 2, pp. 615–624). Springer.",
+  "checked": "2026-10-10",
+  "note": "19년에 윤달 7번을 넣으면 235 = 19 × 12 + 7 이 된다."
+ },
+ {
+  "id": "antikythera",
+  "claim": "안티키테라 기계(기원전 2세기 말)의 뒷면 나선 눈금은 223 칸으로, 일식이 되풀이되는 사로스 주기(223 삭망월)를 나타낸다. 앞면의 메톤 눈금은 235 칸이다.",
+  "source": "Freeth, T., Bitsakis, Y., Moussas, X., Seiradakis, J. H., Tselikas, A., Mangou, H., … Edmunds, M. G. (2006). Decoding the ancient Greek astronomical calculator known as the Antikythera Mechanism. <i>Nature, 444</i>, 587–591.",
+  "checked": "2026-10-10",
+  "note": "「톱니가 223 개인 바퀴」라는 말이 널리 퍼져 있으나 확인되지 않는다. 223 은 눈금 칸 수이자 삭망월 수다."
+ },
+ {
+  "id": "gear_coprime",
+  "claim": "톱니 수를 서로소로 잡으면 같은 두 톱니가 만나는 주기가 길어져 마모가 고르게 퍼진다. 이 때문에 기어 설계에서 「헌팅 투스(hunting tooth)」 를 둔다.",
+  "source": "Shigley, J. E., &amp; Mischke, C. R. (2001). <i>Mechanical Engineering Design</i> (6th ed., Ch. 13). McGraw-Hill.",
+  "checked": "2026-10-10"
+ },
+ {
+  "id": "mersenne1644",
+  "claim": "메르센은 1644년 『물리·수학 성찰』에서 2의 n승 − 1 꼴의 수 가운데 소수가 되는 n 을 목록으로 적었다.",
+  "source": "Mersenne, M. (1644). <i>Cogitata Physico-Mathematica</i>. Paris. — 서문의 메르센 수 목록.",
+  "checked": "2026-10-10",
+  "note": "목록에는 틀린 항목도 있었으나, 오늘날 알려진 가장 큰 소수는 모두 이 꼴이다."
+ }
+]

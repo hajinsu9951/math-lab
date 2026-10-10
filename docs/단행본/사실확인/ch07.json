@@ -1,0 +1,63 @@
+[
+ {
+  "id": "playfair_atlas1786",
+  "claim": "윌리엄 플레이페어가 1786년에 펴낸 『상업·정치 도해집』에는 시간에 따른 변화를 그린 선그래프 43 장과 막대그래프 한 장이 실려 있다.",
+  "source": "Playfair, W. (1786). <i>The Commercial and Political Atlas</i>. London: Corry. / David Rumsey Map Collection, 1786 초판 해제.",
+  "checked": "2026-10-11",
+  "note": "도판 수는 목록마다 다르게 적혀 있다 — 럼지 목록은 초판을 「도판 40 장·그림 44 개」로, 다른 목록은 34 장으로 센다. 그림의 성격(선그래프 43 + 막대 1)은 일치한다."
+ },
+ {
+  "id": "playfair_bar_scotland",
+  "claim": "그 막대그래프는 스코틀랜드가 17 개 나라와 주고받은 수입·수출을 나란히 그린 것으로, 1780년 성탄절부터 1781년 성탄절까지 «한 해분» 자료다. 여러 해 자료를 구하지 못해 늘 그리던 시계열 대신 막대를 썼다.",
+  "source": "Playfair, W. (1786). <i>The Commercial and Political Atlas</i> (목차 및 해당 도판). / Beniger, J. R., &amp; Robyn, D. L. (1978). Quantitative graphics in statistics. <i>The American Statistician, 32</i>(1), 1–11.",
+  "checked": "2026-10-11",
+  "note": "플레이페어 자신은 시간이 빠진 그림을 덜 쓸모 있다고 보았고, 1801년 제3판에서는 이 막대그래프를 빼 버렸다. 베니저와 로빈은 오히려 «공간에도 시간에도 기대지 않고 양을 견준 첫 그림»이라고 평가한다."
+ },
+ {
+  "id": "playfair_pie1801",
+  "claim": "원그래프(파이 차트)가 처음 나온 것은 플레이페어가 1801년에 펴낸 『통계 요람』이다.",
+  "source": "Playfair, W. (1801). <i>The Statistical Breviary</i>. London: Wallis. / Spence, I. (2005). No humble pie: The origins and usage of a statistical chart. <i>Journal of Educational and Behavioral Statistics, 30</i>(4), 353–368.",
+  "checked": "2026-10-11"
+ },
+ {
+  "id": "playfair_predecessors",
+  "claim": "플레이페어가 그래프를 무에서 만들어 낸 것은 아니다. 14세기의 오렘은 성질의 세기를 수직 높이로 그렸고, 1644년 판랑흐런의 경도 비교 그림, 1669년 하위헌스의 기대수명 곡선, 1685년 플롯의 날씨 기록이 앞서 있었다.",
+  "source": "Friendly, M. (2008). The golden age of statistical graphics. <i>Statistical Science, 23</i>(4), 502–535. / Funkhouser, H. G. (1937). Historical development of the graphical representation of statistical data. <i>Osiris, 3</i>, 269–404.",
+  "checked": "2026-10-11",
+  "note": "프렌들리는 이들을 «이어지지 않은 낱낱의 사건»으로 본다 — 앞선 그림들은 있었으나, 자료를 널리 전하는 방법으로 자리 잡은 것은 플레이페어에서다."
+ },
+ {
+  "id": "priestley1765",
+  "claim": "1765년 조지프 프리스틀리의 『전기(傳記) 연표』는 기원전 1200년부터 1800년까지 약 2000 명의 생애를 각각 막대 하나로 그렸다. 근대적 연표의 처음으로 꼽힌다.",
+  "source": "Priestley, J. (1765). <i>A Chart of Biography</i>. London. / Rosenberg, D., &amp; Grafton, A. (2010). <i>Cartographies of Time</i> (pp. 115–138). Princeton Architectural Press.",
+  "checked": "2026-10-11",
+  "note": "플레이페어가 이 그림을 보았는지는 확인되지 않았다. 다만 「길이로 양을 나타낸다」는 생각이 이미 있었다는 증거는 된다."
+ },
+ {
+  "id": "playfair_credit",
+  "claim": "펑크하우저와 워커는 1935년 논문에서 플레이페어를 「통계 자료를 그림으로 나타내는 방법을 통째로 만들어 낸 사람」이라 평가했다. 반면 코스티건이브스와 맥도널드로스는 그의 독창성이 과장되었다고 본다.",
+  "source": "Funkhouser, H. G., &amp; Walker, H. M. (1935). Playfair and his charts. <i>Economic History, 3</i>, 103–109. / Costigan-Eaves, P., &amp; Macdonald-Ross, M. (1990). William Playfair (1759–1823). <i>Statistical Science, 5</i>(3), 318–326.",
+  "checked": "2026-10-11",
+  "note": "책에는 두 평가를 함께 적었다. 「발명되었다」는 말이 간단치 않다는 것이 이 장의 내용이기도 하다."
+ },
+ {
+  "id": "playfair_life",
+  "claim": "플레이페어(1759–1823)는 탈곡기를 만든 앤드루 미클에게서 기술을 배운 뒤 1777년 버밍엄의 볼턴·와트 공장에서 제임스 와트의 제도공으로 일했다. 뒷날 은행이 무너져 채무자 감옥(플리트)에 갇혔다가 1802년에 풀려났고, 1823년 런던에서 죽었다.",
+  "source": "Bellhouse, D. R. (2024). <i>The Flawed Genius of William Playfair: The Story of the Father of Statistical Graphics</i>. University of Toronto Press. / Costigan-Eaves, P., &amp; Macdonald-Ross, M. (1990). William Playfair (1759–1823). <i>Statistical Science, 5</i>(3), 318–326.",
+  "checked": "2026-10-11",
+  "note": "19세기의 한 전기는 그를 「기술자이자 정치경제학자이자 악당」이라 적었다. 맏형 존 플레이페어는 에든버러 대학의 수학·자연철학 교수였다. 아버지가 죽은 뒤 누가 그의 교육을 맡았는지는 기록이 엇갈린다(존이라는 기록과 제임스라는 기록이 있다)."
+ },
+ {
+  "id": "playfair_spy",
+  "claim": "플레이페어가 영국의 비밀 공작원이었는지는 전기마다 다르게 적는다. 버코위츠는 그가 프랑스 공화국의 화폐를 무너뜨리는 공작에 깊이 관여했다고 보고, 벨하우스는 「첩자도 위조범도 아니었고 기껏해야 한때 전령이었다」고 반박한다.",
+  "source": "Berkowitz, B. D. (2018). <i>Playfair: The True Story of the British Secret Agent Who Changed How We See the World</i>. George Mason University Press. / Bellhouse, D. R. (2024). <i>The Flawed Genius of William Playfair</i>. University of Toronto Press.",
+  "checked": "2026-10-11",
+  "note": "본문에는 두 주장을 나란히 적고 어느 쪽도 사실로 단정하지 않았다."
+ },
+ {
+  "id": "playfair_scioto",
+  "claim": "플레이페어는 프랑스 혁명을 피해 달아난 사람들에게 미국 오하이오의 땅을 팔았던 「시오토 회사」 사건에 이름이 올라 있다. 팔린 땅의 상당 부분은 회사가 제대로 가지고 있지 않은 땅이었다.",
+  "source": "Costigan-Eaves, P., &amp; Macdonald-Ross, M. (1990). William Playfair (1759–1823). <i>Statistical Science, 5</i>(3), 318–326. / Bellhouse, D. R. (2024). <i>The Flawed Genius of William Playfair</i>. University of Toronto Press.",
+  "checked": "2026-10-11"
+ }
+]

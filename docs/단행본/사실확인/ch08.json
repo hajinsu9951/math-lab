@@ -1,0 +1,50 @@
+[
+ {
+  "id": "archimedes_lever",
+  "claim": "아르키메데스는 『평면의 균형에 대하여』 제1권 명제 6·7 에서 지레의 법칙을 증명했다 — 두 무게는 «무게에 반비례하는 거리» 에서 균형을 이룬다. 명제 6 은 공약 가능한 무게를, 명제 7 은 공약 불가능한 무게를 다룬다.",
+  "source": "Heath, T. L. (Ed.). (1897). <i>The Works of Archimedes</i> (pp. 189–194). Cambridge University Press.",
+  "checked": "2026-10-11",
+  "note": "증명이 어느 가정까지 썼는지는 지금도 논의가 있다(딕스테르하위스, 아시스). 책에는 결론만 적었다."
+ },
+ {
+  "id": "archimedes_quote",
+  "claim": "「발 디딜 곳을 다오, 그러면 지구를 움직여 보이겠다」는 아르키메데스 자신의 글로 남아 있지 않다. 가장 이른 형태는 4세기 무렵 파포스의 『수학집성』 제8권이고, 12세기 체체스가 되풀이했다. 플루타르코스 『마르켈루스전』 14장에는 「또 다른 세계가 있어 그리로 건너갈 수 있다면 이 세계를 움직여 보이겠다」는 꼴로 전한다.",
+  "source": "Pappus of Alexandria. <i>Synagoge</i>, Book VIII (c. 340 CE). / Plutarch. <i>Life of Marcellus</i>, 14. / Dijksterhuis, E. J. (1987). <i>Archimedes</i> (C. Dikshoorn, Trans.). Princeton University Press.",
+  "checked": "2026-10-11",
+  "note": "오늘날 널리 쓰이는 「충분히 긴 지렛대와 발 디딜 곳을 달라」는 더 뒤에 다듬어진 꼴이다. 본문에는 「전해집니다」로 적었다."
+ },
+ {
+  "id": "archimedes_ship",
+  "claim": "히에론 왕 앞에서 아르키메데스가 혼자 힘으로 배를 끌어 보였다는 이야기가 전한다. 어떤 장치였는지는 기록이 엇갈린다 — 플루타르코스는 도르래라 적고, 아테나이오스는 나선(헬릭스)이라 적었다.",
+  "source": "Plutarch. <i>Life of Marcellus</i>, 14. / Heath, T. L. (Ed.). (1897). <i>The Works of Archimedes</i> (Introduction, p. xix). Cambridge University Press.",
+  "checked": "2026-10-11",
+  "note": "이야기가 실제로 있었던 일인지도 확인할 길이 없다. 본문에는 「전합니다」로 적고 두 기록이 다르다는 사실을 함께 밝혔다."
+ },
+ {
+  "id": "hooke_anagram",
+  "claim": "용수철의 법칙은 1676년 로버트 훅이 『헬리오스코프 해설』 끝에 «ceiiinosssttuu» 라는 글자 수수께끼로 숨겨 두었다가, 1678년 『복원력에 대한 강의』에서 «ut tensio, sic vis — 늘어난 만큼 힘» 으로 풀어 밝힌 것이다.",
+  "source": "Hooke, R. (1676). <i>A Description of Helioscopes, and Some Other Instruments</i>. London. / Hooke, R. (1678). <i>Lectures de Potentia Restitutiva, or of Spring</i>. London.",
+  "checked": "2026-10-11",
+  "note": "1676년 판의 철자는 u 로 끝나고 뒤에 v 로 적힌 꼴도 쓰인다 — 라틴어 인쇄에서 u 와 v 를 같은 글자로 썼기 때문이다. 훅은 1678년 글에서 이 생각을 「열여덟 해쯤 전」에 얻었다고 적었다."
+ },
+ {
+  "id": "earth_mass",
+  "claim": "지구의 질량은 약 5.9722 × 10²⁴ kg 이다.",
+  "source": "Williams, D. R. (2024). <i>Earth Fact Sheet</i>. NASA Goddard Space Flight Center.",
+  "checked": "2026-10-11",
+  "note": "지구 질량은 GM 을 중력상수 G 로 나누어 얻는 값이라 G 의 정밀도만큼의 한계가 있다(상대오차 10⁻⁴ 수준)."
+ },
+ {
+  "id": "milky_way",
+  "claim": "우리 은하 원반의 지름은 약 10 만 광년이다.",
+  "source": "NASA Goddard Space Flight Center. <i>Imagine the Universe — The Milky Way Galaxy</i>.",
+  "checked": "2026-10-11",
+  "note": "자료에 따라 8 만~15 만 광년으로 폭이 있다. 본문에서는 「약 10 만 광년」으로만 썼다."
+ },
+ {
+  "id": "universe_age",
+  "claim": "우주의 나이는 약 138 억 년(13.797 ± 0.023 × 10⁹ 년)으로 추정된다.",
+  "source": "Planck Collaboration. (2020). Planck 2018 results. VI. Cosmological parameters. <i>Astronomy &amp; Astrophysics, 641</i>, A6.",
+  "checked": "2026-10-11"
+ }
+]
