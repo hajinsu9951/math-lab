@@ -67,7 +67,10 @@ FNS = ['primeDemo', 'intDemo', 'letterDemo', 'scaleDemo', 'propDemo', 'paraDemo'
        'diffEqDemo', 'perceptronDemo', 'accTrapDemo', 'textVecDemo', 'tfidfDemo',
        # LAB 191~200
        'jaccardDemo', 'imgMatrixDemo', 'rgbLayerDemo', 'transposeDemo', 'matMulDemo',
-       'hammingDemo', 'denseLayerDemo', 'lossCurveDemo', 'mseMaeDemo', 'lrateDemo']
+       'hammingDemo', 'denseLayerDemo', 'lossCurveDemo', 'mseMaeDemo', 'lrateDemo',
+       # LAB 201~210
+       'biasLearnDemo', 'aprDemo', 'taxBracketDemo', 'fxDemo', 'cpiDemo',
+       'pvDemo', 'supplyDemandDemo', 'elasticityDemo', 'priceCapDemo', 'oppCostDemo']
 
 TAIL = """};
   /* 수업 모형 안에서는 기록 단계가 보고서를 따로 만든다 — 두 벌이 되지 않게 */
