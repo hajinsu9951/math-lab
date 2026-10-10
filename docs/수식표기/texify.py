@@ -174,6 +174,10 @@ def protected(seg):
        · id:'…'   — 탐구 보고서의 식별자
     """
     sp = []
+    for m in re.finditer(r'<div class="lsnfigs">', seg):   # patch_openfigs 가 소유한 블록
+        k = seg.find('</div>', m.end())
+        if k > 0:
+            sp.append((m.start(), k + 6))
     for m in re.finditer(r'svg:`', seg):
         k = seg.find('`', m.end())
         sp.append((m.start(), k + 1))
