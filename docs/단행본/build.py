@@ -551,24 +551,34 @@ def build(volpath):
 
     chapters, no = [], 0
     toc = ['<section class="toc"><h2>목차</h2>']
+    # 목차의 네모는 그 장의 실험실로 바로 가는 QR 이다 — 번호를 찾아 들어갈 일이 없다.
+    toc.append('<p class="tnote">제목 옆의 네모를 휴대전화 사진기로 비추면 <b>그 장의 '
+               '실험실이 바로 열립니다.</b> 목록에서 번호를 찾을 필요가 없습니다. '
+               '인터넷이 되지 않으면 내려받아 둔 <b>index.html</b> 을 열고 같은 이름을 '
+               '찾으면 됩니다.</p>')
     for p in V['parts']:
         toc.append('<div class="tp">제%s부 · %s</div>' % (esc(p['n']), esc(p['title'])))
         for lab in p['chapters']:
             no += 1
             src = os.path.join(base, V['dir'], 'ch%02d.txt' % no)
             if not os.path.exists(src):
-                toc.append('<div class="tc"><div class="n">제%d장</div>'
-                           '<div class="t" style="color:#9AA6B8">(집필 예정 · LAB %d)</div></div>'
-                           % (no, lab))
+                toc.append('<div class="tc"><div class="q tbd"></div><div class="tt">'
+                           '<div class="n">제%d장</div>'
+                           '<div class="t" style="color:#9AA6B8">(집필 예정 · LAB %d)</div>'
+                           '</div></div>' % (no, lab))
                 continue
             meta, blocks = parse(src)
             assert int(meta['lab']) == lab, (src, meta.get('lab'), lab)
             chapters.append((p, no, chapter_html(no, meta, blocks, MAT[lab])))
-            toc.append('<div class="tc"><div class="n">제%d장</div><div class="t">%s</div>'
-                       '<div class="d"></div><div class="p">LAB %d</div></div>'
-                       % (no, esc(meta['title']), lab))
-            if meta.get('sub'):
-                toc.append('<div class="ts">%s</div>' % esc(meta['sub']))
+            labname = plain(MAT[lab]['title'])
+            toc.append('<div class="tc"><div class="q">%s</div><div class="tt">'
+                       '<div class="n">제%d장</div><div class="t">%s</div>%s'
+                       '<div class="lab">%s</div></div></div>'
+                       % (QRMOD.svg(labname, 16), no, esc(meta['title']),
+                          ('<div class="ts">%s</div>' % esc(meta['sub']))
+                          if meta.get('sub') else '',
+                          esc('실험실 「%s」'
+                              % re.split(r'[—–]', labname)[0].strip())))
     toc.append('</section>')
     H.append('\n'.join(toc))
 
