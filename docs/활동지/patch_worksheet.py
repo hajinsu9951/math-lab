@@ -45,6 +45,47 @@ function wsText(s){
 }
 function wsEsc(s){ return String(s==null?'':s)
   .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+/* 글 속의 $…$ 를 종이에서도 수식으로 (2026-10-10).
+   화면은 texify() 가 바꿔 주지만 활동지는 글자를 그대로 썼다 — 그래서 학생이 받아 드는 종이에
+   「$\sqrt{a+b}$」 가 날것으로 찍혔다(116종·401토막). 화면과 같은 변환기를 쓰므로 모양도 같다.
+   변환기가 없거나 식이 잘못되어도 종이는 나와야 하니 통째로 try 로 감싸고 글자로 떨어진다. */
+function wsMath(tex){
+  try{ if(typeof texToMathML==='function') return '<span class="mx">'+texToMathML(tex,false)+'</span>'; }
+  catch(e){}
+  return wsEsc(tex);
+}
+/* 태그를 지운 «맨 글»용 — 미션 문구·탐구 질문처럼 글만 들어가는 자리 */
+function wsTex(s){
+  const t = wsText(s);
+  if(t.indexOf('$') < 0) return wsEsc(t);
+  return t.split(/(\$[^$]+\$)/).map(p=>{
+    const m = /^\$([^$]+)\$$/.exec(p);
+    return m ? wsMath(m[1]) : wsEsc(p);
+  }).join('');
+}
+/* 수식을 넣을 수 없는 자리 — 브라우저 제목·내려받는 파일 이름·그림의 대체 글.
+   여기에 $…$ 를 그대로 두면 「$S = \frac{1}{2}$rl」 처럼 보이므로 읽을 수 있는 글자로 편다. */
+function wsPlain(s){
+  return wsText(s).replace(/\$([^$]+)\$/g, (whole, x) => x
+    .replace(/\\left|\\right/g, '')
+    .replace(/\\frac\{([^{}]*)\}\{([^{}]*)\}/g, '$1/$2')
+    .replace(/\\sqrt\{([^{}]*)\}/g, '√($1)')
+    .replace(/\\mathrm\{([^{}]*)\}/g, '$1')
+    .replace(/\\times/g, '×').replace(/\\cdot/g, '·')
+    .replace(/\^\{?2\}?/g, '²').replace(/\^\{?3\}?/g, '³')
+    .replace(/\^\{([^{}]*)\}/g, '^$1').replace(/_\{([^{}]*)\}/g, '_$1')
+    .replace(/\\[a-zA-Z]+/g, '').replace(/[{}]/g, '')
+    .replace(/\s+/g, ' ').trim());
+}
+/* 태그를 살려야 하는 자리 — 그림 설명처럼 <b> 가 들어 있는 글 */
+function wsTexHtml(s){
+  const t = String(s==null?'':s);
+  if(t.indexOf('$') < 0) return t;
+  return t.split(/(\$[^$]+\$)/).map(p=>{
+    const m = /^\$([^$]+)\$$/.exec(p);
+    return m ? wsMath(m[1]) : p;
+  }).join('');
+}
 function wsLines(n){ return '<div class="ln">'+Array.from({length:n},()=>'<i></i>').join('')+'</div>'; }
 /* 실험실 화면의 삽화·도해를 그대로 가져온다 */
 function wsImg(html, mm){
@@ -60,21 +101,21 @@ function wsSvg(html, mm){
 
 function lessonSheet(spec, P, n){
   const L = (typeof LABS!=='undefined' && LABS[n-1]) ? LABS[n-1] : null;
-  const title = wsText(spec.title);
+  const title = wsPlain(spec.title);   // 브라우저 제목·파일 이름에는 수식을 넣을 수 없다
   const iq = (spec.inquiry && spec.inquiry.q) || [];
   const cols = (spec.inquiry && spec.inquiry.cols) || [];
   const figs = wsFigs(spec.problem.sit);
   const sitText = wsText(wsSit(spec.problem.sit));
   const rowsN = 8;
   const table = cols.length ? `<table class="rec"><thead><tr>${
-      cols.map(c=>`<th>${wsEsc(wsText(c))}</th>`).join('')}</tr></thead><tbody>${
+      cols.map(c=>`<th>${wsTex(c)}</th>`).join('')}</tr></thead><tbody>${
       Array.from({length:rowsN},()=>`<tr>${cols.map(()=>'<td></td>').join('')}</tr>`).join('')
     }</tbody></table>` : wsLines(6);
   const miss = (spec.missions||[]).map((m,i)=>
-    `<li><b>STEP ${i+1}</b> ${wsEsc(wsText(m.t))}${
-      m.hand?`<div class="hand">✍ 손으로 — ${wsEsc(wsText(m.hand))}</div>`:''}</li>`).join('');
+    `<li><b>STEP ${i+1}</b> ${wsTex(m.t)}${
+      m.hand?`<div class="hand">✍ 손으로 — ${wsTex(m.hand)}</div>`:''}</li>`).join('');
   const pre = (spec.predict && spec.predict.q) || [];
-  const eq = P && P.eq ? wsEsc(wsText(P.eq)) : '';
+  const eq = P && P.eq ? wsTex(P.eq) : '';
   const grade = L && L.m ? wsEsc(L.m.join(' · ')) : '';
 
   return `<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8">
@@ -114,34 +155,36 @@ function lessonSheet(spec, P, n){
  .fig2 .figcap{margin-top:0;flex:1}
  .eq{font-family:"Cambria Math","Times New Roman",serif;font-size:12.5pt;color:#16325C;text-align:center;margin:4px 0}
  .tip{font-size:9.4pt;color:#6B7280;margin-top:4px}
+ .mx{white-space:nowrap}
+ math{font-size:1.02em}
  footer{margin-top:12px;border-top:1px solid #D9E1EC;padding-top:5px;font-size:8.8pt;color:#9CA3AF;
         display:flex;justify-content:space-between}
  @media print{ .wrap{padding:0} *{-webkit-print-color-adjust:exact;print-color-adjust:exact} }
 </style></head><body><div class="wrap">
 <header>
   <div class="no">LAB ${String(n).padStart(2,'0')} · 학생 활동지</div>
-  <h1>${wsEsc(title)}</h1>
+  <h1>${wsTex(spec.title)}</h1>
   <div class="sub">${grade}</div>
   <div class="who"><span>학년 반 번호</span><span>이름</span><span>날짜</span></div>
 </header>
 
 <section>
   <h2><em>1</em>오늘의 문제</h2>
-  <div class="q">${wsEsc(wsText(spec.problem.q))}</div>
+  <div class="q">${wsTex(spec.problem.q)}</div>
   ${wsImg(spec.problem.svg, 44)}
   ${wsSvg(spec.problem.svg, 46)}
-  <div class="tip">${wsEsc(sitText)}</div>
+  <div class="tip">${wsTex(wsSit(spec.problem.sit))}</div>
 </section>
 
 ${figs.length ? `<section>
   <h2><em>+</em>그림으로 먼저 보기</h2>
   ${figs.map(f=>`<div class="fig2"><img class="wsimg2" src="${f.src}" alt="${wsEsc(wsText(f.cap))}">
-    <div class="figcap">${f.cap}</div></div>`).join('')}
+    <div class="figcap">${wsTexHtml(f.cap)}</div></div>`).join('')}
 </section>` : ''}
 
 <section>
   <h2><em>2</em>나의 예상 — 정답이 아니라 지금 생각을 적습니다</h2>
-  <ol>${pre.map(t=>`<li>${wsEsc(wsText(t))}${wsLines(2)}</li>`).join('')}</ol>
+  <ol>${pre.map(t=>`<li>${wsTex(t)}${wsLines(2)}</li>`).join('')}</ol>
 </section>
 
 <section>
@@ -152,12 +195,12 @@ ${figs.length ? `<section>
 <section>
   <h2><em>4</em>관찰 기록표</h2>
   ${table}
-  ${spec.inquiry&&spec.inquiry.hint?`<div class="tip">${wsEsc(wsText(spec.inquiry.hint))}</div>`:''}
+  ${spec.inquiry&&spec.inquiry.hint?`<div class="tip">${wsTex(spec.inquiry.hint)}</div>`:''}
 </section>
 
 <section>
   <h2><em>5</em>규칙 찾기 · 설명하기</h2>
-  <ol>${iq.map(t=>`<li>${wsEsc(wsText(t))}${wsLines(3)}</li>`).join('')}</ol>
+  <ol>${iq.map(t=>`<li>${wsTex(t)}${wsLines(3)}</li>`).join('')}</ol>
 </section>
 
 <section>
@@ -170,9 +213,9 @@ ${figs.length ? `<section>
 <section>
   <h2><em>7</em>적용 문제</h2>
   ${wsImg(spec.apply.q, 34)}
-  <div class="q">${wsEsc(wsText(spec.apply.q))}</div>
+  <div class="q">${wsTex(spec.apply.q)}</div>
   <div class="box">풀이${wsLines(4)}<div style="margin-top:4px">답 ______________</div></div>
-  ${spec.apply.hint?`<div class="tip">힌트 — ${wsEsc(wsText(spec.apply.hint))}</div>`:''}
+  ${spec.apply.hint?`<div class="tip">힌트 — ${wsTex(spec.apply.hint)}</div>`:''}
 </section>
 
 <footer><span>일상 속 수학 실험실 · 2026 대전광역시교육청 AI·디지털 기반 교육혁신 역량강화 연수</span><span>대전대신고 하진수</span></footer>
@@ -195,7 +238,7 @@ BTN_NEW = """     <div class="pgbar"><button class="b t" id="ls0go">예상하러
     wb.hidden=false; wn.hidden=false;
     wb.onclick=()=>{
       dl(lessonSheet(spec, P, no),
-         'LAB'+String(no).padStart(2,'0')+'_학생활동지_'+wsText(spec.title)+'.html', 'text/html');
+         'LAB'+String(no).padStart(2,'0')+'_학생활동지_'+wsPlain(spec.title)+'.html', 'text/html');
       wn.textContent='내려받았습니다 — 브라우저로 열어 Ctrl+P 로 인쇄하세요.';
     };
   })();"""

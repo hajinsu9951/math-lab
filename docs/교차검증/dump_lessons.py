@@ -21,7 +21,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from audit_lessons import blocks, _span          # noqa: E402  같은 자르기를 쓴다
 
-TAG = re.compile(r'<[^>]+>')
+# 진짜 태그만 지운다 — 'c < 5' 같은 부등호를 태그로 오인하면 문장이 통째로 사라진다
+TAG = re.compile(r'</?[A-Za-z][^<>]*>')
 
 
 def plain(t):
@@ -30,9 +31,18 @@ def plain(t):
     return ' '.join(t.split())
 
 
+
+def joined(t):
+    """JS 가 이어 붙인 문자열을 사람이 읽을 한 줄로 만든다 — '…'+r[3]+'…' → …〈값〉…"""
+    return re.sub(r"'\s*\+[^+]{1,60}\+\s*'", '〈값〉', t)
+
 def one(b, key):
-    m = re.search(r"%s'((?:[^'\\]|\\.)*)'" % re.escape(key), b)
-    return plain(m.group(1)) if m else ''
+    # 작은따옴표와 백틱을 모두 읽는다 — LAB 1·2·3·21 의 적용 문제는 백틱으로 적혀 있어서
+    # 작은따옴표만 찾던 때에는 「적용 문제가 그림뿐」 이라는 잘못된 소견이 나왔다 (2026-10-10).
+    m = re.search(r"%s\s*(?:'((?:[^'\\]|\\.)*)'|`((?:[^`\\]|\\.)*)`)" % re.escape(key), b)
+    if not m:
+        return ''
+    return plain(m.group(1) if m.group(1) is not None else m.group(2))
 
 
 def many(b, key):
