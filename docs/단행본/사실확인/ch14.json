@@ -1,0 +1,51 @@
+[
+ {
+  "id": "euler1750",
+  "claim": "1750년 11월 14일, 오일러는 골드바흐에게 보낸 편지에서 「꼭짓점 − 모서리 + 면 = 2」를 알렸다. 다만 그가 붙인 증명에는 결함이 있었고, 오늘날 처음 받아들여진 증명으로는 1811년 르장드르의 것을 꼽는다.",
+  "source": "Euler, L. (1750, November 14). Letter to Christian Goldbach. / Richeson, D. S. (2008). <i>Euler’s Gem: The Polyhedron Formula and the Birth of Topology</i>. Princeton University Press.",
+  "checked": "2026-10-11",
+  "note": "오일러의 관련 논문은 1758년 무렵 상트페테르부르크 학술원 논문집에 실렸다."
+ },
+ {
+  "id": "descartes_polyhedra",
+  "claim": "데카르트는 1620년 무렵 다면체에 관한 글을 썼으나 펴내지 않았다. 그 글에는 오일러의 것과 «같은 값의» 결과가 들어 있었다. 라이프니츠가 1670년대에 파리에서 베껴 두었고, 원고는 뒷날 하노버의 라이프니츠 유품에서 발견되었다.",
+  "source": "Federico, P. J. (1982). <i>Descartes on Polyhedra: A Study of the De Solidorum Elementis</i>. Springer. / Richeson, D. S. (2008). <i>Euler’s Gem</i>. Princeton University Press.",
+  "checked": "2026-10-11",
+  "note": "데카르트의 결과는 입체각의 합으로 적혀 있어 꼴이 다르지만 내용은 같다."
+ },
+ {
+  "id": "truncated_icosa",
+  "claim": "깎은 정이십면체는 정오각형 12 개와 정육각형 20 개로 이루어지며, 꼭짓점이 60 개, 모서리가 90 개다. 60 − 90 + 32 = 2 이다.",
+  "source": "Cromwell, P. R. (1997). <i>Polyhedra</i> (pp. 79–86). Cambridge University Press.",
+  "checked": "2026-10-11",
+  "note": "정이십면체(꼭짓점 12 · 모서리 30 · 면 20)의 꼭짓점을 잘라 얻는다 — 꼭짓점 12 개가 오각형 12 개가 되고, 삼각형 20 개가 육각형 20 개가 된다."
+ },
+ {
+  "id": "telstar1970",
+  "claim": "1970년 멕시코 월드컵 공인구 아디다스 텔스타는 검은 정오각형 12 조각과 흰 정육각형 20 조각, 모두 32 조각으로 만들어졌다. 흑백으로 한 것은 «텔레비전 중계에서 잘 보이게» 하려는 것이었다.",
+  "source": "FIFA, 역대 월드컵 공인구 자료. / Adidas, Telstar (1970) 제품 해제.",
+  "checked": "2026-10-11",
+  "note": "이 32 조각 배치 자체는 더 앞서 있었고, 덴마크의 에이길 닐센이 고안한 것으로 전한다. 「버크민스터 풀러가 축구공을 설계했다」는 이야기는 사실이 아니다."
+ },
+ {
+  "id": "c60_1985",
+  "claim": "1985년 9월, 라이스 대학교에서 크로토·컬·스몰리가 탄소 원자 60 개로 이루어진 분자를 찾아냈다. 그 구조는 육각형 20 개와 오각형 12 개로 된 축구공 꼴이고, 측지선 돔을 지은 건축가 버크민스터 풀러의 이름을 따 «버크민스터풀러렌» 이라 불렀다. 세 사람은 1996년 노벨 화학상을 받았다.",
+  "source": "Kroto, H. W., Heath, J. R., O’Brien, S. C., Curl, R. F., &amp; Smalley, R. E. (1985). C₆₀: Buckminsterfullerene. <i>Nature, 318</i>, 162–163. / The Nobel Prize in Chemistry 1996.",
+  "checked": "2026-10-11",
+  "note": "육각형만으로는 닫히지 않는다는 것을 모형을 만들며 깨닫고 오각형 12 개를 넣어 구 모양을 얻었다고 전한다 — 이 장에서 세어 보는 바로 그 사실이다."
+ },
+ {
+  "id": "five_platonic",
+  "claim": "정다면체는 정사면체·정육면체·정팔면체·정십이면체·정이십면체 다섯 가지뿐이다. 유클리드 『원론』 제13권의 마지막 명제가 이 사실이다.",
+  "source": "Euclid. <i>Elements</i>, Book XIII, Proposition 18 (및 그 뒤의 註). (Heath, T. L., Trans., 1925.) / Cromwell, P. R. (1997). <i>Polyhedra</i>. Cambridge University Press.",
+  "checked": "2026-10-11",
+  "note": "한 꼭짓점에 모인 각의 합이 360° 보다 작아야 한다는 조건에서 나온다 — 제12장의 「한 점에서 360°」 와 같은 생각이다."
+ },
+ {
+  "id": "euler_hole",
+  "claim": "v − e + f 는 «구멍이 없는» 다면체에서만 2 다. 도넛처럼 구멍이 하나 있으면 0 이 되고, 구멍이 g 개이면 2 − 2g 가 된다. 이 값을 오일러 지표라 한다.",
+  "source": "Richeson, D. S. (2008). <i>Euler’s Gem</i> (Ch. 15–17). Princeton University Press.",
+  "checked": "2026-10-11",
+  "note": "모양이 아니라 «구멍 수» 만으로 값이 정해진다 — 위상수학이 시작되는 자리다."
+ }
+]

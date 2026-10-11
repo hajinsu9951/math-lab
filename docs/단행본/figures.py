@@ -1846,5 +1846,129 @@ def ch13_rose():
     s.append('</svg>')
     return ''.join(s)
 
+
+@fig('ch14_euler', '다면체 여섯 개의 꼭짓점·모서리·면을 세어 v − e + f 를 구한 것입니다. '
+     '모양도 크기도 전혀 다른데 **값은 모두 2** 입니다. 면이 4 개든 32 개든 달라지지 않습니다 — '
+     '오일러의 다면체 정리입니다.')
+def ch14_euler():
+    W, H = 700, 326
+    rows = [('정사면체', 4, 6, 4), ('정육면체', 8, 12, 6), ('정팔면체', 6, 12, 8),
+            ('정십이면체', 20, 30, 12), ('정이십면체', 12, 30, 20),
+            ('깎은 정이십면체 (축구공)', 60, 90, 32)]
+    for nm, v, e, f in rows:
+        assert v - e + f == 2, nm
+    s = [head(W, H)]
+    s.append(txt(20, 24, 'v − e + f 는 언제나 2', 12.5, NAVY, 'start', 800))
+    xs = [62, 320, 400, 480, 590]
+    heads = ['', '꼭짓점 v', '모서리 e', '면 f', 'v − e + f']
+    for x, hd in zip(xs, heads):
+        s.append(txt(x, 62, hd, 9.2, GRAY, 'middle' if x > 100 else 'start', 800))
+    s.append(line(34, 70, 666, 70, LINE, 1.2))
+    for i, (nm, v, e, f) in enumerate(rows):
+        y = 96 + i * 32
+        last = (i == len(rows) - 1)
+        if last:
+            s.append(rect(34, y - 20, 632, 28, '#F0F7F4'))
+        s.append(txt(xs[0], y, nm, 10.2, TEAL if last else NAVY, 'start',
+                     800 if last else 400))
+        for x, val in zip(xs[1:4], (v, e, f)):
+            s.append(txt(x, y, str(val), 10, GRAY, 'middle'))
+        s.append(txt(xs[4], y, '2', 12, TEAL, 'middle', 800))
+    s.append(rect(34, 288, 632, 28, '#FBFCFE', LINE, 1, 6))
+    s.append(txt(350, 307, '60 − 90 + 32 = 2  —  축구공도 예외가 아니다', 11.6, NAVY,
+                 'middle', 800))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch14_why12', '축구공의 오각형이 **왜 꼭 12 개인지**를 세어 보는 것입니다. 꼭짓점마다 '
+     '모서리가 셋이고 면이 오각형과 육각형뿐이라고만 두면, 오일러의 식에서 '
+     '**오각형 수 = 12** 가 그냥 나옵니다. 육각형을 몇 개로 바꾸든 12 는 꿈쩍하지 않습니다 — '
+     '육각형이 하나도 없는 정십이면체도, 20 개인 축구공도, 60 개인 더 큰 공도 모두 12 개입니다.')
+def ch14_why12():
+    W, H = 700, 352
+    def count(p, h):
+        f = p + h
+        e2, v3 = 5 * p + 6 * h, 5 * p + 6 * h
+        assert e2 % 2 == 0 and v3 % 3 == 0
+        return v3 // 3, e2 // 2, f
+    cases = [(0, '정십이면체'), (20, '축구공 (깎은 정이십면체)'), (30, 'C₈₀'), (60, 'C₁₄₀')]
+    for h, nm in cases:
+        v, e, f = count(12, h)
+        assert v - e + f == 2, nm
+    s = [head(W, H)]
+    s.append(txt(20, 24, '오각형은 왜 꼭 12 개인가', 12.5, NAVY, 'start', 800))
+    # ── 식 세우기
+    s.append(txt(20, 54, '오각형 p 개 · 육각형 h 개 · 꼭짓점마다 모서리 셋이라 두면',
+                 9.6, GRAY, 'start', 700))
+    steps = [('면', 'f = p + h'),
+             ('모서리', 'e = (5p + 6h) ÷ 2', '변을 두 면이 나눠 쓴다'),
+             ('꼭짓점', 'v = (5p + 6h) ÷ 3', '꼭짓점마다 면 셋이 모인다')]
+    for i, st in enumerate(steps):
+        y = 84 + i * 26
+        s.append(txt(44, y, st[0], 9.4, GRAY, 'start', 700))
+        s.append(txt(110, y, st[1], 10.6, NAVY, 'start', 700))
+        if len(st) > 2:
+            s.append(txt(270, y, '— ' + st[2], 8.8, GRAY, 'start'))
+    s.append(rect(34, 172, 632, 46, '#F0F7F4'))
+    s.append(txt(350, 192, 'v − e + f = p ÷ 6 = 2   ⇒   p = 12', 14, TEAL,
+                 'middle', 800))
+    s.append(txt(350, 208, 'h 이 식에서 깨끗이 지워진다 — 육각형 수는 상관이 없다',
+                 9, GRAY, 'middle', 700))
+    # ── 표
+    xs = [78, 250, 340, 420, 500, 600]
+    heads = ['', '육각형 h', '오각형 p', '꼭짓점 v', '모서리 e', 'v − e + f']
+    for x, hd in zip(xs, heads):
+        s.append(txt(x, 248, hd, 8.8, GRAY, 'middle' if x > 100 else 'start', 800))
+    s.append(line(34, 256, 666, 256, LINE, 1))
+    for i, (h, nm) in enumerate(cases):
+        v, e, f = count(12, h)
+        y = 278 + i * 20
+        s.append(txt(xs[0], y, nm, 9.2, NAVY, 'start'))
+        s.append(txt(xs[1], y, str(h), 9.4, GRAY, 'middle'))
+        s.append(txt(xs[2], y, '12', 10, TEAL, 'middle', 800))
+        s.append(txt(xs[3], y, str(v), 9.4, GRAY, 'middle'))
+        s.append(txt(xs[4], y, str(e), 9.4, GRAY, 'middle'))
+        s.append(txt(xs[5], y, '2', 9.6, TEAL, 'middle', 800))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch14_cut', '정이십면체의 꼭짓점을 잘라 내면 축구공이 됩니다. 꼭짓점 **12 개**가 '
+     '잘려 나가 그 자리에 **오각형 12 개**가 생기고, 원래의 삼각형 **20 개**는 모서리가 '
+     '깎여 **육각형 20 개**가 됩니다. 「왜 하필 12 개인가」의 또 다른 답입니다 — '
+     '정이십면체의 꼭짓점이 12 개이기 때문입니다.')
+def ch14_cut():
+    W, H = 700, 300
+    before = (12, 30, 20)
+    after = (60, 90, 32)
+    assert before[0] - before[1] + before[2] == 2
+    assert after[0] - after[1] + after[2] == 2
+    assert after[2] == 12 + 20 and before[0] == 12
+    assert after[0] == before[0] * 5                 # 꼭짓점 하나가 오각형 다섯 꼭짓점으로
+    s = [head(W, H)]
+    s.append(txt(20, 24, '정이십면체의 꼭짓점을 자르면 축구공이 된다', 12.5, NAVY,
+                 'start', 800))
+    boxes = [(70.0, '정이십면체', before, ['삼각형 20 개', '꼭짓점 12 개'], SKY),
+             (420.0, '깎은 정이십면체', after, ['육각형 20 개', '오각형 12 개'], TEAL)]
+    for bx, name, (v, e, f), lines, col in boxes:
+        s.append(rect(bx - 16, 56, 212, 164, '#FBFCFE', LINE, 1, 7))
+        s.append(txt(bx + 90, 82, name, 11.4, col, 'middle', 800))
+        for i, l in enumerate(lines):
+            s.append(txt(bx + 90, 108 + i * 20, l, 10, NAVY, 'middle', 700))
+        s.append(line(bx - 6, 156, bx + 186, 156, LINE, 0.9))
+        for i, (k, val) in enumerate((('v', v), ('e', e), ('f', f))):
+            s.append(txt(bx + 24 + i * 66, 180, k, 8.8, GRAY, 'middle', 700))
+            s.append(txt(bx + 24 + i * 66, 200, str(val), 11.4, col, 'middle', 800))
+    s.append(txt(350, 120, '→', 22, AMBER, 'middle', 800))
+    s.append(txt(350, 146, '꼭짓점 12 개를', 9, GRAY, 'middle', 700))
+    s.append(txt(350, 160, '잘라 낸다', 9, GRAY, 'middle', 700))
+    s.append(rect(34, 244, 632, 44, '#FBFCFE', LINE, 1, 7))
+    s.append(txt(350, 264, '꼭짓점 12 개 → 오각형 12 개 · 삼각형 20 개 → 육각형 20 개',
+                 11.6, NAVY, 'middle', 800))
+    s.append(txt(350, 280, '자르기 전에도 2, 자른 뒤에도 2', 9, GRAY, 'middle', 700))
+    s.append('</svg>')
+    return ''.join(s)
+
 if __name__ == '__main__':
     write_all(sys.argv[1] if len(sys.argv) > 1 else None)
