@@ -274,3 +274,213 @@ body.mlock{ position:fixed; left:0; right:0; width:100%; overflow:hidden; }
 })();
 </script>
 <!-- MOBILE PATCH end -->
+
+<!-- WS-PDF start — 학생 활동지 PDF 내려받기 (2026-10-13) -->
+<script>
+/* 「🖨 학생 활동지 내려받기 (인쇄용 HTML)」 옆에 「📄 PDF」 단추를 붙인다.
+   활동지 HTML 은 기존 단추가 만드는 것을 그대로 받아 쓰고(dl 을 잠깐 가로챈다),
+   외부 라이브러리 없이 A4 쪽으로 나누어 PDF 1.4 로 만든다. 실패하면 인쇄 창으로 물러선다.
+   99-foot.html 에 들어 있으므로 다시 빌드해도 남는다. */
+(function(){
+/* ── PDF — 외부 라이브러리 없이 ─────────────────────────────── */
+const WS_PX = 96/25.4;                              // 1 mm 의 CSS 픽셀
+const WS_A4 = {w:210, h:297, m:12, sc:2};           // A4 · 여백 12 mm · 2배로 그린다
+function wsFrame(html, wmm){
+  return new Promise(res=>{
+    const f = document.createElement('iframe');
+    f.setAttribute('aria-hidden','true'); f.tabIndex = -1;
+    f.style.cssText = 'position:fixed;left:-12000px;top:0;width:'+wmm+'mm;height:600px;border:0;opacity:0;pointer-events:none';
+    let ok = false; const fin = ()=>{ if(!ok){ ok = true; res(f); } };
+    f.onload = fin; setTimeout(fin, 20000);
+    f.srcdoc = html;
+    document.body.appendChild(f);
+  });
+}
+function wsLoadImg(src){
+  return new Promise((res,rej)=>{ const im = new Image();
+    im.onload = ()=>res(im); im.onerror = ()=>rej(new Error('foreignObject 그림을 읽지 못함')); im.src = src; });
+}
+function wsJpeg(cv, q){
+  return new Promise((res,rej)=>{
+    try{ cv.toBlob(b=>{ if(!b) return rej(new Error('JPEG 실패'));
+      b.arrayBuffer().then(a=>res(new Uint8Array(a)), rej); }, 'image/jpeg', q||0.9); }
+    catch(e){ rej(e); }                              // 오염된 캔버스는 여기서 SecurityError
+  });
+}
+/* 블록을 쪼개지 않게 쪽을 나눈다. 한 블록이 한 쪽보다 길 때만 그 안의 줄(li·tr 등) 경계에서 자른다. */
+function wsPages(blocks, pageH){
+  const pages = []; let s = null, e = null;
+  for(const B of blocks){
+    if(!(B.b > B.t)) continue;
+    if(s === null) s = B.t;
+    if(B.b - s <= pageH){ e = B.b; continue; }
+    if(e !== null && e > s){ pages.push([s, e]); s = B.t; }
+    while(B.b - s > pageH){
+      const lim = s + pageH; let c = 0;
+      for(const y of B.cuts) if(y > s + pageH*0.4 && y <= lim && y > c) c = y;
+      if(!c) c = lim;
+      pages.push([s, c]); s = c;
+    }
+    e = B.b;
+  }
+  if(s !== null && e !== null && e > s) pages.push([s, e]);
+  return pages;
+}
+/* PDF 1.4 — 쪽마다 DCTDecode 이미지 XObject 하나 */
+function wsPdfBytes(pages, title){
+  const enc = s=>{ const u = new Uint8Array(s.length); for(let i=0;i<s.length;i++) u[i] = s.charCodeAt(i) & 255; return u; };
+  const parts = [], off = []; let pos = 0;
+  const put = u=>{ if(typeof u === 'string') u = enc(u); parts.push(u); pos += u.length; };
+  const hex16 = s=>{ let h = 'FEFF'; for(let i=0;i<s.length;i++) h += s.charCodeAt(i).toString(16).toUpperCase().padStart(4,'0'); return '<'+h+'>'; };
+  const N = 4 + pages.length*3;                      // 0 · 카탈로그 · 쪽 묶음 · 정보 · (쪽·내용·그림) × 쪽 수
+  const W = '595.28', H = '841.89';
+  put('%PDF-1.4\n%âãÏÓ\n');
+  off[1] = pos; put('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n');
+  off[2] = pos; put('2 0 obj\n<< /Type /Pages /Kids ['+pages.map((_,k)=>(4+k*3)+' 0 R').join(' ')+'] /Count '+pages.length+' >>\nendobj\n');
+  off[3] = pos; put('3 0 obj\n<< /Title '+hex16(title||'')+' /Producer (math-lab worksheet) >>\nendobj\n');
+  pages.forEach((p,k)=>{
+    const pg = 4+k*3, ct = pg+1, im = pg+2;
+    const cs = 'q\n'+W+' 0 0 '+H+' 0 0 cm\n/Im'+k+' Do\nQ';
+    off[pg] = pos; put(pg+' 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+W+' '+H+'] /Resources << /XObject << /Im'+k+' '+im+' 0 R >> /ProcSet [/PDF /ImageC] >> /Contents '+ct+' 0 R >>\nendobj\n');
+    off[ct] = pos; put(ct+' 0 obj\n<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream\nendobj\n');
+    off[im] = pos; put(im+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+p.w+' /Height '+p.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+p.jpg.length+' >>\nstream\n');
+    put(p.jpg); put('\nendstream\nendobj\n');
+  });
+  const xref = pos;
+  let x = 'xref\n0 '+N+'\n0000000000 65535 f \n';
+  for(let i=1;i<N;i++) x += String(off[i]).padStart(10,'0')+' 00000 n \n';
+  put(x+'trailer\n<< /Size '+N+' /Root 1 0 R /Info 3 0 R >>\nstartxref\n'+xref+'\n%%EOF\n');
+  return new Blob(parts, {type:'application/pdf'});
+}
+function wsSave(blob, name){
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = name.replace(/[\\/:*?"<>|]/g,''); document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+}
+/* 활동지 HTML → PDF 파일. 실패하면 throw — 부르는 쪽이 인쇄 창으로 물러선다. */
+async function wsPdf(html, name){
+  const A = WS_A4, CW = A.w - 2*A.m, SC = A.sc;
+  const f = await wsFrame(html, CW);
+  try{
+    const d = f.contentDocument, w = f.contentWindow;
+    if(!d || !d.body) throw new Error('활동지 틀을 열지 못함');
+    const fit = d.createElement('style');
+    fit.textContent = 'html,body{margin:0;padding:0;background:#fff}.wrap{max-width:none!important;margin:0!important;padding:0!important;display:flow-root}';
+    d.head.appendChild(fit);
+    await Promise.all([].map.call(d.images, im=>im.decode ? im.decode().catch(()=>{}) : null));
+    if(d.fonts && d.fonts.ready) await d.fonts.ready;
+    const wrap = d.querySelector('.wrap') || d.body;
+    const r0 = wrap.getBoundingClientRect(), top0 = r0.top, W = Math.ceil(r0.width);
+    /* 그림 크기를 못 박아 둔다 — 쪽 밖의 그림을 빈 그림으로 바꿔도 자리가 그대로이게 */
+    const imgs = [].slice.call(wrap.querySelectorAll('img'));
+    const ibox = imgs.map(im=>{ const r = im.getBoundingClientRect();
+      im.style.width = r.width+'px'; im.style.height = r.height+'px'; im.style.maxWidth = 'none'; im.style.maxHeight = 'none';
+      return {t:r.top-top0, b:r.bottom-top0}; });
+    const blocks = [].map.call(wrap.children, el=>{
+      const r = el.getBoundingClientRect(), cuts = [];
+      el.querySelectorAll('li,tr,p,figure,.fig,.fig2,.box,.ln i,h2,div').forEach(c=>{ const b = c.getBoundingClientRect().bottom - top0; if(b > 0) cuts.push(b); });
+      return {t:r.top-top0, b:r.bottom-top0, cuts};
+    });
+    const pageH = (A.h - 2*A.m) * WS_PX;
+    const pages = wsPages(blocks, pageH);
+    if(!pages.length) throw new Error('쪽이 없음');
+    /* body 에 걸린 글꼴·줄 간격을 그대로 물려받게 body 규칙을 뿌리 상자(.wsbody)로 옮긴다.
+       계산값(px)을 복사하면 line-height 1.6 이 고정 px 로 굳어 작은 글씨 줄이 늘어나고, 쪽 나눔이 어긋난다. */
+    const css = [].map.call(d.querySelectorAll('style'), s=>s.textContent).join('\n')
+                  .replace(/(^|[\s,{}])body(?=[\s,{.:#\[])/g, '$1.wsbody');
+    const xs = new XMLSerializer();
+    const BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+    const out = [];
+    for(let k=0;k<pages.length;k++){
+      const s = pages[k][0], e = pages[k][1], h = Math.ceil(e - s) + 1;
+      const root = d.createElement('div');
+      root.setAttribute('class', 'wsbody');
+      root.setAttribute('style', 'width:'+W+'px;height:'+h+'px;overflow:hidden;position:relative;background:#fff;margin:0');
+      const st = d.createElement('style'); st.textContent = css; root.appendChild(st);
+      const cl = wrap.cloneNode(true);
+      cl.style.position = 'absolute'; cl.style.left = '0'; cl.style.top = (-s)+'px'; cl.style.width = W+'px'; cl.style.margin = '0';
+      [].forEach.call(cl.querySelectorAll('img'), (im,i)=>{ const b = ibox[i]; if(b && (b.b < s || b.t > e)) im.setAttribute('src', BLANK); });
+      root.appendChild(cl);
+      const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="'+(W*SC)+'" height="'+(h*SC)+'" viewBox="0 0 '+W+' '+h+'">'
+        + '<foreignObject x="0" y="0" width="'+W+'" height="'+h+'">'+xs.serializeToString(root)+'</foreignObject></svg>';
+      const im = await wsLoadImg('data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg));
+      const cv = document.createElement('canvas');
+      cv.width = Math.round(A.w*WS_PX*SC); cv.height = Math.round(A.h*WS_PX*SC);
+      const c = cv.getContext('2d');
+      c.fillStyle = '#fff'; c.fillRect(0,0,cv.width,cv.height);
+      const mx = Math.round(A.m*WS_PX*SC);
+      c.drawImage(im, mx, mx, W*SC, h*SC);
+      if(k === 0){                                    // 아무것도 안 그려졌으면(foreignObject 미지원) 물러선다
+        const t = document.createElement('canvas'); t.width = 60; t.height = 85;
+        const tc = t.getContext('2d'); tc.drawImage(cv, 0, 0, 60, 85);
+        const px = tc.getImageData(0,0,60,85).data; let ink = 0;   // 오염됐으면 여기서 SecurityError
+        for(let i=0;i<px.length;i+=4) if(px[i]+px[i+1]+px[i+2] < 600) ink++;
+        if(ink < 8) throw new Error('빈 쪽 — foreignObject 미지원');
+      }
+      c.fillStyle = '#9CA3AF'; c.font = (9*SC)+'px "Malgun Gothic","맑은 고딕",sans-serif'; c.textAlign = 'center';
+      c.fillText((k+1)+' / '+pages.length, cv.width/2, cv.height - Math.round(5*WS_PX*SC));
+      out.push({jpg: await wsJpeg(cv, 0.9), w: cv.width, h: cv.height});
+    }
+    wsSave(wsPdfBytes(out, d.title || name), name);
+    return {pages: out.length};
+  } finally { f.remove(); }
+}
+/* 대체 경로 — 숨긴 iframe 의 print() 로 인쇄 창을 띄운다 */
+function wsPrint(html){
+  const f = document.createElement('iframe');
+  f.setAttribute('aria-hidden','true');
+  f.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0';
+  f.onload = ()=>setTimeout(()=>{ try{ f.contentWindow.focus(); f.contentWindow.print(); }catch(e){}
+    setTimeout(()=>f.remove(), 60000); }, 250);
+  f.srcdoc = html; document.body.appendChild(f);
+}
+
+function wsPrint(html){
+  const f = document.createElement('iframe');
+  f.setAttribute('aria-hidden','true');
+  f.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0';
+  f.onload = ()=>setTimeout(()=>{ try{ f.contentWindow.focus(); f.contentWindow.print(); }catch(e){}
+    setTimeout(()=>f.remove(), 60000); }, 250);
+  f.srcdoc = html; document.body.appendChild(f);
+}
+let cap = null;
+const dl0 = window.dl;
+if (typeof dl0 === 'function') window.dl = function(text, name, type){
+  if (cap) { cap(text, name, type); return; }
+  return dl0.apply(this, arguments);
+};
+function addBtn(){
+  const wb = document.getElementById('ls0ws');
+  if (!wb || wb.hidden || document.getElementById('ls0wsp')) return;
+  const wn = document.getElementById('ls0wsn');
+  const bp = document.createElement('button');
+  bp.className = 'b g'; bp.id = 'ls0wsp'; bp.type = 'button';
+  bp.title = 'A4 PDF 파일로 바로 내려받기';
+  bp.textContent = '📄 학생 활동지 (PDF)';
+  wb.insertAdjacentElement('afterend', bp);
+  bp.onclick = async function(){
+    if (bp.dataset.busy) return;
+    bp.dataset.busy = '1'; const t0 = bp.textContent;
+    bp.textContent = '📄 PDF 만드는 중…';
+    if (wn) wn.textContent = 'A4 쪽을 나누어 그리는 중입니다 — 몇 초 걸립니다.';
+    let html = null, name = '활동지.html';
+    cap = function(t, n){ html = t; name = n || name; };
+    try { wb.click(); } finally { cap = null; }
+    if (wn) wn.textContent = 'A4 쪽을 나누어 그리는 중입니다 — 몇 초 걸립니다.';
+    try {
+      if (!html) throw new Error('활동지를 만들지 못함');
+      const pdfName = name.replace(/\.html?$/i, '') + '.pdf';
+      const r = await wsPdf(html, pdfName);
+      if (wn) wn.textContent = 'PDF ' + r.pages + '쪽을 내려받았습니다 — ' + pdfName;
+    } catch (e) {
+      console.warn('활동지 PDF → 인쇄 창으로 대체:', e && e.message);
+      if (wn) wn.textContent = '이 브라우저는 PDF 를 바로 만들지 못합니다 — 열린 인쇄 창에서 대상을 「PDF로 저장」으로 고르세요.';
+      if (html) wsPrint(html);
+    } finally { bp.textContent = t0; delete bp.dataset.busy; }
+  };
+}
+const mask = document.getElementById('mask');
+if (mask) { new MutationObserver(addBtn).observe(mask, {childList:true, subtree:true, attributes:true, attributeFilter:['hidden']}); addBtn(); }
+})();
+</script>
+<!-- WS-PDF end -->
