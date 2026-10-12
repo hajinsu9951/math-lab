@@ -25,8 +25,8 @@ try:
 except Exception:
     pass
 
-LONG = 900           # 사진의 긴 변 (화면으로 볼 용도)
-QUALITY = 58
+LONG = 1100           # 사진의 긴 변 (화면으로 볼 용도)
+QUALITY = 66
 URI = re.compile(r'data:image/(png|jpe?g|webp);base64,([A-Za-z0-9+/=]+)')
 
 
