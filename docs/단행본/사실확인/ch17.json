@@ -1,0 +1,42 @@
+[
+ {
+  "id": "gerry1812",
+  "claim": "1812년 2월 11일, 매사추세츠 주지사 엘브리지 게리가 주 상원 선거구를 다시 그린 법안에 서명했다. 그의 당(민주공화당)에 유리하도록 그은 선거구였다.",
+  "source": "Griffith, E. C. (1907). <i>The Rise and Development of the Gerrymander</i>. Chicago: Scott, Foresman. / Boston Public Library, Leventhal Map &amp; Education Center, “Elbridge Gerry’s infamous salamander”.",
+  "checked": "2026-10-12",
+  "note": "법안을 민 것은 그의 당이고 게리는 서명했다. 이름이 그에게 붙은 까닭이 그것이다."
+ },
+ {
+  "id": "gerrymander_cartoon",
+  "claim": "1812년 3월 26일 『보스턴 가제트』에 그 선거구 모양을 날개와 발톱 달린 괴물로 그린 만평이 실리며 «게리맨더(Gerry-mander)» 라는 말이 생겼다.",
+  "source": "<i>Boston Gazette</i>, 1812년 3월 26일자 만평. / Library of Congress, “The Gerry-Mander” 해제.",
+  "checked": "2026-10-12",
+  "note": "그린 사람이 누구인지는 «엇갈린다». 화가 길버트 스튜어트라는 이야기가 널리 퍼져 있으나, 미국 의회도서관 쪽 기록은 판각을 할 수 있었던 엘커나 티스데일을 든다. 말을 처음 지은 사람은 밝혀지지 않았다."
+ },
+ {
+  "id": "gerry_result",
+  "claim": "1812년 선거에서 민주공화당이 상원 29 석, 연방파가 11 석을 얻었다 — 표를 더 많이 받은 쪽은 «연방파» 였다. 게리 자신은 주지사 선거에서 졌고, 이듬해 연방파가 상원을 되찾아 그 법을 폐지했다.",
+  "source": "Griffith, E. C. (1907). <i>The Rise and Development of the Gerrymander</i>. Chicago: Scott, Foresman. / Boston Public Library, Leventhal Map &amp; Education Center.",
+  "checked": "2026-10-12",
+  "note": "게리는 그해 가을 매디슨 정부의 부통령이 되었다."
+ },
+ {
+  "id": "binning_choice",
+  "claim": "히스토그램의 모양은 자료만으로 정해지지 않는다. 계급의 «크기» 와 «시작점» 을 사람이 고르며, 그 선택에 따라 가장 높은 막대의 자리까지 달라질 수 있다.",
+  "source": "Scott, D. W. (1979). On optimal and data-based histograms. <i>Biometrika, 66</i>(3), 605–610. / Freedman, D., &amp; Diaconis, P. (1981). On the histogram as a density estimator. <i>Zeitschrift für Wahrscheinlichkeitstheorie, 57</i>, 453–476.",
+  "checked": "2026-10-12",
+  "note": "계급 수를 정하는 어림 규칙이 여럿 제안되었다는 것 자체가 «정답이 하나가 아니라는» 증거다. 본문의 보기는 파이썬으로 세어 그렸다."
+ },
+ {
+  "id": "huff1954",
+  "claim": "1954년 대럴 허프의 『새빨간 거짓말, 통계』는 숫자를 틀리게 적지 않고도 그림으로 오해를 만드는 방법들을 모아 보였다. 세로축을 0 에서 시작하지 않는 것이 그 가운데 하나다.",
+  "source": "Huff, D. (1954). <i>How to Lie with Statistics</i>. New York: W. W. Norton.",
+  "checked": "2026-10-12"
+ },
+ {
+  "id": "class_rule",
+  "claim": "계급의 크기는 (범위) ÷ (계급의 개수) 로 정하며, 중학교 과정에서는 계급을 보통 5~10 개로 잡는다. 상대도수는 그 계급의 도수를 도수의 총합으로 나눈 값이다.",
+  "source": "교육부 (2022). 『수학과 교육과정』 중학교 1학년 「자료와 가능성」.",
+  "checked": "2026-10-12"
+ }
+]

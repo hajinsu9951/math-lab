@@ -2218,5 +2218,136 @@ def ch16_daniels():
     s.append('</svg>')
     return ''.join(s)
 
+
+CH17_DATA = [50, 51, 52, 53, 54, 55, 68, 69, 70, 71, 72, 73, 74,
+             88, 89, 90, 91, 92, 95, 99]
+
+
+def _bins(data, start, width):
+    """start 에서 width 씩 잘라 도수를 센다 → [(아래끝, 도수), …]"""
+    lo = start
+    while lo > min(data):
+        lo -= width
+    out = []
+    x = lo
+    while x <= max(data):
+        out.append((x, sum(1 for v in data if x <= v < x + width)))
+        x += width
+    return out
+
+
+@fig('ch17_bins', '같은 점수 스무 개를 **계급의 크기만 바꿔** 세 번 그린 것입니다. '
+     '5 점씩 자르면 잘게 흩어져 보이고, 20 점씩 자르면 뭉툭한 세 덩어리가 됩니다. '
+     '자료는 하나도 바뀌지 않았습니다 — **바뀐 것은 자르는 방법뿐**입니다.')
+def ch17_bins():
+    W, H = 700, 330
+    data = CH17_DATA
+    assert len(data) == 20
+    sets = [(5, SKY), (10, TEAL), (20, AMBER)]
+    s = [head(W, H)]
+    s.append(txt(20, 24, '같은 자료 · 계급의 크기만 바꾸면', 12.5, NAVY, 'start', 800))
+    for i, (wd, col) in enumerate(sets):
+        bs = _bins(data, 50, wd)
+        assert sum(c for _, c in bs) == 20, (wd, bs)
+        ox, oy, gw, gh = 44 + i * 222, 250, 180.0, 150.0
+        s.append(txt(ox, 56, '계급 %d 점 · %d 칸' % (wd, len(bs)), 10.4, col,
+                     'start', 800))
+        bw = gw / float(len(bs))
+        mx = max(c for _, c in bs)
+        for j, (lo, c) in enumerate(bs):
+            x = ox + j * bw
+            hgt = gh * c / 8.0
+            s.append(rect(x + 1, oy - hgt, bw - 2, hgt, col, '#fff', 0.8, 1))
+            if c:
+                s.append(txt(x + bw / 2, oy - hgt - 4, str(c), 7.6, GRAY, 'middle', 700))
+        s.append(line(ox, oy, ox + gw, oy, GRAY, 1.2))
+        s.append(txt(ox, oy + 16, '50', 8, GRAY, 'middle'))
+        s.append(txt(ox + gw, oy + 16, '100', 8, GRAY, 'middle'))
+        s.append(txt(ox + gw / 2, oy + 36, '가장 높은 막대 %d' % mx, 9, col,
+                     'middle', 800))
+    s.append(rect(34, 292, 632, 30, '#FBFCFE', LINE, 1, 6))
+    s.append(txt(350, 312, '자료 20 개는 그대로다 — 자르는 폭만 달라졌다', 11.6, NAVY,
+                 'middle', 800))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch17_shift', '이번에는 계급의 크기를 10 점으로 **고정**하고 **시작점만** 50 에서 55 로 '
+     '옮겼습니다. 그러자 가장 높은 막대가 **50~60 점대에서 65~75 점대로 건너갔습니다.** '
+     '같은 자료에서 「가장 많은 구간」이 어디냐는 물음의 답이 **자르는 자리 하나로** 바뀝니다.')
+def ch17_shift():
+    W, H = 316, 0
+    data = CH17_DATA
+    a = _bins(data, 50, 10)
+    b = _bins(data, 55, 10)
+    pa = max(a, key=lambda t: t[1])
+    pb = max(b, key=lambda t: t[1])
+    assert pa == (50, 6), pa
+    assert pb == (65, 7), pb
+    W, H = 700, 330
+    s = [head(W, H)]
+    s.append(txt(20, 24, '계급 크기는 그대로 · 시작점만 5 점 옮기면', 12.5, NAVY,
+                 'start', 800))
+    for i, (bs, start, col, peak) in enumerate(((a, 50, TEAL, pa), (b, 55, RED, pb))):
+        ox, oy, gw, gh = 56 + i * 330, 252, 268.0, 152.0
+        s.append(txt(ox, 58, '시작점 %d 점' % start, 10.6, col, 'start', 800))
+        bw = gw / float(len(bs))
+        for j, (lo, c) in enumerate(bs):
+            x = ox + j * bw
+            hgt = gh * c / 8.0
+            top = (lo == peak[0])
+            s.append(rect(x + 2, oy - hgt, bw - 4, hgt, col if top else SKY,
+                          '#fff', 0.8, 2))
+            if c:
+                s.append(txt(x + bw / 2, oy - hgt - 5, str(c), 8.4,
+                             col if top else GRAY, 'middle', 800 if top else 700))
+            s.append(txt(x + bw / 2, oy + 15, str(lo), 7.6, GRAY, 'middle'))
+        s.append(line(ox, oy, ox + gw, oy, GRAY, 1.2))
+        s.append(txt(ox + gw / 2, oy + 36, '가장 높은 막대 — %d 점대 (%d 명)'
+                     % (peak[0], peak[1]), 9.4, col, 'middle', 800))
+    s.append(rect(34, 294, 632, 30, '#FFF6F5', '#E6C4C0', 1, 6))
+    s.append(txt(350, 314, '자른 자리 하나로 「가장 많은 구간」이 건너뛴다', 11.6, RED,
+                 'middle', 800))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch17_gerry', '사람 25 명이 사는 동네를 다섯 구역으로 나눕니다. ● 쪽을 미는 사람이 '
+     '**10 명(40 %)**, ○ 쪽이 15 명으로 늘 똑같습니다. 그런데 줄을 어떻게 긋느냐에 따라 '
+     '● 가 가져가는 구역이 **0 곳에서 3 곳까지** 달라집니다. 40 %가 60 %를 이기는 일이 '
+     '벌어집니다 — 표를 센 것이 아니라 **금을 그은 것**이 결과를 정했습니다.')
+def ch17_gerry():
+    W, H = 700, 334
+    plans = [('가로로 자르면', [2, 2, 2, 2, 2], 0, RED),
+             ('세로로 자르면', [5, 5, 0, 0, 0], 2, GRAY),
+             ('구불구불 자르면', [3, 3, 3, 1, 0], 3, TEAL)]
+    for name, d, win, col in plans:
+        assert sum(d) == 10, name
+        assert sum(1 for x in d if x >= 3) == win, (name, d, win)
+    s = [head(W, H)]
+    s.append(txt(20, 24, '같은 25 명 · 줄만 다시 그으면', 12.5, NAVY, 'start', 800))
+    s.append(txt(20, 52, '● 10 명(40 %) · ○ 15 명(60 %) — 사람은 하나도 움직이지 않는다',
+                 9.6, GRAY, 'start', 700))
+    for i, (name, d, win, col) in enumerate(plans):
+        ox, oy = 48 + i * 222, 92
+        s.append(txt(ox, oy, name, 10.6, col, 'start', 800))
+        for k, cnt in enumerate(d):
+            y = oy + 22 + k * 28
+            s.append(rect(ox, y - 13, 168, 22, '#FBFCFE', LINE, 1, 4))
+            for j in range(5):
+                cx = ox + 20 + j * 30
+                on = j < cnt
+                s.append('<circle cx="%.1f" cy="%.1f" r="6" fill="%s" stroke="%s" '
+                         'stroke-width="1.4"/>'
+                         % (cx, y - 2, NAVY if on else '#fff', NAVY))
+            s.append(txt(ox + 178, y + 2, '●%d' % cnt, 9,
+                         TEAL if cnt >= 3 else GRAY, 'start', 800))
+        s.append(txt(ox, oy + 182, '● 가 이긴 구역 %d / 5' % win, 11, col, 'start', 800))
+    s.append(rect(34, 294, 632, 30, '#FBFCFE', LINE, 1, 6))
+    s.append(txt(350, 314, '표는 같은데 결과가 0 · 2 · 3 — 자르는 방법이 답을 정했다',
+                 11.6, NAVY, 'middle', 800))
+    s.append('</svg>')
+    return ''.join(s)
+
 if __name__ == '__main__':
     write_all(sys.argv[1] if len(sys.argv) > 1 else None)
