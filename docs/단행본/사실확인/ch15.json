@@ -1,0 +1,49 @@
+[
+ {
+  "id": "galileo1638",
+  "claim": "1638년 갈릴레이는 『새로운 두 과학』에서 거인이 있을 수 없는 까닭을 밝혔다. 뼈의 «굵기(단면적)» 는 길이의 제곱으로 늘지만 «몸무게(부피)» 는 세제곱으로 늘기 때문에, 몸을 그대로 키우면 어느 크기에서부터는 뼈가 제 무게도 버티지 못한다는 것이다.",
+  "source": "Galilei, G. (1638). <i>Discorsi e dimostrazioni matematiche intorno a due nuove scienze</i>. Leiden: Elzevir. (영역: Crew, H., &amp; de Salvio, A., Trans., 1914, Macmillan.) / Peterson, M. A. (2002). Galileo’s discovery of scaling laws. <i>American Journal of Physics, 70</i>(6), 575–580.",
+  "checked": "2026-10-12",
+  "note": "갈릴레이는 큰 동물의 뼈가 «비례보다 굵어야» 한다는 것까지 그림으로 보였다. 이것이 제곱–세제곱 법칙으로 불린다."
+ },
+ {
+  "id": "haldane1926",
+  "claim": "1926년 홀데인은 「알맞은 크기에 대하여」에서 이 셈법을 동물 전반으로 넓혔다 — 크기가 달라지면 모양도 달라져야 한다는 것이다.",
+  "source": "Haldane, J. B. S. (1926). On being the right size. <i>Harper’s Magazine</i>.",
+  "checked": "2026-10-12"
+ },
+ {
+  "id": "sa_v_law",
+  "claim": "닮은꼴로 길이를 k 배 키우면 겉넓이는 k² 배, 부피는 k³ 배가 된다. 따라서 «겉넓이 ÷ 부피» 는 1/k 배로 줄어든다.",
+  "source": "Schmidt-Nielsen, K. (1984). <i>Scaling: Why is Animal Size so Important?</i> (pp. 7–20). Cambridge University Press.",
+  "checked": "2026-10-12",
+  "note": "본문의 표는 몸을 정육면체로 어림잡아 6 ÷ a 로 계산한 값이며, 실제 동물의 측정값이 아니라고 그림에 밝혔다."
+ },
+ {
+  "id": "elephant_ears",
+  "claim": "코끼리는 발바닥을 빼면 땀샘이 거의 없어, 귀로 열을 버린다. 귀는 몸 전체 겉넓이의 5 분의 1 쯤 되고 가느다란 혈관이 빽빽하다. 더운 피를 귀로 보내 식혀 몸으로 되돌리며, 귀를 펄럭이면 바람이 지나가 더 빨리 식는다.",
+  "source": "Phillips, P. K., &amp; Heath, J. E. (1992). Heat exchange by the pinna of the African elephant (<i>Loxodonta africana</i>). <i>Comparative Biochemistry and Physiology A, 101</i>(4), 693–699. / Weissenböck, N. M., et al. (2010). Thermal windows on the body surface of African elephants. <i>Journal of Thermal Biology, 35</i>(4), 182–188.",
+  "checked": "2026-10-12",
+  "note": "「귀로 체온을 5 °C 낮춘다」는 숫자가 널리 돌아다니나 근거를 찾지 못해 본문에 적지 않았다."
+ },
+ {
+  "id": "elephant_ratio",
+  "claim": "아프리카코끼리는 살아 있는 육상 포유류 가운데 «부피 대비 겉넓이» 가 가장 작다 — 곧 열을 버리기가 가장 어렵다.",
+  "source": "Weissenböck, N. M., Schober, F., &amp; Arnold, W. (2010). Thermal windows on the body surface of African elephants. <i>Journal of Thermal Biology, 35</i>(4), 182–188.",
+  "checked": "2026-10-12"
+ },
+ {
+  "id": "bergmann_allen",
+  "claim": "추운 곳의 동물이 더 크고(베르크만, 1847), 더운 곳의 동물이 귀·다리 같은 끝부분이 더 길다(앨런, 1877)는 경향이 알려져 있다. 둘 다 겉넓이와 부피의 관계로 설명된다.",
+  "source": "Bergmann, C. (1847). Über die Verhältnisse der Wärmeökonomie der Thiere zu ihrer Grösse. <i>Göttinger Studien, 3</i>, 595–708. / Allen, J. A. (1877). The influence of physical conditions in the genesis of species. <i>Radical Review, 1</i>, 108–140.",
+  "checked": "2026-10-12",
+  "note": "두 규칙 모두 예외가 많아 «경향» 으로만 말한다. 본문에도 그렇게 적었다."
+ },
+ {
+  "id": "cube_minimal",
+  "claim": "부피가 정해진 직육면체 가운데 겉넓이가 가장 작은 것은 정육면체다. 모양을 직육면체로 제한하지 않으면 구가 가장 작다.",
+  "source": "Courant, R., &amp; Robbins, H. (1996). <i>What Is Mathematics?</i> (2nd ed., pp. 373–379). Oxford University Press.",
+  "checked": "2026-10-12",
+  "note": "「부피가 같을 때 겉넓이가 가장 작은 입체는 구」는 등주부등식이라 하며, 엄밀한 증명은 19세기에야 마무리되었다."
+ }
+]

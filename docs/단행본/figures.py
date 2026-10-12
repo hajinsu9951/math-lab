@@ -1970,5 +1970,125 @@ def ch14_cut():
     s.append('</svg>')
     return ''.join(s)
 
+
+@fig('ch15_box', '부피가 모두 1000 cm³ 인 상자 넷입니다. 담는 양은 똑같은데 **드는 종이는 '
+     '다릅니다.** 정육면체(10 × 10 × 10)가 600 cm² 로 가장 적게 들고, 납작할수록 가파르게 '
+     '늘어 100 × 10 × 1 짜리는 **3.7 배**가 듭니다. 택배 상자가 정육면체에 가까운 까닭입니다.')
+def ch15_box():
+    W, H = 700, 330
+    boxes = [(10, 10, 10), (20, 10, 5), (40, 5, 5), (100, 10, 1)]
+    out = []
+    for a, b, c in boxes:
+        v = a * b * c
+        s = 2 * (a * b + b * c + c * a)
+        assert v == 1000, (a, b, c, v)
+        out.append((a, b, c, v, s))
+    assert [o[4] for o in out] == [600, 700, 850, 2220]
+    base = out[0][4]
+    assert round(out[-1][4] / base, 1) == 3.7
+    s = [head(W, H)]
+    s.append(txt(20, 24, '같은 1000 cm³ — 드는 종이는 세 배 넘게 차이 난다', 12.5, NAVY,
+                 'start', 800))
+    GX, GY, GW, GH = 290, 288, 248, 182
+    maxs = out[-1][4]
+    for i, (a, b, c, v, sa) in enumerate(out):
+        y = 86 + i * 50
+        col = TEAL if i == 0 else (AMBER if i < 3 else RED)
+        s.append(txt(44, y, '%d × %d × %d' % (a, b, c), 10.6, NAVY, 'start', 700))
+        s.append(txt(236, y, '부피 1000', 8.8, GRAY, 'end'))
+        wbar = GW * sa / float(maxs)
+        s.append(rect(GX, y - 13, wbar, 18, col, 'none', 0, 3))
+        s.append(txt(GX + wbar + 8, y, '%d cm²' % sa, 10.2, col, 'start', 800))
+        if i:
+            s.append(txt(GX + wbar + 76, y, '(%.1f 배)' % (sa / float(base)), 8.8,
+                         GRAY, 'start', 700))
+        else:
+            s.append(txt(GX + wbar + 76, y, '← 가장 적다', 8.8, TEAL, 'start', 800))
+    s.append(rect(34, 288, 632, 30, '#FBFCFE', LINE, 1, 6))
+    s.append(txt(350, 308, '세 변이 고를수록 겉넓이가 작다 — 같은 부피라면 정육면체가 바닥',
+                 11.4, NAVY, 'middle', 800))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch15_scale', '모양은 그대로 두고 길이만 k 배로 키우면, 겉넓이는 **k² 배**, 부피는 '
+     '**k³ 배**가 됩니다. 늘어나는 속도가 다르기 때문에 «겉넓이 ÷ 부피» 는 거꾸로 **1/k 배**로 '
+     '줄어듭니다. 커질수록 «몸집에 견준 피부»가 얇아진다는 뜻입니다.')
+def ch15_scale():
+    W, H = 700, 300
+    ks = [1, 2, 4, 10]
+    rows = [(k, k * k, k ** 3, 6.0 / k) for k in ks]
+    assert [r[1] for r in rows] == [1, 4, 16, 100]
+    assert [r[2] for r in rows] == [1, 8, 64, 1000]
+    assert round(rows[-1][3] / rows[0][3], 2) == 0.1
+    s = [head(W, H)]
+    s.append(txt(20, 24, '길이 k 배 → 겉넓이 k² 배 · 부피 k³ 배', 12.5, NAVY, 'start', 800))
+    # 정육면체 셋을 실제 비율로
+    cy = 150.0
+    cx = 70.0
+    for k in (1, 2, 4):
+        a = 17.0 * k
+        s.append(rect(cx, cy - a / 2, a, a, '#E8F0FA', BLUE, 1.6, 2))
+        s.append(txt(cx + a / 2, cy + a / 2 + 16, 'k = %d' % k, 9.2, NAVY, 'middle', 700))
+        cx += a + 26
+    xs = [320, 400, 480, 580]
+    heads = ['k', '겉넓이', '부피', '겉넓이 ÷ 부피']
+    for x, hd in zip(xs, heads):
+        s.append(txt(x, 70, hd, 9.2, GRAY, 'middle', 800))
+    s.append(line(300, 78, 666, 78, LINE, 1))
+    for i, (k, sq, cu, ratio) in enumerate(rows):
+        y = 102 + i * 28
+        s.append(txt(xs[0], y, str(k), 10, NAVY, 'middle', 700))
+        s.append(txt(xs[1], y, '%d 배' % sq, 9.8, GRAY, 'middle'))
+        s.append(txt(xs[2], y, '%d 배' % cu, 9.8, GRAY, 'middle'))
+        s.append(txt(xs[3], y, '%.2f' % (ratio / 6.0) + ' 배', 10.2, TEAL, 'middle', 800))
+    s.append(rect(34, 244, 632, 44, '#FBFCFE', LINE, 1, 7))
+    s.append(txt(350, 264, '부피는 k³ 로 치솟고 겉넓이는 k² 로 따라간다', 11.6, NAVY,
+                 'middle', 800))
+    s.append(txt(350, 280, '그래서 커질수록 «겉넓이 ÷ 부피» 가 작아진다 — 열이 빠져나갈 '
+                           '길이 좁아진다', 9, GRAY, 'middle', 700))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch15_animal', '몸을 정육면체로 어림잡아 «겉넓이 ÷ 부피» 를 계산한 것입니다. '
+     '한 변이 a 인 정육면체는 겉넓이 6a² · 부피 a³ 이므로 그 비는 **6 ÷ a** — 몸이 커질수록 '
+     '작아집니다. 생쥐와 코끼리는 **40 배** 차이가 납니다. 코끼리가 귀를 키워 겉넓이를 '
+     '보태는 까닭이 이 한 줄에 있습니다. (몸을 정육면체로 본 어림이며, 실제 동물의 값이 '
+     '아닙니다)')
+def ch15_animal():
+    W, H = 700, 316
+    animals = [('생쥐', 5.0, SKY), ('고양이', 25.0, TEAL), ('사람', 40.0, AMBER),
+               ('코끼리', 200.0, RED)]
+    rows = [(nm, a, 6 * a * a, a ** 3, 6.0 / a, col) for nm, a, col in animals]
+    assert round(rows[0][4] / rows[-1][4]) == 40
+    assert round(rows[0][4], 2) == 1.20 and round(rows[-1][4], 3) == 0.03
+    s = [head(W, H)]
+    s.append(txt(20, 24, '커질수록 «겉넓이 ÷ 부피» 가 작아진다', 12.5, NAVY, 'start', 800))
+    s.append(txt(20, 52, '몸을 한 변 a 인 정육면체로 어림잡으면  겉넓이 ÷ 부피 = 6a² ÷ a³ '
+                         '= 6 ÷ a', 10, GRAY, 'start', 700))
+    xs = [84, 220, 330, 470, 600]
+    heads = ['', 'a (cm)', '겉넓이 ÷ 부피', '', '생쥐의 몇 분의 몇']
+    for x, hd in zip(xs, heads):
+        if hd:
+            s.append(txt(x, 92, hd, 9.2, GRAY, 'middle' if x > 100 else 'start', 800))
+    s.append(line(34, 100, 666, 100, LINE, 1))
+    big = rows[0][4]
+    for i, (nm, a, sa, v, ratio, col) in enumerate(rows):
+        y = 126 + i * 30
+        s.append(txt(xs[0], y, nm, 10.4, col, 'start', 800))
+        s.append(txt(xs[1], y, '%g' % a, 9.8, GRAY, 'middle'))
+        s.append(txt(xs[2], y, '%.3f' % ratio, 10.4, col, 'middle', 800))
+        wbar = 120.0 * (ratio / big)
+        s.append(rect(xs[3] - 60, y - 9, max(1.2, wbar), 12, col, 'none', 0, 2))
+        s.append(txt(xs[4], y, '1 / %.0f' % (big / ratio), 9.8, GRAY, 'middle', 700))
+    s.append(rect(34, 254, 632, 48, '#FBFCFE', LINE, 1, 7))
+    s.append(txt(350, 274, '코끼리는 생쥐의 1/40 — 열을 버릴 길이 그만큼 좁다', 11.6,
+                 NAVY, 'middle', 800))
+    s.append(txt(350, 292, '그래서 귀를 키운다. 코끼리 귀는 몸 전체 겉넓이의 5 분의 1 쯤 된다',
+                 9, GRAY, 'middle', 700))
+    s.append('</svg>')
+    return ''.join(s)
+
 if __name__ == '__main__':
     write_all(sys.argv[1] if len(sys.argv) > 1 else None)
