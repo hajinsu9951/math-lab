@@ -50,7 +50,10 @@ const PREP = {
 };
 
 const b = await chromium.launch();
-const p = await b.newPage({ viewport: { width: 1280, height: 1400 }, deviceScaleFactor: 2 });
+/* 좁게 찍는다. 1280 px 로 찍어 17 cm 단 안에 넣으면 글씨가 너무 작아져
+   「해상도가 낮다」고 느껴진다. 1000 px 로 찍으면 같은 자리에서 글씨가 1.3 배 커진다.
+   거기에 3 배 해상도 · PNG — JPEG 는 글자 테두리를 뭉갠다. */
+const p = await b.newPage({ viewport: { width: 1000, height: 1500 }, deviceScaleFactor: 3 });
 const errs = [];
 p.on('pageerror', e => errs.push(String(e).slice(0, 140)));
 await p.goto(pathToFileURL(FILE).href, { waitUntil: 'load' });
@@ -60,7 +63,7 @@ await p.waitForTimeout(1200);
 await p.evaluate(() => {
   const st = document.createElement('div');
   st.id = 'bookStage';
-  st.style.cssText = 'position:absolute;left:0;top:0;width:1270px;background:#fff;'
+  st.style.cssText = 'position:absolute;left:0;top:0;width:990px;background:#fff;'
     + 'z-index:99999;padding:14px 16px 26px;';
   document.body.prepend(st);
   document.body.style.overflow = 'visible';
@@ -100,11 +103,11 @@ for (let n = FROM; n <= TO; n++) {
     /* 요소 상자를 조금 넓혀 찍는다 — 데모가 상자 밖으로 흘린 글이 잘리지 않게 */
     const pad = 10;
     const buf = await p.screenshot({
-      type: 'jpeg', quality: 82,
+      type: 'png',
       clip: { x: Math.max(0, box.x - pad), y: Math.max(0, box.y - pad),
               width: box.width + pad * 2, height: box.height + pad * 2 },
     });
-    shots[key] = 'data:image/jpeg;base64,' + buf.toString('base64');
+    shots[key] = 'data:image/png;base64,' + buf.toString('base64');
     if (key === 'lab') {
       await p.evaluate(() => {
         document.querySelectorAll('#bookStage [data-was-hidden], #bookStage .lsnnote, #bookStage .ldr')

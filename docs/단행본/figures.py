@@ -210,7 +210,9 @@ def ch02_expo():
 
     W, H = 700, 290
     s = [head(W, H)]
-    cols = [('소수', 120), ('2', 240), ('3', 360), ('값', 520)]
+    # 이름 칸(LX)·지수 칸(2,3)·값 칸을 따로 떼어 둔다 — 글씨가 서로 밟지 않도록
+    LX = 100
+    cols = [('소수', 120), ('2', 300), ('3', 410), ('값', 530)]
     rows = [('12 =', '2²', '3¹', '12', NAVY),
             ('18 =', '2¹', '3²', '18', NAVY),
             ('낮은 지수 → 최대공약수', '2¹', '3¹', '6', TEAL),
@@ -221,8 +223,8 @@ def ch02_expo():
     for i, (lab, c2, c3, val, col) in enumerate(rows):
         y = 92 + i * 42
         if i >= 2:
-            s.append(rect(96, y - 20, 560, 34, '#F3F6FC', LINE, 1, 5))
-        s.append(txt(248 if i < 2 else 96, y + 3, lab, 11, col, 'end' if i < 2 else 'start', 700))
+            s.append(rect(LX - 12, y - 20, 568, 34, '#F3F6FC', LINE, 1, 5))
+        s.append(txt(LX, y + 3, lab, 11, col, 'start', 700))
         s.append(txt(cols[1][1], y + 3, c2, 13, col, 'middle', 800))
         s.append(txt(cols[2][1], y + 3, c3, 13, col, 'middle', 800))
         s.append(txt(cols[3][1], y + 3, '= ' + val, 12.5, col, 'start', 800))
@@ -1685,16 +1687,21 @@ def ch12_count():
     path.append((px(X1 - 2), py(prev)))
     s.append('<polyline fill="none" stroke="%s" stroke-width="2.6" points="%s"/>'
              % (BLUE, ' '.join('%.1f,%.1f' % p for p in path)))
-    ups = [True, False, True, False, True, False, True]
+    # 1975·1977 과 2015·2017 은 2 년 차이라 점이 붙는다.
+    # 위아래로만 엇갈려서는 설명이 서로 포개지므로 좌우로도 비켜 세운다.
+    # (dx, 위로 올릴지, 이름까지의 거리) — 수를 바꾸면 check_fig.py 가 다시 센다
+    place = [(0, True, 14), (0, False, 20), (-24, True, 14), (34, False, 28),
+             (0, True, 14), (-46, False, 20), (34, False, 20)]
     for i, (t, v, nm, why) in enumerate(pts):
+        dx, up, gap = place[i]
         s.append('<circle cx="%.1f" cy="%.1f" r="3.6" fill="#fff" stroke="%s" '
                  'stroke-width="2"/>' % (px(t), py(v), AMBER if '라이스' in nm else BLUE))
-        dy = -14 if ups[i] else 20
-        s.append(txt(px(t), py(v) + dy, '%d · %s' % (t, nm), 8.8,
+        dy = -gap if up else gap
+        s.append(txt(px(t) + dx, py(v) + dy, '%d · %s' % (t, nm), 8.8,
                      AMBER if '라이스' in nm else NAVY, 'middle', 800))
-        s.append(txt(px(t), py(v) + dy + (-12 if ups[i] else 12), why, 8,
+        s.append(txt(px(t) + dx, py(v) + dy + (-12 if up else 12), why, 8,
                      GRAY, 'middle'))
-    s.append(txt(GX + GW, py(15) - 26, '15', 13, BLUE, 'end', 800))
+    s.append(txt(GX + GW, py(15) - 12, '15 종', 13, BLUE, 'end', 800))
     s.append(rect(34, 278, 632, 40, '#FBFCFE', LINE, 1, 7))
     s.append(txt(350, 296, '「이것이 전부」라는 말이 두 번 나왔고, 두 번 다 아니었다',
                  11.6, NAVY, 'middle', 800))
@@ -2345,6 +2352,429 @@ def ch17_gerry():
         s.append(txt(ox, oy + 182, '● 가 이긴 구역 %d / 5' % win, 11, col, 'start', 800))
     s.append(rect(34, 294, 632, 30, '#FBFCFE', LINE, 1, 6))
     s.append(txt(350, 314, '표는 같은데 결과가 0 · 2 · 3 — 자르는 방법이 답을 정했다',
+                 11.6, NAVY, 'middle', 800))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+# ────────────────────────────────────────────────────── 제18장 · 줄기와 잎
+CH18_A = [42, 45, 47, 51, 53, 55, 58, 60, 60, 61, 61, 62, 62,
+          71, 73, 75, 77, 82, 84, 86, 88, 91, 93, 96, 99]
+CH18_B = [42, 45, 47, 51, 53, 55, 58, 67, 68, 68, 69, 69, 69,
+          71, 73, 75, 77, 82, 84, 86, 88, 91, 93, 96, 99]
+
+
+def _stemrows(data):
+    """[(줄기, [잎들]), …] — 10 의 자리로 가른다"""
+    out = []
+    for st in range(min(data) // 10, max(data) // 10 + 1):
+        out.append((st, [v % 10 for v in data if v // 10 == st]))
+    return out
+
+
+def _median_pos(n):
+    assert n % 2 == 1, '홀수 개일 때만 한가운데가 하나다'
+    return (n + 1) // 2
+
+
+@fig('ch18_stem', '왼쪽이 **줄기와 잎 그림**입니다. 10 의 자리를 줄기로, 1 의 자리를 잎으로 '
+     '적었을 뿐이라 **원래 점수가 그대로 남아 있습니다.** 작은 쪽부터 열세 번째 잎을 짚으면 '
+     '그것이 중앙값 **62 점**입니다. 오른쪽은 같은 자료를 **히스토그램**으로 바꾼 것입니다. '
+     '모양은 더 잘 보이지만 막대는 **개수만** 말해 줍니다 — 중앙값이 60 점대라는 것까지는 '
+     '알아도 그것이 60 인지 62 인지는 **되살릴 수 없습니다.**')
+def ch18_stem():
+    data = sorted(CH18_A)
+    n = len(data)
+    assert n == 25
+    pos = _median_pos(n)
+    assert pos == 13
+    med = data[pos - 1]
+    assert med == 62, med
+    rows = _stemrows(data)
+    assert [len(l) for _, l in rows] == [3, 4, 6, 4, 4, 4]
+    assert sum(len(l) for _, l in rows) == n
+
+    W, H = 700, 340
+    s = [head(W, H)]
+    s.append(txt(20, 24, '같은 점수 25 개 — 왼쪽은 값을 남기고, 오른쪽은 개수만 남긴다',
+                 12.3, NAVY, 'start', 800))
+
+    # ── 왼쪽 : 줄기와 잎 ──────────────────────────────────────
+    s.append(txt(34, 56, '줄기와 잎 그림', 11, TEAL, 'start', 800))
+    seen = 0
+    for i, (st, leaves) in enumerate(rows):
+        y = 86 + i * 36
+        s.append(line(74, y - 14, 74, y + 10, LINE, 1.2))
+        s.append(txt(66, y + 4, str(st), 12.5, NAVY, 'end', 800))
+        for j, lf in enumerate(leaves):
+            seen += 1
+            x = 86 + j * 20
+            hit = (seen == pos)
+            if hit:
+                s.append('<circle cx="%.1f" cy="%.1f" r="10.5" fill="#FFF3DC" '
+                         'stroke="%s" stroke-width="1.6"/>' % (x + 3, y - 1, AMBER))
+            s.append(txt(x + 3, y + 4, str(lf), 12.5,
+                         AMBER if hit else GRAY, 'middle', 800 if hit else 600))
+    s.append(txt(34, 312, '작은 쪽부터 13 번째 잎 = 중앙값 62 점', 10.4, AMBER, 'start', 800))
+
+    # ── 오른쪽 : 히스토그램 ───────────────────────────────────
+    GX, GY, GW, GH = 400, 286, 268.0, 184.0
+    s.append(txt(GX, 56, '히스토그램', 11, SKY, 'start', 800))
+    mx = max(len(l) for _, l in rows)
+    bw = GW / float(len(rows))
+    for i, (st, leaves) in enumerate(rows):
+        c = len(leaves)
+        hgt = GH * c / float(mx)
+        x = GX + i * bw
+        top = (data[pos - 1] // 10 == st)
+        s.append(rect(x + 2, GY - hgt, bw - 4, hgt, AMBER if top else SKY, '#fff', 0.8, 2))
+        s.append(txt(x + bw / 2, GY - hgt - 5, str(c), 9, GRAY, 'middle', 700))
+        s.append(txt(x + bw / 2, GY + 15, '%d0' % st, 8.6, GRAY, 'middle'))
+    s.append(line(GX, GY, GX + GW, GY, GRAY, 1.3))
+    s.append(txt(GX, 312, '중앙값은 60 점대 — 몇 점인지는 알 수 없다', 10.4, SKY, 'start', 800))
+    s.append(txt(GX + GW, 330, '점수', 8.8, GRAY, 'end', 700))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch18_lose', '두 반의 점수입니다. 줄기와 잎으로 적으면 **완전히 다른 자료**인 것이 '
+     '한눈에 보입니다 — 가 반의 중앙값은 **62 점**, 나 반은 **69 점**입니다. 그런데 둘을 '
+     '히스토그램으로 바꾸면 **똑같은 그림**이 됩니다. 계급마다 개수가 같기 때문입니다. '
+     '정리는 공짜가 아닙니다. 한눈에 보이는 것을 얻는 대신 **값 하나하나를 잃습니다.**')
+def ch18_lose():
+    A, B = sorted(CH18_A), sorted(CH18_B)
+    ra, rb = _stemrows(A), _stemrows(B)
+    assert [len(l) for _, l in ra] == [len(l) for _, l in rb], '계급 도수가 같아야 한다'
+    ma, mb = A[_median_pos(len(A)) - 1], B[_median_pos(len(B)) - 1]
+    assert (ma, mb) == (62, 69), (ma, mb)
+    assert A != B
+
+    W, H = 700, 330
+    s = [head(W, H)]
+    s.append(txt(20, 24, '다른 자료 · 같은 히스토그램', 12.5, NAVY, 'start', 800))
+    for k, (rows, nm, med, col) in enumerate(((ra, '가 반', ma, TEAL), (rb, '나 반', mb, RED))):
+        ox = 36 + k * 200
+        s.append(txt(ox, 54, '%s — 중앙값 %d 점' % (nm, med), 10.6, col, 'start', 800))
+        for i, (st, leaves) in enumerate(rows):
+            y = 80 + i * 26
+            s.append(txt(ox + 18, y, str(st), 10.6, NAVY, 'end', 800))
+            s.append(line(ox + 22, y - 10, ox + 22, y + 5, LINE, 1))
+            s.append(txt(ox + 28, y, ' '.join(str(v) for v in leaves), 10.6, col, 'start', 600))
+    # 가운데 화살표 → 공통 히스토그램
+    GX, GY, GW, GH = 452, 246, 212.0, 150.0
+    s.append(txt(GX, 54, '둘 다 이 그림이 된다', 10.6, GRAY, 'start', 800))
+    mx = max(len(l) for _, l in ra)
+    bw = GW / float(len(ra))
+    for i, (st, leaves) in enumerate(ra):
+        c = len(leaves)
+        hgt = GH * c / float(mx)
+        x = GX + i * bw
+        s.append(rect(x + 2, GY - hgt, bw - 4, hgt, SKY, '#fff', 0.8, 2))
+        s.append(txt(x + bw / 2, GY - hgt - 5, str(c), 8.4, GRAY, 'middle', 700))
+        s.append(txt(x + bw / 2, GY + 14, '%d0' % st, 8, GRAY, 'middle'))
+    s.append(line(GX, GY, GX + GW, GY, GRAY, 1.2))
+    s.append(rect(34, 288, 632, 32, '#FFF6F5', '#E6C4C0', 1, 6))
+    s.append(txt(350, 308, '막대는 «몇 개» 만 말한다 — 62 였는지 69 였는지는 사라졌다',
+                 11.6, RED, 'middle', 800))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch18_mind', '존 터키가 남긴 것들을 **해마다** 벌여 놓은 것입니다. 가운데 이름에서 '
+     '가지가 뻗고, 가지 끝마다 그해에 만든 것이 붙어 있습니다 — **bit · 소프트웨어 · '
+     '빠른 푸리에 변환 · 줄기와 잎 · 상자 그림.** 통계학자 한 사람이 컴퓨터가 쓰는 말과 '
+     '자료를 보는 눈을 함께 만들어 놓았습니다. 가지 왼쪽의 작은 그림은 **그해에 만든 것을 '
+     '한 글자로 줄인 표시**입니다.')
+def ch18_mind():
+    W, H = 700, 356
+    CX, CY = 96.0, 178.0
+    items = [(1947, 'bit', '「이진 숫자(binary digit)」를 줄인 말', TEAL, 'bit'),
+             (1958, '소프트웨어', '활자로 남은 이른 예로 꼽힌다', BLUE, 'code'),
+             (1965, '빠른 푸리에 변환', '쿨리와 함께 — 신호를 빨리 푼다', SKY, 'wave'),
+             (1977, '줄기와 잎 그림', '『탐색적 자료 분석』에서', AMBER, 'stem'),
+             (1977, '상자 그림', '같은 책에서 — 네 토막으로 본다', RED, 'box')]
+    assert len(items) == 5
+    assert [i[0] for i in items] == sorted(i[0] for i in items), '연도순이어야 한다'
+
+    def glyph(kind, x, y, col):
+        """가지마다 다는 작은 표시 그림 (x, y 는 왼쪽 위 모서리 · 26 x 26)"""
+        g = [rect(x, y, 26, 26, '#fff', col, 1.2, 6)]
+        if kind == 'bit':
+            g.append(txt(x + 13, y + 18, '01', 11, col, 'middle', 800))
+        elif kind == 'code':
+            g.append(txt(x + 13, y + 18, '&lt;/&gt;', 10, col, 'middle', 800))
+        elif kind == 'wave':
+            import math as _m
+            pts = []
+            for k in range(27):
+                t = k / 26.0
+                pts.append('%.1f,%.1f' % (x + k, y + 13 - 7.4 * _m.sin(2 * _m.pi * t)))
+            g.append('<polyline fill="none" stroke="%s" stroke-width="1.6" points="%s"/>'
+                     % (col, ' '.join(pts)))
+        elif kind == 'stem':
+            g.append(line(x + 9, y + 5, x + 9, y + 21, col, 1.2))
+            g.append(txt(x + 6, y + 13, '6', 7.6, col, 'end', 800))
+            g.append(txt(x + 12, y + 13, '0 2', 7.6, col, 'start', 600))
+            g.append(txt(x + 13, y + 23, '', 7, col, 'middle'))
+        else:                                   # box — 상자 그림
+            g.append(line(x + 3, y + 13, x + 23, y + 13, col, 1.2))
+            g.append(rect(x + 8, y + 8, 10, 10, '#fff', col, 1.4, 1.5))
+            g.append(line(x + 13, y + 8, x + 13, y + 18, col, 1.2))
+        return ''.join(g)
+
+    s = [head(W, H)]
+    s.append(txt(20, 24, '존 터키 — 한 사람이 남긴 말과 그림', 12.5, NAVY, 'start', 800))
+    s.append(txt(20, 42, '이름을 잘 짓는 사람이었고, 자료를 먼저 보라고 한 사람이었다',
+                 9.4, GRAY, 'start', 700))
+    BX, BW, BH = 214.0, 462.0, 48.0
+    for i, (yr, nm, why, col, gk) in enumerate(items):
+        by = 60.0 + i * 58.0
+        cy = by + BH / 2.0
+        # 가운데에서 가지로 뻗는 곡선
+        s.append('<path d="M %.1f %.1f C %.1f %.1f, %.1f %.1f, %.1f %.1f" fill="none" '
+                 'stroke="%s" stroke-width="1.8"/>'
+                 % (CX + 50, CY, CX + 120, CY, BX - 60, cy, BX - 4, cy, col))
+        s.append(rect(BX, by, BW, BH, '#FBFCFE', col, 1.3, 9))
+        s.append('<circle cx="%.1f" cy="%.1f" r="18" fill="#fff" stroke="%s" '
+                 'stroke-width="1.8"/>' % (BX + 30, cy, col))
+        s.append(txt(BX + 30, cy + 4, str(yr), 9.6, col, 'middle', 800))
+        s.append(glyph(gk, BX + 56, cy - 13, col))
+        s.append(txt(BX + 94, cy - 2, nm, 11.2, NAVY, 'start', 800))
+        s.append(txt(BX + 94, cy + 14, why, 8.6, GRAY, 'start'))
+    s.append('<circle cx="%.1f" cy="%.1f" r="50" fill="#F3F6FC" stroke="%s" '
+             'stroke-width="2.6"/>' % (CX, CY, NAVY))
+    s.append(txt(CX, CY - 2, '존 터키', 13.5, NAVY, 'middle', 800))
+    s.append(txt(CX, CY + 17, '1915~2000', 8.6, GRAY, 'middle', 700))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+# ──────────────────────────────────────────────── 제19장 · 상대도수와 뒤집힘
+# 1973년 가을 버클리 대학원, 가장 큰 여섯 과 (Bickel 외, 1975)
+CH19_DEPT = [('가', 825, 512, 108, 89),
+             ('나', 560, 353, 25, 17),
+             ('다', 325, 120, 593, 202),
+             ('라', 417, 138, 375, 131),
+             ('마', 191, 53, 393, 94),
+             ('바', 373, 22, 341, 24)]
+
+
+@fig('ch19_size', '같은 모양으로 점수가 퍼진 두 반입니다. 가 반은 30 명, 나 반은 **90 명**. '
+     '사람 수를 그대로 그리면(왼쪽) 나 반 막대가 **언제나 높습니다** — 사람이 세 배 많으니 '
+     '당연합니다. 이것을 「나 반이 더 잘한다」로 읽으면 틀립니다. 각 막대를 전체 인원으로 '
+     '나눈 것이 **상대도수**이고(오른쪽), 그제야 두 반을 포갤 수 있습니다. '
+     '상대도수를 모두 더하면 **언제나 1** 입니다.')
+def ch19_size():
+    bins = ['50', '60', '70', '80', '90']
+    a = [4, 8, 10, 6, 2]
+    b = [12, 24, 30, 18, 6]
+    assert sum(a) == 30 and sum(b) == 90
+    assert all(y == 3 * x for x, y in zip(a, b)), '모양이 같아야 한다'
+    ra = [x / 30.0 for x in a]
+    rb = [y / 90.0 for y in b]
+    assert abs(sum(ra) - 1) < 1e-9 and abs(sum(rb) - 1) < 1e-9
+    assert all(abs(p - q) < 1e-9 for p, q in zip(ra, rb)), '상대도수는 같아야 한다'
+
+    W, H = 700, 348
+    s = [head(W, H)]
+    s.append(txt(20, 24, '가 반 30 명 · 나 반 90 명 — 퍼진 모양은 똑같다', 12.4, NAVY,
+                 'start', 800))
+    panels = [('사람 수 그대로 (도수)', a, b, 30.0, False),
+              ('전체로 나누면 (상대도수)', ra, rb, 0.36, True)]
+    for pi, (name, va, vb, top, isr) in enumerate(panels):
+        ox, oy, gw, gh = 50.0 + pi * 350.0, 254.0, 250.0, 162.0
+        s.append(txt(ox, 56, name, 10.8, SKY if pi == 0 else TEAL, 'start', 800))
+        bw = gw / float(len(bins)) / 2.4
+        for j in range(len(bins)):
+            x = ox + j * (gw / len(bins))
+            for k, (v, col) in enumerate(((va[j], SKY), (vb[j], NAVY))):
+                hgt = gh * v / top
+                s.append(rect(x + 6 + k * (bw + 3), oy - hgt, bw, hgt, col, 'none', 0, 2))
+            s.append(txt(x + 18, oy + 15, bins[j], 8.4, GRAY, 'middle'))
+        s.append(line(ox, oy, ox + gw, oy, GRAY, 1.3))
+        if isr:
+            s.append(txt(ox, oy + 36, '두 반의 막대가 포개진다 · 합은 1', 9.6, TEAL,
+                         'start', 800))
+        else:
+            s.append(txt(ox, oy + 36, '나 반이 늘 높다 — 사람이 많아서다', 9.6, RED,
+                         'start', 800))
+    # 범례는 맨 아래 가운데 — 오른쪽 위에 두면 둘째 그림 제목을 가린다
+    s.append(rect(262, 310, 176, 30, '#FBFCFE', LINE, 1, 6))
+    s.append('<rect x="276" y="319" width="12" height="12" fill="%s"/>' % SKY)
+    s.append(txt(294, 329, '가 반', 9.2, GRAY, 'start', 700))
+    s.append('<rect x="344" y="319" width="12" height="12" fill="%s"/>' % NAVY)
+    s.append(txt(362, 329, '나 반', 9.2, GRAY, 'start', 700))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch19_berkeley', '1973년 가을 버클리 대학원에서 지원자가 가장 많았던 여섯 과입니다. 과마다 붙은 '
+     '비율을 보면 **여섯 중 넷에서 여성이 더 높습니다.** 그런데 이 여섯 과를 '
+     '**한 덩어리로 합치면** 남성 45 %, 여성 30 % 로 뒤집힙니다. 지원자가 어디에 '
+     '몰렸는지를 보십시오 — 여성은 붙기 어려운 다·마·바 과에, 남성은 붙기 쉬운 '
+     '가·나 과에 몰렸습니다. **합치는 순간 「어디에 지원했는가」가 섞여 들어옵니다.** '
+     '(과 이름은 원 자료의 A~F 를 우리말 차례로 바꾼 것이고, 아래 수는 남성·여성 '
+     '지원자 수입니다. 101 개 과를 모두 합친 값은 44 % 대 35 % 입니다)')
+def ch19_berkeley():
+    rows = []
+    for nm, ma, mad, wa, wad in CH19_DEPT:
+        rows.append((nm, ma, mad, 100.0 * mad / ma, wa, wad, 100.0 * wad / wa))
+    win = sum(1 for r in rows if r[6] > r[3])
+    assert win == 4, win
+    MA = sum(r[1] for r in rows); MD = sum(r[2] for r in rows)
+    WA = sum(r[4] for r in rows); WD = sum(r[5] for r in rows)
+    assert (MA, WA) == (2691, 1835), (MA, WA)
+    pm, pw = 100.0 * MD / MA, 100.0 * WD / WA
+    assert round(pm) == 45 and round(pw) == 30, (pm, pw)
+
+    W, H = 700, 348
+    s = [head(W, H)]
+    s.append(txt(20, 24, '과마다 보면 여성이 높은데, 합치면 뒤집힌다', 12.4, NAVY, 'start', 800))
+    GX, GY, GW, GH = 66, 236, 400.0, 150.0
+    bw = GW / 6.0
+    for i, (nm, ma, mad, pmm, wa, wad, pww) in enumerate(rows):
+        x = GX + i * bw
+        for k, (p, col) in enumerate(((pmm, SKY), (pww, RED))):
+            hgt = GH * p / 90.0
+            s.append(rect(x + 8 + k * 22, GY - hgt, 19, hgt, col, 'none', 0, 2))
+            s.append(txt(x + 17.5 + k * 22, GY - hgt - 5, '%d' % round(p), 7.8, col,
+                         'middle', 800))
+        s.append(txt(x + bw / 2, GY + 15, nm, 9.4, NAVY, 'middle', 800))
+        s.append(txt(x + bw / 2, GY + 29, '%d·%d명' % (ma, wa), 7.4, GRAY, 'middle'))
+    s.append(line(GX, GY, GX + GW, GY, GRAY, 1.3))
+    s.append(txt(GX, 58, '과마다 붙은 비율 (%)', 10.4, NAVY, 'start', 800))
+    s.append(txt(GX, GY + 48, '여섯 중 넷에서 여성이 더 높다', 9.8, RED, 'start', 800))
+    # 오른쪽 : 합친 것
+    BX, BY, BH = 520, 236, 150.0
+    s.append(txt(BX, 58, '여섯 과를 합치면', 10.4, NAVY, 'start', 800))
+    for k, (p, col, nm) in enumerate(((pm, SKY, '남성'), (pw, RED, '여성'))):
+        hgt = BH * p / 90.0
+        x = BX + k * 62
+        s.append(rect(x, BY - hgt, 44, hgt, col, 'none', 0, 2))
+        s.append(txt(x + 22, BY - hgt - 6, '%d %%' % round(p), 10.4, col, 'middle', 800))
+        s.append(txt(x + 22, BY + 15, nm, 9.4, GRAY, 'middle', 700))
+    s.append(line(BX - 6, BY, BX + 118, BY, GRAY, 1.3))
+    s.append(txt(BX, BY + 48, '뒤집혔다', 9.8, RED, 'start', 800))
+    s.append(rect(34, 304, 632, 32, '#FFF6F5', '#E6C4C0', 1, 6))
+    s.append(txt(350, 324, '합치면 「어디에 지원했는가」가 함께 섞여 든다', 11.6, RED,
+                 'middle', 800))
+    s.append(rect(500, 46, 170, 32, '#FBFCFE', LINE, 1, 6))
+    s.append('<rect x="512" y="55" width="12" height="12" fill="%s"/>' % SKY)
+    s.append(txt(530, 65, '남성', 9.2, GRAY, 'start', 700))
+    s.append('<rect x="578" y="55" width="12" height="12" fill="%s"/>' % RED)
+    s.append(txt(596, 65, '여성', 9.2, GRAY, 'start', 700))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+# ─────────────────────────────────────────────────── 제20장 · 표본과 치우침
+@fig('ch20_digest', '1936년 미국 대통령 선거. 『리터러리 다이제스트』는 **237 만 장**을 '
+     '받아 세고 랜던이 **57.1 %** 로 이긴다고 내놓았습니다. 실제 결과는 루스벨트 '
+     '**60.8 %** 였습니다. 빗나간 폭이 **23.7 %p** 입니다. 같은 해 갤럽은 이보다 훨씬 '
+     '적은 사람에게 물어 맞혔습니다. **많이 묻는 것과 골고루 묻는 것은 다른 일입니다.**')
+def ch20_digest():
+    pred = [('랜던', 57.1, RED), ('루스벨트', 42.9, GRAY)]
+    real = [('랜던', 36.5, GRAY), ('루스벨트', 60.8, TEAL)]
+    assert abs(pred[0][1] + pred[1][1] - 100) < 1e-9
+    gap = abs(60.8 - 36.3)
+    miss = abs(57.1 - 36.5)
+    assert round(miss, 1) == 20.6, miss
+
+    W, H = 700, 316
+    s = [head(W, H)]
+    s.append(txt(20, 24, '237 만 장을 세고도 빗나갔다', 12.5, NAVY, 'start', 800))
+    for pi, (name, data, note) in enumerate(
+            (('다이제스트의 예상', pred, '237만 장을 세었다'),
+             ('실제 결과', real, '루스벨트가 46개 주에서 이겼다'))):
+        ox, oy, gh = 70.0 + pi * 340.0, 242.0, 158.0
+        s.append(txt(ox, 58, name, 11, NAVY, 'start', 800))
+        for k, (who, p, col) in enumerate(data):
+            x = ox + k * 96
+            hgt = gh * p / 70.0
+            s.append(rect(x, oy - hgt, 62, hgt, col, 'none', 0, 2))
+            s.append(txt(x + 31, oy - hgt - 7, '%.1f %%' % p, 10.6, col, 'middle', 800))
+            s.append(txt(x + 31, oy + 16, who, 9.6, GRAY, 'middle', 700))
+        s.append(line(ox - 8, oy, ox + 166, oy, GRAY, 1.3))
+        s.append(txt(ox, oy + 38, note, 9, GRAY, 'start', 700))
+    s.append(rect(34, 272, 632, 32, '#FFF6F5', '#E6C4C0', 1, 6))
+    s.append(txt(350, 292, '랜던을 57.1 %로 보았는데 실제는 36.5 % — 20.6 %p 빗나갔다',
+                 11.6, RED, 'middle', 800))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch20_frame', '왜 빗나갔을까요. 두 군데에서 사람이 걸러졌습니다. ① **누구에게 '
+     '보냈나** — 전화번호부·자동차 등록부·회원 명부에서 주소를 모았습니다. 대공황 한가운데서 '
+     '전화와 자동차를 가진 사람은 형편이 나은 쪽이었습니다. ② **누가 답장했나** — 1000 만 '
+     '장을 보내 돌아온 것은 **넷 중 하나**뿐이었고, 답장을 보낸 쪽은 정부에 할 말이 많은 '
+     '사람들이었습니다. **거르고 또 거른 237 만 명은 미국이 아니었습니다.**')
+def ch20_frame():
+    sent, back = 10000000, 2376523
+    rate = 100.0 * back / sent
+    assert 23 < rate < 24, rate
+    W, H = 700, 306
+    s = [head(W, H)]
+    s.append(txt(20, 24, '두 번 걸러진 237 만 명', 12.5, NAVY, 'start', 800))
+    steps = [('미국의 투표자', '전부', 560.0, SKY,
+              '이 가운데 누구에게 물을지 고른다'),
+             ('주소를 구할 수 있던 사람', '1000만 명에게 보냄', 330.0, AMBER,
+              '전화·자동차·회원 명부 — 형편이 나은 쪽에 쏠렸다'),
+             ('답장을 보낸 사람', '237만 장 (넷 중 하나)', 150.0, RED,
+              '답장할 마음이 큰 쪽에 다시 쏠렸다')]
+    for i, (nm, sub, w, col, why) in enumerate(steps):
+        y = 74.0 + i * 68.0
+        x = 350.0 - w / 2.0
+        s.append(rect(x, y, w, 40, col, '#fff', 1, 7))
+        s.append(txt(350, y + 18, nm, 11, '#fff', 'middle', 800))
+        s.append(txt(350, y + 33, sub, 8.6, '#fff', 'middle', 700))
+        s.append(txt(350, y + 56, why, 8.8, GRAY, 'middle'))
+    s.append(rect(34, 268, 632, 30, '#FBFCFE', LINE, 1, 6))
+    s.append(txt(350, 288, '표본이 커도 «치우친 채로» 커지면 오차는 줄지 않는다', 11.6,
+                 NAVY, 'middle', 800))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch20_wobble', '같은 학교에서 학생을 **무작위로** 뽑아 평균 통학 시간을 재는 일을 '
+     '여러 번 되풀이한 것입니다. 5 명만 뽑으면 평균이 크게 널뜁니다. 30 명, 100 명으로 '
+     '늘리면 점들이 가운데로 모입니다. 다만 이것은 **골고루 뽑았을 때** 이야기입니다. '
+     '뽑는 틀이 한쪽으로 기울어 있으면 수를 늘려도 **기운 채로 모일 뿐**입니다.')
+def ch20_wobble():
+    import random as _r
+    true = 20.0
+    _r.seed(20260401)
+    sets = [(5, 60), (30, 60), (100, 60)]
+    out = []
+    for size, times in sets:
+        means = []
+        for _ in range(times):
+            v = [max(2.0, _r.gauss(true, 11.0)) for _ in range(size)]
+            means.append(sum(v) / size)
+        rng = max(means) - min(means)
+        out.append((size, means, rng))
+    assert out[0][2] > out[1][2] > out[2][2], [round(o[2], 1) for o in out]
+
+    W, H = 700, 300
+    s = [head(W, H)]
+    s.append(txt(20, 24, '몇 명에게 물었나 — 평균이 얼마나 널뛰나', 12.5, NAVY, 'start', 800))
+    GX, GY, GW = 90.0, 70.0, 520.0
+    LO, HI = 8.0, 32.0
+
+    def px(v):
+        return GX + GW * (v - LO) / (HI - LO)
+    for i, (size, means, rng) in enumerate(out):
+        y = GY + 34 + i * 66
+        s.append(line(GX, y, GX + GW, y, LINE, 1))
+        s.append(txt(GX - 12, y + 4, '%d 명' % size, 10, NAVY, 'end', 800))
+        col = (RED, AMBER, TEAL)[i]
+        for m in means:
+            s.append('<circle cx="%.1f" cy="%.1f" r="3.1" fill="%s" fill-opacity="0.5"/>'
+                     % (px(min(max(m, LO), HI)), y, col))
+        s.append(txt(GX + GW + 10, y + 4, '폭 %.0f 분' % rng, 9, col, 'start', 800))
+    s.append(line(px(true), GY + 16, px(true), GY + 34 + 2 * 66 + 16, NAVY, 1.4, '5 4'))
+    s.append(txt(px(true), GY + 10, '참값 20 분', 9.4, NAVY, 'middle', 800))
+    s.append(rect(34, 262, 632, 30, '#FBFCFE', LINE, 1, 6))
+    s.append(txt(350, 282, '사람을 늘리면 «널뛰는 폭» 은 줄어든다 — 치우침은 줄지 않는다',
                  11.6, NAVY, 'middle', 800))
     s.append('</svg>')
     return ''.join(s)

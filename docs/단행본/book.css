@@ -261,6 +261,21 @@ td{ border:1px solid #DCE3EE; padding:2mm 2.4mm; line-height:1.6; vertical-align
 .hist .l{ font-weight:800; color:#8A5A00; font-size:10pt; margin-bottom:2.4mm; }
 .hist p{ font-size:9.9pt; line-height:1.86; margin-bottom:3.2mm; }
 .hist p:last-child{ margin-bottom:0; }
+/* 연표 — 줄기 하나에서 해마다 가지가 뻗는 마인드맵 꼴 */
+.mind{ margin-top:3mm; border-top:1px solid #E6DAC0; padding-top:3mm; }
+.mind .mroot{ display:inline-block; background:var(--navy); color:#fff; font-weight:800;
+  font-size:9.4pt; letter-spacing:-.01em; padding:1.4mm 4.4mm; border-radius:999px;
+  margin-bottom:2.6mm; }
+.mind .mbs{ margin-left:7mm; padding-left:7mm; border-left:1.4px solid #E0CFA6; }
+.mind .mb{ position:relative; display:flex; gap:3mm; align-items:flex-start;
+  margin:1.9mm 0; break-inside:avoid; }
+.mind .mb::before{ content:''; position:absolute; left:-7mm; top:3.1mm;
+  width:7mm; height:0; border-top:1.4px solid #E0CFA6; }
+.mind .my{ flex:0 0 18mm; text-align:center; font-weight:800; font-size:8.8pt;
+  color:#8A5A00; background:#FFF7E8; border:1px solid #E8D4A8; border-radius:999px;
+  padding:.7mm 0; }
+.mind .mt{ flex:1; font-size:9.5pt; line-height:1.66; }
+
 .tl{ margin-top:3mm; border-top:1px solid #E6DAC0; padding-top:2.6mm; }
 .tli{ display:flex; gap:4mm; margin:1.8mm 0; break-inside:avoid; }
 .tli .when{ flex:0 0 22mm; font-weight:800; color:#8A5A00; font-size:9.4pt;
@@ -321,6 +336,16 @@ sup.cite.miss{ color:var(--red); }
 .sources .sr .t{ flex:1; }
 .sources .chk{ color:var(--teal); font-size:8.2pt; white-space:nowrap; }
 .sources .nt{ color:#6B7280; font-size:8.4pt; }
+/* 미주 — 장마다 쓴 출처를 책 맨 뒤에 모은 자리 */
+.notes{ break-inside:auto; margin:0 0 5mm; }
+.notes .ng{ font-weight:800; color:var(--navy); font-size:9.6pt;
+  border-bottom:1px solid var(--line); padding-bottom:1.2mm; margin:4mm 0 2mm; }
+.notes .sr{ display:flex; gap:2.4mm; margin:1.3mm 0; line-height:1.62; font-size:8.8pt;
+  color:var(--ink2, #374151); }
+.notes .sr .n{ flex:0 0 5mm; font-weight:800; color:var(--sky); text-align:right; }
+.notes .sr .t{ flex:1; }
+.notes .chk{ color:var(--teal); font-size:8.2pt; white-space:nowrap; }
+.notes .nt{ color:#6B7280; font-size:8.4pt; }
 
 /* 장 도입 삽화 — 이야기를 여는 사진 */
 figure.photo{ margin:6mm 0; }

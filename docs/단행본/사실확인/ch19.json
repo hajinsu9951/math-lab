@@ -1,0 +1,30 @@
+[
+  {
+    "id": "ucb_overall",
+    "claim": "1973년 가을 버클리 대학원 입학에서 남성 지원자 8442 명 중 약 44 %, 여성 지원자 4321 명 중 약 35 % 가 합격했다. 판정이 가능할 만큼 서류가 갖춰진 지원은 12,763 건이었고 과·전공은 약 101 개였다. 과별로 보정해 분석하면 오히려 여성 쪽으로 «작지만 통계적으로 유의한» 기울기가 나타났다.",
+    "source": "Bickel, P. J., Hammel, E. A., &amp; O’Connell, J. W. (1975). “Sex Bias in Graduate Admissions: Data from Berkeley.” <i>Science</i>, 187(4175), 398–404.",
+    "checked": "2026-10-12",
+    "note": "이것이 「차별이 없었다」는 뜻은 아니다. 여성이 경쟁이 심한 과로 더 많이 지원한 까닭 자체는 이 수가 대답하지 못한다. 논문도 그 점을 적고 있다."
+  },
+  {
+    "id": "ucb_dept",
+    "claim": "가장 큰 여섯 과에서, 여섯 중 넷은 여성의 합격률이 남성보다 높았다. 가장 큰 과(A)에서는 여성 82 %, 남성 62 % 였다. 여섯 과의 지원자는 남성 2,691 명 · 여성 1,835 명이었다.",
+    "source": "Bickel, P. J., Hammel, E. A., &amp; O’Connell, J. W. (1975). “Sex Bias in Graduate Admissions: Data from Berkeley.” <i>Science</i>, 187(4175), 398–404, Table 1. / R 내장 자료 <i>UCBAdmissions</i>(datasets 꾸러미).",
+    "checked": "2026-10-12",
+    "note": "책의 그림에 쓴 과 이름 「가~바」는 원 자료의 A~F 를 우리말 차례로 바꾼 것이다. 합격자 수는 R 내장 자료의 값을 그대로 썼고, 비율은 거기서 계산했다. 「여섯 모두 여성이 높거나 비슷했다」고 적은 요약도 돌아다니지만, 표를 보면 다·마 과는 남성이 조금 높다."
+  },
+  {
+    "id": "simpson_stone",
+    "claim": "1986년 영국에서 콩팥 결석 치료법을 견준 연구에서, 전체 성공률은 열린 수술 78 %(273/350), 경피적 제석술 83 %(289/350) 였으나, 결석 크기로 나누면 작은 결석(93 % 대 87 %)과 큰 결석(73 % 대 69 %) 모두 열린 수술이 높았다. 열린 수술이 큰 결석 263 건을, 경피적 제석술이 작은 결석 270 건을 맡은 것이 까닭이다.",
+    "source": "Charig, C. R., Webb, D. R., Payne, S. R., &amp; Wickham, J. E. A. (1986). “Comparison of treatment of renal calculi by open surgery, percutaneous nephrolithotomy, and extracorporeal shockwave lithotripsy.” <i>British Medical Journal</i>, 292, 879–882. / Julious, S. A., &amp; Mullee, M. A. (1994). “Confounding and Simpson’s paradox.” <i>BMJ</i>, 309, 1480–1481.",
+    "checked": "2026-10-12",
+    "note": "원 논문은 세 가지 치료법을 다루고, 심프슨의 역설 예로는 그중 둘만 견준다. 본문에서는 「가·나 치료법」으로만 적었다."
+  },
+  {
+    "id": "simpson_name",
+    "claim": "「심프슨의 역설」이라는 이름은 에드워드 심프슨의 1951년 논문에서 왔다. 같은 현상은 그보다 앞서 1899년 칼 피어슨과 1903년 율이 적어 두었다.",
+    "source": "Simpson, E. H. (1951). “The Interpretation of Interaction in Contingency Tables.” <i>Journal of the Royal Statistical Society, Series B</i>, 13(2), 238–241. / Blyth, C. R. (1972). “On Simpson’s Paradox and the Sure-Thing Principle.” <i>JASA</i>, 67(338), 364–366.",
+    "checked": "2026-10-12",
+    "note": "「심프슨의 역설」이라는 말을 붙인 사람은 1972년 콜린 블라이스다. 심프슨 자신이 이름을 붙인 것이 아니다."
+  }
+]

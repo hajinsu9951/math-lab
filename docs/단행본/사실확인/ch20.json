@@ -1,0 +1,30 @@
+[
+  {
+    "id": "digest_record",
+    "claim": "『리터러리 다이제스트』는 모의 투표지를 우편으로 보내 선거 결과를 예측했고, 1920·1924·1928·1932년 네 번의 대통령 선거를 잇따라 맞혔다.",
+    "source": "Squire, P. (1988). “Why the 1936 Literary Digest Poll Failed.” <i>Public Opinion Quarterly</i>, 52(1), 125–133. / Wikipedia, “The Literary Digest” · “Opinion polling for United States presidential elections”.",
+    "checked": "2026-10-12",
+    "note": "당시에는 자동차·전화를 가진 층과 그렇지 않은 층의 표심이 크게 갈리지 않아 그 방법이 통했다는 것이 뒤의 해석이다."
+  },
+  {
+    "id": "digest_1936",
+    "claim": "1936년 『리터러리 다이제스트』는 모의 투표지 약 1000 만 장을 보내 2,376,523 장을 돌려받았고, 공화당 알프 랜던이 57.1 % 로 이긴다고 예측했다. 실제로는 루스벨트가 60.8 %, 랜던이 36.5 % 를 얻었고, 랜던이 이긴 주는 48 개 중 메인·버몬트 두 곳뿐이었다.",
+    "source": "Squire, P. (1988). “Why the 1936 Literary Digest Poll Failed.” <i>Public Opinion Quarterly</i>, 52(1), 125–133. / <i>Literary Digest</i>, 1936년 10월 31일자. / 미국 연방선거위원회 1936년 대통령 선거 집계.",
+    "checked": "2026-10-12",
+    "note": "회신 수를 «약 227 만» 으로 적은 자료도 있다. 본문의 237 만은 2,376,523 을 어림한 것이다. 루스벨트 득표율도 자료에 따라 61~62 % 로 적히는데, 공식 집계는 60.8 % 다."
+  },
+  {
+    "id": "digest_why",
+    "claim": "빗나간 까닭은 둘이다. ① 주소를 전화번호부·자동차 등록부·회원 명부에서 모아 형편이 나은 층에 치우쳤고(표본 틀의 치우침), ② 보낸 1000 만 장 가운데 약 네 장에 한 장만 돌아와, 답장할 마음이 큰 쪽으로 다시 치우쳤다(무응답 치우침).",
+    "source": "Squire, P. (1988). “Why the 1936 Literary Digest Poll Failed.” <i>Public Opinion Quarterly</i>, 52(1), 125–133. / Bryson, M. C. (1976). “The Literary Digest Poll: Making of a Statistical Myth.” <i>The American Statistician</i>, 30(4), 184–185.",
+    "checked": "2026-10-12",
+    "note": "둘 중 어느 쪽이 더 컸는지는 연구마다 다르다. 브라이슨(1976)은 무응답 쪽을 크게 보았고, 스콰이어(1988)는 둘 다 작용했으며 표본 틀의 치우침만으로는 랜던의 승리를 예측할 만큼 빗나가지 않았다고 보았다. 본문은 둘을 나란히 적었다."
+  },
+  {
+    "id": "gallup_1936",
+    "claim": "같은 해 조지 갤럽은 훨씬 적은 수의 응답자에게 할당 표집으로 물어 루스벨트의 승리를 맞혔고, 『리터러리 다이제스트』가 빗나갈 것이라는 예측까지 내놓았다.",
+    "source": "Squire, P. (1988). “Why the 1936 Literary Digest Poll Failed.” <i>Public Opinion Quarterly</i>, 52(1), 125–133. / American Institute of Public Opinion(갤럽) 1936년 조사 기록.",
+    "checked": "2026-10-12",
+    "note": "갤럽의 표본 크기는 자료마다 다르게 적힌다(수천 명~5 만 명). 본문에서는 수를 적지 않고 「훨씬 적은 사람」 으로만 썼다. 갤럽의 할당 표집도 오늘의 기준에서는 완전한 무작위가 아니다."
+  }
+]

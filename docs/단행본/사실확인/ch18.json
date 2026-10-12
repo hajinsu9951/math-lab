@@ -1,0 +1,37 @@
+[
+  {
+    "id": "tukey_life",
+    "claim": "존 터키(John Wilder Tukey, 1915~2000)는 미국의 통계학자로 프린스턴 대학과 벨 연구소에서 일했다.",
+    "source": "Princeton University, Department of Mathematics, “John W. Tukey” 추모 기록. / <i>The New York Times</i> 부고(2000년 7월 28일), MacTutor History of Mathematics Archive 재수록.",
+    "checked": "2026-10-12",
+    "note": "프린스턴에서 통계학과를 세웠고, 벨 연구소 연구와 겸직했다."
+  },
+  {
+    "id": "tukey_bit",
+    "claim": "«bit» 는 「이진 숫자(binary digit)」를 줄인 말이며, 터키가 제안했다. 활자로 남은 첫 쓰임은 1948년 클로드 섀넌의 정보 이론 논문이고, 섀넌이 그 논문에서 터키를 제안자로 밝혔다. 섀넌은 그 말을 1947년 1월 9일 터키가 쓴 벨 연구소 메모로 거슬러 올렸다.",
+    "source": "Shannon, C. E. (1948). “A Mathematical Theory of Communication.” <i>Bell System Technical Journal</i>, 27(3), 379–423. / Wordorigins.org, “bit / byte” 항목.",
+    "checked": "2026-10-12",
+    "note": "터키 자신은 1943~44년 겨울 학회 점심 자리에서 «bigit»·«binit» 대신 고른 말이라고 뒤에 회고했다. 1947년 메모는 날짜가 남은 유일한 기록이다."
+  },
+  {
+    "id": "tukey_software",
+    "claim": "터키는 1958년 1월 『American Mathematical Monthly』에 실은 「The Teaching of Concrete Mathematics」에서 컴퓨터의 프로그램 쪽을 가리켜 «software» 라고 썼다. 오늘 쓰는 뜻으로 활자에 남은 이른 예로 널리 꼽힌다.",
+    "source": "Tukey, J. W. (1958). “The Teaching of Concrete Mathematics.” <i>The American Mathematical Monthly</i>, 65(1), 1–9. / Shapiro, F. R., <i>Science News</i>, “Software’s Origin”. / historyofinformation.com, “Tukey Applies the Term ‘Software’ within the Context of Computing”.",
+    "checked": "2026-10-12",
+    "note": "«처음 만든 사람» 이라고 잘라 말하기는 어렵다. 1956년 Richard R. Carhart 가 신뢰성 공학 글에서 «사람» 을 가리켜 같은 낱말을 썼고(뜻이 다르다), Paul Niquette 는 1953년 자신이 먼저 썼다고 뒤에 밝혔으나 당대의 인쇄 기록은 확인되지 않는다. 본문은 「활자로 남은 이른 예」로만 적었다."
+  },
+  {
+    "id": "tukey_fft",
+    "claim": "1965년 터키는 제임스 쿨리와 함께 빠른 푸리에 변환(FFT) 알고리즘을 발표했다.",
+    "source": "Cooley, J. W., &amp; Tukey, J. W. (1965). “An Algorithm for the Machine Calculation of Complex Fourier Series.” <i>Mathematics of Computation</i>, 19(90), 297–301.",
+    "checked": "2026-10-12",
+    "note": "같은 생각의 뿌리는 가우스까지 거슬러 올라간다는 것이 뒤에 밝혀졌다. 본문에서는 「쿨리와 함께 내놓았다」로만 적었다."
+  },
+  {
+    "id": "tukey_eda",
+    "claim": "터키는 1977년 『Exploratory Data Analysis』(Addison-Wesley)를 냈고, 줄기와 잎 그림과 상자 그림이 이 책에서 널리 알려졌다. 줄기와 잎 그림의 뿌리는 1900년대 초 아서 볼리의 방식에 있으며, 자료가 대략 15~150 개일 때 쓸 만하다고 본다.",
+    "source": "Tukey, J. W. (1977). <i>Exploratory Data Analysis</i>. Reading, MA: Addison-Wesley. / Friendly, M., “Exploratory and Graphical Methods of Data Analysis” 강의 자료(datavis.ca). / Wikipedia, “Stem-and-leaf display”(볼리 유래·권장 자료 수).",
+    "checked": "2026-10-12",
+    "note": "1970~71년에 먼저 제한 배포판이 돌았고 정식 출판이 1977년이다. 당시 컴퓨터가 글자만 찍던 사정이 이 그림이 퍼지는 데 한몫했다."
+  }
+]

@@ -67,6 +67,7 @@ _QR = {}
 FACTS = {}          # 이름 → {claim, source, checked, note}
 CHAP_CITES = []     # 지금 쓰는 장에서 불린 이름들 (차례대로)
 ALL_CITES = []      # 권 전체 — 참고문헌을 만든다
+ENDNOTES = []       # (장 번호, 장 제목, 줄들) — 책 맨 뒤 «미주» 가 된다
 
 
 def qr_url(title):
@@ -369,6 +370,8 @@ def split_on(lines, mark='--'):
 
 # ── 장 만들기 ────────────────────────────────────────────────────────────
 def chapter_html(no, meta, blocks, mat):
+    # 윗첨자 번호는 «장마다» 1 부터 다시 센다 — 비우지 않으면 앞 장 것이 계속 쌓인다
+    del CHAP_CITES[:]
     H = []
     a = H.append
     a('<section class="chap" id="ch%02d">' % no)
@@ -457,15 +460,23 @@ def chapter_html(no, meta, blocks, mat):
                     rows.append((m2.group(1).strip(), m2.group(2).strip()))
                 else:
                     prose.append(ln)
-            h2 = ['<div class="hist"><div class="l">%s</div>' % inline(arg or '역사')]
+            # 연표(마인드맵)가 붙으면 제목은 뿌리 쪽에만 적는다 — 두 번 적지 않는다
+            ttl = inline(arg or '역사')
+            h2 = ['<div class="hist">']
+            if not rows:
+                h2.append('<div class="l">%s</div>' % ttl)
             h2.append(body_html(prose))
             if rows:
-                h2.append('<div class="tl">')
+                # 줄기 하나에서 해마다 가지가 뻗는 «마인드맵» 꼴로 그린다.
+                # 연표를 위에서 아래로 읽는 목록이 아니라 «한 뿌리에서 갈라진 것» 으로
+                # 보여 주려는 것이다 — 가지 끝의 해가 먼저 눈에 들어온다.
+                h2.append('<div class="mind"><div class="mroot">%s</div>'
+                          '<div class="mbs">' % ttl)
                 for when, what in rows:
-                    h2.append('<div class="tli"><div class="when">%s</div>'
-                              '<div class="what">%s</div></div>'
+                    h2.append('<div class="mb"><span class="my">%s</span>'
+                              '<span class="mt">%s</span></div>'
                               % (esc(when), inline(what)))
-                h2.append('</div>')
+                h2.append('</div></div>')
             h2.append('</div>')
             a(NL.join(h2))
 
@@ -627,7 +638,8 @@ def chapter_html(no, meta, blocks, mat):
         else:
             a(body_html(lines))
 
-    # ── 이 장에서 쓴 출처 ──────────────────────────────────────────────
+    # ── 이 장에서 쓴 출처 → 장 끝이 아니라 «책 맨 뒤 미주» 로 모은다 ──────
+    # 읽는 흐름을 끊지 않으려는 것이다. 본문의 윗첨자 번호는 그대로 장 안에서 1 부터 센다.
     if CHAP_CITES:
         rows = []
         for i, key in enumerate(CHAP_CITES, 1):
@@ -642,7 +654,7 @@ def chapter_html(no, meta, blocks, mat):
             note = (' <span class="nt">%s</span>' % inline(f['note'])) if f.get('note') else ''
             rows.append('<div class="sr"><span class="n">%d</span><span class="t">%s%s%s</span></div>'
                         % (i, inline(f['source']), chk, note))
-        a('<div class="sources"><div class="l">이 장이 쓴 출처</div>%s</div>' % ''.join(rows))
+        ENDNOTES.append((no, plain(meta.get('title', '')), rows))
 
     a('</section>')
     return '\n'.join(H)
@@ -733,7 +745,14 @@ def build(volpath):
     # 부록
     for ax in V.get('back', []):
         H.append('<section class="appx"><h2>%s</h2>' % esc(ax['h']))
-        if ax.get('gen') == 'refs':
+        if ax.get('gen') == 'notes':
+            # 미주 — 장마다 1 부터 센 번호를 그대로 쓴다. 본문의 윗첨자와 짝이 맞는다.
+            H.append(body_html(ax.get('body', '').splitlines()))
+            for cno, ctitle, rows in ENDNOTES:
+                H.append('<div class="notes"><div class="ng">제%d장 · %s</div>%s</div>'
+                         % (cno, esc(ctitle), ''.join(rows)))
+
+        elif ax.get('gen') == 'refs':
             H.append(body_html(ax.get('body', '').splitlines()))
             # 같은 자료를 여러 사실이 인용하면 참고문헌에는 «한 번만» 싣는다.
             # (대장 항목이 아니라 «출처 문자열» 로 추린다 — 전에는 같은 책이 두 줄로 나왔다)
@@ -753,8 +772,8 @@ def build(volpath):
                                   if f.get('checked') else '')
                                for f in items))
             H.append('<p style="font-size:9.2pt;color:#5A6779;margin-top:4mm">'
-                     '모두 %d 편입니다. 본문의 윗첨자 번호는 그 장의 「이 장이 쓴 출처」 '
-                     '목록을 가리킵니다.</p>' % len(items))
+                     '모두 %d 편입니다. 본문의 윗첨자 번호는 앞의 「미주」에서 '
+                     '그 장의 같은 번호를 가리킵니다.</p>' % len(items))
         elif ax.get('gen') == 'answers':
             H.append(body_html(ax.get('body', '').splitlines()))
             rows = ''.join('<tr><td>제%d장 %s</td><td>%s</td></tr>'
