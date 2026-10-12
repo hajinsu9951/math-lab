@@ -35,6 +35,11 @@ QUOTE = re.compile(r'「([^」]{2,30})」')
 ACT = re.compile(r'(누르|눌러|클릭|고르|골라|켜|선택|끌어)')
 CODE = re.compile(r'9수0[0-9]-[0-9]{2}')
 
+STD = json.load(io.open(os.path.join(HERE, '성취기준.json'), encoding='utf-8'))
+CH2LAB = {1: 25, 2: 35, 3: 26, 4: 27, 5: 43, 6: 28, 7: 44, 8: 29, 9: 30, 10: 36,
+          11: 31, 12: 37, 13: 32, 14: 38, 15: 39, 16: 33, 17: 34, 18: 40,
+          19: 41, 20: 42}
+
 # 장이 갖춰야 할 블록 (서사 중심 확장판)
 NEED = ['story', 'predict', 'screen', 'm1', 'm2', 'm3', 'note', 'hand',
         'apply', 'ex', 'term', 'teacher', 'career', 'qr', 'history', 'deep', 'extend']
@@ -115,11 +120,18 @@ def main(volpath):
                 bad2.append((no, '식에 LaTeX 가 그대로 남음: %s  ← %s'
                              % (' '.join(sorted(set(left))), t[:52])))
 
-        # ② 확인 안 된 성취기준 코드
+        # ② 성취기준 코드가 그 장의 실험실 것과 같은가
+        #    코드는 손으로 적지 않는다 — dist 의 실험실 주석에서 뽑아 둔 대장과 맞춘다
         whole = io.open(path, encoding='utf-8').read()
-        if CODE.search(whole):
-            bad2.append((no, '확인되지 않은 성취기준 코드가 있음: '
-                         + ' '.join(sorted(set(CODE.findall(whole))))))
+        got = set(CODE.findall(whole))
+        want = set(c.strip('[]') for c in
+                   STD.get(str(CH2LAB.get(no, 0)), {}).get('codes', []))
+        if got - want:
+            bad2.append((no, '이 장의 실험실에 없는 성취기준 코드: %s (대장 %s)'
+                         % (' '.join(sorted(got - want)), ' '.join(sorted(want)))))
+        elif want and not got:
+            bad2.append((no, '성취기준 코드가 한 번도 안 나옴 (대장 %s)'
+                         % ' '.join(sorted(want))))
 
         for bi, b in enumerate(blks):
             txt = '\n'.join(b['lines'])

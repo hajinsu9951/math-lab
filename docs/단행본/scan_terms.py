@@ -37,6 +37,12 @@ sys.path.insert(0, HERE)
 import build as B                                            # noqa: E402
 
 CODE = re.compile(r'\[?9수\d{2}-\d{2}\]?')
+
+# 성취기준 코드는 손으로 적지 않는다 — dist 의 실험실 주석에서 뽑아 둔 대장을 쓴다
+STD = json.load(io.open(os.path.join(HERE, '성취기준.json'), encoding='utf-8'))
+CH2LAB = {1: 25, 2: 35, 3: 26, 4: 27, 5: 43, 6: 28, 7: 44, 8: 29, 9: 30, 10: 36,
+          11: 31, 12: 37, 13: 32, 14: 38, 15: 39, 16: 33, 17: 34, 18: 40,
+          19: 41, 20: 42}
 AREA = re.compile(r'「([^」]+)」')
 MIN_DEF, MIN_WHY, MIN_LINK = 20, 30, 20
 
@@ -102,9 +108,16 @@ def main(volpath, show=False):
                 bad.append((n, '「%s」의 영역이 「%s」인데 이 장은 「%s」 부 '
                             '— 일부러 다르게 적었는지 사람이 볼 자리'
                             % (name, area, part)))
-            # ── 확인 안 된 성취기준 코드
-            if CODE.search(code):
-                bad.append((n, '「%s」에 성취기준 코드가 남아 있음: %s' % (name, code)))
+            # ── 성취기준 코드가 그 장의 실험실 것과 같은가
+            got = set(CODE.findall(code))
+            want = set(STD.get(str(CH2LAB.get(n, 0)), {}).get('codes', []))
+            if outside and got:
+                bad.append((n, '「%s」는 교과서 밖인데 성취기준 코드가 붙어 있음' % name))
+            elif not outside and not got:
+                bad.append((n, '「%s」에 성취기준 코드가 없음' % name))
+            elif got - want:
+                bad.append((n, '「%s」의 코드가 이 장의 실험실 것과 다름: %s (대장 %s)'
+                            % (name, ' '.join(sorted(got - want)), ' '.join(sorted(want)))))
             # ── 이름이 본문에 쓰이는가
             head = plain(name).split('과')[0].split('와')[0].strip()
             if head and body.count(head) < 3:
