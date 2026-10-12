@@ -3,10 +3,14 @@
    · 판형 A4 / 여백 19.5 18 17 18 mm   · 본문 10.2pt · 행간 1.78 · 자간 −.01em · keep-all
    · 인쇄 팔레트 navy #1B2A4A · blue #2E4A7D · sky #4A7DBF · teal #0E8A7B · amber #E8A020 · red #C0504D
    · 모든 박스 break-inside:avoid
+   · 본문 글꼴은 본명조 하나로 통일한다 (--serif). 그림 안 글씨만 고딕으로 남긴다.
    글꼴은 내장하지 않는다 — 이 프로젝트의 「외부에서 불러오지 않는다」 원칙을 지키고,
-   설치된 Pretendard → 맑은 고딕 순으로 떨어진다. */
+   본명조가 없는 PC에서는 나눔명조 → KoPub바탕체 → 함초롬바탕 순으로 떨어진다. */
 
 :root{
+  --serif:'본명조','본명조 Medium','Source Han Serif K','Source Han Serif KR',
+          'Noto Serif KR','나눔명조','KoPub바탕체 Medium','함초롬바탕','HY신명조',
+          'Batang',serif;
   --navy:#1B2A4A; --blue:#2E4A7D; --sky:#4A7DBF; --teal:#0E8A7B;
   --amber:#E8A020; --red:#C0504D; --ink:#1C2430; --gray:#5A6779;
   --line:#BCC7DA; --tint:#E7ECF5; --tint2:#F3F6FC; --paper:#FBFCFE;
@@ -21,7 +25,8 @@
 *{ box-sizing:border-box; }
 html,body{ margin:0; }
 body{
-  font-family:'Pretendard Variable',Pretendard,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
+  /* 본문 글꼴 — 본명조 통일. 미설치 PC에서는 같은 명조 계열로 내려간다 */
+  font-family:var(--serif);
   color:var(--ink); font-size:10.2pt; line-height:1.78; letter-spacing:-.01em;
   word-break:keep-all; -webkit-font-smoothing:antialiased;
 }
