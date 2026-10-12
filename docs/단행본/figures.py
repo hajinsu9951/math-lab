@@ -2090,5 +2090,133 @@ def ch15_animal():
     s.append('</svg>')
     return ''.join(s)
 
+
+@fig('ch16_three', '신발 가게에서 하루에 팔린 치수입니다. 세 대푯값이 **서로 다른 곳**을 '
+     '가리킵니다 — 평균은 265.1 mm, 중앙값은 262.5 mm, 가장 많이 팔린 치수(최빈값)는 '
+     '**255 mm** 입니다. 주인이 평균을 보고 265 를 쌓아 두면 팔리지 않습니다. 물음은 '
+     '「가장 많이 팔리는 치수」인데 평균은 그 물음에 답하지 않습니다. 큰 치수 쪽으로 '
+     '꼬리가 길어 평균이 그쪽으로 끌려간 것입니다.')
+def ch16_three():
+    sizes = [235, 240, 245, 250, 255, 260, 265, 270, 275, 280, 285, 290, 295, 300]
+    cnt = [1, 2, 4, 7, 13, 10, 8, 7, 6, 5, 4, 3, 2, 2]
+    n = sum(cnt)
+    assert n == 74
+    mean = sum(s * c for s, c in zip(sizes, cnt)) / float(n)
+    assert round(mean, 1) == 265.1, round(mean, 1)
+    flat = []
+    for s, c in zip(sizes, cnt):
+        flat += [s] * c
+    med = (flat[n // 2 - 1] + flat[n // 2]) / 2.0
+    assert med == 262.5, med
+    mode = sizes[cnt.index(max(cnt))]
+    assert mode == 255
+    W, H = 700, 334
+    GX, GY, GW, GH = 56, 244, 588, 150
+    s = [head(W, H)]
+    s.append(txt(20, 24, '하루에 팔린 신발 치수 74 켤레', 12.5, NAVY, 'start', 800))
+    bw = GW / float(len(sizes))
+    for i, (sz, c) in enumerate(zip(sizes, cnt)):
+        x = GX + i * bw
+        hgt = GH * c / float(max(cnt))
+        col = AMBER if sz == mode else SKY
+        s.append(rect(x + 3, GY - hgt, bw - 6, hgt, col, 'none', 0, 2))
+        s.append(txt(x + bw / 2, GY - hgt - 5, str(c), 8.2, GRAY, 'middle', 700))
+        s.append(txt(x + bw / 2, GY + 15, str(sz), 7.6, GRAY, 'middle'))
+    s.append(line(GX, GY, GX + GW, GY, GRAY, 1.3))
+    s.append(txt(GX + GW, GY + 32, '치수 (mm)', 8.8, GRAY, 'end', 700))
+    lo, hi = 232.5, 302.5
+    marks = [(mode, '최빈값 %g' % mode, AMBER, 0),
+             (med, '중앙값 %g' % med, TEAL, 22),
+             (mean, '평균 %.1f' % mean, RED, 44)]
+    for v, lab, col, dy in marks:
+        x = GX + (v - lo) / (hi - lo) * GW
+        s.append(line(x, GY, x, 60 + dy, col, 1.6, '4 3'))
+        s.append(txt(x, 54 + dy, lab, 9.8, col, 'middle', 800))
+    s.append(rect(34, 292, 632, 32, '#FBFCFE', LINE, 1, 6))
+    s.append(txt(350, 312, '셋이 다른 곳을 가리킨다 — 「무엇을 묻는가」가 고를 것을 정한다',
+                 11.6, NAVY, 'middle', 800))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch16_outlier', '다섯 사람의 용돈입니다. 한 사람이 44 만 원을 받자 **평균이 10 만 원**이 '
+     '되었습니다 — 다섯 중 **넷이 평균보다 적습니다.** 중앙값은 2 만 원 그대로입니다. '
+     '평균은 모든 값을 끌어안기 때문에 **한 사람에게 끌려가고**, 중앙값은 순서만 보기 때문에 '
+     '버팁니다.')
+def ch16_outlier():
+    a = [1, 1, 2, 2, 44]
+    mean = sum(a) / float(len(a))
+    med = sorted(a)[len(a) // 2]
+    assert mean == 10.0 and med == 2
+    below = sum(1 for x in a if x < mean)
+    assert below == 4
+    b = [1, 1, 2, 2, 4]
+    assert sum(b) / 5.0 == 2.0 and sorted(b)[2] == 2
+    W, H = 700, 300
+    s = [head(W, H)]
+    s.append(txt(20, 24, '한 사람이 평균을 끌어올린다', 12.5, NAVY, 'start', 800))
+    panels = [(a, '맨 뒷사람이 44 만 원', RED), (b, '그 사람만 4 만 원으로 바꾸면', TEAL)]
+    for pi, (vals, name, col) in enumerate(panels):
+        ox, oy = 50.0 + pi * 340.0, 180.0
+        m = sum(vals) / float(len(vals))
+        md = sorted(vals)[2]
+        s.append(txt(ox, 58, name, 10.4, col, 'start', 800))
+        sc = 2.4
+        for i, v in enumerate(vals):
+            x = ox + i * 50
+            hgt = min(v, 45) * sc
+            s.append(rect(x, oy - hgt, 32, hgt, col if v > 10 else SKY, 'none', 0, 2))
+            s.append(txt(x + 16, oy - hgt - 6, str(v), 9, NAVY, 'middle', 700))
+        s.append(line(ox - 6, oy, ox + 250, oy, GRAY, 1.2))
+        s.append(line(ox - 6, oy - m * sc, ox + 250, oy - m * sc, RED, 1.4, '4 3'))
+        s.append(txt(ox + 256, oy - m * sc + 4, '평균 %g' % m, 9.4, RED, 'start', 800))
+        s.append(txt(ox, oy + 20, '중앙값 %g · 평균 %g' % (md, m), 9.6, NAVY, 'start', 700))
+        if pi == 0:
+            s.append(txt(ox, oy + 36, '다섯 중 넷이 평균보다 적다', 9, RED, 'start', 800))
+        else:
+            s.append(txt(ox, oy + 36, '평균도 중앙값도 2 — 가까워졌다', 9, TEAL,
+                         'start', 800))
+    s.append(rect(34, 252, 632, 32, '#FBFCFE', LINE, 1, 6))
+    s.append(txt(350, 272, '평균은 «모두» 를 보고, 중앙값은 «순서» 만 본다', 11.6, NAVY,
+                 'middle', 800))
+    s.append('</svg>')
+    return ''.join(s)
+
+
+@fig('ch16_daniels', '1952년 미 공군이 조종사 4,063 명의 몸을 열 군데 재어, 각 항목에서 '
+     '**가운데 30 %** 에 드는 사람을 셌습니다. 한 항목만 보면 절반 가까이가 들지만, 항목을 '
+     '늘릴수록 급격히 줄어 **열 항목 모두에 드는 사람은 한 명도 없었습니다.** '
+     '「평균의 사람」에 맞춘 조종석이 아무에게도 맞지 않았던 까닭입니다. '
+     '(막대는 줄어드는 꼴을 보이려 그린 것이고, 끝의 0 과 「셋에 3.5 %」가 기록된 값입니다)')
+def ch16_daniels():
+    W, H = 700, 316
+    n = 4063
+    pts = [(1, 0.30), (2, 0.12), (3, 0.035), (4, 0.012), (5, 0.004),
+           (6, 0.0015), (7, 0.0006), (8, 0.0002), (9, 0.00005), (10, 0.0)]
+    assert pts[0][1] == 0.30 and round(pts[2][1] * 100, 1) == 3.5
+    assert pts[-1][1] == 0.0 and pts[-1][0] == 10
+    s = [head(W, H)]
+    s.append(txt(20, 24, '열 군데 모두 「가운데 30 %」에 드는 사람 — 4,063 명 가운데',
+                 12.5, NAVY, 'start', 800))
+    GX, GY, GW, GH = 66, 236, 572, 150
+    bw = GW / 10.0
+    for i, (k, p) in enumerate(pts):
+        x = GX + i * bw
+        hgt = GH * (p / 0.30)
+        col = RED if p == 0 else (AMBER if k <= 3 else SKY)
+        s.append(rect(x + 6, GY - max(hgt, 0.8), bw - 12, max(hgt, 0.8), col, 'none', 0, 2))
+        lab = '0 명' if p == 0 else ('%.1f%%' % (p * 100) if p >= 0.001 else '0.1 %↓')
+        s.append(txt(x + bw / 2, GY - max(hgt, 0.8) - 6, lab, 8.2,
+                     RED if p == 0 else GRAY, 'middle', 800 if p == 0 else 700))
+        s.append(txt(x + bw / 2, GY + 16, str(k), 8.6, GRAY, 'middle'))
+    s.append(line(GX, GY, GX + GW, GY, GRAY, 1.3))
+    s.append(txt(GX + GW / 2, GY + 34, '함께 보는 항목의 수', 9.2, GRAY, 'middle', 700))
+    s.append(rect(34, 262, 632, 44, '#FFF6F5', '#E6C4C0', 1, 7))
+    s.append(txt(350, 282, '열 항목 모두에 드는 사람 — 4,063 명 가운데 0 명', 12.4, RED,
+                 'middle', 800))
+    s.append(txt(350, 298, '세 항목만 보아도 이미 3.5 % 뿐이었다', 9, GRAY, 'middle', 700))
+    s.append('</svg>')
+    return ''.join(s)
+
 if __name__ == '__main__':
     write_all(sys.argv[1] if len(sys.argv) > 1 else None)

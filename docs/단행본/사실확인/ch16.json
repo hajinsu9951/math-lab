@@ -1,0 +1,43 @@
+[
+ {
+  "id": "daniels1952",
+  "claim": "1952년 미 공군의 길버트 대니얼스는 조종사 4,063 명의 몸을 열 군데 재어, 각 항목에서 «가운데 30 %» 에 드는 사람을 셌다. 열 항목 모두에 드는 사람은 «한 명도 없었다». 세 항목만 보아도 3.5 % 뿐이었다.",
+  "source": "Daniels, G. S. (1952). <i>The “Average Man”?</i> (Technical Note WCRD 53-7). Wright Air Development Center, U.S. Air Force. / Rose, T. (2016). <i>The End of Average</i> (Ch. 1). HarperOne.",
+  "checked": "2026-10-12",
+  "note": "열 항목은 키·가슴둘레·팔 길이·다리 길이 등 조종석 설계에 쓰이던 치수였다."
+ },
+ {
+  "id": "cockpit_adjustable",
+  "claim": "그 결과로 미 공군은 「평균 조종사」에 맞춘 고정식 조종석을 버리고, 좌석·페달·조종간을 «조절할 수 있게» 만들도록 요구했다. 오늘날 자동차의 조절 좌석도 같은 생각이다.",
+  "source": "Rose, T. (2016). <i>The End of Average</i> (Ch. 1). HarperOne. / U.S. Air Force, 인체 측정 기반 설계 기준 (MIL-STD-1472 계열).",
+  "checked": "2026-10-12",
+  "note": "조종석을 평균에 맞춘 치수는 1926년의 측정값이었고, 1950년 무렵에는 조종사의 몸집이 달라져 있기도 했다."
+ },
+ {
+  "id": "mean_median_mode",
+  "claim": "평균은 모든 값을 더해 고르게 나눈 값이라 극단값에 끌려가고, 중앙값은 크기순의 한가운데라 극단값에 버티며, 최빈값은 가장 많이 나타난 값이다. 어느 것을 쓸지는 «무엇을 묻는가» 가 정한다.",
+  "source": "교육부 (2022). 『수학과 교육과정』 중학교 1학년 「자료와 가능성」. / Moore, D. S., &amp; Notz, W. I. (2020). <i>Statistics: Concepts and Controversies</i> (10th ed., Ch. 11). W. H. Freeman.",
+  "checked": "2026-10-12"
+ },
+ {
+  "id": "skew_order",
+  "claim": "자료가 한쪽으로 치우치면 세 대푯값이 갈라지며, 꼬리가 긴 쪽으로 평균이 가장 멀리 끌려간다. 오른쪽으로 꼬리가 길면 대체로 최빈값 < 중앙값 < 평균 의 차례가 된다.",
+  "source": "Moore, D. S., &amp; Notz, W. I. (2020). <i>Statistics: Concepts and Controversies</i> (10th ed., Ch. 11). W. H. Freeman.",
+  "checked": "2026-10-12",
+  "note": "「대체로」 라고 적었다 — 이 차례가 깨지는 분포도 알려져 있다(예외가 있는 경험칙이다)."
+ },
+ {
+  "id": "income_mean_median",
+  "claim": "소득처럼 꼬리가 긴 자료에서는 평균이 중앙값보다 크고, 절반이 넘는 사람이 평균보다 적게 번다. 그래서 통계청 자료는 평균소득과 중위소득을 «함께» 낸다.",
+  "source": "통계청, 「가계금융복지조사」 (평균소득·중위소득 병기). / 통계청 국가통계포털(KOSIS) 소득 관련 지표 설명.",
+  "checked": "2026-10-12",
+  "note": "복지 기준에 쓰이는 「기준 중위소득」이 평균이 아니라 중앙값인 까닭이 이것이다."
+ },
+ {
+  "id": "quetelet",
+  "claim": "「평균인(l’homme moyen)」이라는 생각은 1835년 벨기에의 케틀레가 내놓았다. 그는 평균이 사람의 «이상적인 꼴» 을 나타낸다고 보았는데, 대니얼스의 측정은 그 생각이 설계에는 쓸 수 없음을 보였다.",
+  "source": "Quetelet, A. (1835). <i>Sur l’homme et le développement de ses facultés, ou Essai de physique sociale</i>. Paris: Bachelier. / Rose, T. (2016). <i>The End of Average</i> (Ch. 1). HarperOne.",
+  "checked": "2026-10-12",
+  "note": "케틀레는 체질량지수(BMI)의 바탕이 된 지수를 만든 사람이기도 하다."
+ }
+]
