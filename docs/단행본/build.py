@@ -564,8 +564,11 @@ def chapter_html(no, meta, blocks, mat):
                 for i, c in enumerate(n['cards']):
                     f = keep(c['f'])
                     f = re.sub(r'\{\d+\}', '<u>&nbsp;</u>', f)
-                    nb.append('<div class="ncard"><div class="nt">%s. %s</div>'
-                              % (step[i % 4], keep(c['t'])))
+                    # 화면의 칸 제목이 이미 「기록 — …」으로 시작하면 이름을 두 번 적지 않는다
+                    lab_ = step[i % 4]
+                    t_ = keep(c['t'])
+                    head_ = t_ if plain(c['t']).lstrip().startswith(lab_)                         else '%s. %s' % (lab_, t_)
+                    nb.append('<div class="ncard"><div class="nt">%s</div>' % head_)
                     nb.append('<div class="nf">%s</div>' % f)
                     if c['opts']:
                         # 화면은 보기를 섞어 내보낸다. 책에서도 정답이 늘 첫 줄이면
