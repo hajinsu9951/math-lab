@@ -86159,7 +86159,7 @@ function open(L,i){
   }
   $('#mBody').innerHTML='';
   if(isLesson){                       /* 문제→예상→실험→기록→원리→적용→정리 7단계 */
-    lessonFlow($('#mBody'), LESSON[i+1], P);
+    lessonFlow($('#mBody'), LESSON[i+1], P); introVideo(i);
     $('#mask').classList.add('on'); return;
   }
   L.build($('#mBody'));
@@ -86180,7 +86180,26 @@ function open(L,i){
   if(PBX){ const pd=document.createElement('div'); pd.className='probx';
     pd.innerHTML='<div class="probh">📌 오늘의 문제</div><p class="probs">'+PBX.sit+'</p><p class="probq">'+PBX.ask+'</p>';
     $('#mBody').prepend(pd); }
+  introVideo(i);
   $('#mask').classList.add('on');
+}
+/* ══ INTRO-VIDEO ══ 실험실 맨 위에 도입 영상(쇼츠)을 붙인다 (2026-11-20)
+   영상 파일은 index 밖 video/ 폴더에 둔다. 창을 닫으면 멈춘다. */
+const INTRO_VIDEO = {
+  25: { src:'video/soinsu-shorts.mp4', t:'도입 영상 — 다르게 쪼갠 360, 끝 조각도 다를까? (41초)' }
+};
+function introVideo(i){
+  const V = INTRO_VIDEO[i+1]; if(!V) return;
+  const box = document.createElement('div'); box.className = 'introvid';
+  box.style.cssText = 'margin:0 0 12px;padding:10px 12px;border:1px solid #F3D9A4;border-radius:12px;background:#FFFBEB;color:#2B2621';
+  box.innerHTML = '<div style="font-weight:700;margin-bottom:6px">🎬 ' + V.t + '</div>'
+    + '<video controls playsinline preload="metadata" style="display:block;width:100%;max-width:320px;aspect-ratio:9/16;margin:0 auto;border-radius:10px;background:#000" src="' + V.src + '"></video>';
+  $('#mBody').prepend(box);
+  const v = box.querySelector('video'), m = $('#mask');
+  if(m && window.MutationObserver){
+    new MutationObserver(() => { if(!m.classList.contains('on') || !document.body.contains(v)) v.pause(); })
+      .observe(m, { attributes:true, attributeFilter:['class'] });
+  }
 }
 /* ══ QR-ROUTE start ══ 주소 끝의 «실험실 이름» 으로 그 실험실을 바로 연다 (2026-10-10)
    단행본의 QR 코드가 가리키는 자리다. #소인수분해와암호 처럼 이름을 적으면
